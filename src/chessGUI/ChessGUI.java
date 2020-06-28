@@ -12,7 +12,10 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -81,6 +84,9 @@ public class ChessGUI {
 	private static JMenuItem exportToGifItem;
 	private static JMenuItem settingsItem;
 	private static JMenuItem importFenPositionItem;
+	private static JMenuItem exportFenPositionItem;
+	private static JMenuItem saveCheckpointItem;
+	private static JMenuItem loadCheckpointItem;
 	private static JMenuItem aboutItem;
 	private static JMenuItem exitItem;
 	
@@ -111,6 +117,7 @@ public class ChessGUI {
 	// This variable is true if the main is running from "ChessGui2" class.
 	public static boolean isChessGui2;
 	
+	public static String savedFenPosition;
 	
 	public ChessGUI(String title) {
 
@@ -140,7 +147,7 @@ public class ChessGUI {
 		
 		frame.setLocation((int) (SCREEN_SIZE.getWidth() - frame.getWidth()) / 2, 
 						  (int) (SCREEN_SIZE.getHeight() - frame.getHeight()) / 2);
-				
+		
 		frame.setResizable(false);
 		// frame.setFocusable(true);
 		
@@ -152,12 +159,17 @@ public class ChessGUI {
 		exportToGifItem = new JMenuItem("Export to .gif");
 		settingsItem = new JMenuItem("Preferences");
 		importFenPositionItem = new JMenuItem("Import FEN Position");
+		exportFenPositionItem = new JMenuItem("Export FEN Position to file");
+		saveCheckpointItem = new JMenuItem("Save Checkpoint");
+		loadCheckpointItem = new JMenuItem("Load Checkpoint");
 		aboutItem = new JMenuItem("About");
 		exitItem = new JMenuItem("Exit");
 		
 		undoItem.setEnabled(false);
 		redoItem.setEnabled(false);
-
+		
+		loadCheckpointItem.setEnabled(false);
+		
 		newGameItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				startNewGame();
@@ -167,6 +179,8 @@ public class ChessGUI {
 		undoItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				undoLastMove();
+				exportFenPositionItem.setEnabled(true);
+				saveCheckpointItem.setEnabled(true);
 			}
 		});
 		
@@ -204,6 +218,52 @@ public class ChessGUI {
 			}
 		});
 		
+		exportFenPositionItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String exportedFenFilename = JOptionPane.showInputDialog(
+						"Please type the name of the export file:",
+						"exported_FEN_position.txt");
+				
+				String fenPosition = FenUtilities.getFenPositionFromChessBoard(chessBoard);
+				
+				if (fenPosition != null) {
+					BufferedWriter bw = null;
+					try {
+						bw = new BufferedWriter(new FileWriter(exportedFenFilename));
+						bw.write(fenPosition + "\n");
+					} catch (IOException ex) {
+						ex.printStackTrace();
+					} finally {
+						try {
+							bw.flush();
+							bw.close();
+						} catch (IOException ex) {
+							ex.printStackTrace();
+						}
+					}
+				}
+				
+			}
+		});
+		
+		saveCheckpointItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (!chessBoard.isTerminalState()) {
+					savedFenPosition = FenUtilities.getFenPositionFromChessBoard(chessBoard);
+					loadCheckpointItem.setEnabled(true);
+				}
+			}
+		});
+		
+		loadCheckpointItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {				
+				if (savedFenPosition != null) {
+					startNewGame();
+					placePiecesToChessBoard(savedFenPosition);
+				}
+			}
+		});
+		
 		aboutItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			JLabel label = new JLabel("<html><center>A traditional chess game implementation using Minimax AI.<br>"
@@ -226,6 +286,9 @@ public class ChessGUI {
 		fileMenu.add(exportToGifItem);
 		fileMenu.add(settingsItem);
 		fileMenu.add(importFenPositionItem);
+		fileMenu.add(exportFenPositionItem);
+		fileMenu.add(saveCheckpointItem);
+		fileMenu.add(loadCheckpointItem);
 		fileMenu.add(aboutItem);
 		fileMenu.add(exitItem);
 		
@@ -268,11 +331,11 @@ public class ChessGUI {
 			turnMessage = firstTurnMessage;
 		} else {
 			turnMessage = "Move number: " + (int) Math.ceil((float) chessBoard.getHalfmoveNumber() / 2) + ". ";
-			turnMessage += (chessBoard.isWhitePlays()) ? "White plays." : "Black plays.";
+			turnMessage += (chessBoard.whitePlays()) ? "White plays." : "Black plays.";
 		}
-		if (chessBoard.isWhitePlays() && chessBoard.isWhiteKingInCheck())
+		if (chessBoard.whitePlays() && chessBoard.isWhiteKingInCheck())
 			turnMessage += " White king is in check!";
-		else if (!chessBoard.isWhitePlays() && chessBoard.isBlackKingInCheck())
+		else if (!chessBoard.whitePlays() && chessBoard.isBlackKingInCheck())
 			turnMessage += " Black king is in check!";
 		labelMessage.setText(turnMessage);
 	}
@@ -492,7 +555,10 @@ public class ChessGUI {
 		//	enableChessBoardButtons();
 		
 		restoreDefaultValues();
-		// makeChessBoardSquaresEmpty();  // Unneeded.
+		
+		// This method is very important.
+		// Consider the case where the number of rows has been changed.
+		makeChessBoardSquaresEmpty();
 		
 		placePiecesToChessBoard();
 		
@@ -556,7 +622,7 @@ public class ChessGUI {
 		}
 		
 		if (!startingButtonIsClicked &&
-			(piece > 0 && chessBoard.isWhitePlays() || piece < 0 && !chessBoard.isWhitePlays())) {
+			(piece > 0 && chessBoard.whitePlays() || piece < 0 && !chessBoard.whitePlays())) {
 			
 			startingPosition = position;
 			// System.out.println("startingPosition: " + startingPosition);
@@ -567,23 +633,23 @@ public class ChessGUI {
 			if (piece != Constants.EMPTY) {
 				
 				// Get the hint positions.
-				if (chessBoard.isWhitePlays() && !chessBoard.isWhiteKingInCheck() 
-					|| !chessBoard.isWhitePlays() && !chessBoard.isBlackKingInCheck()) {
+				if (chessBoard.whitePlays() && !chessBoard.isWhiteKingInCheck() 
+					|| !chessBoard.whitePlays() && !chessBoard.isBlackKingInCheck()) {
 					hintPositions = chessBoard.getNextPositions(position);
 					
 					// System.out.println("chessBoard: ");
 					// System.out.println(chessBoard);
 				}
 				// If the White or Black King is in check, then get one of the following valid moves.
-				else if (chessBoard.isWhitePlays() && chessBoard.isWhiteKingInCheck() || !chessBoard.isWhitePlays() 
+				else if (chessBoard.whitePlays() && chessBoard.isWhiteKingInCheck() || !chessBoard.whitePlays() 
 						&& chessBoard.isBlackKingInCheck()) {
 					hintPositions = new TreeSet<String>();
 					
-					if (chessBoard.isWhitePlays() 
+					if (chessBoard.whitePlays() 
 							&& chessBoard.getWhiteKingInCheckValidPieceMoves().containsKey(startingPosition)) {
 						hintPositions = chessBoard.getWhiteKingInCheckValidPieceMoves().get(startingPosition);
 					}
-					else if (!chessBoard.isWhitePlays() 
+					else if (!chessBoard.whitePlays() 
 							&& chessBoard.getBlackKingInCheckValidPieceMoves().containsKey(startingPosition)) {
 						hintPositions = chessBoard.getBlackKingInCheckValidPieceMoves().get(startingPosition);
 					}
@@ -626,7 +692,7 @@ public class ChessGUI {
 			}
 			
 		} else if (startingButtonIsClicked &&
-			(startingPiece > 0 && chessBoard.isWhitePlays() || startingPiece < 0 && !chessBoard.isWhitePlays())) {
+			(startingPiece > 0 && chessBoard.whitePlays() || startingPiece < 0 && !chessBoard.whitePlays())) {
 			
 			startingButtonIsClicked = false;
 			
@@ -678,7 +744,7 @@ public class ChessGUI {
 			// The thing that the player managed to make a move,
 			// means that his king has escaped from the check.
 			if (GameParameters.gameMode == Constants.HUMAN_VS_HUMAN) {
-				if (chessBoard.isWhitePlays())
+				if (chessBoard.whitePlays())
 					chessBoard.setWhiteKingInCheck(false);
 				else
 					chessBoard.setBlackKingInCheck(false);
@@ -697,25 +763,25 @@ public class ChessGUI {
 				
 				// change chessBoard.turn
 				chessBoard.setHalfmoveNumber(chessBoard.getHalfmoveNumber() + 1);
-				chessBoard.setWhitePlays((chessBoard.isWhitePlays()) ? false : true);
+				chessBoard.setPlayer((chessBoard.whitePlays()) ? false : true);
 				if (GameParameters.gameMode == Constants.HUMAN_VS_HUMAN) {
 					String turnMessage = "Move number: " + (int) Math.ceil((float) chessBoard.getHalfmoveNumber() / 2) + ". ";
-					turnMessage += (chessBoard.isWhitePlays()) ? "White plays." : "Black plays.";
-					if (chessBoard.isWhitePlays() && chessBoard.isWhiteKingInCheck())
+					turnMessage += (chessBoard.whitePlays()) ? "White plays." : "Black plays.";
+					if (chessBoard.whitePlays() && chessBoard.isWhiteKingInCheck())
 						turnMessage += " White king is in check!";
-					else if (!chessBoard.isWhitePlays() && chessBoard.isBlackKingInCheck())
+					else if (!chessBoard.whitePlays() && chessBoard.isBlackKingInCheck())
 						turnMessage += " Black king is in check!";
 					labelMessage.setText(turnMessage);
 				}
 				
 				/* Random AI implementation here. */
 				// The AI controls the Black pieces.
-				if (GameParameters.gameMode == Constants.HUMAN_VS_RANDOM_AI && !chessBoard.isWhitePlays()) {
+				if (GameParameters.gameMode == Constants.HUMAN_VS_RANDOM_AI && !chessBoard.whitePlays()) {
 					// System.out.println("INSIDE RANDOM AI");
 					randomAiMove();
 				} 
 				/* MiniMax AI implementation here. */
-				else if (GameParameters.gameMode == Constants.HUMAN_VS_MINIMAX_AI && !chessBoard.isWhitePlays()) {
+				else if (GameParameters.gameMode == Constants.HUMAN_VS_MINIMAX_AI && !chessBoard.whitePlays()) {
 					// System.out.println("INSIDE MINIMAX AI");
 					minimaxAiMove(ai);
 				}
@@ -728,7 +794,7 @@ public class ChessGUI {
 	private static boolean checkForGameOver() {
 		
 		/* Check for White checkmate. */
-		if (chessBoard.isWhitePlays()) {
+		if (chessBoard.whitePlays()) {
 			chessBoard.checkForWhiteCheckmate(true);
 			if (chessBoard.isWhiteCheckmate()) {
 				chessBoard.setHalfmoveNumber(chessBoard.getHalfmoveNumber() + 1);
@@ -753,6 +819,8 @@ public class ChessGUI {
 					disableChessBoardSquares();
 				}
 				
+				exportFenPositionItem.setEnabled(false);
+				saveCheckpointItem.setEnabled(false);
 				return true;
 			}
 		}
@@ -782,12 +850,15 @@ public class ChessGUI {
 						undoItem.setEnabled(true);
 					disableChessBoardSquares();
 				}
+				
+				exportFenPositionItem.setEnabled(false);
+				saveCheckpointItem.setEnabled(false);
 				return true;
 			}
 		}
 		
 		/* Draw implementation. */
-		chessBoard.checkFor2KingsLeftDraw();
+		chessBoard.checkForTwoKingsLeftDraw();
 		if (chessBoard.isTwoKingsLeftDraw()) {
 			int dialogResult = JOptionPane.showConfirmDialog(gui, 
 					"It is a draw! Start a new game?", "Draw", JOptionPane.YES_NO_OPTION);
@@ -801,12 +872,15 @@ public class ChessGUI {
 					undoItem.setEnabled(true);
 				disableChessBoardSquares();
 			}
+			
+			exportFenPositionItem.setEnabled(false);
+			saveCheckpointItem.setEnabled(false);
 			return true;
 		}
 		
 		/* Stalemate draw implementation. */
 		// Check for White stalemate.
-		if (!chessBoard.isWhitePlays() && !chessBoard.isWhiteKingInCheck()) {
+		if (!chessBoard.whitePlays() && !chessBoard.isWhiteKingInCheck()) {
 			// System.out.println("Checking for white stalemate!");
 			chessBoard.checkForWhiteStalemateDraw();
 			if (chessBoard.isWhiteStalemateDraw()) {
@@ -823,12 +897,15 @@ public class ChessGUI {
 						undoItem.setEnabled(true);
 					disableChessBoardSquares();
 				}
+				
+				exportFenPositionItem.setEnabled(false);
+				saveCheckpointItem.setEnabled(false);
 				return true;
 			}
 		}
 		
 		// Check for Black stalemate.
-		else if (chessBoard.isWhitePlays() && !chessBoard.isBlackKingInCheck()) {
+		else if (chessBoard.whitePlays() && !chessBoard.isBlackKingInCheck()) {
 			// System.out.println("Checking for black stalemate!");
 			chessBoard.checkForBlackStalemateDraw();
 			if (chessBoard.isBlackStalemateDraw()) {
@@ -845,6 +922,9 @@ public class ChessGUI {
 						undoItem.setEnabled(true);
 					disableChessBoardSquares();
 				}
+				
+				exportFenPositionItem.setEnabled(false);
+				saveCheckpointItem.setEnabled(false);
 				return true;
 			}
 		}
@@ -861,6 +941,10 @@ public class ChessGUI {
 					undoItem.setEnabled(false);
 				startNewGame();
 			}
+			
+			exportFenPositionItem.setEnabled(false);
+			saveCheckpointItem.setEnabled(false);
+
 			return true;
 		}
 		
@@ -961,7 +1045,7 @@ public class ChessGUI {
 		// Remove the check from the king of the player who made the last move.
 		// The thing that the player managed to make a move,
 		// means that his king has escaped from the check.
-		if (chessBoard.isWhitePlays())
+		if (chessBoard.whitePlays())
 			chessBoard.setWhiteKingInCheck(false);
 		else
 			chessBoard.setBlackKingInCheck(false);
@@ -969,7 +1053,7 @@ public class ChessGUI {
 		startingButtonIsClicked = false;
 		
 		chessBoard.setHalfmoveNumber(chessBoard.getHalfmoveNumber() + 1);
-		chessBoard.setWhitePlays(true);
+		chessBoard.setPlayer(true);
 		String turnMessage = "Move number: " + (int) Math.ceil((float) chessBoard.getHalfmoveNumber() / 2) + ". White plays.";
 		if (chessBoard.isWhiteKingInCheck())
 			turnMessage += " White king is in check!";
@@ -1023,7 +1107,7 @@ public class ChessGUI {
 		// Remove the check from the king of the player who made the last move.
 		// The thing that the player managed to make a move,
 		// means that his king has escaped from the check.
-		if (chessBoard.isWhitePlays())
+		if (chessBoard.whitePlays())
 			chessBoard.setWhiteKingInCheck(false);
 		else
 			chessBoard.setBlackKingInCheck(false);
@@ -1032,9 +1116,9 @@ public class ChessGUI {
 		
 		chessBoard.setHalfmoveNumber(chessBoard.getHalfmoveNumber() + 1);
 		
-		chessBoard.setWhitePlays(chessBoard.isWhitePlays() ? false : true);
+		chessBoard.setPlayer(chessBoard.whitePlays() ? false : true);
 		String turnMessage;
-		if (chessBoard.isWhitePlays()) {
+		if (chessBoard.whitePlays()) {
 			turnMessage = "Move number: " + (int) Math.ceil((float) chessBoard.getHalfmoveNumber() / 2) + ". White plays.";
 			if (chessBoard.isWhiteKingInCheck())
 				turnMessage += " White king is in check!";
@@ -1066,7 +1150,7 @@ public class ChessGUI {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-
+			
 			isGameOver = checkForGameOver(); 
 			if (isGameOver) return;
 			

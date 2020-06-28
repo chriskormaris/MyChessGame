@@ -61,7 +61,7 @@ public class MiniMaxAi {
         /* If MAX is called on a state that is terminal or after a maximum depth is reached,
          * then a heuristic is calculated on the state and the move returned.
          */
-		if ((chessBoard.isTerminal()) || (depth == maxDepth)) {
+		if ((chessBoard.checkForTerminalState()) || (depth == maxDepth)) {
 			Move lastMove = new Move(chessBoard.getLastMove());
 			// System.out.println("max, depth: " + depth + ", lastMove -> " + lastMove);
 			return lastMove;
@@ -98,7 +98,7 @@ public class MiniMaxAi {
 	public Move min(ChessBoard chessBoard, int depth) {
         Random r = new Random();
 
-		if ((chessBoard.isTerminal()) || (depth == maxDepth)) {
+		if ((chessBoard.checkForTerminalState()) || (depth == maxDepth)) {
 			Move lastMove = new Move(chessBoard.getLastMove());
 			// System.out.println("min, depth: " + depth + ", lastMove -> " + lastMove);
 			return lastMove;
@@ -150,7 +150,7 @@ public class MiniMaxAi {
         /* If MAX is called on a state that is terminal or after a maximum depth is reached,
          * then a heuristic is calculated on the state and the move returned.
          */
-		if ((chessBoard.isTerminal()) || (depth == maxDepth)) {
+		if ((chessBoard.checkForTerminalState()) || (depth == maxDepth)) {
 			Move lastMove = new Move(chessBoard.getLastMove());
 			// System.out.println("max, depth: " + depth + ", lastMove -> " + lastMove);
 			return lastMove;
@@ -197,7 +197,7 @@ public class MiniMaxAi {
 	public Move minAlphaBeta(ChessBoard chessBoard, int depth, double a, double b) {
         Random r = new Random();
 
-		if ((chessBoard.isTerminal()) || (depth == maxDepth)) {
+		if ((chessBoard.checkForTerminalState()) || (depth == maxDepth)) {
 			Move lastMove = new Move(chessBoard.getLastMove());
 			// System.out.println("min, depth: " + depth + ", lastMove -> " + lastMove);
 			return lastMove;

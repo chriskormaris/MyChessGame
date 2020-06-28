@@ -20,7 +20,7 @@ public class GameParameters {
 	
 	public static boolean enableSounds = true;
 	
-	public static int maxDepth1 = 2;
-	public static int maxDepth2 = 2;
+	public static int maxDepth1 = 1;
+	public static int maxDepth2 = 1;
 	
 }

@@ -166,7 +166,7 @@ public class ChessBoard {
 		this.whiteKingPosition = otherBoard.getWhiteKingPosition();
 		this.blackKingPosition = otherBoard.getBlackKingPosition();
 		
-		this.player = otherBoard.isWhitePlays();
+		this.player = otherBoard.whitePlays();
 		
 		N1 = otherBoard.getPreviousGameBoard().length;
 		N2 = otherBoard.getPreviousGameBoard()[0].length;
@@ -660,7 +660,7 @@ public class ChessBoard {
 		
 		this.isWhiteCheckmate = checkForWhiteCheckmate(false);
 		this.isBlackCheckmate = checkForBlackCheckmate(false);
-		this.isTwoKingsLeftDraw = checkFor2KingsLeftDraw();
+		this.isTwoKingsLeftDraw = checkForTwoKingsLeftDraw();
 		this.isWhiteStalemateDraw = checkForWhiteStalemateDraw();
 		this.isBlackStalemateDraw = checkForBlackStalemateDraw();
 		
@@ -958,26 +958,34 @@ public class ChessBoard {
     /*
      * A state is terminal if there is a win or draw condition.
      */
-    public boolean isTerminal() {
-		boolean isWhiteCheckmate = checkForWhiteCheckmate(false);
-		if (isWhiteCheckmate) return true;
+    public boolean checkForTerminalState() {
+		if (checkForWhiteCheckmate(false)) return true;
 
-		boolean isBlackCheckmate = checkForBlackCheckmate(false);
-    	if (isBlackCheckmate) return true;
+    	if (checkForBlackCheckmate(false)) return true;
 
-		boolean is2KingsLeftDraw = checkFor2KingsLeftDraw();
-    	if (is2KingsLeftDraw) return true;
+    	if (checkForWhiteStalemateDraw()) return true;
 
-		boolean isWhiteStalemateDraw = checkForWhiteStalemateDraw();
-    	if (isWhiteStalemateDraw) return true;
+    	if (checkForBlackStalemateDraw()) return true;
 
-		boolean isBlackStalemateDraw = checkForBlackStalemateDraw();
-    	if (isBlackStalemateDraw) return true;
+    	if (checkForTwoKingsLeftDraw()) return true;
     	
+    	if (getHalfmoveClock() >= Constants.NO_CAPTURE_DRAW_HALFMOVES_LIMIT)
+    		return true;
+
         return false;
     }
     
-    
+
+	public boolean isTerminalState() {
+		if (isWhiteCheckmate() || isBlackCheckmate() || 
+			isWhiteStalemateDraw() || isBlackStalemateDraw() || isTwoKingsLeftDraw() || 
+			getHalfmoveClock() >= Constants.NO_CAPTURE_DRAW_HALFMOVES_LIMIT) {
+			return true;
+		}
+		return false;
+	}
+
+	
     public void emptyTheChessBoard() {
         for (int i=0; i<numOfRows; i++) {
             for (int j=0; j<NUM_OF_COLUMNS; j++) {
@@ -1270,7 +1278,7 @@ public class ChessBoard {
 
 
 	// Check if only two kings have remained on the board.
-	public boolean checkFor2KingsLeftDraw() {
+	public boolean checkForTwoKingsLeftDraw() {
 		boolean isDraw = true;
 		
 		for (int i=0; i<numOfRows; i++) {
@@ -1601,11 +1609,15 @@ public class ChessBoard {
 		this.blackKingInCheckValidPieceMoves = new TreeMap<String, Set<String>>(blackKingInCheckValidPieceMoves);
 	}
 	
-	public boolean isWhitePlays() {
+	public boolean whitePlays() {
 		return player;
 	}
 	
-	public void setWhitePlays(boolean player) {
+	public boolean blackPlays() {
+		return !player;
+	}
+	
+	public void setPlayer(boolean player) {
 		this.player = player;
 	}
 	
@@ -1656,7 +1668,7 @@ public class ChessBoard {
 	public void setBlackStalemateDraw(boolean isBlackStalemateDraw) {
 		this.isBlackStalemateDraw = isBlackStalemateDraw;
 	}
-
+	
     public int getNumOfRows() {
 		return numOfRows;
 	}

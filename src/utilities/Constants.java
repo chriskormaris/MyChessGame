@@ -2,7 +2,7 @@ package utilities;
 
 public class Constants {
 	
-	public final static double VERSION = 2.8;
+	public final static double VERSION = 2.9;
 	
 	/* the default number of rows, this should always be 8 */
 	public final static int DEFAULT_NUM_OF_ROWS = 8;
