@@ -963,9 +963,13 @@ public class ChessBoard {
 
     	if (checkForBlackCheckmate(false)) return true;
 
-    	if (checkForWhiteStalemateDraw()) return true;
-
-    	if (checkForBlackStalemateDraw()) return true;
+    	// Check for White stalemate, only if the last player was Black, 
+    	// meaning that the next player should be White.
+    	if (whitePlays() && checkForWhiteStalemateDraw()) return true;
+    	
+    	// Check for Black stalemate, only if the last player was White, 
+    	// meaning that the next player should be Black.
+    	if (blackPlays() && checkForBlackStalemateDraw()) return true;
 
     	if (checkForTwoKingsLeftDraw()) return true;
     	
@@ -1298,7 +1302,7 @@ public class ChessBoard {
 	}
 
 
-	// It checks for a stalemate. It gets called after the the opposing player, makes a move.
+	// It checks for a stalemate. It gets called after the opposing player, makes a move.
 	// A stalemate occurs when a player has no legal moves to make. Then, the game ends in a draw.
 	// If the Black player makes a move, then we check for a White player stalemate and vice-versa.
 	public boolean checkForWhiteStalemateDraw() {
@@ -1344,7 +1348,7 @@ public class ChessBoard {
 	}
 
 
-	// It checks for a stalemate. It gets called after the the opposing player, makes a move.
+	// It checks for a stalemate. It gets called after the opposing player, makes a move.
 	// A stalemate occurs when a player has no legal moves to make. Then, the game ends in a draw.
 	// If the White player makes a move, then we check for a Black player stalemate and vice-versa.
 	public boolean checkForBlackStalemateDraw() {
