@@ -122,7 +122,6 @@ public class SettingsWindow extends JFrame {
 		max_depth1_drop_down.addItem(1);
 		max_depth1_drop_down.addItem(2);
 		max_depth1_drop_down.addItem(3);
-		max_depth1_drop_down.addItem(4);
 		
 		max_depth1_drop_down.setSelectedIndex(maxDepth1);
 
@@ -130,7 +129,6 @@ public class SettingsWindow extends JFrame {
 		max_depth2_drop_down.addItem(1);
 		max_depth2_drop_down.addItem(2);
 		max_depth2_drop_down.addItem(3);
-		max_depth2_drop_down.addItem(4);
 		
 		max_depth2_drop_down.setSelectedIndex(maxDepth2);
 		
