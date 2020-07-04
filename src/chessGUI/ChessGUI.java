@@ -540,7 +540,7 @@ public class ChessGUI {
 		System.out.println("Starting new game!");
 		
 		configureGuiStyle();
-		restoreDefaultValues();
+		// restoreDefaultValues();
 
 		/* If running "ChessGUI.java", use this! */
 		chessBoardPanel.removeAll();
@@ -550,18 +550,13 @@ public class ChessGUI {
 		chessBoardPanel.revalidate();
 		chessBoardPanel.repaint();
 		
-		if (exportFenPositionItem != null)
-			exportFenPositionItem.setEnabled(true);
-		if (saveCheckpointItem != null)
-			saveCheckpointItem.setEnabled(true);
-		
 		/* If running "ChessGui2.java", use this! */
 		// if (!buttonsEnabled)
 		//	enableChessBoardButtons();
 		
 		restoreDefaultValues();
 		
-		// This method is very important.
+		// The call of the following method is important.
 		// Consider the case where the number of rows has been changed.
 		makeChessBoardSquaresEmpty();
 		
@@ -595,6 +590,10 @@ public class ChessGUI {
 			undoItem.setEnabled(false);
 		if (redoItem != null)
 			redoItem.setEnabled(false);
+		if (exportFenPositionItem != null)
+			exportFenPositionItem.setEnabled(true);
+		if (saveCheckpointItem != null)
+			saveCheckpointItem.setEnabled(true);
 		
 		if (GameParameters.gameMode == Constants.HUMAN_VS_MINIMAX_AI) {
 			ai = new MiniMaxAi(GameParameters.maxDepth1, Constants.BLACK);
@@ -821,14 +820,13 @@ public class ChessGUI {
 				} else {
 					if (undoItem != null)
 						undoItem.setEnabled(true);
+					if (exportFenPositionItem != null)
+						exportFenPositionItem.setEnabled(false);
+					if (saveCheckpointItem != null)
+						saveCheckpointItem.setEnabled(false);
 					disableChessBoardSquares();
 				}
-				
-				if (exportFenPositionItem != null)
-					exportFenPositionItem.setEnabled(false);
-				if (saveCheckpointItem != null)
-					saveCheckpointItem.setEnabled(false);
-				
+								
 				return true;
 			}
 		}
@@ -856,13 +854,12 @@ public class ChessGUI {
 				} else {
 					if (undoItem != null)
 						undoItem.setEnabled(true);
+					if (exportFenPositionItem != null)
+						exportFenPositionItem.setEnabled(false);
+					if (saveCheckpointItem != null)
+						saveCheckpointItem.setEnabled(false);
 					disableChessBoardSquares();
 				}
-				
-				if (exportFenPositionItem != null)
-					exportFenPositionItem.setEnabled(false);
-				if (saveCheckpointItem != null)
-					saveCheckpointItem.setEnabled(false);
 				
 				return true;
 			}
@@ -881,13 +878,12 @@ public class ChessGUI {
 			} else {
 				if (undoItem != null)
 					undoItem.setEnabled(true);
+				if (exportFenPositionItem != null)
+					exportFenPositionItem.setEnabled(false);
+				if (saveCheckpointItem != null)
+					saveCheckpointItem.setEnabled(false);
 				disableChessBoardSquares();
 			}
-			
-			if (exportFenPositionItem != null)
-				exportFenPositionItem.setEnabled(false);
-			if (saveCheckpointItem != null)
-				saveCheckpointItem.setEnabled(false);
 			
 			return true;
 		}
@@ -909,13 +905,12 @@ public class ChessGUI {
 				} else {
 					if (undoItem != null)
 						undoItem.setEnabled(true);
+					if (exportFenPositionItem != null)
+						exportFenPositionItem.setEnabled(false);
+					if (saveCheckpointItem != null)
+						saveCheckpointItem.setEnabled(false);
 					disableChessBoardSquares();
 				}
-				
-				if (exportFenPositionItem != null)
-					exportFenPositionItem.setEnabled(false);
-				if (saveCheckpointItem != null)
-					saveCheckpointItem.setEnabled(false);
 				
 				return true;
 			}
@@ -937,13 +932,12 @@ public class ChessGUI {
 				} else {
 					if (undoItem != null)
 						undoItem.setEnabled(true);
+					if (exportFenPositionItem != null)
+						exportFenPositionItem.setEnabled(false);
+					if (saveCheckpointItem != null)
+						saveCheckpointItem.setEnabled(false);
 					disableChessBoardSquares();
 				}
-				
-				if (exportFenPositionItem != null)
-					exportFenPositionItem.setEnabled(false);
-				if (saveCheckpointItem != null)
-					saveCheckpointItem.setEnabled(false);
 				
 				return true;
 			}
@@ -960,13 +954,16 @@ public class ChessGUI {
 				if (undoItem != null)
 					undoItem.setEnabled(false);
 				startNewGame();
+			} else {
+				if (undoItem != null)
+					undoItem.setEnabled(true);
+				if (exportFenPositionItem != null)
+					exportFenPositionItem.setEnabled(false);
+				if (saveCheckpointItem != null)
+					saveCheckpointItem.setEnabled(false);
+				disableChessBoardSquares();
 			}
 			
-			if (exportFenPositionItem != null)
-				exportFenPositionItem.setEnabled(false);
-			if (saveCheckpointItem != null)
-				saveCheckpointItem.setEnabled(false);
-
 			return true;
 		}
 		
