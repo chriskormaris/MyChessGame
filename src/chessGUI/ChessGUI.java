@@ -550,6 +550,11 @@ public class ChessGUI {
 		chessBoardPanel.revalidate();
 		chessBoardPanel.repaint();
 		
+		if (exportFenPositionItem != null)
+			exportFenPositionItem.setEnabled(true);
+		if (saveCheckpointItem != null)
+			saveCheckpointItem.setEnabled(true);
+		
 		/* If running "ChessGui2.java", use this! */
 		// if (!buttonsEnabled)
 		//	enableChessBoardButtons();
@@ -819,8 +824,11 @@ public class ChessGUI {
 					disableChessBoardSquares();
 				}
 				
-				exportFenPositionItem.setEnabled(false);
-				saveCheckpointItem.setEnabled(false);
+				if (exportFenPositionItem != null)
+					exportFenPositionItem.setEnabled(false);
+				if (saveCheckpointItem != null)
+					saveCheckpointItem.setEnabled(false);
+				
 				return true;
 			}
 		}
@@ -851,8 +859,11 @@ public class ChessGUI {
 					disableChessBoardSquares();
 				}
 				
-				exportFenPositionItem.setEnabled(false);
-				saveCheckpointItem.setEnabled(false);
+				if (exportFenPositionItem != null)
+					exportFenPositionItem.setEnabled(false);
+				if (saveCheckpointItem != null)
+					saveCheckpointItem.setEnabled(false);
+				
 				return true;
 			}
 		}
@@ -873,8 +884,11 @@ public class ChessGUI {
 				disableChessBoardSquares();
 			}
 			
-			exportFenPositionItem.setEnabled(false);
-			saveCheckpointItem.setEnabled(false);
+			if (exportFenPositionItem != null)
+				exportFenPositionItem.setEnabled(false);
+			if (saveCheckpointItem != null)
+				saveCheckpointItem.setEnabled(false);
+			
 			return true;
 		}
 		
@@ -898,8 +912,11 @@ public class ChessGUI {
 					disableChessBoardSquares();
 				}
 				
-				exportFenPositionItem.setEnabled(false);
-				saveCheckpointItem.setEnabled(false);
+				if (exportFenPositionItem != null)
+					exportFenPositionItem.setEnabled(false);
+				if (saveCheckpointItem != null)
+					saveCheckpointItem.setEnabled(false);
+				
 				return true;
 			}
 		}
@@ -923,8 +940,11 @@ public class ChessGUI {
 					disableChessBoardSquares();
 				}
 				
-				exportFenPositionItem.setEnabled(false);
-				saveCheckpointItem.setEnabled(false);
+				if (exportFenPositionItem != null)
+					exportFenPositionItem.setEnabled(false);
+				if (saveCheckpointItem != null)
+					saveCheckpointItem.setEnabled(false);
+				
 				return true;
 			}
 		}
@@ -942,8 +962,10 @@ public class ChessGUI {
 				startNewGame();
 			}
 			
-			exportFenPositionItem.setEnabled(false);
-			saveCheckpointItem.setEnabled(false);
+			if (exportFenPositionItem != null)
+				exportFenPositionItem.setEnabled(false);
+			if (saveCheckpointItem != null)
+				saveCheckpointItem.setEnabled(false);
 
 			return true;
 		}
