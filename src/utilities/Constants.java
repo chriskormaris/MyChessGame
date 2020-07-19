@@ -2,7 +2,7 @@ package utilities;
 
 public class Constants {
 	
-	public final static double VERSION = 2.9;
+	public final static double VERSION = 3.0;
 	
 	/* the default number of rows, this should always be 8 */
 	public final static int DEFAULT_NUM_OF_ROWS = 8;
@@ -13,6 +13,7 @@ public class Constants {
 	public final static int MIDDLEGAME_HALFMOVES_THRESHOLD = 24;
 	
 	// NOT USED
+	/*
 	public static String[][] chessPositions = new String[][]{
 		{"A8", "B8", "C8", "D8", "E8", "F8", "G8", "H8"},
 		{"A7", "B7", "C7", "D7", "E7", "F7", "G7", "H7"},
@@ -23,6 +24,7 @@ public class Constants {
 		{"A2", "B2", "C2", "D2", "E2", "F2", "G2", "H2"},
 		{"A1", "B1", "C1", "D1", "E1", "F1", "G1", "H1"}
     };
+    */
 	
 	public final static boolean WHITE = true;
 	public final static boolean BLACK = false;
@@ -60,19 +62,23 @@ public class Constants {
 	public final static int BLACK_QUEEN = -QUEEN;
 	public final static int BLACK_KING = -KING;
 	
-	public final static String WHITE_PAWN_IMG_PATH = "images/white/pawn.png";
-	public final static String WHITE_ROOK_IMG_PATH = "images/white/rook.png";
-	public final static String WHITE_KNIGHT_IMG_PATH = "images/white/knight.png";
-	public final static String WHITE_BISHOP_IMG_PATH = "images/white/bishop.png";
-	public final static String WHITE_QUEEN_IMG_PATH = "images/white/queen.png";
-	public final static String WHITE_KING_IMG_PATH = "images/white/king.png";
+	public final static String WHITE_IMG_PATH = "images/white/";
+	
+	public final static String WHITE_PAWN_IMG_PATH = WHITE_IMG_PATH + "pawn.png";
+	public final static String WHITE_ROOK_IMG_PATH = WHITE_IMG_PATH + "rook.png";
+	public final static String WHITE_KNIGHT_IMG_PATH = WHITE_IMG_PATH + "knight.png";
+	public final static String WHITE_BISHOP_IMG_PATH = WHITE_IMG_PATH + "bishop.png";
+	public final static String WHITE_QUEEN_IMG_PATH = WHITE_IMG_PATH + "queen.png";
+	public final static String WHITE_KING_IMG_PATH = WHITE_IMG_PATH + "king.png";
 
-	public final static String BLACK_PAWN_IMG_PATH = "images/black/pawn.png";
-	public final static String BLACK_ROOK_IMG_PATH = "images/black/rook.png";
-	public final static String BLACK_KNIGHT_IMG_PATH = "images/black/knight.png";
-	public final static String BLACK_BISHOP_IMG_PATH = "images/black/bishop.png";
-	public final static String BLACK_QUEEN_IMG_PATH = "images/black/queen.png";
-	public final static String BLACK_KING_IMG_PATH = "images/black/king.png";
+	public final static String BLACK_IMG_PATH = "images/black/";
+
+	public final static String BLACK_PAWN_IMG_PATH = BLACK_IMG_PATH + "pawn.png";
+	public final static String BLACK_ROOK_IMG_PATH = BLACK_IMG_PATH + "rook.png";
+	public final static String BLACK_KNIGHT_IMG_PATH = BLACK_IMG_PATH + "knight.png";
+	public final static String BLACK_BISHOP_IMG_PATH = BLACK_IMG_PATH + "bishop.png";
+	public final static String BLACK_QUEEN_IMG_PATH = BLACK_IMG_PATH + "queen.png";
+	public final static String BLACK_KING_IMG_PATH = BLACK_IMG_PATH + "king.png";
 	
 	public final static double PAWN_VALUE = 1;
 	public final static double KNIGHT_VALUE = 3;

@@ -43,9 +43,18 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import chess.Allegiance;
 import chess.ChessBoard;
 import chess.Move;
 import minimaxAi.MiniMaxAi;
+import pieces.Bishop;
+import pieces.ChessPiece;
+import pieces.EmptyTile;
+import pieces.King;
+import pieces.Knight;
+import pieces.Pawn;
+import pieces.Queen;
+import pieces.Rook;
 import utilities.Constants;
 import utilities.FenUtilities;
 import utilities.GameParameters;
@@ -613,20 +622,20 @@ public class ChessGUI {
 		
 		String position = Utilities.getPositionByRowCol(row, column);
 		// System.out.println("position: " + position);
-		int piece = chessBoard.getGameBoard()[row][column];
+		int pieceCode = chessBoard.getGameBoard()[row][column].getPieceCode();
 		// System.out.println("piece: " + piece);
 		
 		int startingPositionRow = 0;
 		int startingPositionColumn = 0;
-		int startingPiece = Constants.EMPTY;
+		int startingPieceCode = Constants.EMPTY;
 		if (!startingPosition.equals("")) {
 			startingPositionRow = Utilities.getRowFromPosition(startingPosition);
 			startingPositionColumn = Utilities.getColumnFromPosition(startingPosition);
-			startingPiece = chessBoard.getGameBoard()[startingPositionRow][startingPositionColumn];
+			startingPieceCode = chessBoard.getGameBoard()[startingPositionRow][startingPositionColumn].getPieceCode();
 		}
 		
 		if (!startingButtonIsClicked &&
-			(piece > 0 && chessBoard.whitePlays() || piece < 0 && !chessBoard.whitePlays())) {
+			(pieceCode > 0 && chessBoard.whitePlays() || pieceCode < 0 && !chessBoard.whitePlays())) {
 			
 			startingPosition = position;
 			// System.out.println("startingPosition: " + startingPosition);
@@ -634,7 +643,7 @@ public class ChessGUI {
 //			System.out.println("chessBoard: ");
 //			System.out.println(chessBoard);
 			
-			if (piece != Constants.EMPTY) {
+			if (pieceCode != Constants.EMPTY) {
 				
 				// Get the hint positions.
 				if (chessBoard.whitePlays() && !chessBoard.isWhiteKingInCheck() 
@@ -675,15 +684,15 @@ public class ChessGUI {
 						// System.out.println("startingPiece: " + startingPiece);
 						// System.out.println("hint position: " + hintPosition);
 						
-						int hintPositionPiece = chessBoard.getGameBoard()[hintPositionRow][hintPositionColumn];
+						int hintPositionPieceCode = chessBoard.getGameBoard()[hintPositionRow][hintPositionColumn].getPieceCode();
 						
-						if (piece * hintPositionPiece < 0
+						if (pieceCode * hintPositionPieceCode < 0
 							|| chessBoard.getEnPassantPosition().equals(hintPosition))
 							changeTileColor(hintPositionButton, Color.RED);
-						else if (piece == Constants.WHITE_PAWN && hintPositionRow == chessBoard.getNumOfRows() - 1
-								|| piece == Constants.BLACK_PAWN && hintPositionRow == 0)
+						else if (pieceCode == Constants.WHITE_PAWN && hintPositionRow == chessBoard.getNumOfRows() - 1
+								|| pieceCode == Constants.BLACK_PAWN && hintPositionRow == 0)
 							changeTileColor(hintPositionButton, Color.GREEN);
-						else if (hintPositionPiece == 0)
+						else if (hintPositionPieceCode == 0)
 							changeTileColor(hintPositionButton, Color.BLUE);
 						
 					}
@@ -696,7 +705,7 @@ public class ChessGUI {
 			}
 			
 		} else if (startingButtonIsClicked &&
-			(startingPiece > 0 && chessBoard.whitePlays() || startingPiece < 0 && !chessBoard.whitePlays())) {
+			(startingPieceCode > 0 && chessBoard.whitePlays() || startingPieceCode < 0 && !chessBoard.whitePlays())) {
 			
 			startingButtonIsClicked = false;
 			
@@ -981,10 +990,10 @@ public class ChessGUI {
 		
 		/* STEP 1. Random starting position. */
 		if (!chessBoard.isBlackKingInCheck()) {
-			for (int ii=0; ii<chessBoard.getNumOfRows(); ii++) {
-				for (int jj=0; jj<NUM_OF_COLUMNS; jj++) {
-					if (chessBoard.getGameBoard()[ii][jj] < 0) {
-						String randomStartingPosition = Utilities.getPositionByRowCol(ii, jj);
+			for (int i=0; i<chessBoard.getNumOfRows(); i++) {
+				for (int j=0; j<NUM_OF_COLUMNS; j++) {
+					if (chessBoard.getGameBoard()[i][j].getPieceCode() < 0) {
+						String randomStartingPosition = Utilities.getPositionByRowCol(i, j);
 						Set<String> randomEndingPositions = chessBoard.getNextPositions(randomStartingPosition);
 						
 						if (randomEndingPositions.size() > 0) {
@@ -1233,9 +1242,10 @@ public class ChessGUI {
 	
 	// It inserts the given piece to the given position on the board
 	// (both the data structure and the GUI)
-	public static void placePieceToPosition(String position, int piece) {
+	public static void placePieceToPosition(String position, ChessPiece piece) {
 		String imagePath = "";
-		switch (piece) {
+		int pieceCode = piece.getPieceCode();
+		switch (pieceCode) {
 			case Constants.WHITE_PAWN:
 				imagePath = Constants.WHITE_PAWN_IMG_PATH;
 				break;
@@ -1287,6 +1297,7 @@ public class ChessGUI {
 		// System.out.println("chessBoardSquares[0].length: " + chessBoardSquares[0].length);
 		chessBoardSquares[chessBoard.getNumOfRows() - 1 - row][column].setIcon(pieceImage);
 		
+		// TODO Add pieces
 		chessBoard.getGameBoard()[row][column] = piece;
 	}
 	
@@ -1305,7 +1316,7 @@ public class ChessGUI {
 		ImageIcon icon = new ImageIcon(new BufferedImage(64, 64, BufferedImage.TYPE_INT_ARGB));
 		chessBoardSquares[chessBoard.getNumOfRows() - 1 - row][column].setIcon(icon);
 		
-		chessBoard.getGameBoard()[row][column] = Constants.EMPTY;
+		chessBoard.getGameBoard()[row][column] = new EmptyTile();
 	}
 	
 	
@@ -1313,62 +1324,63 @@ public class ChessGUI {
 		
 		for (int j=0; j<Constants.NUM_OF_COLUMNS; j++) {
 			// System.out.println("test: " + ((char) (65 + j) + "2"));
-			placePieceToPosition((char) (65 + j) + "2", Constants.WHITE_PAWN);
+			placePieceToPosition((char) (65 + j) + "2", new Pawn(Allegiance.WHITE));
 		}
 		
 		String leftWhiteRookPosition = "A1";
-		placePieceToPosition(leftWhiteRookPosition, Constants.WHITE_ROOK);
+		placePieceToPosition(leftWhiteRookPosition, new Rook(Allegiance.WHITE));
 		
 		String leftWhiteKnightPosition = "B1";
-		placePieceToPosition(leftWhiteKnightPosition, Constants.WHITE_KNIGHT);
+		placePieceToPosition(leftWhiteKnightPosition, new Knight(Allegiance.WHITE));
 		
 		String leftWhiteBishopPosition = "C1";
-		placePieceToPosition(leftWhiteBishopPosition, Constants.WHITE_BISHOP);
+		placePieceToPosition(leftWhiteBishopPosition, new Bishop(Allegiance.WHITE));
 		
 		String whiteQueenPosition = "D1";
-		placePieceToPosition(whiteQueenPosition, Constants.WHITE_QUEEN);
+		placePieceToPosition(whiteQueenPosition, new Queen(Allegiance.WHITE));
 		
 		String whiteKingPosition = "E1";
-		placePieceToPosition(whiteKingPosition, Constants.WHITE_KING);
+		placePieceToPosition(whiteKingPosition, new King(Allegiance.WHITE));
 		chessBoard.setWhiteKingPosition(whiteKingPosition);
 		
 		String rightWhiteBishopPosition = "F1";
-		placePieceToPosition(rightWhiteBishopPosition, Constants.WHITE_BISHOP);
+		placePieceToPosition(rightWhiteBishopPosition, new Bishop(Allegiance.WHITE));
 		
 		String rightWhiteKnightPosition = "G1";
-		placePieceToPosition(rightWhiteKnightPosition, Constants.WHITE_KNIGHT);
+		placePieceToPosition(rightWhiteKnightPosition, new Knight(Allegiance.WHITE));
 
 		String rightWhiteRookPosition = "H1";
-		placePieceToPosition(rightWhiteRookPosition, Constants.WHITE_ROOK);
+		placePieceToPosition(rightWhiteRookPosition, new Rook(Allegiance.WHITE));
 		
 		for (int j=0; j<Constants.NUM_OF_COLUMNS; j++) {
-			placePieceToPosition((char) (65 + j) + (chessBoard.getNumOfRows() - 1 + ""), Constants.BLACK_PAWN);
+			placePieceToPosition((char) (65 + j) + (chessBoard.getNumOfRows() - 1 + ""), 
+					new Pawn(Allegiance.BLACK));
 		}
 		
 		String leftBlackRookPosition = "A" + chessBoard.getNumOfRows();
-		placePieceToPosition(leftBlackRookPosition, Constants.BLACK_ROOK);
+		placePieceToPosition(leftBlackRookPosition, new Rook(Allegiance.BLACK));
 		
 		String leftBlackKnightPosition = "B" + chessBoard.getNumOfRows();
-		placePieceToPosition(leftBlackKnightPosition, Constants.BLACK_KNIGHT);
+		placePieceToPosition(leftBlackKnightPosition, new Knight(Allegiance.BLACK));
 		
 		String leftBlackBishopPosition = "C" + chessBoard.getNumOfRows();
-		placePieceToPosition(leftBlackBishopPosition, Constants.BLACK_BISHOP);
+		placePieceToPosition(leftBlackBishopPosition, new Bishop(Allegiance.BLACK));
 		
 		String blackQueenPosition = "D" + chessBoard.getNumOfRows();
-		placePieceToPosition(blackQueenPosition, Constants.BLACK_QUEEN);
+		placePieceToPosition(blackQueenPosition, new Queen(Allegiance.BLACK));
 		
 		String blackKingPosition = "E" + chessBoard.getNumOfRows();
-		placePieceToPosition(blackKingPosition, Constants.BLACK_KING);
+		placePieceToPosition(blackKingPosition, new King(Allegiance.BLACK));
 		chessBoard.setBlackKingPosition(blackKingPosition);
 		
 		String rightBlackBishopPosition = "F" + chessBoard.getNumOfRows();
-		placePieceToPosition(rightBlackBishopPosition, Constants.BLACK_BISHOP);
+		placePieceToPosition(rightBlackBishopPosition, new Bishop(Allegiance.BLACK));
 		
 		String rightBlackKnightPosition = "G" + chessBoard.getNumOfRows();
-		placePieceToPosition(rightBlackKnightPosition, Constants.BLACK_KNIGHT);
+		placePieceToPosition(rightBlackKnightPosition, new Knight(Allegiance.BLACK));
 
 		String rightBlackRookPosition = "H" + chessBoard.getNumOfRows();
-		placePieceToPosition(rightBlackRookPosition, Constants.BLACK_ROOK);
+		placePieceToPosition(rightBlackRookPosition, new Rook(Allegiance.BLACK));
 		
 		chessBoard.setThreats();
 		
@@ -1412,7 +1424,7 @@ public class ChessGUI {
 				chessBoardSquares[i][j].setOpaque(true);
 				// chessBoardSquares[i][j].setBorderPainted(false);
 				
-				chessBoard.getGameBoard()[chessBoard.getNumOfRows() - 1 - i][j] = Constants.EMPTY;
+				chessBoard.getGameBoard()[chessBoard.getNumOfRows() - 1 - i][j] = new EmptyTile();
 				chessBoard.setThreats();
 			}
 		}

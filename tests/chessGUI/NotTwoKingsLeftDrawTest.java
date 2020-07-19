@@ -5,14 +5,16 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
+import chess.Allegiance;
 import chess.ChessBoard;
-import utilities.Constants;
+import pieces.King;
+import pieces.Pawn;
 
 
-class NotTwoKingsLeftΝοDrawTest {
+class NotTwoKingsLeftDrawTest {
 
 	@Test
-	public void testNotTwoKingsLeftNoDraw() {
+	public void testNotTwoKingsLeftDraw() {
 		
 		String title = "My Chess Test";
 		@SuppressWarnings("unused")
@@ -23,15 +25,15 @@ class NotTwoKingsLeftΝοDrawTest {
 		
 		ChessBoard.printChessBoard(ChessGUI.chessBoard.getGameBoard());
 		
-		ChessGUI.chessBoard.getGameBoard()[0][0] = Constants.WHITE_KING;
-		ChessGUI.placePieceToPosition("A1", Constants.WHITE_KING);
-		ChessGUI.chessBoard.getGameBoard()[7][7] = Constants.BLACK_KING;
-		ChessGUI.placePieceToPosition("H8", Constants.BLACK_KING);
+		ChessGUI.chessBoard.getGameBoard()[0][0] = new King(Allegiance.WHITE);
+		ChessGUI.placePieceToPosition("A1", new King(Allegiance.WHITE));
+		ChessGUI.chessBoard.getGameBoard()[7][7] = new King(Allegiance.BLACK);
+		ChessGUI.placePieceToPosition("H8", new King(Allegiance.BLACK));
 		
 		ChessBoard.printChessBoard(ChessGUI.chessBoard.getGameBoard());
 		
-		ChessGUI.chessBoard.getGameBoard()[0][1] = Constants.WHITE_PAWN;
-		ChessGUI.placePieceToPosition("B1", Constants.WHITE_PAWN);
+		ChessGUI.chessBoard.getGameBoard()[0][1] = new Pawn(Allegiance.WHITE);
+		ChessGUI.placePieceToPosition("B1", new Pawn(Allegiance.WHITE));
 		
 		System.out.println();
 		ChessBoard.printChessBoard(ChessGUI.chessBoard.getGameBoard());

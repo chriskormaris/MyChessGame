@@ -1,6 +1,15 @@
 package utilities;
 
+import chess.Allegiance;
 import chess.ChessBoard;
+import pieces.Bishop;
+import pieces.ChessPiece;
+import pieces.EmptyTile;
+import pieces.King;
+import pieces.Knight;
+import pieces.Pawn;
+import pieces.Queen;
+import pieces.Rook;
 
 public class FenUtilities {
 	
@@ -18,7 +27,7 @@ public class FenUtilities {
 		}
 		
 		String startingPieces = fenPositionTokens[0];
-		int[][] gameBoard = createGameBoard(chessBoard, startingPieces);
+		ChessPiece[][] gameBoard = createGameBoard(chessBoard, startingPieces);
 		
 		String nextPlayerChar = fenPositionTokens[1];
 		boolean playerFlag = false;
@@ -93,22 +102,27 @@ public class FenUtilities {
 	}
 	
 	
-	public static int[][] createGameBoard(ChessBoard chessBoard, String startingPieces) {
-		int[][] gameBoard = new int[chessBoard.getNumOfRows()][Constants.NUM_OF_COLUMNS];
+	public static ChessPiece[][] createGameBoard(ChessBoard chessBoard, String startingPieces) {
+		ChessPiece[][] gameBoard = new ChessPiece[chessBoard.getNumOfRows()][Constants.NUM_OF_COLUMNS];
+        for (int i=0; i<chessBoard.getNumOfRows(); i++) {
+            for (int j=0; j<Constants.NUM_OF_COLUMNS; j++) {
+            	gameBoard[i][j] = new EmptyTile();
+            }
+		}
 		
 		int counter = 0;
 		int i = 0, j = 0;
 		while (counter < startingPieces.length()) {
-			char piece = startingPieces.charAt(counter);
-			// System.out.println("counter: " + counter + ", piece: " + piece);
+			char pieceChar = startingPieces.charAt(counter);
+			// System.out.println("counter: " + counter + ", pieceChar: " + pieceChar);
 			
 			j = j % Constants.NUM_OF_COLUMNS;
 
-			if (Character.isDigit(piece)) {
-				j = j + Character.getNumericValue(piece);
+			if (Character.isDigit(pieceChar)) {
+				j = j + Character.getNumericValue(pieceChar);
 				counter++;
 				continue;
-			} else if (piece == '/') {
+			} else if (pieceChar == '/') {
 				i++;
 				j = 0;
 				counter++;
@@ -116,11 +130,12 @@ public class FenUtilities {
 			}
 			
 			// System.out.println("i: " + i + ", j: " + j);
-			gameBoard[chessBoard.getNumOfRows()-1-i][j] = getChessPieceValueByChar(piece);
+			// System.out.println("chess piece: " + getChessPieceByChar(pieceChar));
+			gameBoard[chessBoard.getNumOfRows()-1-i][j] = getChessPieceByChar(pieceChar);
 			
-			if (piece == 'K') {	
+			if (pieceChar == 'K') {	
 				chessBoard.setWhiteKingPosition(Utilities.getPositionByRowCol(chessBoard.getNumOfRows()-1-i, j));
-			} else if (piece == 'k') {	
+			} else if (pieceChar == 'k') {	
 				chessBoard.setBlackKingPosition(Utilities.getPositionByRowCol(chessBoard.getNumOfRows()-1-i, j));
 			}
 
@@ -133,7 +148,7 @@ public class FenUtilities {
 	}
 	
 	
-	public static int getChessPieceValueByChar(char pieceChar) {
+	public static int getChessPieceCodeByChar(char pieceChar) {
 		try {
 			if (pieceChar == 'r') {
 				return Constants.BLACK_ROOK;
@@ -167,6 +182,46 @@ public class FenUtilities {
 		} catch (InvalidFenFormatException ex) {
             System.err.println(ex.getMessage()); 
             return Constants.EMPTY;
+		}
+	}
+	
+	
+	public static ChessPiece getChessPieceByChar(char pieceChar) {
+		try {
+			if (pieceChar == 'R') {
+				return new Rook(Allegiance.WHITE);
+			} else if (pieceChar == 'N') {
+				return new Knight(Allegiance.WHITE);
+			} else if (pieceChar == 'B') {
+				return new Bishop(Allegiance.WHITE);
+			} else if (pieceChar == 'Q') {
+				return new Queen(Allegiance.WHITE);
+			} else if (pieceChar == 'K') {
+				return new King(Allegiance.WHITE);
+			} else if (pieceChar == 'P') {
+				return new Pawn(Allegiance.WHITE);
+			} 
+			
+			else if (pieceChar == 'r') {
+				return new Rook(Allegiance.BLACK);
+			} else if (pieceChar == 'n') {
+				return new Knight(Allegiance.BLACK);
+			} else if (pieceChar == 'b') {
+				return new Bishop(Allegiance.BLACK);
+			} else if (pieceChar == 'q') {
+				return new Queen(Allegiance.BLACK);
+			} else if (pieceChar == 'k') {
+				return new King(Allegiance.BLACK);
+			} else if (pieceChar == 'p') {
+				return new Pawn(Allegiance.BLACK);
+			} 
+			
+			else {
+				throw new InvalidFenFormatException("Invalid chess piece character \"" + pieceChar + "\"!");
+			}
+		} catch (InvalidFenFormatException ex) {
+            System.err.println(ex.getMessage()); 
+            return new EmptyTile();
 		}
 	}
 	
@@ -216,7 +271,6 @@ public class FenUtilities {
 	}
 
 	
-	// TODO
 	public static String getFenPositionFromChessBoard(ChessBoard chessBoard) {
 		String fenPosition = "";
 		
@@ -225,9 +279,9 @@ public class FenUtilities {
 			int emptyTilesCounter = 0;
 			for (int j=0; j<chessBoard.getGameBoard()[0].length; j++) {
 				// Get the piece in the indices [numOfRows-i-1][j], from the gameBoard. 
-				int chessPiece = chessBoard.getGameBoard()[chessBoard.getGameBoard().length - i - 1][j];
+				int chessPieceCode = chessBoard.getGameBoard()[chessBoard.getGameBoard().length - i - 1][j].getPieceCode();
 				// Convert chessPiece value to chess piece character.
-				char pieceChar = getPieceCharByChessPieceValue(chessPiece);
+				char pieceChar = getPieceCharByChessPieceValue(chessPieceCode);
 				if (pieceChar != '0') {
 					if (emptyTilesCounter != 0) {
 						// Append the number of empty consecutive empty tiles in a row 

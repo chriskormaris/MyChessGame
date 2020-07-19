@@ -3,6 +3,7 @@ package pieces;
 import java.util.HashSet;
 import java.util.Set;
 
+import chess.Allegiance;
 import chess.ChessBoard;
 import utilities.Constants;
 import utilities.Utilities;
@@ -14,8 +15,8 @@ public class Pawn extends ChessPiece {
 		
 	}
 	
-	public Pawn(int pieceCode) {
-		super(pieceCode);
+	public Pawn(Allegiance allegiance) {
+		super(allegiance, Constants.PAWN);
 	}
 	
 	@Override
@@ -29,7 +30,7 @@ public class Pawn extends ChessPiece {
 		// that corresponds to the given position String.
 		int row = Utilities.getRowFromPosition(position);
 		int column = Utilities.getColumnFromPosition(position);
-		int pieceCode = chessBoard.getGameBoard()[row][column];
+		int pieceCode = chessBoard.getGameBoard()[row][column].getPieceCode();
 
 		if (Math.abs(pieceCode) != Constants.PAWN)
 			return nextPawnPositions;
@@ -48,14 +49,18 @@ public class Pawn extends ChessPiece {
 					newRow = row - 1;
 				newColumn = column;
 				newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
-				int endTile = chessBoard.getGameBoard()[newRow][newColumn];
-				// System.out.println("endTile: " + endTile);
-				if (endTile == Constants.EMPTY)
+				int endTileCode = chessBoard.getGameBoard()[newRow][newColumn].getPieceCode();
+				// System.out.println("endTileCode: " + endTileCode);
+				if (endTileCode == Constants.EMPTY)
 					nextPawnPositions.add(newPosition);
 				
 				// Two steps forward position.
-				if (pieceCode == Constants.WHITE_PAWN && row < chessBoard.getNumOfRows()-2 && chessBoard.getGameBoard()[row+2][column] == Constants.EMPTY && chessBoard.getGameBoard()[row+1][column] == Constants.EMPTY
-					|| pieceCode == Constants.BLACK_PAWN && row > 1 && chessBoard.getGameBoard()[row-2][column] == Constants.EMPTY && chessBoard.getGameBoard()[row-1][column] == Constants.EMPTY) {
+				if (pieceCode == Constants.WHITE_PAWN && row < chessBoard.getNumOfRows()-2 
+						&& chessBoard.getGameBoard()[row+2][column].getPieceCode() == Constants.EMPTY 
+						&& chessBoard.getGameBoard()[row+1][column].getPieceCode() == Constants.EMPTY
+					|| pieceCode == Constants.BLACK_PAWN && row > 1 
+					&& chessBoard.getGameBoard()[row-2][column].getPieceCode() == Constants.EMPTY 
+					&& chessBoard.getGameBoard()[row-1][column].getPieceCode() == Constants.EMPTY) {
 					
 					if (pieceCode == Constants.WHITE_PAWN && row == 1)
 						newRow = row + 2;
@@ -63,8 +68,8 @@ public class Pawn extends ChessPiece {
 						newRow = row - 2;
 					newColumn = column;
 					newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
-					endTile = chessBoard.getGameBoard()[newRow][newColumn];
-					// System.out.println("endTile: " + endTile);
+					endTileCode = chessBoard.getGameBoard()[newRow][newColumn].getPieceCode();
+					// System.out.println("endTileCode: " + endTileCode);
 					nextPawnPositions.add(newPosition);
 				}
 				
@@ -78,10 +83,10 @@ public class Pawn extends ChessPiece {
 					newRow = row - 1;
 				newColumn = column - 1;
 				newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
-				int endTile = chessBoard.getGameBoard()[newRow][newColumn];
-				// System.out.println("endTile: " + endTile);
-				if ((pieceCode*endTile < 0
-					&& endTile != Constants.WHITE_KING && endTile != Constants.BLACK_KING)
+				int endTileCode = chessBoard.getGameBoard()[newRow][newColumn].getPieceCode();
+				// System.out.println("endTileCode: " + endTileCode);
+				if ((pieceCode*endTileCode < 0
+					&& endTileCode != Constants.WHITE_KING && endTileCode != Constants.BLACK_KING)
 					|| returnThreats)
 					nextPawnPositions.add(newPosition);
 			}
@@ -94,10 +99,10 @@ public class Pawn extends ChessPiece {
 					newRow = row - 1;
 				newColumn = column + 1;
 				newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
-				int endTile = chessBoard.getGameBoard()[newRow][newColumn];
-				// System.out.println("endTile: " + endTile);
-				if ((pieceCode*endTile < 0
-					&& endTile != Constants.WHITE_KING && endTile != Constants.BLACK_KING)
+				int endTileCode = chessBoard.getGameBoard()[newRow][newColumn].getPieceCode();
+				// System.out.println("endTileCode: " + endTileCode);
+				if ((pieceCode*endTileCode < 0
+					&& endTileCode != Constants.WHITE_KING && endTileCode != Constants.BLACK_KING)
 					|| returnThreats)
 					nextPawnPositions.add(newPosition);
 			}
@@ -122,7 +127,7 @@ public class Pawn extends ChessPiece {
 		// that corresponds to the given position String.
 		int row = Utilities.getRowFromPosition(position);
 		int column = Utilities.getColumnFromPosition(position);
-		int piece = chessBoard.getGameBoard()[row][column];
+		int piece = chessBoard.getGameBoard()[row][column].getPieceCode();
 		
 		if (piece != Constants.WHITE_PAWN && piece != Constants.BLACK_PAWN)
 			return enPassantPositions;
@@ -141,11 +146,11 @@ public class Pawn extends ChessPiece {
 					newRow = row - 1;
 				newColumn = column - 1;
 				newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
-				int endTile = chessBoard.getGameBoard()[newRow][newColumn];
-				// System.out.println("endTile: " + endTile);
-				if (endTile != Constants.WHITE_KING && endTile != Constants.BLACK_KING
-					&& (piece*endTile < 0
-					|| endTile == Constants.EMPTY && newPosition.equals(chessBoard.getEnPassantPosition()))
+				int endTileCode = chessBoard.getGameBoard()[newRow][newColumn].getPieceCode();
+				// System.out.println("endTileCode: " + endTileCode);
+				if (endTileCode != Constants.WHITE_KING && endTileCode != Constants.BLACK_KING
+					&& (piece*endTileCode < 0
+					|| endTileCode == Constants.EMPTY && newPosition.equals(chessBoard.getEnPassantPosition()))
 					|| returnThreats)
 					enPassantPositions.add(newPosition);
 			}
@@ -158,11 +163,11 @@ public class Pawn extends ChessPiece {
 					newRow = row - 1;
 				newColumn = column + 1;
 				newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
-				int endTile = chessBoard.getGameBoard()[newRow][newColumn];
-				// System.out.println("endTile: " + endTile);
-				if (endTile != Constants.WHITE_KING && endTile != Constants.BLACK_KING
-					&& (piece*endTile < 0
-					|| endTile == Constants.EMPTY && newPosition.equals(chessBoard.getEnPassantPosition()))
+				int endTileCode = chessBoard.getGameBoard()[newRow][newColumn].getPieceCode();
+				// System.out.println("endTileCode: " + endTileCode);
+				if (endTileCode != Constants.WHITE_KING && endTileCode != Constants.BLACK_KING
+					&& (piece*endTileCode < 0
+					|| endTileCode == Constants.EMPTY && newPosition.equals(chessBoard.getEnPassantPosition()))
 					|| returnThreats)
 					enPassantPositions.add(newPosition);
 			}

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import chess.ChessBoard;
 
 
-class StalemateCheckmatePawnPromotionTest {
+class PawnPromotionTest {
 
 	@Test
 	public void testStalemateCheckmatePawnPromotion() {
@@ -16,8 +16,7 @@ class StalemateCheckmatePawnPromotionTest {
 		@SuppressWarnings("unused")
 		ChessGUI cbg = new ChessGUI(title);
 		
-		// String fenPosition = "5Knk/1P6/4Q3/8/8/8/8/8 w - - 0 1";
-		String fenPosition = "3q1Knk/1P6/4Q3/8/8/8/8/8 w - - 0 1";
+		String fenPosition = "4k3/2P5/8/8/8/8/2p5/4K3 w - - 0 1";
 		ChessGUI.placePiecesToChessBoard(fenPosition);
 		
 		// String stringMessage = "White plays first.";

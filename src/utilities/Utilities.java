@@ -7,6 +7,8 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
+import pieces.ChessPiece;
+
 
 public class Utilities {
 	
@@ -44,7 +46,7 @@ public class Utilities {
 	}
 	
 	
-	public static int getPieceFromPosition(int[][] gameBoard, String position) {
+	public static ChessPiece getChessPieceFromPosition(ChessPiece[][] gameBoard, String position) {
 		int row = getRowFromPosition(position);
 		int column = getColumnFromPosition(position);
 		return gameBoard[row][column];
@@ -105,30 +107,31 @@ public class Utilities {
    	}
    	
    	
-   	public static double getPieceValueByRowCol(int gameBoard[][], int row, int column, int halfmoveNumber) {
+   	public static double getPieceValueByRowCol(ChessPiece gameBoard[][], int row, int column, int halfmoveNumber) {
    		double value = Constants.EMPTY;
+   		int absPieceCode = Math.abs(gameBoard[row][column].getPieceCode());
    		if (halfmoveNumber <= Constants.MIDDLEGAME_HALFMOVES_THRESHOLD) {
-	   		if (Math.abs(gameBoard[row][column]) == Constants.PAWN) {
+	   		if (absPieceCode == Constants.PAWN) {
 	   			value = Constants.PAWN_VALUE;
-			} else if (Math.abs(gameBoard[row][column]) == Constants.KNIGHT) {
+			} else if (absPieceCode == Constants.KNIGHT) {
 				value = Constants.KNIGHT_VALUE;
-			} else if (Math.abs(gameBoard[row][column]) == Constants.BISHOP) {
+			} else if (absPieceCode == Constants.BISHOP) {
 				value = Constants.BISHOP_VALUE;
-			} else if (Math.abs(gameBoard[row][column]) == Constants.ROOK) {
+			} else if (absPieceCode == Constants.ROOK) {
 				value = Constants.ROOK_VALUE;
-			} else if (Math.abs(gameBoard[row][column]) == Constants.QUEEN) {
+			} else if (absPieceCode == Constants.QUEEN) {
 				value = Constants.QUEEN_VALUE;
 			}
    		} else {
-   			if (Math.abs(gameBoard[row][column]) == Constants.PAWN) {
+   			if (absPieceCode == Constants.PAWN) {
 	   			value = Constants.PAWN_LATE_VALUE;
-			} else if (Math.abs(gameBoard[row][column]) == Constants.KNIGHT) {
+			} else if (absPieceCode == Constants.KNIGHT) {
 				value = Constants.KNIGHT_LATE_VALUE;
-			} else if (Math.abs(gameBoard[row][column]) == Constants.BISHOP) {
+			} else if (absPieceCode == Constants.BISHOP) {
 				value = Constants.BISHOP_LATE_VALUE;
-			} else if (Math.abs(gameBoard[row][column]) == Constants.ROOK) {
+			} else if (absPieceCode == Constants.ROOK) {
 				value = Constants.ROOK_LATE_VALUE;
-			} else if (Math.abs(gameBoard[row][column]) == Constants.QUEEN) {
+			} else if (absPieceCode == Constants.QUEEN) {
 				value = Constants.QUEEN_LATE_VALUE;
 			}
    		}

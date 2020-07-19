@@ -12,9 +12,9 @@ import javax.swing.JOptionPane;
 import chessGUI.ChessGUI;
 import pieces.Bishop;
 import pieces.ChessPiece;
+import pieces.EmptyTile;
 import pieces.King;
 import pieces.Knight;
-import pieces.Pawn;
 import pieces.Queen;
 import pieces.Rook;
 import utilities.Constants;
@@ -30,7 +30,26 @@ public class ChessBoard {
     /* Immediate move that led to this board. */
     private Move lastMove;
     
-	private int [][] gameBoard;
+    
+    /*
+     * The ChessBoard's gameBoard:
+     * 
+     *      A     B     C     D     E     F     G     H
+     *   _________________________________________________
+     * 8 |(7,0)|(7,1)|(7,2)|(7,3)|(7,4)|(7,5)|(7,6)|(7,7)| 8
+	 * 7 |(6,0)|(6,1)|(6,2)|(6,3)|(6,4)|(6,5)|(6,6)|(6,7)| 7
+	 * 6 |(5,0)|(5,1)|(5,2)|(5,3)|(5,4)|(5,5)|(5,6)|(5,7)| 6
+	 * 5 |(4,0)|(4,1)|(4,2)|(4,3)|(4,4)|(4,5)|(4,6)|(4,7)| 5
+	 * 4 |(3,0)|(3,1)|(3,2)|(3,3)|(3,4)|(3,5)|(3,6)|(3,7)| 4
+	 * 3 |(2,0)|(2,1)|(2,2)|(2,3)|(2,4)|(2,5)|(2,6)|(2,7)| 3
+	 * 2 |(1,0)|(1,1)|(1,2)|(1,3)|(1,4)|(1,5)|(1,6)|(1,7)| 2
+	 * 1 |(0,0)|(0,1)|(0,2)|(0,3)|(0,4)|(0,5)|(0,6)|(0,7)| 1
+	 *   -------------------------------------------------
+	 *      A     B     C     D     E     F     G     H
+	 * 
+	 * E.g: A1 = (0,0), H8 = (7,7), B3 = (2,1), C2 = (1, 2) etc.
+     */
+	private ChessPiece[][] gameBoard;
 
 	/* A board with:
 	 * 1 for areas threatened by white pieces.
@@ -52,8 +71,8 @@ public class ChessBoard {
 	 * The player who control the white pieces plays first. */
 	private boolean player;
 	
-	/* This array is used to handle the "castling" and "en passant" implementation. */
-	private int[][] previousGameBoard;
+	/* This array is used to handle the "castling" implementation. */
+	private ChessPiece[][] previousGameBoard;
 	
 	/* These variables are used to handle the "castling" implementation. */
 	private boolean whiteKingMoved;
@@ -100,7 +119,14 @@ public class ChessBoard {
 
     	this.lastMove = new Move();
 
-    	this.gameBoard = new int[numOfRows][NUM_OF_COLUMNS];
+    	int n1 = numOfRows;
+    	int n2 = NUM_OF_COLUMNS;
+    	this.gameBoard = new ChessPiece[n1][n2];
+        for (int i=0; i<n1; i++) {
+            for (int j=0; j<n2; j++) {
+            	this.gameBoard[i][j] = new EmptyTile();
+            }
+		}
 		
     	// String fenStartingPieces = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
     	// this.gameBoard = FenUtilities.createGameBoard(this, fenStartingPieces);
@@ -113,7 +139,7 @@ public class ChessBoard {
 		
 		this.player = true;
 		
-		this.previousGameBoard = new int[numOfRows][NUM_OF_COLUMNS];
+		this.previousGameBoard = new ChessPiece[numOfRows][NUM_OF_COLUMNS];
 		setPreviousGameBoard(gameBoard);
 		
 		this.enPassantPosition = "-";
@@ -135,29 +161,29 @@ public class ChessBoard {
 
 		this.lastMove = new Move(otherBoard.lastMove);
 		
-		int N1 = otherBoard.getGameBoard().length;
-		int N2 = otherBoard.getGameBoard()[0].length;
-		this.gameBoard = new int[N1][N2];
-        for (int i=0; i<N1; i++) {
-            for (int j=0; j<N2; j++) {
+		int n1 = otherBoard.getGameBoard().length;
+		int n2 = otherBoard.getGameBoard()[0].length;
+		this.gameBoard = new ChessPiece[n1][n2];
+        for (int i=0; i<n1; i++) {
+            for (int j=0; j<n2; j++) {
             	this.gameBoard[i][j] = otherBoard.getGameBoard()[i][j];
             }
 		}
         
-		N1 = otherBoard.getTilesThreatenedByWhite().length;
-		N2 = otherBoard.getTilesThreatenedByWhite()[0].length;
-		this.tilesThreatenedByWhite = new int[N1][N2];
-        for (int i=0; i<N1; i++) {
-            for (int j=0; j<N2; j++) {
+		n1 = otherBoard.getTilesThreatenedByWhite().length;
+		n2 = otherBoard.getTilesThreatenedByWhite()[0].length;
+		this.tilesThreatenedByWhite = new int[n1][n2];
+        for (int i=0; i<n1; i++) {
+            for (int j=0; j<n2; j++) {
             	this.tilesThreatenedByWhite[i][j] = otherBoard.getTilesThreatenedByWhite()[i][j];
             }
 		}
         
-		N1 = otherBoard.getTilesThreatenedByBlack().length;
-		N2 = otherBoard.getTilesThreatenedByBlack()[0].length;
-		this.tilesThreatenedByBlack = new int[N1][N2];
-        for (int i=0; i<N1; i++) {
-            for (int j=0; j<N2; j++) {
+		n1 = otherBoard.getTilesThreatenedByBlack().length;
+		n2 = otherBoard.getTilesThreatenedByBlack()[0].length;
+		this.tilesThreatenedByBlack = new int[n1][n2];
+        for (int i=0; i<n1; i++) {
+            for (int j=0; j<n2; j++) {
             	this.tilesThreatenedByBlack[i][j] = otherBoard.getTilesThreatenedByBlack()[i][j];
             }
 		}
@@ -167,11 +193,11 @@ public class ChessBoard {
 		
 		this.player = otherBoard.whitePlays();
 		
-		N1 = otherBoard.getPreviousGameBoard().length;
-		N2 = otherBoard.getPreviousGameBoard()[0].length;
-		this.previousGameBoard = new int[N1][N2];
-        for (int i=0; i<N1; i++) {
-            for (int j=0; j<N2; j++) {
+		n1 = otherBoard.getPreviousGameBoard().length;
+		n2 = otherBoard.getPreviousGameBoard()[0].length;
+		this.previousGameBoard = new ChessPiece[n1][n2];
+        for (int i=0; i<n1; i++) {
+            for (int j=0; j<n2; j++) {
             	this.previousGameBoard[i][j] = otherBoard.getPreviousGameBoard()[i][j];
             }
 		}
@@ -238,7 +264,8 @@ public class ChessBoard {
  		
  		int rowStart = Utilities.getRowFromPosition(positionStart);
  		int columnStart = Utilities.getColumnFromPosition(positionStart);
- 		int pieceCode = this.gameBoard[rowStart][columnStart];
+ 		int pieceCode = this.gameBoard[rowStart][columnStart].getPieceCode();
+ 		ChessPiece chessPiece = this.gameBoard[rowStart][columnStart];
  		// if (displayMove) {
 	 	// 	System.out.println("rowStart: " + rowStart + ", columnStart: " + columnStart);
 	 	// 	System.out.println("piece:" + piece);
@@ -246,26 +273,27 @@ public class ChessBoard {
  		
  		int rowEnd = Utilities.getRowFromPosition(positionEnd);
  		int columnEnd = Utilities.getColumnFromPosition(positionEnd);
- 		int endTile = this.gameBoard[rowEnd][columnEnd];
+ 		int endTileCode = this.gameBoard[rowEnd][columnEnd].getPieceCode();
+ 		// ChessPiece endPiece = this.gameBoard[rowEnd][columnEnd];
  		// if (displayMove) {
 	 	// 	System.out.println("rowEnd: " + rowEnd + ", columnEnd: " + columnEnd);
-	 	// 	System.out.println("endTile:" + endTile);
+	 	// 	System.out.println("endTileCode:" + endTileCode);
  		// }
 
  		// Allow only valid moves, for all the chess pieces.
  		// Move only if the tile is empty or the tile contains an opponent piece.
  		// Also allow castling, en passant and promotion moves.
  		// System.out.println("hintPositions: " + hintPositions);
- 		if (endTile == Constants.EMPTY || pieceCode * endTile < 0) {
+ 		if (endTileCode == Constants.EMPTY || pieceCode * endTileCode < 0) {
 
  			setPreviousGameBoard(this.gameBoard);
 
  			if (displayMove) {
  				ChessGUI.removePieceFromPosition(positionStart);
- 				ChessGUI.placePieceToPosition(positionEnd, pieceCode);
+ 				ChessGUI.placePieceToPosition(positionEnd, chessPiece);
  			} else {
- 				this.gameBoard[rowStart][columnStart] = Constants.EMPTY;
- 				this.gameBoard[rowEnd][columnEnd] = pieceCode;
+ 				this.gameBoard[rowStart][columnStart] = new EmptyTile();
+ 				this.gameBoard[rowEnd][columnEnd] = chessPiece;
  			}
  			
  			// Implementation of castling here.
@@ -289,10 +317,10 @@ public class ChessBoard {
  						// Move the left white rook to the correct position.
  						if (displayMove) {
  							ChessGUI.removePieceFromPosition("A1");
- 							ChessGUI.placePieceToPosition("D1", Constants.WHITE_ROOK);
+ 							ChessGUI.placePieceToPosition("D1", new Rook(Allegiance.WHITE));
  						} else {
- 							this.gameBoard[0][0] = Constants.EMPTY;
- 							this.gameBoard[0][3] = Constants.WHITE_ROOK;
+ 							this.gameBoard[0][0] = new EmptyTile();
+ 							this.gameBoard[0][3] = new Rook(Allegiance.WHITE);
  						}
  						setWhiteKingMoved(true);
  						setLeftWhiteRookMoved(true);
@@ -303,10 +331,10 @@ public class ChessBoard {
  						// Move the right white rook to the correct position.
  						if (displayMove) {
  							ChessGUI.removePieceFromPosition("H1");
- 							ChessGUI.placePieceToPosition("F1", Constants.WHITE_ROOK);
+ 							ChessGUI.placePieceToPosition("F1", new Rook(Allegiance.WHITE));
  						} else {
- 							this.gameBoard[0][7] = Constants.EMPTY;
- 							this.gameBoard[0][5] = Constants.WHITE_ROOK;
+ 							this.gameBoard[0][7] = new EmptyTile();
+ 							this.gameBoard[0][5] = new Rook(Allegiance.WHITE);
  						}
  						setWhiteKingMoved(true);
  						setRightWhiteRookMoved(true);
@@ -317,10 +345,10 @@ public class ChessBoard {
  						// Move the left black rook to the correct position.
  						if (displayMove) {
  							ChessGUI.removePieceFromPosition("A" + numOfRows);
- 							ChessGUI.placePieceToPosition("D" + numOfRows, Constants.BLACK_ROOK);
+ 							ChessGUI.placePieceToPosition("D" + numOfRows, new Rook(Allegiance.BLACK));
  						} else {
- 							this.gameBoard[numOfRows-1][0] = Constants.EMPTY;
- 							this.gameBoard[numOfRows-1][3] = Constants.BLACK_ROOK;
+ 							this.gameBoard[numOfRows-1][0] = new EmptyTile();
+ 							this.gameBoard[numOfRows-1][3] = new Rook(Allegiance.BLACK);
  						}
  						setBlackKingMoved(true);
  						setLeftBlackRookMoved(true);
@@ -331,10 +359,10 @@ public class ChessBoard {
  						// Move the right black rook to the correct position.
  						if (displayMove) {
  							ChessGUI.removePieceFromPosition("H" + numOfRows);
- 							ChessGUI.placePieceToPosition("F" + numOfRows, Constants.BLACK_ROOK);
+ 							ChessGUI.placePieceToPosition("F" + numOfRows, new Rook(Allegiance.BLACK));
  						} else {
- 							this.gameBoard[numOfRows-1][7] = Constants.EMPTY;
- 							this.gameBoard[numOfRows-1][5] = Constants.BLACK_ROOK;
+ 							this.gameBoard[numOfRows-1][7] = new EmptyTile();
+ 							this.gameBoard[numOfRows-1][5] = new Rook(Allegiance.BLACK);
  						}
  						setBlackKingMoved(true);
  						setRightBlackRookMoved(true);
@@ -375,14 +403,13 @@ public class ChessBoard {
  					int twoStepsForwardBlackPawnPositionColumn = Utilities.getColumnFromPosition(twoStepsForwardBlackPawnPosition);
  					
  					// White pawn captures black pawn.
- 					if (rowEnd-1 >= 0 && this.gameBoard[rowEnd-1][columnEnd] == Constants.BLACK_PAWN
- 						&& this.previousGameBoard[rowEnd][columnEnd] == Constants.EMPTY
+ 					if (rowEnd-1 >= 0 && this.gameBoard[rowEnd-1][columnEnd].getPieceCode() == Constants.BLACK_PAWN
  						&& this.enPassantPosition.equals(Utilities.getPositionByRowCol(rowEnd, columnEnd))) {
  							
  						if (displayMove) {
  							ChessGUI.removePieceFromPosition(twoStepsForwardBlackPawnPosition);
  						} else {
- 							this.gameBoard[twoStepsForwardBlackPawnPositionRow][twoStepsForwardBlackPawnPositionColumn] = Constants.EMPTY;
+ 							this.gameBoard[twoStepsForwardBlackPawnPositionRow][twoStepsForwardBlackPawnPositionColumn] = new EmptyTile();
  						}
  						this.enPassantPosition = "-";
  					}
@@ -394,8 +421,7 @@ public class ChessBoard {
  					int twoStepsForwardWhitePawnPositionRow = Utilities.getRowFromPosition(twoStepsForwardWhitePawnPosition);
  					int twoStepsForwardWhitePawnPositionColumn = Utilities.getColumnFromPosition(twoStepsForwardWhitePawnPosition);
  					
- 					if (rowEnd+1 < numOfRows && this.gameBoard[rowEnd+1][columnEnd] == Constants.WHITE_PAWN
- 						&& this.previousGameBoard[rowEnd][columnEnd] == Constants.EMPTY
+ 					if (rowEnd+1 < numOfRows && this.gameBoard[rowEnd+1][columnEnd].getPieceCode() == Constants.WHITE_PAWN
  						&& this.enPassantPosition.equals(Utilities.getPositionByRowCol(rowEnd, columnEnd))) {
  						
  						if (displayMove) {
@@ -405,7 +431,7 @@ public class ChessBoard {
  							}
  							ChessGUI.removePieceFromPosition(twoStepsForwardWhitePawnPosition);
  						} else {
- 							this.gameBoard[twoStepsForwardWhitePawnPositionRow][twoStepsForwardWhitePawnPositionColumn] = Constants.EMPTY;
+ 							this.gameBoard[twoStepsForwardWhitePawnPositionRow][twoStepsForwardWhitePawnPositionColumn] = new EmptyTile();
  						}
  						this.enPassantPosition = "-";
  					}
@@ -439,11 +465,11 @@ public class ChessBoard {
  						|| (GameParameters.gameMode == Constants.MINIMAX_AI_VS_MINIMAX_AI))) {
  					if (pieceCode == Constants.WHITE_PAWN && rowEnd == numOfRows - 1) {
  						ChessGUI.removePieceFromPosition(positionEnd);
- 						ChessGUI.placePieceToPosition(positionEnd, Constants.WHITE_QUEEN);
+ 						ChessGUI.placePieceToPosition(positionEnd, new Queen(Allegiance.WHITE));
  					}
  					else if (pieceCode == Constants.BLACK_PAWN && rowEnd == 0) {
  						ChessGUI.removePieceFromPosition(positionEnd);
- 						ChessGUI.placePieceToPosition(positionEnd, Constants.BLACK_QUEEN);
+ 						ChessGUI.placePieceToPosition(positionEnd, new Queen(Allegiance.BLACK));
  					}
  				}
  				
@@ -459,13 +485,13 @@ public class ChessBoard {
  						ChessGUI.removePieceFromPosition(positionEnd);
  						
  						if (value == null || value.equals("Queen"))
- 							ChessGUI.placePieceToPosition(positionEnd, Constants.WHITE_QUEEN);
+ 							ChessGUI.placePieceToPosition(positionEnd, new Queen(Allegiance.WHITE));
  						else if (value.equals("Rook"))
- 							ChessGUI.placePieceToPosition(positionEnd, Constants.WHITE_ROOK);
+ 							ChessGUI.placePieceToPosition(positionEnd, new Rook(Allegiance.WHITE));
  						else if (value.equals("Bishop"))
- 							ChessGUI.placePieceToPosition(positionEnd, Constants.WHITE_BISHOP);
+ 							ChessGUI.placePieceToPosition(positionEnd, new Bishop(Allegiance.WHITE));
  						else if (value.equals("Knight"))
- 							ChessGUI.placePieceToPosition(positionEnd, Constants.WHITE_KNIGHT);
+ 							ChessGUI.placePieceToPosition(positionEnd, new Knight(Allegiance.WHITE));
  					} else if (pieceCode == Constants.BLACK_PAWN && rowEnd == 0) {
  						String value = (String) JOptionPane.showInputDialog(ChessGUI.gui, "Promote black pawn to:",
  						        "Black pawn promotion", JOptionPane.QUESTION_MESSAGE, null, selectionValues, initialSelection);
@@ -473,13 +499,13 @@ public class ChessBoard {
  						
  						ChessGUI.removePieceFromPosition(positionEnd);
  						if (value == null || value.equals("Queen"))
- 							ChessGUI.placePieceToPosition(positionEnd, Constants.BLACK_QUEEN);
+ 							ChessGUI.placePieceToPosition(positionEnd, new Queen(Allegiance.BLACK));
  						else if (value.equals("Rook"))
- 							ChessGUI.placePieceToPosition(positionEnd, Constants.BLACK_ROOK);
+ 							ChessGUI.placePieceToPosition(positionEnd, new Rook(Allegiance.BLACK));
  						else if (value.equals("Bishop"))
- 							ChessGUI.placePieceToPosition(positionEnd, Constants.BLACK_BISHOP);
+ 							ChessGUI.placePieceToPosition(positionEnd, new Bishop(Allegiance.BLACK));
  						else if (value.equals("Knight"))
- 							ChessGUI.placePieceToPosition(positionEnd, Constants.BLACK_KNIGHT);
+ 							ChessGUI.placePieceToPosition(positionEnd, new Knight(Allegiance.BLACK));
  					}
  				
  				}
@@ -487,11 +513,11 @@ public class ChessBoard {
 				// Automatically choose promotion to Queen and do NOT display it on the GUI. 
  				else {
  					if (pieceCode == Constants.WHITE_PAWN && rowEnd == numOfRows - 1) {
- 						this.gameBoard[rowEnd][columnEnd] = Constants.EMPTY;
- 						this.gameBoard[rowEnd][columnEnd] = Constants.WHITE_QUEEN;
+ 						this.gameBoard[rowEnd][columnEnd] = new EmptyTile();
+ 						this.gameBoard[rowEnd][columnEnd] = new Queen(Allegiance.WHITE);
  					} else if (pieceCode == Constants.BLACK_PAWN && rowEnd == 0) {
- 						this.gameBoard[rowEnd][columnEnd] = Constants.EMPTY;
- 						this.gameBoard[rowEnd][columnEnd] = Constants.BLACK_QUEEN;
+ 						this.gameBoard[rowEnd][columnEnd] = new EmptyTile();
+ 						this.gameBoard[rowEnd][columnEnd] = new Queen(Allegiance.BLACK);
  					}
  				}
  				
@@ -506,7 +532,7 @@ public class ChessBoard {
 	 	 		
 	 	 		if (numEmptyTilesBeforeHalfmove == numEmptyTilesAfterHalfmove) {
 	 	 			halfmoveClock++;
-	 	 		} else {
+	 	 		} else {  // a capture has occurred
 	 	 			halfmoveClock = 0;
 	 	 		}
  			}
@@ -519,8 +545,8 @@ public class ChessBoard {
     // Checks whether a given tile (with given row and column) contains a piece of the given player.
     // White pieces have positive values. Black pieces have negative values.
     private boolean rowColContainsPlayerPiece(int row, int column, boolean player) {
-		if (player == Constants.WHITE && gameBoard[row][column] > 0
-			|| player == Constants.BLACK && gameBoard[row][column] < 0) {
+		if (player == Constants.WHITE && gameBoard[row][column].getPieceCode() > 0
+			|| player == Constants.BLACK && gameBoard[row][column].getPieceCode() < 0) {
 			return true;
 		}
 		return false;
@@ -673,7 +699,7 @@ public class ChessBoard {
     	    	
 		// String startPosition = lastMove.getPositions().get(0);
 		String endPosition = lastMove.getPositions().get(1);
-    	int lastPiece = Utilities.getPieceFromPosition(this.gameBoard, endPosition);
+    	int lastPieceCode = Utilities.getChessPieceFromPosition(this.gameBoard, endPosition).getPieceCode();
 		// System.out.println("lastPiece: " + Utilities.getPieceNameByValue(lastPiece));
     	
     	int endRow = Utilities.getRowFromPosition(endPosition);
@@ -708,9 +734,11 @@ public class ChessBoard {
     	}
     	
     	// Calculate the values of each piece and store them in the "valueBoard" array.
-    	double[][] valueBoard = new double[numOfRows][NUM_OF_COLUMNS];
-    	for (int i=0; i<numOfRows; i++) {
-			for (int j=0; j<NUM_OF_COLUMNS; j++) {
+    	int n1 = numOfRows;
+    	int n2 = NUM_OF_COLUMNS;
+    	double[][] valueBoard = new double[n1][n2];
+    	for (int i=0; i<n1; i++) {
+			for (int j=0; j<n2; j++) {
 				
 				/* In the beginning, these sum up to 39, for each player. */
 				valueBoard[i][j] = Utilities.getPieceValueByRowCol(this.gameBoard, i, j, this.halfmoveNumber);
@@ -726,14 +754,14 @@ public class ChessBoard {
 
     	/* Evaluation for the check move. */
     	// If last the piece is White and the Black King is in check.
-    	if (lastPiece > 0 && this.blackKingInCheck) {
+    	if (lastPieceCode > 0 && this.blackKingInCheck) {
 			// If the White piece is threatened and it has no cover.
 			if (this.tilesThreatenedByBlack[endRow][endColumn] == 1 && this.tilesThreatenedByWhite[endRow][endColumn] == 0) {
-	    		whiteScore += checkValue / (double) Math.abs(lastPiece);
+	    		whiteScore += checkValue / (double) Math.abs(lastPieceCode);
 			} 
 			// If the White piece is threatened and it has cover.
 			if (this.tilesThreatenedByBlack[endRow][endColumn] == 1 && this.tilesThreatenedByWhite[endRow][endColumn] == 1) {
-	    		whiteScore += checkValue - Math.abs(lastPiece);
+	    		whiteScore += checkValue - Math.abs(lastPieceCode);
 			} 
 			// If the White piece is not threatened and it has no cover.
 			if (this.tilesThreatenedByBlack[endRow][endColumn] == 0 && this.tilesThreatenedByWhite[endRow][endColumn] == 0) {
@@ -745,14 +773,14 @@ public class ChessBoard {
 			}
 		}
     	// If the last piece is Black and the White King is in check.
-		else if (lastPiece < 0 && this.whiteKingInCheck) {
+		else if (lastPieceCode < 0 && this.whiteKingInCheck) {
 			// If the White piece is threatened and it has no cover.
 			if (this.tilesThreatenedByWhite[endRow][endColumn] == 1 && this.tilesThreatenedByBlack[endRow][endColumn] == 0) {
-	    		blackScore += checkValue / (double) Math.abs(lastPiece);
+	    		blackScore += checkValue / (double) Math.abs(lastPieceCode);
 			} 
 			// If the White piece is threatened and it has cover.
 			if (this.tilesThreatenedByWhite[endRow][endColumn] == 1 && this.tilesThreatenedByBlack[endRow][endColumn] == 1) {
-				blackScore += checkValue - Math.abs(lastPiece);
+				blackScore += checkValue - Math.abs(lastPieceCode);
 			} 
 			// If the White piece is not threatened and it has no cover.
 			if (this.tilesThreatenedByWhite[endRow][endColumn] == 0 && this.tilesThreatenedByBlack[endRow][endColumn] == 0) {
@@ -766,16 +794,16 @@ public class ChessBoard {
     	
     	/* Evaluation for a capture move. */
     	// If a White piece captured a Black piece.
-    	if (lastPiece > 0 && this.previousGameBoard[endRow][endColumn] < 0) {
+    	if (lastPieceCode > 0 && this.previousGameBoard[endRow][endColumn].getPieceCode() < 0) {
 			// System.out.println("White captured a Black piece.");
 			// If the White piece is threatened and it has no cover.
 			if (this.tilesThreatenedByBlack[endRow][endColumn] == 1 && this.tilesThreatenedByWhite[endRow][endColumn] == 0) {
-				whiteScore += 5 * (Utilities.getPieceValueByRowCol(previousGameBoard, endRow, endColumn, this.halfmoveNumber) - Math.abs(lastPiece));
+				whiteScore += 5 * (Utilities.getPieceValueByRowCol(previousGameBoard, endRow, endColumn, this.halfmoveNumber) - Math.abs(lastPieceCode));
 				// whiteScore += 1;
 			} 
 			// If the White piece is threatened and it has cover.
 			else if (this.tilesThreatenedByBlack[endRow][endColumn] == 1 && this.tilesThreatenedByWhite[endRow][endColumn] == 1) {
-	    		whiteScore += 10 * (Utilities.getPieceValueByRowCol(previousGameBoard, endRow, endColumn, this.halfmoveNumber) - Math.abs(lastPiece));
+	    		whiteScore += 10 * (Utilities.getPieceValueByRowCol(previousGameBoard, endRow, endColumn, this.halfmoveNumber) - Math.abs(lastPieceCode));
 				// whiteScore += 1;
 			}
 			// If the White piece is not threatened and it has no cover.
@@ -790,16 +818,16 @@ public class ChessBoard {
 			}
 		}
     	// If a Black piece captured a White piece.
-    	if (lastPiece < 0 && this.previousGameBoard[endRow][endColumn] > 0) {
+    	if (lastPieceCode < 0 && this.previousGameBoard[endRow][endColumn].getPieceCode() > 0) {
 			// System.out.println("Black captured a White piece.");
     		// If the Black piece is threatened and it has no cover.
 			if (this.tilesThreatenedByWhite[endRow][endColumn] == 1 && this.tilesThreatenedByBlack[endRow][endColumn] == 0) {
-				blackScore += 5 * (Utilities.getPieceValueByRowCol(previousGameBoard, endRow, endColumn, this.halfmoveNumber) - Math.abs(lastPiece));
+				blackScore += 5 * (Utilities.getPieceValueByRowCol(previousGameBoard, endRow, endColumn, this.halfmoveNumber) - Math.abs(lastPieceCode));
 				// blackScore += 1;
 			} 
 			// If the Black piece is threatened and it has cover.
 			else if (this.tilesThreatenedByWhite[endRow][endColumn] == 1 && this.tilesThreatenedByBlack[endRow][endColumn] == 1) {
-				blackScore += 10 * (Utilities.getPieceValueByRowCol(previousGameBoard, endRow, endColumn, this.halfmoveNumber) - Math.abs(lastPiece));
+				blackScore += 10 * (Utilities.getPieceValueByRowCol(previousGameBoard, endRow, endColumn, this.halfmoveNumber) - Math.abs(lastPieceCode));
 				// blackScore += 1;
 			}
 			// If the Black piece is not threatened and it has no cover.
@@ -824,7 +852,7 @@ public class ChessBoard {
 				/* Lower the score if the piece is threatened by the opponent.
 				 * Else, if the piece is not threatened, increment the score. */
 		    	// If the piece is White.
-				if (this.gameBoard[i][j] > 0) {
+				if (this.gameBoard[i][j].getPieceCode() > 0) {
 					// If the White piece is threatened and it has no cover.
 					if (this.tilesThreatenedByBlack[i][j] == 1 && this.tilesThreatenedByWhite[i][j] == 0) {
 						whiteScore -= 50 * valueBoard[i][j];
@@ -847,7 +875,7 @@ public class ChessBoard {
 					}
 				}
 		    	// If the piece is Black.
-				else if (this.gameBoard[i][j] < 0) {
+				else if (this.gameBoard[i][j].getPieceCode() < 0) {
 					// If the Black piece is threatened and it has no cover.
 					if (this.tilesThreatenedByWhite[i][j] == 1 && this.tilesThreatenedByBlack[i][j] == 0) {
 						blackScore -= 50 * valueBoard[i][j];
@@ -894,8 +922,8 @@ public class ChessBoard {
     	int numOfPieces = 0;
     	for (int i=0; i<numOfRows; i++) {
     		for (int j=0; j<NUM_OF_COLUMNS; j++) {
-    			if ((player == Constants.WHITE && gameBoard[i][j] > 0)
-    				|| (player == Constants.BLACK && gameBoard[i][j] < 0))
+    			if ((player == Constants.WHITE && gameBoard[i][j].getPieceCode() > 0)
+    				|| (player == Constants.BLACK && gameBoard[i][j].getPieceCode() < 0))
     				numOfPieces++;
     		}
     	}
@@ -905,10 +933,10 @@ public class ChessBoard {
     
     @SuppressWarnings("unused")
 	private boolean isQueenLost(int[][] gameBoard, boolean player) {
-    	int N1 = gameBoard.length;
-    	int N2 = gameBoard[0].length;
-    	for (int i=0; i<N1; i++) {
-    		for (int j=0; j<N2; j++) {
+    	int n1 = gameBoard.length;
+    	int n2 = gameBoard[0].length;
+    	for (int i=0; i<n1; i++) {
+    		for (int j=0; j<n2; j++) {
     			if ((player == Constants.WHITE && gameBoard[i][j] == Constants.WHITE_QUEEN)
     				|| (player == Constants.BLACK && gameBoard[i][j] == Constants.BLACK_QUEEN))
     				return false;
@@ -923,10 +951,10 @@ public class ChessBoard {
 	private int getNumOfRooks(int[][] gameBoard, boolean player) {
     	int numOfRooks = 0;
     	
-    	int N1 = gameBoard.length;
-    	int N2 = gameBoard[0].length;
-    	for (int i=0; i<N1; i++) {
-    		for (int j=0; j<N2; j++) {
+    	int n1 = gameBoard.length;
+    	int n2 = gameBoard[0].length;
+    	for (int i=0; i<n1; i++) {
+    		for (int j=0; j<n2; j++) {
     			if ((player == Constants.WHITE && gameBoard[i][j] == Constants.WHITE_ROOK)
     				|| (player == Constants.BLACK && gameBoard[i][j] == Constants.BLACK_ROOK))
     				numOfRooks++;
@@ -937,15 +965,15 @@ public class ChessBoard {
     }
     
     
-	private int getNumOfBishops(int[][] gameBoard, boolean player) {
+	private int getNumOfBishops(ChessPiece[][] gameBoard, boolean player) {
     	int numOfRooks = 0;
     	
-    	int N1 = gameBoard.length;
-    	int N2 = gameBoard[0].length;
-    	for (int i=0; i<N1; i++) {
-    		for (int j=0; j<N2; j++) {
-    			if ((player == Constants.WHITE && gameBoard[i][j] == Constants.WHITE_BISHOP)
-    				|| (player == Constants.BLACK && gameBoard[i][j] == Constants.BLACK_BISHOP))
+    	int n1 = gameBoard.length;
+    	int n2 = gameBoard[0].length;
+    	for (int i=0; i<n1; i++) {
+    		for (int j=0; j<n2; j++) {
+    			if ((player == Constants.WHITE && gameBoard[i][j].getPieceCode() == Constants.WHITE_BISHOP)
+    				|| (player == Constants.BLACK && gameBoard[i][j].getPieceCode() == Constants.BLACK_BISHOP))
     				numOfRooks++;
     		}
     	}
@@ -992,7 +1020,7 @@ public class ChessBoard {
     public void emptyTheChessBoard() {
         for (int i=0; i<numOfRows; i++) {
             for (int j=0; j<NUM_OF_COLUMNS; j++) {
-                gameBoard[i][j] = Constants.EMPTY;
+                gameBoard[i][j] = new EmptyTile();
             }
         }
     }
@@ -1006,7 +1034,7 @@ public class ChessBoard {
     	int numEmptyTiles = 0;
         for (int i=0; i<numOfRows; i++) {
             for (int j=0; j<NUM_OF_COLUMNS; j++) {
-                if (gameBoard[i][j] == Constants.EMPTY) {
+                if (gameBoard[i][j].getPieceCode() == Constants.EMPTY) {
                 	numEmptyTiles++;
                 }
             }
@@ -1022,32 +1050,9 @@ public class ChessBoard {
 		// that corresponds to the given position String.
 		int row = Utilities.getRowFromPosition(position);
 		int column = Utilities.getColumnFromPosition(position);
-		int pieceCode = this.getGameBoard()[row][column];
+		int pieceCode = this.getGameBoard()[row][column].getPieceCode();
 		
-		if (Math.abs(pieceCode) == Constants.PAWN) {
-			Pawn pawn = new Pawn(pieceCode);
-			nextPositions = pawn.getNextPositions(position, this, false);
-		}
-		if (Math.abs(pieceCode) == Constants.ROOK) {
-			ChessPiece rook = new Rook(pieceCode);
-			nextPositions = rook.getNextPositions(position, this, false);
-		}
-		if (Math.abs(pieceCode) == Constants.KNIGHT) {
-			ChessPiece knight = new Knight(pieceCode);
-			nextPositions = knight.getNextPositions(position, this, false);
-		}
-		if (Math.abs(pieceCode) == Constants.BISHOP) {
-			ChessPiece bishop = new Bishop(pieceCode);
-			nextPositions = bishop.getNextPositions(position, this, false);
-		}
-		if (Math.abs(pieceCode) == Constants.QUEEN) {
-			ChessPiece queen = new Queen(pieceCode);
-			nextPositions = queen.getNextPositions(position, this, false);
-		}
-		if (Math.abs(pieceCode) == Constants.KING) {
-			ChessPiece king = new King(pieceCode);
-			nextPositions = king.getNextPositions(position, this, false);
-		}
+		nextPositions = this.gameBoard[row][column].getNextPositions(position, this, false);
 		
 		/* Remove positions that lead to the king being in check. */
 		nextPositions = removePositionsLeadingToOppositeCheck(position, pieceCode, nextPositions);
@@ -1100,35 +1105,13 @@ public class ChessBoard {
 		for (int i=0; i<numOfRows; i++) {
 			for (int j=0; j<NUM_OF_COLUMNS; j++) {
 
-				int pieceCode = this.gameBoard[i][j];
+				int pieceCode = this.gameBoard[i][j].getPieceCode();
 				String position = Utilities.getPositionByRowCol(i, j);
 				
 				Set<String> threatPositions = null;
 				
-				if (Math.abs(pieceCode) == Constants.PAWN) {
-					ChessPiece pawn = new Pawn(pieceCode);
-					threatPositions = pawn.getNextPositions(position, this, true);
-				}
-				else if (Math.abs(pieceCode) == Constants.ROOK) {
-					ChessPiece rook = new Rook(pieceCode);
-					threatPositions = rook.getNextPositions(position, this, true);
-				}
-				else if (Math.abs(pieceCode) == Constants.KNIGHT) {
-					ChessPiece knight = new Knight(pieceCode);
-					threatPositions = knight.getNextPositions(position, this, true);
-				}
-				else if (Math.abs(pieceCode) == Constants.BISHOP) {
-					ChessPiece bishop = new Bishop(pieceCode);
-					threatPositions = bishop.getNextPositions(position, this, true);
-				}
-				else if (Math.abs(pieceCode) == Constants.QUEEN) {
-					ChessPiece queen = new Queen(pieceCode);
-					threatPositions = queen.getNextPositions(position, this, true);
-				}
-				else if (Math.abs(pieceCode) == Constants.KING) {
-					ChessPiece king = new King(pieceCode);
-					threatPositions = king.getNextPositions(position, this, true);
-				}
+				threatPositions = this.gameBoard[i][j].getNextPositions(position, this, true);
+				
 				// System.out.println("position: " + position + ", threatPositions: " + threatPositions);
 				
 				if (threatPositions != null && threatPositions.size() != 0) {
@@ -1170,28 +1153,28 @@ public class ChessBoard {
 			// and store them in a variable called "blackKingInCheckValidPieceMoves".
 			for (int i=0; i<numOfRows; i++) {
 				for (int j=0; j<NUM_OF_COLUMNS; j++) {
-					int tempPiece = initialChessBoard.getGameBoard()[i][j];
-					if (tempPiece < 0) {
-						String tempPosition = Utilities.getPositionByRowCol(i, j);
-						Set<String> tempHintPositions = initialChessBoard.getNextPositions(tempPosition);
+					int currentPieceCode = initialChessBoard.getGameBoard()[i][j].getPieceCode();
+					if (currentPieceCode < 0) {
+						String currentPosition = Utilities.getPositionByRowCol(i, j);
+						Set<String> currentHintPositions = initialChessBoard.getNextPositions(currentPosition);
 						
 						Set<String> validBlackKingInCheckTempHintPosition = new TreeSet<String>();
-						for (String tempHintPosition: tempHintPositions) {
-							initialChessBoard.movePieceFromAPositionToAnother(tempPosition, tempHintPosition, false);
+						for (String currentHintPosition: currentHintPositions) {
+							initialChessBoard.movePieceFromAPositionToAnother(currentPosition, currentHintPosition, false);
 							
 							blackKingRow = Utilities.getRowFromPosition(initialChessBoard.getBlackKingPosition());
 							blackKingColumn = Utilities.getColumnFromPosition(initialChessBoard.getBlackKingPosition());
 	
 							if (initialChessBoard.getTilesThreatenedByWhite()[blackKingRow][blackKingColumn] == 0) {
 								blackKingThreatened = 0;
-								validBlackKingInCheckTempHintPosition.add(tempHintPosition);
+								validBlackKingInCheckTempHintPosition.add(currentHintPosition);
 							}
 							
 							initialChessBoard = new ChessBoard(this);
 							
 						}
 						if (storeKingInCheckMoves && validBlackKingInCheckTempHintPosition.size() > 0) {
-							this.blackKingInCheckValidPieceMoves.put(tempPosition, 
+							this.blackKingInCheckValidPieceMoves.put(currentPosition, 
 									validBlackKingInCheckTempHintPosition);
 						}
 					}
@@ -1236,28 +1219,28 @@ public class ChessBoard {
 			// and store them in a variable called "whiteKingInCheckValidPieceMoves".
 			for (int i=0; i<numOfRows; i++) {
 				for (int j=0; j<NUM_OF_COLUMNS; j++) {
-					int tempPiece = initialChessBoard.getGameBoard()[i][j];
-					if (tempPiece > 0) {
-						String tempPosition = Utilities.getPositionByRowCol(i, j);
-						Set<String> tempHintPositions = initialChessBoard.getNextPositions(tempPosition);
+					int currentPieceCode = initialChessBoard.getGameBoard()[i][j].getPieceCode();
+					if (currentPieceCode > 0) {
+						String currentPosition = Utilities.getPositionByRowCol(i, j);
+						Set<String> currentHintPositions = initialChessBoard.getNextPositions(currentPosition);
 						
 						Set<String> validWhiteKingInCheckTempHintPositions = new TreeSet<String>();
-						for (String tempHintPosition: tempHintPositions) {
-							initialChessBoard.movePieceFromAPositionToAnother(tempPosition, tempHintPosition, false);
+						for (String currentHintPosition: currentHintPositions) {
+							initialChessBoard.movePieceFromAPositionToAnother(currentPosition, currentHintPosition, false);
 							
 							whiteKingRow = Utilities.getRowFromPosition(initialChessBoard.getWhiteKingPosition());
 							whiteKingColumn = Utilities.getColumnFromPosition(initialChessBoard.getWhiteKingPosition());
 							
 							if (initialChessBoard.getTilesThreatenedByBlack()[whiteKingRow][whiteKingColumn] == 0) {
 								whiteKingThreatened = 0;
-								validWhiteKingInCheckTempHintPositions.add(tempHintPosition);
+								validWhiteKingInCheckTempHintPositions.add(currentHintPosition);
 							}
 							
 							initialChessBoard = new ChessBoard(this);
 							
 						}
 						if (storeKingInCheckMoves && validWhiteKingInCheckTempHintPositions.size() > 0) {
-							this.whiteKingInCheckValidPieceMoves.put(tempPosition, validWhiteKingInCheckTempHintPositions);
+							this.whiteKingInCheckValidPieceMoves.put(currentPosition, validWhiteKingInCheckTempHintPositions);
 						}
 						
 					}
@@ -1286,9 +1269,9 @@ public class ChessBoard {
 		
 		for (int i=0; i<numOfRows; i++) {
 			for (int j=0; j<NUM_OF_COLUMNS; j++) {
-				if (getGameBoard()[i][j] != Constants.EMPTY 
-						&& getGameBoard()[i][j] != Constants.WHITE_KING 
-						&& getGameBoard()[i][j] != Constants.BLACK_KING) {
+				if (getGameBoard()[i][j].getPieceCode() != Constants.EMPTY 
+						&& getGameBoard()[i][j].getPieceCode() != Constants.WHITE_KING 
+						&& getGameBoard()[i][j].getPieceCode() != Constants.BLACK_KING) {
 					// System.out.println("i: " + i + ", j: " + j + ", piece: " + this.getGameBoard()[i][j]);
 					isDraw = false;
 					i = j = 1000;
@@ -1313,14 +1296,14 @@ public class ChessBoard {
 		// System.out.println("Checking for White stalemate...");
 		for (int i=0; i<numOfRows; i++) {
 			for (int j=0; j<NUM_OF_COLUMNS; j++) {
-				int tempPiece = initialChessBoard.getGameBoard()[i][j];
+				int currentPieceCode = initialChessBoard.getGameBoard()[i][j].getPieceCode();
 				// System.out.println("i: " + i + ", j: " + j + ", tempPiece: " + tempPiece);
-				if (tempPiece > 0) {
-					String tempPosition = Utilities.getPositionByRowCol(i, j);
-					Set<String> tempHintPositions = initialChessBoard.getNextPositions(tempPosition);
+				if (currentPieceCode > 0) {
+					String currentPosition = Utilities.getPositionByRowCol(i, j);
+					Set<String> currentHintPositions = initialChessBoard.getNextPositions(currentPosition);
 					
-					for (String tempHintPosition: tempHintPositions) {
-						initialChessBoard.movePieceFromAPositionToAnother(tempPosition, tempHintPosition, false);
+					for (String currentHintPosition: currentHintPositions) {
+						initialChessBoard.movePieceFromAPositionToAnother(currentPosition, currentHintPosition, false);
 						
 						int whiteKingRow = Utilities.getRowFromPosition(initialChessBoard.getWhiteKingPosition());
 						int whiteKingColumn = Utilities.getColumnFromPosition(initialChessBoard.getWhiteKingPosition());
@@ -1359,14 +1342,14 @@ public class ChessBoard {
 		// System.out.println("Checking for Black stalemate...");
 		for (int i=0; i<numOfRows; i++) {
 			for (int j=0; j<NUM_OF_COLUMNS; j++) {
-				int tempPiece = initialChessBoard.getGameBoard()[i][j];
+				int currentPieceCode = initialChessBoard.getGameBoard()[i][j].getPieceCode();
 				// System.out.println("i: " + i + ", j: " + j + ", tempPiece: " + tempPiece);
-				if (tempPiece < 0) {
-					String tempPosition = Utilities.getPositionByRowCol(i, j);
-					Set<String> tempHintPositions = initialChessBoard.getNextPositions(tempPosition);
+				if (currentPieceCode < 0) {
+					String currentPosition = Utilities.getPositionByRowCol(i, j);
+					Set<String> currentHintPositions = initialChessBoard.getNextPositions(currentPosition);
 					
-					for (String tempHintPosition: tempHintPositions) {
-						initialChessBoard.movePieceFromAPositionToAnother(tempPosition, tempHintPosition, false);
+					for (String currentHintPosition: currentHintPositions) {
+						initialChessBoard.movePieceFromAPositionToAnother(currentPosition, currentHintPosition, false);
 						
 						int blackKingRow = Utilities.getRowFromPosition(initialChessBoard.getBlackKingPosition());
 						int blackKingColumn = Utilities.getColumnFromPosition(initialChessBoard.getBlackKingPosition());
@@ -1402,16 +1385,16 @@ public class ChessBoard {
 		this.lastMove.setValue(lastMove.getValue());
 	}
 
-	public int[][] getGameBoard() {
+	public ChessPiece[][] getGameBoard() {
 		return gameBoard;
 	}
 
-	public void setGameBoard(int[][] gameBoard) {
-		int N1 = gameBoard.length;
-		int N2 = gameBoard[0].length;
-		this.gameBoard = new int[N1][N2];
-		for (int i=0; i<N1; i++) {
-			for (int j=0; j<N2; j++) {
+	public void setGameBoard(ChessPiece[][] gameBoard) {
+		int n1 = gameBoard.length;
+		int n2 = gameBoard[0].length;
+		this.gameBoard = new ChessPiece[n1][n2];
+		for (int i=0; i<n1; i++) {
+			for (int j=0; j<n2; j++) {
 				this.gameBoard[i][j] = gameBoard[i][j];
 			}
 		}
@@ -1422,11 +1405,11 @@ public class ChessBoard {
 	}
 
 	public void setTilesThreatenedByWhite(int[][] tilesThreatenedByWhite) {
-		int N1 = tilesThreatenedByWhite.length;
-		int N2 = tilesThreatenedByWhite[0].length;
-		this.tilesThreatenedByWhite = new int[N1][N2];
-		for (int i=0; i<N1; i++) {
-			for (int j=0; j<N2; j++) {
+		int n1 = tilesThreatenedByWhite.length;
+		int n2 = tilesThreatenedByWhite[0].length;
+		this.tilesThreatenedByWhite = new int[n1][n2];
+		for (int i=0; i<n1; i++) {
+			for (int j=0; j<n2; j++) {
 				this.tilesThreatenedByWhite[i][j] = tilesThreatenedByWhite[i][j];
 			}
 		}
@@ -1437,11 +1420,11 @@ public class ChessBoard {
 	}
 
 	public void setTilesThreatenedByBlack(int[][] tilesThreatenedByBlack) {
-		int N1 = tilesThreatenedByBlack.length;
-		int N2 = tilesThreatenedByBlack[0].length;
-		this.tilesThreatenedByBlack = new int[N1][N2];
-		for (int i=0; i<N1; i++) {
-			for (int j=0; j<N2; j++) {
+		int n1 = tilesThreatenedByBlack.length;
+		int n2 = tilesThreatenedByBlack[0].length;
+		this.tilesThreatenedByBlack = new int[n1][n2];
+		for (int i=0; i<n1; i++) {
+			for (int j=0; j<n2; j++) {
 				this.tilesThreatenedByBlack[i][j] = tilesThreatenedByBlack[i][j];
 			}
 		}
@@ -1455,17 +1438,17 @@ public class ChessBoard {
 		this.enPassantPosition = enPassantPosition;
 	}
 
-	public int[][] getPreviousGameBoard() {
+	public ChessPiece[][] getPreviousGameBoard() {
 		return previousGameBoard;
 	}
 
-	public void setPreviousGameBoard(int[][] previousGameBoard) {
+	public void setPreviousGameBoard(ChessPiece[][] previousGameBoard) {
 		if (previousGameBoard != null) {
-			int N1 = previousGameBoard.length;
-			int N2 = previousGameBoard[0].length;
-			this.previousGameBoard = new int[N1][N2];
-			for (int i=0; i<N1; i++) {
-				for (int j=0; j<N2; j++) {
+			int n1 = previousGameBoard.length;
+			int n2 = previousGameBoard[0].length;
+			this.previousGameBoard = new ChessPiece[n1][n2];
+			for (int i=0; i<n1; i++) {
+				for (int j=0; j<n2; j++) {
 					this.previousGameBoard[i][j] = previousGameBoard[i][j];
 				}
 			}
@@ -1689,25 +1672,25 @@ public class ChessBoard {
 	}
 
 	// It prints the chess board on the console.
-   	public static void printChessBoard(int[][] chessBoard) {
+   	public static void printChessBoard(ChessPiece[][] chessBoard) {
 		System.out.println(getChessBoardString(chessBoard));
 	}
    	
-   	public static String getChessBoardString(int[][] chessBoard) {
+   	public static String getChessBoardString(ChessPiece[][] chessBoard) {
    		String output = "";
    		output += "    A  B  C  D  E  F  G  H\n";
    		output += "  -------------------------\n";
-   		int N1 = chessBoard.length;
-   		int N2 = chessBoard[0].length;
-		for (int i=0; i<N1; i++) {
-			output += (N1-i) + " |";
-			for (int j=0; j<N2; j++) {
-				if (chessBoard[N1-1-i][j] < 0)  // if the piece is black
-					output += chessBoard[N1-1-i][j] + "|";
+   		int n1 = chessBoard.length;
+   		int n2 = chessBoard[0].length;
+		for (int i=0; i<n1; i++) {
+			output += (n1-i) + " |";
+			for (int j=0; j<n2; j++) {
+				if (chessBoard[n1-1-i][j].getPieceCode() < 0)  // if the piece is black
+					output += chessBoard[n1-1-i][j] + "|";
 				else
-					output += " " + chessBoard[N1-1-i][j] + "|";
+					output += " " + chessBoard[n1-1-i][j] + "|";
 			}
-			output += " " + (N1-i) + "\n";
+			output += " " + (n1-i) + "\n";
 		}
 		output += "  -------------------------\n";
 		output += "    A  B  C  D  E  F  G  H\n";
