@@ -26,6 +26,7 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import javax.imageio.ImageIO;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -71,20 +72,28 @@ public class ChessGUI {
 	
 	private final static Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
 	
-	private final static int WIDTH = (int) SCREEN_SIZE.getHeight() - 80;
-	private final static int HEIGHT = (int) SCREEN_SIZE.getHeight() - 80;
+	private final static int CHESS_SQUARE_PIXEL_SIZE = 48;
+
+	private final static int HEIGHT = (int) SCREEN_SIZE.getHeight() - 60;
+	private final static int WIDTH = HEIGHT + 40;
 	
 	public static JFrame frame = new JFrame(TITLE);
-	public static JPanel gui = new JPanel(new BorderLayout(3, 3));
+	public static JPanel gui = new JPanel();
 	
 	public static JPanel chessBoardPanel;
+	public static JPanel capturedPiecesPanel;
 	
 	public static String firstTurnMessage = "Move number: 1. White plays first.";
 	public static JLabel labelMessage = new JLabel(firstTurnMessage);
 	
-	// The position (0, 0) is the upper left tile of the chessBoardSquares.
+	// The position (0, 0) of the chessBoardSquares,
+	// corresponds to the position (7, 0) of the ChessBoard's gameBoard. 
 	public static JButton[][] chessBoardSquares;
 	
+	// 30 captured pieces at maximum, 
+	// plus 1 label for displaying the score = 31 labels size.
+	public static JLabel[] capturedPiecesImages;
+		
 	private static JMenuBar menuBar;
 	private static JMenu fileMenu;
 	private static JMenuItem newGameItem;
@@ -154,8 +163,7 @@ public class ChessGUI {
 		// ensures the minimum size is enforced.
 		frame.setMinimumSize(frame.getSize());
 		
-		frame.setLocation((int) (SCREEN_SIZE.getWidth() - frame.getWidth()) / 2, 
-						  (int) (SCREEN_SIZE.getHeight() - frame.getHeight()) / 2);
+		frame.setLocation((int) (SCREEN_SIZE.getWidth() - frame.getWidth()) / 2, 5);
 		
 		frame.setResizable(false);
 		// frame.setFocusable(true);
@@ -457,31 +465,44 @@ public class ChessGUI {
 		
 		// Set up the main GUI.
 		gui.setBorder(new EmptyBorder(5, 5, 5, 5));
+		gui.setLayout(new BoxLayout(gui, BoxLayout.Y_AXIS));
 		
 		JToolBar tools = new JToolBar();
 		tools.setFloatable(false);
-		gui.add(tools, BorderLayout.PAGE_START);
+		gui.add(tools, BorderLayout.NORTH);
 		tools.add(labelMessage);
 		
 		initializeChessBoardPanel();
-		initializeChessBoardSquares();
-		
+		initializeChessBoardSquareButtons();
+				
+		initializeCapturedPiecesPanel();
+		initializeCapturedPiecesImages();
 	}
 	
 	
-	public static void initializeChessBoardPanel() {		
+	public static void initializeChessBoardPanel() {
 		if (chessBoardPanel != null)
 			gui.remove(chessBoardPanel);
 		chessBoardPanel = new JPanel(new GridLayout(GameParameters.numOfRows+2, NUM_OF_COLUMNS+2));
 		chessBoardPanel.setBorder(new LineBorder(Color.BLACK));
-		gui.add(chessBoardPanel);
+		chessBoardPanel.setPreferredSize(new Dimension(WIDTH, HEIGHT - 100));
+		gui.add(chessBoardPanel, BorderLayout.CENTER);
 	}
-
-	public static void initializeChessBoardSquares() {
+	
+	
+	public static void initializeCapturedPiecesPanel() {		
+		if (capturedPiecesPanel != null)
+			gui.remove(capturedPiecesPanel);
+		capturedPiecesPanel = new JPanel();
+		gui.add(capturedPiecesPanel, BorderLayout.SOUTH);
+	}
+	
+	
+	public static void initializeChessBoardSquareButtons() {
 
 		chessBoardSquares = new JButton[GameParameters.numOfRows][NUM_OF_COLUMNS];
 		
-		// create the chess board squares
+		// Create the chess board square buttons.
 		Insets buttonMargin = new Insets(0, 0, 0, 0);
 		for (int i=0; i<GameParameters.numOfRows; i++) {
 			for (int j=0; j<NUM_OF_COLUMNS; j++) {
@@ -489,8 +510,8 @@ public class ChessGUI {
 				button.setMargin(buttonMargin);
 				
 				// Our chess pieces are 64x64 px in size, so we'll
-				// 'fill this in' using a transparent icon..
-				ImageIcon icon = new ImageIcon(new BufferedImage(64, 64, BufferedImage.TYPE_INT_ARGB));
+				// "fill this in" using a transparent icon...
+				ImageIcon icon = new ImageIcon(new BufferedImage(CHESS_SQUARE_PIXEL_SIZE, CHESS_SQUARE_PIXEL_SIZE, BufferedImage.TYPE_INT_ARGB));
 				button.setIcon(icon);
 				
 				Color color = getColorByRowCol(i, j);
@@ -544,7 +565,31 @@ public class ChessGUI {
 		}
 	}
 
+	public static void initializeCapturedPiecesImages() {
 
+		capturedPiecesImages = new JLabel[31];
+		
+		// Create the captured chess pieces icons.
+		for (int i=0; i<31; i++) {
+			capturedPiecesImages[i] = new JLabel();
+			
+			if (i == 15) {
+				ChessGUI.capturedPiecesImages[i].setText("Score: 0");
+			} else {
+				// We'll "fill this in" using a transparent icon...
+				ImageIcon icon = new ImageIcon(new BufferedImage(Constants.CAPTURED_PIECE_PIXEL_SIZE, Constants.CAPTURED_PIECE_PIXEL_SIZE, BufferedImage.TYPE_INT_ARGB));
+				capturedPiecesImages[i].setIcon(icon);
+				
+				// This is for TESTING.
+//				ImageIcon pieceImage = ChessGUI.preparePieceIcon(Constants.WHITE_PAWN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+//				ChessGUI.capturedPiecesImages[i].setIcon(pieceImage);
+			}
+
+		    capturedPiecesPanel.add(capturedPiecesImages[i]);
+		}
+		
+	}
+	
 	public static void startNewGame() {
 		System.out.println("Starting new game!");
 		
@@ -553,9 +598,13 @@ public class ChessGUI {
 
 		/* If running "ChessGUI.java", use this! */
 		chessBoardPanel.removeAll();
-		if (!isChessGui2)
+		if (!isChessGui2) {
 			initializeChessBoardPanel();
-		initializeChessBoardSquares();
+			initializeCapturedPiecesPanel();
+		}
+
+		initializeChessBoardSquareButtons();
+		initializeCapturedPiecesImages();
 		chessBoardPanel.revalidate();
 		chessBoardPanel.repaint();
 		
@@ -687,7 +736,7 @@ public class ChessGUI {
 						int hintPositionPieceCode = chessBoard.getGameBoard()[hintPositionRow][hintPositionColumn].getPieceCode();
 						
 						if (pieceCode * hintPositionPieceCode < 0
-							|| chessBoard.getEnPassantPosition().equals(hintPosition))
+							|| chessBoard.getEnPassantPosition().equals(hintPosition) && Math.abs(pieceCode) == Constants.PAWN)
 							changeTileColor(hintPositionButton, Color.RED);
 						else if (pieceCode == Constants.WHITE_PAWN && hintPositionRow == chessBoard.getNumOfRows() - 1
 								|| pieceCode == Constants.BLACK_PAWN && hintPositionRow == 0)
@@ -804,7 +853,7 @@ public class ChessGUI {
 	}
 	
 	
-	private static boolean checkForGameOver() {
+	static boolean checkForGameOver() {
 		
 		/* Check for White checkmate. */
 		if (chessBoard.whitePlays()) {
@@ -1230,11 +1279,11 @@ public class ChessGUI {
 	}
 	
 	
-	private static ImageIcon preparePieceIcon(String imagepath) {
+	public static ImageIcon preparePieceIcon(String imagepath, int size) {
 		ImageIcon pieceIcon = new ImageIcon(ResourceLoader.load(imagepath));
 		Image image = pieceIcon.getImage(); // transform it 
 		 // scale it the smooth way
-		Image newimg = image.getScaledInstance(64, 64, java.awt.Image.SCALE_SMOOTH);  
+		Image newimg = image.getScaledInstance(size, size, java.awt.Image.SCALE_SMOOTH);  
 		pieceIcon = new ImageIcon(newimg);  // transform it back
 		return pieceIcon; 
 	}
@@ -1285,7 +1334,7 @@ public class ChessGUI {
 				break;
 		}
 		
-		ImageIcon pieceImage = ChessGUI.preparePieceIcon(imagePath);
+		ImageIcon pieceImage = ChessGUI.preparePieceIcon(imagePath, CHESS_SQUARE_PIXEL_SIZE);
 		
 		// int column = (int) Character.toUpperCase(position.charAt(0)) - 65;
 		// int row = N - Character.getNumericValue(position.charAt(1));
@@ -1297,7 +1346,6 @@ public class ChessGUI {
 		// System.out.println("chessBoardSquares[0].length: " + chessBoardSquares[0].length);
 		chessBoardSquares[chessBoard.getNumOfRows() - 1 - row][column].setIcon(pieceImage);
 		
-		// TODO Add pieces
 		chessBoard.getGameBoard()[row][column] = piece;
 	}
 	
@@ -1313,7 +1361,7 @@ public class ChessGUI {
 		
 		// Our chess pieces are 64x64 px in size, so we'll
 		// 'fill this in' using a transparent icon..
-		ImageIcon icon = new ImageIcon(new BufferedImage(64, 64, BufferedImage.TYPE_INT_ARGB));
+		ImageIcon icon = new ImageIcon(new BufferedImage(CHESS_SQUARE_PIXEL_SIZE, CHESS_SQUARE_PIXEL_SIZE, BufferedImage.TYPE_INT_ARGB));
 		chessBoardSquares[chessBoard.getNumOfRows() - 1 - row][column].setIcon(icon);
 		
 		chessBoard.getGameBoard()[row][column] = new EmptyTile();
@@ -1416,7 +1464,7 @@ public class ChessGUI {
 				
 				// Our chess pieces are 64x64 px in size, so we'll
 				// 'fill this in' using a transparent icon..
-				ImageIcon icon = new ImageIcon(new BufferedImage(64, 64, BufferedImage.TYPE_INT_ARGB));
+				ImageIcon icon = new ImageIcon(new BufferedImage(CHESS_SQUARE_PIXEL_SIZE, CHESS_SQUARE_PIXEL_SIZE, BufferedImage.TYPE_INT_ARGB));
 				chessBoardSquares[i][j].setIcon(icon);
 				
 				Color color = getColorByRowCol(i, j);

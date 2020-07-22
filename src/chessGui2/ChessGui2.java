@@ -56,7 +56,10 @@ public class ChessGui2 extends JPanel {
 		ChessGUI.isChessGui2 = true;
 		ChessGUI.chessBoardPanel = this;
 		ChessGUI.gui.add(ChessGUI.chessBoardPanel);
-		ChessGUI.initializeChessBoardSquares();
+		ChessGUI.initializeChessBoardSquareButtons();
+		
+		ChessGUI.initializeCapturedPiecesPanel();
+		ChessGUI.initializeCapturedPiecesImages();
 	}
 	
 	

@@ -40,7 +40,7 @@ public class SettingsWindow extends JFrame {
 	private JComboBox<Integer> max_depth1_drop_down;
 	private JComboBox<Integer> max_depth2_drop_down;
 	private JComboBox<String> black_tile_color_drop_down;
-	SpinnerModel spinnerModel = new SpinnerNumberModel(8, 8, 12, 1);     
+	SpinnerModel spinnerModel = new SpinnerNumberModel(8, 4, 8, 1);     
 	private JSpinner number_of_rows_spinner = new JSpinner(spinnerModel);
 
 	private JButton apply;
@@ -201,7 +201,7 @@ public class SettingsWindow extends JFrame {
 					int maxDepth1 = (int) max_depth1_drop_down.getSelectedItem();
 					int maxDepth2 = (int) max_depth2_drop_down.getSelectedItem();
 					int numberOfRows = (int) number_of_rows_spinner.getValue();
-					numberOfRows = (numberOfRows >= 8) ? numberOfRows : 8;
+//					numberOfRows = (numberOfRows >= 8) ? numberOfRows : 8;
 					
 					// Change game parameters based on settings.
 					GameParameters.guiStyle = guiStyle;
