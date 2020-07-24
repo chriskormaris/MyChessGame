@@ -2,8 +2,8 @@ package pieces;
 
 import java.util.Set;
 
-import chess.Allegiance;
 import chess.ChessBoard;
+import enums.Allegiance;
 import utilities.Constants;
 
 public abstract class ChessPiece {
@@ -70,7 +70,29 @@ public abstract class ChessPiece {
 	
 	@Override
 	public String toString() {
-		return String.valueOf(this.pieceCode);
+		if (this instanceof EmptyTile) {
+			return "Empty Tile";
+		} else {
+			String returnString = "";
+			if (this.allegiance == Allegiance.WHITE) {
+				returnString += "White ";
+			} else if (this.allegiance == Allegiance.BLACK) {
+				returnString += "Black ";
+			}
+			
+			if (this instanceof Pawn) {
+				returnString += "Pawn";
+			} else if (this instanceof Rook) {
+				returnString += "Rook";
+			} else if (this instanceof Knight) {
+				returnString += "Knight";
+			} else if (this instanceof Bishop) {
+				returnString += "Bishop";
+			}
+			
+			return returnString;
+		}
+		
 	}
 	
 }

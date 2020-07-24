@@ -15,9 +15,9 @@ public class GameParameters {
 	// public static int gameMode = Constants.HUMAN_VS_HUMAN;
 	// public static int gameMode = Constants.MINIMAX_AI_VS_MINIMAX_AI;
 	
-	// public static Color blackTileColor = Color.GRAY;
 	public static Color blackTileColor = Color.BLACK;
-	
+	// public static Color blackTileColor = Color.GRAY;
+
 	public static boolean enableSounds = true;
 	
 	public static int maxDepth1 = 1;

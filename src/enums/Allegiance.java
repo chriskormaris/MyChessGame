@@ -1,4 +1,4 @@
-package chess;
+package enums;
 
 public enum Allegiance {
 	WHITE,

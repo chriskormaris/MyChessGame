@@ -44,9 +44,9 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
-import chess.Allegiance;
 import chess.ChessBoard;
 import chess.Move;
+import enums.Allegiance;
 import minimaxAi.MiniMaxAi;
 import pieces.Bishop;
 import pieces.ChessPiece;
@@ -93,7 +93,7 @@ public class ChessGUI {
 	// 30 captured pieces at maximum, 
 	// plus 1 label for displaying the score = 31 labels size.
 	public static JLabel[] capturedPiecesImages;
-		
+	
 	private static JMenuBar menuBar;
 	private static JMenu fileMenu;
 	private static JMenuItem newGameItem;
@@ -120,12 +120,16 @@ public class ChessGUI {
 	// These stacks of "ChessBoard" objects are used to handle the "undo" and "redo" functionality.
 	public static Stack<ChessBoard> previousChessBoards = new Stack<ChessBoard>();
 	public static Stack<ChessBoard> redoChessBoards = new Stack<ChessBoard>();
-
+	
+	// These stacks of "ChessBoard" objects are used to handle the "undo" and "redo" functionality.
+	public static Stack<JLabel[]> previousCapturedPiecesImages = new Stack<JLabel[]>();
+	public static Stack<JLabel[]> redoCapturedPiecesImages = new Stack<JLabel[]>();
+		
 	public static boolean startingButtonIsClicked = false;
 	public static Set<String> hintPositions = new TreeSet<String>();
 	
 	public static boolean buttonsEnabled = true;
-		
+	
 	// This variable is used for the implementation of Human Vs MiniMax AI.
 	public static MiniMaxAi ai;
 	
@@ -203,7 +207,7 @@ public class ChessGUI {
 		
 		redoItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				redoLastMove();
+				redoNextMove();
 			}
 		});
 		
@@ -356,6 +360,17 @@ public class ChessGUI {
 			turnMessage += " Black king is in check!";
 		labelMessage.setText(turnMessage);
 	}
+	
+	
+	public static void setScoreMessage() {
+		if (chessBoard.getScore() == 0) {
+			ChessGUI.capturedPiecesImages[15].setText("Score: 0");
+		} else if (chessBoard.getScore() > 0) {
+			ChessGUI.capturedPiecesImages[15].setText("White: +" + chessBoard.getScore());
+		} else if (chessBoard.getScore() < 0) {
+			ChessGUI.capturedPiecesImages[15].setText("Black: +" + (-chessBoard.getScore()));
+		}
+	}
 
 
 	private static void undoLastMove() {
@@ -372,15 +387,29 @@ public class ChessGUI {
 			changeTileColor(startingButton, startingButtonColor);
 			
 			redoChessBoards.push(new ChessBoard(chessBoard));
-						
+			
+			// Push to the redoCapturedPiecesImages Stack.
+			JLabel[] newCapturedPiecesImages = new JLabel[31];
+			for (int i=0; i<=30; i++) {
+				newCapturedPiecesImages[i] = new JLabel(capturedPiecesImages[i].getIcon());
+			}
+			redoCapturedPiecesImages.push(newCapturedPiecesImages);
+			
 			if (previousChessBoards.isEmpty()) {
 				undoItem.setEnabled(false);
 			}
 			
 			chessBoard = previousChessBoards.pop();
 			
+			// Display the previous captured chess pieces icons.
+			initializeCapturedPiecesPanel();
+			capturedPiecesImages = previousCapturedPiecesImages.pop();
+			for (int i=0; i<31; i++) {
+			    capturedPiecesPanel.add(capturedPiecesImages[i]);
+			}
+			
 			// This is true if any terminal state has occured.
-			// Terminal states are "draw", "stalemate draw" and "checkmate".
+			// The terminal states are: "draw", "stalemate draw" & "checkmate"
 			if (!buttonsEnabled) {
 				enableChessBoardButtons();
 			}
@@ -395,6 +424,7 @@ public class ChessGUI {
 			System.out.println(chessBoard);
 			
 			setTurnMessage();
+			setScoreMessage();
 			
 			if (redoItem != null)
 				redoItem.setEnabled(true);
@@ -402,13 +432,15 @@ public class ChessGUI {
 	}
 	
 	
-	private void redoLastMove() {
+	// NOTE: We are not able to perform a redo,
+	// if we are in a terminal state, because the game has ended.
+	private static void redoNextMove() {
 		if (!redoChessBoards.isEmpty()) {
 			System.out.println("Redo is pressed!");
 			
 			startingButtonIsClicked = false;
 			hideHintPositions(hintPositions);
-			
+						
 			int startingPositionRow = Utilities.getRowFromPosition(startingPosition);
 			int startingPositionColumn = Utilities.getColumnFromPosition(startingPosition);
 			JButton startingButton = chessBoardSquares[chessBoard.getNumOfRows() - 1 - startingPositionRow][startingPositionColumn];
@@ -417,14 +449,25 @@ public class ChessGUI {
 			
 			previousChessBoards.push(new ChessBoard(chessBoard));
 			
+			// Push to the previousCapturedPiecesImages Stack.
+			JLabel[] newCapturedPiecesImages = new JLabel[31];
+			for (int i=0; i<=30; i++) {
+				newCapturedPiecesImages[i] = new JLabel(capturedPiecesImages[i].getIcon());
+			}
+			previousCapturedPiecesImages.push(newCapturedPiecesImages);
+			
 			chessBoard = redoChessBoards.pop();
 
+			// Display the redo captured chess pieces icons.
+			initializeCapturedPiecesPanel();
+			capturedPiecesImages = redoCapturedPiecesImages.pop();
+			for (int i=0; i<31; i++) {
+			    capturedPiecesPanel.add(capturedPiecesImages[i]);
+			}
+			
 			if (redoChessBoards.isEmpty()) {
 				redoItem.setEnabled(false);
 			}
-			
-			// NOTE: We are not able to perform a redo,
-			// if we are in a terminal state, because the game has ended.
 			
 			for (int i=0; i<chessBoard.getNumOfRows(); i++) {
 				for (int j=0; j<NUM_OF_COLUMNS; j++) {
@@ -436,6 +479,7 @@ public class ChessGUI {
 			System.out.println(chessBoard);
 			
 			setTurnMessage();
+			setScoreMessage();
 			
 			if (undoItem != null)
 				undoItem.setEnabled(true);
@@ -443,8 +487,8 @@ public class ChessGUI {
 			checkForGameOver();
 		}
 	}
-
-
+	
+	
 	public static void exportToGif() {
 		String gifName = JOptionPane.showInputDialog("Please type the exported \".gif\" file name:", "chess_board.gif");
 		
@@ -605,10 +649,11 @@ public class ChessGUI {
 
 		initializeChessBoardSquareButtons();
 		initializeCapturedPiecesImages();
+		
+		//* If running "ChessGui2.java", you must use this! */
 		chessBoardPanel.revalidate();
 		chessBoardPanel.repaint();
 		
-		/* If running "ChessGui2.java", use this! */
 		// if (!buttonsEnabled)
 		//	enableChessBoardButtons();
 		
@@ -638,7 +683,9 @@ public class ChessGUI {
 		endingPosition = "";
 
 		previousChessBoards.clear();
+		previousCapturedPiecesImages.clear();
 		redoChessBoards.clear();
+		redoCapturedPiecesImages.clear();
 		
 		startingButtonIsClicked = false;
 		
@@ -777,7 +824,16 @@ public class ChessGUI {
 				if (hintPositions.contains(endingPosition)) {
 					
 					previousChessBoards.push(new ChessBoard(chessBoard));
+					
+					// Push to the previousCapturedPiecesImages Stack.
+					JLabel[] newCapturedPiecesImages = new JLabel[31];
+					for (int i=0; i<=30; i++) {
+						newCapturedPiecesImages[i] = new JLabel(capturedPiecesImages[i].getIcon());
+					}
+					previousCapturedPiecesImages.push(newCapturedPiecesImages);
+					
 					redoChessBoards.clear();
+					redoCapturedPiecesImages.clear();
 										
 					// System.out.println("startingPositionGameBoard: ");
 					// ChessBoard.printChessBoard(startingPositionChessBoard.getGameBoard());
@@ -1217,6 +1273,14 @@ public class ChessGUI {
 		
 		while (!isGameOver) {
 			previousChessBoards.push(new ChessBoard(chessBoard));
+			
+			// Push to the previousCapturedPiecesImages Stack.
+			JLabel[] newCapturedPiecesImages = new JLabel[31];
+			for (int i=0; i<=30; i++) {
+				newCapturedPiecesImages[i] = new JLabel(capturedPiecesImages[i].getIcon());
+			}
+			previousCapturedPiecesImages.push(newCapturedPiecesImages);
+			
 			minimaxAiMove(ai1);
 			
 			try {
@@ -1232,6 +1296,14 @@ public class ChessGUI {
 			if (isGameOver) return;
 			
 			previousChessBoards.push(new ChessBoard(chessBoard));
+			
+			// Push to the previousCapturedPiecesImages Stack.
+			newCapturedPiecesImages = new JLabel[31];
+			for (int i=0; i<=30; i++) {
+				newCapturedPiecesImages[i] = new JLabel(capturedPiecesImages[i].getIcon());
+			}
+			previousCapturedPiecesImages.push(newCapturedPiecesImages);
+			
 			minimaxAiMove(ai2);
 			
 			try {

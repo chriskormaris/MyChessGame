@@ -1,6 +1,7 @@
 package chess;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -11,6 +12,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 import chessGUI.ChessGUI;
+import enums.Allegiance;
 import pieces.Bishop;
 import pieces.ChessPiece;
 import pieces.EmptyTile;
@@ -119,6 +121,7 @@ public class ChessBoard {
 	private int blackCapturedPiecesCounter;
 	
 	private int score;
+	private Set<ChessPiece> promotedPieces;
 	
 	
     public ChessBoard() {
@@ -156,7 +159,10 @@ public class ChessBoard {
 		
 		this.whiteCapturedPiecesCounter = 0;
 		this.blackCapturedPiecesCounter = 0;
-				
+		
+		this.score = 0;
+		this.promotedPieces = new HashSet<ChessPiece>();
+		
 		this.whiteKingInCheckValidPieceMoves = new TreeMap<String, Set<String>>();
 		this.blackKingInCheckValidPieceMoves = new TreeMap<String, Set<String>>();
 		
@@ -242,6 +248,9 @@ public class ChessBoard {
 		
 		this.whiteCapturedPiecesCounter = otherBoard.getWhiteCapturedPiecesCounter();
 		this.blackCapturedPiecesCounter = otherBoard.getBlackCapturedPiecesCounter();
+		
+		this.score = otherBoard.getScore();
+		this.promotedPieces = new HashSet<>(otherBoard.getPromotedPieces());
 	}
     
 
@@ -415,9 +424,13 @@ public class ChessBoard {
  					// White pawn captures black pawn.
  					if (rowEnd-1 >= 0 && this.gameBoard[rowEnd-1][columnEnd].getPieceCode() == Constants.BLACK_PAWN
  						&& this.enPassantPosition.equals(Utilities.getPositionByRowCol(rowEnd, columnEnd))) {
- 							
+ 						
  						if (displayMove) {
  							ChessGUI.removePieceFromPosition(twoStepsForwardBlackPawnPosition);
+
+ 	 						// Add piece to capturedPiecesPanel.
+ 			 				ImageIcon pieceImage = ChessGUI.preparePieceIcon(Constants.BLACK_PAWN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+ 		 					ChessGUI.capturedPiecesImages[31 - blackCapturedPiecesCounter - 1].setIcon(pieceImage);
  						} else {
  							this.gameBoard[twoStepsForwardBlackPawnPositionRow][twoStepsForwardBlackPawnPositionColumn] = new EmptyTile();
  						}
@@ -435,11 +448,11 @@ public class ChessBoard {
  						&& this.enPassantPosition.equals(Utilities.getPositionByRowCol(rowEnd, columnEnd))) {
  						
  						if (displayMove) {
- 							if (GameParameters.gameMode == Constants.HUMAN_VS_HUMAN) {
- 							} else if (GameParameters.gameMode == Constants.HUMAN_VS_RANDOM_AI
- 									 || GameParameters.gameMode == Constants.HUMAN_VS_MINIMAX_AI) {
- 							}
  							ChessGUI.removePieceFromPosition(twoStepsForwardWhitePawnPosition);
+ 							
+ 							// Add piece to capturedPiecesPanel.
+ 			 				ImageIcon pieceImage = ChessGUI.preparePieceIcon(Constants.WHITE_PAWN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+ 		 					ChessGUI.capturedPiecesImages[whiteCapturedPiecesCounter].setIcon(pieceImage);
  						} else {
  							this.gameBoard[twoStepsForwardWhitePawnPositionRow][twoStepsForwardWhitePawnPositionColumn] = new EmptyTile();
  						}
@@ -474,12 +487,14 @@ public class ChessBoard {
  						&& ((!this.player && GameParameters.gameMode != Constants.HUMAN_VS_HUMAN)
  						|| (GameParameters.gameMode == Constants.MINIMAX_AI_VS_MINIMAX_AI))) {
  					if (pieceCode == Constants.WHITE_PAWN && rowEnd == numOfRows - 1) {
- 						ChessGUI.removePieceFromPosition(positionEnd);
- 						ChessGUI.placePieceToPosition(positionEnd, new Queen(Allegiance.WHITE));
+ 						ChessPiece whiteQueen = new Queen(Allegiance.WHITE);
+ 						ChessGUI.placePieceToPosition(positionEnd, whiteQueen);
+ 						promotedPieces.add(whiteQueen);
  					}
  					else if (pieceCode == Constants.BLACK_PAWN && rowEnd == 0) {
- 						ChessGUI.removePieceFromPosition(positionEnd);
- 						ChessGUI.placePieceToPosition(positionEnd, new Queen(Allegiance.BLACK));
+ 						ChessPiece blackQueen = new Queen(Allegiance.BLACK);
+ 						ChessGUI.placePieceToPosition(positionEnd, blackQueen);
+ 						promotedPieces.add(blackQueen);
  					}
  				}
  				
@@ -492,30 +507,45 @@ public class ChessBoard {
  						        "White pawn promotion", JOptionPane.QUESTION_MESSAGE, null, selectionValues, initialSelection);
  						// System.out.println("value:" + value);
  						
- 						ChessGUI.removePieceFromPosition(positionEnd);
- 						
- 						if (value == null || value.equals("Queen"))
- 							ChessGUI.placePieceToPosition(positionEnd, new Queen(Allegiance.WHITE));
- 						else if (value.equals("Rook"))
- 							ChessGUI.placePieceToPosition(positionEnd, new Rook(Allegiance.WHITE));
- 						else if (value.equals("Bishop"))
- 							ChessGUI.placePieceToPosition(positionEnd, new Bishop(Allegiance.WHITE));
- 						else if (value.equals("Knight"))
- 							ChessGUI.placePieceToPosition(positionEnd, new Knight(Allegiance.WHITE));
+ 						if (value == null || value.equals("Queen")) {
+ 	 						ChessPiece whiteQueen = new Queen(Allegiance.WHITE);
+ 							ChessGUI.placePieceToPosition(positionEnd, whiteQueen);
+ 							promotedPieces.add(whiteQueen);
+ 						} else if (value.equals("Rook")) {
+ 							ChessPiece whiteRook = new Rook(Allegiance.WHITE);
+ 							ChessGUI.placePieceToPosition(positionEnd, whiteRook);
+ 							promotedPieces.add(whiteRook);
+ 						} else if (value.equals("Bishop")) {
+ 							ChessPiece whiteBishop = new Bishop(Allegiance.WHITE);
+ 							ChessGUI.placePieceToPosition(positionEnd, whiteBishop);
+ 							promotedPieces.add(whiteBishop);
+ 						} else if (value.equals("Knight")) {
+ 							ChessPiece whiteKnight = new Knight(Allegiance.WHITE);
+ 							ChessGUI.placePieceToPosition(positionEnd, whiteKnight);
+ 							promotedPieces.add(whiteKnight);
+ 						}
  					} else if (pieceCode == Constants.BLACK_PAWN && rowEnd == 0) {
  						String value = (String) JOptionPane.showInputDialog(ChessGUI.gui, "Promote black pawn to:",
  						        "Black pawn promotion", JOptionPane.QUESTION_MESSAGE, null, selectionValues, initialSelection);
  						// System.out.println("value:" + value);
  						
- 						ChessGUI.removePieceFromPosition(positionEnd);
- 						if (value == null || value.equals("Queen"))
- 							ChessGUI.placePieceToPosition(positionEnd, new Queen(Allegiance.BLACK));
- 						else if (value.equals("Rook"))
- 							ChessGUI.placePieceToPosition(positionEnd, new Rook(Allegiance.BLACK));
- 						else if (value.equals("Bishop"))
- 							ChessGUI.placePieceToPosition(positionEnd, new Bishop(Allegiance.BLACK));
- 						else if (value.equals("Knight"))
- 							ChessGUI.placePieceToPosition(positionEnd, new Knight(Allegiance.BLACK));
+ 						if (value == null || value.equals("Queen")) {
+ 							ChessPiece blackQueen = new Queen(Allegiance.BLACK);
+ 							ChessGUI.placePieceToPosition(positionEnd, blackQueen);
+ 							promotedPieces.add(blackQueen);
+ 						} else if (value.equals("Rook")) {
+ 							ChessPiece blackRook = new Queen(Allegiance.BLACK);
+ 							ChessGUI.placePieceToPosition(positionEnd, blackRook);
+ 							promotedPieces.add(blackRook);
+ 						} else if (value.equals("Bishop")) {
+ 							ChessPiece blackBishop = new Queen(Allegiance.BLACK);
+ 							ChessGUI.placePieceToPosition(positionEnd, blackBishop);
+ 							promotedPieces.add(blackBishop);
+ 						} else if (value.equals("Knight")) {
+ 							ChessPiece blackKnight = new Queen(Allegiance.BLACK);
+ 							ChessGUI.placePieceToPosition(positionEnd, blackKnight);
+ 							promotedPieces.add(blackKnight);
+ 						}
  					}
  				
  				}
@@ -523,11 +553,13 @@ public class ChessBoard {
 				// Automatically choose promotion to Queen and do NOT display it on the GUI. 
  				else {
  					if (pieceCode == Constants.WHITE_PAWN && rowEnd == numOfRows - 1) {
- 						this.gameBoard[rowEnd][columnEnd] = new EmptyTile();
- 						this.gameBoard[rowEnd][columnEnd] = new Queen(Allegiance.WHITE);
+ 						ChessPiece whiteQueen = new Queen(Allegiance.WHITE);
+ 						this.gameBoard[rowEnd][columnEnd] = whiteQueen;
+ 						promotedPieces.add(whiteQueen);
  					} else if (pieceCode == Constants.BLACK_PAWN && rowEnd == 0) {
- 						this.gameBoard[rowEnd][columnEnd] = new EmptyTile();
- 						this.gameBoard[rowEnd][columnEnd] = new Queen(Allegiance.BLACK);
+ 						ChessPiece blackQueen = new Queen(Allegiance.BLACK);
+ 						this.gameBoard[rowEnd][columnEnd] = blackQueen;
+ 						promotedPieces.add(blackQueen);
  					}
  				}
  				
@@ -546,76 +578,92 @@ public class ChessBoard {
 	 	 		
  	 		// If a piece capture has occurred.
  	 		if (pieceCode * endTileCode < 0) {
- 	 			ImageIcon pieceImage = null;
- 	 			
- 	 			if (endTile instanceof Pawn && endTile.getAllegiance() == Allegiance.WHITE) {
- 	 				if (displayMove)
- 	 					pieceImage = ChessGUI.preparePieceIcon(Constants.WHITE_PAWN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
- 	 				score -= Constants.PAWN_VALUE;
- 	 			} else if (endTile instanceof Rook && endTile.getAllegiance() == Allegiance.WHITE) {
- 	 				if (displayMove)
- 	 					pieceImage = ChessGUI.preparePieceIcon(Constants.WHITE_ROOK_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
- 	 				score -= Constants.ROOK_VALUE;
- 	 			} else if (endTile instanceof Knight && endTile.getAllegiance() == Allegiance.WHITE) {
- 	 				if (displayMove)
- 	 					pieceImage = ChessGUI.preparePieceIcon(Constants.WHITE_KNIGHT_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
- 	 				score -= Constants.KNIGHT_VALUE;
- 	 			} else if (endTile instanceof Bishop && endTile.getAllegiance() == Allegiance.WHITE) {
- 	 				if (displayMove)
- 	 					pieceImage = ChessGUI.preparePieceIcon(Constants.WHITE_BISHOP_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
- 	 				score -= Constants.BISHOP_VALUE;
- 	 			} else if (endTile instanceof Queen && endTile.getAllegiance() == Allegiance.WHITE) {
- 	 				if (displayMove)
- 	 					pieceImage = ChessGUI.preparePieceIcon(Constants.WHITE_QUEEN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
- 	 				score -= Constants.QUEEN_VALUE;
- 	 			}
- 	 			
- 	 			else if (endTile instanceof Pawn && endTile.getAllegiance() == Allegiance.BLACK) {
- 	 				if (displayMove)
- 	 					pieceImage = ChessGUI.preparePieceIcon(Constants.BLACK_PAWN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
- 	 				score += Constants.PAWN_VALUE;
- 	 			} else if (endTile instanceof Rook && endTile.getAllegiance() == Allegiance.BLACK) {
- 	 				if (displayMove)
- 	 					pieceImage = ChessGUI.preparePieceIcon(Constants.BLACK_ROOK_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
- 	 				score += Constants.ROOK_VALUE;
- 	 			} else if (endTile instanceof Knight && endTile.getAllegiance() == Allegiance.BLACK) {
- 	 				if (displayMove)
- 	 					pieceImage = ChessGUI.preparePieceIcon(Constants.BLACK_KNIGHT_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
- 	 				score += Constants.KNIGHT_VALUE;
- 	 			} else if (endTile instanceof Bishop && endTile.getAllegiance() == Allegiance.BLACK) {
- 	 				if (displayMove)
- 	 					pieceImage = ChessGUI.preparePieceIcon(Constants.BLACK_BISHOP_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
- 	 				score += Constants.BISHOP_VALUE;
- 	 			} else if (endTile instanceof Queen && endTile.getAllegiance() == Allegiance.BLACK) {
- 	 				if (displayMove)
- 	 					pieceImage = ChessGUI.preparePieceIcon(Constants.BLACK_QUEEN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
- 	 				score += Constants.QUEEN_VALUE;
- 	 			}
- 	 			
- 	 			if (endTile.getAllegiance() == Allegiance.WHITE) {
- 	 				if (displayMove)
- 	 					ChessGUI.capturedPiecesImages[whiteCapturedPiecesCounter].setIcon(pieceImage);
-	 				this.whiteCapturedPiecesCounter++;
- 	 			} else if (endTile.getAllegiance() == Allegiance.BLACK) {
- 	 				if (displayMove)
- 	 					ChessGUI.capturedPiecesImages[31 - blackCapturedPiecesCounter - 1].setIcon(pieceImage);
-	 				this.blackCapturedPiecesCounter++;
- 	 			}
+ 	 			configureCapturedPieces(endTile, displayMove);
  	 			
  	 			if (displayMove) {
- 	 				if (score == 0) {
- 	 					ChessGUI.capturedPiecesImages[15].setText("Score: 0");
- 	 				} else if (score > 0) {
- 	 					ChessGUI.capturedPiecesImages[15].setText("White: +" + score);
- 	 				} else if (score < 0) {
- 	 					ChessGUI.capturedPiecesImages[15].setText("Black: +" + (-score));
- 	 				}
+ 	 				ChessGUI.setScoreMessage();
  	 			}
  	 			
  	 		}
  	 		
  		}
  		
+ 	}
+ 	
+ 	
+ 	private void configureCapturedPieces(ChessPiece endTile, boolean displayMove) {
+ 		ImageIcon pieceImage = null;
+ 		
+		if (promotedPieces.contains(endTile)) {
+			if (endTile.getAllegiance() == Allegiance.WHITE) {
+				pieceImage = ChessGUI.preparePieceIcon(Constants.WHITE_PAWN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+ 				score -= Constants.PAWN_VALUE;
+			} else if (endTile.getAllegiance() == Allegiance.BLACK) {
+				pieceImage = ChessGUI.preparePieceIcon(Constants.BLACK_PAWN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+ 				score += Constants.PAWN_VALUE;
+			}
+		}
+		
+		else {
+		
+ 			if (endTile instanceof Pawn && endTile.getAllegiance() == Allegiance.WHITE) {
+ 				if (displayMove)
+ 					pieceImage = ChessGUI.preparePieceIcon(Constants.WHITE_PAWN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+ 				score -= Constants.PAWN_VALUE;
+ 			} else if (endTile instanceof Rook && endTile.getAllegiance() == Allegiance.WHITE) {
+ 				if (displayMove)
+ 					pieceImage = ChessGUI.preparePieceIcon(Constants.WHITE_ROOK_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+ 				score -= Constants.ROOK_VALUE;
+ 			} else if (endTile instanceof Knight && endTile.getAllegiance() == Allegiance.WHITE) {
+ 				if (displayMove)
+ 					pieceImage = ChessGUI.preparePieceIcon(Constants.WHITE_KNIGHT_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+ 				score -= Constants.KNIGHT_VALUE;
+ 			} else if (endTile instanceof Bishop && endTile.getAllegiance() == Allegiance.WHITE) {
+ 				if (displayMove)
+ 					pieceImage = ChessGUI.preparePieceIcon(Constants.WHITE_BISHOP_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+ 				score -= Constants.BISHOP_VALUE;
+ 			} else if (endTile instanceof Queen && endTile.getAllegiance() == Allegiance.WHITE) {
+ 				if (displayMove)
+ 					pieceImage = ChessGUI.preparePieceIcon(Constants.WHITE_QUEEN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+ 				score -= Constants.QUEEN_VALUE;
+ 			}
+ 			
+ 			else if (endTile instanceof Pawn && endTile.getAllegiance() == Allegiance.BLACK) {
+ 				if (displayMove)
+ 					pieceImage = ChessGUI.preparePieceIcon(Constants.BLACK_PAWN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+ 				score += Constants.PAWN_VALUE;
+ 			} else if (endTile instanceof Rook && endTile.getAllegiance() == Allegiance.BLACK) {
+ 				if (displayMove)
+ 					pieceImage = ChessGUI.preparePieceIcon(Constants.BLACK_ROOK_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+ 				score += Constants.ROOK_VALUE;
+ 			} else if (endTile instanceof Knight && endTile.getAllegiance() == Allegiance.BLACK) {
+ 				if (displayMove)
+ 					pieceImage = ChessGUI.preparePieceIcon(Constants.BLACK_KNIGHT_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+ 				score += Constants.KNIGHT_VALUE;
+ 			} else if (endTile instanceof Bishop && endTile.getAllegiance() == Allegiance.BLACK) {
+ 				if (displayMove)
+ 					pieceImage = ChessGUI.preparePieceIcon(Constants.BLACK_BISHOP_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+ 				score += Constants.BISHOP_VALUE;
+ 			} else if (endTile instanceof Queen && endTile.getAllegiance() == Allegiance.BLACK) {
+ 				if (displayMove)
+ 					pieceImage = ChessGUI.preparePieceIcon(Constants.BLACK_QUEEN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+ 				score += Constants.QUEEN_VALUE;
+ 			}
+		
+		}
+		
+		if (endTile.getAllegiance() == Allegiance.WHITE) {
+			if (displayMove) {
+				ChessGUI.capturedPiecesImages[whiteCapturedPiecesCounter].setIcon(pieceImage);
+			}
+			this.whiteCapturedPiecesCounter++;
+		} else if (endTile.getAllegiance() == Allegiance.BLACK) {
+			if (displayMove) {
+				ChessGUI.capturedPiecesImages[31 - blackCapturedPiecesCounter - 1].setIcon(pieceImage);
+			}
+			this.blackCapturedPiecesCounter++;
+		}
+		
  	}
  	
  	
@@ -1774,6 +1822,14 @@ public class ChessBoard {
 		this.score = score;
 	}
 
+	public Set<ChessPiece> getPromotedPieces() {
+		return promotedPieces;
+	}
+
+	public void setPromotedPieces(Set<ChessPiece> promotedPieces) {
+		this.promotedPieces = promotedPieces;
+	}
+	
 	// It prints the chess board on the console.
    	public static void printChessBoard(ChessPiece[][] chessBoard) {
 		System.out.println(getChessBoardString(chessBoard));
@@ -1789,9 +1845,9 @@ public class ChessBoard {
 			output += (n1-i) + " |";
 			for (int j=0; j<n2; j++) {
 				if (chessBoard[n1-1-i][j].getPieceCode() < 0)  // if the piece is black
-					output += chessBoard[n1-1-i][j] + "|";
+					output += chessBoard[n1-1-i][j].getPieceCode() + "|";
 				else
-					output += " " + chessBoard[n1-1-i][j] + "|";
+					output += " " + chessBoard[n1-1-i][j].getPieceCode() + "|";
 			}
 			output += " " + (n1-i) + "\n";
 		}

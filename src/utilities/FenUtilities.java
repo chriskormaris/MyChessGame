@@ -1,7 +1,7 @@
 package utilities;
 
-import chess.Allegiance;
 import chess.ChessBoard;
+import enums.Allegiance;
 import pieces.Bishop;
 import pieces.ChessPiece;
 import pieces.EmptyTile;

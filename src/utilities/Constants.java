@@ -2,7 +2,7 @@ package utilities;
 
 public class Constants {
 	
-	public final static double VERSION = 3.1;
+	public final static double VERSION = 3.2;
 	
 	public final static int CAPTURED_PIECE_PIXEL_SIZE = 16;
 	

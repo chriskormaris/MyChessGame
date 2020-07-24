@@ -3,8 +3,8 @@ package pieces;
 import java.util.HashSet;
 import java.util.Set;
 
-import chess.Allegiance;
 import chess.ChessBoard;
+import enums.Allegiance;
 import utilities.Constants;
 import utilities.Utilities;
 
