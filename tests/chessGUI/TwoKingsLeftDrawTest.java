@@ -5,8 +5,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-import chess.Allegiance;
 import chess.ChessBoard;
+import enums.Allegiance;
 import pieces.King;
 
 
@@ -37,8 +37,11 @@ class TwoKingsLeftDrawTest {
 		System.out.println("*****************************");
 		System.out.println();
 		
+		ChessGUI.checkForGameOver();
+		
+		// Continue playing for a minute.
 		try {
-			Thread.sleep(1000);
+			Thread.sleep(60000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
