@@ -13,6 +13,8 @@ hs_err_pid*
 
 # added by user
 bin/
+.settings/
+.classpath
+.project
 exported_FEN_position.txt
 links.txt
-.settings/
