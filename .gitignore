@@ -15,4 +15,4 @@ hs_err_pid*
 bin/
 exported_FEN_position.txt
 links.txt
-.settings
+.settings/
