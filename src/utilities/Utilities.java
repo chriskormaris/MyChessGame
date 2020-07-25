@@ -57,14 +57,17 @@ public class Utilities {
    		
    		try {
 	   	     URL defaultSound = Utilities.class.getResource("/sounds/" + path);
+	   	     
 	   	     // File soundFile = new File(defaultSound.toURI());
 	   	     // System.out.println("soundFile: " + soundFile);  // check the URL!
+	   	     
 	   	     AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(defaultSound);
 	   	     Clip clip = AudioSystem.getClip();
 	   	     clip.open(audioInputStream);
 	   	     clip.start( );
 	   	} catch (Exception ex) {
-	   	     ex.printStackTrace();
+	   		// ex.printStackTrace();
+	   	    System.err.println(ex.getMessage());
 	   	}
    		
    	}
