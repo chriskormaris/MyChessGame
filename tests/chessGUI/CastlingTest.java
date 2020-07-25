@@ -9,9 +9,9 @@ import chess.ChessBoard;
 class CastlingTest {
 
 	@Test
-	public void castlingTest() {
+	public void testCastling() {
 		
-		String title = "My Chess Test";
+		String title = "Castling Test";
 
 		@SuppressWarnings("unused")
 		ChessGUI cbg = new ChessGUI(title);
@@ -21,9 +21,6 @@ class CastlingTest {
 		String fenPosition = "r2qk2r/8/8/8/8/8/8/R2QK2R w KQkq - 0 1";
 		
 		ChessGUI.placePiecesToChessBoard(fenPosition);
-		
-		// String stringMessage = "White plays first.";
-		// labelMessage.setText(stringMessage);
 		
 		ChessBoard.printChessBoard(ChessGUI.chessBoard.getGameBoard());
 		

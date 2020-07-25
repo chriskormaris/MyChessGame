@@ -11,7 +11,7 @@ class OpeningTest {
 	@Test
 	public void testOpening() {
 		
-		String title = "My Chess Test";
+		String title = "Chess Opening Test";
 
 		@SuppressWarnings("unused")
 		ChessGUI cbg = new ChessGUI(title);
@@ -25,9 +25,6 @@ class OpeningTest {
 		String fenPosition = "rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2";
 		
 		ChessGUI.placePiecesToChessBoard(fenPosition);
-		
-		// String stringMessage = "White plays first.";
-		// labelMessage.setText(stringMessage);
 		
 		ChessBoard.printChessBoard(ChessGUI.chessBoard.getGameBoard());
 		

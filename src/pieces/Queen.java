@@ -10,10 +10,6 @@ import utilities.Utilities;
 
 
 public class Queen extends ChessPiece {
-		
-	public Queen() {
-		
-	}
 	
 	public Queen(Allegiance allegiance) {
 		super(allegiance, Constants.QUEEN);

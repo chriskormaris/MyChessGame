@@ -11,17 +11,15 @@ import pieces.King;
 import pieces.Pawn;
 
 
-class NotTwoKingsLeftDrawTest {
+class NotTwoKingsLeftTest {
 
 	@Test
-	public void testNotTwoKingsLeftDraw() {
+	public void testNotTwoKingsLeft() {
 		
-		String title = "My Chess Test";
+		String title = "Not Two Kings Left Test";
+		
 		@SuppressWarnings("unused")
 		ChessGUI cbg = new ChessGUI(title);
-		
-		// String stringMessage = "White plays first.";
-		// labelMessage.setText(stringMessage);
 		
 		ChessBoard.printChessBoard(ChessGUI.chessBoard.getGameBoard());
 		

@@ -11,10 +11,6 @@ import utilities.Utilities;
 
 public class Pawn extends ChessPiece {
 	
-	public Pawn() {
-		
-	}
-	
 	public Pawn(Allegiance allegiance) {
 		super(allegiance, Constants.PAWN);
 	}

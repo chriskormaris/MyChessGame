@@ -15,12 +15,10 @@ class TwoKingsLeftDrawTest {
 	@Test
 	public void testTwoKingsLeftDraw() {
 		
-		String title = "My Chess Test";
+		String title = "Two Kings Left Draw Test";
+		
 		@SuppressWarnings("unused")
 		ChessGUI cbg = new ChessGUI(title);
-		
-		// String stringMessage = "White plays first.";
-		// labelMessage.setText(stringMessage);
 		
 		ChessBoard.printChessBoard(ChessGUI.chessBoard.getGameBoard());
 		

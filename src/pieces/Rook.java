@@ -10,10 +10,6 @@ import utilities.Utilities;
 
 
 public class Rook extends ChessPiece {
-		
-	public Rook() {
-		
-	}
 	
 	public Rook(Allegiance allegiance) {
 		super(allegiance, Constants.ROOK);
