@@ -7,7 +7,12 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
+import pieces.Bishop;
 import pieces.ChessPiece;
+import pieces.Knight;
+import pieces.Pawn;
+import pieces.Queen;
+import pieces.Rook;
 
 
 public class Utilities {
@@ -73,73 +78,35 @@ public class Utilities {
    	}
    	
    	
-   	public static String getPieceNameByValue(int pieceValue) {
-   		switch (pieceValue) {
-   			case Constants.WHITE_PAWN:
-   				return "WHITE PAWN";
-   			case Constants.WHITE_KNIGHT:
-   				return "WHITE KNIGHT";
-   			case Constants.WHITE_BISHOP:
-   				return "WHITE BISHOP";
-   			case Constants.WHITE_ROOK:
-   				return "WHITE ROOK";
-   			case Constants.WHITE_QUEEN:
-   				return "WHITE QUEEN";
-   			case Constants.WHITE_KING:
-   				return "WHITE KING";
-   				
-   			case Constants.BLACK_PAWN:
-   				return "BLACK PAWN";
-   			case Constants.BLACK_KNIGHT:
-   				return "BLACK KNIGHT";
-   			case Constants.BLACK_BISHOP:
-   				return "BLACK BISHOP";
-   			case Constants.BLACK_ROOK:
-   				return "BLACK ROOK";
-   			case Constants.BLACK_QUEEN:
-   				return "BLACK QUEEN";
-   			case Constants.BLACK_KING:
-   				return "BLACK KING";
-   				
-   			case Constants.EMPTY:
-   				return "BLACK KING";
-   			
-   			default:
-   				return "UNKNOWN PIECE";
-   		}
-   	}
-   	
-   	
-   	public static double getPieceValueByRowCol(ChessPiece gameBoard[][], int row, int column, int halfmoveNumber) {
+   	public static double getChessPieceValue(ChessPiece chessPiece, int halfmoveNumber) {
    		double value = Constants.EMPTY;
-   		int absPieceCode = Math.abs(gameBoard[row][column].getPieceCode());
    		if (halfmoveNumber <= Constants.MIDDLEGAME_HALFMOVES_THRESHOLD) {
-	   		if (absPieceCode == Constants.PAWN) {
+	   		if (chessPiece instanceof Pawn) {
 	   			value = Constants.PAWN_VALUE;
-			} else if (absPieceCode == Constants.KNIGHT) {
+			} else if (chessPiece instanceof Knight) {
 				value = Constants.KNIGHT_VALUE;
-			} else if (absPieceCode == Constants.BISHOP) {
+			} else if (chessPiece instanceof Bishop) {
 				value = Constants.BISHOP_VALUE;
-			} else if (absPieceCode == Constants.ROOK) {
+			} else if (chessPiece instanceof Rook) {
 				value = Constants.ROOK_VALUE;
-			} else if (absPieceCode == Constants.QUEEN) {
+			} else if (chessPiece instanceof Queen) {
 				value = Constants.QUEEN_VALUE;
 			}
    		} else {
-   			if (absPieceCode == Constants.PAWN) {
+	   		if (chessPiece instanceof Pawn) {
 	   			value = Constants.PAWN_LATE_VALUE;
-			} else if (absPieceCode == Constants.KNIGHT) {
+			} else if (chessPiece instanceof Knight) {
 				value = Constants.KNIGHT_LATE_VALUE;
-			} else if (absPieceCode == Constants.BISHOP) {
+			} else if (chessPiece instanceof Bishop) {
 				value = Constants.BISHOP_LATE_VALUE;
-			} else if (absPieceCode == Constants.ROOK) {
+			} else if (chessPiece instanceof Rook) {
 				value = Constants.ROOK_LATE_VALUE;
-			} else if (absPieceCode == Constants.QUEEN) {
+			} else if (chessPiece instanceof Queen) {
 				value = Constants.QUEEN_LATE_VALUE;
 			}
    		}
    		return value;
    	}
    	
-	
+   	
 }

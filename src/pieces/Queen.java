@@ -12,7 +12,7 @@ import utilities.Utilities;
 public class Queen extends ChessPiece {
 	
 	public Queen(Allegiance allegiance) {
-		super(allegiance, Constants.QUEEN);
+		super(allegiance);
 	}
 	
 	@Override
@@ -25,9 +25,9 @@ public class Queen extends ChessPiece {
 		// that corresponds to the given position String.
 		int row = Utilities.getRowFromPosition(position);
 		int column = Utilities.getColumnFromPosition(position);
-		int pieceCode = chessBoard.getGameBoard()[row][column].getPieceCode();
+		ChessPiece chessPiece = chessBoard.getGameBoard()[row][column];
 		
-		if (Math.abs(pieceCode) != Constants.QUEEN)
+		if (!(chessPiece instanceof Queen))
 			return nextQueenPositions;
 		
 		int newRow = 0, newColumn = 0;
@@ -40,16 +40,18 @@ public class Queen extends ChessPiece {
 				newRow = i;
 				newColumn = column;
 				newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
-				int endTileCode = chessBoard.getGameBoard()[newRow][newColumn].getPieceCode();
-				// System.out.println("endTileCode: " + endTileCode);
-				if (endTileCode == Constants.EMPTY || pieceCode*endTileCode < 0
-					&& endTileCode != Constants.WHITE_KING && endTileCode != Constants.BLACK_KING
-					|| returnThreats)
+				ChessPiece endTile = chessBoard.getGameBoard()[newRow][newColumn];
+				// System.out.println("endTile: " + endTile);
+				if (endTile instanceof EmptyTile || chessPiece.getAllegiance() != endTile.getAllegiance()
+					&& !(endTile instanceof King) || returnThreats) {
 					nextQueenPositions.add(newPosition);
+				}
 				
-				// Stop searching for other positions, if another piece is reached.
-				if (pieceCode*endTileCode < 0 || pieceCode*chessBoard.getGameBoard()[newRow][newColumn].getPieceCode() > 0)
+				// Stop searching for other positions, if another chessPiece is reached.
+				if (chessPiece.getAllegiance() != endTile.getAllegiance() && !(endTile instanceof EmptyTile)
+					|| chessPiece.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
 					break;
+				}
 			}
 		}
 		
@@ -60,16 +62,18 @@ public class Queen extends ChessPiece {
 				newRow = i;
 				newColumn = column;
 				newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
-				int endTileCode = chessBoard.getGameBoard()[newRow][newColumn].getPieceCode();
-				// System.out.println("endTileCode: " + endTileCode);
-				if (endTileCode == Constants.EMPTY || pieceCode*endTileCode < 0
-					&& endTileCode != Constants.WHITE_KING && endTileCode != Constants.BLACK_KING
-					|| returnThreats)
+				ChessPiece endTile = chessBoard.getGameBoard()[newRow][newColumn];
+				// System.out.println("endTile: " + endTile);
+				if (endTile instanceof EmptyTile || chessPiece.getAllegiance() != endTile.getAllegiance()
+					&& !(endTile instanceof King) || returnThreats) {
 					nextQueenPositions.add(newPosition);
+				}
 				
-				// Stop searching for other positions, if another piece is reached.
-				if (pieceCode*endTileCode < 0 || pieceCode*chessBoard.getGameBoard()[newRow][newColumn].getPieceCode() > 0)
+				// Stop searching for other positions, if another chessPiece is reached.
+				if (chessPiece.getAllegiance() != endTile.getAllegiance() && !(endTile instanceof EmptyTile)
+					|| chessPiece.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
 					break;
+				}
 			}
 		}
 		
@@ -80,16 +84,18 @@ public class Queen extends ChessPiece {
 				newRow = row;
 				newColumn = j;
 				newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
-				int endTileCode = chessBoard.getGameBoard()[newRow][newColumn].getPieceCode();
-				// System.out.println("endTileCode: " + endTileCode);
-				if (endTileCode == Constants.EMPTY || pieceCode*endTileCode < 0
-					&& endTileCode != Constants.WHITE_KING && endTileCode != Constants.BLACK_KING
-					|| returnThreats)
+				ChessPiece endTile = chessBoard.getGameBoard()[newRow][newColumn];
+				// System.out.println("endTile: " + endTile);
+				if (endTile instanceof EmptyTile || chessPiece.getAllegiance() != endTile.getAllegiance()
+					&& !(endTile instanceof King) || returnThreats) {
 					nextQueenPositions.add(newPosition);
+				}
 				
-				// Stop searching for other positions, if another piece is reached.
-				if (pieceCode*endTileCode < 0 || pieceCode*chessBoard.getGameBoard()[newRow][newColumn].getPieceCode() > 0)
+				// Stop searching for other positions, if another chessPiece is reached.
+				if (chessPiece.getAllegiance() != endTile.getAllegiance() && !(endTile instanceof EmptyTile)
+					|| chessPiece.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
 					break;
+				}
 			}
 		}
 		
@@ -100,16 +106,18 @@ public class Queen extends ChessPiece {
 				newRow = row;
 				newColumn = j;
 				newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
-				int endTileCode = chessBoard.getGameBoard()[newRow][newColumn].getPieceCode();
-				// System.out.println("endTileCode: " + endTileCode);
-				if (endTileCode == Constants.EMPTY || pieceCode*endTileCode < 0
-					&& endTileCode != Constants.WHITE_KING && endTileCode != Constants.BLACK_KING
-					|| returnThreats)
+				ChessPiece endTile = chessBoard.getGameBoard()[newRow][newColumn];
+				// System.out.println("endTile: " + endTile);
+				if (endTile instanceof EmptyTile || chessPiece.getAllegiance() != endTile.getAllegiance()
+					&& !(endTile instanceof King) || returnThreats) {
 					nextQueenPositions.add(newPosition);
+				}
 				
-				// Stop searching for other positions, if another piece is reached.
-				if (pieceCode*endTileCode < 0 || pieceCode*chessBoard.getGameBoard()[newRow][newColumn].getPieceCode() > 0)
+				// Stop searching for other positions, if another chessPiece is reached.
+				if (chessPiece.getAllegiance() != endTile.getAllegiance() && !(endTile instanceof EmptyTile)
+					|| chessPiece.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
 					break;
+				}
 			}
 		}
 		
@@ -125,16 +133,18 @@ public class Queen extends ChessPiece {
 				newColumn = column + counter;
 				newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
 				// System.out.println("newPosition: " + newPosition);
-				int endTileCode = chessBoard.getGameBoard()[newRow][newColumn].getPieceCode();
-				// System.out.println("endTileCode: " + endTileCode);
-				if (endTileCode == Constants.EMPTY || pieceCode*endTileCode < 0
-					&& endTileCode != Constants.WHITE_KING && endTileCode != Constants.BLACK_KING
-					|| returnThreats)
+				ChessPiece endTile = chessBoard.getGameBoard()[newRow][newColumn];
+				// System.out.println("endTile: " + endTile);
+				if (endTile instanceof EmptyTile || chessPiece.getAllegiance() != endTile.getAllegiance()
+					&& !(endTile instanceof King) || returnThreats) {
 					nextQueenPositions.add(newPosition);
+				}
 				
-				// Stop searching for other positions, if another piece is reached.
-				if (pieceCode*endTileCode < 0 || pieceCode*chessBoard.getGameBoard()[newRow][newColumn].getPieceCode() > 0)
+				// Stop searching for other positions, if another chessPiece is reached.
+				if (chessPiece.getAllegiance() != endTile.getAllegiance() && !(endTile instanceof EmptyTile)
+					|| chessPiece.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
 					break;
+				}
 			}
 			counter++;
 		}
@@ -148,16 +158,18 @@ public class Queen extends ChessPiece {
 				newColumn = column - counter;
 				newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
 				// System.out.println("newPosition: " + newPosition);
-				int endTileCode = chessBoard.getGameBoard()[newRow][newColumn].getPieceCode();
-				// System.out.println("endTileCode: " + endTileCode);
-				if (endTileCode == Constants.EMPTY || pieceCode*endTileCode < 0
-					&& endTileCode != Constants.WHITE_KING && endTileCode != Constants.BLACK_KING
-					|| returnThreats)
+				ChessPiece endTile = chessBoard.getGameBoard()[newRow][newColumn];
+				// System.out.println("endTile: " + endTile);
+				if (endTile instanceof EmptyTile || chessPiece.getAllegiance() != endTile.getAllegiance()
+					&& !(endTile instanceof King) || returnThreats) {
 					nextQueenPositions.add(newPosition);
+				}
 				
-				// Stop searching for other positions, if another piece is reached.
-				if (pieceCode*endTileCode < 0 || pieceCode*chessBoard.getGameBoard()[newRow][newColumn].getPieceCode() > 0)
+				// Stop searching for other positions, if another chessPiece is reached.
+				if (chessPiece.getAllegiance() != endTile.getAllegiance() && !(endTile instanceof EmptyTile)
+					|| chessPiece.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
 					break;
+				}
 			}
 			counter++;
 		}
@@ -171,16 +183,18 @@ public class Queen extends ChessPiece {
 				newColumn = column - counter;
 				newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
 				// System.out.println("newPosition: " + newPosition);
-				int endTileCode = chessBoard.getGameBoard()[newRow][newColumn].getPieceCode();
-				// System.out.println("endTileCode: " + endTileCode);
-				if (endTileCode == Constants.EMPTY || pieceCode*endTileCode < 0
-					&& endTileCode != Constants.WHITE_KING && endTileCode != Constants.BLACK_KING
-					|| returnThreats)
+				ChessPiece endTile = chessBoard.getGameBoard()[newRow][newColumn];
+				// System.out.println("endTile: " + endTile);
+				if (endTile instanceof EmptyTile || chessPiece.getAllegiance() != endTile.getAllegiance()
+					&& !(endTile instanceof King) || returnThreats) {
 					nextQueenPositions.add(newPosition);
+				}
 				
-				// Stop searching for other positions, if another piece is reached.
-				if (pieceCode*endTileCode < 0 || pieceCode*chessBoard.getGameBoard()[newRow][newColumn].getPieceCode() > 0)
+				// Stop searching for other positions, if another chessPiece is reached.
+				if (chessPiece.getAllegiance() != endTile.getAllegiance() && !(endTile instanceof EmptyTile)
+					|| chessPiece.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
 					break;
+				}
 			}
 			counter++;
 		}
@@ -194,16 +208,18 @@ public class Queen extends ChessPiece {
 				newColumn = column + counter;
 				newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
 				// System.out.println("newPosition: " + newPosition);
-				int endTileCode = chessBoard.getGameBoard()[newRow][newColumn].getPieceCode();
-				// System.out.println("endTileCode: " + endTileCode);
-				if (endTileCode == Constants.EMPTY || pieceCode*endTileCode < 0
-					&& endTileCode != Constants.WHITE_KING && endTileCode != Constants.BLACK_KING
-					|| returnThreats)
+				ChessPiece endTile = chessBoard.getGameBoard()[newRow][newColumn];
+				// System.out.println("endTile: " + endTile);
+				if (endTile instanceof EmptyTile || chessPiece.getAllegiance() != endTile.getAllegiance()
+					&& !(endTile instanceof King) || returnThreats) {
 					nextQueenPositions.add(newPosition);
+				}
 				
-				// Stop searching for other positions, if another piece is reached.
-				if (pieceCode*endTileCode < 0 || pieceCode*chessBoard.getGameBoard()[newRow][newColumn].getPieceCode() > 0)
+				// Stop searching for other positions, if another chessPiece is reached.
+				if (chessPiece.getAllegiance() != endTile.getAllegiance() && !(endTile instanceof EmptyTile)
+					|| chessPiece.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
 					break;
+				}
 			}
 			counter++;
 		}

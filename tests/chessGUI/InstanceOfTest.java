@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import enums.Allegiance;
 import pieces.ChessPiece;
 import pieces.Pawn;
-import utilities.Constants;
 
 public class InstanceOfTest {
 	
@@ -36,8 +35,8 @@ public class InstanceOfTest {
 		
 		startTime = System.nanoTime();
 		for (ChessPiece chessPiece: chessPieces) {
-			if (Math.abs(chessPiece.getPieceCode()) == Constants.PAWN) {
-				//System.out.println("Pawn");
+			if (chessPiece.getChessPieceChar() == 'P') {
+//				System.out.println("P");
 			}
 		}
 		endTime = System.nanoTime();

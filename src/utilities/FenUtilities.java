@@ -15,7 +15,6 @@ public class FenUtilities {
 	
 	
 	public static ChessBoard getChessBoardFromFenPosition(String fenPosition) throws InvalidFenFormatException {
-		// GameParameters.numOfRows = Constants.DEFAULT_NUM_OF_ROWS;
 		ChessBoard chessBoard = new ChessBoard();
 		
 		fenPosition = fenPosition.trim();
@@ -37,7 +36,7 @@ public class FenUtilities {
 			playerFlag = false;
 		} else {
 			throw new InvalidFenFormatException(
-					"Invalid player character. It should be \"w\" or \"b\", NOT: \"" + nextPlayerChar + "\"!");
+				"Invalid player character. It should be \"w\" or \"b\", NOT: \"" + nextPlayerChar + "\"!");
 		}
 		
 		String castlingAvailability = fenPositionTokens[2];
@@ -48,24 +47,30 @@ public class FenUtilities {
 		boolean leftBlackRookMoved = false;
 		boolean rightBlackRookMoved = false;
 		
-		if (!castlingAvailability.contains("Q") && castlingAvailability.contains("K")) {
+		if (castlingAvailability.contains(String.valueOf(Constants.WHITE_KING)) 
+				&& !castlingAvailability.contains(String.valueOf(Constants.WHITE_QUEEN))) {
 			leftWhiteRookMoved = true;
 			whiteKingMoved = true;
-		} else if (!castlingAvailability.contains("K") && castlingAvailability.contains("Q")) {
+		} else if (castlingAvailability.contains(String.valueOf(Constants.WHITE_KING)) 
+				&& castlingAvailability.contains(String.valueOf(Constants.WHITE_QUEEN))) {
 			rightWhiteRookMoved = true;
 			whiteKingMoved = true;
-		} else if (!castlingAvailability.contains("K") && !castlingAvailability.contains("Q")) {
+		} else if (!castlingAvailability.contains(String.valueOf(Constants.WHITE_KING)) 
+				&& !castlingAvailability.contains(String.valueOf(Constants.WHITE_QUEEN))) {
 			whiteKingMoved = true;
 			leftWhiteRookMoved = true;
 			rightWhiteRookMoved = true;
 		}
-		if (!castlingAvailability.contains("q") && castlingAvailability.contains("k")) {
+		if (castlingAvailability.contains(String.valueOf(Constants.BLACK_KING)) 
+				&& !castlingAvailability.contains(String.valueOf(Constants.BLACK_QUEEN))) {
 			leftBlackRookMoved = true;
 			blackKingMoved = true;
-		} else if (!castlingAvailability.contains("k") && castlingAvailability.contains("q")) {
+		} else if (!castlingAvailability.contains(String.valueOf(Constants.BLACK_KING)) 
+				&& castlingAvailability.contains(String.valueOf(Constants.BLACK_QUEEN))) {
 			rightBlackRookMoved = true;
 			blackKingMoved = true;
-		} else if (!castlingAvailability.contains("k") && !castlingAvailability.contains("q")) {
+		} else if (!castlingAvailability.contains(String.valueOf(Constants.BLACK_KING)) 
+				&& !castlingAvailability.contains(String.valueOf(Constants.BLACK_QUEEN))) {
 			blackKingMoved = true;
 			leftBlackRookMoved = true;
 			rightBlackRookMoved = true;
@@ -130,12 +135,12 @@ public class FenUtilities {
 			}
 			
 			// System.out.println("i: " + i + ", j: " + j);
-			// System.out.println("chess piece: " + getChessPieceByChar(pieceChar));
+			// System.out.println("chessPiece: " + getChessPieceByChar(pieceChar));
 			gameBoard[chessBoard.getNumOfRows()-1-i][j] = getChessPieceByChar(pieceChar);
 			
-			if (pieceChar == 'K') {	
+			if (pieceChar == Constants.WHITE_KING) {	
 				chessBoard.setWhiteKingPosition(Utilities.getPositionByRowCol(chessBoard.getNumOfRows()-1-i, j));
-			} else if (pieceChar == 'k') {	
+			} else if (pieceChar == Constants.BLACK_KING) {	
 				chessBoard.setBlackKingPosition(Utilities.getPositionByRowCol(chessBoard.getNumOfRows()-1-i, j));
 			}
 
@@ -148,76 +153,38 @@ public class FenUtilities {
 	}
 	
 	
-	public static int getChessPieceCodeByChar(char pieceChar) {
+	public static ChessPiece getChessPieceByChar(char chessPieceChar) {
 		try {
-			if (pieceChar == 'r') {
-				return Constants.BLACK_ROOK;
-			} else if (pieceChar == 'n') {
-				return Constants.BLACK_KNIGHT;
-			} else if (pieceChar == 'b') {
-				return Constants.BLACK_BISHOP;
-			} else if (pieceChar == 'q') {
-				return Constants.BLACK_QUEEN;
-			} else if (pieceChar == 'k') {
-				return Constants.BLACK_KING;
-			} else if (pieceChar == 'p') {
-				return Constants.BLACK_PAWN;
-			} 
-			
-			else if (pieceChar == 'R') {
-				return Constants.WHITE_ROOK;
-			} else if (pieceChar == 'N') {
-				return Constants.WHITE_KNIGHT;
-			} else if (pieceChar == 'B') {
-				return Constants.WHITE_BISHOP;
-			} else if (pieceChar == 'Q') {
-				return Constants.WHITE_QUEEN;
-			} else if (pieceChar == 'K') {
-				return Constants.WHITE_KING;
-			} else if (pieceChar == 'P') {
-				return Constants.WHITE_PAWN;
-			} else {
-				throw new InvalidFenFormatException("Invalid chess piece character \"" + pieceChar + "\"!");
-			}
-		} catch (InvalidFenFormatException ex) {
-            System.err.println(ex.getMessage()); 
-            return Constants.EMPTY;
-		}
-	}
-	
-	
-	public static ChessPiece getChessPieceByChar(char pieceChar) {
-		try {
-			if (pieceChar == 'R') {
-				return new Rook(Allegiance.WHITE);
-			} else if (pieceChar == 'N') {
-				return new Knight(Allegiance.WHITE);
-			} else if (pieceChar == 'B') {
-				return new Bishop(Allegiance.WHITE);
-			} else if (pieceChar == 'Q') {
-				return new Queen(Allegiance.WHITE);
-			} else if (pieceChar == 'K') {
-				return new King(Allegiance.WHITE);
-			} else if (pieceChar == 'P') {
+			if (chessPieceChar == Constants.WHITE_PAWN) {
 				return new Pawn(Allegiance.WHITE);
-			} 
+			} else if (chessPieceChar == Constants.WHITE_ROOK) {
+				return new Rook(Allegiance.WHITE);
+			} else if (chessPieceChar == Constants.WHITE_KNIGHT) {
+				return new Knight(Allegiance.WHITE);
+			} else if (chessPieceChar == Constants.WHITE_BISHOP) {
+				return new Bishop(Allegiance.WHITE);
+			} else if (chessPieceChar == Constants.WHITE_QUEEN) {
+				return new Queen(Allegiance.WHITE);
+			} else if (chessPieceChar == Constants.WHITE_KING) {
+				return new King(Allegiance.WHITE);
+			}
 			
-			else if (pieceChar == 'r') {
-				return new Rook(Allegiance.BLACK);
-			} else if (pieceChar == 'n') {
-				return new Knight(Allegiance.BLACK);
-			} else if (pieceChar == 'b') {
-				return new Bishop(Allegiance.BLACK);
-			} else if (pieceChar == 'q') {
-				return new Queen(Allegiance.BLACK);
-			} else if (pieceChar == 'k') {
-				return new King(Allegiance.BLACK);
-			} else if (pieceChar == 'p') {
+			if (chessPieceChar == Constants.BLACK_PAWN) {
 				return new Pawn(Allegiance.BLACK);
-			} 
+			} else if (chessPieceChar == Constants.BLACK_ROOK) {
+				return new Rook(Allegiance.BLACK);
+			} else if (chessPieceChar == Constants.BLACK_KNIGHT) {
+				return new Knight(Allegiance.BLACK);
+			} else if (chessPieceChar == Constants.BLACK_BISHOP) {
+				return new Bishop(Allegiance.BLACK);
+			} else if (chessPieceChar == Constants.BLACK_QUEEN) {
+				return new Queen(Allegiance.BLACK);
+			} else if (chessPieceChar == Constants.BLACK_KING) {
+				return new King(Allegiance.BLACK);
+			}
 			
 			else {
-				throw new InvalidFenFormatException("Invalid chess piece character \"" + pieceChar + "\"!");
+				throw new InvalidFenFormatException("Invalid chessPiece character \"" + chessPieceChar + "\"!");
 			}
 		} catch (InvalidFenFormatException ex) {
             System.err.println(ex.getMessage()); 
@@ -226,48 +193,53 @@ public class FenUtilities {
 	}
 	
 	
-	public static char getPieceCharByChessPieceValue(int chessPiece) {
+	public static char getPieceChar(ChessPiece chessPiece) {
 		try {
-			if (chessPiece == Constants.BLACK_ROOK) {
-				return 'r';
-			} else if (chessPiece == Constants.BLACK_KNIGHT) {
-				return 'n';
-			} else if (chessPiece == Constants.BLACK_BISHOP) {
-				return 'b';
-			} else if (chessPiece == Constants.BLACK_QUEEN) {
-				return 'q';
-			} else if (chessPiece == Constants.BLACK_KING) {
-				return 'k';
-			} else if (chessPiece == Constants.BLACK_PAWN) {
-				return 'p';
-			} 
 			
-			else if (chessPiece == Constants.WHITE_ROOK) {
-				return 'R';
-			} else if (chessPiece == Constants.WHITE_KNIGHT) {
-				return 'N';
-			} else if (chessPiece == Constants.WHITE_BISHOP) {
-				return 'B';
-			} else if (chessPiece == Constants.WHITE_QUEEN) {
-				return 'Q';
-			} else if (chessPiece == Constants.WHITE_KING) {
-				return 'K';
-			} else if (chessPiece == Constants.WHITE_PAWN) {
-				return 'P';
-			} 
+			if (chessPiece.getAllegiance() == Allegiance.WHITE) {
+				if (chessPiece instanceof Pawn) {
+					return Constants.WHITE_PAWN;
+				} else if (chessPiece instanceof Rook) {
+					return Constants.WHITE_ROOK;
+				} else if (chessPiece instanceof Knight) {
+					return Constants.WHITE_KNIGHT;
+				} else if (chessPiece instanceof Bishop) {
+					return Constants.WHITE_BISHOP;
+				} else if (chessPiece instanceof Queen) {
+					return Constants.WHITE_QUEEN;
+				} else if (chessPiece instanceof King) {
+					return Constants.WHITE_KING;
+				}
+			}
 
-			else if (chessPiece == Constants.EMPTY) {
-				return '0';
+			else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
+				if (chessPiece instanceof Pawn) {
+					return Constants.BLACK_PAWN;
+				} else if (chessPiece instanceof Rook) {
+					return Constants.BLACK_ROOK;
+				} else if (chessPiece instanceof Knight) {
+					return Constants.BLACK_KNIGHT;
+				} else if (chessPiece instanceof Bishop) {
+					return Constants.BLACK_BISHOP;
+				} else if (chessPiece instanceof Queen) {
+					return Constants.BLACK_QUEEN;
+				} else if (chessPiece instanceof King) {
+					return Constants.BLACK_KING;
+				}
+			}
+			
+			else if (chessPiece instanceof EmptyTile) {
+				return '-';
 			}
 			
 			else {
-				throw new InvalidFenFormatException("Invalid chess piece value \"" + chessPiece + "\"!");
+				throw new InvalidFenFormatException("Invalid chessPiece value \"" + chessPiece + "\"!");
 			}
 			
 		} catch (InvalidFenFormatException ex) {
             System.err.println(ex.getMessage()); 
-            return '0';
 		}
+		return '-';
 	}
 
 	
@@ -278,17 +250,17 @@ public class FenUtilities {
 		for (int i=0; i<chessBoard.getGameBoard().length; i++) {
 			int emptyTilesCounter = 0;
 			for (int j=0; j<chessBoard.getGameBoard()[0].length; j++) {
-				// Get the piece in the indices [numOfRows-i-1][j], from the gameBoard. 
-				int chessPieceCode = chessBoard.getGameBoard()[chessBoard.getGameBoard().length - i - 1][j].getPieceCode();
-				// Convert chessPiece value to chess piece character.
-				char pieceChar = getPieceCharByChessPieceValue(chessPieceCode);
-				if (pieceChar != '0') {
+				// Get the chessPiece in the indices [numOfRows-i-1][j], from the gameBoard. 
+				ChessPiece chessPiece = chessBoard.getGameBoard()[chessBoard.getGameBoard().length - i - 1][j];
+				// Convert chessPiece value to chessPiece character.
+				char pieceChar = getPieceChar(chessPiece);
+				if (pieceChar != '-') {
 					if (emptyTilesCounter != 0) {
 						// Append the number of empty consecutive empty tiles in a row 
-						// and then, the chess piece character.
+						// and then, the chessPiece character.
 						fenPosition += String.valueOf(emptyTilesCounter) + pieceChar;	
 					} else {
-						// Append the piece character.
+						// Append the chessPiece character.
 						fenPosition += pieceChar;
 					}
 					emptyTilesCounter = 0;
@@ -297,7 +269,7 @@ public class FenUtilities {
 				}
 			}
 			if (emptyTilesCounter != 0) {
-				// Append the chess piece character.
+				// Append the chessPiece character.
 				fenPosition += emptyTilesCounter;
 			}
 			emptyTilesCounter = 0;

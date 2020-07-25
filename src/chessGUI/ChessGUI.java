@@ -585,7 +585,7 @@ public class ChessGUI {
 		}
 		
 		chessBoardPanel.add(new JLabel(""));
-		// fill the black non-pawn piece row
+		// fill the black non-pawn chessPiece row
 		for (int i=0; i<GameParameters.numOfRows; i++) {
 			for (int j=0; j<NUM_OF_COLUMNS+1; j++) {
 				switch (j) {
@@ -718,20 +718,21 @@ public class ChessGUI {
 		
 		String position = Utilities.getPositionByRowCol(row, column);
 		// System.out.println("position: " + position);
-		int pieceCode = chessBoard.getGameBoard()[row][column].getPieceCode();
-		// System.out.println("piece: " + piece);
+		ChessPiece chessPiece = chessBoard.getGameBoard()[row][column];
+		// System.out.println("chessPiece: " + chessPiece);
 		
 		int startingPositionRow = 0;
 		int startingPositionColumn = 0;
-		int startingPieceCode = Constants.EMPTY;
+		ChessPiece startingPiece = null;
 		if (!startingPosition.equals("")) {
 			startingPositionRow = Utilities.getRowFromPosition(startingPosition);
 			startingPositionColumn = Utilities.getColumnFromPosition(startingPosition);
-			startingPieceCode = chessBoard.getGameBoard()[startingPositionRow][startingPositionColumn].getPieceCode();
+			startingPiece = chessBoard.getGameBoard()[startingPositionRow][startingPositionColumn];
 		}
 		
 		if (!startingButtonIsClicked &&
-			(pieceCode > 0 && chessBoard.whitePlays() || pieceCode < 0 && !chessBoard.whitePlays())) {
+			(chessPiece.getAllegiance() == Allegiance.WHITE && chessBoard.whitePlays()
+				|| chessPiece.getAllegiance() == Allegiance.BLACK && !chessBoard.whitePlays())) {
 			
 			startingPosition = position;
 			// System.out.println("startingPosition: " + startingPosition);
@@ -739,7 +740,7 @@ public class ChessGUI {
 //			System.out.println("chessBoard: ");
 //			System.out.println(chessBoard);
 			
-			if (pieceCode != Constants.EMPTY) {
+			if (!(chessPiece instanceof EmptyTile)) {
 				
 				// Get the hint positions.
 				if (chessBoard.whitePlays() && !chessBoard.isWhiteKingInCheck() 
@@ -780,16 +781,19 @@ public class ChessGUI {
 						// System.out.println("startingPiece: " + startingPiece);
 						// System.out.println("hint position: " + hintPosition);
 						
-						int hintPositionPieceCode = chessBoard.getGameBoard()[hintPositionRow][hintPositionColumn].getPieceCode();
+						ChessPiece hintPositionPiece = chessBoard.getGameBoard()[hintPositionRow][hintPositionColumn];
 						
-						if (pieceCode * hintPositionPieceCode < 0
-							|| chessBoard.getEnPassantPosition().equals(hintPosition) && Math.abs(pieceCode) == Constants.PAWN)
+						if (chessPiece.getAllegiance() != hintPositionPiece.getAllegiance()
+							&& hintPositionPiece.getAllegiance() != Allegiance.EMPTY
+							|| chessBoard.getEnPassantPosition().equals(hintPosition) && chessPiece instanceof Pawn) {
 							changeTileColor(hintPositionButton, Color.RED);
-						else if (pieceCode == Constants.WHITE_PAWN && hintPositionRow == chessBoard.getNumOfRows() - 1
-								|| pieceCode == Constants.BLACK_PAWN && hintPositionRow == 0)
+						} else if (chessPiece instanceof Pawn &&
+									(chessPiece.getAllegiance() == Allegiance.WHITE && hintPositionRow == chessBoard.getNumOfRows() - 1
+									|| chessPiece.getAllegiance() == Allegiance.BLACK && hintPositionRow == 0)) {
 							changeTileColor(hintPositionButton, Color.GREEN);
-						else if (hintPositionPieceCode == 0)
+						} else if (hintPositionPiece instanceof EmptyTile) {
 							changeTileColor(hintPositionButton, Color.BLUE);
+						}
 						
 					}
 				}
@@ -801,7 +805,8 @@ public class ChessGUI {
 			}
 			
 		} else if (startingButtonIsClicked &&
-			(startingPieceCode > 0 && chessBoard.whitePlays() || startingPieceCode < 0 && !chessBoard.whitePlays())) {
+				(startingPiece.getAllegiance() == Allegiance.WHITE && chessBoard.whitePlays()
+				|| startingPiece.getAllegiance() == Allegiance.BLACK && !chessBoard.whitePlays())) {
 			
 			startingButtonIsClicked = false;
 			
@@ -1058,10 +1063,10 @@ public class ChessGUI {
 		}
 		
 		
-		// 50 fullmoves without a piece capture Draw implementation.
+		// 50 fullmoves without a chessPiece capture Draw implementation.
 		if (chessBoard.getHalfmoveClock() >= Constants.NO_CAPTURE_DRAW_HALFMOVES_LIMIT) {
 			int dialogResult = JOptionPane.showConfirmDialog(gui, 
-					"50 fullmoves have passed without a piece capture! Do you want to claim a draw? ",
+					"50 fullmoves have passed without a chessPiece capture! Do you want to claim a draw? ",
 					"Draw", JOptionPane.YES_NO_OPTION);
 			// System.out.println("dialogResult:" + dialogResult);
 			if (dialogResult == JOptionPane.YES_OPTION) {
@@ -1097,7 +1102,7 @@ public class ChessGUI {
 		if (!chessBoard.isBlackKingInCheck()) {
 			for (int i=0; i<chessBoard.getNumOfRows(); i++) {
 				for (int j=0; j<NUM_OF_COLUMNS; j++) {
-					if (chessBoard.getGameBoard()[i][j].getPieceCode() < 0) {
+					if (chessBoard.getGameBoard()[i][j].getAllegiance() == Allegiance.BLACK) {
 						String randomStartingPosition = Utilities.getPositionByRowCol(i, j);
 						Set<String> randomEndingPositions = chessBoard.getNextPositions(randomStartingPosition);
 						
@@ -1361,49 +1366,41 @@ public class ChessGUI {
 	}
 	
 	
-	// It inserts the given piece to the given position on the board
+	// It inserts the given chessPiece to the given position on the board
 	// (both the data structure and the GUI)
-	public static void placePieceToPosition(String position, ChessPiece piece) {
+	public static void placePieceToPosition(String position, ChessPiece chessPiece) {
 		String imagePath = "";
-		int pieceCode = piece.getPieceCode();
-		switch (pieceCode) {
-			case Constants.WHITE_PAWN:
+		
+		if (chessPiece.getAllegiance() == Allegiance.WHITE) {
+			if (chessPiece instanceof Pawn) {
 				imagePath = Constants.WHITE_PAWN_IMG_PATH;
-				break;
-			case Constants.WHITE_ROOK:
+			} else if (chessPiece instanceof Rook) {
 				imagePath = Constants.WHITE_ROOK_IMG_PATH;
-				break;
-			case Constants.WHITE_KNIGHT:
+			} else if (chessPiece instanceof Knight) {
 				imagePath = Constants.WHITE_KNIGHT_IMG_PATH;
-				break;
-			case Constants.WHITE_BISHOP:
+			} else if (chessPiece instanceof Bishop) {
 				imagePath = Constants.WHITE_BISHOP_IMG_PATH;
-				break;
-			case Constants.WHITE_QUEEN:
+			} else if (chessPiece instanceof Queen) {
 				imagePath = Constants.WHITE_QUEEN_IMG_PATH;
-				break;
-			case Constants.WHITE_KING:
+			} else if (chessPiece instanceof King) {
 				imagePath = Constants.WHITE_KING_IMG_PATH;
-				break;
-			
-			case Constants.BLACK_PAWN:
+			}
+		}
+		
+		else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
+			if (chessPiece instanceof Pawn) {
 				imagePath = Constants.BLACK_PAWN_IMG_PATH;
-				break;
-			case Constants.BLACK_ROOK:
+			} else if (chessPiece instanceof Rook) {
 				imagePath = Constants.BLACK_ROOK_IMG_PATH;
-				break;
-			case Constants.BLACK_KNIGHT:
+			} else if (chessPiece instanceof Knight) {
 				imagePath = Constants.BLACK_KNIGHT_IMG_PATH;
-				break;
-			case Constants.BLACK_BISHOP:
+			} else if (chessPiece instanceof Bishop) {
 				imagePath = Constants.BLACK_BISHOP_IMG_PATH;
-				break;
-			case Constants.BLACK_QUEEN:
+			} else if (chessPiece instanceof Queen) {
 				imagePath = Constants.BLACK_QUEEN_IMG_PATH;
-				break;
-			case Constants.BLACK_KING:
+			} else if (chessPiece instanceof King) {
 				imagePath = Constants.BLACK_KING_IMG_PATH;
-				break;
+			}
 		}
 		
 		ImageIcon pieceImage = ChessGUI.preparePieceIcon(imagePath, CHESS_SQUARE_PIXEL_SIZE);
@@ -1418,11 +1415,11 @@ public class ChessGUI {
 		// System.out.println("chessBoardSquares[0].length: " + chessBoardSquares[0].length);
 		chessBoardSquares[chessBoard.getNumOfRows() - 1 - row][column].setIcon(pieceImage);
 		
-		chessBoard.getGameBoard()[row][column] = piece;
+		chessBoard.getGameBoard()[row][column] = chessPiece;
 	}
 	
 	
-	// It removes the given piece from the board (both the data structure and the GUI).
+	// It removes the given chessPiece from the board (both the data structure and the GUI).
 	public static void removePieceFromPosition(String position) {
 		
 		// int column = (int) Character.toUpperCase(position.charAt(0)) - 65;

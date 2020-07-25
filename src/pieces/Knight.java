@@ -12,7 +12,7 @@ import utilities.Utilities;
 public class Knight extends ChessPiece {
 	
 	public Knight(Allegiance allegiance) {
-		super(allegiance, Constants.KNIGHT);
+		super(allegiance);
 	}
 	
 	@Override
@@ -26,10 +26,10 @@ public class Knight extends ChessPiece {
 		int row = Utilities.getRowFromPosition(position);
 		int column = Utilities.getColumnFromPosition(position);
 		// System.out.println("row: " + row + ", column: " + column);
-		int pieceCode = chessBoard.getGameBoard()[row][column].getPieceCode();
-		// System.out.println("piece: " + piece);
+		ChessPiece chessPiece = chessBoard.getGameBoard()[row][column];
+		// System.out.println("chessPiece: " + chessPiece);
 		
-		if (Math.abs(pieceCode) != Constants.KNIGHT)
+		if (!(chessPiece instanceof Knight))
 			return nextKnightPositions;
 		
 		// The maximum number of next moves that a knight can have is 8
@@ -52,12 +52,12 @@ public class Knight extends ChessPiece {
 			newColumn = column - 1;
 			newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
 			// System.out.println("case 1 position: " + newPosition);
-			int endTileCode = chessBoard.getGameBoard()[newRow][newColumn].getPieceCode();
-			// System.out.println("endTileCode: " + endTileCode);
-			if (endTileCode == Constants.EMPTY || pieceCode*endTileCode < 0
-				&& endTileCode != Constants.WHITE_KING && endTileCode != Constants.BLACK_KING
-				|| returnThreats)
+			ChessPiece endTile = chessBoard.getGameBoard()[newRow][newColumn];
+			// System.out.println("endTile: " + endTile);
+			if (endTile instanceof EmptyTile || chessPiece.getAllegiance() != endTile.getAllegiance()
+				&& !(endTile instanceof King) || returnThreats) {
 				nextKnightPositions.add(newPosition);
+			}
 		}
 
 		
@@ -74,12 +74,12 @@ public class Knight extends ChessPiece {
 			newColumn = column + 1;
 			newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
 			// System.out.println("case 2 position: " + newPosition);
-			int endTileCode = chessBoard.getGameBoard()[newRow][newColumn].getPieceCode();
-			// System.out.println("endTileCode: " + endTileCode);
-			if (endTileCode == Constants.EMPTY || pieceCode*endTileCode < 0
-				&& endTileCode != Constants.WHITE_KING && endTileCode != Constants.BLACK_KING
-				|| returnThreats)
+			ChessPiece endTile = chessBoard.getGameBoard()[newRow][newColumn];
+			// System.out.println("endTile: " + endTile);
+			if (endTile instanceof EmptyTile || chessPiece.getAllegiance() != endTile.getAllegiance()
+				&& !(endTile instanceof King) || returnThreats) {
 				nextKnightPositions.add(newPosition);
+			}
 		}
 		
 		/*
@@ -96,12 +96,12 @@ public class Knight extends ChessPiece {
 			newColumn = column - 1;
 			newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
 			// System.out.println("case 3 position: " + newPosition);
-			int endTileCode = chessBoard.getGameBoard()[newRow][newColumn].getPieceCode();
-			// System.out.println("endTileCode: " + endTileCode);
-			if (endTileCode == Constants.EMPTY || pieceCode*endTileCode < 0
-				&& endTileCode != Constants.WHITE_KING && endTileCode != Constants.BLACK_KING
-				|| returnThreats)
+			ChessPiece endTile = chessBoard.getGameBoard()[newRow][newColumn];
+			// System.out.println("endTile: " + endTile);
+			if (endTile instanceof EmptyTile || chessPiece.getAllegiance() != endTile.getAllegiance()
+				&& !(endTile instanceof King) || returnThreats) {
 				nextKnightPositions.add(newPosition);
+			}
 		}
 		
 		/*
@@ -118,12 +118,12 @@ public class Knight extends ChessPiece {
 			newColumn = column + 1;
 			newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
 			// System.out.println("case 4 position: " + newPosition);
-			int endTileCode = chessBoard.getGameBoard()[newRow][newColumn].getPieceCode();
-			// System.out.println("endTileCode: " + endTileCode);
-			if (endTileCode == Constants.EMPTY || pieceCode*endTileCode < 0
-				&& endTileCode != Constants.WHITE_KING && endTileCode != Constants.BLACK_KING
-				|| returnThreats)
+			ChessPiece endTile = chessBoard.getGameBoard()[newRow][newColumn];
+			// System.out.println("endTile: " + endTile);
+			if (endTile instanceof EmptyTile || chessPiece.getAllegiance() != endTile.getAllegiance()
+				&& !(endTile instanceof King) || returnThreats) {
 				nextKnightPositions.add(newPosition);
+			}
 		}
 		
 		/*
@@ -135,12 +135,12 @@ public class Knight extends ChessPiece {
 			newColumn = column - 2;
 			newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
 			// System.out.println("case 5 position: " + newPosition);
-			int endTileCode = chessBoard.getGameBoard()[newRow][newColumn].getPieceCode();
-			// System.out.println("endTileCode: " + endTileCode);
-			if (endTileCode == Constants.EMPTY || pieceCode*endTileCode < 0
-				&& endTileCode != Constants.WHITE_KING && endTileCode != Constants.BLACK_KING
-				|| returnThreats)
+			ChessPiece endTile = chessBoard.getGameBoard()[newRow][newColumn];
+			// System.out.println("endTile: " + endTile);
+			if (endTile instanceof EmptyTile || chessPiece.getAllegiance() != endTile.getAllegiance()
+				&& !(endTile instanceof King) || returnThreats) {
 				nextKnightPositions.add(newPosition);
+			}
 		}
 		
 		/*
@@ -152,12 +152,12 @@ public class Knight extends ChessPiece {
 			newColumn = column + 2;
 			newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
 			// System.out.println("case 6 position: " + newPosition);
-			int endTileCode = chessBoard.getGameBoard()[newRow][newColumn].getPieceCode();
-			// System.out.println("endTileCode: " + endTileCode);
-			if (endTileCode == Constants.EMPTY || pieceCode*endTileCode < 0
-				&& endTileCode != Constants.WHITE_KING && endTileCode != Constants.BLACK_KING
-				|| returnThreats)
+			ChessPiece endTile = chessBoard.getGameBoard()[newRow][newColumn];
+			// System.out.println("endTile: " + endTile);
+			if (endTile instanceof EmptyTile || chessPiece.getAllegiance() != endTile.getAllegiance()
+				&& !(endTile instanceof King) || returnThreats) {
 				nextKnightPositions.add(newPosition);
+			}
 		}
 
 		/*
@@ -170,12 +170,12 @@ public class Knight extends ChessPiece {
 			newColumn = column - 2;
 			newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
 			// System.out.println("case 7 position: " + newPosition);
-			int endTileCode = chessBoard.getGameBoard()[newRow][newColumn].getPieceCode();
-			// System.out.println("endTileCode: " + endTileCode);
-			if (endTileCode == Constants.EMPTY || pieceCode*endTileCode < 0
-				&& endTileCode != Constants.WHITE_KING && endTileCode != Constants.BLACK_KING
-				|| returnThreats)
+			ChessPiece endTile = chessBoard.getGameBoard()[newRow][newColumn];
+			// System.out.println("endTile: " + endTile);
+			if (endTile instanceof EmptyTile || chessPiece.getAllegiance() != endTile.getAllegiance()
+				&& !(endTile instanceof King) || returnThreats) {
 				nextKnightPositions.add(newPosition);
+			}
 		}
 		
 		/*
@@ -188,12 +188,12 @@ public class Knight extends ChessPiece {
 			newColumn = column + 2;
 			newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
 			// System.out.println("case 8 position: " + newPosition);
-			int endTileCode = chessBoard.getGameBoard()[newRow][newColumn].getPieceCode();
-			// System.out.println("endTileCode: " + endTileCode);
-			if (endTileCode == Constants.EMPTY || pieceCode*endTileCode < 0
-				&& endTileCode != Constants.WHITE_KING && endTileCode != Constants.BLACK_KING
-				|| returnThreats)
+			ChessPiece endTile = chessBoard.getGameBoard()[newRow][newColumn];
+			// System.out.println("endTile: " + endTile);
+			if (endTile instanceof EmptyTile || chessPiece.getAllegiance() != endTile.getAllegiance()
+				&& !(endTile instanceof King) || returnThreats) {
 				nextKnightPositions.add(newPosition);
+			}
 		}
 			
 		return nextKnightPositions;

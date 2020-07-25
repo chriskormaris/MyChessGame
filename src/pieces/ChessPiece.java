@@ -13,7 +13,7 @@ public abstract class ChessPiece {
 	
 	// Always positive, but the getter returns a negative value, 
 	// if the allegiance is Black.  
-	private int pieceCode;
+	private char chessPieceChar;
 	
 	public ChessPiece() {
 		
@@ -21,27 +21,37 @@ public abstract class ChessPiece {
 	
 	public ChessPiece(Allegiance allegiance) {
 		this.allegiance = allegiance;
-	}
-	
-	public ChessPiece(int pieceCode) {
-		this.pieceCode = pieceCode;
-		if (pieceCode > 0) {
-			this.allegiance = Allegiance.WHITE;
-		} else if (pieceCode < 0) {
-			this.allegiance = Allegiance.BLACK;
+		if (allegiance == Allegiance.WHITE) {
+			if (this instanceof Pawn) {
+				this.chessPieceChar = Constants.WHITE_PAWN;
+			} else if (this instanceof Rook) {
+				this.chessPieceChar = Constants.WHITE_ROOK;
+			} else if (this instanceof Knight) {
+				this.chessPieceChar = Constants.WHITE_KNIGHT;
+			} else if (this instanceof Bishop) {
+				this.chessPieceChar = Constants.WHITE_BISHOP;
+			} else if (this instanceof Queen) {
+				this.chessPieceChar = Constants.WHITE_QUEEN;
+			} else if (this instanceof King) {
+				this.chessPieceChar = Constants.WHITE_KING;
+			}
+		} else if (allegiance == Allegiance.BLACK) {
+			if (this instanceof Pawn) {
+				this.chessPieceChar = Constants.BLACK_PAWN;
+			} else if (this instanceof Rook) {
+				this.chessPieceChar = Constants.BLACK_ROOK;
+			} else if (this instanceof Knight) {
+				this.chessPieceChar = Constants.BLACK_KNIGHT;
+			} else if (this instanceof Bishop) {
+				this.chessPieceChar = Constants.BLACK_BISHOP;
+			} else if (this instanceof Queen) {
+				this.chessPieceChar = Constants.BLACK_QUEEN;
+			} else if (this instanceof King) {
+				this.chessPieceChar = Constants.BLACK_KING;
+			}
 		} else {
-			this.allegiance = Allegiance.EMPTY;
+			this.chessPieceChar = '-';
 		}
-	}
-	
-	public ChessPiece(Allegiance allegiance, int pieceCode) {
-		this.allegiance = allegiance;
-		if (allegiance == Allegiance.WHITE)
-			this.pieceCode = Math.abs(pieceCode);
-		else if (allegiance == Allegiance.BLACK)
-			this.pieceCode = -Math.abs(pieceCode);
-		else
-			this.pieceCode = Constants.EMPTY;
 	}
 	
 	public Allegiance getAllegiance() {
@@ -53,19 +63,10 @@ public abstract class ChessPiece {
 	}
 
 	// Positive for White, negative for Black, 0 for Empty.
-	public int getPieceCode() {
-		if (allegiance == Allegiance.WHITE)
-			return Math.abs(pieceCode);
-		else if (allegiance == Allegiance.BLACK)
-			return -Math.abs(pieceCode);
-		else
-			return Constants.EMPTY;
+	public char getChessPieceChar() {
+		return chessPieceChar;
 	}
-
-	public void setPieceCode(int pieceCode) {
-		this.pieceCode = pieceCode;
-	}
-
+	
 	public abstract Set<String> getNextPositions(String position, ChessBoard chessBoard, boolean returnThreats);
 	
 	@Override

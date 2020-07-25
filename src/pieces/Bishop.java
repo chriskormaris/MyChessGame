@@ -12,7 +12,7 @@ import utilities.Utilities;
 public class Bishop extends ChessPiece {
 	
 	public Bishop(Allegiance allegiance) {
-		super(allegiance, Constants.BISHOP);
+		super(allegiance);
 	}
 	
 	@Override
@@ -26,9 +26,9 @@ public class Bishop extends ChessPiece {
 		// that corresponds to the given position String.
 		int row = Utilities.getRowFromPosition(position);
 		int column = Utilities.getColumnFromPosition(position);
-		int pieceCode = chessBoard.getGameBoard()[row][column].getPieceCode();
+		ChessPiece chessPiece = chessBoard.getGameBoard()[row][column];
 		
-		if (Math.abs(pieceCode) != Constants.BISHOP)
+		if (!(chessPiece instanceof Bishop))
 			return nextBishopPositions;
 
 		int newRow = 0, newColumn = 0;
@@ -44,16 +44,18 @@ public class Bishop extends ChessPiece {
 				newColumn = column + counter;
 				newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
 				// System.out.println("newPosition: " + newPosition);
-				int endTileCode = chessBoard.getGameBoard()[newRow][newColumn].getPieceCode();
-				// System.out.println("endTileCode: " + endTileCode);
-				if (endTileCode == Constants.EMPTY || pieceCode*endTileCode < 0
-					&& endTileCode != Constants.WHITE_KING && endTileCode != Constants.BLACK_KING
-					|| returnThreats)
+				ChessPiece endTile = chessBoard.getGameBoard()[newRow][newColumn];
+				// System.out.println("endTile: " + endTile);
+				if (endTile instanceof EmptyTile || chessPiece.getAllegiance() != endTile.getAllegiance()
+					&& !(endTile instanceof King) || returnThreats) {
 					nextBishopPositions.add(newPosition);
+				}
 				
-				// Stop searching for other positions, if another piece is reached.
-				if (pieceCode*endTileCode < 0 || pieceCode*chessBoard.getGameBoard()[newRow][newColumn].getPieceCode() > 0)
+				// Stop searching for other positions, if another chessPiece is reached.
+				if (chessPiece.getAllegiance() != endTile.getAllegiance() && !(endTile instanceof EmptyTile)
+					|| chessPiece.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
 					break;
+				}
 			}
 			counter++;
 		}
@@ -67,16 +69,18 @@ public class Bishop extends ChessPiece {
 				newColumn = column - counter;
 				newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
 				// System.out.println("newPosition: " + newPosition);
-				int endTileCode = chessBoard.getGameBoard()[newRow][newColumn].getPieceCode();
-				// System.out.println("endTileCode: " + endTileCode);
-				if (endTileCode == Constants.EMPTY || pieceCode*endTileCode < 0
-					&& endTileCode != Constants.WHITE_KING && endTileCode != Constants.BLACK_KING
-					|| returnThreats)
+				ChessPiece endTile = chessBoard.getGameBoard()[newRow][newColumn];
+				// System.out.println("endTile: " + endTile);
+				if (endTile instanceof EmptyTile || chessPiece.getAllegiance() != endTile.getAllegiance()
+					&& !(endTile instanceof King) || returnThreats) {
 					nextBishopPositions.add(newPosition);
+				}
 				
-				// Stop searching for other positions, if another piece is reached.
-				if (pieceCode*endTileCode < 0 || pieceCode*chessBoard.getGameBoard()[newRow][newColumn].getPieceCode() > 0)
+				// Stop searching for other positions, if another chessPiece is reached.
+				if (chessPiece.getAllegiance() != endTile.getAllegiance() && !(endTile instanceof EmptyTile)
+					|| chessPiece.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
 					break;
+				}
 			}
 			counter++;
 		}
@@ -90,16 +94,18 @@ public class Bishop extends ChessPiece {
 				newColumn = column - counter;
 				newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
 				// System.out.println("newPosition: " + newPosition);
-				int endTileCode = chessBoard.getGameBoard()[newRow][newColumn].getPieceCode();
-				// System.out.println("endTileCode: " + endTileCode);
-				if (endTileCode == Constants.EMPTY || pieceCode*endTileCode < 0
-					&& endTileCode != Constants.WHITE_KING && endTileCode != Constants.BLACK_KING
-					|| returnThreats)
+				ChessPiece endTile = chessBoard.getGameBoard()[newRow][newColumn];
+				// System.out.println("endTile: " + endTile);
+				if (endTile instanceof EmptyTile || chessPiece.getAllegiance() != endTile.getAllegiance()
+					&& !(endTile instanceof King) || returnThreats) {
 					nextBishopPositions.add(newPosition);
+				}
 				
-				// Stop searching for other positions, if another piece is reached.
-				if (pieceCode*endTileCode < 0 || pieceCode*chessBoard.getGameBoard()[newRow][newColumn].getPieceCode() > 0)
+				// Stop searching for other positions, if another chessPiece is reached.
+				if (chessPiece.getAllegiance() != endTile.getAllegiance() && !(endTile instanceof EmptyTile)
+					|| chessPiece.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
 					break;
+				}
 			}
 			counter++;
 		}
@@ -113,16 +119,18 @@ public class Bishop extends ChessPiece {
 				newColumn = column + counter;
 				newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
 				// System.out.println("newPosition: " + newPosition);
-				int endTileCode = chessBoard.getGameBoard()[newRow][newColumn].getPieceCode();
-				// System.out.println("endTileCode: " + endTileCode);
-				if (endTileCode == Constants.EMPTY || pieceCode*endTileCode < 0
-					&& endTileCode != Constants.WHITE_KING && endTileCode != Constants.BLACK_KING
-					|| returnThreats)
+				ChessPiece endTile = chessBoard.getGameBoard()[newRow][newColumn];
+				// System.out.println("endTile: " + endTile);
+				if (endTile instanceof EmptyTile || chessPiece.getAllegiance() != endTile.getAllegiance()
+					&& !(endTile instanceof King) || returnThreats) {
 					nextBishopPositions.add(newPosition);
+				}
 				
-				// Stop searching for other positions, if another piece is reached.
-				if (pieceCode*endTileCode < 0 || pieceCode*chessBoard.getGameBoard()[newRow][newColumn].getPieceCode() > 0)
+				// Stop searching for other positions, if another chessPiece is reached.
+				if (chessPiece.getAllegiance() != endTile.getAllegiance() && !(endTile instanceof EmptyTile)
+					|| chessPiece.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
 					break;
+				}
 			}
 			counter++;
 		}

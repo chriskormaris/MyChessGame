@@ -2,7 +2,7 @@ package utilities;
 
 public class Constants {
 	
-	public final static double VERSION = 3.2;
+	public final static double VERSION = 3.3;
 	
 	public final static int CAPTURED_PIECE_PIXEL_SIZE = 16;
 	
@@ -44,26 +44,19 @@ public class Constants {
 
 	public final static int EMPTY = 0;
 	
-	public final static int PAWN = 1;
-	public final static int KNIGHT = 2;
-	public final static int BISHOP = 3;
-	public final static int ROOK = 4;
-	public final static int QUEEN = 5;
-	public final static int KING = 6;
-	
-	public final static int WHITE_PAWN = PAWN;
-	public final static int WHITE_KNIGHT = KNIGHT;
-	public final static int WHITE_BISHOP = BISHOP;
-	public final static int WHITE_ROOK = ROOK;
-	public final static int WHITE_QUEEN = QUEEN;
-	public final static int WHITE_KING = KING;
+	public final static char WHITE_PAWN = 'P';
+	public final static char WHITE_KNIGHT = 'N';
+	public final static char WHITE_BISHOP = 'B';
+	public final static char WHITE_ROOK = 'R';
+	public final static char WHITE_QUEEN = 'Q';
+	public final static char WHITE_KING = 'K';
 
-	public final static int BLACK_PAWN = -PAWN;
-	public final static int BLACK_KNIGHT = -KNIGHT;
-	public final static int BLACK_BISHOP = -BISHOP;
-	public final static int BLACK_ROOK = -ROOK;
-	public final static int BLACK_QUEEN = -QUEEN;
-	public final static int BLACK_KING = -KING;
+	public final static char BLACK_PAWN = 'p';
+	public final static char BLACK_KNIGHT = 'n';
+	public final static char BLACK_BISHOP = 'b';
+	public final static char BLACK_ROOK = 'r';
+	public final static char BLACK_QUEEN = 'q';
+	public final static char BLACK_KING = 'k';
 	
 	public final static String WHITE_IMG_PATH = "images/white/";
 	
