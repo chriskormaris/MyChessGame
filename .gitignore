@@ -13,3 +13,5 @@ hs_err_pid*
 
 # added by user
 bin/
+exported_FEN_position.txt
+links.txt
