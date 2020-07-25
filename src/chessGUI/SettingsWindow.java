@@ -211,7 +211,7 @@ public class SettingsWindow extends JFrame {
 					GameParameters.maxDepth1 = maxDepth1;
 					GameParameters.maxDepth2 = maxDepth2;
 					GameParameters.numOfRows = numberOfRows;
-										
+					
 					JOptionPane.showMessageDialog(ChessGUI.frame,
 							"Game settings have been changed.\nSome changes may be applied in the next new game.",
 							"", JOptionPane.INFORMATION_MESSAGE);
