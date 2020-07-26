@@ -140,7 +140,7 @@ public class ChessGUI {
 	public static boolean isChessGui2;
 	
 	public static String savedFenPosition;
-	
+		
 	public ChessGUI(String title) {
 
 		// Change JDialog style.
@@ -356,7 +356,7 @@ public class ChessGUI {
 		}
 		if (chessBoard.whitePlays() && chessBoard.isWhiteKingInCheck())
 			turnMessage += " White king is in check!";
-		else if (!chessBoard.whitePlays() && chessBoard.isBlackKingInCheck())
+		else if (chessBoard.blackPlays() && chessBoard.isBlackKingInCheck())
 			turnMessage += " Black king is in check!";
 		labelMessage.setText(turnMessage);
 	}
@@ -640,7 +640,7 @@ public class ChessGUI {
 		configureGuiStyle();
 		// restoreDefaultValues();
 
-		/* If running "ChessGUI.java", use this! */
+		/* If running "ChessGUI.java", you must use this! */
 		chessBoardPanel.removeAll();
 		if (!isChessGui2) {
 			initializeChessBoardPanel();
@@ -732,7 +732,7 @@ public class ChessGUI {
 		
 		if (!startingButtonIsClicked &&
 			(chessPiece.getAllegiance() == Allegiance.WHITE && chessBoard.whitePlays()
-				|| chessPiece.getAllegiance() == Allegiance.BLACK && !chessBoard.whitePlays())) {
+				|| chessPiece.getAllegiance() == Allegiance.BLACK && chessBoard.blackPlays())) {
 			
 			startingPosition = position;
 			// System.out.println("startingPosition: " + startingPosition);
@@ -744,14 +744,14 @@ public class ChessGUI {
 				
 				// Get the hint positions.
 				if (chessBoard.whitePlays() && !chessBoard.isWhiteKingInCheck() 
-					|| !chessBoard.whitePlays() && !chessBoard.isBlackKingInCheck()) {
+					|| chessBoard.blackPlays() && !chessBoard.isBlackKingInCheck()) {
 					hintPositions = chessBoard.getNextPositions(position);
 					
 					// System.out.println("chessBoard: ");
 					// System.out.println(chessBoard);
 				}
 				// If the White or Black King is in check, then get one of the following valid moves.
-				else if (chessBoard.whitePlays() && chessBoard.isWhiteKingInCheck() || !chessBoard.whitePlays() 
+				else if (chessBoard.whitePlays() && chessBoard.isWhiteKingInCheck() || chessBoard.blackPlays() 
 						&& chessBoard.isBlackKingInCheck()) {
 					hintPositions = new TreeSet<String>();
 					
@@ -759,7 +759,7 @@ public class ChessGUI {
 							&& chessBoard.getWhiteKingInCheckValidPieceMoves().containsKey(startingPosition)) {
 						hintPositions = chessBoard.getWhiteKingInCheckValidPieceMoves().get(startingPosition);
 					}
-					else if (!chessBoard.whitePlays() 
+					else if (chessBoard.blackPlays() 
 							&& chessBoard.getBlackKingInCheckValidPieceMoves().containsKey(startingPosition)) {
 						hintPositions = chessBoard.getBlackKingInCheckValidPieceMoves().get(startingPosition);
 					}
@@ -806,7 +806,7 @@ public class ChessGUI {
 			
 		} else if (startingButtonIsClicked &&
 				(startingPiece.getAllegiance() == Allegiance.WHITE && chessBoard.whitePlays()
-				|| startingPiece.getAllegiance() == Allegiance.BLACK && !chessBoard.whitePlays())) {
+				|| startingPiece.getAllegiance() == Allegiance.BLACK && chessBoard.blackPlays())) {
 			
 			startingButtonIsClicked = false;
 			
@@ -892,19 +892,19 @@ public class ChessGUI {
 					turnMessage += (chessBoard.whitePlays()) ? "White plays." : "Black plays.";
 					if (chessBoard.whitePlays() && chessBoard.isWhiteKingInCheck())
 						turnMessage += " White king is in check!";
-					else if (!chessBoard.whitePlays() && chessBoard.isBlackKingInCheck())
+					else if (chessBoard.blackPlays() && chessBoard.isBlackKingInCheck())
 						turnMessage += " Black king is in check!";
 					labelMessage.setText(turnMessage);
 				}
 				
 				/* Random AI implementation here. */
 				// The AI controls the Black pieces.
-				if (GameParameters.gameMode == Constants.HUMAN_VS_RANDOM_AI && !chessBoard.whitePlays()) {
+				if (GameParameters.gameMode == Constants.HUMAN_VS_RANDOM_AI && chessBoard.blackPlays()) {
 					// System.out.println("INSIDE RANDOM AI");
 					randomAiMove();
 				}
 				/* MiniMax AI implementation here. */
-				else if (GameParameters.gameMode == Constants.HUMAN_VS_MINIMAX_AI && !chessBoard.whitePlays()) {
+				else if (GameParameters.gameMode == Constants.HUMAN_VS_MINIMAX_AI && chessBoard.blackPlays()) {
 					// System.out.println("INSIDE MINIMAX AI");
 					minimaxAiMove(ai);
 				}
@@ -928,7 +928,7 @@ public class ChessGUI {
 				
 				if (GameParameters.enableSounds)
 					Utilities.playSound("checkmate.wav");
-
+				
 				int dialogResult = JOptionPane.showConfirmDialog(gui, 
 						"White wins! Start a new game?", "Checkmate", JOptionPane.YES_NO_OPTION);
 				// System.out.println("dialogResult:" + dialogResult);
@@ -1009,7 +1009,7 @@ public class ChessGUI {
 		
 		/* Stalemate draw implementation. */
 		// Check for White stalemate.
-		if (!chessBoard.whitePlays() && !chessBoard.isWhiteKingInCheck()) {
+		if (chessBoard.blackPlays() && !chessBoard.isWhiteKingInCheck()) {
 			// System.out.println("Checking for white stalemate!");
 			chessBoard.checkForWhiteStalemateDraw();
 			if (chessBoard.isWhiteStalemateDraw()) {
@@ -1064,11 +1064,17 @@ public class ChessGUI {
 		
 		
 		// 50 fullmoves without a chessPiece capture Draw implementation.
-		if (chessBoard.getHalfmoveClock() >= Constants.NO_CAPTURE_DRAW_HALFMOVES_LIMIT) {
-			int dialogResult = JOptionPane.showConfirmDialog(gui, 
-					(int) Math.ceil(Constants.NO_CAPTURE_DRAW_HALFMOVES_LIMIT / (double) 2) + 
-					" fullmoves have passed without a chessPiece capture! Do you want to claim a draw? ",
-					"Draw", JOptionPane.YES_NO_OPTION);
+		if (chessBoard.isNoCaptureDraw()) {
+			int dialogResult = -1;
+			
+			if (chessBoard.whitePlays()
+					|| chessBoard.blackPlays() && GameParameters.gameMode == Constants.HUMAN_VS_HUMAN) {
+				dialogResult = JOptionPane.showConfirmDialog(gui, 
+						(int) Math.ceil(Constants.NO_PIECE_CAPTURE_HALFMOVES_DRAW_LIMIT / (double) 2) + 
+						" fullmoves have passed without a chessPiece capture! Do you want to claim a draw? ",
+						"Draw", JOptionPane.YES_NO_OPTION);
+			}
+			
 			// System.out.println("dialogResult:" + dialogResult);
 			if (dialogResult == JOptionPane.YES_OPTION) {
 				if (undoItem != null)
@@ -1142,7 +1148,8 @@ public class ChessGUI {
 		int i = 0;
 		for (String possibleEndingPosition: possibleEndingPositions) {
 		    if (i == randomEndingPositionIndex) {
-		    	randomAiEndingPosition = possibleEndingPosition; break;
+		    	randomAiEndingPosition = possibleEndingPosition;
+		    	break;
 		    }
 		    i++;
 		}
@@ -1154,7 +1161,7 @@ public class ChessGUI {
 		Move move = new Move(randomAiStartingPosition, randomAiEndingPosition, chessBoard.evaluate());
 		chessBoard.makeMove(move, Constants.BLACK, true);
 		
-		isGameOver = checkForGameOver(); 
+		isGameOver = checkForGameOver();
 		if (isGameOver) return;
 		
 		// Remove the check from the king of the player who made the last move.
@@ -1188,7 +1195,7 @@ public class ChessGUI {
 		chessBoard.makeMove(aiMove, ai.getAiPlayer(), true);
 		// System.out.println("board value after aiMove -> " + chessBoard.evaluate());
 		
-		isGameOver = checkForGameOver(); 
+		isGameOver = checkForGameOver();
 		if (isGameOver) return;
 		
 		// Remove the check from the king of the player who made the last move.
@@ -1245,9 +1252,6 @@ public class ChessGUI {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			
-			isGameOver = checkForGameOver();
-			if (isGameOver) return;
 			
 			previousChessBoards.push(new ChessBoard(chessBoard));
 			

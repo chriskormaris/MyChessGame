@@ -23,15 +23,12 @@ class NotTwoKingsLeftTest {
 		
 		ChessBoard.printChessBoard(ChessGUI.chessBoard.getGameBoard());
 		
-		ChessGUI.chessBoard.getGameBoard()[0][0] = new King(Allegiance.WHITE);
 		ChessGUI.placePieceToPosition("A1", new King(Allegiance.WHITE));
-		ChessGUI.chessBoard.getGameBoard()[7][7] = new King(Allegiance.BLACK);
 		ChessGUI.placePieceToPosition("H8", new King(Allegiance.BLACK));
 		
 		ChessBoard.printChessBoard(ChessGUI.chessBoard.getGameBoard());
 		
-		ChessGUI.chessBoard.getGameBoard()[0][1] = new Pawn(Allegiance.WHITE);
-		ChessGUI.placePieceToPosition("B1", new Pawn(Allegiance.WHITE));
+		ChessGUI.placePieceToPosition("B2", new Pawn(Allegiance.WHITE));
 		
 		System.out.println();
 		ChessBoard.printChessBoard(ChessGUI.chessBoard.getGameBoard());
