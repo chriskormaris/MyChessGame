@@ -823,9 +823,9 @@ public class ChessBoard {
     	if (this.isTwoKingsLeftDraw) return 0;
     	if (this.isWhiteStalemateDraw) return 0;
     	if (this.isBlackStalemateDraw) return 0;
-    	if (this.halfmoveClock >= Constants.NO_CAPTURE_DRAW_HALFMOVES_LIMIT) return 0;
+//    	if (this.halfmoveClock >= Constants.NO_CAPTURE_DRAW_HALFMOVES_LIMIT) return 0;
     	
-    	    	
+    	
 		// String startPosition = lastMove.getPositions().get(0);
 		String endPosition = lastMove.getPositions().get(1);
     	ChessPiece lastMovedPiece = Utilities.getChessPieceFromPosition(this.gameBoard, endPosition);
@@ -1135,8 +1135,8 @@ public class ChessBoard {
 
     	if (checkForTwoKingsLeftDraw()) return true;
     	
-    	if (getHalfmoveClock() >= Constants.NO_CAPTURE_DRAW_HALFMOVES_LIMIT)
-    		return true;
+//    	if (getHalfmoveClock() >= Constants.NO_CAPTURE_DRAW_HALFMOVES_LIMIT)
+//    		return true;
 
         return false;
     }
@@ -1144,8 +1144,8 @@ public class ChessBoard {
 
 	public boolean isTerminalState() {
 		if (isWhiteCheckmate() || isBlackCheckmate() || 
-			isWhiteStalemateDraw() || isBlackStalemateDraw() || isTwoKingsLeftDraw() || 
-			getHalfmoveClock() >= Constants.NO_CAPTURE_DRAW_HALFMOVES_LIMIT) {
+			isWhiteStalemateDraw() || isBlackStalemateDraw() || isTwoKingsLeftDraw()) {
+//			getHalfmoveClock() >= Constants.NO_CAPTURE_DRAW_HALFMOVES_LIMIT) {
 			return true;
 		}
 		return false;

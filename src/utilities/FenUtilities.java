@@ -51,7 +51,7 @@ public class FenUtilities {
 				&& !castlingAvailability.contains(String.valueOf(Constants.WHITE_QUEEN))) {
 			leftWhiteRookMoved = true;
 			whiteKingMoved = true;
-		} else if (castlingAvailability.contains(String.valueOf(Constants.WHITE_KING)) 
+		} else if (!castlingAvailability.contains(String.valueOf(Constants.WHITE_KING)) 
 				&& castlingAvailability.contains(String.valueOf(Constants.WHITE_QUEEN))) {
 			rightWhiteRookMoved = true;
 			whiteKingMoved = true;

@@ -10,6 +10,7 @@ class StalemateCheckmateTest {
 
 	@Test
 	public void testStalemateCheckmatePawnPromotion() {
+		// GameParameters.gameMode = Constants.HUMAN_VS_RANDOM_AI;
 		
 		String title = "Stalemate or Checkmate Test";
 

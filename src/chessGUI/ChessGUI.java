@@ -149,7 +149,7 @@ public class ChessGUI {
 		configureGuiStyle();
 
 		initializeGui();
-
+		
 		if (GameParameters.gameMode == Constants.HUMAN_VS_MINIMAX_AI) {
 			ai = new MiniMaxAi(GameParameters.maxDepth1, Constants.BLACK);
 		}
@@ -902,7 +902,7 @@ public class ChessGUI {
 				if (GameParameters.gameMode == Constants.HUMAN_VS_RANDOM_AI && !chessBoard.whitePlays()) {
 					// System.out.println("INSIDE RANDOM AI");
 					randomAiMove();
-				} 
+				}
 				/* MiniMax AI implementation here. */
 				else if (GameParameters.gameMode == Constants.HUMAN_VS_MINIMAX_AI && !chessBoard.whitePlays()) {
 					// System.out.println("INSIDE MINIMAX AI");
@@ -1066,24 +1066,18 @@ public class ChessGUI {
 		// 50 fullmoves without a chessPiece capture Draw implementation.
 		if (chessBoard.getHalfmoveClock() >= Constants.NO_CAPTURE_DRAW_HALFMOVES_LIMIT) {
 			int dialogResult = JOptionPane.showConfirmDialog(gui, 
-					"50 fullmoves have passed without a chessPiece capture! Do you want to claim a draw? ",
+					(int) Math.ceil(Constants.NO_CAPTURE_DRAW_HALFMOVES_LIMIT / (double) 2) + 
+					" fullmoves have passed without a chessPiece capture! Do you want to claim a draw? ",
 					"Draw", JOptionPane.YES_NO_OPTION);
 			// System.out.println("dialogResult:" + dialogResult);
 			if (dialogResult == JOptionPane.YES_OPTION) {
 				if (undoItem != null)
 					undoItem.setEnabled(false);
 				startNewGame();
-			} else {
-				if (undoItem != null)
-					undoItem.setEnabled(true);
-				if (exportFenPositionItem != null)
-					exportFenPositionItem.setEnabled(false);
-				if (saveCheckpointItem != null)
-					saveCheckpointItem.setEnabled(false);
-				disableChessBoardSquares();
+				
+				return true;
 			}
 			
-			return true;
 		}
 		
 		return false;
@@ -1121,24 +1115,6 @@ public class ChessGUI {
 				// System.out.println("randomStartingPositionIndex: " + randomStartingPositionIndex);
 				randomAiStartingPosition = keys.get(randomStartingPositionIndex);
 			}
-			/* Stalemate implementation for Black Random AI. */
-			// I think we do need it, because checked it from the human move.
-			else {
-				int dialogResult = JOptionPane.showConfirmDialog(gui, 
-						"Stalemate! No legal moves for Black exist. Start a new game?", 
-						"Draw", JOptionPane.YES_NO_OPTION);
-				// System.out.println("dialogResult:" + dialogResult);
-				if (dialogResult == JOptionPane.YES_OPTION) {
-					if (undoItem != null)
-						undoItem.setEnabled(false);
-					startNewGame();
-				} else {
-					if (undoItem != null)
-						undoItem.setEnabled(true);
-					disableChessBoardSquares();
-				}
-				return;
-			}
 			
 		} 
 		// If the Black King is in check, then get one of the following valid moves.
@@ -1163,12 +1139,12 @@ public class ChessGUI {
 		Random r = new Random();
 		int randomEndingPositionIndex = r.nextInt(possibleEndingPositions.size());
 		// System.out.println("randomEndingPositionIndex: " + randomEndingPositionIndex);
-		int ii = 0;
+		int i = 0;
 		for (String possibleEndingPosition: possibleEndingPositions) {
-		    if (ii == randomEndingPositionIndex) {
+		    if (i == randomEndingPositionIndex) {
 		    	randomAiEndingPosition = possibleEndingPosition; break;
 		    }
-		    ii++;
+		    i++;
 		}
 		// System.out.println("random ending position: " + randomAiEndingPosition);
 		
@@ -1178,6 +1154,7 @@ public class ChessGUI {
 		Move move = new Move(randomAiStartingPosition, randomAiEndingPosition, chessBoard.evaluate());
 		chessBoard.makeMove(move, Constants.BLACK, true);
 		
+		isGameOver = checkForGameOver(); 
 		if (isGameOver) return;
 		
 		// Remove the check from the king of the player who made the last move.
@@ -1208,37 +1185,9 @@ public class ChessGUI {
 		Move aiMove = ai.miniMaxAlphaBeta(chessBoard);
 		System.out.println("aiMove: " + aiMove);
 		
-		String minimaxAiStartingPosition = aiMove.getPositions().get(0);
-		String minimaxAiEndingPosition = aiMove.getPositions().get(1);
-		
-		/* Stalemate implementation for Black Minimax AI. */
-		// I think we do need it, because checked it from the human move.
-		if (minimaxAiStartingPosition.equals("") || minimaxAiEndingPosition.equals("")) {
-			String message = "";
-			if (ai.getAiPlayer() == Constants.BLACK) {
-				message = "Stalemate! No legal moves for Black exist. Start a new game?";
-			} else if (ai.getAiPlayer() == Constants.WHITE) {
-				message = "Stalemate! No legal moves for White exist. Start a new game?";
-			}
-			int dialogResult = JOptionPane.showConfirmDialog(gui, message, "Draw", JOptionPane.YES_NO_OPTION);
-			// System.out.println("dialogResult:" + dialogResult);
-			if (dialogResult == JOptionPane.YES_OPTION) {
-				if (undoItem != null)
-					undoItem.setEnabled(false);
-				startNewGame();
-			} else {
-				if (undoItem != null)
-					undoItem.setEnabled(true);
-				disableChessBoardSquares();
-			}
-			return;
-		}
-		
-		// chessBoard.movePieceFromAPositionToAnother(minimaxAiStartingPosition, minimaxAiEndingPosition, true);
-
 		chessBoard.makeMove(aiMove, ai.getAiPlayer(), true);
 		// System.out.println("board value after aiMove -> " + chessBoard.evaluate());
-
+		
 		isGameOver = checkForGameOver(); 
 		if (isGameOver) return;
 		
@@ -1297,7 +1246,7 @@ public class ChessGUI {
 				e.printStackTrace();
 			}
 			
-			isGameOver = checkForGameOver(); 
+			isGameOver = checkForGameOver();
 			if (isGameOver) return;
 			
 			previousChessBoards.push(new ChessBoard(chessBoard));
