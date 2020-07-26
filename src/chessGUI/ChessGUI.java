@@ -1122,7 +1122,7 @@ public class ChessGUI {
 				randomAiStartingPosition = keys.get(randomStartingPositionIndex);
 			}
 			
-		} 
+		}
 		// If the Black King is in check, then get one of the following valid moves.
 		else {
 			// System.out.println("chessBoard.blackKingInCheckValidPieceMoves: " + chessBoard.blackKingInCheckValidPieceMoves);
