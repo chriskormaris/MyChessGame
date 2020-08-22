@@ -412,7 +412,7 @@ public class ChessGUI {
 			    capturedPiecesPanel.add(capturedPiecesImages[i]);
 			}
 			
-			// This is true if any terminal state has occured.
+			// This is true if any terminal state has occurred.
 			// The terminal states are: "draw", "stalemate draw" & "checkmate"
 			if (!buttonsEnabled) {
 				enableChessBoardButtons();
