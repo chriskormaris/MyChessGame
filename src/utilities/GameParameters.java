@@ -6,6 +6,8 @@ import enums.Allegiance;
 
 public class GameParameters {
 	
+	private GameParameters() { }  // Prevents instantiation.
+
 	/* Default values */
 	public static int guiStyle = Constants.CROSS_PLATFORM_STYLE;
 	// public static int guiStyle = Constants.NIMBUS_STYLE;

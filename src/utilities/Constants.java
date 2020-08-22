@@ -4,7 +4,7 @@ public class Constants {
 	
 	private Constants() { }  // Prevents instantiation.
 	
-	public final static double VERSION = 3.4;
+	public final static double VERSION = 3.3;
 	
 	public final static int CAPTURED_PIECE_PIXEL_SIZE = 16;
 	
