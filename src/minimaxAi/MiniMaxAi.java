@@ -139,7 +139,10 @@ public class MiniMaxAi {
         }
         // If Black plays, then it wants to MINimize the heuristics value.
         else {
-            return minAlphaBeta(new ChessBoard(chessBoard), 0, Integer.MIN_VALUE, Integer.MAX_VALUE);
+        	Move minMove = minAlphaBeta(new ChessBoard(chessBoard), 0, Integer.MIN_VALUE, Integer.MAX_VALUE);
+        	// System.out.println("miniMax minMove -> " + minMove);
+        	
+        	return minMove;
         }
 	}
 
@@ -210,7 +213,7 @@ public class MiniMaxAi {
         Move minMove = new Move(Integer.MAX_VALUE);
 		for (ChessBoard child : children) {
 			Move move = maxAlphaBeta(child, depth + 1, a, b);
-			if(move.getValue() <= minMove.getValue()) {
+			if (move.getValue() <= minMove.getValue()) {
                 if ((move.getValue() == minMove.getValue())) {
                     if (r.nextInt(2) == 0) {
                         minMove.setPositions(child.getLastMove().getPositions());

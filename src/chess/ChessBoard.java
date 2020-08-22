@@ -440,7 +440,7 @@ public class ChessBoard {
  					
  				// Black pawn captures white pawn.
  				} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
- 	
+ 					
  					String twoStepsForwardWhitePawnPosition = Utilities.getPositionByRowCol(rowEnd+1, columnEnd);
  					int twoStepsForwardWhitePawnPositionRow = Utilities.getRowFromPosition(twoStepsForwardWhitePawnPosition);
  					int twoStepsForwardWhitePawnPositionColumn = Utilities.getColumnFromPosition(twoStepsForwardWhitePawnPosition);
@@ -727,7 +727,9 @@ public class ChessBoard {
 		                    child.getLastMove().setValue(child.evaluate());
 		                    // System.out.println("**********************************************\n");
 		                    
+		                    // System.out.println("**********************************************");
 		                    // System.out.println("player " + player + ", child " + i + ", last move -> " + child.getLastMove());
+		                    // System.out.println("**********************************************\n");
 		                    
 		                    children.add(child);
 		                    
