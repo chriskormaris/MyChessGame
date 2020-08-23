@@ -913,19 +913,13 @@ public class ChessGUI {
 				
 				/* Random AI implementation here. */
 				// The AI controls the Black pieces.
-				if (GameParameters.gameMode == Constants.HUMAN_VS_RANDOM_AI &&
-					(GameParameters.humanPlayerAllegiance == Allegiance.WHITE && chessBoard.blackPlays()
-					|| 
-					GameParameters.humanPlayerAllegiance == Allegiance.BLACK && chessBoard.whitePlays())) {
+				if (GameParameters.gameMode == Constants.HUMAN_VS_RANDOM_AI) {
 					// System.out.println("INSIDE RANDOM AI");
 					randomAiMove();
 				}
 				
 				/* MiniMax AI implementation here. */
-				else if (GameParameters.gameMode == Constants.HUMAN_VS_MINIMAX_AI &&
-						(GameParameters.humanPlayerAllegiance == Allegiance.WHITE && chessBoard.blackPlays()
-						|| 
-						GameParameters.humanPlayerAllegiance == Allegiance.BLACK && chessBoard.whitePlays())) {
+				else if (GameParameters.gameMode == Constants.HUMAN_VS_MINIMAX_AI) {
 					// System.out.println("INSIDE MINIMAX AI");
 					minimaxAiMove(ai);
 				}
