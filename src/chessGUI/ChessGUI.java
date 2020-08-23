@@ -1120,11 +1120,9 @@ public class ChessGUI {
 		Map<String, Set<String>> randomStartingEndingPositions = new TreeMap<String, Set<String>>();
 		
 		/* STEP 1. Random starting position. */
-		if (GameParameters.humanPlayerAllegiance == Allegiance.WHITE && chessBoard.blackPlays() 
-			&& !chessBoard.isBlackKingInCheck() 
+		if (chessBoard.blackPlays() && !chessBoard.isBlackKingInCheck() 
 			|| 
-			GameParameters.humanPlayerAllegiance == Allegiance.BLACK && chessBoard.whitePlays()
-			&& !chessBoard.isWhiteKingInCheck()) {
+			chessBoard.whitePlays() && !chessBoard.isWhiteKingInCheck()) {
 			for (int i=0; i<chessBoard.getNumOfRows(); i++) {
 				for (int j=0; j<NUM_OF_COLUMNS; j++) {
 					if (GameParameters.humanPlayerAllegiance == Allegiance.WHITE 
@@ -1161,10 +1159,10 @@ public class ChessGUI {
 			List<String> keys = new ArrayList<String>();
 			int randomStartingPositionIndex = 0;
 			
-			if (GameParameters.humanPlayerAllegiance == Allegiance.WHITE && chessBoard.blackPlays()) {
+			if (chessBoard.blackPlays()) {
 				keys = new ArrayList<String>(chessBoard.getBlackKingInCheckValidPieceMoves().keySet());
 				randomStartingPositionIndex = r.nextInt(chessBoard.getBlackKingInCheckValidPieceMoves().size());
-			} else if (GameParameters.humanPlayerAllegiance == Allegiance.BLACK && chessBoard.whitePlays()) {
+			} else if (chessBoard.whitePlays()) {
 				keys = new ArrayList<String>(chessBoard.getWhiteKingInCheckValidPieceMoves().keySet());
 				randomStartingPositionIndex = r.nextInt(chessBoard.getWhiteKingInCheckValidPieceMoves().size());
 			}
@@ -1176,16 +1174,14 @@ public class ChessGUI {
 		
 		/* STEP 2. Random ending position. */
 		Set<String> possibleEndingPositions = new TreeSet<String>();
-		if (GameParameters.humanPlayerAllegiance == Allegiance.WHITE && chessBoard.blackPlays()
-			&& !chessBoard.isBlackKingInCheck()
+		if (chessBoard.blackPlays() && !chessBoard.isBlackKingInCheck()
 			||
-			GameParameters.humanPlayerAllegiance == Allegiance.BLACK && chessBoard.whitePlays()
-			&& !chessBoard.isWhiteKingInCheck()) {
+			chessBoard.whitePlays() && !chessBoard.isWhiteKingInCheck()) {
 			possibleEndingPositions = randomStartingEndingPositions.get(randomAiStartingPosition);
 		} else {
-			if (GameParameters.humanPlayerAllegiance == Allegiance.WHITE && chessBoard.blackPlays()) {
+			if (chessBoard.blackPlays()) {
 				possibleEndingPositions = chessBoard.getBlackKingInCheckValidPieceMoves().get(randomAiStartingPosition);
-			} else if (GameParameters.humanPlayerAllegiance == Allegiance.BLACK && chessBoard.whitePlays()) {
+			} else if (chessBoard.whitePlays()) {
 				possibleEndingPositions = chessBoard.getWhiteKingInCheckValidPieceMoves().get(randomAiStartingPosition);
 			}
 		}
@@ -1207,9 +1203,9 @@ public class ChessGUI {
 		
 		Move move = new Move(randomAiStartingPosition, randomAiEndingPosition, chessBoard.evaluate());
 		
-		if (GameParameters.humanPlayerAllegiance == Allegiance.WHITE && chessBoard.blackPlays()) {
+		if (chessBoard.blackPlays()) {
 			chessBoard.makeMove(move, Constants.BLACK, true);
-		} else if (GameParameters.humanPlayerAllegiance == Allegiance.BLACK && chessBoard.whitePlays()) {
+		} else if (chessBoard.whitePlays()) {
 			chessBoard.makeMove(move, Constants.WHITE, true);
 		}
 		
@@ -1219,9 +1215,9 @@ public class ChessGUI {
 		// Remove the check from the king of the player who made the last move.
 		// The thing that the player managed to make a move,
 		// means that his king has escaped from the check.
-		if (GameParameters.humanPlayerAllegiance == Allegiance.WHITE && chessBoard.whitePlays())
+		if (chessBoard.whitePlays())
 			chessBoard.setWhiteKingInCheck(false);
-		else if (GameParameters.humanPlayerAllegiance == Allegiance.BLACK && chessBoard.blackPlays())
+		else if (chessBoard.blackPlays())
 			chessBoard.setBlackKingInCheck(false);
 		
 		chessBoard.setHalfmoveNumber(chessBoard.getHalfmoveNumber() + 1);
@@ -1243,9 +1239,9 @@ public class ChessGUI {
 		// Move aiMove = ai.miniMax(chessBoard);
 		
 		Move aiMove = null;
-		if (GameParameters.humanPlayerAllegiance == Allegiance.WHITE) {
+		if (chessBoard.blackPlays()) {
 			aiMove = ai.miniMaxAlphaBeta(chessBoard);
-		} else {
+		} else if (chessBoard.whitePlays()) {
 			aiMove = ai.miniMax(chessBoard);
 		}
 		System.out.println("aiMove: " + aiMove);
@@ -1259,19 +1255,19 @@ public class ChessGUI {
 		// Remove the check from the king of the player who made the last move.
 		// The thing that the player managed to make a move,
 		// means that his king has escaped from the check.
-		if (GameParameters.humanPlayerAllegiance == Allegiance.WHITE && chessBoard.whitePlays())
+		if (chessBoard.whitePlays())
 			chessBoard.setWhiteKingInCheck(false);
-		else if (GameParameters.humanPlayerAllegiance == Allegiance.BLACK && chessBoard.blackPlays())
+		else if (chessBoard.blackPlays())
 			chessBoard.setBlackKingInCheck(false);
 		
 		chessBoard.setHalfmoveNumber(chessBoard.getHalfmoveNumber() + 1);
 		chessBoard.setPlayer(chessBoard.whitePlays() ? false : true);
 		String turnMessage = null;
-		if (GameParameters.humanPlayerAllegiance == Allegiance.WHITE && chessBoard.whitePlays()) {
+		if (chessBoard.whitePlays()) {
 			turnMessage = "Move number: " + (int) Math.ceil((float) chessBoard.getHalfmoveNumber() / 2) + ". White plays.";
 			if (chessBoard.isWhiteKingInCheck())
 				turnMessage += " White king is in check!";
-		} else if (GameParameters.humanPlayerAllegiance == Allegiance.BLACK && chessBoard.blackPlays()) {
+		} else if (chessBoard.blackPlays()) {
 			turnMessage = "Move number: " + (int) Math.ceil((float) chessBoard.getHalfmoveNumber() / 2) + ". Black plays.";
 			if (chessBoard.isBlackKingInCheck())
 				turnMessage += " Black king is in check!";
@@ -1286,6 +1282,8 @@ public class ChessGUI {
 	private static void playAiVsAi() {
 		MiniMaxAi ai1 = new MiniMaxAi(GameParameters.maxDepth1, Constants.WHITE);
 		MiniMaxAi ai2 = new MiniMaxAi(GameParameters.maxDepth2, Constants.BLACK);
+		
+		labelMessage.setText(firstTurnMessage);
 		
 		while (!isGameOver) {
 			previousChessBoards.push(new ChessBoard(chessBoard));
