@@ -1,4 +1,4 @@
-package minimaxAi;
+package minimax_ai;
 
 import java.util.ArrayList;
 import java.util.List;

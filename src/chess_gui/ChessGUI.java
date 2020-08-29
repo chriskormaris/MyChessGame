@@ -1,4 +1,4 @@
-package chessGUI;
+package chess_gui;
 
 
 import java.awt.BorderLayout;
@@ -47,7 +47,7 @@ import javax.swing.border.LineBorder;
 import chess.ChessBoard;
 import chess.Move;
 import enums.Allegiance;
-import minimaxAi.MiniMaxAi;
+import minimax_ai.MiniMaxAi;
 import pieces.Bishop;
 import pieces.ChessPiece;
 import pieces.EmptyTile;

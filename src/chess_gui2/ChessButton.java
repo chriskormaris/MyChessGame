@@ -1,10 +1,10 @@
-package chessGui2;
+package chess_gui2;
 
 import java.awt.Color;
 
 import javax.swing.JButton;
 
-import chessGUI.ChessGUI;
+import chess_gui.ChessGUI;
 import utilities.GameParameters;
 
 

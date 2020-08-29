@@ -11,7 +11,7 @@ import java.util.TreeSet;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
-import chessGUI.ChessGUI;
+import chess_gui.ChessGUI;
 import enums.Allegiance;
 import pieces.Bishop;
 import pieces.ChessPiece;
