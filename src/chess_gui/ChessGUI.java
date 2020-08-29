@@ -929,7 +929,7 @@ public class ChessGUI {
 	}
 	
 	
-	static boolean checkForGameOver() {
+	public static boolean checkForGameOver() {
 		
 		/* Check for White checkmate. */
 		if (chessBoard.whitePlays()) {
