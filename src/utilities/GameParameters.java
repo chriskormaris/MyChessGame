@@ -3,6 +3,7 @@ package utilities;
 import java.awt.Color;
 
 import enums.Allegiance;
+import enums.GameMode;
 
 public class GameParameters {
 	
@@ -16,10 +17,10 @@ public class GameParameters {
 	
 	public static Allegiance humanPlayerAllegiance = Allegiance.WHITE;
 	
-	public static int gameMode = Constants.HUMAN_VS_MINIMAX_AI;
-	// public static int gameMode = Constants.HUMAN_VS_RANDOM_AI;
-	// public static int gameMode = Constants.HUMAN_VS_HUMAN;
-	// public static int gameMode = Constants.MINIMAX_AI_VS_MINIMAX_AI;
+	public static GameMode gameMode = GameMode.HUMAN_VS_MINIMAX_AI;
+	// public static GameMode gameMode = GameMode.HUMAN_VS_RANDOM_AI;
+	// public static GameMode gameMode = GameMode.HUMAN_VS_HUMAN;
+	// public static GameMode gameMode = GameMode.MINIMAX_AI_VS_MINIMAX_AI;
 	
 	public static int maxDepth1 = 1;
 	public static int maxDepth2 = 1;

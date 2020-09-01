@@ -38,12 +38,6 @@ public class Constants {
 	public static final int CROSS_PLATFORM_STYLE = 1;
 	public static final int NIMBUS_STYLE = 2;
 	
-	// Game modes
-	public static final int HUMAN_VS_MINIMAX_AI = 1;
-	public static final int HUMAN_VS_RANDOM_AI = 2;
-	public static final int HUMAN_VS_HUMAN = 3;
-	public static final int MINIMAX_AI_VS_MINIMAX_AI = 4;
-
 	public final static int EMPTY = 0;
 	
 	public final static char WHITE_PAWN = 'P';

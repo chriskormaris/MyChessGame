@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import chess_gui.ChessGUI;
+import enums.GameMode;
 import minimax_ai.MiniMaxAi;
 import utilities.Constants;
 import utilities.GameParameters;
@@ -42,7 +43,7 @@ public class ChessGui2 extends JPanel {
 		super(new GridLayout(numOfRows+2, numOfColumns+2));
 		// GameParameters.gameMode = Constants.HumanVsRandomAi;
 		
-		if (GameParameters.gameMode == Constants.HUMAN_VS_MINIMAX_AI) {
+		if (GameParameters.gameMode == GameMode.HUMAN_VS_MINIMAX_AI) {
 			ChessGUI.ai = new MiniMaxAi(GameParameters.maxDepth1, Constants.BLACK);
 		}
 		

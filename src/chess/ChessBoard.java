@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 
 import chess_gui.ChessGUI;
 import enums.Allegiance;
+import enums.GameMode;
 import pieces.Bishop;
 import pieces.ChessPiece;
 import pieces.EmptyTile;
@@ -487,8 +488,8 @@ public class ChessBoard {
 				
 				// Automatically choose promotion to Queen and display it on the GUI. 
  				if (displayMove 
- 						&& ((!this.player && GameParameters.gameMode != Constants.HUMAN_VS_HUMAN)
- 						|| (GameParameters.gameMode == Constants.MINIMAX_AI_VS_MINIMAX_AI))) {
+ 						&& ((!this.player && GameParameters.gameMode != GameMode.HUMAN_VS_HUMAN)
+ 						|| (GameParameters.gameMode == GameMode.MINIMAX_AI_VS_MINIMAX_AI))) {
  					if (chessPiece.getAllegiance() == Allegiance.WHITE && rowEnd == numOfRows - 1) {
  						ChessPiece whiteQueen = new Queen(Allegiance.WHITE);
  						ChessGUI.placePieceToPosition(positionEnd, whiteQueen);

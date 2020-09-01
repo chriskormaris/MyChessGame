@@ -1,4 +1,4 @@
-package chessGUI;
+package chess_gui_tests;
 
 
 import static org.junit.Assert.assertTrue;
@@ -9,14 +9,15 @@ import chess.ChessBoard;
 import chess_gui.ChessGUI;
 import enums.Allegiance;
 import pieces.King;
+import pieces.Pawn;
 
 
-class TwoKingsLeftDrawTest {
+class NotTwoKingsLeftTest {
 
 	@Test
-	public void testTwoKingsLeftDraw() {
+	public void testNotTwoKingsLeft() {
 		
-		String title = "Two Kings Left Draw Test";
+		String title = "Not Two Kings Left Test";
 		
 		@SuppressWarnings("unused")
 		ChessGUI cbg = new ChessGUI(title);
@@ -26,16 +27,20 @@ class TwoKingsLeftDrawTest {
 		ChessGUI.placePieceToPosition("A1", new King(Allegiance.WHITE));
 		ChessGUI.placePieceToPosition("H8", new King(Allegiance.BLACK));
 		
+		ChessBoard.printChessBoard(ChessGUI.chessBoard.getGameBoard());
+		
+		ChessGUI.placePieceToPosition("B2", new Pawn(Allegiance.WHITE));
+		
 		System.out.println();
 		ChessBoard.printChessBoard(ChessGUI.chessBoard.getGameBoard());
 		
 		boolean isDraw = ChessGUI.chessBoard.checkForTwoKingsLeftDraw();
-		assertTrue("The game is not a draw.", isDraw == true);
+		assertTrue("The game is not a draw.", isDraw == false);
 		System.out.println("*****************************");
 		System.out.println();
 		
 		ChessGUI.checkForGameOver();
-		
+
 		// Continue playing for a minute.
 		try {
 			Thread.sleep(60000);

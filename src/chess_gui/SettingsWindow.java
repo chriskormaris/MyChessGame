@@ -16,6 +16,7 @@ import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 
 import enums.Allegiance;
+import enums.GameMode;
 import utilities.Constants;
 import utilities.GameParameters;
 
@@ -69,7 +70,7 @@ public class SettingsWindow extends JFrame {
 		int selectedGuiStyle = GameParameters.guiStyle;
 		boolean enableSounds = GameParameters.enableSounds;
 		Allegiance humanPlayerAllegiance = GameParameters.humanPlayerAllegiance;
-		int selectedMode = GameParameters.gameMode;
+		GameMode selectedMode = GameParameters.gameMode;
 		int maxDepth1 = GameParameters.maxDepth1 - 1;
 		int maxDepth2 = GameParameters.maxDepth2 - 1;
 		Color selectedBlackTileColor = GameParameters.blackTileColor;
@@ -126,14 +127,14 @@ public class SettingsWindow extends JFrame {
 		game_mode_drop_down.addItem("Human Vs Human");
 		game_mode_drop_down.addItem("Minimax AI Vs Minimax AI");
 
-		if (selectedMode == Constants.HUMAN_VS_MINIMAX_AI)
-			game_mode_drop_down.setSelectedIndex(Constants.HUMAN_VS_MINIMAX_AI - 1);
-		else if (selectedMode == Constants.HUMAN_VS_RANDOM_AI)
-			game_mode_drop_down.setSelectedIndex(Constants.HUMAN_VS_RANDOM_AI - 1);
-		else if (selectedMode == Constants.HUMAN_VS_HUMAN)
-			game_mode_drop_down.setSelectedIndex(Constants.HUMAN_VS_HUMAN - 1);
-		else if (selectedMode == Constants.MINIMAX_AI_VS_MINIMAX_AI)
-			game_mode_drop_down.setSelectedIndex(Constants.MINIMAX_AI_VS_MINIMAX_AI - 1);
+		if (selectedMode == GameMode.HUMAN_VS_MINIMAX_AI)
+			game_mode_drop_down.setSelectedIndex(0);
+		else if (selectedMode == GameMode.HUMAN_VS_RANDOM_AI)
+			game_mode_drop_down.setSelectedIndex(1);
+		else if (selectedMode == GameMode.HUMAN_VS_HUMAN)
+			game_mode_drop_down.setSelectedIndex(2);
+		else if (selectedMode == GameMode.MINIMAX_AI_VS_MINIMAX_AI)
+			game_mode_drop_down.setSelectedIndex(3);
 		
 		max_depth1_drop_down = new JComboBox<Integer>();
 		max_depth1_drop_down.addItem(1);
@@ -218,7 +219,7 @@ public class SettingsWindow extends JFrame {
 					Color blackTileColor = (black_tile_color_drop_down.getSelectedIndex() == 0) ? Color.BLACK : Color.GRAY;
 					Allegiance humanPlayerAllegiance = Allegiance.valueOf(human_player_allegiance_drop_down.getSelectedItem().toString().toUpperCase());
 					boolean enableSounds = enable_sounds_check_box.isSelected();
-					int gameMode = game_mode_drop_down.getSelectedIndex() + 1;
+					GameMode gameMode = GameMode.valueOf(game_mode_drop_down.getSelectedItem().toString().toUpperCase().replace(" ", "_"));
 					int maxDepth1 = (int) max_depth1_drop_down.getSelectedItem();
 					int maxDepth2 = (int) max_depth2_drop_down.getSelectedItem();
 					int numberOfRows = (int) number_of_rows_spinner.getValue();

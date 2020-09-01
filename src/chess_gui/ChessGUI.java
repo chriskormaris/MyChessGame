@@ -47,6 +47,7 @@ import javax.swing.border.LineBorder;
 import chess.ChessBoard;
 import chess.Move;
 import enums.Allegiance;
+import enums.GameMode;
 import minimax_ai.MiniMaxAi;
 import pieces.Bishop;
 import pieces.ChessPiece;
@@ -150,7 +151,7 @@ public class ChessGUI {
 		
 		initializeGui();
 		
-		if (GameParameters.gameMode == Constants.HUMAN_VS_MINIMAX_AI) {
+		if (GameParameters.gameMode == GameMode.HUMAN_VS_MINIMAX_AI) {
 			if (GameParameters.humanPlayerAllegiance == Allegiance.WHITE) {
 				ai = new MiniMaxAi(GameParameters.maxDepth1, Constants.BLACK);
 			} else if (GameParameters.humanPlayerAllegiance == Allegiance.BLACK) {
@@ -672,14 +673,14 @@ public class ChessGUI {
 		System.out.println();
 		System.out.println(chessBoard);
 		
-		if (GameParameters.gameMode == Constants.MINIMAX_AI_VS_MINIMAX_AI) {
-			playAiVsAi();
-		} else if (GameParameters.gameMode == Constants.HUMAN_VS_RANDOM_AI 
-				&& GameParameters.humanPlayerAllegiance == Allegiance.BLACK) {
-			randomAiMove();
-		} else if (GameParameters.gameMode == Constants.HUMAN_VS_MINIMAX_AI 
+		if (GameParameters.gameMode == GameMode.HUMAN_VS_MINIMAX_AI 
 				&& GameParameters.humanPlayerAllegiance == Allegiance.BLACK) {
 			minimaxAiMove(ai);
+		} else if (GameParameters.gameMode == GameMode.HUMAN_VS_RANDOM_AI 
+				&& GameParameters.humanPlayerAllegiance == Allegiance.BLACK) {
+			randomAiMove();
+		} else if (GameParameters.gameMode == GameMode.MINIMAX_AI_VS_MINIMAX_AI) {
+			playAiVsAi();
 		}
 		
 	}
@@ -710,7 +711,7 @@ public class ChessGUI {
 		if (saveCheckpointItem != null)
 			saveCheckpointItem.setEnabled(true);
 		
-		if (GameParameters.gameMode == Constants.HUMAN_VS_MINIMAX_AI) {
+		if (GameParameters.gameMode == GameMode.HUMAN_VS_MINIMAX_AI) {
 			if (GameParameters.humanPlayerAllegiance == Allegiance.WHITE) {
 				ai = new MiniMaxAi(GameParameters.maxDepth1, Constants.BLACK);
 			} else if (GameParameters.humanPlayerAllegiance == Allegiance.BLACK) {
@@ -880,7 +881,7 @@ public class ChessGUI {
 			// Remove the check from the king of the player who made the last move.
 			// The thing that the player managed to make a move,
 			// means that his king has escaped from the check.
-			if (GameParameters.gameMode == Constants.HUMAN_VS_HUMAN) {
+			if (GameParameters.gameMode == GameMode.HUMAN_VS_HUMAN) {
 				if (chessBoard.whitePlays())
 					chessBoard.setWhiteKingInCheck(false);
 				else
@@ -900,8 +901,8 @@ public class ChessGUI {
 				
 				// change chessBoard.turn
 				chessBoard.setHalfmoveNumber(chessBoard.getHalfmoveNumber() + 1);
-				chessBoard.setPlayer((chessBoard.whitePlays()) ? false : true);
-				if (GameParameters.gameMode == Constants.HUMAN_VS_HUMAN) {
+		        chessBoard.setPlayer(!chessBoard.whitePlays());
+				if (GameParameters.gameMode == GameMode.HUMAN_VS_HUMAN) {
 					String turnMessage = "Move number: " + (int) Math.ceil((float) chessBoard.getHalfmoveNumber() / 2) + ". ";
 					turnMessage += (chessBoard.whitePlays()) ? "White plays." : "Black plays.";
 					if (chessBoard.whitePlays() && chessBoard.isWhiteKingInCheck())
@@ -913,13 +914,13 @@ public class ChessGUI {
 				
 				/* Random AI implementation here. */
 				// The AI controls the Black pieces.
-				if (GameParameters.gameMode == Constants.HUMAN_VS_RANDOM_AI) {
+				if (GameParameters.gameMode == GameMode.HUMAN_VS_RANDOM_AI) {
 					// System.out.println("INSIDE RANDOM AI");
 					randomAiMove();
 				}
 				
 				/* MiniMax AI implementation here. */
-				else if (GameParameters.gameMode == Constants.HUMAN_VS_MINIMAX_AI) {
+				else if (GameParameters.gameMode == GameMode.HUMAN_VS_MINIMAX_AI) {
 					// System.out.println("INSIDE MINIMAX AI");
 					minimaxAiMove(ai);
 				}
@@ -1083,7 +1084,7 @@ public class ChessGUI {
 			int dialogResult = -1;
 			
 			if (chessBoard.whitePlays()
-					|| chessBoard.blackPlays() && GameParameters.gameMode == Constants.HUMAN_VS_HUMAN) {
+					|| chessBoard.blackPlays() && GameParameters.gameMode == GameMode.HUMAN_VS_HUMAN) {
 				dialogResult = JOptionPane.showConfirmDialog(gui, 
 						(int) Math.ceil(Constants.NO_PIECE_CAPTURE_HALFMOVES_DRAW_LIMIT / (double) 2) + 
 						" fullmoves have passed without a chessPiece capture! Do you want to claim a draw? ",
@@ -1215,7 +1216,7 @@ public class ChessGUI {
 			chessBoard.setBlackKingInCheck(false);
 		
 		chessBoard.setHalfmoveNumber(chessBoard.getHalfmoveNumber() + 1);
-		chessBoard.setPlayer(chessBoard.whitePlays() ? false : true);
+        chessBoard.setPlayer(!chessBoard.whitePlays());
 		String turnMessage = "Move number: " + (int) Math.ceil((float) chessBoard.getHalfmoveNumber() / 2) + ". White plays.";
 		if (chessBoard.isWhiteKingInCheck())
 			turnMessage += " White king is in check!";
@@ -1255,7 +1256,7 @@ public class ChessGUI {
 			chessBoard.setBlackKingInCheck(false);
 		
 		chessBoard.setHalfmoveNumber(chessBoard.getHalfmoveNumber() + 1);
-		chessBoard.setPlayer(chessBoard.whitePlays() ? false : true);
+        chessBoard.setPlayer(!chessBoard.whitePlays());
 		String turnMessage = null;
 		if (chessBoard.whitePlays()) {
 			turnMessage = "Move number: " + (int) Math.ceil((float) chessBoard.getHalfmoveNumber() / 2) + ". White plays.";
@@ -1541,7 +1542,7 @@ public class ChessGUI {
 				chessBoardSquares[i][j].setOpaque(true);
 				// chessBoardSquares[i][j].setBorderPainted(false);
 				
-				chessBoard.getGameBoard()[chessBoard.getNumOfRows() - 1 - i][j] = new EmptyTile();
+				chessBoard.getGameBoard()[i][j] = new EmptyTile();
 				chessBoard.setThreats();
 			}
 		}
