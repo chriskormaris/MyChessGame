@@ -1,4 +1,4 @@
-package enums;
+package enumerations;
 
 public enum GameMode {
 	HUMAN_VS_MINIMAX_AI,

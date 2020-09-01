@@ -46,8 +46,9 @@ import javax.swing.border.LineBorder;
 
 import chess.ChessBoard;
 import chess.Move;
-import enums.Allegiance;
-import enums.GameMode;
+import enumerations.Allegiance;
+import enumerations.GameMode;
+import enumerations.GuiStyle;
 import minimax_ai.MiniMaxAi;
 import pieces.Bishop;
 import pieces.ChessPiece;
@@ -329,10 +330,10 @@ public class ChessGUI {
 	public static void configureGuiStyle() {
 		try {
 			// UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			if (GameParameters.guiStyle == Constants.CROSS_PLATFORM_STYLE) {
+			if (GameParameters.guiStyle == GuiStyle.CROSS_PLATFORM_STYLE) {
 				// Option 1
 				UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-			} else if (GameParameters.guiStyle == Constants.NIMBUS_STYLE) {
+			} else if (GameParameters.guiStyle == GuiStyle.NIMBUS_STYLE) {
 				// Option 2
 			    for (LookAndFeelInfo info: UIManager.getInstalledLookAndFeels()) {
 			        if ("Nimbus".equals(info.getName())) {

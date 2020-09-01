@@ -3,7 +3,7 @@ package pieces;
 import java.util.Set;
 
 import chess.ChessBoard;
-import enums.Allegiance;
+import enumerations.Allegiance;
 import utilities.Constants;
 
 public abstract class ChessPiece {

@@ -15,9 +15,9 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 
-import enums.Allegiance;
-import enums.GameMode;
-import utilities.Constants;
+import enumerations.Allegiance;
+import enumerations.GameMode;
+import enumerations.GuiStyle;
 import utilities.GameParameters;
 
 
@@ -67,7 +67,7 @@ public class SettingsWindow extends JFrame {
 		
 		handler = new EventHandler();
 		
-		int selectedGuiStyle = GameParameters.guiStyle;
+		GuiStyle selectedGuiStyle = GameParameters.guiStyle;
 		boolean enableSounds = GameParameters.enableSounds;
 		Allegiance humanPlayerAllegiance = GameParameters.humanPlayerAllegiance;
 		GameMode selectedMode = GameParameters.gameMode;
@@ -101,10 +101,10 @@ public class SettingsWindow extends JFrame {
 		gui_style_drop_down.addItem("Cross-platform style");
 		gui_style_drop_down.addItem("Nimbus style");
 		
-		if (selectedGuiStyle == Constants.CROSS_PLATFORM_STYLE)
-			gui_style_drop_down.setSelectedIndex(Constants.CROSS_PLATFORM_STYLE - 1);
-		else if (selectedGuiStyle == Constants.NIMBUS_STYLE)
-			gui_style_drop_down.setSelectedIndex(Constants.NIMBUS_STYLE - 1);
+		if (selectedGuiStyle == GuiStyle.CROSS_PLATFORM_STYLE)
+			gui_style_drop_down.setSelectedIndex(0);
+		else if (selectedGuiStyle == GuiStyle.NIMBUS_STYLE)
+			gui_style_drop_down.setSelectedIndex(1);
 		
 		
 		enable_sounds_check_box = new JCheckBox();
@@ -215,7 +215,8 @@ public class SettingsWindow extends JFrame {
 			else if (ev.getSource() == apply) {
 				try {
 					
-					int guiStyle = gui_style_drop_down.getSelectedIndex() + 1;
+					GuiStyle guiStyle = 
+						GuiStyle.valueOf(gui_style_drop_down.getSelectedItem().toString().toUpperCase().replace("-", "_").replace(" ", "_"));
 					Color blackTileColor = (black_tile_color_drop_down.getSelectedIndex() == 0) ? Color.BLACK : Color.GRAY;
 					Allegiance humanPlayerAllegiance = Allegiance.valueOf(human_player_allegiance_drop_down.getSelectedItem().toString().toUpperCase());
 					boolean enableSounds = enable_sounds_check_box.isSelected();

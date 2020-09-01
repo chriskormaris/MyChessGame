@@ -2,7 +2,7 @@ package chess_gui_tests;
 
 import org.junit.jupiter.api.Test;
 
-import enums.Allegiance;
+import enumerations.Allegiance;
 import pieces.ChessPiece;
 import pieces.Pawn;
 

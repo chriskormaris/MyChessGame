@@ -11,7 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import chess_gui.ChessGUI;
-import enums.GameMode;
+import enumerations.GameMode;
 import minimax_ai.MiniMaxAi;
 import utilities.Constants;
 import utilities.GameParameters;

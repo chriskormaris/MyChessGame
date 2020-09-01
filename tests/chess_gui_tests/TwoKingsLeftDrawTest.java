@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import chess.ChessBoard;
 import chess_gui.ChessGUI;
-import enums.Allegiance;
+import enumerations.Allegiance;
 import pieces.King;
 
 

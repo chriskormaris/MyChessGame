@@ -12,8 +12,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 import chess_gui.ChessGUI;
-import enums.Allegiance;
-import enums.GameMode;
+import enumerations.Allegiance;
+import enumerations.GameMode;
 import pieces.Bishop;
 import pieces.ChessPiece;
 import pieces.EmptyTile;

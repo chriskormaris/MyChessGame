@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import chess.ChessBoard;
-import enums.Allegiance;
+import enumerations.Allegiance;
 import utilities.Constants;
 import utilities.Utilities;
 

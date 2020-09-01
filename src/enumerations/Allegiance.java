@@ -1,4 +1,4 @@
-package enums;
+package enumerations;
 
 public enum Allegiance {
 	WHITE,

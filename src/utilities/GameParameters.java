@@ -2,17 +2,18 @@ package utilities;
 
 import java.awt.Color;
 
-import enums.Allegiance;
-import enums.GameMode;
+import enumerations.Allegiance;
+import enumerations.GameMode;
+import enumerations.GuiStyle;
 
 public class GameParameters {
 	
 	private GameParameters() { }  // Prevents instantiation.
 
 	/* Default values */
-	public static int guiStyle = Constants.CROSS_PLATFORM_STYLE;
-	// public static int guiStyle = Constants.NIMBUS_STYLE;
-
+	public static GuiStyle guiStyle = GuiStyle.CROSS_PLATFORM_STYLE;
+	// public static GuiStyle guiStyle = GuiStyle.NIMBUS_STYLE;
+	
 	public static boolean enableSounds = true;
 	
 	public static Allegiance humanPlayerAllegiance = Allegiance.WHITE;

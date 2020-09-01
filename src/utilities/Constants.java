@@ -33,13 +33,7 @@ public class Constants {
 	
 	public final static boolean WHITE = true;
 	public final static boolean BLACK = false;
-	
-	// GUI styles
-	public static final int CROSS_PLATFORM_STYLE = 1;
-	public static final int NIMBUS_STYLE = 2;
-	
-	public final static int EMPTY = 0;
-	
+		
 	public final static char WHITE_PAWN = 'P';
 	public final static char WHITE_KNIGHT = 'N';
 	public final static char WHITE_BISHOP = 'B';
