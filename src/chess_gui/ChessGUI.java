@@ -123,10 +123,10 @@ public class ChessGUI {
 	public static Stack<ChessBoard> previousChessBoards = new Stack<ChessBoard>();
 	public static Stack<ChessBoard> redoChessBoards = new Stack<ChessBoard>();
 	
-	// These stacks of "ChessBoard" objects are used to handle the "undo" and "redo" functionality.
+	// These stacks of "JLabel" arrays are used to handle the "undo" and "redo" functionality.
 	public static Stack<JLabel[]> previousCapturedPiecesImages = new Stack<JLabel[]>();
 	public static Stack<JLabel[]> redoCapturedPiecesImages = new Stack<JLabel[]>();
-		
+	
 	public static boolean startingButtonIsClicked = false;
 	public static Set<String> hintPositions = new TreeSet<String>();
 	
