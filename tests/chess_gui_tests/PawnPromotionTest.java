@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 
 import chess.ChessBoard;
 import chess_gui.ChessGUI;
+import enumerations.GameMode;
+import utilities.GameParameters;
 
 
 class PawnPromotionTest {
@@ -14,6 +16,8 @@ class PawnPromotionTest {
 		
 		String title = "Pawn Promotion Test";
 
+		// GameParameters.gameMode = GameMode.HUMAN_VS_HUMAN;
+		
 		@SuppressWarnings("unused")
 		ChessGUI cbg = new ChessGUI(title);
 		

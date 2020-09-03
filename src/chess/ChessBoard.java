@@ -487,9 +487,11 @@ public class ChessBoard {
  				/* Pawn promotion implementation */
 				
 				// Automatically choose promotion to Queen and display it on the GUI. 
- 				if (displayMove 
- 						&& ((!this.player && GameParameters.gameMode != GameMode.HUMAN_VS_HUMAN)
- 						|| (GameParameters.gameMode == GameMode.MINIMAX_AI_VS_MINIMAX_AI))) {
+ 				if (displayMove && 
+ 						(!this.player &&
+							(GameParameters.gameMode == GameMode.HUMAN_VS_MINIMAX_AI
+							 || GameParameters.gameMode == GameMode.HUMAN_VS_RANDOM_AI)
+ 						|| GameParameters.gameMode == GameMode.MINIMAX_AI_VS_MINIMAX_AI)) {
  					if (chessPiece.getAllegiance() == Allegiance.WHITE && rowEnd == numOfRows - 1) {
  						ChessPiece whiteQueen = new Queen(Allegiance.WHITE);
  						ChessGUI.placePieceToPosition(positionEnd, whiteQueen);
@@ -504,8 +506,10 @@ public class ChessBoard {
  				
  				// Select which promotion you want and display it on the GUI.
  				else if (displayMove) {
+ 					
  					Object[] selectionValues = { "Queen", "Rook", "Bishop", "Knight" };
  				    String initialSelection = "Queen";
+ 				    
  					if (chessPiece.getAllegiance() == Allegiance.WHITE  && rowEnd == numOfRows - 1) {
  						String value = (String) JOptionPane.showInputDialog(ChessGUI.gui, "Promote white pawn to:",
  						        "White pawn promotion", JOptionPane.QUESTION_MESSAGE, null, selectionValues, initialSelection);
