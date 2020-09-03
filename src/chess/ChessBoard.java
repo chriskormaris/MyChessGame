@@ -611,49 +611,53 @@ public class ChessBoard {
 		
 		else {
 		
- 			if (endTile instanceof Pawn && endTile.getAllegiance() == Allegiance.WHITE) {
- 				if (displayMove)
- 					pieceImage = ChessGUI.preparePieceIcon(Constants.WHITE_PAWN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
- 				score -= Constants.PAWN_VALUE;
- 			} else if (endTile instanceof Rook && endTile.getAllegiance() == Allegiance.WHITE) {
- 				if (displayMove)
- 					pieceImage = ChessGUI.preparePieceIcon(Constants.WHITE_ROOK_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
- 				score -= Constants.ROOK_VALUE;
- 			} else if (endTile instanceof Knight && endTile.getAllegiance() == Allegiance.WHITE) {
- 				if (displayMove)
- 					pieceImage = ChessGUI.preparePieceIcon(Constants.WHITE_KNIGHT_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
- 				score -= Constants.KNIGHT_VALUE;
- 			} else if (endTile instanceof Bishop && endTile.getAllegiance() == Allegiance.WHITE) {
- 				if (displayMove)
- 					pieceImage = ChessGUI.preparePieceIcon(Constants.WHITE_BISHOP_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
- 				score -= Constants.BISHOP_VALUE;
- 			} else if (endTile instanceof Queen && endTile.getAllegiance() == Allegiance.WHITE) {
- 				if (displayMove)
- 					pieceImage = ChessGUI.preparePieceIcon(Constants.WHITE_QUEEN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
- 				score -= Constants.QUEEN_VALUE;
- 			}
- 			
- 			else if (endTile instanceof Pawn && endTile.getAllegiance() == Allegiance.BLACK) {
- 				if (displayMove)
- 					pieceImage = ChessGUI.preparePieceIcon(Constants.BLACK_PAWN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
- 				score += Constants.PAWN_VALUE;
- 			} else if (endTile instanceof Rook && endTile.getAllegiance() == Allegiance.BLACK) {
- 				if (displayMove)
- 					pieceImage = ChessGUI.preparePieceIcon(Constants.BLACK_ROOK_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
- 				score += Constants.ROOK_VALUE;
- 			} else if (endTile instanceof Knight && endTile.getAllegiance() == Allegiance.BLACK) {
- 				if (displayMove)
- 					pieceImage = ChessGUI.preparePieceIcon(Constants.BLACK_KNIGHT_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
- 				score += Constants.KNIGHT_VALUE;
- 			} else if (endTile instanceof Bishop && endTile.getAllegiance() == Allegiance.BLACK) {
- 				if (displayMove)
- 					pieceImage = ChessGUI.preparePieceIcon(Constants.BLACK_BISHOP_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
- 				score += Constants.BISHOP_VALUE;
- 			} else if (endTile instanceof Queen && endTile.getAllegiance() == Allegiance.BLACK) {
- 				if (displayMove)
- 					pieceImage = ChessGUI.preparePieceIcon(Constants.BLACK_QUEEN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
- 				score += Constants.QUEEN_VALUE;
- 			}
+			if (endTile.getAllegiance() == Allegiance.WHITE) {
+	 			if (endTile instanceof Pawn) {
+	 				if (displayMove)
+	 					pieceImage = ChessGUI.preparePieceIcon(Constants.WHITE_PAWN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+	 				score -= Constants.PAWN_VALUE;
+	 			} else if (endTile instanceof Rook) {
+	 				if (displayMove)
+	 					pieceImage = ChessGUI.preparePieceIcon(Constants.WHITE_ROOK_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+	 				score -= Constants.ROOK_VALUE;
+	 			} else if (endTile instanceof Knight) {
+	 				if (displayMove)
+	 					pieceImage = ChessGUI.preparePieceIcon(Constants.WHITE_KNIGHT_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+	 				score -= Constants.KNIGHT_VALUE;
+	 			} else if (endTile instanceof Bishop) {
+	 				if (displayMove)
+	 					pieceImage = ChessGUI.preparePieceIcon(Constants.WHITE_BISHOP_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+	 				score -= Constants.BISHOP_VALUE;
+	 			} else if (endTile instanceof Queen) {
+	 				if (displayMove)
+	 					pieceImage = ChessGUI.preparePieceIcon(Constants.WHITE_QUEEN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+	 				score -= Constants.QUEEN_VALUE;
+	 			}
+			} 
+			
+			else if (endTile.getAllegiance() == Allegiance.BLACK) {
+	 			if (endTile instanceof Pawn) {
+	 				if (displayMove)
+	 					pieceImage = ChessGUI.preparePieceIcon(Constants.BLACK_PAWN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+	 				score += Constants.PAWN_VALUE;
+	 			} else if (endTile instanceof Rook) {
+	 				if (displayMove)
+	 					pieceImage = ChessGUI.preparePieceIcon(Constants.BLACK_ROOK_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+	 				score += Constants.ROOK_VALUE;
+	 			} else if (endTile instanceof Knight) {
+	 				if (displayMove)
+	 					pieceImage = ChessGUI.preparePieceIcon(Constants.BLACK_KNIGHT_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+	 				score += Constants.KNIGHT_VALUE;
+	 			} else if (endTile instanceof Bishop) {
+	 				if (displayMove)
+	 					pieceImage = ChessGUI.preparePieceIcon(Constants.BLACK_BISHOP_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+	 				score += Constants.BISHOP_VALUE;
+	 			} else if (endTile instanceof Queen) {
+	 				if (displayMove)
+	 					pieceImage = ChessGUI.preparePieceIcon(Constants.BLACK_QUEEN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+	 				score += Constants.QUEEN_VALUE;
+	 			}
+			}
 		
 		}
 		
