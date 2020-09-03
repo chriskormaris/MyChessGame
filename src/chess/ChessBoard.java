@@ -513,7 +513,7 @@ public class ChessBoard {
  					if (chessPiece.getAllegiance() == Allegiance.WHITE  && rowEnd == numOfRows - 1) {
  						String value = (String) JOptionPane.showInputDialog(ChessGUI.gui, "Promote white pawn to:",
  						        "White pawn promotion", JOptionPane.QUESTION_MESSAGE, null, selectionValues, initialSelection);
- 						// System.out.println("value:" + value);
+ 						// System.out.println("value: " + value);
  						
  						if (value == null || value.equals("Queen")) {
  	 						ChessPiece whiteQueen = new Queen(Allegiance.WHITE);
@@ -535,22 +535,22 @@ public class ChessBoard {
  					} else if (chessPiece.getAllegiance() == Allegiance.BLACK && rowEnd == 0) {
  						String value = (String) JOptionPane.showInputDialog(ChessGUI.gui, "Promote black pawn to:",
  						        "Black pawn promotion", JOptionPane.QUESTION_MESSAGE, null, selectionValues, initialSelection);
- 						// System.out.println("value:" + value);
+ 						// System.out.println("value: " + value);
  						
  						if (value == null || value.equals("Queen")) {
  							ChessPiece blackQueen = new Queen(Allegiance.BLACK);
  							ChessGUI.placePieceToPosition(positionEnd, blackQueen);
  							promotedPieces.add(blackQueen);
  						} else if (value.equals("Rook")) {
- 							ChessPiece blackRook = new Queen(Allegiance.BLACK);
+ 							ChessPiece blackRook = new Rook(Allegiance.BLACK);
  							ChessGUI.placePieceToPosition(positionEnd, blackRook);
  							promotedPieces.add(blackRook);
  						} else if (value.equals("Bishop")) {
- 							ChessPiece blackBishop = new Queen(Allegiance.BLACK);
+ 							ChessPiece blackBishop = new Bishop(Allegiance.BLACK);
  							ChessGUI.placePieceToPosition(positionEnd, blackBishop);
  							promotedPieces.add(blackBishop);
  						} else if (value.equals("Knight")) {
- 							ChessPiece blackKnight = new Queen(Allegiance.BLACK);
+ 							ChessPiece blackKnight = new Knight(Allegiance.BLACK);
  							ChessGUI.placePieceToPosition(positionEnd, blackKnight);
  							promotedPieces.add(blackKnight);
  						}
