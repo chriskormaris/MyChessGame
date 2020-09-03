@@ -270,7 +270,7 @@ public class ChessBoard {
 		this.lastMove = new Move(move);
 
 		if (!displayMove) {
-			this.player = (this.player == true) ? false : true;
+			this.player = !this.player;
 		}
 	}
     

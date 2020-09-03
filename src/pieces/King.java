@@ -215,7 +215,8 @@ public class King extends ChessPiece {
 				&& startingPositionGameBoard[0][2] instanceof EmptyTile
 				&& startingPositionGameBoard[0][3] instanceof EmptyTile
 				&& chessBoard.getTilesThreatenedByBlack()[0][2] == 0
-				&& chessBoard.getTilesThreatenedByBlack()[0][3] == 0) {
+				&& chessBoard.getTilesThreatenedByBlack()[0][3] == 0
+				&& chessBoard.getTilesThreatenedByBlack()[0][4] == 0) {
 
 				newRow = row;
 				newColumn = column - 2;
@@ -229,6 +230,7 @@ public class King extends ChessPiece {
 					&& startingPositionGameBoard[0][7].getAllegiance() == Allegiance.WHITE 
 					&& startingPositionGameBoard[0][5] instanceof EmptyTile
 					&& startingPositionGameBoard[0][6] instanceof EmptyTile
+					&& chessBoard.getTilesThreatenedByBlack()[0][4] == 0
 					&& chessBoard.getTilesThreatenedByBlack()[0][5] == 0
 					&& chessBoard.getTilesThreatenedByBlack()[0][6] == 0) {
 
@@ -248,7 +250,8 @@ public class King extends ChessPiece {
 					&& startingPositionGameBoard[chessBoard.getNumOfRows() - 1][2] instanceof EmptyTile
 					&& startingPositionGameBoard[chessBoard.getNumOfRows() - 1][3] instanceof EmptyTile
 					&& chessBoard.getTilesThreatenedByWhite()[chessBoard.getNumOfRows() - 1][2] == 0
-					&& chessBoard.getTilesThreatenedByWhite()[chessBoard.getNumOfRows() - 1][3] == 0) {
+					&& chessBoard.getTilesThreatenedByWhite()[chessBoard.getNumOfRows() - 1][3] == 0
+					&& chessBoard.getTilesThreatenedByBlack()[chessBoard.getNumOfRows() - 1][4] == 0) {
 
 				newRow = row;
 				newColumn = column - 2;
@@ -262,6 +265,7 @@ public class King extends ChessPiece {
 					&& column < 6 && startingPositionGameBoard[chessBoard.getNumOfRows() - 1][7].getAllegiance() == Allegiance.BLACK
 					&& startingPositionGameBoard[chessBoard.getNumOfRows() - 1][5] instanceof EmptyTile
 					&& startingPositionGameBoard[chessBoard.getNumOfRows() - 1][6] instanceof EmptyTile
+					&& chessBoard.getTilesThreatenedByBlack()[chessBoard.getNumOfRows() - 1][4] == 0
 					&& chessBoard.getTilesThreatenedByWhite()[chessBoard.getNumOfRows() - 1][5] == 0
 					&& chessBoard.getTilesThreatenedByWhite()[chessBoard.getNumOfRows() - 1][6] == 0) {
 

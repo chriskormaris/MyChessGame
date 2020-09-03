@@ -11,8 +11,8 @@ public abstract class ChessPiece {
 	// 3 enumerations: WHITE, BLACK, EMPTY
 	private Allegiance allegiance;
 	
-	// Always positive, but the getter returns a negative value, 
-	// if the allegiance is Black.  
+	// A capital letter if the allegiance is White,
+	// a small letter if the allegiance is Black. 
 	private char chessPieceChar;
 	
 	public ChessPiece() {
@@ -62,7 +62,7 @@ public abstract class ChessPiece {
 		this.allegiance = allegiance;
 	}
 
-	// Positive for White, negative for Black, 0 for Empty.
+	// Capital for White, small for Black, '-' for Empty.
 	public char getChessPieceChar() {
 		return chessPieceChar;
 	}

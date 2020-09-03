@@ -401,10 +401,6 @@ public class ChessGUI {
 			}
 			redoCapturedPiecesImages.push(newCapturedPiecesImages);
 			
-			if (previousChessBoards.isEmpty()) {
-				undoItem.setEnabled(false);
-			}
-			
 			chessBoard = previousChessBoards.pop();
 			
 			// Display the previous captured chess pieces icons.
@@ -431,6 +427,10 @@ public class ChessGUI {
 			
 			setTurnMessage();
 			setScoreMessage();
+
+			if (previousChessBoards.isEmpty()) {
+				undoItem.setEnabled(false);
+			}
 			
 			if (redoItem != null)
 				redoItem.setEnabled(true);
@@ -1088,7 +1088,7 @@ public class ChessGUI {
 					|| chessBoard.blackPlays() && GameParameters.gameMode == GameMode.HUMAN_VS_HUMAN) {
 				dialogResult = JOptionPane.showConfirmDialog(gui, 
 						(int) Math.ceil(Constants.NO_PIECE_CAPTURE_HALFMOVES_DRAW_LIMIT / (double) 2) + 
-						" fullmoves have passed without a chessPiece capture! Do you want to claim a draw? ",
+						" fullmoves have passed without a chessPiece capture! Do you want to claim a draw?",
 						"Draw", JOptionPane.YES_NO_OPTION);
 			}
 			
@@ -1543,7 +1543,7 @@ public class ChessGUI {
 				chessBoardSquares[i][j].setOpaque(true);
 				// chessBoardSquares[i][j].setBorderPainted(false);
 				
-				chessBoard.getGameBoard()[i][j] = new EmptyTile();
+				chessBoard.getGameBoard()[GameParameters.numOfRows - 1 - i][j] = new EmptyTile();
 				chessBoard.setThreats();
 			}
 		}
