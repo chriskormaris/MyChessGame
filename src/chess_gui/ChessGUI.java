@@ -643,9 +643,11 @@ public class ChessGUI {
 	public static void startNewGame() {
 		System.out.println("Starting new game!");
 		
+		if (undoItem != null)
+			undoItem.setEnabled(false);
+		
 		configureGuiStyle();
-		// restoreDefaultValues();
-
+		
 		/* If running "ChessGUI.java", you must use this! */
 		chessBoardPanel.removeAll();
 		if (!isChessGui2) {
@@ -950,8 +952,6 @@ public class ChessGUI {
 						"White wins! Start a new game?", "Checkmate", JOptionPane.YES_NO_OPTION);
 				// System.out.println("dialogResult:" + dialogResult);
 				if (dialogResult == JOptionPane.YES_OPTION) {
-					if (undoItem != null)
-						undoItem.setEnabled(false);
 					startNewGame();
 				} else {
 					if (undoItem != null)
@@ -984,8 +984,6 @@ public class ChessGUI {
 						"Black wins! Start a new game?", "Checkmate", JOptionPane.YES_NO_OPTION);
 				// System.out.println("dialogResult:" + dialogResult);
 				if (dialogResult == JOptionPane.YES_OPTION) {
-					if (undoItem != null)
-						undoItem.setEnabled(false);
 					startNewGame();
 				} else {
 					if (undoItem != null)
@@ -1008,8 +1006,6 @@ public class ChessGUI {
 					"It is a draw! Start a new game?", "Draw", JOptionPane.YES_NO_OPTION);
 			// System.out.println("dialogResult:" + dialogResult);
 			if (dialogResult == JOptionPane.YES_OPTION) {
-				if (undoItem != null)
-					undoItem.setEnabled(false);
 				startNewGame();
 			} else {
 				if (undoItem != null)
@@ -1035,8 +1031,6 @@ public class ChessGUI {
 						"Draw", JOptionPane.YES_NO_OPTION);
 				// System.out.println("dialogResult:" + dialogResult);
 				if (dialogResult == JOptionPane.YES_OPTION) {
-					if (undoItem != null)
-						undoItem.setEnabled(false);
 					startNewGame();
 				} else {
 					if (undoItem != null)
@@ -1062,8 +1056,6 @@ public class ChessGUI {
 						"Draw", JOptionPane.YES_NO_OPTION);
 				// System.out.println("dialogResult:" + dialogResult);
 				if (dialogResult == JOptionPane.YES_OPTION) {
-					if (undoItem != null)
-						undoItem.setEnabled(false);
 					startNewGame();
 				} else {
 					if (undoItem != null)
@@ -1095,9 +1087,21 @@ public class ChessGUI {
 			// System.out.println("dialogResult:" + dialogResult);
 			if (dialogResult == JOptionPane.YES_OPTION) {
 				if (undoItem != null)
-					undoItem.setEnabled(false);
-				startNewGame();
+					undoItem.setEnabled(true);
+				if (exportFenPositionItem != null)
+					exportFenPositionItem.setEnabled(false);
+				if (saveCheckpointItem != null)
+					saveCheckpointItem.setEnabled(false);
+				disableChessBoardSquares();
 				
+				dialogResult = JOptionPane.showConfirmDialog(gui, 
+						"It is a draw! Start a new game?",
+						"Draw", JOptionPane.YES_NO_OPTION);
+				
+				if (dialogResult == JOptionPane.YES_OPTION) {
+					startNewGame();
+				}
+
 				return true;
 			}
 			
