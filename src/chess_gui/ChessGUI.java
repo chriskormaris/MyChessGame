@@ -1086,20 +1086,21 @@ public class ChessGUI {
 			
 			// System.out.println("dialogResult:" + dialogResult);
 			if (dialogResult == JOptionPane.YES_OPTION) {
-				if (undoItem != null)
-					undoItem.setEnabled(true);
-				if (exportFenPositionItem != null)
-					exportFenPositionItem.setEnabled(false);
-				if (saveCheckpointItem != null)
-					saveCheckpointItem.setEnabled(false);
-				disableChessBoardSquares();
-				
+
 				dialogResult = JOptionPane.showConfirmDialog(gui, 
 						"It is a draw! Start a new game?",
 						"Draw", JOptionPane.YES_NO_OPTION);
 				
 				if (dialogResult == JOptionPane.YES_OPTION) {
 					startNewGame();
+				} else {
+					if (undoItem != null)
+						undoItem.setEnabled(true);
+					if (exportFenPositionItem != null)
+						exportFenPositionItem.setEnabled(false);
+					if (saveCheckpointItem != null)
+						saveCheckpointItem.setEnabled(false);
+					disableChessBoardSquares();
 				}
 
 				return true;

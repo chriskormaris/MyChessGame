@@ -1256,14 +1256,14 @@ public class ChessBoard {
 				
 				Set<String> threatPositions = null;
 				
-				threatPositions = gameBoard[i][j].getNextPositions(position, this, true);
+				threatPositions = chessPiece.getNextPositions(position, this, true);
 				
 				// System.out.println("position: " + position + ", threatPositions: " + threatPositions);
 				
 				if (threatPositions != null && threatPositions.size() != 0) {
 					for (String threatPosition: threatPositions) {
 						int row = Utilities.getRowFromPosition(threatPosition);
-						int column = Utilities.getColumnFromPosition(threatPosition); 
+						int column = Utilities.getColumnFromPosition(threatPosition);
 						if (chessPiece.getAllegiance() == Allegiance.WHITE)
 							this.tilesThreatenedByWhite[row][column] = 1;
 						else if (chessPiece.getAllegiance() == Allegiance.BLACK)

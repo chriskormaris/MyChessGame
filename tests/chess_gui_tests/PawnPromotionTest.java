@@ -5,8 +5,8 @@ import org.junit.jupiter.api.Test;
 
 import chess.ChessBoard;
 import chess_gui.ChessGUI;
-import enumerations.GameMode;
-import utilities.GameParameters;
+//import enumerations.GameMode;
+//import utilities.GameParameters;
 
 
 class PawnPromotionTest {

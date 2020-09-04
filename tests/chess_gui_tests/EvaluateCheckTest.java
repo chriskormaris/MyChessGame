@@ -5,24 +5,23 @@ import org.junit.jupiter.api.Test;
 
 import chess.ChessBoard;
 import chess_gui.ChessGUI;
+//import enumerations.GameMode;
+//import utilities.GameParameters;
 
 
-class CastlingTest {
+class EvaluateCheckTest {
 
 	@Test
-	public void testCastling() {
+	public void testEvaluateCheck() {
 		
-		String title = "Castling Test";
+		String title = "Evaluate Check";
 
+		// GameParameters.gameMode = GameMode.HUMAN_VS_HUMAN;
+		
 		@SuppressWarnings("unused")
 		ChessGUI cbg = new ChessGUI(title);
 		
-//		String fenPosition = "4k3/8/8/8/8/8/8/R3K2R w KQ - 0 1";
-//		String fenPosition = "r3k2r/8/8/8/8/8/8/R3K2R w KQ - 0 1";
-//		String fenPosition = "3qk3/8/8/8/8/8/8/R2QK2R w KQ - 0 1";
-//		String fenPosition = "r2qk2r/8/8/8/8/8/8/R2QK2R w KQkq - 0 1";
-		String fenPosition = "4k3/8/8/8/7q/8/8/R3K2R w KQkq - 0 1";
-
+		String fenPosition = "4k3/8/3q4/8/5Q2/8/8/R3K2R w KQkq - 0 1";
 		ChessGUI.placePiecesToChessBoard(fenPosition);
 		
 		ChessBoard.printChessBoard(ChessGUI.chessBoard.getGameBoard());
