@@ -433,6 +433,7 @@ public class ChessBoard {
  	 						// Add chessPiece to capturedPiecesPanel.
  			 				ImageIcon pieceImage = ChessGUI.preparePieceIcon(Constants.BLACK_PAWN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
  		 					ChessGUI.capturedPiecesImages[31 - blackCapturedPiecesCounter - 1].setIcon(pieceImage);
+ 		 					this.blackCapturedPiecesCounter++;
  						} else {
  							this.gameBoard[twoStepsForwardBlackPawnPositionRow][twoStepsForwardBlackPawnPositionColumn] = new EmptyTile();
  						}
@@ -457,6 +458,7 @@ public class ChessBoard {
  							// Add chessPiece to capturedPiecesPanel.
  			 				ImageIcon pieceImage = ChessGUI.preparePieceIcon(Constants.WHITE_PAWN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
  		 					ChessGUI.capturedPiecesImages[whiteCapturedPiecesCounter].setIcon(pieceImage);
+ 		 					this.whiteCapturedPiecesCounter++;
  						} else {
  							this.gameBoard[twoStepsForwardWhitePawnPositionRow][twoStepsForwardWhitePawnPositionColumn] = new EmptyTile();
  						}
@@ -611,11 +613,9 @@ public class ChessBoard {
 				pieceImage = ChessGUI.preparePieceIcon(Constants.BLACK_PAWN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
  				score += Constants.PAWN_VALUE;
 			}
-		}
 		
-		else {
+		} else if (endTile.getAllegiance() == Allegiance.WHITE) {
 		
-			if (endTile.getAllegiance() == Allegiance.WHITE) {
 	 			if (endTile instanceof Pawn) {
 	 				if (displayMove)
 	 					pieceImage = ChessGUI.preparePieceIcon(Constants.WHITE_PAWN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
@@ -637,33 +637,31 @@ public class ChessBoard {
 	 					pieceImage = ChessGUI.preparePieceIcon(Constants.WHITE_QUEEN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
 	 				score -= Constants.QUEEN_VALUE;
 	 			}
-			} 
-			
-			else if (endTile.getAllegiance() == Allegiance.BLACK) {
-	 			if (endTile instanceof Pawn) {
-	 				if (displayMove)
-	 					pieceImage = ChessGUI.preparePieceIcon(Constants.BLACK_PAWN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
-	 				score += Constants.PAWN_VALUE;
-	 			} else if (endTile instanceof Rook) {
-	 				if (displayMove)
-	 					pieceImage = ChessGUI.preparePieceIcon(Constants.BLACK_ROOK_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
-	 				score += Constants.ROOK_VALUE;
-	 			} else if (endTile instanceof Knight) {
-	 				if (displayMove)
-	 					pieceImage = ChessGUI.preparePieceIcon(Constants.BLACK_KNIGHT_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
-	 				score += Constants.KNIGHT_VALUE;
-	 			} else if (endTile instanceof Bishop) {
-	 				if (displayMove)
-	 					pieceImage = ChessGUI.preparePieceIcon(Constants.BLACK_BISHOP_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
-	 				score += Constants.BISHOP_VALUE;
-	 			} else if (endTile instanceof Queen) {
-	 				if (displayMove)
-	 					pieceImage = ChessGUI.preparePieceIcon(Constants.BLACK_QUEEN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
-	 				score += Constants.QUEEN_VALUE;
-	 			}
-			}
-		
+	 			
+ 		} else if (endTile.getAllegiance() == Allegiance.BLACK) {
+ 			if (endTile instanceof Pawn) {
+ 				if (displayMove)
+ 					pieceImage = ChessGUI.preparePieceIcon(Constants.BLACK_PAWN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+ 				score += Constants.PAWN_VALUE;
+ 			} else if (endTile instanceof Rook) {
+ 				if (displayMove)
+ 					pieceImage = ChessGUI.preparePieceIcon(Constants.BLACK_ROOK_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+ 				score += Constants.ROOK_VALUE;
+ 			} else if (endTile instanceof Knight) {
+ 				if (displayMove)
+ 					pieceImage = ChessGUI.preparePieceIcon(Constants.BLACK_KNIGHT_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+ 				score += Constants.KNIGHT_VALUE;
+ 			} else if (endTile instanceof Bishop) {
+ 				if (displayMove)
+ 					pieceImage = ChessGUI.preparePieceIcon(Constants.BLACK_BISHOP_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+ 				score += Constants.BISHOP_VALUE;
+ 			} else if (endTile instanceof Queen) {
+ 				if (displayMove)
+ 					pieceImage = ChessGUI.preparePieceIcon(Constants.BLACK_QUEEN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+ 				score += Constants.QUEEN_VALUE;
+ 			}
 		}
+		
 		
 		if (endTile.getAllegiance() == Allegiance.WHITE) {
 			if (displayMove) {
