@@ -645,6 +645,8 @@ public class ChessGUI {
 		
 		if (undoItem != null)
 			undoItem.setEnabled(false);
+		if (redoItem != null)
+			redoItem.setEnabled(false);
 		
 		configureGuiStyle();
 		
