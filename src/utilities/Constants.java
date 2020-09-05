@@ -4,8 +4,10 @@ public class Constants {
 	
 	private Constants() { }  // Prevents instantiation.
 	
-	public final static double VERSION = 3.5;
+	public final static double VERSION = 3.6;
 	
+	public final static int CHESS_SQUARE_PIXEL_SIZE = 48;
+
 	public final static int CAPTURED_PIECE_PIXEL_SIZE = 16;
 	
 	/* the default number of rows, (this should always be 8). */
@@ -47,6 +49,8 @@ public class Constants {
 	public final static char BLACK_ROOK = 'r';
 	public final static char BLACK_QUEEN = 'q';
 	public final static char BLACK_KING = 'k';
+	
+	public final static String ICON_PATH = "images/icon.png";
 	
 	public final static String WHITE_IMG_PATH = "images/white/";
 	

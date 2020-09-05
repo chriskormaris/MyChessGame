@@ -74,8 +74,6 @@ public class ChessGUI {
 	
 	private final static Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
 	
-	private final static int CHESS_SQUARE_PIXEL_SIZE = 48;
-
 	private final static int HEIGHT = (int) SCREEN_SIZE.getHeight() - 60;
 	private final static int WIDTH = HEIGHT + 40;
 	
@@ -179,6 +177,14 @@ public class ChessGUI {
 		
 		frame.setResizable(false);
 		// frame.setFocusable(true);
+		
+		BufferedImage icon;
+		try {
+			icon = ImageIO.read(ResourceLoader.load(Constants.ICON_PATH));
+			frame.setIconImage(icon);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 		
 		menuBar = new JMenuBar();
 		fileMenu = new JMenu("File");
@@ -295,11 +301,21 @@ public class ChessGUI {
 		
 		aboutItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			JLabel label = new JLabel("<html><center>A traditional chess game implementation using Minimax AI.<br>"
-					+ "with Alpha-Beta Pruning.<br>"
-					+ "© Created by: Christos Kormaris, Athens 2020<br>"
-					+ "Version " + Constants.VERSION + "</center></html>");
-			JOptionPane.showMessageDialog(frame, label, "About", JOptionPane.PLAIN_MESSAGE);
+				JLabel label = new JLabel("<html>A traditional chess game implementation using Minimax AI.<br>"
+						+ "with Alpha-Beta Pruning. © Created by: Christos Kormaris, Athens 2020<br>"
+						+ "Version " + Constants.VERSION + "</html>");
+				
+				BufferedImage img = null;
+				try {
+				    img = ImageIO.read(ResourceLoader.load(Constants.ICON_PATH));
+				} catch (IOException ex) {
+				    ex.printStackTrace();
+				}
+				Image dimg = img.getScaledInstance(
+						Constants.CHESS_SQUARE_PIXEL_SIZE, Constants.CHESS_SQUARE_PIXEL_SIZE, Image.SCALE_SMOOTH);
+				ImageIcon icon = new ImageIcon(dimg);
+				
+				JOptionPane.showMessageDialog(frame, label, "About", JOptionPane.PLAIN_MESSAGE, icon);
 			}
 		});
 		
@@ -563,7 +579,8 @@ public class ChessGUI {
 				
 				// Our chess pieces are 64x64 px in size, so we'll
 				// "fill this in" using a transparent icon...
-				ImageIcon icon = new ImageIcon(new BufferedImage(CHESS_SQUARE_PIXEL_SIZE, CHESS_SQUARE_PIXEL_SIZE, BufferedImage.TYPE_INT_ARGB));
+				ImageIcon icon = new ImageIcon(new BufferedImage(
+						Constants.CHESS_SQUARE_PIXEL_SIZE, Constants.CHESS_SQUARE_PIXEL_SIZE, BufferedImage.TYPE_INT_ARGB));
 				button.setIcon(icon);
 				
 				Color color = getColorByRowCol(i, j);
@@ -1426,7 +1443,7 @@ public class ChessGUI {
 			}
 		}
 		
-		ImageIcon pieceImage = ChessGUI.preparePieceIcon(imagePath, CHESS_SQUARE_PIXEL_SIZE);
+		ImageIcon pieceImage = ChessGUI.preparePieceIcon(imagePath, Constants.CHESS_SQUARE_PIXEL_SIZE);
 		
 		// int column = (int) Character.toUpperCase(position.charAt(0)) - 65;
 		// int row = N - Character.getNumericValue(position.charAt(1));
@@ -1453,7 +1470,8 @@ public class ChessGUI {
 		
 		// Our chess pieces are 64x64 px in size, so we'll
 		// 'fill this in' using a transparent icon..
-		ImageIcon icon = new ImageIcon(new BufferedImage(CHESS_SQUARE_PIXEL_SIZE, CHESS_SQUARE_PIXEL_SIZE, BufferedImage.TYPE_INT_ARGB));
+		ImageIcon icon = new ImageIcon(new BufferedImage(
+				Constants.CHESS_SQUARE_PIXEL_SIZE, Constants.CHESS_SQUARE_PIXEL_SIZE, BufferedImage.TYPE_INT_ARGB));
 		chessBoardSquares[chessBoard.getNumOfRows() - 1 - row][column].setIcon(icon);
 		
 		chessBoard.getGameBoard()[row][column] = new EmptyTile();
@@ -1556,7 +1574,8 @@ public class ChessGUI {
 				
 				// Our chess pieces are 64x64 px in size, so we'll
 				// 'fill this in' using a transparent icon..
-				ImageIcon icon = new ImageIcon(new BufferedImage(CHESS_SQUARE_PIXEL_SIZE, CHESS_SQUARE_PIXEL_SIZE, BufferedImage.TYPE_INT_ARGB));
+				ImageIcon icon = new ImageIcon(new BufferedImage(
+						Constants.CHESS_SQUARE_PIXEL_SIZE, Constants.CHESS_SQUARE_PIXEL_SIZE, BufferedImage.TYPE_INT_ARGB));
 				chessBoardSquares[i][j].setIcon(icon);
 				
 				Color color = getColorByRowCol(i, j);
