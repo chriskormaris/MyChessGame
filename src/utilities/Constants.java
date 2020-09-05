@@ -81,7 +81,7 @@ public class Constants {
 	// public final static double KING_LATE_VALUE = 100;
 	
 	public final static double MOBILITY_MULTIPLIER = 2;
-	public final static double ATTACK_MULTIPLIER = 2;
+	// public final static double ATTACK_MULTIPLIER = 2;
 	public final static double CHECKMATE_VALUE = Integer.MAX_VALUE;
 	public final static double CHECK_VALUE = 50;
 	public final static double CHECK_LATE_VALUE = 100;
