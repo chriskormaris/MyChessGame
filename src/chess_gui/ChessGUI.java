@@ -960,6 +960,8 @@ public class ChessGUI {
 				} else {
 					if (undoItem != null)
 						undoItem.setEnabled(true);
+					if (redoItem != null)
+						redoItem.setEnabled(false);
 					if (exportFenPositionItem != null)
 						exportFenPositionItem.setEnabled(false);
 					if (saveCheckpointItem != null)
@@ -992,6 +994,8 @@ public class ChessGUI {
 				} else {
 					if (undoItem != null)
 						undoItem.setEnabled(true);
+					if (redoItem != null)
+						redoItem.setEnabled(false);
 					if (exportFenPositionItem != null)
 						exportFenPositionItem.setEnabled(false);
 					if (saveCheckpointItem != null)
@@ -1014,6 +1018,8 @@ public class ChessGUI {
 			} else {
 				if (undoItem != null)
 					undoItem.setEnabled(true);
+				if (redoItem != null)
+					redoItem.setEnabled(false);
 				if (exportFenPositionItem != null)
 					exportFenPositionItem.setEnabled(false);
 				if (saveCheckpointItem != null)
@@ -1039,6 +1045,8 @@ public class ChessGUI {
 				} else {
 					if (undoItem != null)
 						undoItem.setEnabled(true);
+					if (redoItem != null)
+						redoItem.setEnabled(false);
 					if (exportFenPositionItem != null)
 						exportFenPositionItem.setEnabled(false);
 					if (saveCheckpointItem != null)
@@ -1064,6 +1072,8 @@ public class ChessGUI {
 				} else {
 					if (undoItem != null)
 						undoItem.setEnabled(true);
+					if (redoItem != null)
+						redoItem.setEnabled(false);
 					if (exportFenPositionItem != null)
 						exportFenPositionItem.setEnabled(false);
 					if (saveCheckpointItem != null)
@@ -1100,6 +1110,8 @@ public class ChessGUI {
 				} else {
 					if (undoItem != null)
 						undoItem.setEnabled(true);
+					if (redoItem != null)
+						redoItem.setEnabled(false);
 					if (exportFenPositionItem != null)
 						exportFenPositionItem.setEnabled(false);
 					if (saveCheckpointItem != null)
