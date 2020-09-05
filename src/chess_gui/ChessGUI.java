@@ -355,18 +355,18 @@ public class ChessGUI {
 	
 	
 	private static void setTurnMessage() {
-		String turnMessage = "";
 		if (chessBoard.getHalfmoveNumber() == 1) {
-			turnMessage = firstTurnMessage;
-		} else {
-			turnMessage = "Move number: " + (int) Math.ceil((float) chessBoard.getHalfmoveNumber() / 2) + ". ";
-			turnMessage += (chessBoard.whitePlays()) ? "White plays." : "Black plays.";
-		}
-		if (chessBoard.whitePlays() && chessBoard.isWhiteKingInCheck())
-			turnMessage += " White king is in check!";
-		else if (chessBoard.blackPlays() && chessBoard.isBlackKingInCheck())
-			turnMessage += " Black king is in check!";
-		labelMessage.setText(turnMessage);
+    		labelMessage.setText(firstTurnMessage);
+        } else {
+            String turnMessage = "Move number: " + (int) Math.ceil((float) chessBoard.getHalfmoveNumber() / 2) + ". ";
+            turnMessage += (chessBoard.whitePlays()) ? "White plays." : "Black plays.";
+
+            if (chessBoard.whitePlays() && chessBoard.isWhiteKingInCheck())
+                turnMessage += " White king is in check!";
+            else if (chessBoard.blackPlays() && chessBoard.isBlackKingInCheck())
+                turnMessage += " Black king is in check!";
+    		labelMessage.setText(turnMessage);
+        }
 	}
 	
 	
