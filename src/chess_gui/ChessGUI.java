@@ -83,10 +83,10 @@ public class ChessGUI {
 	public static JPanel chessBoardPanel;
 	public static JPanel capturedPiecesPanel;
 	
-	public static String firstTurnMessage = "Move number: 1. White plays first.";
-	public static JLabel labelMessage = new JLabel(firstTurnMessage);
+	public static String firstTurnText = "Move number: 1. White plays first.";
+	public static JLabel turnLabel = new JLabel(firstTurnText);
 	
-	public static String zeroScore = "Score: 0";
+	public static String zeroScoreText = "Score: 0";
 	
 	// The position (0, 0) of the chessBoardSquares,
 	// corresponds to the position (7, 0) of the ChessBoard's gameBoard. 
@@ -372,7 +372,7 @@ public class ChessGUI {
 	
 	private static void setTurnMessage() {
 		if (chessBoard.getHalfmoveNumber() == 1) {
-    		labelMessage.setText(firstTurnMessage);
+    		turnLabel.setText(firstTurnText);
         } else {
             String turnMessage = "Move number: " + (int) Math.ceil((float) chessBoard.getHalfmoveNumber() / 2) + ". ";
             turnMessage += (chessBoard.whitePlays()) ? "White plays." : "Black plays.";
@@ -381,14 +381,14 @@ public class ChessGUI {
                 turnMessage += " White king is in check!";
             else if (chessBoard.blackPlays() && chessBoard.isBlackKingInCheck())
                 turnMessage += " Black king is in check!";
-    		labelMessage.setText(turnMessage);
+    		turnLabel.setText(turnMessage);
         }
 	}
 	
 	
 	public static void setScoreMessage() {
 		if (chessBoard.getScore() == 0) {
-			ChessGUI.capturedPiecesImages[15].setText(zeroScore);
+			ChessGUI.capturedPiecesImages[15].setText(zeroScoreText);
 		} else if (chessBoard.getScore() > 0) {
 			ChessGUI.capturedPiecesImages[15].setText("White: +" + chessBoard.getScore());
 		} else if (chessBoard.getScore() < 0) {
@@ -538,7 +538,7 @@ public class ChessGUI {
 		JToolBar tools = new JToolBar();
 		tools.setFloatable(false);
 		gui.add(tools, BorderLayout.NORTH);
-		tools.add(labelMessage);
+		tools.add(turnLabel);
 		
 		initializeChessBoardPanel();
 		initializeChessBoardSquareButtons();
@@ -643,7 +643,7 @@ public class ChessGUI {
 			capturedPiecesImages[i] = new JLabel();
 			
 			if (i == 15) {
-				ChessGUI.capturedPiecesImages[i].setText(zeroScore);
+				ChessGUI.capturedPiecesImages[i].setText(zeroScoreText);
 			} else {
 				// We'll "fill this in" using a transparent icon...
 				ImageIcon icon = new ImageIcon(new BufferedImage(Constants.CAPTURED_PIECE_PIXEL_SIZE, Constants.CAPTURED_PIECE_PIXEL_SIZE, BufferedImage.TYPE_INT_ARGB));
@@ -744,8 +744,8 @@ public class ChessGUI {
 		}
 		isGameOver = false;
 
-		String turnMessage = firstTurnMessage;
-		labelMessage.setText(turnMessage);
+		String turnMessage = firstTurnText;
+		turnLabel.setText(turnMessage);
 	}
 	
 	
@@ -933,7 +933,7 @@ public class ChessGUI {
 						turnMessage += " White king is in check!";
 					else if (chessBoard.blackPlays() && chessBoard.isBlackKingInCheck())
 						turnMessage += " Black king is in check!";
-					labelMessage.setText(turnMessage);
+					turnLabel.setText(turnMessage);
 				}
 				
 				/* Random AI implementation here. */
@@ -964,7 +964,7 @@ public class ChessGUI {
 				String turnMessage = "Move number: " 
 						+ (int) Math.ceil((float) chessBoard.getHalfmoveNumber() / 2) 
 						+ ". Checkmate. White wins!";
-				labelMessage.setText(turnMessage);
+				turnLabel.setText(turnMessage);
 				
 				if (GameParameters.enableSounds)
 					Utilities.playSound("checkmate.wav");
@@ -998,7 +998,7 @@ public class ChessGUI {
 				String turnMessage = "Move number: " 
 						+ (int) Math.ceil((float) chessBoard.getHalfmoveNumber() / 2) 
 						+ ". Checkmate. Black wins!";
-				labelMessage.setText(turnMessage);
+				turnLabel.setText(turnMessage);
 				
 				if (GameParameters.enableSounds)
 					Utilities.playSound("checkmate.wav");
@@ -1261,7 +1261,7 @@ public class ChessGUI {
 			turnMessage += " White king is in check!";
 		if (chessBoard.isBlackKingInCheck())
 			turnMessage += " Black king is in check!";
-		labelMessage.setText(turnMessage);
+		turnLabel.setText(turnMessage);
 		
 		System.out.println();
 		System.out.println(chessBoard);
@@ -1306,7 +1306,7 @@ public class ChessGUI {
 			if (chessBoard.isBlackKingInCheck())
 				turnMessage += " Black king is in check!";
 		}
-		labelMessage.setText(turnMessage);
+		turnLabel.setText(turnMessage);
 		
 		System.out.println();
 		System.out.println(chessBoard);
@@ -1317,7 +1317,7 @@ public class ChessGUI {
 		MiniMaxAi ai1 = new MiniMaxAi(GameParameters.maxDepth1, Constants.WHITE);
 		MiniMaxAi ai2 = new MiniMaxAi(GameParameters.maxDepth2, Constants.BLACK);
 		
-		labelMessage.setText(firstTurnMessage);
+		turnLabel.setText(firstTurnText);
 		
 		while (!isGameOver) {
 			previousChessBoards.push(new ChessBoard(chessBoard));
