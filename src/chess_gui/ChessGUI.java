@@ -1084,7 +1084,7 @@ public class ChessGUI {
 					|| chessBoard.blackPlays() && GameParameters.gameMode == GameMode.HUMAN_VS_HUMAN) {
 				dialogResult = JOptionPane.showConfirmDialog(gui, 
 						(int) Math.ceil(Constants.NO_PIECE_CAPTURE_HALFMOVES_DRAW_LIMIT / (double) 2) + 
-						" fullmoves have passed without a chessPiece capture! Do you want to claim a draw?",
+						" fullmoves have passed without a piece capture! Do you want to claim a draw?",
 						"Draw", JOptionPane.YES_NO_OPTION);
 			}
 			
