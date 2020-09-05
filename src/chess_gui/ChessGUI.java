@@ -88,6 +88,8 @@ public class ChessGUI {
 	public static String firstTurnMessage = "Move number: 1. White plays first.";
 	public static JLabel labelMessage = new JLabel(firstTurnMessage);
 	
+	public static String zeroScore = "Score: 0";
+	
 	// The position (0, 0) of the chessBoardSquares,
 	// corresponds to the position (7, 0) of the ChessBoard's gameBoard. 
 	public static JButton[][] chessBoardSquares;
@@ -370,7 +372,7 @@ public class ChessGUI {
 	
 	public static void setScoreMessage() {
 		if (chessBoard.getScore() == 0) {
-			ChessGUI.capturedPiecesImages[15].setText("Score: 0");
+			ChessGUI.capturedPiecesImages[15].setText(zeroScore);
 		} else if (chessBoard.getScore() > 0) {
 			ChessGUI.capturedPiecesImages[15].setText("White: +" + chessBoard.getScore());
 		} else if (chessBoard.getScore() < 0) {
@@ -624,7 +626,7 @@ public class ChessGUI {
 			capturedPiecesImages[i] = new JLabel();
 			
 			if (i == 15) {
-				ChessGUI.capturedPiecesImages[i].setText("Score: 0");
+				ChessGUI.capturedPiecesImages[i].setText(zeroScore);
 			} else {
 				// We'll "fill this in" using a transparent icon...
 				ImageIcon icon = new ImageIcon(new BufferedImage(Constants.CAPTURED_PIECE_PIXEL_SIZE, Constants.CAPTURED_PIECE_PIXEL_SIZE, BufferedImage.TYPE_INT_ARGB));
