@@ -843,9 +843,9 @@ public class ChessGUI {
 				startingButtonIsClicked = true;
 			}
 			
-		} else if (startingButtonIsClicked &&
+		} else if (startingButtonIsClicked && startingPiece != null &&
 				(startingPiece.getAllegiance() == Allegiance.WHITE && chessBoard.whitePlays()
-				|| startingPiece.getAllegiance() == Allegiance.BLACK && chessBoard.blackPlays())) {
+				 || startingPiece.getAllegiance() == Allegiance.BLACK && chessBoard.blackPlays())) {
 			
 			startingButtonIsClicked = false;
 			
