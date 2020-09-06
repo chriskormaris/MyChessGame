@@ -960,7 +960,6 @@ public class ChessGUI {
 		if (chessBoard.whitePlays()) {
 			chessBoard.checkForWhiteCheckmate(true);
 			if (chessBoard.isWhiteCheckmate()) {
-				chessBoard.setHalfmoveNumber(chessBoard.getHalfmoveNumber() + 1);
 				String turnMessage = "Move number: " 
 						+ (int) Math.ceil((float) chessBoard.getHalfmoveNumber() / 2) 
 						+ ". Checkmate. White wins!";
@@ -994,7 +993,6 @@ public class ChessGUI {
 		else {
 			chessBoard.checkForBlackCheckmate(true);
 			if (chessBoard.isBlackCheckmate()) {
-				chessBoard.setHalfmoveNumber(chessBoard.getHalfmoveNumber() + 1);
 				String turnMessage = "Move number: " 
 						+ (int) Math.ceil((float) chessBoard.getHalfmoveNumber() / 2) 
 						+ ". Checkmate. Black wins!";
@@ -1027,6 +1025,11 @@ public class ChessGUI {
 		/* Draw implementation. */
 		chessBoard.checkForTwoKingsLeftDraw();
 		if (chessBoard.isTwoKingsLeftDraw()) {
+			String turnMessage = "Move number: " 
+					+ (int) Math.ceil((float) chessBoard.getHalfmoveNumber() / 2) 
+					+ ". It is a draw.";
+			turnLabel.setText(turnMessage);
+			
 			int dialogResult = JOptionPane.showConfirmDialog(gui, 
 					"It is a draw! Start a new game?", "Draw", JOptionPane.YES_NO_OPTION);
 			// System.out.println("dialogResult:" + dialogResult);
@@ -1053,6 +1056,11 @@ public class ChessGUI {
 			// System.out.println("Checking for white stalemate!");
 			chessBoard.checkForWhiteStalemateDraw();
 			if (chessBoard.isWhiteStalemateDraw()) {
+				String turnMessage = "Move number: " 
+						+ (int) Math.ceil((float) chessBoard.getHalfmoveNumber() / 2) 
+						+ ". Stalemate! No legal moves for White exist.";
+				turnLabel.setText(turnMessage);
+				
 				int dialogResult = JOptionPane.showConfirmDialog(gui, 
 						"Stalemate! No legal moves for White exist. Start a new game?", 
 						"Draw", JOptionPane.YES_NO_OPTION);
@@ -1080,6 +1088,11 @@ public class ChessGUI {
 			// System.out.println("Checking for black stalemate!");
 			chessBoard.checkForBlackStalemateDraw();
 			if (chessBoard.isBlackStalemateDraw()) {
+				String turnMessage = "Move number: " 
+						+ (int) Math.ceil((float) chessBoard.getHalfmoveNumber() / 2) 
+						+ ". Stalemate! No legal moves for Black exist.";
+				turnLabel.setText(turnMessage);
+				
 				int dialogResult = JOptionPane.showConfirmDialog(gui, 
 						"Stalemate! No legal moves for Black exist. Start a new game?", 
 						"Draw", JOptionPane.YES_NO_OPTION);
@@ -1117,6 +1130,11 @@ public class ChessGUI {
 			
 			// System.out.println("dialogResult:" + dialogResult);
 			if (dialogResult == JOptionPane.YES_OPTION) {
+				
+				String turnMessage = "Move number: " 
+						+ (int) Math.ceil((float) chessBoard.getHalfmoveNumber() / 2) 
+						+ ". It is a draw.";
+				turnLabel.setText(turnMessage);
 
 				dialogResult = JOptionPane.showConfirmDialog(gui, 
 						"It is a draw! Start a new game?",
