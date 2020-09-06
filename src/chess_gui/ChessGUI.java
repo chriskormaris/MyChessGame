@@ -1237,6 +1237,8 @@ public class ChessGUI {
 				possibleEndingPositions = chessBoard.getWhiteKingInCheckValidPieceMoves().get(randomAiStartingPosition);
 			}
 		}
+		
+		// Get a random element from the set.
 		Random r = new Random();
 		int randomEndingPositionIndex = r.nextInt(possibleEndingPositions.size());
 		// System.out.println("randomEndingPositionIndex: " + randomEndingPositionIndex);
