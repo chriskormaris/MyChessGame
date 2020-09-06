@@ -371,7 +371,7 @@ public class ChessGUI {
 	
 	
 	private static void setTurnMessage() {
-		if (chessBoard.getHalfmoveNumber() == 1) {
+		if (chessBoard.getHalfmoveNumber() == 1 || chessBoard.getHalfmoveNumber() == 2) {
     		turnLabel.setText(firstTurnText);
         } else {
             String turnMessage = "Move number: " + (int) Math.ceil((float) chessBoard.getHalfmoveNumber() / 2) + ". ";
