@@ -709,10 +709,8 @@ public class ChessGUI {
 				&& GameParameters.aiMode == AiMode.RANDOM_AI
 				&& GameParameters.humanPlayerAllegiance == Allegiance.BLACK) {
 			randomAiMove(randomAiAllegiance);
-		} else if (GameParameters.gameMode == GameMode.AI_VS_AI && GameParameters.aiMode == AiMode.MINIMAX_AI) {
-			playMinimaxAiVsMinimaxAi();
-		} else if (GameParameters.gameMode == GameMode.AI_VS_AI && GameParameters.aiMode == AiMode.RANDOM_AI) {
-			playRandomAiVsRandomAi();
+		} else if (GameParameters.gameMode == GameMode.AI_VS_AI) {
+			playAiVsAi();
 		}
 		
 	}
@@ -1352,7 +1350,7 @@ public class ChessGUI {
 	}
 	
 	
-	private static void playMinimaxAiVsMinimaxAi() {
+	private static void playAiVsAi() {
 		MiniMaxAi ai1 = new MiniMaxAi(GameParameters.maxDepth1, Constants.WHITE);
 		MiniMaxAi ai2 = new MiniMaxAi(GameParameters.maxDepth2, Constants.BLACK);
 		
@@ -1368,86 +1366,47 @@ public class ChessGUI {
 			}
 			previousCapturedPiecesImages.push(newCapturedPiecesImages);
 			
-			minimaxAiMove(ai1);
-			
-			try {
-				frame.paint(frame.getGraphics());
-				frame.revalidate();
-				frame.repaint();
-				Thread.sleep(250);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+			if (GameParameters.aiMode == AiMode.MINIMAX_AI) {
+				minimaxAiMove(ai1);
+			} else {
+				randomAiMove(Allegiance.WHITE);
 			}
-			
-			previousChessBoards.push(new ChessBoard(chessBoard));
-			
-			// Push to the previousCapturedPiecesImages Stack.
-			newCapturedPiecesImages = new JLabel[31];
-			for (int i=0; i<=30; i++) {
-				newCapturedPiecesImages[i] = new JLabel(capturedPiecesImages[i].getIcon());
-			}
-			previousCapturedPiecesImages.push(newCapturedPiecesImages);
-			
-			minimaxAiMove(ai2);
-			
-			try {
-				frame.paint(frame.getGraphics());
-				frame.revalidate();
-				frame.repaint();
-				Thread.sleep(250);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-	
-	
-	private static void playRandomAiVsRandomAi() {		
-		turnLabel.setText(firstTurnText);
-		
-		while (!isGameOver) {
-			previousChessBoards.push(new ChessBoard(chessBoard));
-			
-			// Push to the previousCapturedPiecesImages Stack.
-			JLabel[] newCapturedPiecesImages = new JLabel[31];
-			for (int i=0; i<=30; i++) {
-				newCapturedPiecesImages[i] = new JLabel(capturedPiecesImages[i].getIcon());
-			}
-			previousCapturedPiecesImages.push(newCapturedPiecesImages);
-			
-			randomAiMove(Allegiance.WHITE);
-			
-			try {
-				frame.paint(frame.getGraphics());
-				frame.revalidate();
-				frame.repaint();
-				Thread.sleep(250);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			
-			previousChessBoards.push(new ChessBoard(chessBoard));
-			
-			// Push to the previousCapturedPiecesImages Stack.
-			newCapturedPiecesImages = new JLabel[31];
-			for (int i=0; i<=30; i++) {
-				newCapturedPiecesImages[i] = new JLabel(capturedPiecesImages[i].getIcon());
-			}
-			previousCapturedPiecesImages.push(newCapturedPiecesImages);
-			
-			randomAiMove(Allegiance.BLACK);
-			
-			try {
-				frame.paint(frame.getGraphics());
-				frame.revalidate();
-				frame.repaint();
-				Thread.sleep(250);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-	}
 
+			try {
+				frame.paint(frame.getGraphics());
+				frame.revalidate();
+				frame.repaint();
+				Thread.sleep(250);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
+			previousChessBoards.push(new ChessBoard(chessBoard));
+			
+			// Push to the previousCapturedPiecesImages Stack.
+			newCapturedPiecesImages = new JLabel[31];
+			for (int i=0; i<=30; i++) {
+				newCapturedPiecesImages[i] = new JLabel(capturedPiecesImages[i].getIcon());
+			}
+			previousCapturedPiecesImages.push(newCapturedPiecesImages);
+			
+			if (GameParameters.aiMode == AiMode.MINIMAX_AI) {
+				minimaxAiMove(ai2);
+			} else {
+				randomAiMove(Allegiance.BLACK);
+			}
+
+			try {
+				frame.paint(frame.getGraphics());
+				frame.revalidate();
+				frame.repaint();
+				Thread.sleep(250);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 
 	public static void hideHintPositions(Set<String> positionsToHide) {
 		if (positionsToHide != null && positionsToHide.size() != 0) {
