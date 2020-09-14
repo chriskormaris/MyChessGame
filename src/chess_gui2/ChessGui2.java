@@ -24,7 +24,7 @@ public class ChessGui2 extends JPanel {
 	 */
 	private static final long serialVersionUID = -5684370471793136759L;
 
-	private final static String title = "My Chess Game 2";
+	private final static String title = "My Chess Game GUI 2";
 
 	private static int numOfRows = GameParameters.numOfRows;
 	private final static int numOfColumns = Constants.NUM_OF_COLUMNS;
@@ -43,7 +43,7 @@ public class ChessGui2 extends JPanel {
 		super(new GridLayout(numOfRows+2, numOfColumns+2));
 		// GameParameters.gameMode = Constants.HumanVsRandomAi;
 		
-		if (GameParameters.gameMode == GameMode.HUMAN_VS_MINIMAX_AI) {
+		if (GameParameters.gameMode == GameMode.HUMAN_VS_AI) {
 			ChessGUI.ai = new MiniMaxAi(GameParameters.maxDepth1, Constants.BLACK);
 		}
 		
