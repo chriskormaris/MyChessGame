@@ -37,7 +37,7 @@ public class SettingsWindow extends JFrame {
 	private JLabel maxDepth1Label;
 	private JLabel maxDepth2Label;
 	private JLabel blackTileColorLabel;
-	private JLabel numberOfRowsLabel;
+	private JLabel numOfRowsLabel;
 
 	private JComboBox<String> gui_style_drop_down;
 	private JCheckBox enable_sounds_check_box;
@@ -48,7 +48,7 @@ public class SettingsWindow extends JFrame {
 	private JComboBox<Integer> max_depth2_drop_down;
 	private JComboBox<String> black_tile_color_drop_down;
 	SpinnerModel spinnerModel = new SpinnerNumberModel(8, 4, 8, 1);     
-	private JSpinner number_of_rows_spinner = new JSpinner(spinnerModel);
+	private JSpinner num_of_rows_spinner = new JSpinner(spinnerModel);
 
 	private JButton apply;
 	private JButton cancel;
@@ -70,15 +70,15 @@ public class SettingsWindow extends JFrame {
 		
 		handler = new EventHandler();
 		
-		GuiStyle selectedGuiStyle = GameParameters.guiStyle;
-		boolean enableSounds = GameParameters.enableSounds;
-		Allegiance humanPlayerAllegiance = GameParameters.humanPlayerAllegiance;
-		GameMode selectedGameMode = GameParameters.gameMode;
-		AiMode selectedAiMode = GameParameters.aiMode;
-		int maxDepth1 = GameParameters.maxDepth1 - 1;
-		int maxDepth2 = GameParameters.maxDepth2 - 1;
-		Color selectedBlackTileColor = GameParameters.blackTileColor;
-		int numOfRows = GameParameters.numOfRows;
+		GuiStyle selectedGuiStyle = ChessGUI.gameParameters.guiStyle;
+		boolean enableSounds = ChessGUI.gameParameters.enableSounds;
+		Allegiance humanPlayerAllegiance = ChessGUI.gameParameters.humanPlayerAllegiance;
+		GameMode selectedGameMode = ChessGUI.gameParameters.gameMode;
+		AiMode selectedAiMode = ChessGUI.gameParameters.aiMode;
+		int maxDepth1 = ChessGUI.gameParameters.maxDepth1 - 1;
+		int maxDepth2 = ChessGUI.gameParameters.maxDepth2 - 1;
+		Color selectedBlackTileColor = ChessGUI.gameParameters.blackTileColor;
+		int numOfRows = ChessGUI.gameParameters.numOfRows;
 
 		
 		guiStyleLabel = new JLabel("GUI style");
@@ -89,7 +89,7 @@ public class SettingsWindow extends JFrame {
 		maxDepth1Label = new JLabel("Minimax AI 1 depth");
 		maxDepth2Label = new JLabel("Minimax AI 2 depth (AiVsAi)");
 		blackTileColorLabel = new JLabel("Black tile color");
-		numberOfRowsLabel = new JLabel("Number of rows");
+		numOfRowsLabel = new JLabel("Number of rows");
 
 		
 		add(guiStyleLabel);
@@ -100,7 +100,7 @@ public class SettingsWindow extends JFrame {
 		add(maxDepth1Label);
 		add(maxDepth2Label);
 		add(blackTileColorLabel);
-		add(numberOfRowsLabel);
+		add(numOfRowsLabel);
 
 		
 		gui_style_drop_down = new JComboBox<String>();
@@ -183,7 +183,7 @@ public class SettingsWindow extends JFrame {
 		add(max_depth1_drop_down);
 		add(max_depth2_drop_down);
 		add(black_tile_color_drop_down);
-		add(number_of_rows_spinner);
+		add(num_of_rows_spinner);
 
 		guiStyleLabel.setBounds(25, 25, 205, 20);
 		enableSoundsLabel.setBounds(25, 55, 205, 20);
@@ -193,7 +193,7 @@ public class SettingsWindow extends JFrame {
 		maxDepth1Label.setBounds(25, 175, 205, 20);
 		maxDepth2Label.setBounds(25, 205, 205, 20);
 		blackTileColorLabel.setBounds(25, 235, 205, 20);
-		numberOfRowsLabel.setBounds(25, 265, 205, 20);
+		numOfRowsLabel.setBounds(25, 265, 205, 20);
 		
 		gui_style_drop_down.setBounds(225, 25, 180, 20);
 		enable_sounds_check_box.setBounds(225, 55, 180, 20);
@@ -203,7 +203,7 @@ public class SettingsWindow extends JFrame {
 		max_depth1_drop_down.setBounds(225, 175, 180, 20);
 		max_depth2_drop_down.setBounds(225, 205, 180, 20);
 		black_tile_color_drop_down.setBounds(225, 235, 180, 20);
-		number_of_rows_spinner.setBounds(225, 265, 180, 30);
+		num_of_rows_spinner.setBounds(225, 265, 180, 30);
 
 		apply = new JButton("Apply");
 		cancel = new JButton("Cancel");
@@ -232,27 +232,20 @@ public class SettingsWindow extends JFrame {
 					
 					GuiStyle guiStyle = 
 						GuiStyle.valueOf(gui_style_drop_down.getSelectedItem().toString().toUpperCase().replace("-", "_").replace(" ", "_"));
-					Color blackTileColor = (black_tile_color_drop_down.getSelectedIndex() == 0) ? Color.BLACK : Color.GRAY;
-					Allegiance humanPlayerAllegiance = Allegiance.valueOf(human_player_allegiance_drop_down.getSelectedItem().toString().toUpperCase());
 					boolean enableSounds = enable_sounds_check_box.isSelected();
+					Allegiance humanPlayerAllegiance = Allegiance.valueOf(human_player_allegiance_drop_down.getSelectedItem().toString().toUpperCase());
 					GameMode gameMode = GameMode.valueOf(game_mode_drop_down.getSelectedItem().toString().toUpperCase().replace(" ", "_"));
 					AiMode aiMode = AiMode.valueOf(ai_mode_drop_down.getSelectedItem().toString().toUpperCase().replace(" ", "_"));
 					int maxDepth1 = (int) max_depth1_drop_down.getSelectedItem();
 					int maxDepth2 = (int) max_depth2_drop_down.getSelectedItem();
-					int numberOfRows = (int) number_of_rows_spinner.getValue();
-//					numberOfRows = (numberOfRows >= 8) ? numberOfRows : 8;
+					Color blackTileColor = (black_tile_color_drop_down.getSelectedIndex() == 0) ? Color.BLACK : Color.GRAY;
+					int numOfRows = (int) num_of_rows_spinner.getValue();
+					// numOfRows = (numOfRows >= 8) ? numOfRows : 8;
 					
-					// Change game parameters based on settings.
-					GameParameters.guiStyle = guiStyle;
-					GameParameters.blackTileColor = blackTileColor;
-					GameParameters.humanPlayerAllegiance = humanPlayerAllegiance;
-					GameParameters.enableSounds = enableSounds;
-					GameParameters.gameMode = gameMode;
-					GameParameters.aiMode = aiMode;
-					GameParameters.maxDepth1 = maxDepth1;
-					GameParameters.maxDepth2 = maxDepth2;
-					GameParameters.numOfRows = numberOfRows;
-										
+					// Change game parameters based on the settings.
+					ChessGUI.newGameParameters = new GameParameters(guiStyle, enableSounds, humanPlayerAllegiance,
+							gameMode, aiMode, maxDepth1, maxDepth2, blackTileColor, numOfRows); 
+					
 					JOptionPane.showMessageDialog(ChessGUI.frame,
 							"Game settings have been changed.\nThe changes will be applied in the next new game.",
 							"", JOptionPane.INFORMATION_MESSAGE);

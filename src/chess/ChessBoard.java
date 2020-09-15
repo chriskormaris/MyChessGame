@@ -23,7 +23,6 @@ import pieces.Pawn;
 import pieces.Queen;
 import pieces.Rook;
 import utilities.Constants;
-import utilities.GameParameters;
 import utilities.Utilities;
 
 
@@ -126,7 +125,7 @@ public class ChessBoard {
 	
 	
     public ChessBoard() {
-		this.numOfRows = GameParameters.numOfRows;
+		this.numOfRows = ChessGUI.gameParameters.numOfRows;
 
     	this.lastMove = new Move();
 
@@ -146,7 +145,7 @@ public class ChessBoard {
 		this.tilesThreatenedByBlack = new int[numOfRows][NUM_OF_COLUMNS];
 		
 		this.whiteKingPosition = "E1";
-		this.blackKingPosition = "E" + GameParameters.numOfRows;
+		this.blackKingPosition = "E" + ChessGUI.gameParameters.numOfRows;
 		
 		this.player = true;
 		
@@ -490,8 +489,8 @@ public class ChessBoard {
 				
 				// Automatically choose promotion to Queen and display it on the GUI. 
  				if (displayMove && 
- 						(!this.player && GameParameters.gameMode == GameMode.HUMAN_VS_AI
- 						 || GameParameters.gameMode == GameMode.AI_VS_AI)) {
+ 						(!this.player && ChessGUI.gameParameters.gameMode == GameMode.HUMAN_VS_AI
+ 						 || ChessGUI.gameParameters.gameMode == GameMode.AI_VS_AI)) {
  					if (chessPiece.getAllegiance() == Allegiance.WHITE && rowEnd == numOfRows - 1) {
  						ChessPiece whiteQueen = new Queen(Allegiance.WHITE);
  						ChessGUI.placePieceToPosition(positionEnd, whiteQueen);

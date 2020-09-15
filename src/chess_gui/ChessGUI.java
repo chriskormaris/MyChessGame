@@ -68,7 +68,10 @@ import utilities.Utilities;
 
 
 public class ChessGUI {
-		
+	
+	public static GameParameters gameParameters = new GameParameters();
+	public static GameParameters newGameParameters = new GameParameters(gameParameters);
+	
 	private final static String TITLE = "My Chess Game";
 	
 	private final static int NUM_OF_COLUMNS = Constants.NUM_OF_COLUMNS;
@@ -147,8 +150,9 @@ public class ChessGUI {
 	
 	public static String savedFenPosition;
 	
+	
 	public ChessGUI(String title) {
-		
+				
 		// Change JDialog style.
 		// JDialog.setDefaultLookAndFeelDecorated(true);
 		
@@ -156,11 +160,11 @@ public class ChessGUI {
 		
 		initializeGui();
 		
-		if (GameParameters.gameMode == GameMode.HUMAN_VS_AI && GameParameters.aiMode == AiMode.MINIMAX_AI) {
-			if (GameParameters.humanPlayerAllegiance == Allegiance.WHITE) {
-				ai = new MiniMaxAi(GameParameters.maxDepth1, Constants.BLACK);
-			} else if (GameParameters.humanPlayerAllegiance == Allegiance.BLACK) {
-				ai = new MiniMaxAi(GameParameters.maxDepth1, Constants.WHITE);
+		if (gameParameters.gameMode == GameMode.HUMAN_VS_AI && gameParameters.aiMode == AiMode.MINIMAX_AI) {
+			if (gameParameters.humanPlayerAllegiance == Allegiance.WHITE) {
+				ai = new MiniMaxAi(gameParameters.maxDepth1, Constants.BLACK);
+			} else if (gameParameters.humanPlayerAllegiance == Allegiance.BLACK) {
+				ai = new MiniMaxAi(gameParameters.maxDepth1, Constants.WHITE);
 			}
 		}
 		
@@ -249,7 +253,7 @@ public class ChessGUI {
 						"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
 				
 				if (fenPosition != null) {
-					// GameParameters.numOfRows = Constants.DEFAULT_NUM_OF_ROWS;
+					// gameParameters.numOfRows = Constants.DEFAULT_NUM_OF_ROWS;
 					startNewGame();
 					placePiecesToChessBoard(fenPosition);
 				}
@@ -352,10 +356,10 @@ public class ChessGUI {
 	public static void configureGuiStyle() {
 		try {
 			// UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			if (GameParameters.guiStyle == GuiStyle.CROSS_PLATFORM_STYLE) {
+			if (gameParameters.guiStyle == GuiStyle.CROSS_PLATFORM_STYLE) {
 				// Option 1
 				UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-			} else if (GameParameters.guiStyle == GuiStyle.NIMBUS_STYLE) {
+			} else if (gameParameters.guiStyle == GuiStyle.NIMBUS_STYLE) {
 				// Option 2
 			    for (LookAndFeelInfo info: UIManager.getInstalledLookAndFeels()) {
 			        if ("Nimbus".equals(info.getName())) {
@@ -410,8 +414,17 @@ public class ChessGUI {
 			
 			int startingPositionRow = Utilities.getRowFromPosition(startingPosition);
 			int startingPositionColumn = Utilities.getColumnFromPosition(startingPosition);
-			JButton startingButton = chessBoardSquares[chessBoard.getNumOfRows() - 1 - startingPositionRow][startingPositionColumn];
-			Color startingButtonColor = getColorByRowCol(chessBoard.getNumOfRows() - 1 - startingPositionRow, startingPositionColumn);
+			
+			JButton startingButton;
+			Color startingButtonColor;
+			if (gameParameters.gameMode == GameMode.HUMAN_VS_AI && gameParameters.humanPlayerAllegiance == Allegiance.BLACK) {
+				startingButton = chessBoardSquares[startingPositionRow][startingPositionColumn];
+				startingButtonColor = getColorByRowCol(startingPositionRow, startingPositionColumn);
+			} else {
+				startingButton = chessBoardSquares[chessBoard.getNumOfRows() - 1 - startingPositionRow][startingPositionColumn];
+				startingButtonColor = getColorByRowCol(chessBoard.getNumOfRows() - 1 - startingPositionRow, startingPositionColumn);				
+			}
+			
 			changeTileColor(startingButton, startingButtonColor);
 			
 			redoChessBoards.push(new ChessBoard(chessBoard));
@@ -471,8 +484,17 @@ public class ChessGUI {
 						
 			int startingPositionRow = Utilities.getRowFromPosition(startingPosition);
 			int startingPositionColumn = Utilities.getColumnFromPosition(startingPosition);
-			JButton startingButton = chessBoardSquares[chessBoard.getNumOfRows() - 1 - startingPositionRow][startingPositionColumn];
-			Color startingButtonColor = getColorByRowCol(chessBoard.getNumOfRows() - 1 - startingPositionRow, startingPositionColumn);
+			
+			JButton startingButton;
+			Color startingButtonColor;
+			if (gameParameters.gameMode == GameMode.HUMAN_VS_AI && gameParameters.humanPlayerAllegiance == Allegiance.BLACK) {
+				startingButton = chessBoardSquares[startingPositionRow][startingPositionColumn];
+				startingButtonColor = getColorByRowCol(startingPositionRow, startingPositionColumn);
+			} else {
+				startingButton = chessBoardSquares[chessBoard.getNumOfRows() - 1 - startingPositionRow][startingPositionColumn];
+				startingButtonColor = getColorByRowCol(chessBoard.getNumOfRows() - 1 - startingPositionRow, startingPositionColumn);
+			}
+
 			changeTileColor(startingButton, startingButtonColor);
 			
 			previousChessBoards.push(new ChessBoard(chessBoard));
@@ -555,7 +577,7 @@ public class ChessGUI {
 	public static void initializeChessBoardPanel() {
 		if (chessBoardPanel != null)
 			gui.remove(chessBoardPanel);
-		chessBoardPanel = new JPanel(new GridLayout(GameParameters.numOfRows+2, NUM_OF_COLUMNS+2));
+		chessBoardPanel = new JPanel(new GridLayout(gameParameters.numOfRows+2, NUM_OF_COLUMNS+2));
 		chessBoardPanel.setBorder(new LineBorder(Color.BLACK));
 		chessBoardPanel.setPreferredSize(new Dimension(WIDTH, HEIGHT - 100));
 		gui.add(chessBoardPanel, BorderLayout.CENTER);
@@ -572,11 +594,11 @@ public class ChessGUI {
 	
 	public static void initializeChessBoardSquareButtons() {
 
-		chessBoardSquares = new JButton[GameParameters.numOfRows][NUM_OF_COLUMNS];
+		chessBoardSquares = new JButton[gameParameters.numOfRows][NUM_OF_COLUMNS];
 		
 		// Create the chess board square buttons.
 		Insets buttonMargin = new Insets(0, 0, 0, 0);
-		for (int i=0; i<GameParameters.numOfRows; i++) {
+		for (int i=0; i<gameParameters.numOfRows; i++) {
 			for (int j=0; j<NUM_OF_COLUMNS; j++) {
 				JButton button = new JButton();
 				button.setMargin(buttonMargin);
@@ -592,7 +614,12 @@ public class ChessGUI {
 				button.setOpaque(true);
 				// button.setBorderPainted(false);
 				
-				int row = GameParameters.numOfRows - 1 - i;
+				int row;
+				if (gameParameters.gameMode == GameMode.HUMAN_VS_AI && gameParameters.humanPlayerAllegiance == Allegiance.BLACK) {
+					row = i;
+				} else {
+					row = chessBoard.getNumOfRows() - 1 - i;	
+				}
 				int column = j;
 				button.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
@@ -615,15 +642,15 @@ public class ChessGUI {
 		
 		chessBoardPanel.add(new JLabel(""));
 		// fill the black non-pawn chessPiece row
-		for (int i=0; i<GameParameters.numOfRows; i++) {
+		for (int i=0; i<gameParameters.numOfRows; i++) {
 			for (int j=0; j<NUM_OF_COLUMNS+1; j++) {
 				switch (j) {
 					case 0:
-						chessBoardPanel.add(new JLabel("" + (GameParameters.numOfRows - i), SwingConstants.CENTER));
+						chessBoardPanel.add(new JLabel("" + (gameParameters.numOfRows - i), SwingConstants.CENTER));
 						chessBoardPanel.add(chessBoardSquares[i][j]);
 						break;
 					case NUM_OF_COLUMNS:
-						chessBoardPanel.add(new JLabel("" + (GameParameters.numOfRows - i), SwingConstants.CENTER));
+						chessBoardPanel.add(new JLabel("" + (gameParameters.numOfRows - i), SwingConstants.CENTER));
 						break;
 					default:
 						chessBoardPanel.add(chessBoardSquares[i][j]);
@@ -666,6 +693,8 @@ public class ChessGUI {
 	public static void startNewGame() {
 		System.out.println("Starting new game!");
 		
+		gameParameters = new GameParameters(newGameParameters);
+		
 		if (undoItem != null)
 			undoItem.setEnabled(false);
 		if (redoItem != null)
@@ -701,15 +730,15 @@ public class ChessGUI {
 		System.out.println();
 		System.out.println(chessBoard);
 		
-		if (GameParameters.gameMode == GameMode.HUMAN_VS_AI 
-				&& GameParameters.aiMode == AiMode.MINIMAX_AI
-				&& GameParameters.humanPlayerAllegiance == Allegiance.BLACK) {
+		if (gameParameters.gameMode == GameMode.HUMAN_VS_AI 
+				&& gameParameters.aiMode == AiMode.MINIMAX_AI
+				&& gameParameters.humanPlayerAllegiance == Allegiance.BLACK) {
 			minimaxAiMove(ai);
-		} else if (GameParameters.gameMode == GameMode.HUMAN_VS_AI 
-				&& GameParameters.aiMode == AiMode.RANDOM_AI
-				&& GameParameters.humanPlayerAllegiance == Allegiance.BLACK) {
+		} else if (gameParameters.gameMode == GameMode.HUMAN_VS_AI 
+				&& gameParameters.aiMode == AiMode.RANDOM_AI
+				&& gameParameters.humanPlayerAllegiance == Allegiance.BLACK) {
 			randomAiMove(randomAiAllegiance);
-		} else if (GameParameters.gameMode == GameMode.AI_VS_AI) {
+		} else if (gameParameters.gameMode == GameMode.AI_VS_AI) {
 			playAiVsAi();
 		}
 		
@@ -741,17 +770,17 @@ public class ChessGUI {
 		if (saveCheckpointItem != null)
 			saveCheckpointItem.setEnabled(true);
 		
-		if (GameParameters.gameMode == GameMode.HUMAN_VS_AI) {
-			if (GameParameters.aiMode == AiMode.MINIMAX_AI) {
-				if (GameParameters.humanPlayerAllegiance == Allegiance.WHITE) {
-					ai = new MiniMaxAi(GameParameters.maxDepth1, Constants.BLACK);
-				} else if (GameParameters.humanPlayerAllegiance == Allegiance.BLACK) {
-					ai = new MiniMaxAi(GameParameters.maxDepth1, Constants.WHITE);
+		if (gameParameters.gameMode == GameMode.HUMAN_VS_AI) {
+			if (gameParameters.aiMode == AiMode.MINIMAX_AI) {
+				if (gameParameters.humanPlayerAllegiance == Allegiance.WHITE) {
+					ai = new MiniMaxAi(gameParameters.maxDepth1, Constants.BLACK);
+				} else if (gameParameters.humanPlayerAllegiance == Allegiance.BLACK) {
+					ai = new MiniMaxAi(gameParameters.maxDepth1, Constants.WHITE);
 				}
 			} else {
-				if (GameParameters.humanPlayerAllegiance == Allegiance.WHITE) {
+				if (gameParameters.humanPlayerAllegiance == Allegiance.WHITE) {
 					randomAiAllegiance = Allegiance.BLACK;
-				} else if (GameParameters.humanPlayerAllegiance == Allegiance.BLACK) {
+				} else if (gameParameters.humanPlayerAllegiance == Allegiance.BLACK) {
 					randomAiAllegiance = Allegiance.WHITE;
 				}
 			}
@@ -830,8 +859,17 @@ public class ChessGUI {
 						
 						int hintPositionRow = Utilities.getRowFromPosition(hintPosition);
 						int hintPositionColumn = Utilities.getColumnFromPosition(hintPosition);
-						JButton hintPositionButton = 
-								chessBoardSquares[chessBoard.getNumOfRows() - 1 - hintPositionRow][hintPositionColumn];
+						
+						JButton hintPositionButton;;
+						
+						if (gameParameters.gameMode == GameMode.HUMAN_VS_AI && gameParameters.humanPlayerAllegiance == Allegiance.BLACK) {
+							hintPositionButton = 
+								chessBoardSquares[hintPositionRow][hintPositionColumn];
+						} else {
+							hintPositionButton = 
+								chessBoardSquares[chessBoard.getNumOfRows() - 1 - hintPositionRow][hintPositionColumn];	
+						}
+						
 						// System.out.println("startingPiece: " + startingPiece);
 						// System.out.println("hint position: " + hintPosition);
 						
@@ -870,8 +908,16 @@ public class ChessGUI {
 			if (startingPosition.equals(endingPosition)
 				|| !hintPositions.contains(endingPosition)) {
 				
-				JButton startingButton = chessBoardSquares[chessBoard.getNumOfRows() - 1 - startingPositionRow][startingPositionColumn];
-				Color startingButtonColor = getColorByRowCol(chessBoard.getNumOfRows() -1 - startingPositionRow, startingPositionColumn);
+				JButton startingButton;
+				Color startingButtonColor;
+				if (gameParameters.gameMode == GameMode.HUMAN_VS_AI && gameParameters.humanPlayerAllegiance == Allegiance.BLACK) {
+					startingButton = chessBoardSquares[startingPositionRow][startingPositionColumn];
+					startingButtonColor = getColorByRowCol(startingPositionRow, startingPositionColumn);
+				} else {
+					startingButton = chessBoardSquares[chessBoard.getNumOfRows() - 1 - startingPositionRow][startingPositionColumn];
+					startingButtonColor = getColorByRowCol(chessBoard.getNumOfRows() -1 - startingPositionRow, startingPositionColumn);
+				}
+				
 				// System.out.println("startingButtonColor: " + startingButtonColor);
 				changeTileColor(startingButton, startingButtonColor);
 				
@@ -905,8 +951,16 @@ public class ChessGUI {
 					hideHintPositions(hintPositions);
 				}
 				
-				JButton startingButton = chessBoardSquares[chessBoard.getNumOfRows() - 1 - startingPositionRow][startingPositionColumn];
-				Color startingButtonColor = getColorByRowCol(chessBoard.getNumOfRows() - 1 - startingPositionRow, startingPositionColumn);
+				JButton startingButton;
+				Color startingButtonColor;
+				if (gameParameters.gameMode == GameMode.HUMAN_VS_AI && gameParameters.humanPlayerAllegiance == Allegiance.BLACK) {
+					startingButton = chessBoardSquares[startingPositionRow][startingPositionColumn];
+					startingButtonColor = getColorByRowCol(startingPositionRow, startingPositionColumn);
+				} else {
+					startingButton = chessBoardSquares[chessBoard.getNumOfRows() - 1 - startingPositionRow][startingPositionColumn];
+					startingButtonColor = getColorByRowCol(chessBoard.getNumOfRows() - 1 - startingPositionRow, startingPositionColumn);
+				}
+				
 				// System.out.println("startingButtonColor: " + startingButtonColor);
 				changeTileColor(startingButton, startingButtonColor);
 				
@@ -914,13 +968,13 @@ public class ChessGUI {
 			
 			if (checkForGameOver()) return;
 
-			if (GameParameters.enableSounds)
+			if (gameParameters.enableSounds)
 				Utilities.playSound("piece_move.wav");	
 			
 			// Remove the check from the king of the player who made the last move.
 			// The thing that the player managed to make a move,
 			// means that his king has escaped from the check.
-			if (GameParameters.gameMode == GameMode.HUMAN_VS_HUMAN) {
+			if (gameParameters.gameMode == GameMode.HUMAN_VS_HUMAN) {
 				if (chessBoard.whitePlays())
 					chessBoard.setWhiteKingInCheck(false);
 				else
@@ -941,7 +995,7 @@ public class ChessGUI {
 				// change chessBoard.turn
 				chessBoard.setHalfmoveNumber(chessBoard.getHalfmoveNumber() + 1);
 		        chessBoard.setPlayer(!chessBoard.whitePlays());
-				if (GameParameters.gameMode == GameMode.HUMAN_VS_HUMAN) {
+				if (gameParameters.gameMode == GameMode.HUMAN_VS_HUMAN) {
 					String turnMessage = "Move number: " + (int) Math.ceil((float) chessBoard.getHalfmoveNumber() / 2) + ". ";
 					turnMessage += (chessBoard.whitePlays()) ? "White plays." : "Black plays.";
 					if (chessBoard.whitePlays() && chessBoard.isWhiteKingInCheck())
@@ -952,16 +1006,16 @@ public class ChessGUI {
 				}
 
 				/* MiniMax AI implementation here. */
-				if (GameParameters.gameMode == GameMode.HUMAN_VS_AI
-							&& GameParameters.aiMode == AiMode.MINIMAX_AI) {
+				if (gameParameters.gameMode == GameMode.HUMAN_VS_AI
+							&& gameParameters.aiMode == AiMode.MINIMAX_AI) {
 					// System.out.println("INSIDE MINIMAX AI");
 					minimaxAiMove(ai);
 				}
 				
 				/* Random AI implementation here. */
 				// The AI controls the Black pieces.
-				else if (GameParameters.gameMode == GameMode.HUMAN_VS_AI 
-						&& GameParameters.aiMode == AiMode.RANDOM_AI) {
+				else if (gameParameters.gameMode == GameMode.HUMAN_VS_AI 
+						&& gameParameters.aiMode == AiMode.RANDOM_AI) {
 					// System.out.println("INSIDE RANDOM AI");
 					randomAiMove(randomAiAllegiance);
 				}
@@ -982,7 +1036,7 @@ public class ChessGUI {
 						+ ". Checkmate. White wins!";
 				turnLabel.setText(turnMessage);
 				
-				if (GameParameters.enableSounds)
+				if (gameParameters.enableSounds)
 					Utilities.playSound("checkmate.wav");
 				
 				int dialogResult = JOptionPane.showConfirmDialog(gui, 
@@ -1015,7 +1069,7 @@ public class ChessGUI {
 						+ ". Checkmate. Black wins!";
 				turnLabel.setText(turnMessage);
 				
-				if (GameParameters.enableSounds)
+				if (gameParameters.enableSounds)
 					Utilities.playSound("checkmate.wav");
 
 				int dialogResult = JOptionPane.showConfirmDialog(gui, 
@@ -1138,7 +1192,7 @@ public class ChessGUI {
 			int dialogResult = -1;
 			
 			if (chessBoard.whitePlays()
-					|| chessBoard.blackPlays() && GameParameters.gameMode == GameMode.HUMAN_VS_HUMAN) {
+					|| chessBoard.blackPlays() && gameParameters.gameMode == GameMode.HUMAN_VS_HUMAN) {
 				dialogResult = JOptionPane.showConfirmDialog(gui, 
 						(int) Math.ceil(Constants.NO_PIECE_CAPTURE_HALFMOVES_DRAW_LIMIT / (double) 2) + 
 						" fullmoves have passed without a piece capture! Do you want to declare a draw?",
@@ -1351,8 +1405,8 @@ public class ChessGUI {
 	
 	
 	private static void playAiVsAi() {
-		MiniMaxAi ai1 = new MiniMaxAi(GameParameters.maxDepth1, Constants.WHITE);
-		MiniMaxAi ai2 = new MiniMaxAi(GameParameters.maxDepth2, Constants.BLACK);
+		MiniMaxAi ai1 = new MiniMaxAi(gameParameters.maxDepth1, Constants.WHITE);
+		MiniMaxAi ai2 = new MiniMaxAi(gameParameters.maxDepth2, Constants.BLACK);
 		
 		turnLabel.setText(firstTurnText);
 		
@@ -1366,7 +1420,7 @@ public class ChessGUI {
 			}
 			previousCapturedPiecesImages.push(newCapturedPiecesImages);
 			
-			if (GameParameters.aiMode == AiMode.MINIMAX_AI) {
+			if (gameParameters.aiMode == AiMode.MINIMAX_AI) {
 				minimaxAiMove(ai1);
 			} else {
 				randomAiMove(Allegiance.WHITE);
@@ -1390,7 +1444,7 @@ public class ChessGUI {
 			}
 			previousCapturedPiecesImages.push(newCapturedPiecesImages);
 			
-			if (GameParameters.aiMode == AiMode.MINIMAX_AI) {
+			if (gameParameters.aiMode == AiMode.MINIMAX_AI) {
 				minimaxAiMove(ai2);
 			} else {
 				randomAiMove(Allegiance.BLACK);
@@ -1415,8 +1469,17 @@ public class ChessGUI {
 				int row = Utilities.getRowFromPosition(hintPosition);
 				int column = Utilities.getColumnFromPosition(hintPosition);
 				// System.out.println("hide hint row: " + row + ", hide hint column: " + column);
-				JButton button = chessBoardSquares[chessBoard.getNumOfRows() - 1 - row][column];
-				Color buttonColor = getColorByRowCol(chessBoard.getNumOfRows() - 1 - row, column);
+				
+				JButton button;
+				Color buttonColor;
+				if (gameParameters.gameMode == GameMode.HUMAN_VS_AI && gameParameters.humanPlayerAllegiance == Allegiance.BLACK) {
+					button = chessBoardSquares[row][column];
+					buttonColor = getColorByRowCol(row, column);
+				} else {
+					button = chessBoardSquares[chessBoard.getNumOfRows() - 1 - row][column];
+					buttonColor = getColorByRowCol(chessBoard.getNumOfRows() - 1 - row, column);	
+				}
+				
 				changeTileColor(button, buttonColor);
 			}
 		}
@@ -1435,7 +1498,7 @@ public class ChessGUI {
 			|| (column % 2 == 0 && row % 2 == 0)) {
 			color = Color.WHITE;
 		} else {
-			color = GameParameters.blackTileColor;
+			color = gameParameters.blackTileColor;
 		}
 		return color;
 	}
@@ -1499,7 +1562,11 @@ public class ChessGUI {
 		// System.out.println("chessBoardSquares.length: " + chessBoardSquares.length);
 		// System.out.println("chessBoardSquares[0].length: " + chessBoardSquares[0].length);
 		
-		chessBoardSquares[chessBoard.getNumOfRows() - 1 - row][column].setIcon(pieceImage);
+		if (gameParameters.gameMode == GameMode.HUMAN_VS_AI && gameParameters.humanPlayerAllegiance == Allegiance.BLACK) {
+			chessBoardSquares[row][column].setIcon(pieceImage);
+		} else {
+			chessBoardSquares[chessBoard.getNumOfRows() - 1 - row][column].setIcon(pieceImage);
+		}
 		
 		chessBoard.getGameBoard()[row][column] = chessPiece;
 	}
@@ -1518,7 +1585,12 @@ public class ChessGUI {
 		// 'fill this in' using a transparent icon..
 		ImageIcon icon = new ImageIcon(new BufferedImage(
 				Constants.CHESS_SQUARE_PIXEL_SIZE, Constants.CHESS_SQUARE_PIXEL_SIZE, BufferedImage.TYPE_INT_ARGB));
-		chessBoardSquares[chessBoard.getNumOfRows() - 1 - row][column].setIcon(icon);
+		
+		if (gameParameters.gameMode == GameMode.HUMAN_VS_AI && gameParameters.humanPlayerAllegiance == Allegiance.BLACK) {
+			chessBoardSquares[row][column].setIcon(icon);
+		} else {
+			chessBoardSquares[chessBoard.getNumOfRows() - 1 - row][column].setIcon(icon);	
+		}
 		
 		chessBoard.getGameBoard()[row][column] = new EmptyTile();
 	}
@@ -1614,7 +1686,7 @@ public class ChessGUI {
 	
 	
 	public static void makeChessBoardSquaresEmpty() {
-		for (int i=0; i<GameParameters.numOfRows; i++) {
+		for (int i=0; i<gameParameters.numOfRows; i++) {
 			for (int j=0; j<NUM_OF_COLUMNS; j++) {
 				// chessBoardSquares[i][j].setEnabled(true);
 				
@@ -1629,7 +1701,7 @@ public class ChessGUI {
 				chessBoardSquares[i][j].setOpaque(true);
 				// chessBoardSquares[i][j].setBorderPainted(false);
 				
-				chessBoard.getGameBoard()[GameParameters.numOfRows - 1 - i][j] = new EmptyTile();
+				chessBoard.getGameBoard()[gameParameters.numOfRows - 1 - i][j] = new EmptyTile();
 				chessBoard.setThreats();
 			}
 		}
@@ -1642,7 +1714,13 @@ public class ChessGUI {
 				JButton button = chessBoardSquares[i][j];
 				button.setEnabled(true);
 
-				int row = chessBoard.getNumOfRows() - 1 - i;
+				int row;
+				if (gameParameters.gameMode == GameMode.HUMAN_VS_AI && gameParameters.humanPlayerAllegiance == Allegiance.BLACK) {
+					row = i;
+				} else {
+					row = chessBoard.getNumOfRows() - 1 - i;
+				}
+				
 				int column = j;
 				button.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {

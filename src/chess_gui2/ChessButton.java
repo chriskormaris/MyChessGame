@@ -5,7 +5,6 @@ import java.awt.Color;
 import javax.swing.JButton;
 
 import chess_gui.ChessGUI;
-import utilities.GameParameters;
 
 
 public class ChessButton extends JButton {
@@ -25,7 +24,7 @@ public class ChessButton extends JButton {
 		// this.setBorderPainted(false);
 		
 		if ((i / N + i % N) % 2 == 1) {
-			this.setBackground(GameParameters.blackTileColor);
+			this.setBackground(ChessGUI.gameParameters.blackTileColor);
 		} else {
 			this.setBackground(Color.WHITE);
 		}

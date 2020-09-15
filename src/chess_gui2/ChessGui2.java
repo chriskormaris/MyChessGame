@@ -14,7 +14,6 @@ import chess_gui.ChessGUI;
 import enumerations.GameMode;
 import minimax_ai.MiniMaxAi;
 import utilities.Constants;
-import utilities.GameParameters;
 
 
 public class ChessGui2 extends JPanel {
@@ -26,7 +25,7 @@ public class ChessGui2 extends JPanel {
 
 	private final static String title = "My Chess Game GUI 2";
 
-	private static int numOfRows = GameParameters.numOfRows;
+	private static int numOfRows = ChessGUI.gameParameters.numOfRows;
 	private final static int numOfColumns = Constants.NUM_OF_COLUMNS;
 
 	private final static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -41,10 +40,10 @@ public class ChessGui2 extends JPanel {
 	
 	public ChessGui2() {
 		super(new GridLayout(numOfRows+2, numOfColumns+2));
-		// GameParameters.gameMode = Constants.HumanVsRandomAi;
+		// ChessGUI.gameParameters.gameMode = Constants.HumanVsRandomAi;
 		
-		if (GameParameters.gameMode == GameMode.HUMAN_VS_AI) {
-			ChessGUI.ai = new MiniMaxAi(GameParameters.maxDepth1, Constants.BLACK);
+		if (ChessGUI.gameParameters.gameMode == GameMode.HUMAN_VS_AI) {
+			ChessGUI.ai = new MiniMaxAi(ChessGUI.gameParameters.maxDepth1, Constants.BLACK);
 		}
 		
 		ChessGUI.configureGuiStyle();
