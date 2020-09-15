@@ -646,11 +646,19 @@ public class ChessGUI {
 			for (int j=0; j<NUM_OF_COLUMNS+1; j++) {
 				switch (j) {
 					case 0:
-						chessBoardPanel.add(new JLabel("" + (gameParameters.numOfRows - i), SwingConstants.CENTER));
+						if (gameParameters.gameMode == GameMode.HUMAN_VS_AI && gameParameters.humanPlayerAllegiance == Allegiance.BLACK) {
+							chessBoardPanel.add(new JLabel("" + (i + 1), SwingConstants.CENTER));
+						} else {
+							chessBoardPanel.add(new JLabel("" + (gameParameters.numOfRows - i), SwingConstants.CENTER));
+						}
 						chessBoardPanel.add(chessBoardSquares[i][j]);
 						break;
 					case NUM_OF_COLUMNS:
-						chessBoardPanel.add(new JLabel("" + (gameParameters.numOfRows - i), SwingConstants.CENTER));
+						if (gameParameters.gameMode == GameMode.HUMAN_VS_AI && gameParameters.humanPlayerAllegiance == Allegiance.BLACK) {
+							chessBoardPanel.add(new JLabel("" + (i + 1), SwingConstants.CENTER));
+						} else {
+							chessBoardPanel.add(new JLabel("" + (gameParameters.numOfRows - i), SwingConstants.CENTER));
+						}
 						break;
 					default:
 						chessBoardPanel.add(chessBoardSquares[i][j]);
@@ -746,7 +754,7 @@ public class ChessGUI {
 
 	
 	// Restores all the default values.
-	private static void restoreDefaultValues() {
+	public static void restoreDefaultValues() {
 		chessBoard = new ChessBoard();
 		
 		startingPosition = "";
@@ -829,6 +837,9 @@ public class ChessGUI {
 				if (chessBoard.whitePlays() && !chessBoard.isWhiteKingInCheck() 
 					|| chessBoard.blackPlays() && !chessBoard.isBlackKingInCheck()) {
 					hintPositions = chessBoard.getNextPositions(position);
+					
+					if (chessPiece instanceof King)
+						System.out.println("hint positions: " + hintPositions);
 					
 					// System.out.println("chessBoard: ");
 					// System.out.println(chessBoard);
@@ -1708,7 +1719,7 @@ public class ChessGUI {
 	}
 	
 	
-	static void enableChessBoardButtons() {
+	public static void enableChessBoardButtons() {
 		for (int i=0; i<chessBoard.getNumOfRows(); i++) {
 			for (int j=0; j<NUM_OF_COLUMNS; j++) {
 				JButton button = chessBoardSquares[i][j];
@@ -1733,7 +1744,7 @@ public class ChessGUI {
 	}
 	
 	
-	static void disableChessBoardSquares() {
+	public static void disableChessBoardSquares() {
 		for (int i=0; i<chessBoard.getNumOfRows(); i++) {
 			for (int j=0; j<NUM_OF_COLUMNS; j++) {
 				// chessBoardSquares[i][j].setEnabled(false);

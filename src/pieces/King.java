@@ -183,10 +183,10 @@ public class King extends ChessPiece {
 		return nextKingPositions;
 	}
 
+	
 	public static Set<String> getCastlingPositions(String position, ChessBoard chessBoard,
-			ChessPiece[][] startingPositionGameBoard) {
-		// System.out.println("current position: " + position);
-
+		ChessPiece[][] startingPositionGameBoard) {
+		
 		Set<String> castlingPositions = new HashSet<String>();
 
 		// First, find the row && the column
@@ -194,7 +194,8 @@ public class King extends ChessPiece {
 		int row = Utilities.getRowFromPosition(position);
 		int column = Utilities.getColumnFromPosition(position);
 		ChessPiece chessPiece = startingPositionGameBoard[row][column];
-
+		
+		
 		if (!(chessPiece instanceof King)) {
 			return castlingPositions;
 		}
@@ -217,7 +218,9 @@ public class King extends ChessPiece {
 				&& chessBoard.getTilesThreatenedByBlack()[0][2] == 0
 				&& chessBoard.getTilesThreatenedByBlack()[0][3] == 0
 				&& chessBoard.getTilesThreatenedByBlack()[0][4] == 0) {
-
+				
+				// System.out.println("INSIDE 1 WHITE");
+				
 				newRow = row;
 				newColumn = column - 2;
 				newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
@@ -234,6 +237,8 @@ public class King extends ChessPiece {
 					&& chessBoard.getTilesThreatenedByBlack()[0][5] == 0
 					&& chessBoard.getTilesThreatenedByBlack()[0][6] == 0) {
 
+				// System.out.println("INSIDE 2 WHITE");
+				
 				newRow = row;
 				newColumn = column + 2;
 				newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
@@ -251,8 +256,10 @@ public class King extends ChessPiece {
 					&& startingPositionGameBoard[chessBoard.getNumOfRows() - 1][3] instanceof EmptyTile
 					&& chessBoard.getTilesThreatenedByWhite()[chessBoard.getNumOfRows() - 1][2] == 0
 					&& chessBoard.getTilesThreatenedByWhite()[chessBoard.getNumOfRows() - 1][3] == 0
-					&& chessBoard.getTilesThreatenedByBlack()[chessBoard.getNumOfRows() - 1][4] == 0) {
+					&& chessBoard.getTilesThreatenedByWhite()[chessBoard.getNumOfRows() - 1][4] == 0) {
 
+				// System.out.println("INSIDE 1 BLACK");
+				
 				newRow = row;
 				newColumn = column - 2;
 				newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
@@ -265,10 +272,12 @@ public class King extends ChessPiece {
 					&& column < 6 && startingPositionGameBoard[chessBoard.getNumOfRows() - 1][7].getAllegiance() == Allegiance.BLACK
 					&& startingPositionGameBoard[chessBoard.getNumOfRows() - 1][5] instanceof EmptyTile
 					&& startingPositionGameBoard[chessBoard.getNumOfRows() - 1][6] instanceof EmptyTile
-					&& chessBoard.getTilesThreatenedByBlack()[chessBoard.getNumOfRows() - 1][4] == 0
+					&& chessBoard.getTilesThreatenedByWhite()[chessBoard.getNumOfRows() - 1][4] == 0
 					&& chessBoard.getTilesThreatenedByWhite()[chessBoard.getNumOfRows() - 1][5] == 0
 					&& chessBoard.getTilesThreatenedByWhite()[chessBoard.getNumOfRows() - 1][6] == 0) {
-
+				
+				// System.out.println("INSIDE 2 BLACK");
+				
 				newRow = row;
 				newColumn = column + 2;
 				newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
