@@ -609,11 +609,7 @@ public class ChessGUI {
 						Constants.CHESS_SQUARE_PIXEL_SIZE, Constants.CHESS_SQUARE_PIXEL_SIZE, BufferedImage.TYPE_INT_ARGB));
 				button.setIcon(icon);
 				
-				Color color = getColorByRowCol(i, j);
-				button.setBackground(color);
-				button.setOpaque(true);
-				// button.setBorderPainted(false);
-				
+
 				int row;
 				if (gameParameters.gameMode == GameMode.HUMAN_VS_AI && gameParameters.humanPlayerAllegiance == Allegiance.BLACK) {
 					row = i;
@@ -621,6 +617,14 @@ public class ChessGUI {
 					row = chessBoard.getNumOfRows() - 1 - i;	
 				}
 				int column = j;
+				
+				Color color = getColorByRowCol(row, column);
+				
+				button.setBackground(color);
+				button.setOpaque(true);
+				// button.setBorderPainted(false);
+				
+				
 				button.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						chessButtonClick(row, column, button);
@@ -1507,9 +1511,9 @@ public class ChessGUI {
 		if ((column % 2 == 1 && row % 2 == 1)
 				//) {
 			|| (column % 2 == 0 && row % 2 == 0)) {
-			color = Color.WHITE;
-		} else {
 			color = gameParameters.blackTileColor;
+		} else {
+			color = Color.WHITE;
 		}
 		return color;
 	}
