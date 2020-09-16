@@ -113,7 +113,7 @@ public class ChessBoard {
 	/* These variables are also used for the "undo" functionality. */
 	private boolean isWhiteCheckmate;
 	private boolean isBlackCheckmate;
-	private boolean isTwoKingsLeftDraw;
+	private boolean isInsufficientMaterialDraw;
 	private boolean isWhiteStalemateDraw;
 	private boolean isBlackStalemateDraw;
 	
@@ -242,7 +242,7 @@ public class ChessBoard {
 		
 		this.isWhiteCheckmate = otherBoard.isWhiteCheckmate();
 		this.isBlackCheckmate = otherBoard.isBlackCheckmate();
-		this.isTwoKingsLeftDraw = otherBoard.isTwoKingsLeftDraw();
+		this.isInsufficientMaterialDraw = otherBoard.isInsufficientMaterialDraw();
 		this.isWhiteStalemateDraw = otherBoard.isWhiteStalemateDraw();
 		this.isBlackStalemateDraw = otherBoard.isBlackStalemateDraw();
 		
@@ -820,13 +820,13 @@ public class ChessBoard {
 		
 		this.isWhiteCheckmate = checkForWhiteCheckmate(false);
 		this.isBlackCheckmate = checkForBlackCheckmate(false);
-		this.isTwoKingsLeftDraw = checkForTwoKingsLeftDraw();
+		this.isInsufficientMaterialDraw = checkForInsufficientMaterialDraw();
 		this.isWhiteStalemateDraw = checkForWhiteStalemateDraw();
 		this.isBlackStalemateDraw = checkForBlackStalemateDraw();
 		
 		if (this.isWhiteCheckmate) return Constants.CHECKMATE_VALUE;
     	if (this.isBlackCheckmate) return -Constants.CHECKMATE_VALUE;
-    	if (this.isTwoKingsLeftDraw) return 0;
+    	if (this.isInsufficientMaterialDraw) return 0;
     	if (this.isWhiteStalemateDraw) return 0;
     	if (this.isBlackStalemateDraw) return 0;
 //    	if (this.halfmoveClock >= Constants.NO_PIECE_CAPTURE_HALFMOVES_DRAW_LIMIT) return 0;
@@ -1046,16 +1046,33 @@ public class ChessBoard {
     	blackScore += Constants.MOBILITY_MULTIPLIER * blackLegalMoves;
     	
 		/* Two bishops remaining check. */
-		if (getNumOfBishops(gameBoard, Constants.WHITE) == 2)
+		if (getNumOfBishops(gameBoard, Allegiance.WHITE) == 2)
 			whiteScore += Constants.TWO_BISHOPS_VALUE;
-		if (getNumOfBishops(gameBoard, Constants.BLACK) == 2)
+		if (getNumOfBishops(gameBoard, Allegiance.BLACK) == 2)
 			blackScore += Constants.TWO_BISHOPS_VALUE;
+		
+
+		// Add extra penalty, if the Queen, or any Rook is lost. 
+    	if (this.halfmoveNumber <= Constants.MIDDLEGAME_HALFMOVES_THRESHOLD) {
+			whiteScore -= (isQueenLost(this.gameBoard, Allegiance.WHITE)) ? Constants.QUEEN_VALUE : 0;
+			blackScore -= (isQueenLost(this.gameBoard, Allegiance.BLACK)) ? Constants.QUEEN_VALUE : 0;
+			
+			whiteScore -= 2 - getNumOfRooks(this.gameBoard, Allegiance.WHITE) * Constants.ROOK_VALUE;
+			blackScore -= 2 - getNumOfRooks(this.gameBoard, Allegiance.BLACK) * Constants.ROOK_VALUE;
+    	} else {
+    		whiteScore -= (isQueenLost(this.gameBoard, Allegiance.WHITE)) ? Constants.QUEEN_LATE_VALUE : 0;
+			blackScore -= (isQueenLost(this.gameBoard, Allegiance.BLACK)) ? Constants.QUEEN_LATE_VALUE : 0;
+			
+			whiteScore -= 2 - getNumOfRooks(this.gameBoard, Allegiance.WHITE) * Constants.ROOK_LATE_VALUE;
+			blackScore -= 2 - getNumOfRooks(this.gameBoard, Allegiance.BLACK) * Constants.ROOK_LATE_VALUE;
+    	}
 		
 		return whiteScore - blackScore;
 	}
     
     
     @SuppressWarnings("unused")
+    // Might be used to determine if we are in a late game state.
 	private int getPlayerNumOfPiecesLeft(boolean player) {
     	int numOfPieces = 0;
     	for (int i=0; i<numOfRows; i++) {
@@ -1069,25 +1086,22 @@ public class ChessBoard {
     }
     
     
-    @SuppressWarnings("unused")
-	private boolean isQueenLost(ChessPiece[][] gameBoard, boolean player) {
+	private boolean isQueenLost(ChessPiece[][] gameBoard, Allegiance playerAllegiance) {
     	int n1 = gameBoard.length;
     	int n2 = gameBoard[0].length;
     	for (int i=0; i<n1; i++) {
     		for (int j=0; j<n2; j++) {
     			if (gameBoard[i][j] instanceof Queen &&
-    					(player == Constants.WHITE && gameBoard[i][j].getAllegiance() == Allegiance.WHITE)
-    					|| (player == Constants.BLACK && gameBoard[i][j].getAllegiance() == Allegiance.BLACK))
+    					playerAllegiance == gameBoard[i][j].getAllegiance())
     				return false;
     		}
     	}
     	
     	return true;
     }
-
+	
     
-    @SuppressWarnings("unused")
-	private int getNumOfRooks(ChessPiece[][] gameBoard, boolean player) {
+	private int getNumOfRooks(ChessPiece[][] gameBoard, Allegiance playerAllegiance) {
     	int numOfRooks = 0;
     	
     	int n1 = gameBoard.length;
@@ -1095,8 +1109,7 @@ public class ChessBoard {
     	for (int i=0; i<n1; i++) {
     		for (int j=0; j<n2; j++) {
     			if (gameBoard[i][j] instanceof Rook &&
-    					(player == Constants.WHITE && gameBoard[i][j].getAllegiance() == Allegiance.WHITE)
-    					|| (player == Constants.BLACK && gameBoard[i][j].getAllegiance() == Allegiance.BLACK))
+    					playerAllegiance == gameBoard[i][j].getAllegiance())
     				numOfRooks++;
     		}
     	}
@@ -1105,21 +1118,20 @@ public class ChessBoard {
     }
     
     
-	private int getNumOfBishops(ChessPiece[][] gameBoard, boolean player) {
-    	int numOfRooks = 0;
+	private int getNumOfBishops(ChessPiece[][] gameBoard, Allegiance playerAllegiance) {
+    	int numOfBishops = 0;
     	
     	int n1 = gameBoard.length;
     	int n2 = gameBoard[0].length;
     	for (int i=0; i<n1; i++) {
     		for (int j=0; j<n2; j++) {
     			if (gameBoard[i][j] instanceof Bishop &&
-    					(player == Constants.WHITE && gameBoard[i][j].getAllegiance() == Allegiance.WHITE)
-    					|| (player == Constants.BLACK && gameBoard[i][j].getAllegiance() == Allegiance.WHITE))
-    				numOfRooks++;
+    					(playerAllegiance == gameBoard[i][j].getAllegiance()))
+    				numOfBishops++;
     		}
     	}
     	
-    	return numOfRooks;
+    	return numOfBishops;
     }
 	
 	
@@ -1139,7 +1151,7 @@ public class ChessBoard {
     	// meaning that the next player should be Black.
     	if (blackPlays() && checkForBlackStalemateDraw()) return true;
 
-    	if (checkForTwoKingsLeftDraw()) return true;
+    	if (checkForInsufficientMaterialDraw()) return true;
     	
 //    	if (getHalfmoveClock() >= Constants.NO_PIECE_CAPTURE_HALFMOVES_DRAW_LIMIT)
 //    		return true;
@@ -1150,7 +1162,7 @@ public class ChessBoard {
 
 	public boolean isTerminalState() {
 		if (isWhiteCheckmate() || isBlackCheckmate() || 
-			isWhiteStalemateDraw() || isBlackStalemateDraw() || isTwoKingsLeftDraw()) {
+			isWhiteStalemateDraw() || isBlackStalemateDraw() || isInsufficientMaterialDraw()) {
 //			getHalfmoveClock() >= Constants.NO_PIECE_CAPTURE_HALFMOVES_DRAW_LIMIT) {
 			return true;
 		}
@@ -1404,37 +1416,82 @@ public class ChessBoard {
 		
 		return this.isBlackCheckmate;
 	}
-
-
+	
+	
 	// Check if only two kings have remained on the board.
-	public boolean checkForTwoKingsLeftDraw() {
-		boolean isDraw = true;
+	public boolean checkForInsufficientMaterialDraw() {
+		if ((isLoneKing(Allegiance.WHITE) || isLoneKingPlusOneOrTwoKnights(Allegiance.WHITE) 
+				|| isLoneKingPlusABishop(Allegiance.WHITE))
+			&& (isLoneKing(Allegiance.BLACK) || isLoneKingPlusOneOrTwoKnights(Allegiance.BLACK)
+				|| isLoneKingPlusABishop(Allegiance.BLACK))) {
+			this.isInsufficientMaterialDraw = true;
+			return true;
+		}
 		
+		return false;
+	}
+	
+	
+	// Check if only a king has remained on the board.
+	public boolean isLoneKing(Allegiance playerAllegiance) {
 		for (int i=0; i<numOfRows; i++) {
 			for (int j=0; j<NUM_OF_COLUMNS; j++) {
 				if (!(getGameBoard()[i][j] instanceof EmptyTile)
-						&& !(getGameBoard()[i][j] instanceof King)) {
+						&& !(getGameBoard()[i][j] instanceof King)
+						&& playerAllegiance == getGameBoard()[i][j].getAllegiance()) {
 					// System.out.println("i: " + i + ", j: " + j + ", chessPiece: " + this.getGameBoard()[i][j]);
-					isDraw = false;
-					i = j = 1000;
-					break;
+					return false;
 				}
 			}
 		}
 		
-		this.isTwoKingsLeftDraw = isDraw;
-		
-		return isDraw;		
+		return true;
 	}
-
-
+	
+	
+	public boolean isLoneKingPlusOneOrTwoKnights(Allegiance playerAllegiance) {
+		
+		for (int i=0; i<numOfRows; i++) {
+			for (int j=0; j<NUM_OF_COLUMNS; j++) {
+				if (!(getGameBoard()[i][j] instanceof EmptyTile)
+						&& !(getGameBoard()[i][j] instanceof King || getGameBoard()[i][j] instanceof Knight)
+						&& playerAllegiance == getGameBoard()[i][j].getAllegiance()) {
+					// System.out.println("i: " + i + ", j: " + j + ", chessPiece: " + this.getGameBoard()[i][j]);
+					return false;
+				}
+			}
+		}
+		
+		return true;
+	}
+	
+	
+	public boolean isLoneKingPlusABishop(Allegiance playerAllegiance) {
+		int numOfBishops = getNumOfBishops(this.gameBoard, playerAllegiance);
+		if (numOfBishops != 1) return false;
+		
+		for (int i=0; i<numOfRows; i++) {
+			for (int j=0; j<NUM_OF_COLUMNS; j++) {
+				if (!(getGameBoard()[i][j] instanceof EmptyTile)
+						&& !(getGameBoard()[i][j] instanceof King || getGameBoard()[i][j] instanceof Bishop)
+						&& playerAllegiance == getGameBoard()[i][j].getAllegiance()) {
+					// System.out.println("i: " + i + ", j: " + j + ", chessPiece: " + this.getGameBoard()[i][j]);
+					return false;
+				}
+			}
+		}
+		
+		return true;
+	}
+	
+	
 	// It checks for a stalemate. It gets called after the opposing player, makes a move.
 	// A stalemate occurs when a player has no legal moves to make. Then, the game ends in a draw.
 	// If the Black player makes a move, then we check for a White player stalemate and vice-versa.
 	public boolean checkForWhiteStalemateDraw() {
 		
 		this.isWhiteStalemateDraw = true;
-	
+		
 		ChessBoard initialChessBoard = new ChessBoard(this);
 		
 		// System.out.println("Checking for White stalemate...");
@@ -1775,12 +1832,12 @@ public class ChessBoard {
 		this.isBlackCheckmate = isBlackCheckmate;
 	}
 
-	public boolean isTwoKingsLeftDraw() {
-		return isTwoKingsLeftDraw;
+	public boolean isInsufficientMaterialDraw() {
+		return isInsufficientMaterialDraw;
 	}
 
-	public void setTwoKingsLeftDraw(boolean isTwoKingsLeftDraw) {
-		this.isTwoKingsLeftDraw = isTwoKingsLeftDraw;
+	public void setInsufficientMaterialDraw(boolean isInsufficientMaterialDraw) {
+		this.isInsufficientMaterialDraw = isInsufficientMaterialDraw;
 	}
 
 	public boolean isWhiteStalemateDraw() {

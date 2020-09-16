@@ -1121,15 +1121,15 @@ public class ChessGUI {
 		}
 		
 		/* Draw implementation. */
-		chessBoard.checkForTwoKingsLeftDraw();
-		if (chessBoard.isTwoKingsLeftDraw()) {
+		chessBoard.checkForInsufficientMaterialDraw();
+		if (chessBoard.isInsufficientMaterialDraw()) {
 			String turnMessage = "Move number: " 
 					+ (int) Math.ceil((float) chessBoard.getHalfmoveNumber() / 2) 
 					+ ". It is a draw.";
 			turnLabel.setText(turnMessage);
 			
 			int dialogResult = JOptionPane.showConfirmDialog(gui, 
-					"It is a draw! Start a new game?", "Draw", JOptionPane.YES_NO_OPTION);
+					"It is a draw due to insufficient mating material! Start a new game?", "Draw", JOptionPane.YES_NO_OPTION);
 			// System.out.println("dialogResult:" + dialogResult);
 			if (dialogResult == JOptionPane.YES_OPTION) {
 				startNewGame();

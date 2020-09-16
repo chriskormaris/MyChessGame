@@ -8,15 +8,17 @@ import org.junit.jupiter.api.Test;
 import chess.ChessBoard;
 import chess_gui.ChessGUI;
 import enumerations.Allegiance;
+import pieces.Bishop;
 import pieces.King;
+import pieces.Knight;
 
 
-class TwoKingsLeftDrawTest {
+class InsufficientMaterialDrawTest {
 
 	@Test
-	public void testTwoKingsLeftDraw() {
+	public void testInsufficientMaterialDraw() {
 		
-		String title = "Two Kings Left Draw Test";
+		String title = "Insufficient Material Draw Test";
 		
 		@SuppressWarnings("unused")
 		ChessGUI cbg = new ChessGUI(title);
@@ -24,12 +26,19 @@ class TwoKingsLeftDrawTest {
 		ChessBoard.printChessBoard(ChessGUI.chessBoard.getGameBoard());
 		
 		ChessGUI.placePieceToPosition("A1", new King(Allegiance.WHITE));
+		ChessGUI.placePieceToPosition("A2", new Bishop(Allegiance.WHITE));
+		// ChessGUI.placePieceToPosition("A3", new Knight(Allegiance.WHITE));
+		// ChessGUI.placePieceToPosition("A4", new Knight(Allegiance.WHITE));
+		
 		ChessGUI.placePieceToPosition("H8", new King(Allegiance.BLACK));
+		// ChessGUI.placePieceToPosition("H7", new Bishop(Allegiance.BLACK));
+		ChessGUI.placePieceToPosition("H6", new Knight(Allegiance.BLACK));
+		ChessGUI.placePieceToPosition("H5", new Knight(Allegiance.BLACK));
 		
 		System.out.println();
 		ChessBoard.printChessBoard(ChessGUI.chessBoard.getGameBoard());
 		
-		boolean isDraw = ChessGUI.chessBoard.checkForTwoKingsLeftDraw();
+		boolean isDraw = ChessGUI.chessBoard.checkForInsufficientMaterialDraw();
 		assertTrue("The game is not a draw.", isDraw == true);
 		System.out.println("*****************************");
 		System.out.println();

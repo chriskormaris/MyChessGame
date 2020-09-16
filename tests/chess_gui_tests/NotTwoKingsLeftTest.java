@@ -34,7 +34,7 @@ class NotTwoKingsLeftTest {
 		System.out.println();
 		ChessBoard.printChessBoard(ChessGUI.chessBoard.getGameBoard());
 		
-		boolean isDraw = ChessGUI.chessBoard.checkForTwoKingsLeftDraw();
+		boolean isDraw = ChessGUI.chessBoard.checkForInsufficientMaterialDraw();
 		assertTrue("The game is not a draw.", isDraw == false);
 		System.out.println("*****************************");
 		System.out.println();
