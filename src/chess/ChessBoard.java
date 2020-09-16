@@ -1051,20 +1051,24 @@ public class ChessBoard {
 		if (getNumOfBishops(gameBoard, Allegiance.BLACK) == 2)
 			blackScore += Constants.TWO_BISHOPS_VALUE;
 		
-		// Add extra penalty, if the Queen, or any Rook is lost. 
-    	if (this.halfmoveNumber <= Constants.MIDDLEGAME_HALFMOVES_THRESHOLD) {
-			whiteScore -= (isQueenLost(this.gameBoard, Allegiance.WHITE)) ? Constants.QUEEN_VALUE : 0;
-			blackScore -= (isQueenLost(this.gameBoard, Allegiance.BLACK)) ? Constants.QUEEN_VALUE : 0;
-			
-			whiteScore -= 2 - getNumOfRooks(this.gameBoard, Allegiance.WHITE) * Constants.ROOK_VALUE;
-			blackScore -= 2 - getNumOfRooks(this.gameBoard, Allegiance.BLACK) * Constants.ROOK_VALUE;
-    	} else {
+		// Add extra penalty, if the Queen, or any Rook is lost, in late game. 
+    	if (this.halfmoveNumber > Constants.MIDDLEGAME_HALFMOVES_THRESHOLD) {
     		whiteScore -= (isQueenLost(this.gameBoard, Allegiance.WHITE)) ? Constants.QUEEN_LATE_VALUE : 0;
 			blackScore -= (isQueenLost(this.gameBoard, Allegiance.BLACK)) ? Constants.QUEEN_LATE_VALUE : 0;
 			
-			whiteScore -= 2 - getNumOfRooks(this.gameBoard, Allegiance.WHITE) * Constants.ROOK_LATE_VALUE;
-			blackScore -= 2 - getNumOfRooks(this.gameBoard, Allegiance.BLACK) * Constants.ROOK_LATE_VALUE;
+			whiteScore -= (2 - getNumOfRooks(this.gameBoard, Allegiance.WHITE)) * Constants.ROOK_LATE_VALUE;
+			blackScore -= (2 - getNumOfRooks(this.gameBoard, Allegiance.BLACK)) * Constants.ROOK_LATE_VALUE;
+    	} 
+    	
+    	/*
+    	else {
+    		whiteScore -= (isQueenLost(this.gameBoard, Allegiance.WHITE)) ? Constants.QUEEN_VALUE : 0;
+			blackScore -= (isQueenLost(this.gameBoard, Allegiance.BLACK)) ? Constants.QUEEN_VALUE : 0;
+			
+			whiteScore -= (2 - getNumOfRooks(this.gameBoard, Allegiance.WHITE)) * Constants.ROOK_VALUE;
+			blackScore -= (2 - getNumOfRooks(this.gameBoard, Allegiance.BLACK)) * Constants.ROOK_VALUE;
     	}
+    	*/
 		
 		return whiteScore - blackScore;
 	}
@@ -1417,7 +1421,7 @@ public class ChessBoard {
 	}
 	
 	
-	// Check if only two kings have remained on the board.
+	// Checks if there is insufficient material for a checkmate, left on the chess board.
 	public boolean checkForInsufficientMaterialDraw() {
 		if ((isLoneKing(Allegiance.WHITE) || isLoneKingPlusOneOrTwoKnights(Allegiance.WHITE) 
 				|| isLoneKingPlusABishop(Allegiance.WHITE))
@@ -1431,7 +1435,7 @@ public class ChessBoard {
 	}
 	
 	
-	// Check if only a king has remained on the board.
+	// Checks if only a king has remained on the board, on the given player's side.
 	public boolean isLoneKing(Allegiance playerAllegiance) {
 		for (int i=0; i<numOfRows; i++) {
 			for (int j=0; j<NUM_OF_COLUMNS; j++) {
@@ -1448,6 +1452,7 @@ public class ChessBoard {
 	}
 	
 	
+	// Checks if only a king and one or two knights have remained on the board, on the given player's side.
 	public boolean isLoneKingPlusOneOrTwoKnights(Allegiance playerAllegiance) {
 		
 		for (int i=0; i<numOfRows; i++) {
@@ -1465,6 +1470,7 @@ public class ChessBoard {
 	}
 	
 	
+	// Checks if only a king and one bishop have remained on the board, on the given player's side.
 	public boolean isLoneKingPlusABishop(Allegiance playerAllegiance) {
 		int numOfBishops = getNumOfBishops(this.gameBoard, playerAllegiance);
 		if (numOfBishops != 1) return false;
