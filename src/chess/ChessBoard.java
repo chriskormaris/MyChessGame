@@ -1051,7 +1051,6 @@ public class ChessBoard {
 		if (getNumOfBishops(gameBoard, Allegiance.BLACK) == 2)
 			blackScore += Constants.TWO_BISHOPS_VALUE;
 		
-
 		// Add extra penalty, if the Queen, or any Rook is lost. 
     	if (this.halfmoveNumber <= Constants.MIDDLEGAME_HALFMOVES_THRESHOLD) {
 			whiteScore -= (isQueenLost(this.gameBoard, Allegiance.WHITE)) ? Constants.QUEEN_VALUE : 0;
