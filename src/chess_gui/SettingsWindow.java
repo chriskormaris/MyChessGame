@@ -144,9 +144,9 @@ public class SettingsWindow extends JFrame {
 		ai_mode_drop_down.addItem("Random AI");
 		
 		if (selectedAiMode == AiMode.MINIMAX_AI)
-			game_mode_drop_down.setSelectedIndex(0);
+			ai_mode_drop_down.setSelectedIndex(0);
 		else if (selectedAiMode == AiMode.RANDOM_AI)
-			game_mode_drop_down.setSelectedIndex(1);
+			ai_mode_drop_down.setSelectedIndex(1);
 		
 		max_depth1_drop_down = new JComboBox<Integer>();
 		max_depth1_drop_down.addItem(1);
