@@ -1062,11 +1062,11 @@ public class ChessBoard {
     	
     	/*
     	else {
-    		whiteScore -= (isQueenLost(this.gameBoard, Allegiance.WHITE)) ? Constants.QUEEN_VALUE : 0;
-			blackScore -= (isQueenLost(this.gameBoard, Allegiance.BLACK)) ? Constants.QUEEN_VALUE : 0;
+    		whiteScore -= (isQueenLost(Allegiance.WHITE)) ? Constants.QUEEN_VALUE : 0;
+			blackScore -= (isQueenLost(Allegiance.BLACK)) ? Constants.QUEEN_VALUE : 0;
 			
-			whiteScore -= (2 - getNumOfRooks(this.gameBoard, Allegiance.WHITE)) * Constants.ROOK_VALUE;
-			blackScore -= (2 - getNumOfRooks(this.gameBoard, Allegiance.BLACK)) * Constants.ROOK_VALUE;
+			whiteScore -= (2 - getNumOfRooks(Allegiance.WHITE)) * Constants.ROOK_VALUE;
+			blackScore -= (2 - getNumOfRooks(Allegiance.BLACK)) * Constants.ROOK_VALUE;
     	}
     	*/
 		
