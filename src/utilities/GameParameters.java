@@ -21,6 +21,7 @@ public class GameParameters {
 		this.enableSounds = otherGameParameters.enableSounds;
 		this.humanPlayerAllegiance = otherGameParameters.humanPlayerAllegiance;
 		this.gameMode = otherGameParameters.gameMode;
+		this.aiMode = otherGameParameters.aiMode;
 		this.maxDepth1 = otherGameParameters.maxDepth1;
 		this.maxDepth2 = otherGameParameters.maxDepth2;
 		this.blackTileColor = otherGameParameters.blackTileColor;
