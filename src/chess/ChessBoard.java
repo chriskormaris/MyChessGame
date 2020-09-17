@@ -1423,15 +1423,21 @@ public class ChessBoard {
 	
 	// Checks if there is insufficient material for a checkmate, left on the chess board.
 	public boolean checkForInsufficientMaterialDraw() {
-		if ((isLoneKing(Allegiance.WHITE) || isLoneKingPlusOneOrTwoKnights(Allegiance.WHITE) 
-				|| isLoneKingPlusABishop(Allegiance.WHITE))
-			&& (isLoneKing(Allegiance.BLACK) || isLoneKingPlusOneOrTwoKnights(Allegiance.BLACK)
-				|| isLoneKingPlusABishop(Allegiance.BLACK))) {
+		boolean whiteHasInsufficientMaterial = 
+				isLoneKing(Allegiance.WHITE) 
+				|| isLoneKingPlusOneOrTwoKnights(Allegiance.WHITE) || isLoneKingPlusABishop(Allegiance.WHITE);
+		
+		boolean blackHasInsufficientMaterial = 
+				isLoneKing(Allegiance.BLACK) || isLoneKingPlusOneOrTwoKnights(Allegiance.BLACK)
+				|| isLoneKingPlusABishop(Allegiance.BLACK);
+		
+		if (whiteHasInsufficientMaterial && blackHasInsufficientMaterial) {
 			this.isInsufficientMaterialDraw = true;
-			return true;
+		} else {
+			this.isInsufficientMaterialDraw = false;
 		}
 		
-		return false;
+		return this.isInsufficientMaterialDraw;
 	}
 	
 	
