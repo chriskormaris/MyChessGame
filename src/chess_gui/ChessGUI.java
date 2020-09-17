@@ -1250,35 +1250,11 @@ public class ChessGUI {
 			
 			// System.out.println("dialogResult:" + dialogResult);
 			if (dialogResult == JOptionPane.YES_OPTION) {
-				
-				String turnMessage = "Move number: " 
-						+ (int) Math.ceil((float) chessBoard.getHalfmoveNumber() / 2) 
-						+ ". It is a draw.";
-				turnLabel.setText(turnMessage);
-
-				dialogResult = JOptionPane.showConfirmDialog(gui, 
-						"It is a draw! Start a new game?",
-						"Draw", JOptionPane.YES_NO_OPTION);
-				
-				if (dialogResult == JOptionPane.YES_OPTION) {
-					startNewGame();
-				} else {
-					if (undoItem != null)
-						undoItem.setEnabled(true);
-					if (redoItem != null)
-						redoItem.setEnabled(false);
-					if (exportFenPositionItem != null)
-						exportFenPositionItem.setEnabled(false);
-					if (saveCheckpointItem != null)
-						saveCheckpointItem.setEnabled(false);
-					disableChessBoardSquares();
-				}
-
+				showDeclareDrawDialog();
 				return true;
 			}
 			
 		}
-		
 		
 
 		// 50 fullmoves without a chessPiece capture Draw implementation.
@@ -1294,30 +1270,7 @@ public class ChessGUI {
 			
 			// System.out.println("dialogResult:" + dialogResult);
 			if (dialogResult == JOptionPane.YES_OPTION) {
-				
-				String turnMessage = "Move number: " 
-						+ (int) Math.ceil((float) chessBoard.getHalfmoveNumber() / 2) 
-						+ ". It is a draw.";
-				turnLabel.setText(turnMessage);
-
-				dialogResult = JOptionPane.showConfirmDialog(gui, 
-						"It is a draw! Start a new game?",
-						"Draw", JOptionPane.YES_NO_OPTION);
-				
-				if (dialogResult == JOptionPane.YES_OPTION) {
-					startNewGame();
-				} else {
-					if (undoItem != null)
-						undoItem.setEnabled(true);
-					if (redoItem != null)
-						redoItem.setEnabled(false);
-					if (exportFenPositionItem != null)
-						exportFenPositionItem.setEnabled(false);
-					if (saveCheckpointItem != null)
-						saveCheckpointItem.setEnabled(false);
-					disableChessBoardSquares();
-				}
-
+				showDeclareDrawDialog();
 				return true;
 			}
 			
@@ -1329,6 +1282,34 @@ public class ChessGUI {
 	}
 	
 	
+	private static void showDeclareDrawDialog() {
+
+		String turnMessage = "Move number: " 
+				+ (int) Math.ceil((float) chessBoard.getHalfmoveNumber() / 2) 
+				+ ". It is a draw.";
+		turnLabel.setText(turnMessage);
+
+		int dialogResult = JOptionPane.showConfirmDialog(gui, 
+				"It is a draw! Start a new game?",
+				"Draw", JOptionPane.YES_NO_OPTION);
+		
+		if (dialogResult == JOptionPane.YES_OPTION) {
+			startNewGame();
+		} else {
+			if (undoItem != null)
+				undoItem.setEnabled(true);
+			if (redoItem != null)
+				redoItem.setEnabled(false);
+			if (exportFenPositionItem != null)
+				exportFenPositionItem.setEnabled(false);
+			if (saveCheckpointItem != null)
+				saveCheckpointItem.setEnabled(false);
+			disableChessBoardSquares();
+		}
+		
+	}
+
+
 	public static boolean checkForThreefoldRepetitionDraw() {
 		
 		if (!halfmoveGameBoards.isEmpty()) {
