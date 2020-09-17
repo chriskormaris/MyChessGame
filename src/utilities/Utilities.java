@@ -58,6 +58,35 @@ public class Utilities {
 	}
 	
 	
+	public static ChessPiece[][] copyGameBoard(ChessPiece[][] otherGameBoard) {
+		int n1 = otherGameBoard.length;
+		int n2 = otherGameBoard[0].length;
+		
+		ChessPiece[][] newGameBoard = new ChessPiece[n1][n2];
+		for (int i=0; i<n1; i++) {
+			for (int j=0; j<n2; j++) {
+				newGameBoard[i][j] = otherGameBoard[i][j].makeCopy();
+			}
+		}
+		return newGameBoard;
+	}
+	
+	
+	public static boolean checkEqualGameBoards(ChessPiece[][] gameBoard, ChessPiece[][] otherGameBoard) {
+		int n1 = gameBoard.length;
+		int n2 = gameBoard[0].length;
+		
+		for (int i=0; i<n1; i++) {
+			for (int j=0; j<n2; j++) {
+				if (!(gameBoard[i][j].getAllegiance() == otherGameBoard[i][j].getAllegiance()
+					  && gameBoard[i][j].getChessPieceChar() == otherGameBoard[i][j].getChessPieceChar())) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+	
    	public static synchronized void playSound(final String path) {
    		
    		try {

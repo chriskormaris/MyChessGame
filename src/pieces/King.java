@@ -15,6 +15,11 @@ public class King extends ChessPiece {
 	}
 	
 	@Override
+	public ChessPiece makeCopy() {
+		return new King(super.getAllegiance());
+	}
+	
+	@Override
 	public Set<String> getNextPositions(String position, ChessBoard chessBoard, boolean returnThreats) {
 		// System.out.println("current position: " + position);
 
@@ -175,7 +180,7 @@ public class King extends ChessPiece {
 		}
 
 		if (!returnThreats) {
-			Set<String> castlingPositions = getCastlingPositions(position, chessBoard, chessBoard.getGameBoard());
+			Set<String> castlingPositions = getCastlingPositions(position, chessBoard);
 			// System.out.println("castlingPositions: " + castlingPositions);
 			nextKingPositions.addAll(castlingPositions);
 		}
@@ -184,8 +189,7 @@ public class King extends ChessPiece {
 	}
 
 	
-	public static Set<String> getCastlingPositions(String position, ChessBoard chessBoard,
-		ChessPiece[][] startingPositionGameBoard) {
+	public static Set<String> getCastlingPositions(String position, ChessBoard chessBoard) {
 		
 		Set<String> castlingPositions = new HashSet<String>();
 
@@ -193,7 +197,7 @@ public class King extends ChessPiece {
 		// that corresponds to the given position String.
 		int row = Utilities.getRowFromPosition(position);
 		int column = Utilities.getColumnFromPosition(position);
-		ChessPiece chessPiece = startingPositionGameBoard[row][column];
+		ChessPiece chessPiece = chessBoard.getGameBoard()[row][column];
 		
 		
 		if (!(chessPiece instanceof King)) {
@@ -210,11 +214,11 @@ public class King extends ChessPiece {
 			// White castling long
 			if (!chessBoard.isWhiteKingMoved() && !chessBoard.isLeftWhiteRookMoved() && !chessBoard.isWhiteKingInCheck()
 				&& position.equals("E1") && column > 1 
-				&& startingPositionGameBoard[0][0] instanceof Rook 
-				&& startingPositionGameBoard[0][0].getAllegiance() == Allegiance.WHITE 
-				&& startingPositionGameBoard[0][1] instanceof EmptyTile
-				&& startingPositionGameBoard[0][2] instanceof EmptyTile
-				&& startingPositionGameBoard[0][3] instanceof EmptyTile
+				&& chessBoard.getGameBoard()[0][0] instanceof Rook 
+				&& chessBoard.getGameBoard()[0][0].getAllegiance() == Allegiance.WHITE 
+				&& chessBoard.getGameBoard()[0][1] instanceof EmptyTile
+				&& chessBoard.getGameBoard()[0][2] instanceof EmptyTile
+				&& chessBoard.getGameBoard()[0][3] instanceof EmptyTile
 				&& chessBoard.getTilesThreatenedByBlack()[0][2] == 0
 				&& chessBoard.getTilesThreatenedByBlack()[0][3] == 0
 				&& chessBoard.getTilesThreatenedByBlack()[0][4] == 0) {
@@ -229,10 +233,10 @@ public class King extends ChessPiece {
 			// White castling short
 			if (!chessBoard.isWhiteKingMoved() && !chessBoard.isWhiteKingInCheck()
 					&& !chessBoard.isRightWhiteRookMoved() && position.equals("E1") && column < 6
-					&& startingPositionGameBoard[0][7] instanceof Rook 
-					&& startingPositionGameBoard[0][7].getAllegiance() == Allegiance.WHITE 
-					&& startingPositionGameBoard[0][5] instanceof EmptyTile
-					&& startingPositionGameBoard[0][6] instanceof EmptyTile
+					&& chessBoard.getGameBoard()[0][7] instanceof Rook 
+					&& chessBoard.getGameBoard()[0][7].getAllegiance() == Allegiance.WHITE 
+					&& chessBoard.getGameBoard()[0][5] instanceof EmptyTile
+					&& chessBoard.getGameBoard()[0][6] instanceof EmptyTile
 					&& chessBoard.getTilesThreatenedByBlack()[0][4] == 0
 					&& chessBoard.getTilesThreatenedByBlack()[0][5] == 0
 					&& chessBoard.getTilesThreatenedByBlack()[0][6] == 0) {
@@ -249,11 +253,11 @@ public class King extends ChessPiece {
 			// Black castling long
 			if (!chessBoard.isBlackKingMoved() && !chessBoard.isLeftBlackRookMoved() && !chessBoard.isBlackKingInCheck()
 					&& position.equals('E' + (chessBoard.getNumOfRows() + "")) && column > 1
-					&& startingPositionGameBoard[chessBoard.getNumOfRows() - 1][0] instanceof Rook
-					&& startingPositionGameBoard[chessBoard.getNumOfRows() - 1][0].getAllegiance() == Allegiance.BLACK
-					&& startingPositionGameBoard[chessBoard.getNumOfRows() - 1][1] instanceof EmptyTile
-					&& startingPositionGameBoard[chessBoard.getNumOfRows() - 1][2] instanceof EmptyTile
-					&& startingPositionGameBoard[chessBoard.getNumOfRows() - 1][3] instanceof EmptyTile
+					&& chessBoard.getGameBoard()[chessBoard.getNumOfRows() - 1][0] instanceof Rook
+					&& chessBoard.getGameBoard()[chessBoard.getNumOfRows() - 1][0].getAllegiance() == Allegiance.BLACK
+					&& chessBoard.getGameBoard()[chessBoard.getNumOfRows() - 1][1] instanceof EmptyTile
+					&& chessBoard.getGameBoard()[chessBoard.getNumOfRows() - 1][2] instanceof EmptyTile
+					&& chessBoard.getGameBoard()[chessBoard.getNumOfRows() - 1][3] instanceof EmptyTile
 					&& chessBoard.getTilesThreatenedByWhite()[chessBoard.getNumOfRows() - 1][2] == 0
 					&& chessBoard.getTilesThreatenedByWhite()[chessBoard.getNumOfRows() - 1][3] == 0
 					&& chessBoard.getTilesThreatenedByWhite()[chessBoard.getNumOfRows() - 1][4] == 0) {
@@ -268,10 +272,10 @@ public class King extends ChessPiece {
 			// Black castling short
 			if (!chessBoard.isBlackKingMoved() && !chessBoard.isRightBlackRookMoved()
 					&& !chessBoard.isBlackKingInCheck() && position.equals('E' + (chessBoard.getNumOfRows() + ""))
-					&& column < 6 && startingPositionGameBoard[chessBoard.getNumOfRows() - 1][7] instanceof Rook
-					&& column < 6 && startingPositionGameBoard[chessBoard.getNumOfRows() - 1][7].getAllegiance() == Allegiance.BLACK
-					&& startingPositionGameBoard[chessBoard.getNumOfRows() - 1][5] instanceof EmptyTile
-					&& startingPositionGameBoard[chessBoard.getNumOfRows() - 1][6] instanceof EmptyTile
+					&& column < 6 && chessBoard.getGameBoard()[chessBoard.getNumOfRows() - 1][7] instanceof Rook
+					&& chessBoard.getGameBoard()[chessBoard.getNumOfRows() - 1][7].getAllegiance() == Allegiance.BLACK
+					&& chessBoard.getGameBoard()[chessBoard.getNumOfRows() - 1][5] instanceof EmptyTile
+					&& chessBoard.getGameBoard()[chessBoard.getNumOfRows() - 1][6] instanceof EmptyTile
 					&& chessBoard.getTilesThreatenedByWhite()[chessBoard.getNumOfRows() - 1][4] == 0
 					&& chessBoard.getTilesThreatenedByWhite()[chessBoard.getNumOfRows() - 1][5] == 0
 					&& chessBoard.getTilesThreatenedByWhite()[chessBoard.getNumOfRows() - 1][6] == 0) {

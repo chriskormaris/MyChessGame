@@ -4,7 +4,7 @@ public class Constants {
 	
 	private Constants() { }  // Prevents instantiation.
 	
-	public final static double VERSION = 3.9;
+	public final static double VERSION = 4.0;
 	
 	public final static int CHESS_SQUARE_PIXEL_SIZE = 48;
 
@@ -16,7 +16,7 @@ public class Constants {
 	/* the number of columns, (this should always be 8). */
 	public final static int NUM_OF_COLUMNS = 8;  
 	
-	public final static int NO_PIECE_CAPTURE_HALFMOVES_DRAW_LIMIT = 100;
+	public final static int NO_PIECE_CAPTURE_DRAW_HALFMOVES_LIMIT = 100;
 	public final static int MIDDLEGAME_HALFMOVES_THRESHOLD = 24;
 	
 	// NOT USED

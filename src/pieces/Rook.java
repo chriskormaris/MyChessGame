@@ -14,6 +14,11 @@ public class Rook extends ChessPiece {
 	public Rook(Allegiance allegiance) {
 		super(allegiance);
 	}
+
+	@Override
+	public ChessPiece makeCopy() {
+		return new Rook(super.getAllegiance());
+	}
 	
 	@Override
 	public Set<String> getNextPositions(String position, ChessBoard chessBoard, boolean returnThreats) {

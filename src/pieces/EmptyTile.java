@@ -13,6 +13,11 @@ public class EmptyTile extends ChessPiece {
 	}
 	
 	@Override
+	public ChessPiece makeCopy() {
+		return new EmptyTile();
+	}
+	
+	@Override
 	public Set<String> getNextPositions(String position, ChessBoard chessBoard, boolean returnThreats) {
 		return null;
 	}

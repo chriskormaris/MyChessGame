@@ -16,6 +16,11 @@ public class Knight extends ChessPiece {
 	}
 	
 	@Override
+	public ChessPiece makeCopy() {
+		return new Knight(super.getAllegiance());
+	}
+	
+	@Override
 	public Set<String> getNextPositions(String position, ChessBoard chessBoard, boolean returnThreats) {
 		// System.out.println("current position: " + position);
 		

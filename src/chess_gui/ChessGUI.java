@@ -126,7 +126,7 @@ public class ChessGUI {
 	// These stacks of "ChessBoard" objects are used to handle the "undo" and "redo" functionality.
 	public static Stack<ChessBoard> previousChessBoards = new Stack<ChessBoard>();
 	public static Stack<ChessBoard> redoChessBoards = new Stack<ChessBoard>();
-	
+
 	// These stacks of "JLabel" arrays are used to handle the "undo" and "redo" functionality.
 	public static Stack<JLabel[]> previousCapturedPiecesImages = new Stack<JLabel[]>();
 	public static Stack<JLabel[]> redoCapturedPiecesImages = new Stack<JLabel[]>();
@@ -150,6 +150,12 @@ public class ChessGUI {
 	
 	public static String savedFenPosition;
 	
+	// This board is used to check for a threefold repetition of a chess board position.
+	public static ChessPiece[][] halfmoveGameBoard = new ChessPiece[gameParameters.numOfRows][NUM_OF_COLUMNS];
+	
+	// These stack of 2d "ChessPiece" arrays is used to check for a threefold repetition of a chess board position.
+	public static Stack<ChessPiece[][]> halfmoveGameBoards = new Stack<ChessPiece[][]>();
+
 	
 	public ChessGUI(String title) {
 				
@@ -437,6 +443,7 @@ public class ChessGUI {
 			redoCapturedPiecesImages.push(newCapturedPiecesImages);
 			
 			chessBoard = previousChessBoards.pop();
+			halfmoveGameBoards.pop();
 			
 			// Display the previous captured chess pieces icons.
 			initializeCapturedPiecesPanel();
@@ -498,6 +505,7 @@ public class ChessGUI {
 			changeTileColor(startingButton, startingButtonColor);
 			
 			previousChessBoards.push(new ChessBoard(chessBoard));
+			halfmoveGameBoards.push(Utilities.copyGameBoard(halfmoveGameBoard));
 			
 			// Push to the previousCapturedPiecesImages Stack.
 			JLabel[] newCapturedPiecesImages = new JLabel[31];
@@ -772,6 +780,13 @@ public class ChessGUI {
 	// Restores all the default values.
 	public static void restoreDefaultValues() {
 		chessBoard = new ChessBoard();
+		halfmoveGameBoard = new ChessPiece[gameParameters.numOfRows][NUM_OF_COLUMNS];
+		
+		for (int i=0; i<gameParameters.numOfRows; i++) {
+			for (int j=0; j<NUM_OF_COLUMNS; j++) {
+				halfmoveGameBoard[i][j] = new EmptyTile();
+			}	
+		}
 		
 		startingPosition = "";
 		endingPosition = "";
@@ -780,6 +795,8 @@ public class ChessGUI {
 		previousCapturedPiecesImages.clear();
 		redoChessBoards.clear();
 		redoCapturedPiecesImages.clear();
+		
+		halfmoveGameBoards.clear();
 		
 		startingButtonIsClicked = false;
 		
@@ -974,6 +991,10 @@ public class ChessGUI {
 					
 					Move move = new Move(startingPosition, endingPosition);
 					chessBoard.makeMove(move, Constants.WHITE, true);
+					
+					// Store the chess board of the halfmove that was just made.
+					halfmoveGameBoard = Utilities.copyGameBoard(chessBoard.getGameBoard());
+					halfmoveGameBoards.push(halfmoveGameBoard);
 					
 					hideHintPositions(hintPositions);
 				}
@@ -1219,10 +1240,10 @@ public class ChessGUI {
 		if (chessBoard.isNoCaptureDraw()) {
 			int dialogResult = -1;
 			
-			if (chessBoard.whitePlays()
-					|| chessBoard.blackPlays() && gameParameters.gameMode == GameMode.HUMAN_VS_HUMAN) {
+			if (!chessBoard.whitePlays() && gameParameters.humanPlayerAllegiance == Allegiance.WHITE
+					|| !chessBoard.blackPlays() && gameParameters.humanPlayerAllegiance == Allegiance.BLACK) {
 				dialogResult = JOptionPane.showConfirmDialog(gui, 
-						(int) Math.ceil(Constants.NO_PIECE_CAPTURE_HALFMOVES_DRAW_LIMIT / (double) 2) + 
+						(int) Math.ceil(Constants.NO_PIECE_CAPTURE_DRAW_HALFMOVES_LIMIT / (double) 2) + 
 						" fullmoves have passed without a piece capture! Do you want to declare a draw?",
 						"Draw", JOptionPane.YES_NO_OPTION);
 			}
@@ -1258,10 +1279,86 @@ public class ChessGUI {
 			
 		}
 		
+		
+
+		// 50 fullmoves without a chessPiece capture Draw implementation.
+		if (checkForThreefoldRepetitionDraw()) {
+			int dialogResult = -1;
+			
+			if (!chessBoard.whitePlays() && gameParameters.humanPlayerAllegiance == Allegiance.WHITE
+					|| !chessBoard.blackPlays() && gameParameters.humanPlayerAllegiance == Allegiance.BLACK) {
+				dialogResult = JOptionPane.showConfirmDialog(gui,
+						"Threefold repetition of the same chess board position has occurred! "
+						+ "Do you want to declare a draw?", "Draw", JOptionPane.YES_NO_OPTION);
+			}
+			
+			// System.out.println("dialogResult:" + dialogResult);
+			if (dialogResult == JOptionPane.YES_OPTION) {
+				
+				String turnMessage = "Move number: " 
+						+ (int) Math.ceil((float) chessBoard.getHalfmoveNumber() / 2) 
+						+ ". It is a draw.";
+				turnLabel.setText(turnMessage);
+
+				dialogResult = JOptionPane.showConfirmDialog(gui, 
+						"It is a draw! Start a new game?",
+						"Draw", JOptionPane.YES_NO_OPTION);
+				
+				if (dialogResult == JOptionPane.YES_OPTION) {
+					startNewGame();
+				} else {
+					if (undoItem != null)
+						undoItem.setEnabled(true);
+					if (redoItem != null)
+						redoItem.setEnabled(false);
+					if (exportFenPositionItem != null)
+						exportFenPositionItem.setEnabled(false);
+					if (saveCheckpointItem != null)
+						saveCheckpointItem.setEnabled(false);
+					disableChessBoardSquares();
+				}
+
+				return true;
+			}
+			
+		}
+		
+		
+		
 		return false;
 	}
 	
 	
+	public static boolean checkForThreefoldRepetitionDraw() {
+		
+		if (!halfmoveGameBoards.isEmpty()) {
+			int N = halfmoveGameBoards.size();
+			for (int i=0; i<N - 1; i++) {
+				int numOfRepeats = 0;
+				for (int j=i; j<N; j++) {
+					// Skip the iteration where i=j, 
+					// and the last iteration, if the num of repeats found is less than 2.
+					// The number of comparisons will be (N 2).
+					if (i != j && !(numOfRepeats < 2 && j == N - 1)) {
+						// System.out.println("i: " + i + ", j: " + j);
+						ChessPiece[][] halfmoveGameBoard1 = halfmoveGameBoards.get(i);
+						ChessPiece[][] halfmoveGameBoard2 = halfmoveGameBoards.get(j);
+						if (Utilities.checkEqualGameBoards(halfmoveGameBoard1, halfmoveGameBoard2)) {
+							// System.out.println("i: " + i + ", j: " + j);
+							// ChessBoard.printChessBoard(halfmoveGameBoard1);
+							numOfRepeats++;
+						}
+					}
+				}
+				// System.out.println("numOfRepeats: " + numOfRepeats);
+				if (numOfRepeats >= 3) return true; 
+			}
+		}
+		
+		return false;
+	}
+
+
 	private static void randomAiMove(Allegiance aiAllegiance) {
 
 		String randomAiStartingPosition = "";
@@ -1398,6 +1495,7 @@ public class ChessGUI {
 			aiMove = ai.miniMax(chessBoard);
 		}
 		System.out.println("aiMove: " + aiMove);
+		// System.out.println("lastCapturedPieceValue: " + chessBoard.getLastCapturedPieceValue());
 		
 		chessBoard.makeMove(aiMove, ai.getAiPlayer(), true);
 		// System.out.println("board value after aiMove -> " + chessBoard.evaluate());
@@ -1440,6 +1538,7 @@ public class ChessGUI {
 		
 		while (!isGameOver) {
 			previousChessBoards.push(new ChessBoard(chessBoard));
+			halfmoveGameBoards.push(Utilities.copyGameBoard(halfmoveGameBoard));
 			
 			// Push to the previousCapturedPiecesImages Stack.
 			JLabel[] newCapturedPiecesImages = new JLabel[31];
@@ -1464,6 +1563,7 @@ public class ChessGUI {
 			}
 			
 			previousChessBoards.push(new ChessBoard(chessBoard));
+			halfmoveGameBoards.push(Utilities.copyGameBoard(halfmoveGameBoard));
 			
 			// Push to the previousCapturedPiecesImages Stack.
 			newCapturedPiecesImages = new JLabel[31];
@@ -1692,6 +1792,10 @@ public class ChessGUI {
 		chessBoard.setThreats();
 		
 		setTurnMessage();
+		
+		halfmoveGameBoard = Utilities.copyGameBoard(chessBoard.getGameBoard());
+		halfmoveGameBoards.clear();
+		halfmoveGameBoards.push(halfmoveGameBoard);
 	}
 	
 	
@@ -1713,6 +1817,10 @@ public class ChessGUI {
 		chessBoard.setThreats();
 		
 		setTurnMessage();
+		
+		halfmoveGameBoard = Utilities.copyGameBoard(chessBoard.getGameBoard());
+		halfmoveGameBoards.clear();
+		halfmoveGameBoards.push(halfmoveGameBoard);
 	}
 	
 	

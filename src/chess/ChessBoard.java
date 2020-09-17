@@ -75,9 +75,6 @@ public class ChessBoard {
 	 * The player who control the white pieces plays first. */
 	private boolean player;
 	
-	/* This array is used to handle the "castling" implementation. */
-	private ChessPiece[][] previousGameBoard;
-	
 	/* These variables are used to handle the "castling" implementation. */
 	private boolean whiteKingMoved;
 	private boolean leftWhiteRookMoved;
@@ -121,6 +118,7 @@ public class ChessBoard {
 	private int blackCapturedPiecesCounter;
 	
 	private int score;
+	private double lastCapturedPieceValue;
 	private Set<ChessPiece> promotedPieces;
 	
 	
@@ -149,9 +147,6 @@ public class ChessBoard {
 		
 		this.player = true;
 		
-		this.previousGameBoard = new ChessPiece[numOfRows][NUM_OF_COLUMNS];
-		setPreviousGameBoard(gameBoard);
-		
 		this.enPassantPosition = "-";
 
 		this.halfmoveClock = 0;
@@ -161,6 +156,7 @@ public class ChessBoard {
 		this.blackCapturedPiecesCounter = 0;
 		
 		this.score = 0;
+		this.lastCapturedPieceValue = 0;
 		this.promotedPieces = new HashSet<ChessPiece>();
 		
 		this.whiteKingInCheckValidPieceMoves = new TreeMap<String, Set<String>>();
@@ -209,15 +205,6 @@ public class ChessBoard {
 		
 		this.player = otherBoard.whitePlays();
 		
-		n1 = otherBoard.getPreviousGameBoard().length;
-		n2 = otherBoard.getPreviousGameBoard()[0].length;
-		this.previousGameBoard = new ChessPiece[n1][n2];
-        for (int i=0; i<n1; i++) {
-            for (int j=0; j<n2; j++) {
-            	this.previousGameBoard[i][j] = otherBoard.getPreviousGameBoard()[i][j];
-            }
-		}
-        
 		this.whiteKingMoved = otherBoard.isWhiteKingMoved();
 		this.leftWhiteRookMoved = otherBoard.isLeftWhiteRookMoved();
 		this.rightWhiteRookMoved = otherBoard.isRightWhiteRookMoved();
@@ -250,6 +237,7 @@ public class ChessBoard {
 		this.blackCapturedPiecesCounter = otherBoard.getBlackCapturedPiecesCounter();
 		
 		this.score = otherBoard.getScore();
+		this.lastCapturedPieceValue = otherBoard.getLastCapturedPieceValue();
 		this.promotedPieces = new HashSet<>(otherBoard.getPromotedPieces());
 	}
     
@@ -303,9 +291,17 @@ public class ChessBoard {
  		// System.out.println("hintPositions: " + hintPositions);
  		if (endTile instanceof EmptyTile || 
  				chessPiece.getAllegiance() != endTile.getAllegiance()) {
+ 			
+			this.lastCapturedPieceValue = Utilities.getChessPieceValue(endTile, this.halfmoveNumber);
+ 			
+			if (chessPiece.getAllegiance() == Allegiance.BLACK)
+				this.lastCapturedPieceValue = -this.lastCapturedPieceValue;	
 
- 			setPreviousGameBoard(this.gameBoard);
-
+ 			Set<String> castlingPositions = null;
+ 			if (chessPiece instanceof King) {
+ 				castlingPositions = King.getCastlingPositions(positionStart, this);
+ 			}
+ 			
  			if (displayMove) {
  				ChessGUI.removePieceFromPosition(positionStart);
  				ChessGUI.placePieceToPosition(positionEnd, chessPiece);
@@ -320,14 +316,15 @@ public class ChessBoard {
  				if (chessPiece.getAllegiance() == Allegiance.WHITE) {
  					setWhiteKingPosition(positionEnd);
  					// System.out.println("white king new position: " + whiteKingPosition);
+ 					setWhiteKingMoved(true);
  				} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
  					setBlackKingPosition(positionEnd);
  					// System.out.println("black king new position: " + blackKingPosition);
+ 					setBlackKingMoved(true);
  				}
  				
  				/* Castling implementation */
- 				Set<String> castlingPositions = King.getCastlingPositions(positionStart, this, this.previousGameBoard);
- 				
+
  				// System.out.println("castlingPositions: " + castlingPositions);
  				if (castlingPositions != null && castlingPositions.contains(positionEnd)) {
  					// White queenside castling
@@ -605,10 +602,10 @@ public class ChessBoard {
 		if (promotedPieces.contains(endTile)) {
 			if (endTile.getAllegiance() == Allegiance.WHITE) {
 				pieceImage = ChessGUI.preparePieceIcon(Constants.WHITE_PAWN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
- 				score -= Constants.PAWN_VALUE;
+ 				this.score -= Constants.PAWN_VALUE;
 			} else if (endTile.getAllegiance() == Allegiance.BLACK) {
 				pieceImage = ChessGUI.preparePieceIcon(Constants.BLACK_PAWN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
- 				score += Constants.PAWN_VALUE;
+				this.score += Constants.PAWN_VALUE;
 			}
 		
 		} else if (endTile.getAllegiance() == Allegiance.WHITE) {
@@ -616,46 +613,46 @@ public class ChessBoard {
 	 			if (endTile instanceof Pawn) {
 	 				if (displayMove)
 	 					pieceImage = ChessGUI.preparePieceIcon(Constants.WHITE_PAWN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
-	 				score -= Constants.PAWN_VALUE;
+	 				this.score -= Constants.PAWN_VALUE;
 	 			} else if (endTile instanceof Rook) {
 	 				if (displayMove)
 	 					pieceImage = ChessGUI.preparePieceIcon(Constants.WHITE_ROOK_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
-	 				score -= Constants.ROOK_VALUE;
+	 				this.score -= Constants.ROOK_VALUE;
 	 			} else if (endTile instanceof Knight) {
 	 				if (displayMove)
 	 					pieceImage = ChessGUI.preparePieceIcon(Constants.WHITE_KNIGHT_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
-	 				score -= Constants.KNIGHT_VALUE;
+	 				this.score -= Constants.KNIGHT_VALUE;
 	 			} else if (endTile instanceof Bishop) {
 	 				if (displayMove)
 	 					pieceImage = ChessGUI.preparePieceIcon(Constants.WHITE_BISHOP_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
-	 				score -= Constants.BISHOP_VALUE;
+	 				this.score -= Constants.BISHOP_VALUE;
 	 			} else if (endTile instanceof Queen) {
 	 				if (displayMove)
 	 					pieceImage = ChessGUI.preparePieceIcon(Constants.WHITE_QUEEN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
-	 				score -= Constants.QUEEN_VALUE;
+	 				this.score -= Constants.QUEEN_VALUE;
 	 			}
 	 			
  		} else if (endTile.getAllegiance() == Allegiance.BLACK) {
  			if (endTile instanceof Pawn) {
  				if (displayMove)
  					pieceImage = ChessGUI.preparePieceIcon(Constants.BLACK_PAWN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
- 				score += Constants.PAWN_VALUE;
+ 				this.score += Constants.PAWN_VALUE;
  			} else if (endTile instanceof Rook) {
  				if (displayMove)
  					pieceImage = ChessGUI.preparePieceIcon(Constants.BLACK_ROOK_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
- 				score += Constants.ROOK_VALUE;
+ 				this.score += Constants.ROOK_VALUE;
  			} else if (endTile instanceof Knight) {
  				if (displayMove)
  					pieceImage = ChessGUI.preparePieceIcon(Constants.BLACK_KNIGHT_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
- 				score += Constants.KNIGHT_VALUE;
+ 				this.score += Constants.KNIGHT_VALUE;
  			} else if (endTile instanceof Bishop) {
  				if (displayMove)
  					pieceImage = ChessGUI.preparePieceIcon(Constants.BLACK_BISHOP_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
- 				score += Constants.BISHOP_VALUE;
+ 				this.score += Constants.BISHOP_VALUE;
  			} else if (endTile instanceof Queen) {
  				if (displayMove)
  					pieceImage = ChessGUI.preparePieceIcon(Constants.BLACK_QUEEN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
- 				score += Constants.QUEEN_VALUE;
+ 				this.score += Constants.QUEEN_VALUE;
  			}
 		}
 		
@@ -829,7 +826,7 @@ public class ChessBoard {
     	if (this.isInsufficientMaterialDraw) return 0;
     	if (this.isWhiteStalemateDraw) return 0;
     	if (this.isBlackStalemateDraw) return 0;
-//    	if (this.halfmoveClock >= Constants.NO_PIECE_CAPTURE_HALFMOVES_DRAW_LIMIT) return 0;
+//    	if (this.halfmoveClock >= Constants.NO_PIECE_CAPTURE_DRAW_HALFMOVES_LIMIT) return 0;
     	
     	
 		// String startPosition = lastMove.getPositions().get(0);
@@ -844,13 +841,12 @@ public class ChessBoard {
     	
     	/* DEBUGGING. */
     	// System.out.println(lastMove);
+    	// System.out.println("lastCapturedPieceValue: " + this.lastCapturedPieceValue);
     	/*
-    	System.out.println("previousGameBoard");
-    	printChessBoard(previousGameBoard);
     	System.out.println("gameBoard");
     	printChessBoard(gameBoard);
     	*/
-    	
+
     	// If Castling has occurred, add to the score.
     	if (whiteCastlingDone) {
     		// System.out.println("White castling done!");
@@ -912,7 +908,7 @@ public class ChessBoard {
 		else if (lastMovedPiece.getAllegiance() == Allegiance.BLACK && this.whiteKingInCheck) {
 			// If the White chessPiece is threatened and it has no cover.
 			if (this.tilesThreatenedByWhite[endRow][endColumn] == 1 && this.tilesThreatenedByBlack[endRow][endColumn] == 0) {
-	    		blackScore += checkValue / lastMovedChessPieceValue;
+	    		blackScore += checkValue / (double) lastMovedChessPieceValue;
 			} 
 			// If the White chessPiece is threatened and it has cover.
 			if (this.tilesThreatenedByWhite[endRow][endColumn] == 1 && this.tilesThreatenedByBlack[endRow][endColumn] == 1) {
@@ -929,53 +925,51 @@ public class ChessBoard {
 		}
     	
     	/* Evaluation for a capture move. */
-    	// If a White chessPiece captured a Black chessPiece.
-    	if (lastMovedPiece.getAllegiance() == Allegiance.WHITE 
-    			&& this.previousGameBoard[endRow][endColumn].getAllegiance() == Allegiance.BLACK) {
+    	// Check if a White chessPiece captured a Black chessPiece, which means that the score has increased.
+    	if (lastMovedPiece.getAllegiance() == Allegiance.WHITE && this.lastCapturedPieceValue != 0) {
 			// System.out.println("White captured a Black chessPiece.");
 			// If the White chessPiece is threatened and it has no cover.
 			if (this.tilesThreatenedByBlack[endRow][endColumn] == 1 && this.tilesThreatenedByWhite[endRow][endColumn] == 0) {
-				whiteScore += 5 * (Utilities.getChessPieceValue(previousGameBoard[endRow][endColumn], this.halfmoveNumber) - lastMovedChessPieceValue);
+				whiteScore += 5 * (this.lastCapturedPieceValue - lastMovedChessPieceValue);
 				// whiteScore += 1;
 			} 
 			// If the White chessPiece is threatened and it has cover.
 			else if (this.tilesThreatenedByBlack[endRow][endColumn] == 1 && this.tilesThreatenedByWhite[endRow][endColumn] == 1) {
-	    		whiteScore += 10 * (Utilities.getChessPieceValue(previousGameBoard[endRow][endColumn], this.halfmoveNumber) - lastMovedChessPieceValue);
+	    		whiteScore += 10 * (this.lastCapturedPieceValue - lastMovedChessPieceValue);
 				// whiteScore += 1;
 			}
 			// If the White chessPiece is not threatened and it has no cover.
 			else if (this.tilesThreatenedByBlack[endRow][endColumn] == 0 && this.tilesThreatenedByWhite[endRow][endColumn] == 0) {
-				whiteScore += 80 * Utilities.getChessPieceValue(previousGameBoard[endRow][endColumn], this.halfmoveNumber);
+				whiteScore += 80 * this.lastCapturedPieceValue;
 				// whiteScore += 1;
 			}
 			// If the White chessPiece is not threatened and it has cover.
 			else if (this.tilesThreatenedByBlack[endRow][endColumn] == 0 && this.tilesThreatenedByWhite[endRow][endColumn] == 1) {
-				whiteScore += 100 * Utilities.getChessPieceValue(previousGameBoard[endRow][endColumn], this.halfmoveNumber);
+				whiteScore += 100 * this.lastCapturedPieceValue;
 				// whiteScore += 2;
 			}
 		}
-    	// If a Black chessPiece captured a White chessPiece.
-    	if (lastMovedPiece.getAllegiance() == Allegiance.BLACK 
-    			&& this.previousGameBoard[endRow][endColumn].getAllegiance() == Allegiance.WHITE) {
+    	// If a Black chessPiece captured a White chessPiece, which means that the score has decreased.
+    	if (lastMovedPiece.getAllegiance() == Allegiance.BLACK && this.lastCapturedPieceValue != 0) {
 			// System.out.println("Black captured a White chessPiece.");
     		// If the Black chessPiece is threatened and it has no cover.
 			if (this.tilesThreatenedByWhite[endRow][endColumn] == 1 && this.tilesThreatenedByBlack[endRow][endColumn] == 0) {
-				blackScore += 5 * (Utilities.getChessPieceValue(previousGameBoard[endRow][endColumn], this.halfmoveNumber) - lastMovedChessPieceValue);
+				blackScore += 5 * (this.lastCapturedPieceValue - lastMovedChessPieceValue);
 				// blackScore += 1;
 			} 
 			// If the Black chessPiece is threatened and it has cover.
 			else if (this.tilesThreatenedByWhite[endRow][endColumn] == 1 && this.tilesThreatenedByBlack[endRow][endColumn] == 1) {
-				blackScore += 10 * (Utilities.getChessPieceValue(previousGameBoard[endRow][endColumn], this.halfmoveNumber) - lastMovedChessPieceValue);
+				blackScore += 10 * (this.lastCapturedPieceValue - lastMovedChessPieceValue);
 				// blackScore += 1;
 			}
 			// If the Black chessPiece is not threatened and it has no cover.
 			else if (this.tilesThreatenedByWhite[endRow][endColumn] == 0 && this.tilesThreatenedByBlack[endRow][endColumn] == 0) {
-				blackScore += 80 * Utilities.getChessPieceValue(previousGameBoard[endRow][endColumn], this.halfmoveNumber);
+				blackScore += 80 * this.lastCapturedPieceValue;
 				// blackScore += 1;
 			}
 			// If the Black chessPiece is not threatened and it has cover.
 			else if (this.tilesThreatenedByWhite[endRow][endColumn] == 0 && this.tilesThreatenedByBlack[endRow][endColumn] == 1) {
-				blackScore += 100 * Utilities.getChessPieceValue(previousGameBoard[endRow][endColumn], this.halfmoveNumber);
+				blackScore += 100 * this.lastCapturedPieceValue;
 				// blackScore += 2;
 			}
 		}
@@ -1156,7 +1150,7 @@ public class ChessBoard {
 
     	if (checkForInsufficientMaterialDraw()) return true;
     	
-//    	if (getHalfmoveClock() >= Constants.NO_PIECE_CAPTURE_HALFMOVES_DRAW_LIMIT)
+//    	if (getHalfmoveClock() >= Constants.NO_PIECE_CAPTURE_DRAW_HALFMOVES_LIMIT)
 //    		return true;
 
         return false;
@@ -1649,24 +1643,7 @@ public class ChessBoard {
 	public void setEnPassantPosition(String enPassantPosition) {
 		this.enPassantPosition = enPassantPosition;
 	}
-
-	public ChessPiece[][] getPreviousGameBoard() {
-		return previousGameBoard;
-	}
-
-	public void setPreviousGameBoard(ChessPiece[][] previousGameBoard) {
-		if (previousGameBoard != null) {
-			int n1 = previousGameBoard.length;
-			int n2 = previousGameBoard[0].length;
-			this.previousGameBoard = new ChessPiece[n1][n2];
-			for (int i=0; i<n1; i++) {
-				for (int j=0; j<n2; j++) {
-					this.previousGameBoard[i][j] = previousGameBoard[i][j];
-				}
-			}
-		}
-	}
-
+	
 	public boolean isWhiteKingMoved() {
 		return whiteKingMoved;
 	}
@@ -1884,7 +1861,7 @@ public class ChessBoard {
 	}
 	
 	public boolean isNoCaptureDraw() {
-		return this.halfmoveClock >= Constants.NO_PIECE_CAPTURE_HALFMOVES_DRAW_LIMIT;
+		return this.halfmoveClock >= Constants.NO_PIECE_CAPTURE_DRAW_HALFMOVES_LIMIT;
 	}
 
 	public int getWhiteCapturedPiecesCounter() {
@@ -1910,7 +1887,15 @@ public class ChessBoard {
 	public void setScore(int score) {
 		this.score = score;
 	}
+	
+	public double getLastCapturedPieceValue() {
+		return lastCapturedPieceValue;
+	}
 
+	public void setLastCapturedPieceValue(int lastCapturedPieceValue) {
+		this.lastCapturedPieceValue = lastCapturedPieceValue;
+	}
+	
 	public Set<ChessPiece> getPromotedPieces() {
 		return promotedPieces;
 	}

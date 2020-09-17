@@ -54,6 +54,8 @@ public abstract class ChessPiece {
 		}
 	}
 	
+	public abstract ChessPiece makeCopy();
+	
 	public Allegiance getAllegiance() {
 		return allegiance;
 	}
