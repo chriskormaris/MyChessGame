@@ -1046,18 +1046,18 @@ public class ChessBoard {
     	blackScore += Constants.MOBILITY_MULTIPLIER * blackLegalMoves;
     	
 		/* Two bishops remaining check. */
-		if (getNumOfBishops(gameBoard, Allegiance.WHITE) == 2)
+		if (getNumOfBishops(Allegiance.WHITE) == 2)
 			whiteScore += Constants.TWO_BISHOPS_VALUE;
-		if (getNumOfBishops(gameBoard, Allegiance.BLACK) == 2)
+		if (getNumOfBishops(Allegiance.BLACK) == 2)
 			blackScore += Constants.TWO_BISHOPS_VALUE;
 		
 		// Add extra penalty, if the Queen, or any Rook is lost, in late game. 
     	if (this.halfmoveNumber > Constants.MIDDLEGAME_HALFMOVES_THRESHOLD) {
-    		whiteScore -= (isQueenLost(this.gameBoard, Allegiance.WHITE)) ? Constants.QUEEN_LATE_VALUE : 0;
-			blackScore -= (isQueenLost(this.gameBoard, Allegiance.BLACK)) ? Constants.QUEEN_LATE_VALUE : 0;
+    		whiteScore -= (isQueenLost(Allegiance.WHITE)) ? Constants.QUEEN_LATE_VALUE : 0;
+			blackScore -= (isQueenLost(Allegiance.BLACK)) ? Constants.QUEEN_LATE_VALUE : 0;
 			
-			whiteScore -= (2 - getNumOfRooks(this.gameBoard, Allegiance.WHITE)) * Constants.ROOK_LATE_VALUE;
-			blackScore -= (2 - getNumOfRooks(this.gameBoard, Allegiance.BLACK)) * Constants.ROOK_LATE_VALUE;
+			whiteScore -= (2 - getNumOfRooks(Allegiance.WHITE)) * Constants.ROOK_LATE_VALUE;
+			blackScore -= (2 - getNumOfRooks(Allegiance.BLACK)) * Constants.ROOK_LATE_VALUE;
     	} 
     	
     	/*
@@ -1089,13 +1089,13 @@ public class ChessBoard {
     }
     
     
-	private boolean isQueenLost(ChessPiece[][] gameBoard, Allegiance playerAllegiance) {
-    	int n1 = gameBoard.length;
-    	int n2 = gameBoard[0].length;
+	private boolean isQueenLost(Allegiance playerAllegiance) {
+    	int n1 = this.gameBoard.length;
+    	int n2 = this.gameBoard[0].length;
     	for (int i=0; i<n1; i++) {
     		for (int j=0; j<n2; j++) {
-    			if (gameBoard[i][j] instanceof Queen &&
-    					playerAllegiance == gameBoard[i][j].getAllegiance())
+    			if (this.gameBoard[i][j] instanceof Queen &&
+    					playerAllegiance == this.gameBoard[i][j].getAllegiance())
     				return false;
     		}
     	}
@@ -1104,15 +1104,15 @@ public class ChessBoard {
     }
 	
     
-	private int getNumOfRooks(ChessPiece[][] gameBoard, Allegiance playerAllegiance) {
+	private int getNumOfRooks(Allegiance playerAllegiance) {
     	int numOfRooks = 0;
     	
-    	int n1 = gameBoard.length;
-    	int n2 = gameBoard[0].length;
+    	int n1 = this.gameBoard.length;
+    	int n2 = this.gameBoard[0].length;
     	for (int i=0; i<n1; i++) {
     		for (int j=0; j<n2; j++) {
-    			if (gameBoard[i][j] instanceof Rook &&
-    					playerAllegiance == gameBoard[i][j].getAllegiance())
+    			if (this.gameBoard[i][j] instanceof Rook &&
+    					playerAllegiance == this.gameBoard[i][j].getAllegiance())
     				numOfRooks++;
     		}
     	}
@@ -1121,15 +1121,15 @@ public class ChessBoard {
     }
     
     
-	private int getNumOfBishops(ChessPiece[][] gameBoard, Allegiance playerAllegiance) {
+	private int getNumOfBishops(Allegiance playerAllegiance) {
     	int numOfBishops = 0;
     	
-    	int n1 = gameBoard.length;
-    	int n2 = gameBoard[0].length;
+    	int n1 = this.gameBoard.length;
+    	int n2 = this.gameBoard[0].length;
     	for (int i=0; i<n1; i++) {
     		for (int j=0; j<n2; j++) {
-    			if (gameBoard[i][j] instanceof Bishop &&
-    					(playerAllegiance == gameBoard[i][j].getAllegiance()))
+    			if (this.gameBoard[i][j] instanceof Bishop &&
+    					(playerAllegiance == this.gameBoard[i][j].getAllegiance()))
     				numOfBishops++;
     		}
     	}
@@ -1478,7 +1478,7 @@ public class ChessBoard {
 	
 	// Checks if only a king and one bishop have remained on the board, on the given player's side.
 	public boolean isLoneKingPlusABishop(Allegiance playerAllegiance) {
-		int numOfBishops = getNumOfBishops(this.gameBoard, playerAllegiance);
+		int numOfBishops = getNumOfBishops(playerAllegiance);
 		if (numOfBishops != 1) return false;
 		
 		for (int i=0; i<numOfRows; i++) {
