@@ -2,7 +2,7 @@ package utilities;
 
 import java.awt.Color;
 
-import enumerations.AiMode;
+import enumerations.AiType;
 import enumerations.Allegiance;
 import enumerations.GameMode;
 import enumerations.GuiStyle;
@@ -21,7 +21,7 @@ public class GameParameters {
 		this.enableSounds = otherGameParameters.enableSounds;
 		this.humanPlayerAllegiance = otherGameParameters.humanPlayerAllegiance;
 		this.gameMode = otherGameParameters.gameMode;
-		this.aiMode = otherGameParameters.aiMode;
+		this.aiType = otherGameParameters.aiType;
 		this.maxDepth1 = otherGameParameters.maxDepth1;
 		this.maxDepth2 = otherGameParameters.maxDepth2;
 		this.blackTileColor = otherGameParameters.blackTileColor;
@@ -30,12 +30,12 @@ public class GameParameters {
 	
 	
 	public GameParameters(GuiStyle guiStyle, boolean enableSounds, Allegiance humanPlayerAllegiance, 
-			GameMode gameMode, AiMode aiMode, int maxDepth1, int maxDepth2, Color blackTileColor, int numOfRows) {
+			GameMode gameMode, AiType aiMode, int maxDepth1, int maxDepth2, Color blackTileColor, int numOfRows) {
 		this.guiStyle = guiStyle;
 		this.enableSounds = enableSounds;
 		this.humanPlayerAllegiance = humanPlayerAllegiance;
 		this.gameMode = gameMode;
-		this.aiMode = aiMode;
+		this.aiType = aiMode;
 		this.maxDepth1 = maxDepth1;
 		this.maxDepth2 = maxDepth2;
 		this.blackTileColor = blackTileColor;
@@ -56,8 +56,8 @@ public class GameParameters {
 	// public static GameMode gameMode = GameMode.HUMAN_VS_HUMAN;
 	// public static GameMode gameMode = GameMode.MINIMAX_AI_VS_MINIMAX_AI;
 	
-	public AiMode aiMode = AiMode.MINIMAX_AI;
-	// public static AiMode aiMode = AiMode.RANDOM_AI;
+	public AiType aiType = AiType.MINIMAX_AI;
+	// public static AiType aiType = AiType.RANDOM_AI;
 	
 	public int maxDepth1 = 1;
 	public int maxDepth2 = 1;

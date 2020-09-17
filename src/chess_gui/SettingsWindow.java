@@ -15,7 +15,7 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 
-import enumerations.AiMode;
+import enumerations.AiType;
 import enumerations.Allegiance;
 import enumerations.GameMode;
 import enumerations.GuiStyle;
@@ -33,7 +33,7 @@ public class SettingsWindow extends JFrame {
 	private JLabel enableSoundsLabel;
 	private JLabel humanPlayerAllegianceLabel;
 	private JLabel gameModeLabel;
-	private JLabel aiModeLabel;
+	private JLabel aiTypeLabel;
 	private JLabel maxDepth1Label;
 	private JLabel maxDepth2Label;
 	private JLabel blackTileColorLabel;
@@ -43,7 +43,7 @@ public class SettingsWindow extends JFrame {
 	private JCheckBox enable_sounds_check_box;
 	private JComboBox<String> human_player_allegiance_drop_down;
 	private JComboBox<String> game_mode_drop_down;
-	private JComboBox<String> ai_mode_drop_down;
+	private JComboBox<String> ai_type_drop_down;
 	private JComboBox<Integer> max_depth1_drop_down;
 	private JComboBox<Integer> max_depth2_drop_down;
 	private JComboBox<String> black_tile_color_drop_down;
@@ -74,7 +74,7 @@ public class SettingsWindow extends JFrame {
 		boolean enableSounds = ChessGUI.gameParameters.enableSounds;
 		Allegiance humanPlayerAllegiance = ChessGUI.gameParameters.humanPlayerAllegiance;
 		GameMode selectedGameMode = ChessGUI.gameParameters.gameMode;
-		AiMode selectedAiMode = ChessGUI.gameParameters.aiMode;
+		AiType selectedAiMode = ChessGUI.gameParameters.aiType;
 		int maxDepth1 = ChessGUI.gameParameters.maxDepth1 - 1;
 		int maxDepth2 = ChessGUI.gameParameters.maxDepth2 - 1;
 		Color selectedBlackTileColor = ChessGUI.gameParameters.blackTileColor;
@@ -85,7 +85,7 @@ public class SettingsWindow extends JFrame {
 		enableSoundsLabel = new JLabel("Sounds");
 		humanPlayerAllegianceLabel = new JLabel("Human Player Allegiance");
 		gameModeLabel = new JLabel("Game mode");
-		aiModeLabel = new JLabel("AI mode");
+		aiTypeLabel = new JLabel("AI type");
 		maxDepth1Label = new JLabel("Minimax AI 1 depth");
 		maxDepth2Label = new JLabel("Minimax AI 2 depth (AiVsAi)");
 		blackTileColorLabel = new JLabel("Black tile color");
@@ -96,7 +96,7 @@ public class SettingsWindow extends JFrame {
 		add(enableSoundsLabel);
 		add(humanPlayerAllegianceLabel);
 		add(gameModeLabel);
-		add(aiModeLabel);
+		add(aiTypeLabel);
 		add(maxDepth1Label);
 		add(maxDepth2Label);
 		add(blackTileColorLabel);
@@ -139,14 +139,14 @@ public class SettingsWindow extends JFrame {
 		else if (selectedGameMode == GameMode.AI_VS_AI)
 			game_mode_drop_down.setSelectedIndex(2);
 		
-		ai_mode_drop_down = new JComboBox<String>();
-		ai_mode_drop_down.addItem("Minimax AI");
-		ai_mode_drop_down.addItem("Random AI");
+		ai_type_drop_down = new JComboBox<String>();
+		ai_type_drop_down.addItem("Minimax AI");
+		ai_type_drop_down.addItem("Random AI");
 		
-		if (selectedAiMode == AiMode.MINIMAX_AI)
-			ai_mode_drop_down.setSelectedIndex(0);
-		else if (selectedAiMode == AiMode.RANDOM_AI)
-			ai_mode_drop_down.setSelectedIndex(1);
+		if (selectedAiMode == AiType.MINIMAX_AI)
+			ai_type_drop_down.setSelectedIndex(0);
+		else if (selectedAiMode == AiType.RANDOM_AI)
+			ai_type_drop_down.setSelectedIndex(1);
 		
 		max_depth1_drop_down = new JComboBox<Integer>();
 		max_depth1_drop_down.addItem(1);
@@ -179,7 +179,7 @@ public class SettingsWindow extends JFrame {
 		add(enable_sounds_check_box);
 		add(human_player_allegiance_drop_down);
 		add(game_mode_drop_down);
-		add(ai_mode_drop_down);
+		add(ai_type_drop_down);
 		add(max_depth1_drop_down);
 		add(max_depth2_drop_down);
 		add(black_tile_color_drop_down);
@@ -189,7 +189,7 @@ public class SettingsWindow extends JFrame {
 		enableSoundsLabel.setBounds(25, 55, 205, 20);
 		humanPlayerAllegianceLabel.setBounds(25, 85, 205, 20);
 		gameModeLabel.setBounds(25, 115, 205, 20);
-		aiModeLabel.setBounds(25, 145, 205, 20);
+		aiTypeLabel.setBounds(25, 145, 205, 20);
 		maxDepth1Label.setBounds(25, 175, 205, 20);
 		maxDepth2Label.setBounds(25, 205, 205, 20);
 		blackTileColorLabel.setBounds(25, 235, 205, 20);
@@ -199,7 +199,7 @@ public class SettingsWindow extends JFrame {
 		enable_sounds_check_box.setBounds(225, 55, 180, 20);
 		human_player_allegiance_drop_down.setBounds(225, 85, 180, 20);
 		game_mode_drop_down.setBounds(225, 115, 180, 20);
-		ai_mode_drop_down.setBounds(225, 145, 180, 20);
+		ai_type_drop_down.setBounds(225, 145, 180, 20);
 		max_depth1_drop_down.setBounds(225, 175, 180, 20);
 		max_depth2_drop_down.setBounds(225, 205, 180, 20);
 		black_tile_color_drop_down.setBounds(225, 235, 180, 20);
@@ -235,7 +235,7 @@ public class SettingsWindow extends JFrame {
 					boolean enableSounds = enable_sounds_check_box.isSelected();
 					Allegiance humanPlayerAllegiance = Allegiance.valueOf(human_player_allegiance_drop_down.getSelectedItem().toString().toUpperCase());
 					GameMode gameMode = GameMode.valueOf(game_mode_drop_down.getSelectedItem().toString().toUpperCase().replace(" ", "_"));
-					AiMode aiMode = AiMode.valueOf(ai_mode_drop_down.getSelectedItem().toString().toUpperCase().replace(" ", "_"));
+					AiType aiMode = AiType.valueOf(ai_type_drop_down.getSelectedItem().toString().toUpperCase().replace(" ", "_"));
 					int maxDepth1 = (int) max_depth1_drop_down.getSelectedItem();
 					int maxDepth2 = (int) max_depth2_drop_down.getSelectedItem();
 					Color blackTileColor = (black_tile_color_drop_down.getSelectedIndex() == 0) ? Color.BLACK : Color.GRAY;

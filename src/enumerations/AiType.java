@@ -1,6 +1,6 @@
 package enumerations;
 
-public enum AiMode {
+public enum AiType {
 	MINIMAX_AI,
 	RANDOM_AI
 }

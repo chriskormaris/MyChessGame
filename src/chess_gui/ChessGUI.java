@@ -46,7 +46,7 @@ import javax.swing.border.LineBorder;
 
 import chess.ChessBoard;
 import chess.Move;
-import enumerations.AiMode;
+import enumerations.AiType;
 import enumerations.Allegiance;
 import enumerations.GameMode;
 import enumerations.GuiStyle;
@@ -160,7 +160,7 @@ public class ChessGUI {
 		
 		initializeGui();
 		
-		if (gameParameters.gameMode == GameMode.HUMAN_VS_AI && gameParameters.aiMode == AiMode.MINIMAX_AI) {
+		if (gameParameters.gameMode == GameMode.HUMAN_VS_AI && gameParameters.aiType == AiType.MINIMAX_AI) {
 			if (gameParameters.humanPlayerAllegiance == Allegiance.WHITE) {
 				ai = new MiniMaxAi(gameParameters.maxDepth1, Constants.BLACK);
 			} else if (gameParameters.humanPlayerAllegiance == Allegiance.BLACK) {
@@ -755,13 +755,13 @@ public class ChessGUI {
 		System.out.println(chessBoard);
 		
 		if (gameParameters.gameMode == GameMode.HUMAN_VS_AI 
-				&& gameParameters.aiMode == AiMode.MINIMAX_AI
+				&& gameParameters.aiType == AiType.MINIMAX_AI
 				&& gameParameters.humanPlayerAllegiance == Allegiance.BLACK) {
 			minimaxAiMove(ai);
 		} else if (gameParameters.gameMode == GameMode.HUMAN_VS_AI 
-				&& gameParameters.aiMode == AiMode.RANDOM_AI
+				&& gameParameters.aiType == AiType.RANDOM_AI
 				&& gameParameters.humanPlayerAllegiance == Allegiance.BLACK) {
-			randomAiMove(randomAiAllegiance);
+			randomAiMove(Allegiance.WHITE);
 		} else if (gameParameters.gameMode == GameMode.AI_VS_AI) {
 			playAiVsAi();
 		}
@@ -795,7 +795,7 @@ public class ChessGUI {
 			saveCheckpointItem.setEnabled(true);
 		
 		if (gameParameters.gameMode == GameMode.HUMAN_VS_AI) {
-			if (gameParameters.aiMode == AiMode.MINIMAX_AI) {
+			if (gameParameters.aiType == AiType.MINIMAX_AI) {
 				if (gameParameters.humanPlayerAllegiance == Allegiance.WHITE) {
 					ai = new MiniMaxAi(gameParameters.maxDepth1, Constants.BLACK);
 				} else if (gameParameters.humanPlayerAllegiance == Allegiance.BLACK) {
@@ -1031,21 +1031,22 @@ public class ChessGUI {
 						turnMessage += " Black king is in check!";
 					turnLabel.setText(turnMessage);
 				}
-
-				/* MiniMax AI implementation here. */
-				if (gameParameters.gameMode == GameMode.HUMAN_VS_AI
-							&& gameParameters.aiMode == AiMode.MINIMAX_AI) {
-					// System.out.println("INSIDE MINIMAX AI");
-					minimaxAiMove(ai);
-				}
 				
-				/* Random AI implementation here. */
-				// The AI controls the Black pieces.
-				else if (gameParameters.gameMode == GameMode.HUMAN_VS_AI 
-						&& gameParameters.aiMode == AiMode.RANDOM_AI) {
-					// System.out.println("INSIDE RANDOM AI");
-					randomAiMove(randomAiAllegiance);
-				}
+                if (gameParameters.gameMode == GameMode.HUMAN_VS_AI) {
+
+                    /* MiniMax AI implementation here. */
+                    if (gameParameters.aiType == AiType.MINIMAX_AI) {
+                        // System.out.println("INSIDE MINIMAX AI");
+                        minimaxAiMove(ai);
+                    }
+
+                    /* Random AI implementation here. */
+                    else if (gameParameters.aiType == AiType.RANDOM_AI) {
+                        // System.out.println("INSIDE RANDOM AI");
+                        randomAiMove(randomAiAllegiance);
+                    }
+                    
+                }
 				
 			}
 		}
@@ -1447,7 +1448,7 @@ public class ChessGUI {
 			}
 			previousCapturedPiecesImages.push(newCapturedPiecesImages);
 			
-			if (gameParameters.aiMode == AiMode.MINIMAX_AI) {
+			if (gameParameters.aiType == AiType.MINIMAX_AI) {
 				minimaxAiMove(ai1);
 			} else {
 				randomAiMove(Allegiance.WHITE);
@@ -1471,7 +1472,7 @@ public class ChessGUI {
 			}
 			previousCapturedPiecesImages.push(newCapturedPiecesImages);
 			
-			if (gameParameters.aiMode == AiMode.MINIMAX_AI) {
+			if (gameParameters.aiType == AiType.MINIMAX_AI) {
 				minimaxAiMove(ai2);
 			} else {
 				randomAiMove(Allegiance.BLACK);
@@ -1486,6 +1487,9 @@ public class ChessGUI {
 				e.printStackTrace();
 			}
 		}
+		
+		if (undoItem != null)
+			undoItem.setEnabled(false);
 	}
 	
 
