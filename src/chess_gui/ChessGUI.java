@@ -151,10 +151,11 @@ public class ChessGUI {
 	public static String savedFenPosition;
 	
 	// This board is used to check for a threefold repetition of a chess board position.
-	public static ChessPiece[][] halfmoveGameBoard = new ChessPiece[gameParameters.numOfRows][NUM_OF_COLUMNS];
+	// public static ChessPiece[][] halfmoveGameBoard = new ChessPiece[gameParameters.numOfRows][NUM_OF_COLUMNS];
 	
 	// These stack of 2d "ChessPiece" arrays is used to check for a threefold repetition of a chess board position.
 	public static Stack<ChessPiece[][]> halfmoveGameBoards = new Stack<ChessPiece[][]>();
+	public static Stack<ChessPiece[][]> redoHalfmoveGameBoards = new Stack<ChessPiece[][]>();
 
 	
 	public ChessGUI(String title) {
@@ -443,9 +444,21 @@ public class ChessGUI {
 			redoCapturedPiecesImages.push(newCapturedPiecesImages);
 			
 			chessBoard = previousChessBoards.pop();
-			halfmoveGameBoards.pop();
 			
-			// Display the previous captured chess pieces icons.
+			
+			ChessPiece[][] halfmoveGameBoard = halfmoveGameBoards.pop();
+			redoHalfmoveGameBoards.push(Utilities.copyGameBoard(halfmoveGameBoard));
+			
+			/*
+			System.out.println("******************");
+			for (ChessPiece[][] currentHalfmoveGameBoard: halfmoveGameBoards) {
+				ChessBoard.printChessBoard(currentHalfmoveGameBoard);
+			}
+			System.out.println("******************");
+			System.out.println("size of halfmoveGameBoards: " + halfmoveGameBoards.size());
+			*/
+			
+			// Display the "undo" captured chess pieces icons.
 			initializeCapturedPiecesPanel();
 			capturedPiecesImages = previousCapturedPiecesImages.pop();
 			for (int i=0; i<31; i++) {
@@ -458,6 +471,7 @@ public class ChessGUI {
 				enableChessBoardButtons();
 			}
 			
+			// Display the "undo" chess board.
 			for (int i=0; i<chessBoard.getNumOfRows(); i++) {
 				for (int j=0; j<NUM_OF_COLUMNS; j++) {
 					placePieceToPosition(Utilities.getPositionByRowCol(i, j), chessBoard.getGameBoard()[i][j]);		
@@ -505,7 +519,19 @@ public class ChessGUI {
 			changeTileColor(startingButton, startingButtonColor);
 			
 			previousChessBoards.push(new ChessBoard(chessBoard));
+			
+			
+			ChessPiece[][] halfmoveGameBoard = redoHalfmoveGameBoards.pop();
 			halfmoveGameBoards.push(Utilities.copyGameBoard(halfmoveGameBoard));
+
+			/*
+			System.out.println("******************");
+			for (ChessPiece[][] currentHalfmoveGameBoard: halfmoveGameBoards) {
+				ChessBoard.printChessBoard(currentHalfmoveGameBoard);
+			}
+			System.out.println("******************");
+			System.out.println("size of halfmoveGameBoards: " + halfmoveGameBoards.size());
+			*/
 			
 			// Push to the previousCapturedPiecesImages Stack.
 			JLabel[] newCapturedPiecesImages = new JLabel[31];
@@ -514,9 +540,10 @@ public class ChessGUI {
 			}
 			previousCapturedPiecesImages.push(newCapturedPiecesImages);
 			
-			chessBoard = redoChessBoards.pop();
+			ChessBoard redoChessBoard = redoChessBoards.pop();
+			
 
-			// Display the redo captured chess pieces icons.
+			// Display the "redo" captured chess pieces icons.
 			initializeCapturedPiecesPanel();
 			capturedPiecesImages = redoCapturedPiecesImages.pop();
 			for (int i=0; i<31; i++) {
@@ -527,11 +554,20 @@ public class ChessGUI {
 				redoItem.setEnabled(false);
 			}
 			
-			for (int i=0; i<chessBoard.getNumOfRows(); i++) {
+			// Display the "redo" chess board.
+			for (int i=0; i<redoChessBoard.getNumOfRows(); i++) {
 				for (int j=0; j<NUM_OF_COLUMNS; j++) {
-					placePieceToPosition(Utilities.getPositionByRowCol(i, j), chessBoard.getGameBoard()[i][j]);		
+					placePieceToPosition(Utilities.getPositionByRowCol(i, j), redoChessBoard.getGameBoard()[i][j]);		
 				}
 			}
+			
+			
+			boolean isHalfmoveGameOver = checkForGameOver();
+			
+			chessBoard = redoChessBoard;
+			
+			if (!isHalfmoveGameOver)
+				checkForGameOver();
 			
 			System.out.println();
 			System.out.println(chessBoard);
@@ -542,7 +578,7 @@ public class ChessGUI {
 			if (undoItem != null)
 				undoItem.setEnabled(true);
 			
-			checkForGameOver();
+
 		}
 	}
 	
@@ -780,13 +816,13 @@ public class ChessGUI {
 	// Restores all the default values.
 	public static void restoreDefaultValues() {
 		chessBoard = new ChessBoard();
-		halfmoveGameBoard = new ChessPiece[gameParameters.numOfRows][NUM_OF_COLUMNS];
-		
-		for (int i=0; i<gameParameters.numOfRows; i++) {
-			for (int j=0; j<NUM_OF_COLUMNS; j++) {
-				halfmoveGameBoard[i][j] = new EmptyTile();
-			}	
-		}
+//		halfmoveGameBoard = new ChessPiece[gameParameters.numOfRows][NUM_OF_COLUMNS];
+//		
+//		for (int i=0; i<gameParameters.numOfRows; i++) {
+//			for (int j=0; j<NUM_OF_COLUMNS; j++) {
+//				halfmoveGameBoard[i][j] = new EmptyTile();
+//			}	
+//		}
 		
 		startingPosition = "";
 		endingPosition = "";
@@ -797,6 +833,7 @@ public class ChessGUI {
 		redoCapturedPiecesImages.clear();
 		
 		halfmoveGameBoards.clear();
+		redoHalfmoveGameBoards.clear();
 		
 		startingButtonIsClicked = false;
 		
@@ -871,8 +908,8 @@ public class ChessGUI {
 					|| chessBoard.blackPlays() && !chessBoard.isBlackKingInCheck()) {
 					hintPositions = chessBoard.getNextPositions(position);
 					
-					if (chessPiece instanceof King)
-						System.out.println("hint positions: " + hintPositions);
+					// if (chessPiece instanceof King)
+					// 	System.out.println("hint positions: " + hintPositions);
 					
 					// System.out.println("chessBoard: ");
 					// System.out.println(chessBoard);
@@ -993,8 +1030,9 @@ public class ChessGUI {
 					chessBoard.makeMove(move, Constants.WHITE, true);
 					
 					// Store the chess board of the halfmove that was just made.
-					halfmoveGameBoard = Utilities.copyGameBoard(chessBoard.getGameBoard());
+					ChessPiece[][] halfmoveGameBoard = Utilities.copyGameBoard(chessBoard.getGameBoard());
 					halfmoveGameBoards.push(halfmoveGameBoard);
+					// System.out.println("size of halfmoveGameBoards: " + halfmoveGameBoards.size());
 					
 					hideHintPositions(hintPositions);
 				}
@@ -1317,7 +1355,7 @@ public class ChessGUI {
 				int numOfRepeats = 0;
 				for (int j=i; j<N; j++) {
 					// Skip the iteration where i=j, 
-					// and the last iteration, if the num of repeats found is less than 2.
+					// and the last iteration, if the number of repeats found is less than 2.
 					// The number of comparisons will be (N 2).
 					if (i != j && !(numOfRepeats < 2 && j == N - 1)) {
 						// System.out.println("i: " + i + ", j: " + j);
@@ -1337,7 +1375,7 @@ public class ChessGUI {
 		
 		return false;
 	}
-
+	
 
 	private static void randomAiMove(Allegiance aiAllegiance) {
 
@@ -1518,7 +1556,6 @@ public class ChessGUI {
 		
 		while (!isGameOver) {
 			previousChessBoards.push(new ChessBoard(chessBoard));
-			halfmoveGameBoards.push(Utilities.copyGameBoard(halfmoveGameBoard));
 			
 			// Push to the previousCapturedPiecesImages Stack.
 			JLabel[] newCapturedPiecesImages = new JLabel[31];
@@ -1532,6 +1569,7 @@ public class ChessGUI {
 			} else {
 				randomAiMove(Allegiance.WHITE);
 			}
+			halfmoveGameBoards.push(Utilities.copyGameBoard(chessBoard.getGameBoard()));
 
 			try {
 				frame.paint(frame.getGraphics());
@@ -1543,7 +1581,6 @@ public class ChessGUI {
 			}
 			
 			previousChessBoards.push(new ChessBoard(chessBoard));
-			halfmoveGameBoards.push(Utilities.copyGameBoard(halfmoveGameBoard));
 			
 			// Push to the previousCapturedPiecesImages Stack.
 			newCapturedPiecesImages = new JLabel[31];
@@ -1557,6 +1594,7 @@ public class ChessGUI {
 			} else {
 				randomAiMove(Allegiance.BLACK);
 			}
+			halfmoveGameBoards.push(Utilities.copyGameBoard(chessBoard.getGameBoard()));
 
 			try {
 				frame.paint(frame.getGraphics());
@@ -1773,8 +1811,8 @@ public class ChessGUI {
 		
 		setTurnMessage();
 		
-		halfmoveGameBoard = Utilities.copyGameBoard(chessBoard.getGameBoard());
-		halfmoveGameBoards.clear();
+		ChessPiece[][] halfmoveGameBoard = Utilities.copyGameBoard(chessBoard.getGameBoard());
+		// halfmoveGameBoards.clear();
 		halfmoveGameBoards.push(halfmoveGameBoard);
 	}
 	
@@ -1798,8 +1836,8 @@ public class ChessGUI {
 		
 		setTurnMessage();
 		
-		halfmoveGameBoard = Utilities.copyGameBoard(chessBoard.getGameBoard());
-		halfmoveGameBoards.clear();
+		ChessPiece[][] halfmoveGameBoard = Utilities.copyGameBoard(chessBoard.getGameBoard());
+		// halfmoveGameBoards.clear();
 		halfmoveGameBoards.push(halfmoveGameBoard);
 	}
 	

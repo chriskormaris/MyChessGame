@@ -18,7 +18,7 @@ class ThreefoldRepetitionDrawTest {
 	@Test
 	public void testThreefoldRepetitionDraw() {
 		
-		String title = "Insufficient Material Draw Test";
+		String title = "Insufficient Material Draw Rule Test";
 		
 		@SuppressWarnings("unused")
 		ChessGUI cbg = new ChessGUI(title);
@@ -40,13 +40,12 @@ class ThreefoldRepetitionDrawTest {
 		System.out.println();
 		ChessBoard.printChessBoard(ChessGUI.chessBoard.getGameBoard());
 		
-		ChessGUI.halfmoveGameBoard = Utilities.copyGameBoard(ChessGUI.chessBoard.getGameBoard());
-		ChessGUI.halfmoveGameBoards.clear();
-		ChessGUI.halfmoveGameBoards.push(ChessGUI.halfmoveGameBoard);
+		// ChessGUI.halfmoveGameBoards.clear();
+		ChessGUI.halfmoveGameBoards.push(Utilities.copyGameBoard(ChessGUI.chessBoard.getGameBoard()));
 		
-		// Continue playing for 2 minutes.
+		// Continue playing for 5 minutes.
 		try {
-			Thread.sleep(120000);
+			Thread.sleep(300000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
