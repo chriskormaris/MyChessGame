@@ -145,7 +145,7 @@ public class ChessBoard {
 		this.whiteKingPosition = "E1";
 		this.blackKingPosition = "E" + ChessGUI.gameParameters.numOfRows;
 		
-		this.player = true;
+		this.player = Constants.WHITE;  // White plays first.
 		
 		this.enPassantPosition = "-";
 
