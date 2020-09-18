@@ -1080,7 +1080,7 @@ public class ChessGUI {
 				
 				// change chessBoard.turn
 				chessBoard.setHalfmoveNumber(chessBoard.getHalfmoveNumber() + 1);
-		        chessBoard.setPlayer(!chessBoard.whitePlays());
+		        chessBoard.setPlayer(!chessBoard.getPlayer());
 				if (gameParameters.gameMode == GameMode.HUMAN_VS_HUMAN) {
 					String turnMessage = "Move number: " + (int) Math.ceil((float) chessBoard.getHalfmoveNumber() / 2) + ". ";
 					turnMessage += (chessBoard.whitePlays()) ? "White plays." : "Black plays.";
@@ -1090,7 +1090,7 @@ public class ChessGUI {
 						turnMessage += " Black king is in check!";
 					turnLabel.setText(turnMessage);
 				}
-				
+								
                 if (gameParameters.gameMode == GameMode.HUMAN_VS_AI) {
 
                     /* MiniMax AI implementation here. */
@@ -1106,6 +1106,8 @@ public class ChessGUI {
                     }
                     
                 }
+                
+				setScoreMessage();
 				
 			}
 		}
@@ -1499,7 +1501,7 @@ public class ChessGUI {
 			chessBoard.setBlackKingInCheck(false);
 		
 		chessBoard.setHalfmoveNumber(chessBoard.getHalfmoveNumber() + 1);
-        chessBoard.setPlayer(!chessBoard.whitePlays());
+        chessBoard.setPlayer(!chessBoard.getPlayer());
 		String turnMessage = "Move number: " + (int) Math.ceil((float) chessBoard.getHalfmoveNumber() / 2) + ". White plays.";
 		if (chessBoard.isWhiteKingInCheck())
 			turnMessage += " White king is in check!";
@@ -1540,7 +1542,7 @@ public class ChessGUI {
 			chessBoard.setBlackKingInCheck(false);
 		
 		chessBoard.setHalfmoveNumber(chessBoard.getHalfmoveNumber() + 1);
-        chessBoard.setPlayer(!chessBoard.whitePlays());
+        chessBoard.setPlayer(!chessBoard.getPlayer());
 		String turnMessage = null;
 		if (chessBoard.whitePlays()) {
 			turnMessage = "Move number: " + (int) Math.ceil((float) chessBoard.getHalfmoveNumber() / 2) + ". White plays.";
@@ -1565,6 +1567,7 @@ public class ChessGUI {
 		turnLabel.setText(firstTurnText);
 		
 		while (!isGameOver) {
+			/*
 			previousChessBoards.push(new ChessBoard(chessBoard));
 			
 			// Push to the previousCapturedPiecesImages Stack.
@@ -1573,6 +1576,7 @@ public class ChessGUI {
 				newCapturedPiecesImages[i] = new JLabel(capturedPiecesImages[i].getIcon());
 			}
 			previousCapturedPiecesImages.push(newCapturedPiecesImages);
+			*/
 			
 			if (gameParameters.aiType == AiType.MINIMAX_AI) {
 				minimaxAiMove(ai1);
@@ -1581,6 +1585,9 @@ public class ChessGUI {
 			}
 			halfmoveGameBoards.push(Utilities.copyGameBoard(chessBoard.getGameBoard()));
 
+			setTurnMessage();
+			setScoreMessage();
+			
 			try {
 				frame.paint(frame.getGraphics());
 				frame.revalidate();
@@ -1590,6 +1597,7 @@ public class ChessGUI {
 				e.printStackTrace();
 			}
 			
+			/*
 			previousChessBoards.push(new ChessBoard(chessBoard));
 			
 			// Push to the previousCapturedPiecesImages Stack.
@@ -1598,6 +1606,7 @@ public class ChessGUI {
 				newCapturedPiecesImages[i] = new JLabel(capturedPiecesImages[i].getIcon());
 			}
 			previousCapturedPiecesImages.push(newCapturedPiecesImages);
+			*/
 			
 			if (gameParameters.aiType == AiType.MINIMAX_AI) {
 				minimaxAiMove(ai2);
@@ -1605,7 +1614,10 @@ public class ChessGUI {
 				randomAiMove(Allegiance.BLACK);
 			}
 			halfmoveGameBoards.push(Utilities.copyGameBoard(chessBoard.getGameBoard()));
-
+			
+			setTurnMessage();
+			setScoreMessage();
+			
 			try {
 				frame.paint(frame.getGraphics());
 				frame.revalidate();

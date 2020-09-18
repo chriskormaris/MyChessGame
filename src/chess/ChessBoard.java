@@ -584,11 +584,6 @@ public class ChessBoard {
  	 		if (chessPiece.getAllegiance() != endTile.getAllegiance()
  	 				&& !(endTile instanceof EmptyTile)) {
  	 			configureCapturedPieces(endTile, displayMove);
- 	 			
- 	 			if (displayMove) {
- 	 				ChessGUI.setScoreMessage();
- 	 			}
- 	 			
  	 		}
  	 		
  		}
@@ -1785,11 +1780,15 @@ public class ChessBoard {
 	}
 	
 	public boolean whitePlays() {
-		return player;
+		return this.player == Constants.WHITE;
 	}
 	
 	public boolean blackPlays() {
-		return !player;
+		return this.player == Constants.BLACK;
+	}
+	
+	public boolean getPlayer() {
+		return player;
 	}
 	
 	public void setPlayer(boolean player) {
