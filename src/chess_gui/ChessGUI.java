@@ -562,7 +562,7 @@ public class ChessGUI {
 			}
 			
 			
-			boolean isHalfmoveGameOver = checkForGameOver();
+			boolean isHalfmoveGameOver = checkForHalfmoveGameOver();
 			
 			chessBoard = redoChessBoard;
 			
@@ -1274,6 +1274,14 @@ public class ChessGUI {
 		}
 		
 		
+		return checkForHalfmoveGameOver();
+
+	}
+	
+	
+	private static boolean checkForHalfmoveGameOver() {
+		
+
 		// 50 fullmoves without a chessPiece capture Draw implementation.
 		if (chessBoard.isNoCaptureDraw()) {
 			int dialogResult = -1;
@@ -1294,8 +1302,10 @@ public class ChessGUI {
 			
 		}
 		
-
-		// 50 fullmoves without a chessPiece capture Draw implementation.
+		
+		// Three-fold repetition draw rule implementation. 
+		// This situation occurs when we end up with the same chess board position 3 different times
+		// at any time in the game, not necessarily successively.
 		if (checkForThreefoldRepetitionDraw()) {
 			int dialogResult = -1;
 			
@@ -1318,7 +1328,7 @@ public class ChessGUI {
 		return false;
 	}
 	
-	
+
 	private static void showDeclareDrawDialog() {
 
 		String turnMessage = "Move number: " 
@@ -1356,7 +1366,7 @@ public class ChessGUI {
 				for (int j=i; j<N; j++) {
 					// Skip the iteration where i=j, 
 					// and the last iteration, if the number of repeats found is less than 2.
-					// The number of comparisons will be (N 2).
+					// The number of comparisons will be: (N 2) = N * (N-1) / 2
 					if (i != j && !(numOfRepeats < 2 && j == N - 1)) {
 						// System.out.println("i: " + i + ", j: " + j);
 						ChessPiece[][] halfmoveGameBoard1 = halfmoveGameBoards.get(i);
