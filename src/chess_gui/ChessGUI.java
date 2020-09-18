@@ -1273,14 +1273,6 @@ public class ChessGUI {
 			}
 		}
 		
-		
-		return checkForHalfmoveGameOver();
-
-	}
-	
-	
-	private static boolean checkForHalfmoveGameOver() {
-		
 
 		// 50 fullmoves without a chessPiece capture Draw implementation.
 		if (chessBoard.isNoCaptureDraw()) {
@@ -1301,6 +1293,14 @@ public class ChessGUI {
 			}
 			
 		}
+		
+		
+		return checkForHalfmoveGameOver();
+
+	}
+	
+	
+	private static boolean checkForHalfmoveGameOver() {
 		
 		
 		// Three-fold repetition draw rule implementation. 
