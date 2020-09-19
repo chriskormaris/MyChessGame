@@ -450,15 +450,7 @@ public class ChessGUI {
 			
 			ChessPiece[][] halfmoveGameBoard = halfmoveGameBoards.pop();
 			redoHalfmoveGameBoards.push(Utilities.copyGameBoard(halfmoveGameBoard));
-			
-			/*
-			System.out.println("******************");
-			for (ChessPiece[][] currentHalfmoveGameBoard: halfmoveGameBoards) {
-				ChessBoard.printChessBoard(currentHalfmoveGameBoard);
-			}
-			System.out.println("******************");
 			System.out.println("size of halfmoveGameBoards: " + halfmoveGameBoards.size());
-			*/
 			
 			// Display the "undo" captured chess pieces icons.
 			initializeCapturedPiecesPanel();
@@ -527,15 +519,7 @@ public class ChessGUI {
 			
 			ChessPiece[][] halfmoveGameBoard = redoHalfmoveGameBoards.pop();
 			halfmoveGameBoards.push(Utilities.copyGameBoard(halfmoveGameBoard));
-
-			/*
-			System.out.println("******************");
-			for (ChessPiece[][] currentHalfmoveGameBoard: halfmoveGameBoards) {
-				ChessBoard.printChessBoard(currentHalfmoveGameBoard);
-			}
-			System.out.println("******************");
-			System.out.println("size of halfmoveGameBoards: " + halfmoveGameBoards.size());
-			*/
+			// System.out.println("size of halfmoveGameBoards: " + halfmoveGameBoards.size());
 			
 			// Push to the previousCapturedPiecesImages Stack.
 			JLabel[] newCapturedPiecesImages = new JLabel[31];
@@ -581,8 +565,6 @@ public class ChessGUI {
 			
 			if (undoItem != null)
 				undoItem.setEnabled(true);
-			
-
 		}
 	}
 	
@@ -1031,7 +1013,7 @@ public class ChessGUI {
 					// chessBoard.movePieceFromAPositionToAnother(startingPosition, endingPosition, true);
 					
 					Move move = new Move(startingPosition, endingPosition);
-					chessBoard.makeMove(move, Constants.WHITE, true);
+					chessBoard.makeMove(move, true);
 					
 					// Store the chess board of the halfmove that was just made.
 					ChessPiece[][] halfmoveGameBoard = Utilities.copyGameBoard(chessBoard.getGameBoard());
@@ -1118,6 +1100,54 @@ public class ChessGUI {
 	}
 	
 	
+	public static void configureCapturedPiecesImages(ChessPiece endTile) {
+ 		ImageIcon pieceImage = null;
+ 		
+		if (chessBoard.getPromotedPieces().contains(endTile)) {
+			if (endTile.getAllegiance() == Allegiance.WHITE) {
+				pieceImage = ChessGUI.preparePieceIcon(Constants.WHITE_PAWN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+			} else if (endTile.getAllegiance() == Allegiance.BLACK) {
+				pieceImage = ChessGUI.preparePieceIcon(Constants.BLACK_PAWN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+			}
+		
+		} else if (endTile.getAllegiance() == Allegiance.WHITE) {
+		
+	 			if (endTile instanceof Pawn) {
+	 				pieceImage = ChessGUI.preparePieceIcon(Constants.WHITE_PAWN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+	 			} else if (endTile instanceof Rook) {
+	 				pieceImage = ChessGUI.preparePieceIcon(Constants.WHITE_ROOK_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+	 			} else if (endTile instanceof Knight) {
+	 				pieceImage = ChessGUI.preparePieceIcon(Constants.WHITE_KNIGHT_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+	 			} else if (endTile instanceof Bishop) {
+	 				pieceImage = ChessGUI.preparePieceIcon(Constants.WHITE_BISHOP_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+	 			} else if (endTile instanceof Queen) {
+	 				pieceImage = ChessGUI.preparePieceIcon(Constants.WHITE_QUEEN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+	 			}
+	 			
+ 		} else if (endTile.getAllegiance() == Allegiance.BLACK) {
+ 			if (endTile instanceof Pawn) {
+ 				pieceImage = ChessGUI.preparePieceIcon(Constants.BLACK_PAWN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+ 			} else if (endTile instanceof Rook) {
+ 				pieceImage = ChessGUI.preparePieceIcon(Constants.BLACK_ROOK_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+ 			} else if (endTile instanceof Knight) {
+ 				pieceImage = ChessGUI.preparePieceIcon(Constants.BLACK_KNIGHT_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+ 			} else if (endTile instanceof Bishop) {
+ 				pieceImage = ChessGUI.preparePieceIcon(Constants.BLACK_BISHOP_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+ 			} else if (endTile instanceof Queen) {
+ 				pieceImage = ChessGUI.preparePieceIcon(Constants.BLACK_QUEEN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+ 			}
+		}
+		
+		if (endTile.getAllegiance() == Allegiance.WHITE) {
+			ChessGUI.capturedPiecesImages[chessBoard.getWhiteCapturedPiecesCounter()].setIcon(pieceImage);
+		} else if (endTile.getAllegiance() == Allegiance.BLACK) {
+			ChessGUI.capturedPiecesImages[31 - chessBoard.getBlackCapturedPiecesCounter() - 1].setIcon(pieceImage);
+		}
+		
+		setScoreMessage();
+ 	}
+	
+	
 	public static boolean checkForGameOver() {
 		
 		/* Check for White checkmate. */
@@ -1186,33 +1216,6 @@ public class ChessGUI {
 			}
 		}
 		
-		/* Draw implementation. */
-		chessBoard.checkForInsufficientMaterialDraw();
-		if (chessBoard.isInsufficientMaterialDraw()) {
-			String turnMessage = "Move number: " 
-					+ (int) Math.ceil((float) chessBoard.getHalfmoveNumber() / 2) 
-					+ ". It is a draw.";
-			turnLabel.setText(turnMessage);
-			
-			int dialogResult = JOptionPane.showConfirmDialog(gui, 
-					"It is a draw due to insufficient mating material! Start a new game?", "Draw", JOptionPane.YES_NO_OPTION);
-			// System.out.println("dialogResult:" + dialogResult);
-			if (dialogResult == JOptionPane.YES_OPTION) {
-				startNewGame();
-			} else {
-				if (undoItem != null)
-					undoItem.setEnabled(true);
-				if (redoItem != null)
-					redoItem.setEnabled(false);
-				if (exportFenPositionItem != null)
-					exportFenPositionItem.setEnabled(false);
-				if (saveCheckpointItem != null)
-					saveCheckpointItem.setEnabled(false);
-				disableChessBoardSquares();
-			}
-			
-			return true;
-		}
 		
 		/* Stalemate draw implementation. */
 		// Check for White stalemate.
@@ -1279,7 +1282,36 @@ public class ChessGUI {
 			}
 		}
 		
-
+		
+		/* Insufficient checkmate material draw implementation. */
+		chessBoard.checkForInsufficientMaterialDraw();
+		if (chessBoard.isInsufficientMaterialDraw()) {
+			String turnMessage = "Move number: " 
+					+ (int) Math.ceil((float) chessBoard.getHalfmoveNumber() / 2) 
+					+ ". It is a draw.";
+			turnLabel.setText(turnMessage);
+			
+			int dialogResult = JOptionPane.showConfirmDialog(gui, 
+					"It is a draw due to insufficient mating material! Start a new game?", "Draw", JOptionPane.YES_NO_OPTION);
+			// System.out.println("dialogResult:" + dialogResult);
+			if (dialogResult == JOptionPane.YES_OPTION) {
+				startNewGame();
+			} else {
+				if (undoItem != null)
+					undoItem.setEnabled(true);
+				if (redoItem != null)
+					redoItem.setEnabled(false);
+				if (exportFenPositionItem != null)
+					exportFenPositionItem.setEnabled(false);
+				if (saveCheckpointItem != null)
+					saveCheckpointItem.setEnabled(false);
+				disableChessBoardSquares();
+			}
+			
+			return true;
+		}
+		
+		
 		// 50 fullmoves without a chessPiece capture Draw implementation.
 		if (chessBoard.isNoCaptureDraw()) {
 			int dialogResult = -1;
@@ -1395,7 +1427,7 @@ public class ChessGUI {
 	}
 	
 
-	private static void randomAiMove(Allegiance aiAllegiance) {
+	public static void randomAiMove(Allegiance aiAllegiance) {
 
 		String randomAiStartingPosition = "";
 		String randomAiEndingPosition = "";
@@ -1405,8 +1437,8 @@ public class ChessGUI {
 		
 		/* STEP 1. Random starting position. */
 		if (chessBoard.whitePlays() && aiAllegiance == Allegiance.WHITE && !chessBoard.isWhiteKingInCheck() 
-			|| 
-			chessBoard.blackPlays() && aiAllegiance == Allegiance.BLACK && !chessBoard.isBlackKingInCheck()) {
+				|| 
+				chessBoard.blackPlays() && aiAllegiance == Allegiance.BLACK && !chessBoard.isBlackKingInCheck()) {
 			for (int i=0; i<chessBoard.getNumOfRows(); i++) {
 				for (int j=0; j<NUM_OF_COLUMNS; j++) {
 					if (aiAllegiance == Allegiance.BLACK 
@@ -1491,11 +1523,7 @@ public class ChessGUI {
 		
 		Move move = new Move(randomAiStartingPosition, randomAiEndingPosition, chessBoard.evaluate());
 		
-		if (chessBoard.blackPlays()) {
-			chessBoard.makeMove(move, Constants.BLACK, true);
-		} else if (chessBoard.whitePlays()) {
-			chessBoard.makeMove(move, Constants.WHITE, true);
-		}
+		chessBoard.makeMove(move, true);
 		
 		isGameOver = checkForGameOver();
 		if (isGameOver) return;
@@ -1523,7 +1551,7 @@ public class ChessGUI {
 	
 	
 	// Gets called after the human player makes a move. It makes a Minimax AI move.
-	private static void minimaxAiMove(MiniMaxAi ai) {
+	public static void minimaxAiMove(MiniMaxAi ai) {
 		// Move aiMove = ai.miniMax(chessBoard);
 		
 		Move aiMove = null;
@@ -1535,18 +1563,7 @@ public class ChessGUI {
 		System.out.println("aiMove: " + aiMove);
 		// System.out.println("lastCapturedPieceValue: " + chessBoard.getLastCapturedPieceValue());
 		
-		// Find the "whiteKingInCheckValidPieceMoves" and "blackKingInCheckValidPieceMoves",
-		// if the White King or Black King respectively is in check.
-		// DOES NOT WORK! TRIVIAL!
-		/*
-		boolean storeKingInCheckMoves = true;
-		if (ai.getAiPlayer() == Constants.WHITE)
-			chessBoard.checkForBlackCheckmate(storeKingInCheckMoves);
-		else if (ai.getAiPlayer() == Constants.BLACK)
-			chessBoard.checkForWhiteCheckmate(storeKingInCheckMoves);
-		*/
-		
-		chessBoard.makeMove(aiMove, ai.getAiPlayer(), true);
+		chessBoard.makeMove(aiMove, true);
 		// System.out.println("board value after aiMove -> " + chessBoard.evaluate());
 		
 		isGameOver = checkForGameOver();
@@ -1584,6 +1601,13 @@ public class ChessGUI {
 		MiniMaxAi ai2 = new MiniMaxAi(gameParameters.maxDepth2, Constants.BLACK);
 		
 		turnLabel.setText(firstTurnText);
+		
+		// Find the "whiteKingInCheckValidPieceMoves" and "blackKingInCheckValidPieceMoves",
+		// if the White or Black King respectively is in check.
+		boolean storeKingInCheckMoves = true;
+		chessBoard.checkForBlackCheckmate(storeKingInCheckMoves);
+		chessBoard.checkForWhiteCheckmate(storeKingInCheckMoves);
+		// System.out.println(chessBoard.getWhiteKingInCheckValidPieceMoves());
 		
 		while (!isGameOver) {
 			previousChessBoards.push(new ChessBoard(chessBoard));
@@ -1723,6 +1747,7 @@ public class ChessGUI {
 				imagePath = Constants.WHITE_QUEEN_IMG_PATH;
 			} else if (chessPiece instanceof King) {
 				imagePath = Constants.WHITE_KING_IMG_PATH;
+				chessBoard.setWhiteKingPosition(position);
 			}
 		}
 		
@@ -1739,6 +1764,7 @@ public class ChessGUI {
 				imagePath = Constants.BLACK_QUEEN_IMG_PATH;
 			} else if (chessPiece instanceof King) {
 				imagePath = Constants.BLACK_KING_IMG_PATH;
+				chessBoard.setBlackKingPosition(position);
 			}
 		}
 		
@@ -1854,7 +1880,6 @@ public class ChessGUI {
 		setTurnMessage();
 		
 		ChessPiece[][] halfmoveGameBoard = Utilities.copyGameBoard(chessBoard.getGameBoard());
-		// halfmoveGameBoards.clear();
 		halfmoveGameBoards.push(halfmoveGameBoard);
 	}
 	
@@ -1879,7 +1904,6 @@ public class ChessGUI {
 		setTurnMessage();
 		
 		ChessPiece[][] halfmoveGameBoard = Utilities.copyGameBoard(chessBoard.getGameBoard());
-		// halfmoveGameBoards.clear();
 		halfmoveGameBoards.push(halfmoveGameBoard);
 	}
 	

@@ -90,6 +90,6 @@ public class Constants {
 	public final static double CHECK_VALUE = 50;
 	public final static double CHECK_LATE_VALUE = 100;
 	public final static double CASTLING_VALUE = 60;
-	public final static double TWO_BISHOPS_VALUE = 50;
+	public final static double TWO_BISHOPS_VALUE = 10;
 
 }

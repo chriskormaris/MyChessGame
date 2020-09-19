@@ -53,9 +53,7 @@ public abstract class ChessPiece {
 			this.chessPieceChar = '-';
 		}
 	}
-	
-	public abstract ChessPiece makeCopy();
-	
+		
 	public Allegiance getAllegiance() {
 		return allegiance;
 	}
@@ -69,6 +67,8 @@ public abstract class ChessPiece {
 		return chessPieceChar;
 	}
 	
+	public abstract ChessPiece makeCopy();
+
 	public abstract Set<String> getNextPositions(String position, ChessBoard chessBoard, boolean returnThreats);
 	
 	@Override

@@ -140,8 +140,10 @@ public class FenUtilities {
 			
 			if (pieceChar == Constants.WHITE_KING) {	
 				chessBoard.setWhiteKingPosition(Utilities.getPositionByRowCol(chessBoard.getNumOfRows()-1-i, j));
+				// System.out.println("White king position: " + chessBoard.getWhiteKingPosition());
 			} else if (pieceChar == Constants.BLACK_KING) {	
 				chessBoard.setBlackKingPosition(Utilities.getPositionByRowCol(chessBoard.getNumOfRows()-1-i, j));
+				// System.out.println("Black king position: " + chessBoard.getBlackKingPosition());
 			}
 
 			j++;
