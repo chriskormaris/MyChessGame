@@ -38,6 +38,13 @@ class AiVsAiTest {
 		// System.out.println("player: " + ChessGUI.chessBoard.getPlayer());
 		
 		ChessBoard.printChessBoard(ChessGUI.chessBoard.getGameBoard());
+
+		// Find the "whiteKingInCheckValidPieceMoves" and "blackKingInCheckValidPieceMoves",
+		// if the White or Black King respectively is in check.
+		boolean storeKingInCheckMoves = true;
+		ChessGUI.chessBoard.checkForBlackCheckmate(storeKingInCheckMoves);
+		ChessGUI.chessBoard.checkForWhiteCheckmate(storeKingInCheckMoves);
+		// System.out.println(chessBoard.getWhiteKingInCheckValidPieceMoves());
 		
 		ChessGUI.playAiVsAi();
 		

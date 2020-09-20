@@ -1602,13 +1602,6 @@ public class ChessGUI {
 		
 		turnLabel.setText(firstTurnText);
 		
-		// Find the "whiteKingInCheckValidPieceMoves" and "blackKingInCheckValidPieceMoves",
-		// if the White or Black King respectively is in check.
-		boolean storeKingInCheckMoves = true;
-		chessBoard.checkForBlackCheckmate(storeKingInCheckMoves);
-		chessBoard.checkForWhiteCheckmate(storeKingInCheckMoves);
-		// System.out.println(chessBoard.getWhiteKingInCheckValidPieceMoves());
-		
 		while (!isGameOver) {
 			previousChessBoards.push(new ChessBoard(chessBoard));
 			
