@@ -450,7 +450,7 @@ public class ChessGUI {
 			
 			ChessPiece[][] halfmoveGameBoard = halfmoveGameBoards.pop();
 			redoHalfmoveGameBoards.push(Utilities.copyGameBoard(halfmoveGameBoard));
-			System.out.println("size of halfmoveGameBoards: " + halfmoveGameBoards.size());
+			// System.out.println("size of halfmoveGameBoards: " + halfmoveGameBoards.size());
 			
 			// Display the "undo" captured chess pieces icons.
 			initializeCapturedPiecesPanel();
