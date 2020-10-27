@@ -4,7 +4,7 @@ public class Constants {
 	
 	private Constants() { }  // Prevents instantiation.
 	
-	public final static double VERSION = 4.0;
+	public final static double VERSION = 4.1;
 	
 	public final static int CHESS_SQUARE_PIXEL_SIZE = 48;
 

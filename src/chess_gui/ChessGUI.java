@@ -316,8 +316,8 @@ public class ChessGUI {
 		
 		aboutItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JLabel label = new JLabel("<html>A traditional chess game implementation using Minimax AI.<br>"
-						+ "with Alpha-Beta Pruning. © Created by: Christos Kormaris, Athens 2020<br>"
+				JLabel label = new JLabel("<html>A traditional chess game implementation using Minimax AI,<br>"
+						+ "with Alpha-Beta Pruning.<br>© Created by: Christos Kormaris, Athens 2020<br>"
 						+ "Version " + Constants.VERSION + "</html>");
 				
 				BufferedImage img = null;
