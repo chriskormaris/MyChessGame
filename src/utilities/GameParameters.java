@@ -24,13 +24,14 @@ public class GameParameters {
 		this.aiType = otherGameParameters.aiType;
 		this.maxDepth1 = otherGameParameters.maxDepth1;
 		this.maxDepth2 = otherGameParameters.maxDepth2;
+		this.whiteTileColor = otherGameParameters.whiteTileColor;
 		this.blackTileColor = otherGameParameters.blackTileColor;
 		this.numOfRows = otherGameParameters.numOfRows;
 	}
 	
 	
-	public GameParameters(GuiStyle guiStyle, boolean enableSounds, Allegiance humanPlayerAllegiance, 
-			GameMode gameMode, AiType aiMode, int maxDepth1, int maxDepth2, Color blackTileColor, int numOfRows) {
+	public GameParameters(GuiStyle guiStyle, boolean enableSounds, Allegiance humanPlayerAllegiance, GameMode gameMode,
+			AiType aiMode, int maxDepth1, int maxDepth2, Color whiteTileColor, Color blackTileColor, int numOfRows) {
 		this.guiStyle = guiStyle;
 		this.enableSounds = enableSounds;
 		this.humanPlayerAllegiance = humanPlayerAllegiance;
@@ -38,6 +39,7 @@ public class GameParameters {
 		this.aiType = aiMode;
 		this.maxDepth1 = maxDepth1;
 		this.maxDepth2 = maxDepth2;
+		this.whiteTileColor = whiteTileColor;
 		this.blackTileColor = blackTileColor;
 		this.numOfRows = numOfRows;
 	}
@@ -61,9 +63,14 @@ public class GameParameters {
 	
 	public int maxDepth1 = 1;
 	public int maxDepth2 = 1;
+	
+	public Color whiteTileColor = Color.WHITE;
+	// public Color whiteTileColor = Color.PINK;
 
-	public Color blackTileColor = Color.BLACK;
-	// public static Color blackTileColor = Color.GRAY;
+	public Color blackTileColor = Constants.DARK_GREEN;
+	// public Color blackTileColor = Color.BLACK;
+	// public Color blackTileColor = Color.DARK_GRAY;
+	// public Color blackTileColor = Color.GRAY;
 
 	public int numOfRows = 8;  // the number of rows
 

@@ -1,10 +1,12 @@
 package utilities;
 
+import java.awt.Color;
+
 public class Constants {
 	
 	private Constants() { }  // Prevents instantiation.
 	
-	public final static double VERSION = 4.1;
+	public final static double VERSION = 4.2;
 	
 	public final static int CHESS_SQUARE_PIXEL_SIZE = 48;
 
@@ -18,6 +20,9 @@ public class Constants {
 	
 	public final static int NO_PIECE_CAPTURE_DRAW_HALFMOVES_LIMIT = 100;
 	public final static int MIDDLEGAME_HALFMOVES_THRESHOLD = 24;
+	
+	public final static Color BRIGHT_PINK = new Color(240, 207, 207);
+	public final static Color DARK_GREEN = new Color(37, 82, 59);
 	
 	// NOT USED
 	/*

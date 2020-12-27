@@ -1704,7 +1704,7 @@ public class ChessGUI {
 		if ((column % 2 == 1 && row % 2 == 1)
 				//) {
 			|| (column % 2 == 0 && row % 2 == 0)) {
-			color = Color.WHITE;
+			color = gameParameters.whiteTileColor;
 		} else {
 			color = gameParameters.blackTileColor;
 		}

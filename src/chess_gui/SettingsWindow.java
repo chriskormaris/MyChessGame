@@ -19,6 +19,7 @@ import enumerations.AiType;
 import enumerations.Allegiance;
 import enumerations.GameMode;
 import enumerations.GuiStyle;
+import utilities.Constants;
 import utilities.GameParameters;
 
 
@@ -36,6 +37,7 @@ public class SettingsWindow extends JFrame {
 	private JLabel aiTypeLabel;
 	private JLabel maxDepth1Label;
 	private JLabel maxDepth2Label;
+	private JLabel whiteTileColorLabel;
 	private JLabel blackTileColorLabel;
 	private JLabel numOfRowsLabel;
 
@@ -46,6 +48,7 @@ public class SettingsWindow extends JFrame {
 	private JComboBox<String> ai_type_drop_down;
 	private JComboBox<Integer> max_depth1_drop_down;
 	private JComboBox<Integer> max_depth2_drop_down;
+	private JComboBox<String> white_tile_color_drop_down;
 	private JComboBox<String> black_tile_color_drop_down;
 	SpinnerModel spinnerModel = new SpinnerNumberModel(8, 4, 8, 1);     
 	private JSpinner num_of_rows_spinner = new JSpinner(spinnerModel);
@@ -56,7 +59,7 @@ public class SettingsWindow extends JFrame {
 	private EventHandler handler;
 	
 	public static int width = 450;
-	public static int height = 410;
+	public static int height = 440;
 	
 	
 	public SettingsWindow() {
@@ -77,6 +80,7 @@ public class SettingsWindow extends JFrame {
 		AiType selectedAiMode = ChessGUI.gameParameters.aiType;
 		int maxDepth1 = ChessGUI.gameParameters.maxDepth1 - 1;
 		int maxDepth2 = ChessGUI.gameParameters.maxDepth2 - 1;
+		Color selectedWhiteTileColor = ChessGUI.gameParameters.whiteTileColor;
 		Color selectedBlackTileColor = ChessGUI.gameParameters.blackTileColor;
 		int numOfRows = ChessGUI.gameParameters.numOfRows;
 
@@ -88,6 +92,7 @@ public class SettingsWindow extends JFrame {
 		aiTypeLabel = new JLabel("AI type");
 		maxDepth1Label = new JLabel("Minimax AI 1 depth");
 		maxDepth2Label = new JLabel("Minimax AI 2 depth (AiVsAi)");
+		whiteTileColorLabel = new JLabel("White tile color");
 		blackTileColorLabel = new JLabel("Black tile color");
 		numOfRowsLabel = new JLabel("Number of rows");
 
@@ -99,6 +104,7 @@ public class SettingsWindow extends JFrame {
 		add(aiTypeLabel);
 		add(maxDepth1Label);
 		add(maxDepth2Label);
+		add(whiteTileColorLabel);
 		add(blackTileColorLabel);
 		add(numOfRowsLabel);
 
@@ -162,15 +168,29 @@ public class SettingsWindow extends JFrame {
 		
 		max_depth2_drop_down.setSelectedIndex(maxDepth2);
 		
+		white_tile_color_drop_down = new JComboBox<String>();
+		white_tile_color_drop_down.addItem("White");
+		white_tile_color_drop_down.addItem("Pink");
+		
+		if (selectedWhiteTileColor == Color.WHITE)
+			white_tile_color_drop_down.setSelectedIndex(0);
+		else if (selectedWhiteTileColor == Constants.BRIGHT_PINK)
+			white_tile_color_drop_down.setSelectedIndex(1);
+		
 		black_tile_color_drop_down = new JComboBox<String>();
+		black_tile_color_drop_down.addItem("Dark Green");
 		black_tile_color_drop_down.addItem("Black");
+		black_tile_color_drop_down.addItem("Dark Gray");
 		black_tile_color_drop_down.addItem("Gray");
 		
-		if (selectedBlackTileColor == Color.BLACK)
+		if (selectedBlackTileColor == Constants.DARK_GREEN)
 			black_tile_color_drop_down.setSelectedIndex(0);
-		else if (selectedBlackTileColor == Color.GRAY)
+		else if (selectedBlackTileColor == Color.DARK_GRAY)
 			black_tile_color_drop_down.setSelectedIndex(1);
-		
+		else if (selectedBlackTileColor == Color.GRAY)
+			black_tile_color_drop_down.setSelectedIndex(2);
+		else if (selectedBlackTileColor == Color.BLACK)
+			black_tile_color_drop_down.setSelectedIndex(3);
 		
 		spinnerModel.setValue(numOfRows);
 
@@ -182,6 +202,7 @@ public class SettingsWindow extends JFrame {
 		add(ai_type_drop_down);
 		add(max_depth1_drop_down);
 		add(max_depth2_drop_down);
+		add(white_tile_color_drop_down);
 		add(black_tile_color_drop_down);
 		add(num_of_rows_spinner);
 
@@ -192,8 +213,9 @@ public class SettingsWindow extends JFrame {
 		aiTypeLabel.setBounds(25, 145, 205, 20);
 		maxDepth1Label.setBounds(25, 175, 205, 20);
 		maxDepth2Label.setBounds(25, 205, 205, 20);
-		blackTileColorLabel.setBounds(25, 235, 205, 20);
-		numOfRowsLabel.setBounds(25, 265, 205, 20);
+		whiteTileColorLabel.setBounds(25, 235, 205, 20);
+		blackTileColorLabel.setBounds(25, 265, 205, 20);
+		numOfRowsLabel.setBounds(25, 295, 205, 20);
 		
 		gui_style_drop_down.setBounds(225, 25, 180, 20);
 		enable_sounds_check_box.setBounds(225, 55, 180, 20);
@@ -202,8 +224,9 @@ public class SettingsWindow extends JFrame {
 		ai_type_drop_down.setBounds(225, 145, 180, 20);
 		max_depth1_drop_down.setBounds(225, 175, 180, 20);
 		max_depth2_drop_down.setBounds(225, 205, 180, 20);
-		black_tile_color_drop_down.setBounds(225, 235, 180, 20);
-		num_of_rows_spinner.setBounds(225, 265, 180, 30);
+		white_tile_color_drop_down.setBounds(225, 235, 180, 20);
+		black_tile_color_drop_down.setBounds(225, 265, 180, 20);
+		num_of_rows_spinner.setBounds(225, 295, 180, 30);
 
 		apply = new JButton("Apply");
 		cancel = new JButton("Cancel");
@@ -211,9 +234,9 @@ public class SettingsWindow extends JFrame {
 		add(cancel);
 		
 		int distance = 10;
-		apply.setBounds((int) (width / 2) - 110 - (int) (distance / 2), 310, 100, 30);
+		apply.setBounds((int) (width / 2) - 110 - (int) (distance / 2), 340, 100, 30);
 		apply.addActionListener(handler);
-		cancel.setBounds((int) (width / 2) - 10 + (int) (distance / 2), 310, 100, 30);
+		cancel.setBounds((int) (width / 2) - 10 + (int) (distance / 2), 340, 100, 30);
 		cancel.addActionListener(handler);
 	}
 
@@ -238,13 +261,32 @@ public class SettingsWindow extends JFrame {
 					AiType aiMode = AiType.valueOf(ai_type_drop_down.getSelectedItem().toString().toUpperCase().replace(" ", "_"));
 					int maxDepth1 = (int) max_depth1_drop_down.getSelectedItem();
 					int maxDepth2 = (int) max_depth2_drop_down.getSelectedItem();
-					Color blackTileColor = (black_tile_color_drop_down.getSelectedIndex() == 0) ? Color.BLACK : Color.GRAY;
+					int whiteTileColorDropdownIndex = white_tile_color_drop_down.getSelectedIndex();
+					int blackTileColorDropdownIndex = black_tile_color_drop_down.getSelectedIndex();
 					int numOfRows = (int) num_of_rows_spinner.getValue();
 					// numOfRows = (numOfRows >= 8) ? numOfRows : 8;
 					
+					Color whiteTileColor = null;
+					if (whiteTileColorDropdownIndex == 0) {
+						whiteTileColor = Color.WHITE;
+					} else if (whiteTileColorDropdownIndex == 1) {
+						whiteTileColor = Constants.BRIGHT_PINK;
+					}
+					
+					Color blackTileColor = null;
+					if (blackTileColorDropdownIndex == 0) {
+						blackTileColor = Constants.DARK_GREEN;
+					} else if (blackTileColorDropdownIndex == 1) {
+						blackTileColor = Color.DARK_GRAY;
+					} else if (blackTileColorDropdownIndex == 2) {
+						blackTileColor = Color.GRAY;
+					} else if (blackTileColorDropdownIndex == 3) {
+						blackTileColor = Color.BLACK;
+					}
+					
 					// Change game parameters based on the settings.
 					ChessGUI.newGameParameters = new GameParameters(guiStyle, enableSounds, humanPlayerAllegiance,
-							gameMode, aiMode, maxDepth1, maxDepth2, blackTileColor, numOfRows); 
+							gameMode, aiMode, maxDepth1, maxDepth2, whiteTileColor, blackTileColor, numOfRows); 
 					
 					JOptionPane.showMessageDialog(ChessGUI.frame,
 							"Game settings have been changed.\nThe changes will be applied in the next new game.",
