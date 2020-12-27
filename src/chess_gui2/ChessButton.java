@@ -26,7 +26,7 @@ public class ChessButton extends JButton {
 		if ((i / N + i % N) % 2 == 1) {
 			this.setBackground(ChessGUI.gameParameters.blackTileColor);
 		} else {
-			this.setBackground(Color.WHITE);
+			this.setBackground(ChessGUI.gameParameters.whiteTileColor);
 		}
 		
 	}

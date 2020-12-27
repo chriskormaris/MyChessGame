@@ -185,11 +185,11 @@ public class SettingsWindow extends JFrame {
 		
 		if (selectedBlackTileColor == Constants.DARK_GREEN)
 			black_tile_color_drop_down.setSelectedIndex(0);
-		else if (selectedBlackTileColor == Color.DARK_GRAY)
-			black_tile_color_drop_down.setSelectedIndex(1);
-		else if (selectedBlackTileColor == Color.GRAY)
-			black_tile_color_drop_down.setSelectedIndex(2);
 		else if (selectedBlackTileColor == Color.BLACK)
+			black_tile_color_drop_down.setSelectedIndex(1);
+		else if (selectedBlackTileColor == Color.DARK_GRAY)
+			black_tile_color_drop_down.setSelectedIndex(2);
+		else if (selectedBlackTileColor == Color.GRAY)
 			black_tile_color_drop_down.setSelectedIndex(3);
 		
 		spinnerModel.setValue(numOfRows);
@@ -277,11 +277,11 @@ public class SettingsWindow extends JFrame {
 					if (blackTileColorDropdownIndex == 0) {
 						blackTileColor = Constants.DARK_GREEN;
 					} else if (blackTileColorDropdownIndex == 1) {
-						blackTileColor = Color.DARK_GRAY;
-					} else if (blackTileColorDropdownIndex == 2) {
-						blackTileColor = Color.GRAY;
-					} else if (blackTileColorDropdownIndex == 3) {
 						blackTileColor = Color.BLACK;
+					} else if (blackTileColorDropdownIndex == 2) {
+						blackTileColor = Color.DARK_GRAY;
+					} else if (blackTileColorDropdownIndex == 3) {
+						blackTileColor = Color.GRAY;
 					}
 					
 					// Change game parameters based on the settings.
