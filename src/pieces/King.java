@@ -72,7 +72,7 @@ public class King extends ChessPiece {
 		}
 
 		// Right position
-		if (column + 1 < Constants.NUM_OF_COLUMNS) {
+		if (column + 1 < Constants.DEFAULT_NUM_OF_COLUMNS) {
 			newRow = row;
 			newColumn = column + 1;
 			newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
@@ -106,7 +106,7 @@ public class King extends ChessPiece {
 		}
 
 		// Upper right diagonal position
-		if (row + 1 < chessBoard.getNumOfRows() && column + 1 < Constants.NUM_OF_COLUMNS) {
+		if (row + 1 < chessBoard.getNumOfRows() && column + 1 < Constants.DEFAULT_NUM_OF_COLUMNS) {
 			newRow = row + 1;
 			newColumn = column + 1;
 			newPosition = Utilities.getPositionByRowCol(newRow, newColumn);

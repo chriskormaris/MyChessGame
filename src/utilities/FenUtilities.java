@@ -108,9 +108,9 @@ public class FenUtilities {
 	
 	
 	public static ChessPiece[][] createGameBoard(ChessBoard chessBoard, String startingPieces) {
-		ChessPiece[][] gameBoard = new ChessPiece[chessBoard.getNumOfRows()][Constants.NUM_OF_COLUMNS];
+		ChessPiece[][] gameBoard = new ChessPiece[chessBoard.getNumOfRows()][Constants.DEFAULT_NUM_OF_COLUMNS];
         for (int i=0; i<chessBoard.getNumOfRows(); i++) {
-            for (int j=0; j<Constants.NUM_OF_COLUMNS; j++) {
+            for (int j=0; j<Constants.DEFAULT_NUM_OF_COLUMNS; j++) {
             	gameBoard[i][j] = new EmptyTile();
             }
 		}
@@ -121,7 +121,7 @@ public class FenUtilities {
 			char pieceChar = startingPieces.charAt(counter);
 			// System.out.println("counter: " + counter + ", pieceChar: " + pieceChar);
 			
-			j = j % Constants.NUM_OF_COLUMNS;
+			j = j % Constants.DEFAULT_NUM_OF_COLUMNS;
 
 			if (Character.isDigit(pieceChar)) {
 				j = j + Character.getNumericValue(pieceChar);

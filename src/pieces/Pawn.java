@@ -93,7 +93,7 @@ public class Pawn extends ChessPiece {
 			}
 			
 			// One step diagonally forward right.
-			if (column < Constants.NUM_OF_COLUMNS - 1) {
+			if (column < Constants.DEFAULT_NUM_OF_COLUMNS - 1) {
 				if (chessPiece.getAllegiance() == Allegiance.WHITE)
 					newRow = row + 1;
 				else if (chessPiece.getAllegiance() == Allegiance.BLACK)
@@ -158,7 +158,7 @@ public class Pawn extends ChessPiece {
 			}
 			
 			// One step diagonally forward right.
-			if (column < Constants.NUM_OF_COLUMNS-1) {
+			if (column < Constants.DEFAULT_NUM_OF_COLUMNS-1) {
 				if (chessPiece.getAllegiance() == Allegiance.WHITE)
 					newRow = row + 1;
 				if (chessPiece.getAllegiance() == Allegiance.BLACK)

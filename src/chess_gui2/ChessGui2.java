@@ -26,7 +26,7 @@ public class ChessGui2 extends JPanel {
 	private final static String title = "My Chess Game GUI 2";
 
 	private static int numOfRows = ChessGUI.gameParameters.numOfRows;
-	private final static int numOfColumns = Constants.NUM_OF_COLUMNS;
+	private final static int numOfColumns = Constants.DEFAULT_NUM_OF_COLUMNS;
 
 	private final static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	

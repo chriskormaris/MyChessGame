@@ -74,7 +74,7 @@ public class Knight extends ChessPiece {
 		 k
 		
 		*/
-		if (row < chessBoard.getNumOfRows()-2 && column < Constants.NUM_OF_COLUMNS-1) {
+		if (row < chessBoard.getNumOfRows()-2 && column < Constants.DEFAULT_NUM_OF_COLUMNS-1) {
 			newRow = row + 2;
 			newColumn = column + 1;
 			newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
@@ -118,7 +118,7 @@ public class Knight extends ChessPiece {
 		 ——
 		
 		*/
-		if (row >= 2 && column < Constants.NUM_OF_COLUMNS-1) {
+		if (row >= 2 && column < Constants.DEFAULT_NUM_OF_COLUMNS-1) {
 			newRow = row - 2;
 			newColumn = column + 1;
 			newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
@@ -152,7 +152,7 @@ public class Knight extends ChessPiece {
 		2 steps right and 1 step forward
 		k __ __|
 		*/
-		if (row < chessBoard.getNumOfRows()-1 && column < Constants.NUM_OF_COLUMNS-2) {
+		if (row < chessBoard.getNumOfRows()-1 && column < Constants.DEFAULT_NUM_OF_COLUMNS-2) {
 			newRow = row + 1;
 			newColumn = column + 2;
 			newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
@@ -188,7 +188,7 @@ public class Knight extends ChessPiece {
 		k __ __
 		       |
 		*/
-		if (row >= 1 && column < Constants.NUM_OF_COLUMNS-2) {
+		if (row >= 1 && column < Constants.DEFAULT_NUM_OF_COLUMNS-2) {
 			newRow = row - 1;
 			newColumn = column + 2;
 			newPosition = Utilities.getPositionByRowCol(newRow, newColumn);

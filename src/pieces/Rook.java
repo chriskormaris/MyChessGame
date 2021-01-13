@@ -84,8 +84,8 @@ public class Rook extends ChessPiece {
 		}
 		
 		// Find all the right positions.
-		for (int j=column+1; j<Constants.NUM_OF_COLUMNS; j++) {
-			if (column < Constants.NUM_OF_COLUMNS) {
+		for (int j=column+1; j<Constants.DEFAULT_NUM_OF_COLUMNS; j++) {
+			if (column < Constants.DEFAULT_NUM_OF_COLUMNS) {
 				
 				newRow = row;
 				newColumn = j;

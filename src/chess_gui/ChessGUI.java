@@ -74,7 +74,7 @@ public class ChessGUI {
 	
 	private final static String TITLE = "My Chess Game";
 	
-	private final static int NUM_OF_COLUMNS = Constants.NUM_OF_COLUMNS;
+	private final static int NUM_OF_COLUMNS = Constants.DEFAULT_NUM_OF_COLUMNS;
 	
 	private final static Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
 	
@@ -1808,7 +1808,7 @@ public class ChessGUI {
 	
 	public static void placePiecesToChessBoard() {
 		
-		for (int j=0; j<Constants.NUM_OF_COLUMNS; j++) {
+		for (int j=0; j<Constants.DEFAULT_NUM_OF_COLUMNS; j++) {
 			// System.out.println("test: " + ((char) (65 + j) + "2"));
 			placePieceToPosition((char) (65 + j) + "2", new Pawn(Allegiance.WHITE));
 		}
@@ -1838,7 +1838,7 @@ public class ChessGUI {
 		String rightWhiteRookPosition = "H1";
 		placePieceToPosition(rightWhiteRookPosition, new Rook(Allegiance.WHITE));
 		
-		for (int j=0; j<Constants.NUM_OF_COLUMNS; j++) {
+		for (int j=0; j<Constants.DEFAULT_NUM_OF_COLUMNS; j++) {
 			placePieceToPosition((char) (65 + j) + (chessBoard.getNumOfRows() - 1 + ""), 
 					new Pawn(Allegiance.BLACK));
 		}
@@ -1887,7 +1887,7 @@ public class ChessGUI {
 		}
 		
 		for (int i=0; i<chessBoard.getNumOfRows(); i++) {
-			for (int j=0; j<Constants.NUM_OF_COLUMNS; j++) {
+			for (int j=0; j<Constants.DEFAULT_NUM_OF_COLUMNS; j++) {
 				String piecePosition = Utilities.getPositionByRowCol(i, j);
 				placePieceToPosition(piecePosition, chessBoard.getGameBoard()[i][j]);
 			}

@@ -29,7 +29,7 @@ import utilities.Utilities;
 public class ChessBoard {
 
 	private int numOfRows;
-	private final static int NUM_OF_COLUMNS = Constants.NUM_OF_COLUMNS;
+	private final static int NUM_OF_COLUMNS = Constants.DEFAULT_NUM_OF_COLUMNS;
 
     /* Immediate move that led to this board. */
     private Move lastMove;

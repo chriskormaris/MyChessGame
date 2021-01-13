@@ -16,7 +16,7 @@ public class Constants {
 	public final static int DEFAULT_NUM_OF_ROWS = 8;
 	
 	/* the number of columns, (this should always be 8) */
-	public final static int NUM_OF_COLUMNS = 8;  
+	public final static int DEFAULT_NUM_OF_COLUMNS = 8;  
 	
 	public final static int NO_PIECE_CAPTURE_DRAW_HALFMOVES_LIMIT = 100;
 	public final static int MIDDLEGAME_HALFMOVES_THRESHOLD = 24;
