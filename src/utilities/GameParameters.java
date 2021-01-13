@@ -72,6 +72,6 @@ public class GameParameters {
 	// public Color blackTileColor = Color.DARK_GRAY;
 	// public Color blackTileColor = Color.GRAY;
 
-	public int numOfRows = 8;  // the number of rows
+	public int numOfRows = Constants.DEFAULT_NUM_OF_ROWS;  // the number of rows
 
 }
