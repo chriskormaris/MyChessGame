@@ -61,8 +61,8 @@ public class GameParameters {
 	public AiType aiType = AiType.MINIMAX_AI;
 	// public static AiType aiType = AiType.RANDOM_AI;
 	
-	public int maxDepth1 = 1;
-	public int maxDepth2 = 1;
+	public int maxDepth1 = Constants.DEFAULT_MAX_DEPTH;
+	public int maxDepth2 = Constants.DEFAULT_MAX_DEPTH;
 	
 	public Color whiteTileColor = Color.WHITE;
 	// public Color whiteTileColor = Color.PINK;
