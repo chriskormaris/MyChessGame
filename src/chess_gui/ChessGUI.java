@@ -652,7 +652,7 @@ public class ChessGUI {
 				int column;
 				if (gameParameters.gameMode == GameMode.HUMAN_VS_AI && gameParameters.humanPlayerAllegiance == Allegiance.BLACK) {
 					row = i;
-					column = 7 - j;
+					column = Constants.DEFAULT_NUM_OF_COLUMNS - 1 - j;
 				} else {
 					row = chessBoard.getNumOfRows() - 1 - i;
 					column = j;
