@@ -642,8 +642,11 @@ public class ChessGUI {
 				Color color = getColorByRowCol(i, j);
 				
 				button.setBackground(color);
-				button.setOpaque(true);
+				
 				// button.setBorderPainted(false);
+				button.setFocusPainted(false);
+				// button.setRolloverEnabled(true);
+				// button.setOpaque(false);
 				
 				int row;
 				int column;
