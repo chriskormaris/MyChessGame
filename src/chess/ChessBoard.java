@@ -1838,10 +1838,6 @@ public class ChessBoard {
 		return numOfRows;
 	}
 
-	public void setNumOfRows(int numOfRows) {
-		this.numOfRows = numOfRows;
-	}
-
 	public int getHalfmoveClock() {
 		return halfmoveClock;
 	}
