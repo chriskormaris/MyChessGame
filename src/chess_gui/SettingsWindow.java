@@ -258,7 +258,7 @@ public class SettingsWindow extends JFrame {
 					boolean enableSounds = enable_sounds_check_box.isSelected();
 					Allegiance humanPlayerAllegiance = Allegiance.valueOf(human_player_allegiance_drop_down.getSelectedItem().toString().toUpperCase());
 					GameMode gameMode = GameMode.valueOf(game_mode_drop_down.getSelectedItem().toString().toUpperCase().replace(" ", "_"));
-					AiType aiMode = AiType.valueOf(ai_type_drop_down.getSelectedItem().toString().toUpperCase().replace(" ", "_"));
+					AiType aiType = AiType.valueOf(ai_type_drop_down.getSelectedItem().toString().toUpperCase().replace(" ", "_"));
 					int maxDepth1 = (int) max_depth1_drop_down.getSelectedItem();
 					int maxDepth2 = (int) max_depth2_drop_down.getSelectedItem();
 					int whiteTileColorDropdownIndex = white_tile_color_drop_down.getSelectedIndex();
@@ -286,7 +286,7 @@ public class SettingsWindow extends JFrame {
 					
 					// Change game parameters based on the settings.
 					ChessGUI.newGameParameters = new GameParameters(guiStyle, enableSounds, humanPlayerAllegiance,
-							gameMode, aiMode, maxDepth1, maxDepth2, whiteTileColor, blackTileColor, numOfRows); 
+							gameMode, aiType, maxDepth1, maxDepth2, whiteTileColor, blackTileColor, numOfRows); 
 					
 					JOptionPane.showMessageDialog(ChessGUI.frame,
 							"Game settings have been changed.\nThe changes will be applied in the next new game.",
