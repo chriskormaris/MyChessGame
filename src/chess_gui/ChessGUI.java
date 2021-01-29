@@ -41,7 +41,6 @@ import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import chess.ChessBoard;
@@ -588,7 +587,7 @@ public class ChessGUI {
 	public final void initializeGui() {
 		
 		// Set up the main GUI.
-		gui.setBorder(new EmptyBorder(5, 5, 5, 5));
+		// gui.setBorder(new EmptyBorder(0,0,0,0));
 		gui.setLayout(new BoxLayout(gui, BoxLayout.Y_AXIS));
 		
 		JToolBar tools = new JToolBar();
