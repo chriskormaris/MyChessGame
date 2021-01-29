@@ -24,6 +24,8 @@ public class Constants {
 	public final static int NO_PIECE_CAPTURE_DRAW_HALFMOVES_LIMIT = 100;
 	public final static int MIDDLEGAME_HALFMOVES_THRESHOLD = 24;
 	
+	public final static int AI_MOVE_MILLISECONDS = 250;
+	
 	public final static Color BRIGHT_PINK = new Color(240, 207, 207);
 	public final static Color DARK_GREEN = new Color(37, 82, 59);
 	

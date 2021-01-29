@@ -1630,7 +1630,7 @@ public class ChessGUI {
 				frame.paint(frame.getGraphics());
 				frame.revalidate();
 				frame.repaint();
-				Thread.sleep(250);
+				Thread.sleep(Constants.AI_MOVE_MILLISECONDS);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -1660,7 +1660,7 @@ public class ChessGUI {
 					frame.paint(frame.getGraphics());
 					frame.revalidate();
 					frame.repaint();
-					Thread.sleep(250);
+					Thread.sleep(Constants.AI_MOVE_MILLISECONDS);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
