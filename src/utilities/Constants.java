@@ -1,6 +1,8 @@
 package utilities;
 
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 
 public class Constants {
 	
@@ -8,8 +10,12 @@ public class Constants {
 	
 	public final static double VERSION = 4.3;
 	
+	public final static Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
+	
+	public final static int DEFAULT_HEIGHT = (int) SCREEN_SIZE.getHeight() - 60;
+	public final static int DEFAULT_WIDTH = DEFAULT_HEIGHT + 40;
+	
 	public final static int CHESS_SQUARE_PIXEL_SIZE = 48;
-
 	public final static int CAPTURED_PIECE_PIXEL_SIZE = 16;
 	
 	/* the default number of rows, (this may not always be 8) */

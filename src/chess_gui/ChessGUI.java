@@ -8,7 +8,6 @@ import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Insets;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -75,10 +74,8 @@ public class ChessGUI {
 	
 	private final static int NUM_OF_COLUMNS = Constants.DEFAULT_NUM_OF_COLUMNS;
 	
-	private final static Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
-	
-	private final static int HEIGHT = (int) SCREEN_SIZE.getHeight() - 60;
-	private final static int WIDTH = HEIGHT + 40;
+	private static int HEIGHT = Constants.DEFAULT_HEIGHT;
+	private static int WIDTH = Constants.DEFAULT_WIDTH;
 	
 	public static JFrame frame = new JFrame(TITLE);
 	public static JPanel gui = new JPanel();
@@ -187,7 +184,7 @@ public class ChessGUI {
 		// ensures the minimum size is enforced.
 		frame.setMinimumSize(frame.getSize());
 		
-		frame.setLocation((int) (SCREEN_SIZE.getWidth() - frame.getWidth()) / 2, 5);
+		frame.setLocation((int) (Constants.SCREEN_SIZE.getWidth() - frame.getWidth()) / 2, 5);
 		
 		frame.setResizable(false);
 		// frame.setFocusable(true);
