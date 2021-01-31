@@ -8,32 +8,32 @@ public class Constants {
 	
 	private Constants() { }  // Prevents instantiation.
 	
-	public final static double VERSION = 4.3;
+	public static final double VERSION = 4.4;
 	
-	public final static Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
+	public static final Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
 	
-	public final static int DEFAULT_HEIGHT = (int) SCREEN_SIZE.getHeight() - 60;
-	public final static int DEFAULT_WIDTH = DEFAULT_HEIGHT + 40;
+	public static final int DEFAULT_HEIGHT = (int) SCREEN_SIZE.getHeight() - 60;
+	public static final int DEFAULT_WIDTH = DEFAULT_HEIGHT + 40;
 	
-	public final static int CHESS_SQUARE_PIXEL_SIZE = 48;
-	public final static int CAPTURED_PIECE_PIXEL_SIZE = 16;
+	public static final int CHESS_SQUARE_PIXEL_SIZE = 48;
+	public static final int CAPTURED_PIECE_PIXEL_SIZE = 16;
 	
 	/* the default number of rows, (this may not always be 8) */
-	public final static int DEFAULT_NUM_OF_ROWS = 8;
+	public static final int DEFAULT_NUM_OF_ROWS = 8;
 	
 	/* the number of columns, (this should always be 8) */
-	public final static int DEFAULT_NUM_OF_COLUMNS = 8;
+	public static final int DEFAULT_NUM_OF_COLUMNS = 8;
 	
 	/* this could be 1, 2 or 3 at maximum */
-	public final static int DEFAULT_MAX_DEPTH = 1;
+	public static final int DEFAULT_MAX_DEPTH = 1;
 	
-	public final static int NO_PIECE_CAPTURE_DRAW_HALFMOVES_LIMIT = 100;
-	public final static int MIDDLEGAME_HALFMOVES_THRESHOLD = 24;
+	public static final int NO_PIECE_CAPTURE_DRAW_HALFMOVES_LIMIT = 100;
+	public static final int MIDDLEGAME_HALFMOVES_THRESHOLD = 24;
 	
-	public final static int AI_MOVE_MILLISECONDS = 250;
+	public static final int AI_MOVE_MILLISECONDS = 250;
 	
-	public final static Color BRIGHT_PINK = new Color(240, 207, 207);
-	public final static Color DARK_GREEN = new Color(37, 82, 59);
+	public static final Color BRIGHT_PINK = new Color(240, 207, 207);
+	public static final Color DARK_GREEN = new Color(37, 82, 59);
 	
 	// NOT USED
 	/*
@@ -49,63 +49,63 @@ public class Constants {
     };
     */
 	
-	public final static boolean WHITE = true;
-	public final static boolean BLACK = false;
+	public static final boolean WHITE = true;
+	public static final boolean BLACK = false;
 		
-	public final static char WHITE_PAWN = 'P';
-	public final static char WHITE_KNIGHT = 'N';
-	public final static char WHITE_BISHOP = 'B';
-	public final static char WHITE_ROOK = 'R';
-	public final static char WHITE_QUEEN = 'Q';
-	public final static char WHITE_KING = 'K';
+	public static final char WHITE_PAWN = 'P';
+	public static final char WHITE_KNIGHT = 'N';
+	public static final char WHITE_BISHOP = 'B';
+	public static final char WHITE_ROOK = 'R';
+	public static final char WHITE_QUEEN = 'Q';
+	public static final char WHITE_KING = 'K';
 
-	public final static char BLACK_PAWN = 'p';
-	public final static char BLACK_KNIGHT = 'n';
-	public final static char BLACK_BISHOP = 'b';
-	public final static char BLACK_ROOK = 'r';
-	public final static char BLACK_QUEEN = 'q';
-	public final static char BLACK_KING = 'k';
+	public static final char BLACK_PAWN = 'p';
+	public static final char BLACK_KNIGHT = 'n';
+	public static final char BLACK_BISHOP = 'b';
+	public static final char BLACK_ROOK = 'r';
+	public static final char BLACK_QUEEN = 'q';
+	public static final char BLACK_KING = 'k';
 	
-	public final static String ICON_PATH = "images/icon.png";
+	public static final String ICON_PATH = "images/icon.png";
 	
-	public final static String WHITE_IMG_PATH = "images/white/";
+	public static final String WHITE_IMG_PATH = "images/white/";
 	
-	public final static String WHITE_PAWN_IMG_PATH = WHITE_IMG_PATH + "pawn.png";
-	public final static String WHITE_ROOK_IMG_PATH = WHITE_IMG_PATH + "rook.png";
-	public final static String WHITE_KNIGHT_IMG_PATH = WHITE_IMG_PATH + "knight.png";
-	public final static String WHITE_BISHOP_IMG_PATH = WHITE_IMG_PATH + "bishop.png";
-	public final static String WHITE_QUEEN_IMG_PATH = WHITE_IMG_PATH + "queen.png";
-	public final static String WHITE_KING_IMG_PATH = WHITE_IMG_PATH + "king.png";
+	public static final String WHITE_PAWN_IMG_PATH = WHITE_IMG_PATH + "pawn.png";
+	public static final String WHITE_ROOK_IMG_PATH = WHITE_IMG_PATH + "rook.png";
+	public static final String WHITE_KNIGHT_IMG_PATH = WHITE_IMG_PATH + "knight.png";
+	public static final String WHITE_BISHOP_IMG_PATH = WHITE_IMG_PATH + "bishop.png";
+	public static final String WHITE_QUEEN_IMG_PATH = WHITE_IMG_PATH + "queen.png";
+	public static final String WHITE_KING_IMG_PATH = WHITE_IMG_PATH + "king.png";
 
-	public final static String BLACK_IMG_PATH = "images/black/";
+	public static final String BLACK_IMG_PATH = "images/black/";
 
-	public final static String BLACK_PAWN_IMG_PATH = BLACK_IMG_PATH + "pawn.png";
-	public final static String BLACK_ROOK_IMG_PATH = BLACK_IMG_PATH + "rook.png";
-	public final static String BLACK_KNIGHT_IMG_PATH = BLACK_IMG_PATH + "knight.png";
-	public final static String BLACK_BISHOP_IMG_PATH = BLACK_IMG_PATH + "bishop.png";
-	public final static String BLACK_QUEEN_IMG_PATH = BLACK_IMG_PATH + "queen.png";
-	public final static String BLACK_KING_IMG_PATH = BLACK_IMG_PATH + "king.png";
+	public static final String BLACK_PAWN_IMG_PATH = BLACK_IMG_PATH + "pawn.png";
+	public static final String BLACK_ROOK_IMG_PATH = BLACK_IMG_PATH + "rook.png";
+	public static final String BLACK_KNIGHT_IMG_PATH = BLACK_IMG_PATH + "knight.png";
+	public static final String BLACK_BISHOP_IMG_PATH = BLACK_IMG_PATH + "bishop.png";
+	public static final String BLACK_QUEEN_IMG_PATH = BLACK_IMG_PATH + "queen.png";
+	public static final String BLACK_KING_IMG_PATH = BLACK_IMG_PATH + "king.png";
 	
-	public final static double PAWN_VALUE = 1;
-	public final static double KNIGHT_VALUE = 3;
-	public final static double BISHOP_VALUE = 3;
-	public final static double ROOK_VALUE = 5;
-	public final static double QUEEN_VALUE = 9;
-	// public final static double KING_VALUE = 10;
+	public static final double PAWN_VALUE = 1;
+	public static final double KNIGHT_VALUE = 3;
+	public static final double BISHOP_VALUE = 3;
+	public static final double ROOK_VALUE = 5;
+	public static final double QUEEN_VALUE = 9;
+	// public static final double KING_VALUE = 10;
 
-	public final static double PAWN_LATE_VALUE = 1;
-	public final static double KNIGHT_LATE_VALUE = 3.5;
-	public final static double BISHOP_LATE_VALUE = 3.5;
-	public final static double ROOK_LATE_VALUE = 5.25;
-	public final static double QUEEN_LATE_VALUE = 10;
-	// public final static double KING_LATE_VALUE = 100;
+	public static final double PAWN_LATE_VALUE = 1;
+	public static final double KNIGHT_LATE_VALUE = 3.5;
+	public static final double BISHOP_LATE_VALUE = 3.5;
+	public static final double ROOK_LATE_VALUE = 5.25;
+	public static final double QUEEN_LATE_VALUE = 10;
+	// public static final double KING_LATE_VALUE = 100;
 	
-	public final static double MOBILITY_MULTIPLIER = 2;
-	// public final static double ATTACK_MULTIPLIER = 2;
-	public final static double CHECKMATE_VALUE = Integer.MAX_VALUE;
-	public final static double CHECK_VALUE = 50;
-	public final static double CHECK_LATE_VALUE = 100;
-	public final static double CASTLING_VALUE = 60;
-	public final static double TWO_BISHOPS_VALUE = 10;
+	public static final double MOBILITY_MULTIPLIER = 2;
+	// public static final double ATTACK_MULTIPLIER = 2;
+	public static final double CHECKMATE_VALUE = Integer.MAX_VALUE;
+	public static final double CHECK_VALUE = 50;
+	public static final double CHECK_LATE_VALUE = 100;
+	public static final double CASTLING_VALUE = 60;
+	public static final double TWO_BISHOPS_VALUE = 10;
 
 }
