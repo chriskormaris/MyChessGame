@@ -326,7 +326,7 @@ public class ChessGUI {
 		howToPlayItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(null,
-						"The game of chess is strictly played by 2 players, and consists of 16 White and 16 Black pieces.\n"
+						"The game of chess is strictly played by 2 players and consists of 16 White and 16 Black pieces.\n"
 						+ "There are 6 different chess piece types: 1) King, 2) Rook, 3) Bishop, 4) Queen, 5) Knight & 6) Pawn. White always plays first.\n"
 						+ "A chess piece can only move to an empty tile or take the place of an opponent's chess piece, by capturing it.\n"
 						+ "However, no chess piece can't jump over other chess pieces, unless it is a Knight.\n"
