@@ -700,6 +700,7 @@ public class ChessGUI {
 				}
 				
 				button.addActionListener(new ActionListener() {
+					@Override
 					public void actionPerformed(ActionEvent e) {
 						chessButtonClick(row, column, button);
 					}
@@ -1983,6 +1984,7 @@ public class ChessGUI {
 				
 				int column = j;
 				button.addActionListener(new ActionListener() {
+					@Override
 					public void actionPerformed(ActionEvent e) {
 						chessButtonClick(row, column, button);
 					}
