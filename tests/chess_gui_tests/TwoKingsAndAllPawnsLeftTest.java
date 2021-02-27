@@ -19,13 +19,14 @@ class TwoKingsAndAllPawnsLeftTest {
 		@SuppressWarnings("unused")
 		ChessGUI cbg = new ChessGUI(title);
 		
-		// This position is considered a draw!
+		// These positions are considered a draw!
 		// Each king is stuck in his side.
 		// String fenPosition = "4k3/8/1p2p4/pP1pPp1p/P1pP1PpP/2P3P1/8/4K3 w KQ - 0 1";
+		String fenPosition = "4k3/8/8/p2p2p1/P2P2P1/8/8/4K3 w KQ - 0 1";
 		
 		// This position is NOT considered a draw!
 		// There is an opening between the pawns, from where the kings can pass to the other side.
-		String fenPosition = "4k3/1p6/pP2p4/P2pPp1p/2pP1PpP/2P3P1/8/4K3 w KQ - 0 1";
+		// String fenPosition = "4k3/1p6/pP2p4/P2pPp1p/2pP1PpP/2P3P1/8/4K3 w KQ - 0 1";
 		
 		ChessGUI.placePiecesToChessBoard(fenPosition);
 
