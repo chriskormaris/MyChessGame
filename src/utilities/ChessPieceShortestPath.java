@@ -26,6 +26,8 @@ public class ChessPieceShortestPath {
 		List<List<BfsPosition>> solutionPaths = new ArrayList<List<BfsPosition>>();
 		List<BfsPosition> lastBfsPositions = new ArrayList<BfsPosition>();
 		
+		int[][] visitedChessBoard = new int[8][8];
+		
         LinkedList<BfsPosition> queue = new LinkedList<BfsPosition>();
 		
         int depth = 0;
@@ -37,7 +39,7 @@ public class ChessPieceShortestPath {
 		queue.add(startingBfsPosition);
 		String currentPosition = null;
 		
-		while (depth <= maxDepth) {
+		while (queue.size() != 0 && depth <= maxDepth) {
 			
 			if (currentPosition != null) {
 				int previousRow = Utilities.getRowFromPosition(currentPosition);
@@ -45,55 +47,59 @@ public class ChessPieceShortestPath {
 				currentChessBoard.getGameBoard()[previousRow][previousColumn] = new EmptyTile();
 			}
 			
-			// Get the first item of the queue and remove it.
+			// Get the first item of the queue and reBfsPosition it.
 			BfsPosition currentBfsPosition = queue.poll();
 			
 			currentPosition = currentBfsPosition.getPosition();
 			depth = currentBfsPosition.getDepth();
 			
+			int row = currentBfsPosition.getRow();
+			int column = currentBfsPosition.getColumn();
+			
 			// System.out.println("current position: " + currentBfsPosition);
 			
 			if (currentPosition.equals(endingPosition)) {
-				lastBfsPositions.add(currentBfsPosition);
 				// System.out.println("position reached: " + currentPosition + ", depth: " + depth);
+				lastBfsPositions.add(currentBfsPosition);
 			}
 			
-			Set<String> nextPositions;
-			if (currentBfsPosition.getParentBfsPosition() != null) {
-				int currentRow = Utilities.getRowFromPosition(currentPosition);
-				int currentColumn = Utilities.getColumnFromPosition(currentPosition);
-				currentChessBoard.getGameBoard()[currentRow][currentColumn] = piece;
-				if (piece instanceof King) {
-					if (piece.getAllegiance() == Allegiance.WHITE) {
-						currentChessBoard.setWhiteKingPosition(currentPosition);
-					} else if (piece.getAllegiance() == Allegiance.BLACK) {
-						currentChessBoard.setBlackKingPosition(currentPosition);
-					}
-				}
-				nextPositions = piece.getNextPositions(currentPosition, currentChessBoard, false);
-			} else {
-				nextPositions = piece.getNextPositions(currentPosition, currentChessBoard, false);
-			}
-			
-			// Remove the parent BfsPosition (if exists), from the children positions.
-			if (currentBfsPosition.getParentBfsPosition() != null)
-				nextPositions.remove(currentBfsPosition.getParentBfsPosition().getPosition());
-			// System.out.println("nextPositions: " + nextPositions);
-
-			for (String candidatePosition: nextPositions) {
-				// System.out.println("candidate position: " + candidatePosition + ", depth: " + (depth + 1));
-
-				int candidateRow = Utilities.getRowFromPosition(candidatePosition);
-				int candidateColumn = Utilities.getColumnFromPosition(candidatePosition);
-				BfsPosition candidateBfsPosition = new BfsPosition(candidatePosition, candidateRow, candidateColumn, depth + 1);
-				candidateBfsPosition.setParentBfsPosition(currentBfsPosition);
+			if (visitedChessBoard[row][column] == 0) {
+				visitedChessBoard[row][column] = 1;
 				
-				queue.add(candidateBfsPosition);
-			}
-			// System.out.println("*********************");
-						
-		}
+				Set<String> nextPositions;
+				if (currentBfsPosition.getParentBfsPosition() != null) {
+					int currentRow = Utilities.getRowFromPosition(currentPosition);
+					int currentColumn = Utilities.getColumnFromPosition(currentPosition);
+					currentChessBoard.getGameBoard()[currentRow][currentColumn] = piece;
+					if (piece instanceof King) {
+						if (piece.getAllegiance() == Allegiance.WHITE) {
+							currentChessBoard.setWhiteKingPosition(currentPosition);
+						} else if (piece.getAllegiance() == Allegiance.BLACK) {
+							currentChessBoard.setBlackKingPosition(currentPosition);
+						}
+					}
+					nextPositions = piece.getNextPositions(currentPosition, currentChessBoard, false);
+				} else {
+					nextPositions = piece.getNextPositions(currentPosition, currentChessBoard, false);
+				}
+				// System.out.println("nextPositions: " + nextPositions);
+			
+				for (String candidatePosition: nextPositions) {
+					// System.out.println("candidate position: " + candidatePosition + ", depth: " + (depth + 1));
 	
+					int candidateRow = Utilities.getRowFromPosition(candidatePosition);
+					int candidateColumn = Utilities.getColumnFromPosition(candidatePosition);
+					BfsPosition candidateBfsPosition = new BfsPosition(candidatePosition, candidateRow, candidateColumn, depth + 1);
+					candidateBfsPosition.setParentBfsPosition(currentBfsPosition);
+					
+					queue.add(candidateBfsPosition);
+				}
+				
+			}
+			// System.out.println("depth: " + depth);
+			// System.out.println("*********************");
+		}
+		
 		for (BfsPosition lastBfsPosition: lastBfsPositions) {
 			List<BfsPosition> solutionPath = ChessPieceShortestPath.backtrack(lastBfsPosition);
 			solutionPaths.add(solutionPath);

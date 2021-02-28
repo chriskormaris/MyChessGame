@@ -1419,12 +1419,10 @@ public class ChessBoard {
 		}
 		
 		// NOTICE: This may be slow!
-		/*
 		boolean isDeadDrawGame = checkForDeadGameDraw();
 		if (isDeadDrawGame) {
     		this.isInsufficientMaterialDraw = true;
     	}
-    	*/
 		
 		return this.isInsufficientMaterialDraw;
 	}
@@ -1455,14 +1453,10 @@ public class ChessBoard {
 			}
 	        
 	        if (isDeadDrawGame) {
-	        	// Run algorithm to find if the White king can get to position "Α6" or "A8" 
+	        	// Run algorithm to find if the White king can get to position "A8" 
 	        	// in the given number of moves (max depth).
 	        	isDeadDrawGame = !ChessPieceShortestPath.canGoToPosition(this, new King(Allegiance.WHITE),
-	        								whiteKingPosition, "A6", Constants.DEAD_DRAW_MAX_BFS_DEPTH);
-	        	if (isDeadDrawGame) {
-		        	isDeadDrawGame = !ChessPieceShortestPath.canGoToPosition(this, new King(Allegiance.WHITE),
-							whiteKingPosition, "A8", Constants.DEAD_DRAW_MAX_BFS_DEPTH+1);
-	        	}
+	        								whiteKingPosition, "A8", Constants.DEAD_DRAW_MAX_BFS_DEPTH);
 	        }
 			
 		} else {

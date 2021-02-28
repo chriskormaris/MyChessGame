@@ -30,7 +30,7 @@ public class Constants {
 	public static final int NO_PIECE_CAPTURE_DRAW_HALFMOVES_LIMIT = 100;
 	public static final int MIDDLEGAME_HALFMOVES_THRESHOLD = 24;
 	
-	public static final int DEAD_DRAW_MAX_BFS_DEPTH = 7;
+	public static final int DEAD_DRAW_MAX_BFS_DEPTH = 15;
 	
 	public static final int AI_MOVE_MILLISECONDS = 250;
 	

@@ -29,11 +29,11 @@ class TwoKingsAndAllPawnsLeftTest {
 		// These FEN positions are NOT considered a draw!
 		// There is an opening between the pawns, from where the kings can pass to the other side.
 		// String fenPosition = "4k3/8/8/3p2p1/3P2P1/8/8/4K3 w KQ - 0 1";
-		// String fenPosition = "4k3/1p6/pP2p4/P2pPp1p/2pP1PpP/2P3P1/8/7K w KQ - 0 1";
+		String fenPosition = "4k3/1p6/pP2p4/P2pPp1p/2pP1PpP/2P3P1/8/7K w KQ - 0 1";
 		
 		// The following FEN position is not a draw, but it will end up in a draw
 		// if the White pawn is moved!
-		String fenPosition = "4k3/8/8/p2p2p1/3P2P1/P7/8/4K3 w KQ - 0 1";
+		// String fenPosition = "4k3/8/8/p2p2p1/3P2P1/P7/8/4K3 w KQ - 0 1";
 
 		ChessGUI.placePiecesToChessBoard(fenPosition);
 		
@@ -42,6 +42,7 @@ class TwoKingsAndAllPawnsLeftTest {
 		System.out.println("Checking if a draw has occurred...");
 		ChessGUI.checkForGameOver();
 		boolean isDraw = ChessGUI.chessBoard.isInsufficientMaterialDraw();
+		System.out.println((isDraw) ? "The game is a draw!" : "The game is NOT a draw!");
 		assertTrue("The game is NOT a draw.", isDraw == false);
 		// System.out.println("*****************************");
 		// System.out.println();
