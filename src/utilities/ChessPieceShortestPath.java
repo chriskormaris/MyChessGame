@@ -105,95 +105,6 @@ public class ChessPieceShortestPath {
 	}
 	
 	
-	// It runs the simple BFS algorithm.
-	// It returns true if the given chess piece can get from the given starting position to the given ending position, 
-	// within the specified "maxDepth".
-	public static boolean canGoToPosition(ChessBoard chessBoard, ChessPiece piece, 
-										String startingPosition, String endingPosition, int maxDepth) {
-		ChessBoard currentChessBoard = new ChessBoard(chessBoard);
-        LinkedList<BfsPosition> queue = new LinkedList<BfsPosition>();
-		
-        int depth = 0;
-        
-		int startingRow = Utilities.getRowFromPosition(startingPosition);
-		int startingColumn = Utilities.getColumnFromPosition(startingPosition);
-		BfsPosition startingBfsPosition = new BfsPosition(startingPosition, startingRow, startingColumn, depth);
-		
-		queue.add(startingBfsPosition);
-		String currentPosition = null;
-		
-		// This is used for DEBUGGING!
-		// int previousDepth = -1;
-		
-		while (depth <= maxDepth) {
-			
-			if (currentPosition != null) {
-				int previousRow = Utilities.getRowFromPosition(currentPosition);
-				int previousColumn = Utilities.getColumnFromPosition(currentPosition);
-				currentChessBoard.getGameBoard()[previousRow][previousColumn] = new EmptyTile();
-			}
-			
-			// Get the first item of the queue and remove it.
-			BfsPosition currentBfsPosition = queue.poll();
-			
-			currentPosition = currentBfsPosition.getPosition();
-			depth = currentBfsPosition.getDepth();
-			
-			// if (previousDepth != depth) System.out.println("depth: " + depth);
-			
-			// System.out.println("current position: " + currentBfsPosition);
-			
-			if (currentPosition.equals(endingPosition)) {
-				// System.out.println("position reached: " + currentPosition + ", depth: " + depth);
-				// List<BfsPosition> path = backtrack(currentBfsPosition);
-				/// System.out.println(getPathOutput(path));
-				return true;
-			}
-			
-			Set<String> nextPositions;
-			if (currentBfsPosition.getParentBfsPosition() != null) {
-				int currentRow = Utilities.getRowFromPosition(currentPosition);
-				int currentColumn = Utilities.getColumnFromPosition(currentPosition);
-				currentChessBoard.getGameBoard()[currentRow][currentColumn] = piece;
-				if (piece instanceof King) {
-					if (piece.getAllegiance() == Allegiance.WHITE) {
-						currentChessBoard.setWhiteKingPosition(currentPosition);
-					} else if (piece.getAllegiance() == Allegiance.BLACK) {
-						currentChessBoard.setBlackKingPosition(currentPosition);
-					}
-				}
-				nextPositions = piece.getNextPositions(currentPosition, currentChessBoard, false);
-			} else {
-				nextPositions = piece.getNextPositions(currentPosition, currentChessBoard, false);
-			}
-			
-			// Remove the parent BfsPosition (if exists), from the children positions.
-			if (currentBfsPosition.getParentBfsPosition() != null)
-				nextPositions.remove(currentBfsPosition.getParentBfsPosition().getPosition());
-			// System.out.println("nextPositions: " + nextPositions);
-
-			for (String candidatePosition: nextPositions) {
-				// System.out.println("candidate position: " + candidatePosition + ", depth: " + (depth + 1));
-
-				int candidateRow = Utilities.getRowFromPosition(candidatePosition);
-				int candidateColumn = Utilities.getColumnFromPosition(candidatePosition);
-				BfsPosition candidateBfsPosition = new BfsPosition(candidatePosition, candidateRow, candidateColumn, depth + 1);
-				candidateBfsPosition.setParentBfsPosition(currentBfsPosition);
-				
-				queue.add(candidateBfsPosition);
-			}
-			// System.out.println("*********************");
-			
-			// previousDepth = depth;
-			
-		}
-		
-		// System.out.println("depth: " + depth);
-		// System.out.println("***************");
-		return false;
-	}
-	
-	
 	// It runs the BFS algorithm.
 	// It returns the depth of the shortest path, if exists else it returns -1.
 	public static int getMinDepth(ChessBoard chessBoard, ChessPiece piece, 
@@ -273,8 +184,21 @@ public class ChessPieceShortestPath {
 			// System.out.println("depth: " + depth);
 			// System.out.println("*********************");
 		}
-		return -1;			
+		return -1;
 	}
+	
+
+	// It runs the simple BFS algorithm.
+	// It returns true if the given chess piece can get from the given starting position to the given ending position, 
+	// within the specified "maxDepth".
+	public static boolean canGoToPosition(ChessBoard chessBoard, ChessPiece piece, 
+										String startingPosition, String endingPosition, int maxDepth) {
+		if (getMinDepth(chessBoard, piece, startingPosition, endingPosition, maxDepth) >= 0)
+			return true;
+		else
+			return false;
+	}
+	
 	
 	public static List<BfsPosition> backtrack(BfsPosition lastBfsPosition) {
 		List<BfsPosition> solutionPath = new ArrayList<BfsPosition>();

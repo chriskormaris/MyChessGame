@@ -1418,7 +1418,7 @@ public class ChessBoard {
 			this.isInsufficientMaterialDraw = false;
 		}
 		
-		// This is slow, thus we comment it out.
+		// NOTICE: This may be slow!
 		/*
 		boolean isDeadDrawGame = checkForDeadGameDraw();
 		if (isDeadDrawGame) {
@@ -1455,10 +1455,14 @@ public class ChessBoard {
 			}
 	        
 	        if (isDeadDrawGame) {
-	        	// Implement an algorithm to find if the White king can get to position "Α8" 
+	        	// Run algorithm to find if the White king can get to position "Α6" or "A8" 
 	        	// in the given number of moves (max depth).
 	        	isDeadDrawGame = !ChessPieceShortestPath.canGoToPosition(this, new King(Allegiance.WHITE),
-	        								whiteKingPosition, "A8", Constants.DEAD_DRAW_MAX_BFS_DEPTH);
+	        								whiteKingPosition, "A6", Constants.DEAD_DRAW_MAX_BFS_DEPTH);
+	        	if (isDeadDrawGame) {
+		        	isDeadDrawGame = !ChessPieceShortestPath.canGoToPosition(this, new King(Allegiance.WHITE),
+							whiteKingPosition, "A8", Constants.DEAD_DRAW_MAX_BFS_DEPTH+1);
+	        	}
 	        }
 			
 		} else {

@@ -40,17 +40,11 @@ class TwoKingsAndAllPawnsLeftTest {
 		ChessBoard.printChessBoard(ChessGUI.chessBoard.getGameBoard());
 		
 		System.out.println("Checking if a draw has occurred...");
-		boolean isDraw = ChessGUI.chessBoard.checkForInsufficientMaterialDraw();
+		ChessGUI.checkForGameOver();
+		boolean isDraw = ChessGUI.chessBoard.isInsufficientMaterialDraw();
 		assertTrue("The game is NOT a draw.", isDraw == false);
 		// System.out.println("*****************************");
 		// System.out.println();
-		
-		// Continue playing for a minute.
-		try {
-			Thread.sleep(60000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 		
 		/*
 		ChessGUI.removePieceFromPosition("A3");
@@ -58,11 +52,12 @@ class TwoKingsAndAllPawnsLeftTest {
 		
 		// After the White player has moved the White pawn, it should be a draw!
 		System.out.println("Checking if a draw has occurred...");
-		isDraw = ChessGUI.chessBoard.checkForInsufficientMaterialDraw();
+		ChessGUI.checkForGameOver();
+		isDraw = ChessGUI.chessBoard.isInsufficientMaterialDraw();
 		assertTrue("The game is a draw.", isDraw == true);
 		*/
-		
-		// while (true);
+
+		while (true);
 	}
 
 }
