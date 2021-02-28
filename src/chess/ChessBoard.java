@@ -1412,11 +1412,7 @@ public class ChessBoard {
 				isLoneKing(Allegiance.BLACK) || isLoneKingPlusOneOrTwoKnights(Allegiance.BLACK)
 				|| isLoneKingPlusABishop(Allegiance.BLACK);
 		
-		if (whiteHasInsufficientMaterial && blackHasInsufficientMaterial) {
-			this.isInsufficientMaterialDraw = true;
-		} else {
-			this.isInsufficientMaterialDraw = false;
-		}
+		this.isInsufficientMaterialDraw = whiteHasInsufficientMaterial && blackHasInsufficientMaterial;
 		
 		boolean isDeadDrawGame = checkForDeadGameDraw();
 		if (isDeadDrawGame) {
