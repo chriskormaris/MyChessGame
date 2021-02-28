@@ -8,7 +8,7 @@ public class Constants {
 	
 	private Constants() { }  // Prevents instantiation.
 	
-	public static final double VERSION = 4.4;
+	public static final double VERSION = 4.5;
 	
 	public static final Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
 	
