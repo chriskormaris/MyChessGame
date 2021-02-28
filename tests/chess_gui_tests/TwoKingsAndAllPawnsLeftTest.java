@@ -7,8 +7,8 @@ import org.junit.jupiter.api.Test;
 
 import chess.ChessBoard;
 import chess_gui.ChessGUI;
-import enumerations.Allegiance;
-import pieces.Pawn;
+//import enumerations.Allegiance;
+//import pieces.Pawn;
 
 
 class TwoKingsAndAllPawnsLeftTest {
@@ -46,14 +46,13 @@ class TwoKingsAndAllPawnsLeftTest {
 		// System.out.println();
 		
 		// Continue playing for a minute.
-		/*
 		try {
 			Thread.sleep(60000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		*/
 		
+		/*
 		ChessGUI.removePieceFromPosition("A3");
 		ChessGUI.placePieceToPosition("A4", new Pawn(Allegiance.WHITE));
 		
@@ -61,6 +60,7 @@ class TwoKingsAndAllPawnsLeftTest {
 		System.out.println("Checking if a draw has occurred...");
 		isDraw = ChessGUI.chessBoard.checkForInsufficientMaterialDraw();
 		assertTrue("The game is a draw.", isDraw == true);
+		*/
 		
 		// while (true);
 	}
