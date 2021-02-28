@@ -1418,7 +1418,6 @@ public class ChessBoard {
 			this.isInsufficientMaterialDraw = false;
 		}
 		
-		// NOTICE: This may be slow!
 		boolean isDeadDrawGame = checkForDeadGameDraw();
 		if (isDeadDrawGame) {
     		this.isInsufficientMaterialDraw = true;
