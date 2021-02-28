@@ -1420,8 +1420,8 @@ public class ChessBoard {
 		
 		// This is slow, thus we comment it out.
 		/*
-		boolean isDeadGameDraw = checkForDeadGameDraw();
-		if (isDeadGameDraw) {
+		boolean isDeadDrawGame = checkForDeadGameDraw();
+		if (isDeadDrawGame) {
     		this.isInsufficientMaterialDraw = true;
     	}
     	*/
@@ -1434,7 +1434,7 @@ public class ChessBoard {
 		// Check for a special case of draw, the dead game draw.
 		// It occurs when only the kings and at least three pawns from each side are left on the board
 		// and neither king can cross to the other side of the board.
-		boolean isDeadGameDraw = true;
+		boolean isDeadDrawGame = true;
 		if (isLoneKingPlusAtLeastThreePawns(Allegiance.WHITE) && isLoneKingPlusAtLeastThreePawns(Allegiance.BLACK)) {
 			
 			// Check if the pawns can make any move.
@@ -1446,7 +1446,7 @@ public class ChessBoard {
 		            	String position = Utilities.getPositionByRowCol(i, j);
 		            	Set<String> nextPositions = getNextPositions(position);
 		            	if (nextPositions.size() > 0) {
-		            		isDeadGameDraw = false;
+		            		isDeadDrawGame = false;
 		            		i = 1000;
 		            		j = 1000;
 		            	}
@@ -1454,18 +1454,18 @@ public class ChessBoard {
 	            }
 			}
 	        
-	        if (isDeadGameDraw) {
+	        if (isDeadDrawGame) {
 	        	// Implement an algorithm to find if the White king can get to position "Α8" 
 	        	// in the given number of moves (max depth).
-	        	isDeadGameDraw = !ChessPieceShortestPath.canGoToPosition(this, new King(Allegiance.WHITE),
+	        	isDeadDrawGame = !ChessPieceShortestPath.canGoToPosition(this, new King(Allegiance.WHITE),
 	        								whiteKingPosition, "A8", Constants.DEAD_DRAW_MAX_BFS_DEPTH);
 	        }
 			
 		} else {
-			isDeadGameDraw = false;
+			isDeadDrawGame = false;
 		}
 		
-		return isDeadGameDraw;
+		return isDeadDrawGame;
 	}
 	
 	
