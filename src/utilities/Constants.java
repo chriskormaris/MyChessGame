@@ -30,6 +30,8 @@ public class Constants {
 	public static final int NO_PIECE_CAPTURE_DRAW_HALFMOVES_LIMIT = 100;
 	public static final int MIDDLEGAME_HALFMOVES_THRESHOLD = 24;
 	
+	public static final int DEAD_DRAW_MAX_BFS_DEPTH = 8;
+	
 	public static final int AI_MOVE_MILLISECONDS = 250;
 	
 	public static final Color BRIGHT_PINK = new Color(240, 207, 207);

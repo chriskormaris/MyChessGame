@@ -18,8 +18,8 @@ public class Move {
 
     public Move() {
     	this.positions = new ArrayList<String>();
-		this.positions.add(new String("A1"));
-		this.positions.add(new String("A1"));
+		this.positions.add("A1");
+		this.positions.add("A1");
 		this.value = 0;
 	}
 	
@@ -30,22 +30,22 @@ public class Move {
 	
     public Move(String startingPosition, String endingPosition) {
         this.positions = new ArrayList<String>();
-        this.positions.add(new String(startingPosition));
-        this.positions.add(new String(endingPosition));
+        this.positions.add(startingPosition);
+        this.positions.add(endingPosition);
         this.value = 0;
     }
     
     public Move(String startingPosition, String endingPosition, double value) {
         this.positions = new ArrayList<String>();
-        this.positions.add(new String(startingPosition));
-        this.positions.add(new String(endingPosition));
+        this.positions.add(startingPosition);
+        this.positions.add(endingPosition);
         this.value = value;
     }
     
 	public Move(int value) {
 		this.positions = new ArrayList<String>();
-		this.positions.add(new String("A1"));
-		this.positions.add(new String("A1"));
+		this.positions.add("A1");
+		this.positions.add("A1");
 		this.value = value;
 	}
 	

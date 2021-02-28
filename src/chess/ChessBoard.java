@@ -22,6 +22,7 @@ import pieces.Knight;
 import pieces.Pawn;
 import pieces.Queen;
 import pieces.Rook;
+import utilities.ChessPieceShortestPath;
 import utilities.Constants;
 import utilities.Utilities;
 
@@ -1136,8 +1137,8 @@ public class ChessBoard {
 
     	if (checkForInsufficientMaterialDraw()) return true;
     	
-//    	if (getHalfmoveClock() >= Constants.NO_PIECE_CAPTURE_DRAW_HALFMOVES_LIMIT)
-//    		return true;
+    	// if (getHalfmoveClock() >= Constants.NO_PIECE_CAPTURE_DRAW_HALFMOVES_LIMIT)
+    	// 	return true;
 
         return false;
     }
@@ -1146,7 +1147,7 @@ public class ChessBoard {
 	public boolean isTerminalState() {
 		if (isWhiteCheckmate() || isBlackCheckmate() || 
 			isWhiteStalemateDraw() || isBlackStalemateDraw() || isInsufficientMaterialDraw()) {
-//			getHalfmoveClock() >= Constants.NO_PIECE_CAPTURE_HALFMOVES_DRAW_LIMIT) {
+			// getHalfmoveClock() >= Constants.NO_PIECE_CAPTURE_HALFMOVES_DRAW_LIMIT) {
 			return true;
 		}
 		return false;
@@ -1401,7 +1402,7 @@ public class ChessBoard {
 	}
 	
 	
-	// Checks if there is insufficient material for a checkmate, left on the chess board.
+	// Checks if there are insufficient material for a checkmate, left on the chess board.
 	public boolean checkForInsufficientMaterialDraw() {
 		boolean whiteHasInsufficientMaterial = 
 				isLoneKing(Allegiance.WHITE) 
@@ -1417,7 +1418,54 @@ public class ChessBoard {
 			this.isInsufficientMaterialDraw = false;
 		}
 		
+		// This is slow, thus we comment it out.
+		/*
+		boolean isDeadGameDraw = checkForDeadGameDraw();
+		if (isDeadGameDraw) {
+    		this.isInsufficientMaterialDraw = true;
+    	}
+    	*/
+		
 		return this.isInsufficientMaterialDraw;
+	}
+	
+	
+	public boolean checkForDeadGameDraw() {
+		// Check for a special case of draw, the dead game draw.
+		// It occurs when only the kings and at least three pawns from each side are left on the board
+		// and neither king can cross to the other side of the board.
+		boolean isDeadGameDraw = true;
+		if (isLoneKingPlusAtLeastThreePawns(Allegiance.WHITE) && isLoneKingPlusAtLeastThreePawns(Allegiance.BLACK)) {
+			
+			// Check if the pawns can make any move.
+			int n1 = gameBoard.length;
+			int n2 = gameBoard[0].length;
+	        for (int i=0; i<n1; i++) {
+	            for (int j=0; j<n2; j++) {
+	            	if (gameBoard[i][j] instanceof Pawn) {
+		            	String position = Utilities.getPositionByRowCol(i, j);
+		            	Set<String> nextPositions = getNextPositions(position);
+		            	if (nextPositions.size() > 0) {
+		            		isDeadGameDraw = false;
+		            		i = 1000;
+		            		j = 1000;
+		            	}
+	            	}
+	            }
+			}
+	        
+	        if (isDeadGameDraw) {
+	        	// Implement an algorithm to find if the White king can get to position "Α8" 
+	        	// in the given number of moves (max depth).
+	        	isDeadGameDraw = !ChessPieceShortestPath.canGoToPosition(this, new King(Allegiance.WHITE),
+	        								whiteKingPosition, "A8", Constants.DEAD_DRAW_MAX_BFS_DEPTH);
+	        }
+			
+		} else {
+			isDeadGameDraw = false;
+		}
+		
+		return isDeadGameDraw;
 	}
 	
 	
@@ -1433,6 +1481,31 @@ public class ChessBoard {
 				}
 			}
 		}
+		
+		return true;
+	}
+	
+	
+	// Checks if only a king and at least three pawns have remained on the board, on the given player's side.
+	public boolean isLoneKingPlusAtLeastThreePawns(Allegiance playerAllegiance) {
+		int numOfPawns = 0;
+		
+		for (int i=0; i<numOfRows; i++) {
+			for (int j=0; j<NUM_OF_COLUMNS; j++) {
+				if (!(getGameBoard()[i][j] instanceof EmptyTile)
+						&& !(getGameBoard()[i][j] instanceof King)
+						&& !(getGameBoard()[i][j] instanceof Pawn)
+						&& playerAllegiance == getGameBoard()[i][j].getAllegiance()) {
+					// System.out.println("i: " + i + ", j: " + j + ", chessPiece: " + this.getGameBoard()[i][j]);
+					return false;
+				}
+				if (getGameBoard()[i][j] instanceof Pawn) {
+					numOfPawns++;
+				}
+			}
+		}
+		
+		if (numOfPawns <= 2) return false;
 		
 		return true;
 	}

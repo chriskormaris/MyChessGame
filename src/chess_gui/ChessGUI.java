@@ -929,8 +929,8 @@ public class ChessGUI {
 			startingPosition = position;
 			// System.out.println("startingPosition: " + startingPosition);
 			
-//			System.out.println("chessBoard: ");
-//			System.out.println(chessBoard);
+			// System.out.println("chessBoard: ");
+			// System.out.println(chessBoard);
 			
 			if (!(chessPiece instanceof EmptyTile)) {
 				
