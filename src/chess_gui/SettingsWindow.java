@@ -59,7 +59,7 @@ public class SettingsWindow extends JFrame {
 	private EventHandler handler;
 	
 	public static int width = 450;
-	public static int height = 440;
+	public static int height = 490;
 	
 	
 	public SettingsWindow() {
@@ -206,27 +206,27 @@ public class SettingsWindow extends JFrame {
 		add(black_tile_color_drop_down);
 		add(num_of_rows_spinner);
 
-		guiStyleLabel.setBounds(25, 25, 205, 20);
-		enableSoundsLabel.setBounds(25, 55, 205, 20);
-		humanPlayerAllegianceLabel.setBounds(25, 85, 205, 20);
-		gameModeLabel.setBounds(25, 115, 205, 20);
-		aiTypeLabel.setBounds(25, 145, 205, 20);
-		maxDepth1Label.setBounds(25, 175, 205, 20);
-		maxDepth2Label.setBounds(25, 205, 205, 20);
-		whiteTileColorLabel.setBounds(25, 235, 205, 20);
-		blackTileColorLabel.setBounds(25, 265, 205, 20);
-		numOfRowsLabel.setBounds(25, 295, 205, 20);
+		guiStyleLabel.setBounds(25, 25, 205, 25);
+		enableSoundsLabel.setBounds(25, 60, 205, 25);
+		humanPlayerAllegianceLabel.setBounds(25, 95, 205, 25);
+		gameModeLabel.setBounds(25, 130, 205, 25);
+		aiTypeLabel.setBounds(25, 165, 205, 25);
+		maxDepth1Label.setBounds(25, 200, 205, 25);
+		maxDepth2Label.setBounds(25, 235, 205, 25);
+		whiteTileColorLabel.setBounds(25, 270, 205, 25);
+		blackTileColorLabel.setBounds(25, 305, 205, 25);
+		numOfRowsLabel.setBounds(25, 340, 205, 25);
 		
-		gui_style_drop_down.setBounds(225, 25, 180, 20);
-		enable_sounds_check_box.setBounds(225, 55, 180, 20);
-		human_player_allegiance_drop_down.setBounds(225, 85, 180, 20);
-		game_mode_drop_down.setBounds(225, 115, 180, 20);
-		ai_type_drop_down.setBounds(225, 145, 180, 20);
-		max_depth1_drop_down.setBounds(225, 175, 180, 20);
-		max_depth2_drop_down.setBounds(225, 205, 180, 20);
-		white_tile_color_drop_down.setBounds(225, 235, 180, 20);
-		black_tile_color_drop_down.setBounds(225, 265, 180, 20);
-		num_of_rows_spinner.setBounds(225, 295, 180, 30);
+		gui_style_drop_down.setBounds(225, 25, 180, 25);
+		enable_sounds_check_box.setBounds(225, 60, 180, 25);
+		human_player_allegiance_drop_down.setBounds(225, 95, 180, 25);
+		game_mode_drop_down.setBounds(225, 130, 180, 25);
+		ai_type_drop_down.setBounds(225, 165, 180, 25);
+		max_depth1_drop_down.setBounds(225, 200, 180, 25);
+		max_depth2_drop_down.setBounds(225, 235, 180, 25);
+		white_tile_color_drop_down.setBounds(225, 270, 180, 25);
+		black_tile_color_drop_down.setBounds(225, 305, 180, 25);
+		num_of_rows_spinner.setBounds(225, 340, 180, 25);
 
 		apply = new JButton("Apply");
 		cancel = new JButton("Cancel");
@@ -234,9 +234,9 @@ public class SettingsWindow extends JFrame {
 		add(cancel);
 		
 		int distance = 10;
-		apply.setBounds((int) (width / 2) - 110 - (int) (distance / 2), 340, 100, 30);
+		apply.setBounds((int) (width / 2) - 110 - (int) (distance / 2), 400, 100, 30);
 		apply.addActionListener(handler);
-		cancel.setBounds((int) (width / 2) - 10 + (int) (distance / 2), 340, 100, 30);
+		cancel.setBounds((int) (width / 2) - 10 + (int) (distance / 2), 400, 100, 30);
 		cancel.addActionListener(handler);
 	}
 
