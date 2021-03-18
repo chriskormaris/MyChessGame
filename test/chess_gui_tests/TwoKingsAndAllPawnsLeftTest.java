@@ -29,8 +29,9 @@ class TwoKingsAndAllPawnsLeftTest {
 		// These FEN positions are NOT considered a draw!
 		// There is an opening between the pawns, from where the kings can pass to the other side.
 		// String fenPosition = "4k3/8/8/3p2p1/3P2P1/8/8/4K3 w KQ - 0 1";
-		String fenPosition = "4k3/1p6/pP2p4/P2pPp1p/2pP1PpP/2P3P1/8/7K w KQ - 0 1";
-		
+		String fenPosition = "4k3/8/1p2p4/pP1pPp2/P1pP1P2/2P5/8/K7 w KQ - 0 1";
+		// String fenPosition = "4k3/1p6/pP2p4/P2pPp1p/2pP1PpP/2P3P1/8/7K w KQ - 0 1";
+
 		// The following FEN position is not a draw, but it will end up in a draw
 		// if the White pawn is moved!
 		// String fenPosition = "4k3/8/8/p2p2p1/3P2P1/P7/8/4K3 w KQ - 0 1";
