@@ -1785,7 +1785,6 @@ public class ChessGUI {
 				imagePath = Constants.WHITE_QUEEN_IMG_PATH;
 			} else if (chessPiece instanceof King) {
 				imagePath = Constants.WHITE_KING_IMG_PATH;
-				chessBoard.setWhiteKingPosition(position);
 			}
 		}
 		
@@ -1802,7 +1801,6 @@ public class ChessGUI {
 				imagePath = Constants.BLACK_QUEEN_IMG_PATH;
 			} else if (chessPiece instanceof King) {
 				imagePath = Constants.BLACK_KING_IMG_PATH;
-				chessBoard.setBlackKingPosition(position);
 			}
 		}
 		
