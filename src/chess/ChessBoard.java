@@ -481,8 +481,10 @@ public class ChessBoard {
 				
 				// Automatically choose promotion to Queen and display it on the GUI. 
  				if (displayMove && 
- 						(!this.player && ChessGUI.gameParameters.gameMode == GameMode.HUMAN_VS_AI
- 						 || ChessGUI.gameParameters.gameMode == GameMode.AI_VS_AI)) {
+					((ChessGUI.gameParameters.gameMode == GameMode.HUMAN_VS_AI &&
+					(!this.player && ChessGUI.gameParameters.humanPlayerAllegiance == Allegiance.WHITE)
+					|| (this.player && ChessGUI.gameParameters.humanPlayerAllegiance == Allegiance.BLACK))
+					|| ChessGUI.gameParameters.gameMode == GameMode.AI_VS_AI)) {
  					if (chessPiece.getAllegiance() == Allegiance.WHITE && rowEnd == numOfRows - 1) {
  						ChessPiece whiteQueen = new Queen(Allegiance.WHITE);
  						ChessGUI.placePieceToPosition(positionEnd, whiteQueen);

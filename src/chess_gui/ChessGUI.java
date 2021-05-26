@@ -847,13 +847,15 @@ public class ChessGUI {
 	// Restores all the default values.
 	public static void restoreDefaultValues() {
 		chessBoard = new ChessBoard();
-//		halfmoveGameBoard = new ChessPiece[gameParameters.numOfRows][NUM_OF_COLUMNS];
-//		
-//		for (int i=0; i<gameParameters.numOfRows; i++) {
-//			for (int j=0; j<NUM_OF_COLUMNS; j++) {
-//				halfmoveGameBoard[i][j] = new EmptyTile();
-//			}	
-//		}
+		/*
+		halfmoveGameBoard = new ChessPiece[gameParameters.numOfRows][NUM_OF_COLUMNS];
+		
+		for (int i=0; i<gameParameters.numOfRows; i++) {
+			for (int j=0; j<NUM_OF_COLUMNS; j++) {
+				halfmoveGameBoard[i][j] = new EmptyTile();
+			}	
+		}
+ 		*/
 		
 		startingPosition = "";
 		endingPosition = "";
