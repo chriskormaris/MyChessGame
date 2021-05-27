@@ -156,7 +156,9 @@ public class ChessGUI {
 	// These stack of 2d "ChessPiece" arrays is used to check for a threefold repetition of a chess board position.
 	public static Stack<ChessPiece[][]> halfmoveGameBoards = new Stack<ChessPiece[][]>();
 	public static Stack<ChessPiece[][]> redoHalfmoveGameBoards = new Stack<ChessPiece[][]>();
-
+	
+	public static JLabel[] aiVsAiNewCapturedPiecesImages;
+	
 	
 	public ChessGUI(String title) {
 				
@@ -427,7 +429,7 @@ public class ChessGUI {
 	
 	
 	private static void setTurnMessage() {
-		if (chessBoard.getHalfmoveNumber() == 1 || chessBoard.getHalfmoveNumber() == 2) {
+		if (chessBoard.getHalfmoveNumber() == 1) {
     		turnLabel.setText(firstTurnText);
         } else {
             String turnMessage = "Move number: " + (int) Math.ceil((float) chessBoard.getHalfmoveNumber() / 2) + ". ";
@@ -1111,7 +1113,7 @@ public class ChessGUI {
 				if (redoItem != null)
 					redoItem.setEnabled(false);
 				
-				// change chessBoard.turn
+                // Change chessBoard turn.
 				chessBoard.setHalfmoveNumber(chessBoard.getHalfmoveNumber() + 1);
 		        chessBoard.setPlayer(!chessBoard.getPlayer());
 				if (gameParameters.gameMode == GameMode.HUMAN_VS_HUMAN) {
@@ -1650,65 +1652,11 @@ public class ChessGUI {
 		turnLabel.setText(firstTurnText);
 		
 		while (!isGameOver) {
-			previousChessBoards.push(new ChessBoard(chessBoard));
-			
-			// Push to the previousCapturedPiecesImages Stack.
-			JLabel[] newCapturedPiecesImages = new JLabel[31];
-			for (int i=0; i<=30; i++) {
-				newCapturedPiecesImages[i] = new JLabel(capturedPiecesImages[i].getIcon());
-			}
-			previousCapturedPiecesImages.push(newCapturedPiecesImages);
-			
-			// System.out.println("white plays: " + chessBoard.whitePlays());
-			if (gameParameters.aiType == AiType.MINIMAX_AI) {
-				minimaxAiMove(ai1);
-			} else {
-				randomAiMove(Allegiance.WHITE);
-			}
-			halfmoveGameBoards.push(Utilities.copyGameBoard(chessBoard.getGameBoard()));
-			
-			setTurnMessage();
-			setScoreMessage();
-			
-			try {
-				frame.paint(frame.getGraphics());
-				frame.revalidate();
-				frame.repaint();
-				Thread.sleep(Constants.AI_MOVE_MILLISECONDS);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-
+			System.out.println(turnLabel.getText());
+			aiVsAiMove(ai1, Allegiance.WHITE);
 			if (!isGameOver) {
-				
-				previousChessBoards.push(new ChessBoard(chessBoard));
-				
-				// Push to the previousCapturedPiecesImages Stack.
-				newCapturedPiecesImages = new JLabel[31];
-				for (int i=0; i<=30; i++) {
-					newCapturedPiecesImages[i] = new JLabel(capturedPiecesImages[i].getIcon());
-				}
-				previousCapturedPiecesImages.push(newCapturedPiecesImages);
-				
-				if (gameParameters.aiType == AiType.MINIMAX_AI) {
-					minimaxAiMove(ai2);
-				} else {
-					randomAiMove(Allegiance.BLACK);
-				}
-				halfmoveGameBoards.push(Utilities.copyGameBoard(chessBoard.getGameBoard()));
-								
-				setTurnMessage();
-				setScoreMessage();
-				
-				try {
-					frame.paint(frame.getGraphics());
-					frame.revalidate();
-					frame.repaint();
-					Thread.sleep(Constants.AI_MOVE_MILLISECONDS);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				
+				System.out.println(turnLabel.getText());
+				aiVsAiMove(ai2, Allegiance.BLACK);
 			}
 		}
 		
@@ -1716,6 +1664,40 @@ public class ChessGUI {
 			undoItem.setEnabled(true);
 	}
 	
+
+	private static void aiVsAiMove(MiniMaxAi ai, Allegiance white) {
+
+		previousChessBoards.push(new ChessBoard(chessBoard));
+		
+		// Push to the previousCapturedPiecesImages Stack.
+		aiVsAiNewCapturedPiecesImages = new JLabel[31];
+		for (int i=0; i<=30; i++) {
+			aiVsAiNewCapturedPiecesImages[i] = new JLabel(capturedPiecesImages[i].getIcon());
+		}
+		previousCapturedPiecesImages.push(aiVsAiNewCapturedPiecesImages);
+		
+		// System.out.println("white plays: " + chessBoard.whitePlays());
+		if (gameParameters.aiType == AiType.MINIMAX_AI) {
+			minimaxAiMove(ai);
+		} else {
+			randomAiMove(Allegiance.WHITE);
+		}
+		halfmoveGameBoards.push(Utilities.copyGameBoard(chessBoard.getGameBoard()));
+		
+		setTurnMessage();
+		setScoreMessage();
+		
+		try {
+			frame.paint(frame.getGraphics());
+			frame.revalidate();
+			frame.repaint();
+			Thread.sleep(Constants.AI_MOVE_MILLISECONDS);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+	}
+
 
 	public static void hideHintPositions(Set<String> positionsToHide) {
 		if (positionsToHide != null && positionsToHide.size() != 0) {
