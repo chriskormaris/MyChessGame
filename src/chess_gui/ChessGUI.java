@@ -888,7 +888,7 @@ public class ChessGUI {
 				} else if (gameParameters.humanPlayerAllegiance == Allegiance.BLACK) {
 					ai = new MiniMaxAi(gameParameters.maxDepth1, Constants.WHITE);
 				}
-			} else {
+			} else if (gameParameters.aiType == AiType.RANDOM_AI) {
 				if (gameParameters.humanPlayerAllegiance == Allegiance.WHITE) {
 					randomAiAllegiance = Allegiance.BLACK;
 				} else if (gameParameters.humanPlayerAllegiance == Allegiance.BLACK) {
@@ -1488,11 +1488,11 @@ public class ChessGUI {
 				chessBoard.blackPlays() && aiAllegiance == Allegiance.BLACK && !chessBoard.isBlackKingInCheck()) {
 			for (int i=0; i<chessBoard.getNumOfRows(); i++) {
 				for (int j=0; j<NUM_OF_COLUMNS; j++) {
-					if (aiAllegiance == Allegiance.BLACK 
-						&& chessBoard.getGameBoard()[i][j].getAllegiance() == Allegiance.BLACK
+					if (aiAllegiance == Allegiance.WHITE 
+						&& chessBoard.getGameBoard()[i][j].getAllegiance() == Allegiance.WHITE
 						||
-						aiAllegiance == Allegiance.WHITE 
-						&& chessBoard.getGameBoard()[i][j].getAllegiance() == Allegiance.WHITE) {
+						aiAllegiance == Allegiance.BLACK 
+						&& chessBoard.getGameBoard()[i][j].getAllegiance() == Allegiance.BLACK) {
 						
 						String randomStartingPosition = Utilities.getPositionByRowCol(i, j);
 						Set<String> randomEndingPositions = chessBoard.getNextPositions(randomStartingPosition);
