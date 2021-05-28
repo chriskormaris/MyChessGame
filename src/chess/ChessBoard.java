@@ -478,7 +478,6 @@ public class ChessBoard {
  				}
 	 				
  				/* Pawn promotion implementation */
-				String[] promotionPieces = {"Queen", "Rook", "Bishop", "Knight"};
 				
 				ChessPiece whiteQueen = new Queen(Allegiance.WHITE);
 				ChessPiece whiteRook = new Rook(Allegiance.WHITE);
@@ -492,10 +491,15 @@ public class ChessBoard {
 								
 				// If AI plays, choose the best promotion piece,
 				// based on the outcome of the immediately next move. 
- 				if ((ChessGUI.gameParameters.gameMode == GameMode.HUMAN_VS_AI &&
+ 				if (displayMove 
+					&& 
+					(chessPiece.getAllegiance() == Allegiance.WHITE && rowEnd == this.numOfRows -1
+					|| chessPiece.getAllegiance() == Allegiance.BLACK && rowEnd == 0)
+					&& 
+					((ChessGUI.gameParameters.gameMode == GameMode.HUMAN_VS_AI &&
 					(!this.player && ChessGUI.gameParameters.humanPlayerAllegiance == Allegiance.WHITE)
 					|| (this.player && ChessGUI.gameParameters.humanPlayerAllegiance == Allegiance.BLACK))
-					|| ChessGUI.gameParameters.gameMode == GameMode.AI_VS_AI) {
+					|| ChessGUI.gameParameters.gameMode == GameMode.AI_VS_AI)) {
  					
  					ChessPiece queen = null;
  					ChessPiece rook = null;
@@ -531,9 +535,7 @@ public class ChessBoard {
 					if (chessPiece.getAllegiance() == Allegiance.WHITE && this.isWhiteCheckmate()
 						|| 
 						chessPiece.getAllegiance() == Allegiance.BLACK && this.isBlackCheckmate()) {
-						if (displayMove) {
-							ChessGUI.placePieceToPosition(positionEnd, knight);
-						}
+						ChessGUI.placePieceToPosition(positionEnd, knight);
  						promotedPieces.add(knight);
 					} else {
 						for (ChessPiece promotionChessPiece : promotionChessPieces) {
@@ -546,9 +548,7 @@ public class ChessBoard {
 	 							chessPiece.getAllegiance() == Allegiance.BLACK 
 	 								&& !this.checkForWhiteStalemateDraw()) {
 	 							ChessGUI.placePieceToPosition(positionEnd, promotionChessPiece);
-	 							if (displayMove) {
-	 								promotedPieces.add(promotionChessPiece);
-	 							}
+ 								promotedPieces.add(promotionChessPiece);
 	 	 						break;
 	 						}
 						}
@@ -558,6 +558,7 @@ public class ChessBoard {
  				// Select which promotion you want and display it on the GUI.
  				else if (displayMove) {
  					
+ 					String[] promotionPieces = {"Queen", "Rook", "Bishop", "Knight"};
  				    String initialSelection = "Queen";
  				    
  					if (chessPiece.getAllegiance() == Allegiance.WHITE  && rowEnd == numOfRows - 1) {
@@ -599,6 +600,17 @@ public class ChessBoard {
  					}
  				
  				}
+ 				
+	 			// Automatically choose promotion to Queen and do NOT display it on the GUI. 
+				else {
+					if (chessPiece.getAllegiance() == Allegiance.WHITE && rowEnd == numOfRows - 1) {
+						this.gameBoard[rowEnd][columnEnd] = whiteQueen;
+						promotedPieces.add(whiteQueen);
+					} else if (chessPiece.getAllegiance() == Allegiance.BLACK && rowEnd == 0) {
+						this.gameBoard[rowEnd][columnEnd] = blackQueen;
+						promotedPieces.add(blackQueen);
+					}
+				}
  				
  			} else {
 				this.enPassantPosition = "-";
