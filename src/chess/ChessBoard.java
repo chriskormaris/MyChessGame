@@ -550,8 +550,8 @@ public class ChessBoard {
 	 						}
 						}
 					}
+					
  				}
- 				
  				// Select which promotion you want and display it on the GUI.
  				else if (displayMove) {
  					
