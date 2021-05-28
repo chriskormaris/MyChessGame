@@ -492,11 +492,10 @@ public class ChessBoard {
 								
 				// If AI plays, choose the best promotion piece,
 				// based on the outcome of the immediately next move. 
- 				if (displayMove && 
-					((ChessGUI.gameParameters.gameMode == GameMode.HUMAN_VS_AI &&
+ 				if ((ChessGUI.gameParameters.gameMode == GameMode.HUMAN_VS_AI &&
 					(!this.player && ChessGUI.gameParameters.humanPlayerAllegiance == Allegiance.WHITE)
 					|| (this.player && ChessGUI.gameParameters.humanPlayerAllegiance == Allegiance.BLACK))
-					|| ChessGUI.gameParameters.gameMode == GameMode.AI_VS_AI)) {
+					|| ChessGUI.gameParameters.gameMode == GameMode.AI_VS_AI) {
  					
  					ChessPiece queen = null;
  					ChessPiece rook = null;
@@ -532,7 +531,9 @@ public class ChessBoard {
 					if (chessPiece.getAllegiance() == Allegiance.WHITE && this.isWhiteCheckmate()
 						|| 
 						chessPiece.getAllegiance() == Allegiance.BLACK && this.isBlackCheckmate()) {
-						ChessGUI.placePieceToPosition(positionEnd, knight);
+						if (displayMove) {
+							ChessGUI.placePieceToPosition(positionEnd, knight);
+						}
  						promotedPieces.add(knight);
 					} else {
 						for (ChessPiece promotionChessPiece : promotionChessPieces) {
@@ -545,7 +546,9 @@ public class ChessBoard {
 	 							chessPiece.getAllegiance() == Allegiance.BLACK 
 	 								&& !this.checkForWhiteStalemateDraw()) {
 	 							ChessGUI.placePieceToPosition(positionEnd, promotionChessPiece);
-	 	 						promotedPieces.add(promotionChessPiece);
+	 							if (displayMove) {
+	 								promotedPieces.add(promotionChessPiece);
+	 							}
 	 	 						break;
 	 						}
 						}
@@ -595,17 +598,6 @@ public class ChessBoard {
  						}
  					}
  				
- 				}
- 				
-				// Automatically choose promotion to Queen and do NOT display it on the GUI. 
- 				else {
- 					if (chessPiece.getAllegiance() == Allegiance.WHITE && rowEnd == numOfRows - 1) {
- 						this.gameBoard[rowEnd][columnEnd] = whiteQueen;
- 						promotedPieces.add(whiteQueen);
- 					} else if (chessPiece.getAllegiance() == Allegiance.BLACK && rowEnd == 0) {
- 						this.gameBoard[rowEnd][columnEnd] = blackQueen;
- 						promotedPieces.add(blackQueen);
- 					}
  				}
  				
  			} else {
