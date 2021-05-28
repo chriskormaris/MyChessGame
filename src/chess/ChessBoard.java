@@ -478,72 +478,118 @@ public class ChessBoard {
  				}
 	 				
  				/* Pawn promotion implementation */
+				String[] promotionPieces = {"Queen", "Rook", "Bishop", "Knight"};
 				
-				// Automatically choose promotion to Queen and display it on the GUI. 
+				ChessPiece whiteQueen = new Queen(Allegiance.WHITE);
+				ChessPiece whiteRook = new Rook(Allegiance.WHITE);
+				ChessPiece whiteBishop = new Bishop(Allegiance.WHITE);
+				ChessPiece whiteKnight = new Knight(Allegiance.WHITE);
+				
+				ChessPiece blackQueen = new Queen(Allegiance.BLACK);
+				ChessPiece blackRook = new Rook(Allegiance.BLACK);
+				ChessPiece blackBishop = new Bishop(Allegiance.BLACK);
+				ChessPiece blackKnight = new Knight(Allegiance.BLACK);
+								
+				// If AI plays, choose the best promotion piece,
+				// based on the outcome of the immediately next move. 
  				if (displayMove && 
 					((ChessGUI.gameParameters.gameMode == GameMode.HUMAN_VS_AI &&
 					(!this.player && ChessGUI.gameParameters.humanPlayerAllegiance == Allegiance.WHITE)
 					|| (this.player && ChessGUI.gameParameters.humanPlayerAllegiance == Allegiance.BLACK))
 					|| ChessGUI.gameParameters.gameMode == GameMode.AI_VS_AI)) {
- 					if (chessPiece.getAllegiance() == Allegiance.WHITE && rowEnd == numOfRows - 1) {
- 						ChessPiece whiteQueen = new Queen(Allegiance.WHITE);
- 						ChessGUI.placePieceToPosition(positionEnd, whiteQueen);
- 						promotedPieces.add(whiteQueen);
+ 					
+ 					ChessPiece queen = null;
+ 					ChessPiece rook = null;
+ 					ChessPiece bishop = null;
+ 					ChessPiece knight = null;
+ 					
+ 					if (chessPiece.getAllegiance() == Allegiance.WHITE) {
+ 						queen=whiteQueen; rook=whiteRook; bishop=whiteBishop; knight=whiteKnight;
+ 					} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
+ 						queen=blackQueen; rook=blackRook; bishop=blackBishop; knight=blackKnight;
  					}
- 					else if (chessPiece.getAllegiance() == Allegiance.BLACK && rowEnd == 0) {
- 						ChessPiece blackQueen = new Queen(Allegiance.BLACK);
- 						ChessGUI.placePieceToPosition(positionEnd, blackQueen);
- 						promotedPieces.add(blackQueen);
+ 					
+					ChessPiece[] promotionChessPieces = {queen, rook, bishop, knight};
+
+					// System.out.println("Printing Knight promotion board (before)...");
+					// System.out.println(this);
+					
+					this.getGameBoard()[rowEnd][columnEnd] = knight;
+ 					this.setThreats();
+
+					// System.out.println("Printing Knight promotion board (after)...");
+					// System.out.println(this);
+					
+					// System.out.println("Checking for Knight checkmate...");
+					if (chessPiece.getAllegiance() == Allegiance.WHITE) {
+						this.checkForWhiteCheckmate(false);
+						// System.out.println("this.isWhiteCheckmate: " + this.isWhiteCheckmate);
+ 					} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
+ 						this.checkForBlackCheckmate(false);
+ 						// System.out.println("this.isBlackCheckmate: " + this.isBlackCheckmate);
  					}
+
+					if (chessPiece.getAllegiance() == Allegiance.WHITE && this.isWhiteCheckmate()
+						|| 
+						chessPiece.getAllegiance() == Allegiance.BLACK && this.isBlackCheckmate()) {
+						ChessGUI.placePieceToPosition(positionEnd, knight);
+ 						promotedPieces.add(knight);
+					} else {
+						for (ChessPiece promotionChessPiece : promotionChessPieces) {
+							this.getGameBoard()[rowEnd][columnEnd] = promotionChessPiece;
+							this.setThreats();
+	 						
+	 						if (chessPiece.getAllegiance() == Allegiance.WHITE 
+	 								&& !this.checkForBlackStalemateDraw()
+	 							|| 
+	 							chessPiece.getAllegiance() == Allegiance.BLACK 
+	 								&& !this.checkForWhiteStalemateDraw()) {
+	 							ChessGUI.placePieceToPosition(positionEnd, promotionChessPiece);
+	 	 						promotedPieces.add(promotionChessPiece);
+	 	 						break;
+	 						}
+						}
+					}
  				}
  				
  				// Select which promotion you want and display it on the GUI.
  				else if (displayMove) {
  					
- 					Object[] selectionValues = {"Queen", "Rook", "Bishop", "Knight"};
  				    String initialSelection = "Queen";
  				    
  					if (chessPiece.getAllegiance() == Allegiance.WHITE  && rowEnd == numOfRows - 1) {
  						String value = (String) JOptionPane.showInputDialog(ChessGUI.gui, "Promote white pawn to:",
- 						        "White pawn promotion", JOptionPane.QUESTION_MESSAGE, null, selectionValues, initialSelection);
+ 						        "White pawn promotion", JOptionPane.QUESTION_MESSAGE, null, promotionPieces, initialSelection);
  						// System.out.println("value: " + value);
  						
  						if (value == null || value.equals("Queen")) {
- 	 						ChessPiece whiteQueen = new Queen(Allegiance.WHITE);
  							ChessGUI.placePieceToPosition(positionEnd, whiteQueen);
  							promotedPieces.add(whiteQueen);
  						} else if (value.equals("Rook")) {
- 							ChessPiece whiteRook = new Rook(Allegiance.WHITE);
  							ChessGUI.placePieceToPosition(positionEnd, whiteRook);
  							promotedPieces.add(whiteRook);
  						} else if (value.equals("Bishop")) {
- 							ChessPiece whiteBishop = new Bishop(Allegiance.WHITE);
  							ChessGUI.placePieceToPosition(positionEnd, whiteBishop);
  							promotedPieces.add(whiteBishop);
  						} else if (value.equals("Knight")) {
- 							ChessPiece whiteKnight = new Knight(Allegiance.WHITE);
  							ChessGUI.placePieceToPosition(positionEnd, whiteKnight);
  							promotedPieces.add(whiteKnight);
  						}
  					} else if (chessPiece.getAllegiance() == Allegiance.BLACK && rowEnd == 0) {
  						String value = (String) JOptionPane.showInputDialog(ChessGUI.gui, "Promote black pawn to:",
- 						        "Black pawn promotion", JOptionPane.QUESTION_MESSAGE, null, selectionValues, initialSelection);
+ 						        "Black pawn promotion", JOptionPane.QUESTION_MESSAGE, null, promotionPieces, initialSelection);
  						// System.out.println("value: " + value);
  						
  						if (value == null || value.equals("Queen")) {
- 							ChessPiece blackQueen = new Queen(Allegiance.BLACK);
  							ChessGUI.placePieceToPosition(positionEnd, blackQueen);
  							promotedPieces.add(blackQueen);
  						} else if (value.equals("Rook")) {
- 							ChessPiece blackRook = new Rook(Allegiance.BLACK);
  							ChessGUI.placePieceToPosition(positionEnd, blackRook);
  							promotedPieces.add(blackRook);
  						} else if (value.equals("Bishop")) {
- 							ChessPiece blackBishop = new Bishop(Allegiance.BLACK);
  							ChessGUI.placePieceToPosition(positionEnd, blackBishop);
  							promotedPieces.add(blackBishop);
  						} else if (value.equals("Knight")) {
- 							ChessPiece blackKnight = new Knight(Allegiance.BLACK);
  							ChessGUI.placePieceToPosition(positionEnd, blackKnight);
  							promotedPieces.add(blackKnight);
  						}
@@ -554,11 +600,9 @@ public class ChessBoard {
 				// Automatically choose promotion to Queen and do NOT display it on the GUI. 
  				else {
  					if (chessPiece.getAllegiance() == Allegiance.WHITE && rowEnd == numOfRows - 1) {
- 						ChessPiece whiteQueen = new Queen(Allegiance.WHITE);
  						this.gameBoard[rowEnd][columnEnd] = whiteQueen;
  						promotedPieces.add(whiteQueen);
  					} else if (chessPiece.getAllegiance() == Allegiance.BLACK && rowEnd == 0) {
- 						ChessPiece blackQueen = new Queen(Allegiance.BLACK);
  						this.gameBoard[rowEnd][columnEnd] = blackQueen;
  						promotedPieces.add(blackQueen);
  					}
@@ -1272,6 +1316,7 @@ public class ChessBoard {
 	}
 	
 
+	// Check for White checkmate (if White wins!)
 	public boolean checkForWhiteCheckmate(boolean storeKingInCheckMoves) {
 		
 		this.isWhiteCheckmate = false;
@@ -1285,7 +1330,7 @@ public class ChessBoard {
 		if (storeKingInCheckMoves) {
 			this.blackKingInCheckValidPieceMoves = new TreeMap<String, Set<String>>();
 		}
-		// Check for White checkmate (if White wins!)			
+		
 		if (blackKingThreatened == 1) {
 			this.blackKingInCheck = true;
 			
@@ -1333,11 +1378,12 @@ public class ChessBoard {
 				this.blackKingInCheckValidPieceMoves = new TreeMap<String, Set<String>>();
 			}
 		}
-		
+				
 		return this.isWhiteCheckmate;
 	}
 	
 
+	// Check for Black checkmate (if Black wins!)
 	public boolean checkForBlackCheckmate(boolean storeKingInCheckMoves) {
 		
 		this.isBlackCheckmate = false;
@@ -1351,7 +1397,7 @@ public class ChessBoard {
 		if (storeKingInCheckMoves) {
 			this.whiteKingInCheckValidPieceMoves = new TreeMap<String, Set<String>>();
 		}
-		// Check for Black checkmate (if Black wins!)
+		
 		if (whiteKingThreatened == 1) {
 			this.whiteKingInCheck = true;
 			

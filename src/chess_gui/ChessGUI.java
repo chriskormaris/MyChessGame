@@ -469,8 +469,8 @@ public class ChessGUI {
 				JButton startingButton;
 				Color startingButtonColor;
 				if (gameParameters.gameMode == GameMode.HUMAN_VS_AI && gameParameters.humanPlayerAllegiance == Allegiance.BLACK) {
-					startingButton = chessBoardSquares[startingPositionRow][7 - startingPositionColumn];
-					startingButtonColor = getColorByRowCol(startingPositionRow, 7 - startingPositionColumn);
+					startingButton = chessBoardSquares[startingPositionRow][NUM_OF_COLUMNS - 1 - startingPositionColumn];
+					startingButtonColor = getColorByRowCol(startingPositionRow, NUM_OF_COLUMNS - 1 - startingPositionColumn);
 				} else {
 					startingButton = chessBoardSquares[chessBoard.getNumOfRows() - 1 - startingPositionRow][startingPositionColumn];
 					startingButtonColor = getColorByRowCol(chessBoard.getNumOfRows() - 1 - startingPositionRow, startingPositionColumn);				
@@ -1267,6 +1267,7 @@ public class ChessGUI {
 		
 		
 		/* Stalemate draw implementation. */
+		
 		// Check for White stalemate.
 		if (chessBoard.blackPlays() && !chessBoard.isWhiteKingInCheck()) {
 			// System.out.println("Checking for white stalemate!");
@@ -1956,15 +1957,17 @@ public class ChessGUI {
 			for (int j=0; j<NUM_OF_COLUMNS; j++) {
 				JButton button = chessBoardSquares[i][j];
 				button.setEnabled(true);
-
+				
 				int row;
+				int column;
 				if (gameParameters.gameMode == GameMode.HUMAN_VS_AI && gameParameters.humanPlayerAllegiance == Allegiance.BLACK) {
 					row = i;
+					column = NUM_OF_COLUMNS - 1 - j;
 				} else {
 					row = chessBoard.getNumOfRows() - 1 - i;
+					column = j;
 				}
 				
-				int column = j;
 				button.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
