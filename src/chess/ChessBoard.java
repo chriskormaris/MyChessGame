@@ -479,137 +479,130 @@ public class ChessBoard {
 	 				
  				/* Pawn promotion implementation */
 				
-				ChessPiece whiteQueen = new Queen(Allegiance.WHITE);
-				ChessPiece whiteRook = new Rook(Allegiance.WHITE);
-				ChessPiece whiteBishop = new Bishop(Allegiance.WHITE);
-				ChessPiece whiteKnight = new Knight(Allegiance.WHITE);
-				
-				ChessPiece blackQueen = new Queen(Allegiance.BLACK);
-				ChessPiece blackRook = new Rook(Allegiance.BLACK);
-				ChessPiece blackBishop = new Bishop(Allegiance.BLACK);
-				ChessPiece blackKnight = new Knight(Allegiance.BLACK);
-								
-				// If AI plays, choose the best promotion piece,
-				// based on the outcome of the immediately next move. 
- 				if (displayMove 
-					&& 
-					(chessPiece.getAllegiance() == Allegiance.WHITE && rowEnd == this.numOfRows -1
-					|| chessPiece.getAllegiance() == Allegiance.BLACK && rowEnd == 0)
-					&& 
-					((ChessGUI.gameParameters.gameMode == GameMode.HUMAN_VS_AI &&
-					(!this.player && ChessGUI.gameParameters.humanPlayerAllegiance == Allegiance.WHITE)
-					|| (this.player && ChessGUI.gameParameters.humanPlayerAllegiance == Allegiance.BLACK))
-					|| ChessGUI.gameParameters.gameMode == GameMode.AI_VS_AI)) {
- 					
+				if (chessPiece.getAllegiance() == Allegiance.WHITE && rowEnd == this.numOfRows -1
+					|| chessPiece.getAllegiance() == Allegiance.BLACK && rowEnd == 0) {
+
  					ChessPiece queen = null;
  					ChessPiece rook = null;
  					ChessPiece bishop = null;
  					ChessPiece knight = null;
  					
  					if (chessPiece.getAllegiance() == Allegiance.WHITE) {
- 						queen=whiteQueen; rook=whiteRook; bishop=whiteBishop; knight=whiteKnight;
+ 						queen = new Queen(Allegiance.WHITE);
+ 						rook = new Rook(Allegiance.WHITE);
+ 						bishop = new Bishop(Allegiance.WHITE);
+ 						knight = new Knight(Allegiance.WHITE);
  					} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
- 						queen=blackQueen; rook=blackRook; bishop=blackBishop; knight=blackKnight;
+ 						queen = new Queen(Allegiance.BLACK);
+ 						rook = new Rook(Allegiance.BLACK);
+ 						bishop = new Bishop(Allegiance.BLACK);
+ 						knight = new Knight(Allegiance.BLACK);
  					}
+					
+					// If AI plays, choose the best promotion piece,
+					// based on the outcome of the immediately next move. 
+	 				if (displayMove 
+						&& 
+						((ChessGUI.gameParameters.gameMode == GameMode.HUMAN_VS_AI &&
+						(!this.player && ChessGUI.gameParameters.humanPlayerAllegiance == Allegiance.WHITE)
+						|| (this.player && ChessGUI.gameParameters.humanPlayerAllegiance == Allegiance.BLACK))
+						|| ChessGUI.gameParameters.gameMode == GameMode.AI_VS_AI)) {
  					
-					ChessPiece[] promotionChessPieces = {queen, rook, bishop, knight};
-
-					// System.out.println("Printing Knight promotion board (before)...");
-					// System.out.println(this);
-					
-					this.getGameBoard()[rowEnd][columnEnd] = knight;
- 					this.setThreats();
-
-					// System.out.println("Printing Knight promotion board (after)...");
-					// System.out.println(this);
-					
-					// System.out.println("Checking for Knight checkmate...");
-					if (chessPiece.getAllegiance() == Allegiance.WHITE) {
-						this.checkForWhiteCheckmate(false);
-						// System.out.println("this.isWhiteCheckmate: " + this.isWhiteCheckmate);
- 					} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
- 						this.checkForBlackCheckmate(false);
- 						// System.out.println("this.isBlackCheckmate: " + this.isBlackCheckmate);
- 					}
-
-					if (chessPiece.getAllegiance() == Allegiance.WHITE && this.isWhiteCheckmate()
-						|| 
-						chessPiece.getAllegiance() == Allegiance.BLACK && this.isBlackCheckmate()) {
-						ChessGUI.placePieceToPosition(positionEnd, knight);
- 						promotedPieces.add(knight);
-					} else {
-						for (ChessPiece promotionChessPiece : promotionChessPieces) {
-							this.getGameBoard()[rowEnd][columnEnd] = promotionChessPiece;
-							this.setThreats();
-	 						
-	 						if (chessPiece.getAllegiance() == Allegiance.WHITE 
-	 								&& !this.checkForBlackStalemateDraw()
-	 							|| 
-	 							chessPiece.getAllegiance() == Allegiance.BLACK 
-	 								&& !this.checkForWhiteStalemateDraw()) {
-	 							ChessGUI.placePieceToPosition(positionEnd, promotionChessPiece);
- 								promotedPieces.add(promotionChessPiece);
-	 	 						break;
-	 						}
+						ChessPiece[] promotionChessPieces = {queen, rook, bishop, knight};
+	
+						// System.out.println("Printing Knight promotion board (before)...");
+						// System.out.println(this);
+						
+						this.getGameBoard()[rowEnd][columnEnd] = knight;
+	 					this.setThreats();
+	
+						// System.out.println("Printing Knight promotion board (after)...");
+						// System.out.println(this);
+						
+						// System.out.println("Checking for Knight checkmate...");
+						if (chessPiece.getAllegiance() == Allegiance.WHITE) {
+							this.checkForWhiteCheckmate(false);
+							// System.out.println("this.isWhiteCheckmate: " + this.isWhiteCheckmate);
+	 					} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
+	 						this.checkForBlackCheckmate(false);
+	 						// System.out.println("this.isBlackCheckmate: " + this.isBlackCheckmate);
+	 					}
+	
+						if (chessPiece.getAllegiance() == Allegiance.WHITE && this.isWhiteCheckmate()
+							|| 
+							chessPiece.getAllegiance() == Allegiance.BLACK && this.isBlackCheckmate()) {
+							ChessGUI.placePieceToPosition(positionEnd, knight);
+	 						promotedPieces.add(knight);
+						} else {
+							for (ChessPiece promotionChessPiece : promotionChessPieces) {
+								this.getGameBoard()[rowEnd][columnEnd] = promotionChessPiece;
+								this.setThreats();
+		 						
+		 						if (chessPiece.getAllegiance() == Allegiance.WHITE 
+		 								&& !this.checkForBlackStalemateDraw()
+		 							|| 
+		 							chessPiece.getAllegiance() == Allegiance.BLACK 
+		 								&& !this.checkForWhiteStalemateDraw()) {
+		 							ChessGUI.placePieceToPosition(positionEnd, promotionChessPiece);
+	 								promotedPieces.add(promotionChessPiece);
+		 	 						break;
+		 						}
+							}
 						}
+						
+	 				}
+	 				// Select which promotion you want and display it on the GUI.
+	 				else if (displayMove) {
+	 					
+	 					String[] promotionPieces = {"Queen", "Rook", "Bishop", "Knight"};
+	 				    String initialSelection = "Queen";
+	 				    
+	 					if (chessPiece.getAllegiance() == Allegiance.WHITE  && rowEnd == numOfRows - 1) {
+	 						String value = (String) JOptionPane.showInputDialog(ChessGUI.gui, "Promote white pawn to:",
+	 						        "White pawn promotion", JOptionPane.QUESTION_MESSAGE, null, promotionPieces, initialSelection);
+	 						// System.out.println("value: " + value);
+	 						
+	 						if (value == null || value.equals("Queen")) {
+	 							ChessGUI.placePieceToPosition(positionEnd, queen);
+	 							promotedPieces.add(queen);
+	 						} else if (value.equals("Rook")) {
+	 							ChessGUI.placePieceToPosition(positionEnd, rook);
+	 							promotedPieces.add(rook);
+	 						} else if (value.equals("Bishop")) {
+	 							ChessGUI.placePieceToPosition(positionEnd, bishop);
+	 							promotedPieces.add(bishop);
+	 						} else if (value.equals("Knight")) {
+	 							ChessGUI.placePieceToPosition(positionEnd, knight);
+	 							promotedPieces.add(knight);
+	 						}
+	 					} else if (chessPiece.getAllegiance() == Allegiance.BLACK && rowEnd == 0) {
+	 						String value = (String) JOptionPane.showInputDialog(ChessGUI.gui, "Promote black pawn to:",
+	 						        "Black pawn promotion", JOptionPane.QUESTION_MESSAGE, null, promotionPieces, initialSelection);
+	 						// System.out.println("value: " + value);
+	 						
+	 						if (value == null || value.equals("Queen")) {
+	 							ChessGUI.placePieceToPosition(positionEnd, queen);
+	 							promotedPieces.add(queen);
+	 						} else if (value.equals("Rook")) {
+	 							ChessGUI.placePieceToPosition(positionEnd, rook);
+	 							promotedPieces.add(rook);
+	 						} else if (value.equals("Bishop")) {
+	 							ChessGUI.placePieceToPosition(positionEnd, bishop);
+	 							promotedPieces.add(bishop);
+	 						} else if (value.equals("Knight")) {
+	 							ChessGUI.placePieceToPosition(positionEnd, knight);
+	 							promotedPieces.add(knight);
+	 						}
+	 					}
+	 				
+	 				}
+	 				
+		 			// Automatically choose promotion to Queen and do NOT display it on the GUI. 
+					else {
+						this.gameBoard[rowEnd][columnEnd] = queen;
+						promotedPieces.add(queen);
 					}
-					
- 				}
- 				// Select which promotion you want and display it on the GUI.
- 				else if (displayMove) {
- 					
- 					String[] promotionPieces = {"Queen", "Rook", "Bishop", "Knight"};
- 				    String initialSelection = "Queen";
- 				    
- 					if (chessPiece.getAllegiance() == Allegiance.WHITE  && rowEnd == numOfRows - 1) {
- 						String value = (String) JOptionPane.showInputDialog(ChessGUI.gui, "Promote white pawn to:",
- 						        "White pawn promotion", JOptionPane.QUESTION_MESSAGE, null, promotionPieces, initialSelection);
- 						// System.out.println("value: " + value);
- 						
- 						if (value == null || value.equals("Queen")) {
- 							ChessGUI.placePieceToPosition(positionEnd, whiteQueen);
- 							promotedPieces.add(whiteQueen);
- 						} else if (value.equals("Rook")) {
- 							ChessGUI.placePieceToPosition(positionEnd, whiteRook);
- 							promotedPieces.add(whiteRook);
- 						} else if (value.equals("Bishop")) {
- 							ChessGUI.placePieceToPosition(positionEnd, whiteBishop);
- 							promotedPieces.add(whiteBishop);
- 						} else if (value.equals("Knight")) {
- 							ChessGUI.placePieceToPosition(positionEnd, whiteKnight);
- 							promotedPieces.add(whiteKnight);
- 						}
- 					} else if (chessPiece.getAllegiance() == Allegiance.BLACK && rowEnd == 0) {
- 						String value = (String) JOptionPane.showInputDialog(ChessGUI.gui, "Promote black pawn to:",
- 						        "Black pawn promotion", JOptionPane.QUESTION_MESSAGE, null, promotionPieces, initialSelection);
- 						// System.out.println("value: " + value);
- 						
- 						if (value == null || value.equals("Queen")) {
- 							ChessGUI.placePieceToPosition(positionEnd, blackQueen);
- 							promotedPieces.add(blackQueen);
- 						} else if (value.equals("Rook")) {
- 							ChessGUI.placePieceToPosition(positionEnd, blackRook);
- 							promotedPieces.add(blackRook);
- 						} else if (value.equals("Bishop")) {
- 							ChessGUI.placePieceToPosition(positionEnd, blackBishop);
- 							promotedPieces.add(blackBishop);
- 						} else if (value.equals("Knight")) {
- 							ChessGUI.placePieceToPosition(positionEnd, blackKnight);
- 							promotedPieces.add(blackKnight);
- 						}
- 					}
  				
- 				}
- 				
-	 			// Automatically choose promotion to Queen and do NOT display it on the GUI. 
-				else {
-					if (chessPiece.getAllegiance() == Allegiance.WHITE && rowEnd == numOfRows - 1) {
-						this.gameBoard[rowEnd][columnEnd] = whiteQueen;
-						promotedPieces.add(whiteQueen);
-					} else if (chessPiece.getAllegiance() == Allegiance.BLACK && rowEnd == 0) {
-						this.gameBoard[rowEnd][columnEnd] = blackQueen;
-						promotedPieces.add(blackQueen);
-					}
 				}
  				
  			} else {
