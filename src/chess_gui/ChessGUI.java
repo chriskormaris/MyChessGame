@@ -348,14 +348,14 @@ public class ChessGUI {
 						+ "     There are two possible castling moves for each player's King, the \"queenside castling\" and the \"kingside castling\".\n"
 						+ "     The castling can only be performed under the condition that the King and the involved Rook have not moved from their starting positions.\n"
 						+ "     In addition, no other chess pieces must be between them, the king must not be in check and the intertwined tiles must not be threatened.\n"
-						+ "  2) This Rook can move any number of tiles horizontally or vertically.\n"
+						+ "  2) The Rook can move any number of tiles horizontally or vertically.\n"
 						+ "  3) The Bishop can move any number of tiles diagonally.\n"
 						+ "  4) The Queen can move any number of tiles diagonally, horizontally or vertically. It is the strongest piece in the game.\n"
 						+ "  5) The Knight moves in an \"L\"-shape, after moving two tiles either forward, backwards, left or right. It is the only piece that can jump over other pieces.\n"
-						+ "  6) The pawn can move one tile forward, or 2 tiles forward, if moving for the 1st time. It can capture an opponent's piece by moving one tile diagonally.\n"
+						+ "  6) The Pawn can move one tile forward, or 2 tiles forward, if moving for the 1st time. It can capture an opponent's piece by moving one tile diagonally.\n"
 						+ "     It can also capture an opponent's Pawn, that has just moved 2 steps forward, the previous turn, while being next to it,\n"
 						+ "     by moving diagonally towards its direction (\"en passant\" move).\n"
-						+ "     If a pawn reaches the final row οf the other side of the chess board, the player can promote it to a Bishop, Knight, Rook or even a Queen.",
+						+ "     If a Pawn reaches the final row οf the other side of the chess board, the player can promote it to a Bishop, Knight, Rook or even a Queen.",
 						"How to Play", JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
