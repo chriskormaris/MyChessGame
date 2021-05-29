@@ -501,49 +501,55 @@ public class ChessBoard {
 					
 					// If AI plays, choose the best promotion piece,
 					// based on the outcome of the immediately next move. 
-	 				if (displayMove 
-						&& 
-						((ChessGUI.gameParameters.gameMode == GameMode.HUMAN_VS_AI &&
+	 				if ((ChessGUI.gameParameters.gameMode == GameMode.HUMAN_VS_AI &&
 						(!this.player && ChessGUI.gameParameters.humanPlayerAllegiance == Allegiance.WHITE)
 						|| (this.player && ChessGUI.gameParameters.humanPlayerAllegiance == Allegiance.BLACK))
-						|| ChessGUI.gameParameters.gameMode == GameMode.AI_VS_AI)) {
+						|| ChessGUI.gameParameters.gameMode == GameMode.AI_VS_AI) {
  					
 						ChessPiece[] promotionChessPieces = {queen, rook, bishop, knight};
+						
+						ChessBoard chessBoard = new ChessBoard(this);
 	
 						// System.out.println("Printing Knight promotion board (before)...");
 						// System.out.println(this);
 						
-						this.getGameBoard()[rowEnd][columnEnd] = knight;
-	 					this.setThreats();
+						chessBoard.getGameBoard()[rowEnd][columnEnd] = knight;
+						chessBoard.setThreats();
 	
 						// System.out.println("Printing Knight promotion board (after)...");
 						// System.out.println(this);
 						
 						// System.out.println("Checking for Knight checkmate...");
 						if (chessPiece.getAllegiance() == Allegiance.WHITE) {
-							this.checkForWhiteCheckmate(false);
+							chessBoard.checkForWhiteCheckmate(false);
 							// System.out.println("this.isWhiteCheckmate: " + this.isWhiteCheckmate);
 	 					} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
-	 						this.checkForBlackCheckmate(false);
+	 						chessBoard.checkForBlackCheckmate(false);
 	 						// System.out.println("this.isBlackCheckmate: " + this.isBlackCheckmate);
 	 					}
 	
-						if (chessPiece.getAllegiance() == Allegiance.WHITE && this.isWhiteCheckmate()
+						if (chessPiece.getAllegiance() == Allegiance.WHITE && chessBoard.isWhiteCheckmate()
 							|| 
-							chessPiece.getAllegiance() == Allegiance.BLACK && this.isBlackCheckmate()) {
-							ChessGUI.placePieceToPosition(positionEnd, knight);
+							chessPiece.getAllegiance() == Allegiance.BLACK && chessBoard.isBlackCheckmate()) {
+							this.gameBoard[rowEnd][columnEnd] = knight;
+							if (displayMove) {
+								ChessGUI.placePieceToPosition(positionEnd, knight);
+							}
 	 						promotedPieces.add(knight);
 						} else {
 							for (ChessPiece promotionChessPiece : promotionChessPieces) {
-								this.getGameBoard()[rowEnd][columnEnd] = promotionChessPiece;
-								this.setThreats();
+								chessBoard.getGameBoard()[rowEnd][columnEnd] = promotionChessPiece;
+								chessBoard.setThreats();
 		 						
 		 						if (chessPiece.getAllegiance() == Allegiance.WHITE 
-		 								&& !this.checkForBlackStalemateDraw()
+		 								&& !chessBoard.checkForBlackStalemateDraw()
 		 							|| 
 		 							chessPiece.getAllegiance() == Allegiance.BLACK 
-		 								&& !this.checkForWhiteStalemateDraw()) {
-		 							ChessGUI.placePieceToPosition(positionEnd, promotionChessPiece);
+		 								&& !chessBoard.checkForWhiteStalemateDraw()) {
+		 							this.gameBoard[rowEnd][columnEnd] = promotionChessPiece;
+		 							if (displayMove) {
+		 								ChessGUI.placePieceToPosition(positionEnd, promotionChessPiece);
+		 							}
 	 								promotedPieces.add(promotionChessPiece);
 		 	 						break;
 		 						}
@@ -596,12 +602,6 @@ public class ChessBoard {
 	 					}
 	 				
 	 				}
-	 				
-		 			// Automatically choose promotion to Queen and do NOT display it on the GUI. 
-					else {
-						this.gameBoard[rowEnd][columnEnd] = queen;
-						promotedPieces.add(queen);
-					}
  				
 				}
  				
@@ -826,7 +826,7 @@ public class ChessBoard {
     	if (this.isInsufficientMaterialDraw) return 0;
     	if (this.isWhiteStalemateDraw) return 0;
     	if (this.isBlackStalemateDraw) return 0;
-//    	if (this.halfmoveClock >= Constants.NO_PIECE_CAPTURE_DRAW_HALFMOVES_LIMIT) return 0;
+    	// if (this.halfmoveClock >= Constants.NO_PIECE_CAPTURE_DRAW_HALFMOVES_LIMIT) return 0;
     	
     	
 		// String startPosition = lastMove.getPositions().get(0);
@@ -842,11 +842,10 @@ public class ChessBoard {
     	/* DEBUGGING. */
     	// System.out.println(lastMove);
     	// System.out.println("lastCapturedPieceValue: " + this.lastCapturedPieceValue);
-    	/*
-    	System.out.println("gameBoard");
-    	printChessBoard(gameBoard);
-    	*/
-
+    	
+    	// System.out.println("gameBoard");
+    	// printChessBoard(gameBoard);
+    	
     	// If Castling has occurred, add to the score.
     	if (whiteCastlingDone) {
     		// System.out.println("White castling done!");
@@ -1042,10 +1041,12 @@ public class ChessBoard {
 		/* Two bishops remaining check. */
     	int numOfWhiteBishops = getNumOfBishops(Allegiance.WHITE); 
     	int numOfBlackBishops = getNumOfBishops(Allegiance.BLACK); 
+    	/*
 		if (numOfWhiteBishops == 2)
 			whiteScore += Constants.TWO_BISHOPS_VALUE;
 		if (numOfBlackBishops == 2)
 			blackScore += Constants.TWO_BISHOPS_VALUE;
+		*/
 		
 		// Add extra penalty, if the Queen, or any Rook is lost, in late game. 
     	if (this.halfmoveNumber > Constants.MIDDLEGAME_HALFMOVES_THRESHOLD) {
