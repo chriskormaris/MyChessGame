@@ -502,8 +502,8 @@ public class ChessBoard {
 					// If AI plays, choose the best promotion piece,
 					// based on the outcome of the immediately next move. 
 	 				if ((ChessGUI.gameParameters.gameMode == GameMode.HUMAN_VS_AI &&
-						(!this.player && ChessGUI.gameParameters.humanPlayerAllegiance == Allegiance.WHITE)
-						|| (this.player && ChessGUI.gameParameters.humanPlayerAllegiance == Allegiance.BLACK))
+						(this.blackPlays() && ChessGUI.gameParameters.humanPlayerAllegiance == Allegiance.WHITE)
+						|| (this.whitePlays() && ChessGUI.gameParameters.humanPlayerAllegiance == Allegiance.BLACK))
 						|| ChessGUI.gameParameters.gameMode == GameMode.AI_VS_AI) {
  					
 						ChessPiece[] promotionChessPieces = {queen, rook, bishop, knight};
@@ -557,7 +557,7 @@ public class ChessBoard {
 						}
 						
 	 				}
-	 				// Select which promotion you want and display it on the GUI.
+	 				// If human player plays Select which promotion you want and display it on the GUI.
 	 				else if (displayMove) {
 	 					
 	 					String[] promotionPieces = {"Queen", "Rook", "Bishop", "Knight"};
