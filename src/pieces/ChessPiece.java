@@ -83,14 +83,18 @@ public abstract class ChessPiece {
 				returnString += "Black ";
 			}
 			
-			if (this instanceof Pawn) {
-				returnString += "Pawn";
+			if (this instanceof King) {
+				returnString += "King";
+			} else if (this instanceof Queen) {
+				returnString += "Queen";
 			} else if (this instanceof Rook) {
 				returnString += "Rook";
-			} else if (this instanceof Knight) {
-				returnString += "Knight";
 			} else if (this instanceof Bishop) {
 				returnString += "Bishop";
+			} else if (this instanceof Knight) {
+				returnString += "Knight";
+			} else if (this instanceof Pawn) {
+				returnString += "Pawn";
 			}
 			
 			return returnString;
