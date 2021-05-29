@@ -511,21 +511,21 @@ public class ChessBoard {
 						ChessBoard chessBoard = new ChessBoard(this);
 	
 						// System.out.println("Printing Knight promotion board (before)...");
-						// System.out.println(this);
+						// System.out.println(chessBoard);
 						
 						chessBoard.getGameBoard()[rowEnd][columnEnd] = knight;
 						chessBoard.setThreats();
 	
 						// System.out.println("Printing Knight promotion board (after)...");
-						// System.out.println(this);
+						// System.out.println(chessBoard);
 						
 						// System.out.println("Checking for Knight checkmate...");
 						if (chessPiece.getAllegiance() == Allegiance.WHITE) {
 							chessBoard.checkForWhiteCheckmate(false);
-							// System.out.println("this.isWhiteCheckmate: " + this.isWhiteCheckmate);
+							// System.out.println("chessBoard.isWhiteCheckmate: " + chessBoard.isWhiteCheckmate);
 	 					} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
 	 						chessBoard.checkForBlackCheckmate(false);
-	 						// System.out.println("this.isBlackCheckmate: " + this.isBlackCheckmate);
+	 						// System.out.println("chessBoard.isBlackCheckmate: " + chessBoard.isBlackCheckmate);
 	 					}
 	
 						if (chessPiece.getAllegiance() == Allegiance.WHITE && chessBoard.isWhiteCheckmate()
