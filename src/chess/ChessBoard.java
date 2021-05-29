@@ -557,7 +557,7 @@ public class ChessBoard {
 						}
 						
 	 				}
-	 				// If human player plays Select which promotion you want and display it on the GUI.
+	 				// If human player plays, select which promotion you want and display it on the GUI.
 	 				else if (displayMove) {
 	 					
 	 					String[] promotionPieces = {"Queen", "Rook", "Bishop", "Knight"};
