@@ -1883,11 +1883,11 @@ public class ChessBoard {
 	}
 	
 	public boolean whitePlays() {
-		return this.player == Constants.WHITE;
+		return (this.player == Constants.WHITE);
 	}
 	
 	public boolean blackPlays() {
-		return this.player == Constants.BLACK;
+		return (this.player == Constants.BLACK);
 	}
 	
 	public boolean getPlayer() {

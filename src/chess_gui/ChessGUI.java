@@ -1488,12 +1488,12 @@ public class ChessGUI {
 		/* STEP 1. Random starting position. */
 		if (chessBoard.whitePlays() && aiAllegiance == Allegiance.WHITE && !chessBoard.isWhiteKingInCheck() 
 				|| 
-				chessBoard.blackPlays() && aiAllegiance == Allegiance.BLACK && !chessBoard.isBlackKingInCheck()) {
+			chessBoard.blackPlays() && aiAllegiance == Allegiance.BLACK && !chessBoard.isBlackKingInCheck()) {
 			for (int i=0; i<chessBoard.getNumOfRows(); i++) {
 				for (int j=0; j<NUM_OF_COLUMNS; j++) {
 					if (aiAllegiance == Allegiance.WHITE 
 						&& chessBoard.getGameBoard()[i][j].getAllegiance() == Allegiance.WHITE
-						||
+							||
 						aiAllegiance == Allegiance.BLACK 
 						&& chessBoard.getGameBoard()[i][j].getAllegiance() == Allegiance.BLACK) {
 						
@@ -1520,8 +1520,8 @@ public class ChessGUI {
 		}
 		// If the AI King is in check, then get one of the following valid moves.
 		else if (chessBoard.whitePlays() && aiAllegiance == Allegiance.WHITE && chessBoard.isWhiteKingInCheck() 
-				|| 
-				chessBoard.blackPlays() && aiAllegiance == Allegiance.BLACK && chessBoard.isBlackKingInCheck()) {
+					|| 
+				 chessBoard.blackPlays() && aiAllegiance == Allegiance.BLACK && chessBoard.isBlackKingInCheck()) {
 			// System.out.println("chessBoard.blackKingInCheckValidPieceMoves: " + chessBoard.blackKingInCheckValidPieceMoves);
 			Random r = new Random();
 			List<String> keys = new ArrayList<String>();
@@ -1542,15 +1542,15 @@ public class ChessGUI {
 		
 		/* STEP 2. Random ending position. */
 		Set<String> possibleEndingPositions = new TreeSet<String>();
-		if (chessBoard.blackPlays() && !chessBoard.isBlackKingInCheck()
-			||
-			chessBoard.whitePlays() && !chessBoard.isWhiteKingInCheck()) {
+		if (chessBoard.whitePlays() && !chessBoard.isWhiteKingInCheck()
+				||
+			chessBoard.blackPlays() && !chessBoard.isBlackKingInCheck()) {
 			possibleEndingPositions = randomStartingEndingPositions.get(randomAiStartingPosition);
 		} else {
-			if (chessBoard.blackPlays()) {
-				possibleEndingPositions = chessBoard.getBlackKingInCheckValidPieceMoves().get(randomAiStartingPosition);
-			} else if (chessBoard.whitePlays()) {
+			if (chessBoard.whitePlays()) {
 				possibleEndingPositions = chessBoard.getWhiteKingInCheckValidPieceMoves().get(randomAiStartingPosition);
+			} else if (chessBoard.blackPlays()) {
+				possibleEndingPositions = chessBoard.getBlackKingInCheckValidPieceMoves().get(randomAiStartingPosition);
 			}
 		}
 		
@@ -1649,15 +1649,29 @@ public class ChessGUI {
 	public static void playAiVsAi() {
 		MiniMaxAi ai1 = new MiniMaxAi(gameParameters.maxDepth1, Constants.WHITE);
 		MiniMaxAi ai2 = new MiniMaxAi(gameParameters.maxDepth2, Constants.BLACK);
-		
-		turnLabel.setText(firstTurnText);
-		
+				
 		while (!isGameOver) {
 			System.out.println(turnLabel.getText());
 			aiVsAiMove(ai1, Allegiance.WHITE);
+			
 			if (!isGameOver) {
 				System.out.println(turnLabel.getText());
+				
+				try {
+					Thread.sleep(Constants.AI_MOVE_MILLISECONDS);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				
 				aiVsAiMove(ai2, Allegiance.BLACK);
+			}
+			
+			if (!isGameOver) {
+				try {
+					Thread.sleep(Constants.AI_MOVE_MILLISECONDS);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		
@@ -1666,7 +1680,7 @@ public class ChessGUI {
 	}
 	
 
-	private static void aiVsAiMove(MiniMaxAi ai, Allegiance white) {
+	private static void aiVsAiMove(MiniMaxAi ai, Allegiance allegiance) {
 
 		previousChessBoards.push(new ChessBoard(chessBoard));
 		
@@ -1681,22 +1695,16 @@ public class ChessGUI {
 		if (gameParameters.aiType == AiType.MINIMAX_AI) {
 			minimaxAiMove(ai);
 		} else {
-			randomAiMove(Allegiance.WHITE);
+			randomAiMove(allegiance);
 		}
 		halfmoveGameBoards.push(Utilities.copyGameBoard(chessBoard.getGameBoard()));
 		
 		setTurnMessage();
 		setScoreMessage();
 		
-		try {
-			frame.paint(frame.getGraphics());
-			frame.revalidate();
-			frame.repaint();
-			Thread.sleep(Constants.AI_MOVE_MILLISECONDS);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-
+		frame.paint(frame.getGraphics());
+		frame.revalidate();
+		frame.repaint();
 	}
 
 
