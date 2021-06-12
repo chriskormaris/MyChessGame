@@ -1,0 +1,17 @@
+package enumeration;
+
+// This enum has NO effect on the code at the moment.
+public enum GameResult {
+	NONE,
+	
+	WHITE_CHECKMATE,
+	BLACK_CHECKMATE,
+	
+	WHITE_STALEMATE_DRAW,
+	BLACK_STALEMATE_DRAW,
+	
+	INSUFFICIENT_MATERIAL_DRAW,
+	NO_PIECE_CAPTURE_DRAW,
+	THREEFOLD_REPETITION_DRAW,
+	DRAW_BY_MUTUAL_AGREEMENT
+}

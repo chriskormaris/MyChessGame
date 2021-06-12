@@ -47,6 +47,7 @@ import chess.Move;
 import enumeration.AiType;
 import enumeration.Allegiance;
 import enumeration.GameMode;
+import enumeration.GameResult;
 import enumeration.GuiStyle;
 import minimax_ai.MiniMaxAi;
 import piece.Bishop;
@@ -159,9 +160,11 @@ public class ChessGUI {
 	
 	public static JLabel[] aiVsAiNewCapturedPiecesImages;
 	
+	public static GameResult gameResult;
+	
 	
 	public ChessGUI(String title) {
-				
+		
 		// Change JDialog style.
 		// JDialog.setDefaultLookAndFeelDecorated(true);
 		
@@ -900,6 +903,8 @@ public class ChessGUI {
 		}
 		
 		isGameOver = false;
+		
+		gameResult = GameResult.NONE;
 
 		String turnMessage = firstTurnText;
 		turnLabel.setText(turnMessage);
@@ -1203,6 +1208,8 @@ public class ChessGUI {
 		if (chessBoard.whitePlays()) {
 			chessBoard.checkForWhiteCheckmate(true);
 			if (chessBoard.isWhiteCheckmate()) {
+				gameResult = GameResult.WHITE_CHECKMATE;
+				
 				String turnMessage = "Move number: " 
 						+ (int) Math.ceil((float) chessBoard.getHalfmoveNumber() / 2) 
 						+ ". Checkmate. White wins!";
@@ -1236,6 +1243,8 @@ public class ChessGUI {
 		else {
 			chessBoard.checkForBlackCheckmate(true);
 			if (chessBoard.isBlackCheckmate()) {
+				gameResult = GameResult.BLACK_CHECKMATE;
+				
 				String turnMessage = "Move number: " 
 						+ (int) Math.ceil((float) chessBoard.getHalfmoveNumber() / 2) 
 						+ ". Checkmate. Black wins!";
@@ -1273,6 +1282,8 @@ public class ChessGUI {
 			// System.out.println("Checking for white stalemate!");
 			chessBoard.checkForWhiteStalemateDraw();
 			if (chessBoard.isWhiteStalemateDraw()) {
+				gameResult = GameResult.WHITE_STALEMATE_DRAW;
+				
 				String turnMessage = "Move number: " 
 						+ (int) Math.ceil((float) chessBoard.getHalfmoveNumber() / 2) 
 						+ ". Stalemate! No legal moves for White exist.";
@@ -1305,6 +1316,8 @@ public class ChessGUI {
 			// System.out.println("Checking for black stalemate!");
 			chessBoard.checkForBlackStalemateDraw();
 			if (chessBoard.isBlackStalemateDraw()) {
+				gameResult = GameResult.BLACK_STALEMATE_DRAW;
+				
 				String turnMessage = "Move number: " 
 						+ (int) Math.ceil((float) chessBoard.getHalfmoveNumber() / 2) 
 						+ ". Stalemate! No legal moves for Black exist.";
@@ -1336,6 +1349,8 @@ public class ChessGUI {
 		/* Insufficient checkmate material draw implementation. */
 		chessBoard.checkForInsufficientMaterialDraw();
 		if (chessBoard.isInsufficientMaterialDraw()) {
+			gameResult = GameResult.INSUFFICIENT_MATERIAL_DRAW;
+
 			String turnMessage = "Move number: " 
 					+ (int) Math.ceil((float) chessBoard.getHalfmoveNumber() / 2) 
 					+ ". It is a draw.";
@@ -1363,7 +1378,7 @@ public class ChessGUI {
 		
 		
 		// 50 fullmoves without a chessPiece capture Draw implementation.
-		if (chessBoard.isNoCaptureDraw()) {
+		if (chessBoard.checkForNoPieceCaptureDraw()) {
 			int dialogResult = -1;
 			
 			if (!chessBoard.whitePlays() && gameParameters.humanPlayerAllegiance == Allegiance.WHITE
@@ -1377,6 +1392,7 @@ public class ChessGUI {
 			
 			// System.out.println("dialogResult:" + dialogResult);
 			if (dialogResult == JOptionPane.YES_OPTION) {
+				gameResult = GameResult.NO_PIECE_CAPTURE_DRAW;
 				showDeclareDrawDialog();
 				return true;
 			}
@@ -1408,6 +1424,7 @@ public class ChessGUI {
 			
 			// System.out.println("dialogResult:" + dialogResult);
 			if (dialogResult == JOptionPane.YES_OPTION) {
+				gameResult = GameResult.THREEFOLD_REPETITION_DRAW;
 				showDeclareDrawDialog();
 				return true;
 			}

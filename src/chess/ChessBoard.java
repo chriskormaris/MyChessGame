@@ -111,10 +111,10 @@ public class ChessBoard {
 	/* These variables are also used for the "undo" functionality. */
 	private boolean isWhiteCheckmate;
 	private boolean isBlackCheckmate;
-	private boolean isInsufficientMaterialDraw;
 	private boolean isWhiteStalemateDraw;
 	private boolean isBlackStalemateDraw;
-	
+	private boolean isInsufficientMaterialDraw;
+
 	private int whiteCapturedPiecesCounter;
 	private int blackCapturedPiecesCounter;
 	
@@ -164,7 +164,6 @@ public class ChessBoard {
 		this.blackKingInCheckValidPieceMoves = new TreeMap<String, Set<String>>();
 		
 		setThreats();
-		
 	}
     
     
@@ -230,10 +229,10 @@ public class ChessBoard {
 		
 		this.isWhiteCheckmate = otherBoard.isWhiteCheckmate();
 		this.isBlackCheckmate = otherBoard.isBlackCheckmate();
-		this.isInsufficientMaterialDraw = otherBoard.isInsufficientMaterialDraw();
 		this.isWhiteStalemateDraw = otherBoard.isWhiteStalemateDraw();
 		this.isBlackStalemateDraw = otherBoard.isBlackStalemateDraw();
-		
+		this.isInsufficientMaterialDraw = otherBoard.isInsufficientMaterialDraw();
+
 		this.whiteCapturedPiecesCounter = otherBoard.getWhiteCapturedPiecesCounter();
 		this.blackCapturedPiecesCounter = otherBoard.getBlackCapturedPiecesCounter();
 		
@@ -817,17 +816,17 @@ public class ChessBoard {
 		
 		this.isWhiteCheckmate = checkForWhiteCheckmate(false);
 		this.isBlackCheckmate = checkForBlackCheckmate(false);
-		this.isInsufficientMaterialDraw = checkForInsufficientMaterialDraw();
 		this.isWhiteStalemateDraw = checkForWhiteStalemateDraw();
 		this.isBlackStalemateDraw = checkForBlackStalemateDraw();
-		
+		this.isInsufficientMaterialDraw = checkForInsufficientMaterialDraw();
+
 		if (this.isWhiteCheckmate) return Constants.CHECKMATE_VALUE;
     	if (this.isBlackCheckmate) return -Constants.CHECKMATE_VALUE;
-    	if (this.isInsufficientMaterialDraw) return 0;
     	if (this.isWhiteStalemateDraw) return 0;
     	if (this.isBlackStalemateDraw) return 0;
-    	// if (this.halfmoveClock >= Constants.NO_PIECE_CAPTURE_DRAW_HALFMOVES_LIMIT) return 0;
-    	
+    	if (this.isInsufficientMaterialDraw) return 0;
+    	// if (checkForNoPieceCaptureDraw()) return 0;
+
     	
 		// String startPosition = lastMove.getPositions().get(0);
 		String endPosition = lastMove.getPositions().get(1);
@@ -1181,8 +1180,7 @@ public class ChessBoard {
 
     	if (checkForInsufficientMaterialDraw()) return true;
     	
-    	// if (getHalfmoveClock() >= Constants.NO_PIECE_CAPTURE_DRAW_HALFMOVES_LIMIT)
-    	// 	return true;
+    	// if (checkForNoPieceCaptureDraw()) return true;
 
         return false;
     }
@@ -1191,12 +1189,12 @@ public class ChessBoard {
 	public boolean isTerminalState() {
 		if (isWhiteCheckmate() || isBlackCheckmate() || 
 			isWhiteStalemateDraw() || isBlackStalemateDraw() || isInsufficientMaterialDraw()) {
-			// getHalfmoveClock() >= Constants.NO_PIECE_CAPTURE_HALFMOVES_DRAW_LIMIT) {
+			// || checkForNoPieceCaptureDraw()()) {
 			return true;
 		}
 		return false;
 	}
-
+	
 	
     public void emptyTheChessBoard() {
         for (int i=0; i<numOfRows; i++) {
@@ -1958,7 +1956,7 @@ public class ChessBoard {
 		this.halfmoveClock = halfmoveClock;
 	}
 	
-	public boolean isNoCaptureDraw() {
+	public boolean checkForNoPieceCaptureDraw() {
 		return this.halfmoveClock >= Constants.NO_PIECE_CAPTURE_DRAW_HALFMOVES_LIMIT;
 	}
 
