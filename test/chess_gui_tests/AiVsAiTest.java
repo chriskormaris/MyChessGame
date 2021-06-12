@@ -5,8 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import chess.ChessBoard;
 import chess_gui.ChessGUI;
-//import enumerations.AiType;
-import enumerations.GameMode;
+import enumeration.GameMode;
 
 
 class AiVsAiTest {

@@ -1,11 +1,11 @@
-package utilities;
+package utility;
 
 import java.awt.Color;
 
-import enumerations.AiType;
-import enumerations.Allegiance;
-import enumerations.GameMode;
-import enumerations.GuiStyle;
+import enumeration.AiType;
+import enumeration.Allegiance;
+import enumeration.GameMode;
+import enumeration.GuiStyle;
 
 public class GameParameters {
 	

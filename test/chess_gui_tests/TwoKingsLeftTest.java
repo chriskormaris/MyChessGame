@@ -7,9 +7,9 @@ import org.junit.jupiter.api.Test;
 
 import chess.ChessBoard;
 import chess_gui.ChessGUI;
-import enumerations.Allegiance;
-import pieces.King;
-import pieces.Pawn;
+import enumeration.Allegiance;
+import piece.King;
+import piece.Pawn;
 
 
 class TwoKingsLeftTest {

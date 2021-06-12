@@ -7,10 +7,10 @@ import org.junit.jupiter.api.Test;
 
 import chess.ChessBoard;
 import chess_gui.ChessGUI;
-import enumerations.Allegiance;
-import pieces.Bishop;
-import pieces.King;
-import pieces.Knight;
+import enumeration.Allegiance;
+import piece.Bishop;
+import piece.King;
+import piece.Knight;
 
 
 class InsufficientMaterialDrawTest {

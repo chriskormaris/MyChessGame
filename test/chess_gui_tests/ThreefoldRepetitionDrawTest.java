@@ -5,12 +5,12 @@ import org.junit.jupiter.api.Test;
 
 import chess.ChessBoard;
 import chess_gui.ChessGUI;
-import enumerations.Allegiance;
-import enumerations.GameMode;
-import pieces.Bishop;
-import pieces.King;
-import pieces.Knight;
-import utilities.Utilities;
+import enumeration.Allegiance;
+import enumeration.GameMode;
+import piece.Bishop;
+import piece.King;
+import piece.Knight;
+import utility.Utilities;
 
 
 class ThreefoldRepetitionDrawTest {

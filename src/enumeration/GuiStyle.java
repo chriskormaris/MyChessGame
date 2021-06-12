@@ -1,4 +1,4 @@
-package enumerations;
+package enumeration;
 
 public enum GuiStyle {
 	CROSS_PLATFORM_STYLE,

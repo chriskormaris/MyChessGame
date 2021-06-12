@@ -12,19 +12,19 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 import chess_gui.ChessGUI;
-import enumerations.Allegiance;
-import enumerations.GameMode;
-import pieces.Bishop;
-import pieces.ChessPiece;
-import pieces.EmptyTile;
-import pieces.King;
-import pieces.Knight;
-import pieces.Pawn;
-import pieces.Queen;
-import pieces.Rook;
-import utilities.ChessPieceShortestPath;
-import utilities.Constants;
-import utilities.Utilities;
+import enumeration.Allegiance;
+import enumeration.GameMode;
+import piece.Bishop;
+import piece.ChessPiece;
+import piece.EmptyTile;
+import piece.King;
+import piece.Knight;
+import piece.Pawn;
+import piece.Queen;
+import piece.Rook;
+import utility.ChessPieceShortestPath;
+import utility.Constants;
+import utility.Utilities;
 
 
 public class ChessBoard {

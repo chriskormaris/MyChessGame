@@ -1,31 +1,31 @@
-package pieces;
+package piece;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import chess.ChessBoard;
-import enumerations.Allegiance;
-import utilities.Constants;
-import utilities.Utilities;
+import enumeration.Allegiance;
+import utility.Constants;
+import utility.Utilities;
 
 
-public class Bishop extends ChessPiece {
+public class Rook extends ChessPiece {
 	
-	public Bishop(Allegiance allegiance) {
+	public Rook(Allegiance allegiance) {
 		super(allegiance);
 	}
 
 	@Override
 	public ChessPiece makeCopy() {
-		return new Bishop(super.getAllegiance());
+		return new Rook(super.getAllegiance());
 	}
-
+	
 	@Override
 	public Set<String> getNextPositions(String position, ChessBoard chessBoard, boolean returnThreats) {
-
+		
 		// System.out.println("current position: " + position);
 
-		Set<String> nextBishopPositions = new HashSet<String>();
+		Set<String> nextRookPositions = new HashSet<String>();
 		
 		// First, find the row && the column 
 		// that corresponds to the given position String.
@@ -33,27 +33,24 @@ public class Bishop extends ChessPiece {
 		int column = Utilities.getColumnFromPosition(position);
 		ChessPiece chessPiece = chessBoard.getGameBoard()[row][column];
 		
-		if (!(chessPiece instanceof Bishop))
-			return nextBishopPositions;
+		if (!(chessPiece instanceof Rook))
+			return nextRookPositions;
 
 		int newRow = 0, newColumn = 0;
 		String newPosition;
-		int counter;
 		
-		// Find all the upper right diagonal positions.
-		counter = 1;
+		// Find all the up positions.
 		for (int i=row+1; i<chessBoard.getNumOfRows(); i++) {
-			if (row < chessBoard.getNumOfRows() && column + counter < Constants.DEFAULT_NUM_OF_COLUMNS) {
+			if (row < chessBoard.getNumOfRows()) {
 				
 				newRow = i;
-				newColumn = column + counter;
+				newColumn = column;
 				newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
-				// System.out.println("newPosition: " + newPosition);
 				ChessPiece endTile = chessBoard.getGameBoard()[newRow][newColumn];
 				// System.out.println("endTile: " + endTile);
 				if (endTile instanceof EmptyTile || chessPiece.getAllegiance() != endTile.getAllegiance()
 					&& !(endTile instanceof King) || returnThreats) {
-					nextBishopPositions.add(newPosition);
+					nextRookPositions.add(newPosition);
 				}
 				
 				// Stop searching for other positions, if another chessPiece is reached.
@@ -62,23 +59,20 @@ public class Bishop extends ChessPiece {
 					break;
 				}
 			}
-			counter++;
 		}
 		
-		// Find all the lower left diagonal positions.
-		counter = 1;
+		// Find all the down positions.
 		for (int i=row-1; i>=0; i--) {
-			if (row >= 0 && column - counter >= 0) {
+			if (row > 0) {
 				
 				newRow = i;
-				newColumn = column - counter;
+				newColumn = column;
 				newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
-				// System.out.println("newPosition: " + newPosition);
 				ChessPiece endTile = chessBoard.getGameBoard()[newRow][newColumn];
 				// System.out.println("endTile: " + endTile);
 				if (endTile instanceof EmptyTile || chessPiece.getAllegiance() != endTile.getAllegiance()
 					&& !(endTile instanceof King) || returnThreats) {
-					nextBishopPositions.add(newPosition);
+					nextRookPositions.add(newPosition);
 				}
 				
 				// Stop searching for other positions, if another chessPiece is reached.
@@ -87,23 +81,20 @@ public class Bishop extends ChessPiece {
 					break;
 				}
 			}
-			counter++;
 		}
 		
-		// Find all the upper left diagonal positions.
-		counter = 1;
-		for (int i=row+1; i<chessBoard.getNumOfRows(); i++) {
-			if (row < chessBoard.getNumOfRows() && column - counter >= 0) {
+		// Find all the right positions.
+		for (int j=column+1; j<Constants.DEFAULT_NUM_OF_COLUMNS; j++) {
+			if (column < Constants.DEFAULT_NUM_OF_COLUMNS) {
 				
-				newRow = i;
-				newColumn = column - counter;
+				newRow = row;
+				newColumn = j;
 				newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
-				// System.out.println("newPosition: " + newPosition);
 				ChessPiece endTile = chessBoard.getGameBoard()[newRow][newColumn];
 				// System.out.println("endTile: " + endTile);
 				if (endTile instanceof EmptyTile || chessPiece.getAllegiance() != endTile.getAllegiance()
 					&& !(endTile instanceof King) || returnThreats) {
-					nextBishopPositions.add(newPosition);
+					nextRookPositions.add(newPosition);
 				}
 				
 				// Stop searching for other positions, if another chessPiece is reached.
@@ -112,23 +103,20 @@ public class Bishop extends ChessPiece {
 					break;
 				}
 			}
-			counter++;
 		}
 		
-		// Find all the lower right diagonal positions.
-		counter = 1;
-		for (int i=row-1; i>=0; i--) {
-			if (row >= 0 && column + counter < 8) {
+		// Find all the left positions.
+		for (int j=column-1; j>=0; j--) {
+			if (column > 0) {
 				
-				newRow = i;
-				newColumn = column + counter;
+				newRow = row;
+				newColumn = j;
 				newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
-				// System.out.println("newPosition: " + newPosition);
 				ChessPiece endTile = chessBoard.getGameBoard()[newRow][newColumn];
 				// System.out.println("endTile: " + endTile);
 				if (endTile instanceof EmptyTile || chessPiece.getAllegiance() != endTile.getAllegiance()
 					&& !(endTile instanceof King) || returnThreats) {
-					nextBishopPositions.add(newPosition);
+					nextRookPositions.add(newPosition);
 				}
 				
 				// Stop searching for other positions, if another chessPiece is reached.
@@ -137,10 +125,10 @@ public class Bishop extends ChessPiece {
 					break;
 				}
 			}
-			counter++;
 		}
 		
-		return nextBishopPositions;
+		return nextRookPositions;
+	
 	}
 
 }

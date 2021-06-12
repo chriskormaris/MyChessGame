@@ -1,4 +1,4 @@
-package utilities;
+package utility;
 
 // import java.io.File;
 import java.net.URL;
@@ -7,12 +7,12 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
-import pieces.Bishop;
-import pieces.ChessPiece;
-import pieces.Knight;
-import pieces.Pawn;
-import pieces.Queen;
-import pieces.Rook;
+import piece.Bishop;
+import piece.ChessPiece;
+import piece.Knight;
+import piece.Pawn;
+import piece.Queen;
+import piece.Rook;
 
 
 public class Utilities {

@@ -1,9 +1,9 @@
-package pieces;
+package piece;
 
 import java.util.Set;
 
 import chess.ChessBoard;
-import enumerations.Allegiance;
+import enumeration.Allegiance;
 
 
 public class EmptyTile extends ChessPiece {

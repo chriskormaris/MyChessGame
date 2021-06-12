@@ -11,9 +11,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import chess_gui.ChessGUI;
-import enumerations.GameMode;
+import enumeration.GameMode;
 import minimax_ai.MiniMaxAi;
-import utilities.Constants;
+import utility.Constants;
 
 
 public class ChessGui2 extends JPanel {

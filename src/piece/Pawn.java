@@ -1,12 +1,12 @@
-package pieces;
+package piece;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import chess.ChessBoard;
-import enumerations.Allegiance;
-import utilities.Constants;
-import utilities.Utilities;
+import enumeration.Allegiance;
+import utility.Constants;
+import utility.Utilities;
 
 
 public class Pawn extends ChessPiece {

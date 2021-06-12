@@ -6,7 +6,7 @@ import java.util.Random;
 
 import chess.ChessBoard;
 import chess.Move;
-import utilities.Constants;
+import utility.Constants;
 
 public class MiniMaxAi {
 

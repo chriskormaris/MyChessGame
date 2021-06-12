@@ -7,13 +7,13 @@ import org.junit.jupiter.api.Test;
 
 import chess.ChessBoard;
 import chess_gui.ChessGUI;
-import enumerations.Allegiance;
-import pieces.Bishop;
-import pieces.King;
-import pieces.Knight;
-import pieces.Rook;
-import utilities.Constants;
-import utilities.Utilities;
+import enumeration.Allegiance;
+import piece.Bishop;
+import piece.King;
+import piece.Knight;
+import piece.Rook;
+import utility.Constants;
+import utility.Utilities;
 
 
 class CaptureRookOrBishopChoiceTest {

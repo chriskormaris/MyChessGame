@@ -44,25 +44,25 @@ import javax.swing.border.LineBorder;
 
 import chess.ChessBoard;
 import chess.Move;
-import enumerations.AiType;
-import enumerations.Allegiance;
-import enumerations.GameMode;
-import enumerations.GuiStyle;
+import enumeration.AiType;
+import enumeration.Allegiance;
+import enumeration.GameMode;
+import enumeration.GuiStyle;
 import minimax_ai.MiniMaxAi;
-import pieces.Bishop;
-import pieces.ChessPiece;
-import pieces.EmptyTile;
-import pieces.King;
-import pieces.Knight;
-import pieces.Pawn;
-import pieces.Queen;
-import pieces.Rook;
-import utilities.Constants;
-import utilities.FenUtilities;
-import utilities.GameParameters;
-import utilities.InvalidFenFormatException;
-import utilities.ResourceLoader;
-import utilities.Utilities;
+import piece.Bishop;
+import piece.ChessPiece;
+import piece.EmptyTile;
+import piece.King;
+import piece.Knight;
+import piece.Pawn;
+import piece.Queen;
+import piece.Rook;
+import utility.Constants;
+import utility.FenUtilities;
+import utility.GameParameters;
+import utility.InvalidFenFormatException;
+import utility.ResourceLoader;
+import utility.Utilities;
 
 
 public class ChessGUI {

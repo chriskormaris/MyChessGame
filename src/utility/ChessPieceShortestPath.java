@@ -1,4 +1,4 @@
-package utilities;
+package utility;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,10 +7,10 @@ import java.util.List;
 import java.util.Set;
 
 import chess.ChessBoard;
-import enumerations.Allegiance;
-import pieces.ChessPiece;
-import pieces.EmptyTile;
-import pieces.King;
+import enumeration.Allegiance;
+import piece.ChessPiece;
+import piece.EmptyTile;
+import piece.King;
 
 
 public class ChessPieceShortestPath {

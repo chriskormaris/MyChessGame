@@ -1,15 +1,15 @@
-package utilities;
+package utility;
 
 import chess.ChessBoard;
-import enumerations.Allegiance;
-import pieces.Bishop;
-import pieces.ChessPiece;
-import pieces.EmptyTile;
-import pieces.King;
-import pieces.Knight;
-import pieces.Pawn;
-import pieces.Queen;
-import pieces.Rook;
+import enumeration.Allegiance;
+import piece.Bishop;
+import piece.ChessPiece;
+import piece.EmptyTile;
+import piece.King;
+import piece.Knight;
+import piece.Pawn;
+import piece.Queen;
+import piece.Rook;
 
 public class FenUtilities {
 	

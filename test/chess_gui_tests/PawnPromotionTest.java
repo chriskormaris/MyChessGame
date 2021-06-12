@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import chess.ChessBoard;
 import chess_gui.ChessGUI;
-import enumerations.Allegiance;
+import enumeration.Allegiance;
 
 
 class PawnPromotionTest {

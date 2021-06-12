@@ -1,10 +1,10 @@
-package pieces;
+package piece;
 
 import java.util.Set;
 
 import chess.ChessBoard;
-import enumerations.Allegiance;
-import utilities.Constants;
+import enumeration.Allegiance;
+import utility.Constants;
 
 public abstract class ChessPiece {
 
