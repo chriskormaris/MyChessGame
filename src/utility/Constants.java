@@ -25,7 +25,7 @@ public class Constants {
 	public static final int DEFAULT_NUM_OF_COLUMNS = 8;
 	
 	/* this could be 1, 2 or 3 at maximum */
-	public static final int DEFAULT_MAX_DEPTH = 1;
+	public static final int DEFAULT_MAX_DEPTH = 2;
 	
 	public static final int NO_PIECE_CAPTURE_DRAW_HALFMOVES_LIMIT = 100;
 	public static final int MIDDLEGAME_HALFMOVES_THRESHOLD = 24;
