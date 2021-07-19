@@ -21,6 +21,8 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.Stack;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
@@ -36,11 +38,16 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextPane;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.border.LineBorder;
+import javax.swing.text.MutableAttributeSet;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 
 import chess.ChessBoard;
 import chess.Move;
@@ -81,11 +88,13 @@ public class ChessGUI {
 	public static JFrame frame = new JFrame(TITLE);
 	public static JPanel gui = new JPanel();
 	
+	public static JToolBar tools = new JToolBar();
+
 	public static JPanel chessBoardPanel;
 	public static JPanel capturedPiecesPanel;
 	
 	public static String firstTurnText = "Move number: 1. White plays first.";
-	public static JLabel turnLabel = new JLabel(firstTurnText);
+	public static JTextPane turnTextPane = new JTextPane();
 	
 	public static String zeroScoreText = "Score: 0";
 	
@@ -162,6 +171,11 @@ public class ChessGUI {
 	
 	public static GameResult gameResult;
 	
+	public static int whiteMinimaxAiMoveElapsedSecs;
+	public static double whiteMinimaxAiMoveAverageSecs;
+	public static int blackMinimaxAiMoveElapsedSecs;
+	public static double blackMinimaxAiMoveAverageSecs;
+	
 	
 	public ChessGUI(String title) {
 		
@@ -174,9 +188,9 @@ public class ChessGUI {
 		
 		if (gameParameters.gameMode == GameMode.HUMAN_VS_AI && gameParameters.aiType == AiType.MINIMAX_AI) {
 			if (gameParameters.humanPlayerAllegiance == Allegiance.WHITE) {
-				ai = new MiniMaxAi(gameParameters.maxDepth1, Constants.BLACK);
+				ai = new MiniMaxAi(gameParameters.ai1MaxDepth, Constants.BLACK);
 			} else if (gameParameters.humanPlayerAllegiance == Allegiance.BLACK) {
-				ai = new MiniMaxAi(gameParameters.maxDepth1, Constants.WHITE);
+				ai = new MiniMaxAi(gameParameters.ai1MaxDepth, Constants.WHITE);
 			}
 		}
 		
@@ -431,9 +445,9 @@ public class ChessGUI {
 	}
 	
 	
-	private static void setTurnMessage() {
+	public static void setTurnMessage() {
 		if (chessBoard.getHalfmoveNumber() == 1) {
-    		turnLabel.setText(firstTurnText);
+    		turnTextPane.setText(firstTurnText);
         } else {
             String turnMessage = "Move number: " + (int) Math.ceil((float) chessBoard.getHalfmoveNumber() / 2) + ". ";
             turnMessage += (chessBoard.whitePlays()) ? "White plays." : "Black plays.";
@@ -442,8 +456,31 @@ public class ChessGUI {
                 turnMessage += " White king is in check!";
             else if (chessBoard.blackPlays() && chessBoard.isBlackKingInCheck())
                 turnMessage += " Black king is in check!";
-    		turnLabel.setText(turnMessage);
+            
+    		turnTextPane.setText(turnMessage);
         }
+	}
+	
+	public static void updateMinimaxAiMoveElapsedSecs() {
+		setTurnMessage();
+
+		String turnMessage = turnTextPane.getText();
+
+		if (chessBoard.whitePlays() &&
+				(gameParameters.gameMode == GameMode.HUMAN_VS_AI && gameParameters.humanPlayerAllegiance == Allegiance.BLACK
+				|| gameParameters.gameMode == GameMode.AI_VS_AI && gameParameters.aiType == AiType.MINIMAX_AI)) {
+	    	whiteMinimaxAiMoveElapsedSecs++;
+			turnMessage += " Minimax AI is thinking for: " + whiteMinimaxAiMoveElapsedSecs + " secs";
+	    	// System.out.println("whiteMinimaxAiMoveElapsedSecs: " + whiteMinimaxAiMoveElapsedSecs);
+		} else if (chessBoard.blackPlays() &&
+				(gameParameters.gameMode == GameMode.HUMAN_VS_AI && gameParameters.humanPlayerAllegiance == Allegiance.WHITE
+				|| gameParameters.gameMode == GameMode.AI_VS_AI && gameParameters.aiType == AiType.MINIMAX_AI)) {
+			blackMinimaxAiMoveElapsedSecs++;
+			turnMessage += " Minimax AI is thinking for: " + blackMinimaxAiMoveElapsedSecs + " secs";
+	    	// System.out.println("blackMinimaxAiMoveElapsedSecs: " + blackMinimaxAiMoveElapsedSecs);
+		}
+		
+		turnTextPane.setText(turnMessage);
 	}
 	
 	
@@ -457,7 +494,26 @@ public class ChessGUI {
 		}
 	}
 
+	
+	private static Timer initializeMinimaxAiMoveTimer() {
+		Timer timer = new Timer(true);
+		
+		timer.schedule(new TimerTask() {  
+		    @Override  
+		    public void run() {  
 
+		    	updateMinimaxAiMoveElapsedSecs();
+				
+				frame.paint(frame.getGraphics());
+				frame.revalidate();
+				frame.repaint();
+		    };
+		}, 0, 1000);
+		
+		return timer;
+	}
+	
+	
 	private static void undoLastMove() {
 		if (!previousChessBoards.isEmpty()) {
 			System.out.println("Undo is pressed!");
@@ -637,16 +693,42 @@ public class ChessGUI {
 		// gui.setBorder(new EmptyBorder(0,0,0,0));
 		gui.setLayout(new BoxLayout(gui, BoxLayout.Y_AXIS));
 		
-		JToolBar tools = new JToolBar();
-		tools.setFloatable(false);
-		gui.add(tools, BorderLayout.NORTH);
-		tools.add(turnLabel);
+		initializeTurnTextPaneBar();
 		
 		initializeChessBoardPanel();
 		initializeChessBoardSquareButtons();
 				
 		initializeCapturedPiecesPanel();
 		initializeCapturedPiecesImages();
+	}
+	
+	
+	private static void initializeTurnTextPaneBar() {
+		if (tools != null)
+			gui.remove(tools);
+		
+		tools = new JToolBar();
+		tools.setFloatable(false);
+		
+		turnTextPane.setEditable(false);
+		centerTextPaneAndMakeBold(turnTextPane);
+		
+		tools.add(turnTextPane);
+
+		gui.add(tools, BorderLayout.NORTH);
+	}
+	
+	private static void centerTextPaneAndMakeBold(JTextPane textPane) {
+		// Center textPane
+		StyledDocument style = textPane.getStyledDocument();
+		SimpleAttributeSet align = new SimpleAttributeSet();
+		StyleConstants.setAlignment(align, StyleConstants.ALIGN_CENTER);
+		style.setParagraphAttributes(0, style.getLength(), align, false);
+		
+		// Make textPane bold
+		MutableAttributeSet attrs = textPane.getInputAttributes();
+	    StyleConstants.setBold(attrs, true); 
+	    textPane.getStyledDocument().setCharacterAttributes(0, style.getLength(), attrs, false);
 	}
 	
 	
@@ -889,9 +971,9 @@ public class ChessGUI {
 		if (gameParameters.gameMode == GameMode.HUMAN_VS_AI) {
 			if (gameParameters.aiType == AiType.MINIMAX_AI) {
 				if (gameParameters.humanPlayerAllegiance == Allegiance.WHITE) {
-					ai = new MiniMaxAi(gameParameters.maxDepth1, Constants.BLACK);
+					ai = new MiniMaxAi(gameParameters.ai1MaxDepth, Constants.BLACK);
 				} else if (gameParameters.humanPlayerAllegiance == Allegiance.BLACK) {
-					ai = new MiniMaxAi(gameParameters.maxDepth1, Constants.WHITE);
+					ai = new MiniMaxAi(gameParameters.ai1MaxDepth, Constants.WHITE);
 				}
 			} else if (gameParameters.aiType == AiType.RANDOM_AI) {
 				if (gameParameters.humanPlayerAllegiance == Allegiance.WHITE) {
@@ -906,8 +988,10 @@ public class ChessGUI {
 		
 		gameResult = GameResult.NONE;
 
-		String turnMessage = firstTurnText;
-		turnLabel.setText(turnMessage);
+		setTurnMessage();
+		
+		whiteMinimaxAiMoveAverageSecs = 0;
+		whiteMinimaxAiMoveAverageSecs = 0;
 	}
 	
 	
@@ -1122,13 +1206,7 @@ public class ChessGUI {
 				chessBoard.setHalfmoveNumber(chessBoard.getHalfmoveNumber() + 1);
 		        chessBoard.setPlayer(!chessBoard.getPlayer());
 				if (gameParameters.gameMode == GameMode.HUMAN_VS_HUMAN) {
-					String turnMessage = "Move number: " + (int) Math.ceil((float) chessBoard.getHalfmoveNumber() / 2) + ". ";
-					turnMessage += (chessBoard.whitePlays()) ? "White plays." : "Black plays.";
-					if (chessBoard.whitePlays() && chessBoard.isWhiteKingInCheck())
-						turnMessage += " White king is in check!";
-					else if (chessBoard.blackPlays() && chessBoard.isBlackKingInCheck())
-						turnMessage += " Black king is in check!";
-					turnLabel.setText(turnMessage);
+					setTurnMessage();
 				}
 								
                 if (gameParameters.gameMode == GameMode.HUMAN_VS_AI) {
@@ -1213,27 +1291,17 @@ public class ChessGUI {
 				String turnMessage = "Move number: " 
 						+ (int) Math.ceil((float) chessBoard.getHalfmoveNumber() / 2) 
 						+ ". Checkmate. White wins!";
-				turnLabel.setText(turnMessage);
+				turnTextPane.setText(turnMessage);
 				
 				if (gameParameters.enableSounds)
 					Utilities.playSound("checkmate.wav");
 				
 				int dialogResult = JOptionPane.showConfirmDialog(gui, 
 						"White wins! Start a new game?", "Checkmate", JOptionPane.YES_NO_OPTION);
+				
 				// System.out.println("dialogResult:" + dialogResult);
-				if (dialogResult == JOptionPane.YES_OPTION) {
-					startNewGame();
-				} else {
-					if (undoItem != null)
-						undoItem.setEnabled(true);
-					if (redoItem != null)
-						redoItem.setEnabled(false);
-					if (exportFenPositionItem != null)
-						exportFenPositionItem.setEnabled(false);
-					if (saveCheckpointItem != null)
-						saveCheckpointItem.setEnabled(false);
-					disableChessBoardSquares();
-				}
+				
+				startNewGameOrNot(dialogResult);
 								
 				return true;
 			}
@@ -1248,27 +1316,17 @@ public class ChessGUI {
 				String turnMessage = "Move number: " 
 						+ (int) Math.ceil((float) chessBoard.getHalfmoveNumber() / 2) 
 						+ ". Checkmate. Black wins!";
-				turnLabel.setText(turnMessage);
+				turnTextPane.setText(turnMessage);
 				
 				if (gameParameters.enableSounds)
 					Utilities.playSound("checkmate.wav");
 
 				int dialogResult = JOptionPane.showConfirmDialog(gui, 
 						"Black wins! Start a new game?", "Checkmate", JOptionPane.YES_NO_OPTION);
+				
 				// System.out.println("dialogResult:" + dialogResult);
-				if (dialogResult == JOptionPane.YES_OPTION) {
-					startNewGame();
-				} else {
-					if (undoItem != null)
-						undoItem.setEnabled(true);
-					if (redoItem != null)
-						redoItem.setEnabled(false);
-					if (exportFenPositionItem != null)
-						exportFenPositionItem.setEnabled(false);
-					if (saveCheckpointItem != null)
-						saveCheckpointItem.setEnabled(false);
-					disableChessBoardSquares();
-				}
+				
+				startNewGameOrNot(dialogResult);
 				
 				return true;
 			}
@@ -1287,25 +1345,15 @@ public class ChessGUI {
 				String turnMessage = "Move number: " 
 						+ (int) Math.ceil((float) chessBoard.getHalfmoveNumber() / 2) 
 						+ ". Stalemate! No legal moves for White exist.";
-				turnLabel.setText(turnMessage);
+				turnTextPane.setText(turnMessage);
 				
 				int dialogResult = JOptionPane.showConfirmDialog(gui, 
 						"Stalemate! No legal moves for White exist. Start a new game?", 
 						"Draw", JOptionPane.YES_NO_OPTION);
+
 				// System.out.println("dialogResult:" + dialogResult);
-				if (dialogResult == JOptionPane.YES_OPTION) {
-					startNewGame();
-				} else {
-					if (undoItem != null)
-						undoItem.setEnabled(true);
-					if (redoItem != null)
-						redoItem.setEnabled(false);
-					if (exportFenPositionItem != null)
-						exportFenPositionItem.setEnabled(false);
-					if (saveCheckpointItem != null)
-						saveCheckpointItem.setEnabled(false);
-					disableChessBoardSquares();
-				}
+				
+				startNewGameOrNot(dialogResult);
 				
 				return true;
 			}
@@ -1321,26 +1369,16 @@ public class ChessGUI {
 				String turnMessage = "Move number: " 
 						+ (int) Math.ceil((float) chessBoard.getHalfmoveNumber() / 2) 
 						+ ". Stalemate! No legal moves for Black exist.";
-				turnLabel.setText(turnMessage);
+				turnTextPane.setText(turnMessage);
 				
 				int dialogResult = JOptionPane.showConfirmDialog(gui, 
 						"Stalemate! No legal moves for Black exist. Start a new game?", 
 						"Draw", JOptionPane.YES_NO_OPTION);
-				// System.out.println("dialogResult:" + dialogResult);
-				if (dialogResult == JOptionPane.YES_OPTION) {
-					startNewGame();
-				} else {
-					if (undoItem != null)
-						undoItem.setEnabled(true);
-					if (redoItem != null)
-						redoItem.setEnabled(false);
-					if (exportFenPositionItem != null)
-						exportFenPositionItem.setEnabled(false);
-					if (saveCheckpointItem != null)
-						saveCheckpointItem.setEnabled(false);
-					disableChessBoardSquares();
-				}
 				
+				// System.out.println("dialogResult:" + dialogResult);
+				
+				startNewGameOrNot(dialogResult);
+
 				return true;
 			}
 		}
@@ -1354,24 +1392,14 @@ public class ChessGUI {
 			String turnMessage = "Move number: " 
 					+ (int) Math.ceil((float) chessBoard.getHalfmoveNumber() / 2) 
 					+ ". It is a draw.";
-			turnLabel.setText(turnMessage);
+			turnTextPane.setText(turnMessage);
 			
 			int dialogResult = JOptionPane.showConfirmDialog(gui, 
 					"It is a draw due to insufficient mating material! Start a new game?", "Draw", JOptionPane.YES_NO_OPTION);
+			
 			// System.out.println("dialogResult:" + dialogResult);
-			if (dialogResult == JOptionPane.YES_OPTION) {
-				startNewGame();
-			} else {
-				if (undoItem != null)
-					undoItem.setEnabled(true);
-				if (redoItem != null)
-					redoItem.setEnabled(false);
-				if (exportFenPositionItem != null)
-					exportFenPositionItem.setEnabled(false);
-				if (saveCheckpointItem != null)
-					saveCheckpointItem.setEnabled(false);
-				disableChessBoardSquares();
-			}
+			
+			startNewGameOrNot(dialogResult);
 			
 			return true;
 		}
@@ -1402,6 +1430,36 @@ public class ChessGUI {
 		
 		return checkForHalfmoveGameOver();
 
+	}
+
+
+	public static boolean checkForThreefoldRepetitionDraw() {
+		
+		if (!halfmoveGameBoards.isEmpty()) {
+			int N = halfmoveGameBoards.size();
+			for (int i=0; i<N - 1; i++) {
+				int numOfRepeats = 0;
+				for (int j=i; j<N; j++) {
+					// Skip the iteration where i=j, 
+					// and the last iteration, if the number of repeats found is less than 2.
+					// The number of comparisons will be: (N 2) = N * (N-1) / 2
+					if (i != j && !(numOfRepeats < 2 && j == N - 1)) {
+						// System.out.println("i: " + i + ", j: " + j);
+						ChessPiece[][] halfmoveGameBoard1 = halfmoveGameBoards.get(i);
+						ChessPiece[][] halfmoveGameBoard2 = halfmoveGameBoards.get(j);
+						if (Utilities.checkEqualGameBoards(halfmoveGameBoard1, halfmoveGameBoard2)) {
+							// System.out.println("i: " + i + ", j: " + j);
+							// ChessBoard.printChessBoard(halfmoveGameBoard1);
+							numOfRepeats++;
+						}
+					}
+				}
+				// System.out.println("numOfRepeats: " + numOfRepeats);
+				if (numOfRepeats >= 3) return true; 
+			}
+		}
+		
+		return false;
 	}
 	
 	
@@ -1441,11 +1499,37 @@ public class ChessGUI {
 		String turnMessage = "Move number: " 
 				+ (int) Math.ceil((float) chessBoard.getHalfmoveNumber() / 2) 
 				+ ". It is a draw.";
-		turnLabel.setText(turnMessage);
+		turnTextPane.setText(turnMessage);
 
 		int dialogResult = JOptionPane.showConfirmDialog(gui, 
 				"It is a draw! Start a new game?",
 				"Draw", JOptionPane.YES_NO_OPTION);
+		
+		startNewGameOrNot(dialogResult);
+		
+	}
+	
+	
+	private static void calculateAverageMinimaxAiMoveSecs() {
+		if ((gameParameters.gameMode == GameMode.HUMAN_VS_AI || gameParameters.gameMode == GameMode.AI_VS_AI)
+				&& gameParameters.aiType == AiType.MINIMAX_AI) {
+			
+			whiteMinimaxAiMoveAverageSecs = (double) whiteMinimaxAiMoveAverageSecs / Math.ceil((double) chessBoard.getHalfmoveNumber() / 2.0);
+			blackMinimaxAiMoveAverageSecs = (double) blackMinimaxAiMoveAverageSecs / Math.floor((double) chessBoard.getHalfmoveNumber() / 2.0);
+			
+			if ((gameParameters.gameMode == GameMode.HUMAN_VS_AI && gameParameters.humanPlayerAllegiance == Allegiance.BLACK 
+					|| gameParameters.gameMode == GameMode.AI_VS_AI))
+				System.out.println("White Minimax AI move Average seconds: " + whiteMinimaxAiMoveAverageSecs);
+			
+			if ((gameParameters.gameMode == GameMode.HUMAN_VS_AI && gameParameters.humanPlayerAllegiance == Allegiance.WHITE 
+					|| gameParameters.gameMode == GameMode.AI_VS_AI))
+				System.out.println("Black Minimax AI move Average seconds: " + blackMinimaxAiMoveAverageSecs);
+		}
+	}
+	
+	
+	private static void startNewGameOrNot(int dialogResult) {
+		calculateAverageMinimaxAiMoveSecs();
 		
 		if (dialogResult == JOptionPane.YES_OPTION) {
 			startNewGame();
@@ -1460,39 +1544,8 @@ public class ChessGUI {
 				saveCheckpointItem.setEnabled(false);
 			disableChessBoardSquares();
 		}
-		
 	}
 
-
-	public static boolean checkForThreefoldRepetitionDraw() {
-		
-		if (!halfmoveGameBoards.isEmpty()) {
-			int N = halfmoveGameBoards.size();
-			for (int i=0; i<N - 1; i++) {
-				int numOfRepeats = 0;
-				for (int j=i; j<N; j++) {
-					// Skip the iteration where i=j, 
-					// and the last iteration, if the number of repeats found is less than 2.
-					// The number of comparisons will be: (N 2) = N * (N-1) / 2
-					if (i != j && !(numOfRepeats < 2 && j == N - 1)) {
-						// System.out.println("i: " + i + ", j: " + j);
-						ChessPiece[][] halfmoveGameBoard1 = halfmoveGameBoards.get(i);
-						ChessPiece[][] halfmoveGameBoard2 = halfmoveGameBoards.get(j);
-						if (Utilities.checkEqualGameBoards(halfmoveGameBoard1, halfmoveGameBoard2)) {
-							// System.out.println("i: " + i + ", j: " + j);
-							// ChessBoard.printChessBoard(halfmoveGameBoard1);
-							numOfRepeats++;
-						}
-					}
-				}
-				// System.out.println("numOfRepeats: " + numOfRepeats);
-				if (numOfRepeats >= 3) return true; 
-			}
-		}
-		
-		return false;
-	}
-	
 
 	public static void randomAiMove(Allegiance aiAllegiance) {
 
@@ -1605,12 +1658,8 @@ public class ChessGUI {
 		
 		chessBoard.setHalfmoveNumber(chessBoard.getHalfmoveNumber() + 1);
         chessBoard.setPlayer(!chessBoard.getPlayer());
-		String turnMessage = "Move number: " + (int) Math.ceil((float) chessBoard.getHalfmoveNumber() / 2) + ". White plays.";
-		if (chessBoard.isWhiteKingInCheck())
-			turnMessage += " White king is in check!";
-		if (chessBoard.isBlackKingInCheck())
-			turnMessage += " Black king is in check!";
-		turnLabel.setText(turnMessage);
+
+        setTurnMessage();
 		
 		System.out.println();
 		System.out.println(chessBoard);
@@ -1619,6 +1668,14 @@ public class ChessGUI {
 	
 	// Gets called after the human player makes a move. It makes a Minimax AI move.
 	public static void minimaxAiMove(MiniMaxAi ai) {
+		if (chessBoard.whitePlays()) {
+			whiteMinimaxAiMoveElapsedSecs = -1;
+		} else if (chessBoard.blackPlays()) {
+			blackMinimaxAiMoveElapsedSecs = -1;
+		}
+		
+		Timer timer = initializeMinimaxAiMoveTimer();
+		
 		// Move aiMove = ai.miniMax(chessBoard);
 		
 		Move aiMove = null;
@@ -1632,7 +1689,13 @@ public class ChessGUI {
 		
 		chessBoard.makeMove(aiMove, true);
 		// System.out.println("board value after aiMove -> " + chessBoard.evaluate());
-		
+
+        timer.cancel();
+		if (chessBoard.whitePlays())
+			whiteMinimaxAiMoveAverageSecs += whiteMinimaxAiMoveElapsedSecs;
+		else if (chessBoard.blackPlays())
+			blackMinimaxAiMoveAverageSecs += blackMinimaxAiMoveElapsedSecs;
+
 		isGameOver = checkForGameOver();
 		if (isGameOver) return;
 		
@@ -1646,17 +1709,8 @@ public class ChessGUI {
 		
 		chessBoard.setHalfmoveNumber(chessBoard.getHalfmoveNumber() + 1);
         chessBoard.setPlayer(!chessBoard.getPlayer());
-		String turnMessage = null;
-		if (chessBoard.whitePlays()) {
-			turnMessage = "Move number: " + (int) Math.ceil((float) chessBoard.getHalfmoveNumber() / 2) + ". White plays.";
-			if (chessBoard.isWhiteKingInCheck())
-				turnMessage += " White king is in check!";
-		} else if (chessBoard.blackPlays()) {
-			turnMessage = "Move number: " + (int) Math.ceil((float) chessBoard.getHalfmoveNumber() / 2) + ". Black plays.";
-			if (chessBoard.isBlackKingInCheck())
-				turnMessage += " Black king is in check!";
-		}
-		turnLabel.setText(turnMessage);
+        
+        setTurnMessage();
 		
 		System.out.println();
 		System.out.println(chessBoard);
@@ -1664,15 +1718,15 @@ public class ChessGUI {
 	
 	
 	public static void playAiVsAi() {
-		MiniMaxAi ai1 = new MiniMaxAi(gameParameters.maxDepth1, Constants.WHITE);
-		MiniMaxAi ai2 = new MiniMaxAi(gameParameters.maxDepth2, Constants.BLACK);
+		MiniMaxAi ai1 = new MiniMaxAi(gameParameters.ai1MaxDepth, Constants.WHITE);
+		MiniMaxAi ai2 = new MiniMaxAi(gameParameters.ai2MaxDepth, Constants.BLACK);
 				
 		while (!isGameOver) {
-			System.out.println(turnLabel.getText());
+			System.out.println(turnTextPane.getText());
 			aiVsAiMove(ai1, Allegiance.WHITE);
 			
 			if (!isGameOver) {
-				System.out.println(turnLabel.getText());
+				System.out.println(turnTextPane.getText());
 				
 				try {
 					Thread.sleep(Constants.AI_MOVE_MILLISECONDS);

@@ -78,8 +78,8 @@ public class SettingsWindow extends JFrame {
 		Allegiance humanPlayerAllegiance = ChessGUI.gameParameters.humanPlayerAllegiance;
 		GameMode selectedGameMode = ChessGUI.gameParameters.gameMode;
 		AiType selectedAiMode = ChessGUI.gameParameters.aiType;
-		int maxDepth1 = ChessGUI.gameParameters.maxDepth1 - 1;
-		int maxDepth2 = ChessGUI.gameParameters.maxDepth2 - 1;
+		int maxDepth1 = ChessGUI.gameParameters.ai1MaxDepth - 1;
+		int maxDepth2 = ChessGUI.gameParameters.ai2MaxDepth - 1;
 		Color selectedWhiteTileColor = ChessGUI.gameParameters.whiteTileColor;
 		Color selectedBlackTileColor = ChessGUI.gameParameters.blackTileColor;
 		int numOfRows = ChessGUI.gameParameters.numOfRows;

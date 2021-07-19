@@ -22,8 +22,8 @@ public class GameParameters {
 		this.humanPlayerAllegiance = otherGameParameters.humanPlayerAllegiance;
 		this.gameMode = otherGameParameters.gameMode;
 		this.aiType = otherGameParameters.aiType;
-		this.maxDepth1 = otherGameParameters.maxDepth1;
-		this.maxDepth2 = otherGameParameters.maxDepth2;
+		this.ai1MaxDepth = otherGameParameters.ai1MaxDepth;
+		this.ai2MaxDepth = otherGameParameters.ai2MaxDepth;
 		this.whiteTileColor = otherGameParameters.whiteTileColor;
 		this.blackTileColor = otherGameParameters.blackTileColor;
 		this.numOfRows = otherGameParameters.numOfRows;
@@ -37,8 +37,8 @@ public class GameParameters {
 		this.humanPlayerAllegiance = humanPlayerAllegiance;
 		this.gameMode = gameMode;
 		this.aiType = aiMode;
-		this.maxDepth1 = maxDepth1;
-		this.maxDepth2 = maxDepth2;
+		this.ai1MaxDepth = maxDepth1;
+		this.ai2MaxDepth = maxDepth2;
 		this.whiteTileColor = whiteTileColor;
 		this.blackTileColor = blackTileColor;
 		this.numOfRows = numOfRows;
@@ -61,8 +61,8 @@ public class GameParameters {
 	public AiType aiType = AiType.MINIMAX_AI;
 	// public static AiType aiType = AiType.RANDOM_AI;
 	
-	public int maxDepth1 = Constants.DEFAULT_MAX_DEPTH;
-	public int maxDepth2 = Constants.DEFAULT_MAX_DEPTH;
+	public int ai1MaxDepth = Constants.DEFAULT_MAX_DEPTH;
+	public int ai2MaxDepth = Constants.DEFAULT_MAX_DEPTH;
 	
 	public Color whiteTileColor = Color.WHITE;
 	// public Color whiteTileColor = Color.PINK;
