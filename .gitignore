@@ -13,6 +13,7 @@ hs_err_pid*
 
 # added by user
 bin/
+jar/
 .settings/
 .classpath
 .project
