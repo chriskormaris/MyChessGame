@@ -461,6 +461,7 @@ public class ChessGUI {
         }
 	}
 	
+	
 	public static void updateMinimaxAiMoveElapsedSecs() {
 		setTurnMessage();
 
