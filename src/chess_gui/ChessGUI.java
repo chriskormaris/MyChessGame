@@ -470,13 +470,13 @@ public class ChessGUI {
 				(gameParameters.gameMode == GameMode.HUMAN_VS_AI && gameParameters.humanPlayerAllegiance == Allegiance.BLACK
 				|| gameParameters.gameMode == GameMode.AI_VS_AI && gameParameters.aiType == AiType.MINIMAX_AI)) {
 	    	whiteMinimaxAiMoveElapsedSecs++;
-			turnMessage += " Minimax AI is thinking for: " + whiteMinimaxAiMoveElapsedSecs + " secs";
+			turnMessage += " Minimax AI has been thinking for: " + whiteMinimaxAiMoveElapsedSecs + " secs";
 	    	// System.out.println("whiteMinimaxAiMoveElapsedSecs: " + whiteMinimaxAiMoveElapsedSecs);
 		} else if (chessBoard.blackPlays() &&
 				(gameParameters.gameMode == GameMode.HUMAN_VS_AI && gameParameters.humanPlayerAllegiance == Allegiance.WHITE
 				|| gameParameters.gameMode == GameMode.AI_VS_AI && gameParameters.aiType == AiType.MINIMAX_AI)) {
 			blackMinimaxAiMoveElapsedSecs++;
-			turnMessage += " Minimax AI is thinking for: " + blackMinimaxAiMoveElapsedSecs + " secs";
+			turnMessage += " Minimax AI has been thinking for: " + blackMinimaxAiMoveElapsedSecs + " secs";
 	    	// System.out.println("blackMinimaxAiMoveElapsedSecs: " + blackMinimaxAiMoveElapsedSecs);
 		}
 		
