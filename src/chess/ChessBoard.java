@@ -97,10 +97,10 @@ public class ChessBoard {
 	private String enPassantPosition;
 	
 	/* This variable is used to determine a draw, 
-	 * if no chessPiece has been captured in 50 fullmoves (100 halfMoves). */
+	 * if no chessPiece has been captured in 50 full moves (100 halfMoves). */
 	private int halfMoveClock;
 
-	/* 1 fullmove corresponds to 2 halfMoves. */
+	/* 1 full move corresponds to 2 halfMoves. */
 	private int halfMoveNumber;
 	
 	private boolean whiteKingInCheck;
@@ -158,10 +158,10 @@ public class ChessBoard {
 		
 		this.score = 0;
 		this.lastCapturedPieceValue = 0;
-		this.promotedPieces = new HashSet<ChessPiece>();
+		this.promotedPieces = new HashSet<>();
 		
-		this.whiteKingInCheckValidPieceMoves = new TreeMap<String, Set<String>>();
-		this.blackKingInCheckValidPieceMoves = new TreeMap<String, Set<String>>();
+		this.whiteKingInCheckValidPieceMoves = new TreeMap<>();
+		this.blackKingInCheckValidPieceMoves = new TreeMap<>();
 		
 		setThreats();
 	}
@@ -224,8 +224,8 @@ public class ChessBoard {
 		this.whiteKingInCheck = otherBoard.isWhiteKingInCheck();
 		this.blackKingInCheck = otherBoard.isBlackKingInCheck();
 		
-		this.whiteKingInCheckValidPieceMoves = new TreeMap<String, Set<String>>(otherBoard.whiteKingInCheckValidPieceMoves);
-		this.blackKingInCheckValidPieceMoves = new TreeMap<String, Set<String>>(otherBoard.blackKingInCheckValidPieceMoves);
+		this.whiteKingInCheckValidPieceMoves = new TreeMap<>(otherBoard.whiteKingInCheckValidPieceMoves);
+		this.blackKingInCheckValidPieceMoves = new TreeMap<>(otherBoard.blackKingInCheckValidPieceMoves);
 		
 		this.isWhiteCheckmate = otherBoard.isWhiteCheckmate();
 		this.isBlackCheckmate = otherBoard.isBlackCheckmate();
@@ -323,7 +323,7 @@ public class ChessBoard {
 
  				// System.out.println("castlingPositions: " + castlingPositions);
  				if (castlingPositions != null && castlingPositions.contains(positionEnd)) {
- 					// White queenside castling
+ 					// White queen side castling
  					if (positionEnd.equals("C1")) {
  						// Move the left white rook to the correct position.
  						if (displayMove) {
@@ -337,7 +337,7 @@ public class ChessBoard {
  						setLeftWhiteRookMoved(true);
  						setWhiteCastlingDone(true);
  					}
- 					// White kingside castling
+ 					// White king side castling
  					else if (positionEnd.equals("G1")) {
  						// Move the right white rook to the correct position.
  						if (displayMove) {
@@ -351,7 +351,7 @@ public class ChessBoard {
  						setRightWhiteRookMoved(true);
  						setWhiteCastlingDone(true);
  					}
- 					// Black queenside castling
+ 					// Black queen side castling
  					else if (positionEnd.equals("C" + this.numOfRows)) {
  						// Move the left black rook to the correct position.
  						if (displayMove) {
@@ -365,7 +365,7 @@ public class ChessBoard {
  						setLeftBlackRookMoved(true);
  						setBlackCastlingDone(true);
  					}
- 					// Black kingside castling
+ 					// Black king side castling
  					else if (positionEnd.equals("G" + this.numOfRows)) {
  						// Move the right black rook to the correct position.
  						if (displayMove) {
@@ -467,7 +467,7 @@ public class ChessBoard {
  	 				
  				}
 				
- 				// Save the two step forward moves as one step forward move.
+ 				// Save the two-step forward moves as one step forward move.
 				if (chessPiece.getAllegiance() == Allegiance.WHITE && rowEnd == rowStart + 2) {
  					this.enPassantPosition = Utilities.getPositionByRowCol(rowStart+1, columnStart);
  				} else if (chessPiece.getAllegiance() == Allegiance.BLACK && rowEnd == rowStart - 2) {
@@ -672,7 +672,7 @@ public class ChessBoard {
      * Some special cases include "en passant" and castling.
      */
     public List<ChessBoard> getChildren(boolean player) {
-        List<ChessBoard> children = new ArrayList<ChessBoard>();
+        List<ChessBoard> children = new ArrayList<>();
         
         // int childPlayer = (getLastPlayer() == Constants.WHITE) ? Constants.BLACK : Constants.BLACK;
         
@@ -682,7 +682,7 @@ public class ChessBoard {
 			for (int column=0; column<NUM_OF_COLUMNS; column++) {
 				if (rowColContainsPlayerPiece(row, column, player)) {
 					String initialPosition = Utilities.getPositionByRowCol(row, column);
-					Set<String> nextPositions = new TreeSet<String>();
+					Set<String> nextPositions = new TreeSet<>();
 					if (!this.whiteKingInCheck && whitePlays()
 							|| !this.blackKingInCheck && blackPlays()) {
 						nextPositions = getNextPositions(initialPosition);
@@ -698,7 +698,7 @@ public class ChessBoard {
 				        for (String nextPosition: nextPositions) {
 				        	// System.out.println(initialPosition + ": " + nextPositions);
 							ChessBoard child = new ChessBoard(this);
-							List<String> moves = new ArrayList<String>();
+							List<String> moves = new ArrayList<>();
 		                    moves.add(initialPosition);
 		                    moves.add(nextPosition);
 		                    // Move move = new Move(moves, evaluate());
@@ -740,7 +740,7 @@ public class ChessBoard {
 			for (int column=0; column<NUM_OF_COLUMNS; column++) {
 				if (rowColContainsPlayerPiece(row, column, player)) {
 					String initialPosition = Utilities.getPositionByRowCol(row, column);
-					Set<String> nextPositions = new TreeSet<String>();
+					Set<String> nextPositions = new TreeSet<>();
 					if (!this.blackKingInCheck && !this.player
 						|| !this.whiteKingInCheck && this.player) {
 						nextPositions = getNextPositions(initialPosition);
@@ -769,7 +769,7 @@ public class ChessBoard {
     	
 	    if (rowColContainsPlayerPiece(row, column, player)) {
 			String initialPosition = Utilities.getPositionByRowCol(row, column);
-			Set<String> nextPositions = new TreeSet<String>();
+			Set<String> nextPositions = new TreeSet<>();
 			if (!this.blackKingInCheck && !this.player
 				|| !this.whiteKingInCheck && this.player) {
 				nextPositions = getNextPositions(initialPosition);
@@ -840,11 +840,11 @@ public class ChessBoard {
     		// System.out.println("Black castling done!");
     		blackScore += Constants.CASTLING_VALUE;
     	}
-    	else if (!whiteCastlingDone && !isWhiteQueensideCastlingAvailable() && !isWhiteKingsideCastlingAvailable()) {
+    	else if (!whiteCastlingDone && !isWhiteQueenSideCastlingAvailable() && !isWhiteKingSideCastlingAvailable()) {
     		// System.out.println("White castling lost!");
     		whiteScore -= 10 * Constants.CASTLING_VALUE;
     	}
-    	else if (!blackCastlingDone && !isBlackQueensideCastlingAvailable() && !isBlackKingsideCastlingAvailable()) {
+    	else if (!blackCastlingDone && !isBlackQueenSideCastlingAvailable() && !isBlackKingSideCastlingAvailable()) {
     		// System.out.println("Black castling lost!");
     		blackScore -= 10 * Constants.CASTLING_VALUE;
     	}
@@ -871,38 +871,38 @@ public class ChessBoard {
     	/* Evaluation for the check move. */
     	// If last the chessPiece is White and the Black King is in check.
     	if (lastMovedPiece.getAllegiance() == Allegiance.WHITE && this.blackKingInCheck) {
-			// If the White chessPiece is threatened and it has no cover.
+			// If the White chessPiece is threatened, and it has no cover.
 			if (this.tilesThreatenedByBlack[endRow][endColumn] == 1 && this.tilesThreatenedByWhite[endRow][endColumn] == 0) {
-	    		whiteScore += checkValue / (double) lastMovedChessPieceValue;
+	    		whiteScore += checkValue / lastMovedChessPieceValue;
 			} 
-			// If the White chessPiece is threatened and it has cover.
+			// If the White chessPiece is threatened, and it has cover.
 			if (this.tilesThreatenedByBlack[endRow][endColumn] == 1 && this.tilesThreatenedByWhite[endRow][endColumn] == 1) {
 	    		whiteScore += checkValue - lastMovedChessPieceValue;
 			} 
-			// If the White chessPiece is not threatened and it has no cover.
+			// If the White chessPiece is not threatened, and it has no cover.
 			if (this.tilesThreatenedByBlack[endRow][endColumn] == 0 && this.tilesThreatenedByWhite[endRow][endColumn] == 0) {
 				whiteScore += checkValue;
 			}
-			// If the White chessPiece is not threatened and it has cover.
+			// If the White chessPiece is not threatened, and it has cover.
 			if (this.tilesThreatenedByBlack[endRow][endColumn] == 0 && this.tilesThreatenedByWhite[endRow][endColumn] == 1) {
 				whiteScore += checkValue;
 			}
 		}
     	// If the last chessPiece is Black and the White King is in check.
 		else if (lastMovedPiece.getAllegiance() == Allegiance.BLACK && this.whiteKingInCheck) {
-			// If the White chessPiece is threatened and it has no cover.
+			// If the White chessPiece is threatened, and it has no cover.
 			if (this.tilesThreatenedByWhite[endRow][endColumn] == 1 && this.tilesThreatenedByBlack[endRow][endColumn] == 0) {
-	    		blackScore += checkValue / (double) lastMovedChessPieceValue;
+	    		blackScore += checkValue / lastMovedChessPieceValue;
 			} 
-			// If the White chessPiece is threatened and it has cover.
+			// If the White chessPiece is threatened, and it has cover.
 			if (this.tilesThreatenedByWhite[endRow][endColumn] == 1 && this.tilesThreatenedByBlack[endRow][endColumn] == 1) {
 				blackScore += checkValue - lastMovedChessPieceValue;
 			} 
-			// If the White chessPiece is not threatened and it has no cover.
+			// If the White chessPiece is not threatened, and it has no cover.
 			if (this.tilesThreatenedByWhite[endRow][endColumn] == 0 && this.tilesThreatenedByBlack[endRow][endColumn] == 0) {
 				blackScore += checkValue;
 			}
-			// If the White chessPiece is not threatened and it has cover.
+			// If the White chessPiece is not threatened, and it has cover.
 			if (this.tilesThreatenedByWhite[endRow][endColumn] == 0 && this.tilesThreatenedByBlack[endRow][endColumn] == 1) {
 				blackScore += checkValue;
 			}
@@ -912,22 +912,22 @@ public class ChessBoard {
     	// Check if a White chessPiece captured a Black chessPiece, which means that the score has increased.
     	if (lastMovedPiece.getAllegiance() == Allegiance.WHITE && this.lastCapturedPieceValue != 0) {
 			// System.out.println("White captured a Black chessPiece.");
-			// If the White chessPiece is threatened and it has no cover.
+			// If the White chessPiece is threatened, and it has no cover.
 			if (this.tilesThreatenedByBlack[endRow][endColumn] == 1 && this.tilesThreatenedByWhite[endRow][endColumn] == 0) {
 				whiteScore += 5 * (this.lastCapturedPieceValue - lastMovedChessPieceValue);
 				// whiteScore += 1;
 			} 
-			// If the White chessPiece is threatened and it has cover.
+			// If the White chessPiece is threatened, and it has cover.
 			else if (this.tilesThreatenedByBlack[endRow][endColumn] == 1 && this.tilesThreatenedByWhite[endRow][endColumn] == 1) {
 	    		whiteScore += 10 * (this.lastCapturedPieceValue - lastMovedChessPieceValue);
 				// whiteScore += 1;
 			}
-			// If the White chessPiece is not threatened and it has no cover.
+			// If the White chessPiece is not threatened, and it has no cover.
 			else if (this.tilesThreatenedByBlack[endRow][endColumn] == 0 && this.tilesThreatenedByWhite[endRow][endColumn] == 0) {
 				whiteScore += 80 * this.lastCapturedPieceValue;
 				// whiteScore += 1;
 			}
-			// If the White chessPiece is not threatened and it has cover.
+			// If the White chessPiece is not threatened, and it has cover.
 			else if (this.tilesThreatenedByBlack[endRow][endColumn] == 0 && this.tilesThreatenedByWhite[endRow][endColumn] == 1) {
 				whiteScore += 100 * this.lastCapturedPieceValue;
 				// whiteScore += 2;
@@ -936,22 +936,22 @@ public class ChessBoard {
     	// If a Black chessPiece captured a White chessPiece, which means that the score has decreased.
     	if (lastMovedPiece.getAllegiance() == Allegiance.BLACK && this.lastCapturedPieceValue != 0) {
 			// System.out.println("Black captured a White chessPiece.");
-    		// If the Black chessPiece is threatened and it has no cover.
+    		// If the Black chessPiece is threatened, and it has no cover.
 			if (this.tilesThreatenedByWhite[endRow][endColumn] == 1 && this.tilesThreatenedByBlack[endRow][endColumn] == 0) {
 				blackScore += 5 * (this.lastCapturedPieceValue - lastMovedChessPieceValue);
 				// blackScore += 1;
 			} 
-			// If the Black chessPiece is threatened and it has cover.
+			// If the Black chessPiece is threatened, and it has cover.
 			else if (this.tilesThreatenedByWhite[endRow][endColumn] == 1 && this.tilesThreatenedByBlack[endRow][endColumn] == 1) {
 				blackScore += 10 * (this.lastCapturedPieceValue - lastMovedChessPieceValue);
 				// blackScore += 1;
 			}
-			// If the Black chessPiece is not threatened and it has no cover.
+			// If the Black chessPiece is not threatened, and it has no cover.
 			else if (this.tilesThreatenedByWhite[endRow][endColumn] == 0 && this.tilesThreatenedByBlack[endRow][endColumn] == 0) {
 				blackScore += 80 * this.lastCapturedPieceValue;
 				// blackScore += 1;
 			}
-			// If the Black chessPiece is not threatened and it has cover.
+			// If the Black chessPiece is not threatened, and it has cover.
 			else if (this.tilesThreatenedByWhite[endRow][endColumn] == 0 && this.tilesThreatenedByBlack[endRow][endColumn] == 1) {
 				blackScore += 100 * this.lastCapturedPieceValue;
 				// blackScore += 2;
@@ -969,22 +969,22 @@ public class ChessBoard {
 				 * Else, if the chessPiece is not threatened, increment the score. */
 		    	// If the chessPiece is White.
 				if (this.gameBoard[i][j].getAllegiance() == Allegiance.WHITE) {
-					// If the White chessPiece is threatened and it has no cover.
+					// If the White chessPiece is threatened, and it has no cover.
 					if (this.tilesThreatenedByBlack[i][j] == 1 && this.tilesThreatenedByWhite[i][j] == 0) {
 						whiteScore -= 50 * valueBoard[i][j];
 						// whiteScore -= Constants.ATTACK_MULTIPLIER * valueBoard[i][j];
 					}
-					// If the White chessPiece is threatened and it has cover.
+					// If the White chessPiece is threatened, and it has cover.
 					else if (this.tilesThreatenedByBlack[i][j] == 1 && this.tilesThreatenedByWhite[i][j] == 1) {
 			    		whiteScore -= 20 * valueBoard[i][j];
 						// whiteScore -= Constants.ATTACK_MULTIPLIER * valueBoard[i][j];
 					}
-					// If the White chessPiece is not threatened and it has no cover.
+					// If the White chessPiece is not threatened, and it has no cover.
 					else if (this.tilesThreatenedByBlack[i][j] == 0 && this.tilesThreatenedByWhite[i][j] == 0) {
 						// whiteScore += valueBoard[i][j];
 						whiteScore += valueBoard[i][j];
 					}
-					// If the White chessPiece is not threatened and it has cover.
+					// If the White chessPiece is not threatened, and it has cover.
 					else if (this.tilesThreatenedByBlack[i][j] == 0 && this.tilesThreatenedByWhite[i][j] == 1) {
 						// whiteScore += valueBoard[i][j];
 						whiteScore += valueBoard[i][j];
@@ -992,22 +992,22 @@ public class ChessBoard {
 				}
 		    	// If the chessPiece is Black.
 				if (this.gameBoard[i][j].getAllegiance() == Allegiance.BLACK) {
-					// If the Black chessPiece is threatened and it has no cover.
+					// If the Black chessPiece is threatened, and it has no cover.
 					if (this.tilesThreatenedByWhite[i][j] == 1 && this.tilesThreatenedByBlack[i][j] == 0) {
 						blackScore -= 50 * valueBoard[i][j];
 						// blackScore -= Constants.ATTACK_MULTIPLIER * valueBoard[i][j];
 					}
-					// If the Black chessPiece is threatened and it has cover.
+					// If the Black chessPiece is threatened, and it has cover.
 					else if (this.tilesThreatenedByWhite[i][j] == 1 && this.tilesThreatenedByBlack[i][j] == 1) {
 						blackScore -= 20 * valueBoard[i][j];
 						// blackScore -= Constants.ATTACK_MULTIPLIER * valueBoard[i][j];
 					}
-					// If the Black chessPiece is not threatened and it has no cover.
+					// If the Black chessPiece is not threatened, and it has no cover.
 					else if (this.tilesThreatenedByWhite[i][j] == 0 && this.tilesThreatenedByBlack[i][j] == 0) {
 						// blackScore += valueBoard[i][j];
 						blackScore += valueBoard[i][j];
 					}
-					// If the Black chessPiece is not threatened and it has cover.
+					// If the Black chessPiece is not threatened, and it has cover.
 					else if (this.tilesThreatenedByWhite[i][j] == 0 && this.tilesThreatenedByBlack[i][j] == 1) {
 						// blackScore += valueBoard[i][j];
 						blackScore += valueBoard[i][j];
@@ -1209,7 +1209,7 @@ public class ChessBoard {
     
     
 	public Set<String> getNextPositions(String position) {
-		Set<String> nextPositions = new TreeSet<String>();
+		Set<String> nextPositions;
 		
 		// First, find the row && the column 
 		// that corresponds to the given position String.
@@ -1231,7 +1231,7 @@ public class ChessBoard {
 		
 		ChessBoard initialChessBoard = new ChessBoard(this);
 		
-		Set<String> tempNextPositions = new TreeSet<String>(nextPositions);
+		Set<String> tempNextPositions = new TreeSet<>(nextPositions);
 		for (String tempNextPosition: tempNextPositions) {
 			initialChessBoard.movePieceFromAPositionToAnother(position, tempNextPosition, false);
 			
@@ -1310,7 +1310,7 @@ public class ChessBoard {
 		int blackKingThreatened = getTilesThreatenedByWhite()[blackKingRow][blackKingColumn]; 
 		
 		if (storeKingInCheckMoves) {
-			this.blackKingInCheckValidPieceMoves = new TreeMap<String, Set<String>>();
+			this.blackKingInCheckValidPieceMoves = new TreeMap<>();
 		}
 		
 		if (blackKingThreatened == 1) {
@@ -1357,7 +1357,7 @@ public class ChessBoard {
 		} else {
 			if (storeKingInCheckMoves) {
 				this.blackKingInCheck = false;
-				this.blackKingInCheckValidPieceMoves = new TreeMap<String, Set<String>>();
+				this.blackKingInCheckValidPieceMoves = new TreeMap<>();
 			}
 		}
 				
@@ -1377,7 +1377,7 @@ public class ChessBoard {
 		int whiteKingThreatened = getTilesThreatenedByBlack()[whiteKingRow][whiteKingColumn];
 	
 		if (storeKingInCheckMoves) {
-			this.whiteKingInCheckValidPieceMoves = new TreeMap<String, Set<String>>();
+			this.whiteKingInCheckValidPieceMoves = new TreeMap<>();
 		}
 		
 		if (whiteKingThreatened == 1) {
@@ -1393,7 +1393,7 @@ public class ChessBoard {
 						String currentPosition = Utilities.getPositionByRowCol(i, j);
 						Set<String> currentHintPositions = initialChessBoard.getNextPositions(currentPosition);
 						
-						Set<String> validWhiteKingInCheckTempHintPositions = new TreeSet<String>();
+						Set<String> validWhiteKingInCheckTempHintPositions = new TreeSet<>();
 						for (String currentHintPosition: currentHintPositions) {
 							initialChessBoard.movePieceFromAPositionToAnother(currentPosition, currentHintPosition, false);
 							
@@ -1424,7 +1424,7 @@ public class ChessBoard {
 		} else {
 			if (storeKingInCheckMoves) {
 				this.whiteKingInCheck = false;
-				this.whiteKingInCheckValidPieceMoves = new TreeMap<String, Set<String>>();
+				this.whiteKingInCheckValidPieceMoves = new TreeMap<>();
 			}
 		}
 		
@@ -1597,7 +1597,7 @@ public class ChessBoard {
 						int whiteKingColumn = Utilities.getColumnFromPosition(initialChessBoard.getWhiteKingPosition());
 						
 						// If any move exists without getting the White king in check,
-						// then there still are legal moves and we do not have a stalemate scenario.
+						// then there still are legal moves, and we do not have a stalemate scenario.
 						boolean legalMovesExist = 
 								(initialChessBoard.getTilesThreatenedByBlack()[whiteKingRow][whiteKingColumn] == 0) ? true : false; 
 
@@ -1643,7 +1643,7 @@ public class ChessBoard {
 						int blackKingColumn = Utilities.getColumnFromPosition(initialChessBoard.getBlackKingPosition());
 	
 						// If any move exists without getting the Black king in check,
-						// then there still are legal moves and we do not have a stalemate scenario.
+						// then there still are legal moves, and we do not have a stalemate scenario.
 						boolean legalMovesExist = 
 								(initialChessBoard.getTilesThreatenedByWhite()[blackKingRow][blackKingColumn] == 0) ? true : false; 
 						
@@ -1682,9 +1682,7 @@ public class ChessBoard {
 		int n2 = gameBoard[0].length;
 		this.gameBoard = new ChessPiece[n1][n2];
 		for (int i=0; i<n1; i++) {
-			for (int j=0; j<n2; j++) {
-				this.gameBoard[i][j] = gameBoard[i][j];
-			}
+			System.arraycopy(gameBoard[i], 0, this.gameBoard[i], 0, n2);
 		}
 	}
 	
@@ -1712,9 +1710,7 @@ public class ChessBoard {
 		int n2 = tilesThreatenedByBlack[0].length;
 		this.tilesThreatenedByBlack = new int[n1][n2];
 		for (int i=0; i<n1; i++) {
-			for (int j=0; j<n2; j++) {
-				this.tilesThreatenedByBlack[i][j] = tilesThreatenedByBlack[i][j];
-			}
+			System.arraycopy(tilesThreatenedByBlack[i], 0, this.tilesThreatenedByBlack[i], 0, n2);
 		}
 	}
 	
@@ -1746,18 +1742,12 @@ public class ChessBoard {
 		return rightWhiteRookMoved;
 	}
 
-	public boolean isWhiteQueensideCastlingAvailable() {
-		if (!whiteKingMoved && !leftWhiteRookMoved) {
-			return true;
-		}
-		return false;
+	public boolean isWhiteQueenSideCastlingAvailable() {
+		return !whiteKingMoved && !leftWhiteRookMoved;
 	}
 	
-	public boolean isWhiteKingsideCastlingAvailable() {
-		if (!whiteKingMoved && !rightWhiteRookMoved) {
-			return true;
-		}
-		return false;
+	public boolean isWhiteKingSideCastlingAvailable() {
+		return !whiteKingMoved && !rightWhiteRookMoved;
 	}
 	
 	public void setRightWhiteRookMoved(boolean rightWhiteRookMoved) {
@@ -1788,18 +1778,12 @@ public class ChessBoard {
 		this.rightBlackRookMoved = rightBlackRookMoved;
 	}
 
-	public boolean isBlackQueensideCastlingAvailable() {
-		if (!blackKingMoved && !leftBlackRookMoved) {
-			return true;
-		}
-		return false;
+	public boolean isBlackQueenSideCastlingAvailable() {
+		return !blackKingMoved && !leftBlackRookMoved;
 	}
 	
-	public boolean isBlackKingsideCastlingAvailable() {
-		if (!blackKingMoved && !rightBlackRookMoved) {
-			return true;
-		}
-		return false;
+	public boolean isBlackKingSideCastlingAvailable() {
+		return !blackKingMoved && !rightBlackRookMoved;
 	}
 	
 	public boolean isWhiteCastlingDone() {
@@ -1855,7 +1839,7 @@ public class ChessBoard {
 	}
 
 	public void setWhiteKingInCheckValidPieceMoves(Map<String, Set<String>> whiteKingInCheckValidPieceMoves) {
-		this.whiteKingInCheckValidPieceMoves = new TreeMap<String, Set<String>>(whiteKingInCheckValidPieceMoves);
+		this.whiteKingInCheckValidPieceMoves = new TreeMap<>(whiteKingInCheckValidPieceMoves);
 	}
 
 	public Map<String, Set<String>> getBlackKingInCheckValidPieceMoves() {
@@ -1863,7 +1847,7 @@ public class ChessBoard {
 	}
 
 	public void setBlackKingInCheckValidPieceMoves(Map<String, Set<String>> blackKingInCheckValidPieceMoves) {
-		this.blackKingInCheckValidPieceMoves = new TreeMap<String, Set<String>>(blackKingInCheckValidPieceMoves);
+		this.blackKingInCheckValidPieceMoves = new TreeMap<>(blackKingInCheckValidPieceMoves);
 	}
 	
 	public boolean whitePlays() {
@@ -1992,22 +1976,22 @@ public class ChessBoard {
 	}
    	
    	public static String getChessBoardString(ChessPiece[][] chessBoard) {
-   		String output = "";
-   		output += "    A   B   C   D   E   F   G   H\n";
-   		output += "  ---------------------------------\n";
+   		StringBuilder output = new StringBuilder();
+   		output.append("    A   B   C   D   E   F   G   H\n");
+   		output.append("  ---------------------------------\n");
    		int n1 = chessBoard.length;
    		int n2 = chessBoard[0].length;
 		for (int i=0; i<n1; i++) {
-			output += (n1-i) + " |";
+			output.append(n1 - i).append(" |");
 			for (int j=0; j<n2; j++) {
-				output += " " + chessBoard[n1-1-i][j].getChessPieceChar() + " |";
+				output.append(" ").append(chessBoard[n1 - 1 - i][j].getChessPieceChar()).append(" |");
 			}
-			output += " " + (n1-i) + "\n";
+			output.append(" ").append(n1 - i).append("\n");
 		}
-		output += "  ---------------------------------\n";
-		output += "    A   B   C   D   E   F   G   H\n";
+		output.append("  ---------------------------------\n");
+		output.append("    A   B   C   D   E   F   G   H\n");
 		
-		return output;
+		return output.toString();
    	}
    	
    	

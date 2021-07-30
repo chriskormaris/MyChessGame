@@ -278,12 +278,12 @@ public class FenUtilities {
 		fenPosition += " " + (chessBoard.whitePlays() ? 'w' : 'b');
 		
 		/* Step 3: Append the available castling moves. */
-		if (chessBoard.isWhiteKingsideCastlingAvailable() || chessBoard.isWhiteQueensideCastlingAvailable()
-			|| chessBoard.isBlackKingsideCastlingAvailable() || chessBoard.isBlackQueensideCastlingAvailable()) {
-			fenPosition += " " + (chessBoard.isWhiteKingsideCastlingAvailable() ? 'K' : "");
-			fenPosition += chessBoard.isWhiteQueensideCastlingAvailable() ? 'Q' : "";
-			fenPosition += chessBoard.isBlackKingsideCastlingAvailable() ? 'k' : "";
-			fenPosition += chessBoard.isBlackQueensideCastlingAvailable() ? 'q' : "";
+		if (chessBoard.isWhiteKingSideCastlingAvailable() || chessBoard.isWhiteQueenSideCastlingAvailable()
+			|| chessBoard.isBlackKingSideCastlingAvailable() || chessBoard.isBlackQueenSideCastlingAvailable()) {
+			fenPosition += " " + (chessBoard.isWhiteKingSideCastlingAvailable() ? 'K' : "");
+			fenPosition += chessBoard.isWhiteQueenSideCastlingAvailable() ? 'Q' : "";
+			fenPosition += chessBoard.isBlackKingSideCastlingAvailable() ? 'k' : "";
+			fenPosition += chessBoard.isBlackQueenSideCastlingAvailable() ? 'q' : "";
 		} else {
 			fenPosition += " -";
 		}
