@@ -1032,22 +1032,7 @@ public class ChessBoard {
 		if (numOfBlackBishops == 2)
 			blackScore += Constants.TWO_BISHOPS_VALUE;
 		*/
-		
-		// Add extra penalty, if the Queen, or any Rook is lost, in late game. 
-    	if (this.halfMoveNumber > Constants.MIDDLEGAME_HALFMOVES_THRESHOLD) {
-    		whiteScore -= (isQueenLost(Allegiance.WHITE)) ? Constants.QUEEN_LATE_VALUE * 130 : 0;
-			blackScore -= (isQueenLost(Allegiance.BLACK)) ? Constants.QUEEN_LATE_VALUE * 130 : 0;
-			
-			whiteScore -= (2 - getNumOfRooks(Allegiance.WHITE)) * Constants.ROOK_LATE_VALUE * 130;
-			blackScore -= (2 - getNumOfRooks(Allegiance.BLACK)) * Constants.ROOK_LATE_VALUE * 130;
-			
-			whiteScore -= (2 - numOfWhiteBishops) * Constants.BISHOP_LATE_VALUE * 130;
-			blackScore -= (2 - numOfBlackBishops) * Constants.BISHOP_LATE_VALUE * 130;
-			
-			whiteScore -= (2 - getNumOfKnights(Allegiance.WHITE)) * Constants.KNIGHT_LATE_VALUE * 130;
-			blackScore -= (2 - getNumOfKnights(Allegiance.BLACK)) * Constants.KNIGHT_LATE_VALUE * 130;
-    	} 
-    	
+
 		// Add extra penalty, if any Queen, Rook, Bishop or Knight is lost, in early game.
     	else {
     		whiteScore -= (isQueenLost(Allegiance.WHITE)) ? Constants.QUEEN_VALUE * 130 : 0;
@@ -1062,7 +1047,22 @@ public class ChessBoard {
 			whiteScore -= (2 - getNumOfKnights(Allegiance.WHITE)) * Constants.KNIGHT_VALUE * 130;
 			blackScore -= (2 - getNumOfKnights(Allegiance.BLACK)) * Constants.KNIGHT_VALUE * 130;
     	}
-		
+
+		// Add extra penalty, if any Queen, Rook, Bishop or Knight is lost, in late game.
+		if (this.halfMoveNumber > Constants.MIDDLEGAME_HALFMOVES_THRESHOLD) {
+			whiteScore -= (isQueenLost(Allegiance.WHITE)) ? Constants.QUEEN_LATE_VALUE * 130 : 0;
+			blackScore -= (isQueenLost(Allegiance.BLACK)) ? Constants.QUEEN_LATE_VALUE * 130 : 0;
+
+			whiteScore -= (2 - getNumOfRooks(Allegiance.WHITE)) * Constants.ROOK_LATE_VALUE * 130;
+			blackScore -= (2 - getNumOfRooks(Allegiance.BLACK)) * Constants.ROOK_LATE_VALUE * 130;
+
+			whiteScore -= (2 - numOfWhiteBishops) * Constants.BISHOP_LATE_VALUE * 130;
+			blackScore -= (2 - numOfBlackBishops) * Constants.BISHOP_LATE_VALUE * 130;
+
+			whiteScore -= (2 - getNumOfKnights(Allegiance.WHITE)) * Constants.KNIGHT_LATE_VALUE * 130;
+			blackScore -= (2 - getNumOfKnights(Allegiance.BLACK)) * Constants.KNIGHT_LATE_VALUE * 130;
+		}
+
 		return whiteScore - blackScore;
 	}
     
