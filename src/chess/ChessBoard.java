@@ -890,19 +890,19 @@ public class ChessBoard {
 		}
     	// If the last chessPiece is Black and the White King is in check.
 		else if (lastMovedPiece.getAllegiance() == Allegiance.BLACK && this.whiteKingInCheck) {
-			// If the White chessPiece is threatened, and it has no cover.
+			// If the Black chessPiece is threatened, and it has no cover.
 			if (this.tilesThreatenedByWhite[endRow][endColumn] == 1 && this.tilesThreatenedByBlack[endRow][endColumn] == 0) {
 	    		blackScore += checkValue / lastMovedChessPieceValue;
 			} 
-			// If the White chessPiece is threatened, and it has cover.
+			// If the Black chessPiece is threatened, and it has cover.
 			if (this.tilesThreatenedByWhite[endRow][endColumn] == 1 && this.tilesThreatenedByBlack[endRow][endColumn] == 1) {
 				blackScore += checkValue - lastMovedChessPieceValue;
 			} 
-			// If the White chessPiece is not threatened, and it has no cover.
+			// If the Black chessPiece is not threatened, and it has no cover.
 			if (this.tilesThreatenedByWhite[endRow][endColumn] == 0 && this.tilesThreatenedByBlack[endRow][endColumn] == 0) {
 				blackScore += checkValue;
 			}
-			// If the White chessPiece is not threatened, and it has cover.
+			// If the Black chessPiece is not threatened, and it has cover.
 			if (this.tilesThreatenedByWhite[endRow][endColumn] == 0 && this.tilesThreatenedByBlack[endRow][endColumn] == 1) {
 				blackScore += checkValue;
 			}
