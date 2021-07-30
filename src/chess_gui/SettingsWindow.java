@@ -29,35 +29,22 @@ public class SettingsWindow extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 6651737783332653136L;
-	
-	private JLabel guiStyleLabel;
-	private JLabel enableSoundsLabel;
-	private JLabel humanPlayerAllegianceLabel;
-	private JLabel gameModeLabel;
-	private JLabel aiTypeLabel;
-	private JLabel maxDepth1Label;
-	private JLabel maxDepth2Label;
-	private JLabel whiteTileColorLabel;
-	private JLabel blackTileColorLabel;
-	private JLabel numOfRowsLabel;
 
-	private JComboBox<String> gui_style_drop_down;
-	private JCheckBox enable_sounds_check_box;
-	private JComboBox<String> human_player_allegiance_drop_down;
-	private JComboBox<String> game_mode_drop_down;
-	private JComboBox<String> ai_type_drop_down;
-	private JComboBox<Integer> max_depth1_drop_down;
-	private JComboBox<Integer> max_depth2_drop_down;
-	private JComboBox<String> white_tile_color_drop_down;
-	private JComboBox<String> black_tile_color_drop_down;
-	SpinnerModel spinnerModel = new SpinnerNumberModel(8, 4, 8, 1);     
-	private JSpinner num_of_rows_spinner = new JSpinner(spinnerModel);
+	private final JComboBox<String> gui_style_drop_down;
+	private final JCheckBox enable_sounds_check_box;
+	private final JComboBox<String> human_player_allegiance_drop_down;
+	private final JComboBox<String> game_mode_drop_down;
+	private final JComboBox<String> ai_type_drop_down;
+	private final JComboBox<Integer> max_depth1_drop_down;
+	private final JComboBox<Integer> max_depth2_drop_down;
+	private final JComboBox<String> white_tile_color_drop_down;
+	private final JComboBox<String> black_tile_color_drop_down;
+	private final SpinnerModel spinnerModel = new SpinnerNumberModel(8, 4, 8, 1);
+	private final JSpinner num_of_rows_spinner = new JSpinner(spinnerModel);
 
-	private JButton apply;
-	private JButton cancel;
-	
-	private EventHandler handler;
-	
+	private final JButton apply;
+	private final JButton cancel;
+
 	public static int width = 450;
 	public static int height = 490;
 	
@@ -70,8 +57,8 @@ public class SettingsWindow extends JFrame {
 		setSize(width, height);
 		setLocationRelativeTo(null);
 		setResizable(false);
-		
-		handler = new EventHandler();
+
+		EventHandler handler = new EventHandler();
 		
 		GuiStyle selectedGuiStyle = ChessGUI.gameParameters.guiStyle;
 		boolean enableSounds = ChessGUI.gameParameters.enableSounds;
@@ -84,17 +71,17 @@ public class SettingsWindow extends JFrame {
 		Color selectedBlackTileColor = ChessGUI.gameParameters.blackTileColor;
 		int numOfRows = ChessGUI.gameParameters.numOfRows;
 
-		
-		guiStyleLabel = new JLabel("GUI style");
-		enableSoundsLabel = new JLabel("Sounds");
-		humanPlayerAllegianceLabel = new JLabel("Human Player Allegiance");
-		gameModeLabel = new JLabel("Game mode");
-		aiTypeLabel = new JLabel("AI type");
-		maxDepth1Label = new JLabel("Minimax AI 1 depth");
-		maxDepth2Label = new JLabel("Minimax AI 2 depth (AiVsAi)");
-		whiteTileColorLabel = new JLabel("White tile color");
-		blackTileColorLabel = new JLabel("Black tile color");
-		numOfRowsLabel = new JLabel("Number of rows");
+
+		JLabel guiStyleLabel = new JLabel("GUI style");
+		JLabel enableSoundsLabel = new JLabel("Sounds");
+		JLabel humanPlayerAllegianceLabel = new JLabel("Human Player Allegiance");
+		JLabel gameModeLabel = new JLabel("Game mode");
+		JLabel aiTypeLabel = new JLabel("AI type");
+		JLabel maxDepth1Label = new JLabel("Minimax AI 1 depth");
+		JLabel maxDepth2Label = new JLabel("Minimax AI 2 depth (AiVsAi)");
+		JLabel whiteTileColorLabel = new JLabel("White tile color");
+		JLabel blackTileColorLabel = new JLabel("Black tile color");
+		JLabel numOfRowsLabel = new JLabel("Number of rows");
 
 		
 		add(guiStyleLabel);
