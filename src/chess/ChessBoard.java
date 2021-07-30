@@ -561,44 +561,31 @@ public class ChessBoard {
 	 					
 	 					String[] promotionPieces = {"Queen", "Rook", "Bishop", "Knight"};
 	 				    String initialSelection = "Queen";
-	 				    
-	 					if (chessPiece.getAllegiance() == Allegiance.WHITE  && rowEnd == numOfRows - 1) {
-	 						String value = (String) JOptionPane.showInputDialog(ChessGUI.gui, "Promote white pawn to:",
-	 						        "White pawn promotion", JOptionPane.QUESTION_MESSAGE, null, promotionPieces, initialSelection);
-	 						// System.out.println("value: " + value);
-	 						
-	 						if (value == null || value.equals("Queen")) {
-	 							ChessGUI.placePieceToPosition(positionEnd, queen);
-	 							promotedPieces.add(queen);
-	 						} else if (value.equals("Rook")) {
-	 							ChessGUI.placePieceToPosition(positionEnd, rook);
-	 							promotedPieces.add(rook);
-	 						} else if (value.equals("Bishop")) {
-	 							ChessGUI.placePieceToPosition(positionEnd, bishop);
-	 							promotedPieces.add(bishop);
-	 						} else if (value.equals("Knight")) {
-	 							ChessGUI.placePieceToPosition(positionEnd, knight);
-	 							promotedPieces.add(knight);
-	 						}
-	 					} else if (chessPiece.getAllegiance() == Allegiance.BLACK && rowEnd == 0) {
-	 						String value = (String) JOptionPane.showInputDialog(ChessGUI.gui, "Promote black pawn to:",
-	 						        "Black pawn promotion", JOptionPane.QUESTION_MESSAGE, null, promotionPieces, initialSelection);
-	 						// System.out.println("value: " + value);
-	 						
-	 						if (value == null || value.equals("Queen")) {
-	 							ChessGUI.placePieceToPosition(positionEnd, queen);
-	 							promotedPieces.add(queen);
-	 						} else if (value.equals("Rook")) {
-	 							ChessGUI.placePieceToPosition(positionEnd, rook);
-	 							promotedPieces.add(rook);
-	 						} else if (value.equals("Bishop")) {
-	 							ChessGUI.placePieceToPosition(positionEnd, bishop);
-	 							promotedPieces.add(bishop);
-	 						} else if (value.equals("Knight")) {
-	 							ChessGUI.placePieceToPosition(positionEnd, knight);
-	 							promotedPieces.add(knight);
-	 						}
-	 					}
+
+						String value = null;
+	 					if (chessPiece.getAllegiance() == Allegiance.WHITE) {
+							value = (String) JOptionPane.showInputDialog(ChessGUI.gui, "Promote white pawn to:",
+									"White pawn promotion", JOptionPane.QUESTION_MESSAGE, null, promotionPieces, initialSelection);
+							// System.out.println("value: " + value);
+						} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
+							value = (String) JOptionPane.showInputDialog(ChessGUI.gui, "Promote black pawn to:",
+									"Black pawn promotion", JOptionPane.QUESTION_MESSAGE, null, promotionPieces, initialSelection);
+							// System.out.println("value: " + value);
+						}
+
+						if (value == null || value.equals("Queen")) {
+							ChessGUI.placePieceToPosition(positionEnd, queen);
+							promotedPieces.add(queen);
+						} else if (value.equals("Rook")) {
+							ChessGUI.placePieceToPosition(positionEnd, rook);
+							promotedPieces.add(rook);
+						} else if (value.equals("Bishop")) {
+							ChessGUI.placePieceToPosition(positionEnd, bishop);
+							promotedPieces.add(bishop);
+						} else if (value.equals("Knight")) {
+							ChessGUI.placePieceToPosition(positionEnd, knight);
+							promotedPieces.add(knight);
+						}
 	 				
 	 				}
  				
