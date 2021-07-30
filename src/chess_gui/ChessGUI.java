@@ -1,76 +1,30 @@
 package chess_gui;
 
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
-import java.util.Stack;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.TreeMap;
-import java.util.TreeSet;
+import chess.ChessBoard;
+import chess.Move;
+import enumeration.*;
+import minimax_ai.MiniMaxAi;
+import piece.*;
+import utility.*;
 
 import javax.imageio.ImageIO;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextPane;
-import javax.swing.JToolBar;
-import javax.swing.SwingConstants;
-import javax.swing.UIManager;
+import javax.swing.*;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.border.LineBorder;
 import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
-
-import chess.ChessBoard;
-import chess.Move;
-import enumeration.AiType;
-import enumeration.Allegiance;
-import enumeration.GameMode;
-import enumeration.GameResult;
-import enumeration.GuiStyle;
-import minimax_ai.MiniMaxAi;
-import piece.Bishop;
-import piece.ChessPiece;
-import piece.EmptyTile;
-import piece.King;
-import piece.Knight;
-import piece.Pawn;
-import piece.Queen;
-import piece.Rook;
-import utility.Constants;
-import utility.FenUtilities;
-import utility.GameParameters;
-import utility.InvalidFenFormatException;
-import utility.ResourceLoader;
-import utility.Utilities;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.List;
+import java.util.Timer;
+import java.util.*;
 
 
 public class ChessGUI {
@@ -82,10 +36,10 @@ public class ChessGUI {
 	
 	private static final int NUM_OF_COLUMNS = Constants.DEFAULT_NUM_OF_COLUMNS;
 	
-	private static int HEIGHT = Constants.DEFAULT_HEIGHT;
-	private static int WIDTH = Constants.DEFAULT_WIDTH;
+	private static final int HEIGHT = Constants.DEFAULT_HEIGHT;
+	private static final int WIDTH = Constants.DEFAULT_WIDTH;
 	
-	public static JFrame frame = new JFrame(TITLE);
+	public static JFrame frame;
 	public static JPanel gui = new JPanel();
 	
 	public static JToolBar tools = new JToolBar();
@@ -105,9 +59,9 @@ public class ChessGUI {
 	// 30 captured pieces at maximum, 
 	// plus 1 label for displaying the score = 31 labels size.
 	public static JLabel[] capturedPiecesImages;
-	
+
 	private static JMenuBar menuBar;
-	
+
 	private static JMenu fileMenu;
 	private static JMenuItem newGameItem;
 	private static JMenuItem undoItem;
@@ -134,15 +88,15 @@ public class ChessGUI {
 	public static String endingPosition = "";
 	
 	// These stacks of "ChessBoard" objects are used to handle the "undo" and "redo" functionality.
-	public static Stack<ChessBoard> previousChessBoards = new Stack<ChessBoard>();
-	public static Stack<ChessBoard> redoChessBoards = new Stack<ChessBoard>();
+	public static Stack<ChessBoard> previousChessBoards = new Stack<>();
+	public static Stack<ChessBoard> redoChessBoards = new Stack<>();
 
 	// These stacks of "JLabel" arrays are used to handle the "undo" and "redo" functionality.
-	public static Stack<JLabel[]> previousCapturedPiecesImages = new Stack<JLabel[]>();
-	public static Stack<JLabel[]> redoCapturedPiecesImages = new Stack<JLabel[]>();
+	public static Stack<JLabel[]> previousCapturedPiecesImages = new Stack<>();
+	public static Stack<JLabel[]> redoCapturedPiecesImages = new Stack<>();
 	
 	public static boolean startingButtonIsClicked = false;
-	public static Set<String> hintPositions = new TreeSet<String>();
+	public static Set<String> hintPositions = new TreeSet<>();
 	
 	public static boolean buttonsEnabled = true;
 	
@@ -161,20 +115,21 @@ public class ChessGUI {
 	public static String savedFenPosition;
 	
 	// This board is used to check for a threefold repetition of a chess board position.
-	// public static ChessPiece[][] halfmoveGameBoard = new ChessPiece[gameParameters.numOfRows][NUM_OF_COLUMNS];
+	// public static ChessPiece[][] halfMoveGameBoard = new ChessPiece[gameParameters.numOfRows][NUM_OF_COLUMNS];
 	
 	// These stack of 2d "ChessPiece" arrays is used to check for a threefold repetition of a chess board position.
-	public static Stack<ChessPiece[][]> halfmoveGameBoards = new Stack<ChessPiece[][]>();
-	public static Stack<ChessPiece[][]> redoHalfmoveGameBoards = new Stack<ChessPiece[][]>();
+	public static Stack<ChessPiece[][]> halfMoveGameBoards = new Stack<>();
+	public static Stack<ChessPiece[][]> redoHalfMoveGameBoards = new Stack<>();
 	
 	public static JLabel[] aiVsAiNewCapturedPiecesImages;
 	
 	public static GameResult gameResult;
 	
 	public static int whiteMinimaxAiMoveElapsedSecs;
-	public static double whiteMinimaxAiMoveAverageSecs;
 	public static int blackMinimaxAiMoveElapsedSecs;
-	public static double blackMinimaxAiMoveAverageSecs;
+
+    public static double whiteMinimaxAiMoveAverageSecs;
+    public static double blackMinimaxAiMoveAverageSecs;
 	
 	
 	public ChessGUI(String title) {
@@ -193,7 +148,8 @@ public class ChessGUI {
 				ai = new MiniMaxAi(gameParameters.ai1MaxDepth, Constants.WHITE);
 			}
 		}
-		
+
+		frame = new JFrame(title);
 		frame.add(getGui());
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setLocationByPlatform(true);
@@ -219,7 +175,7 @@ public class ChessGUI {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		
+
 		menuBar = new JMenuBar();
 		fileMenu = new JMenu("File");
 		newGameItem = new JMenuItem("New Game");
@@ -242,160 +198,124 @@ public class ChessGUI {
 		
 		loadCheckpointItem.setEnabled(false);
 		
-		newGameItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				startNewGame();
-			}
-		});
+		newGameItem.addActionListener(e -> startNewGame());
 		
-		undoItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				undoLastMove();
-				exportFenPositionItem.setEnabled(true);
-				saveCheckpointItem.setEnabled(true);
-			}
-		});
+		undoItem.addActionListener(e -> {
+            undoLastMove();
+            exportFenPositionItem.setEnabled(true);
+            saveCheckpointItem.setEnabled(true);
+        });
 		
-		redoItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				redoNextMove();
-			}
-		});
+		redoItem.addActionListener(e -> redoNextMove());
 		
-		exportToGifItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				exportToGif();
-			}
-		});
+		exportToGifItem.addActionListener(e -> exportToGif());
 		
-		settingsItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				SettingsWindow settings = new SettingsWindow();
-				settings.setVisible(true);
-			}
-		});
+		settingsItem.addActionListener(e -> {
+            SettingsWindow settings = new SettingsWindow();
+            settings.setVisible(true);
+        });
 		
-		importFenPositionItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String fenPosition = JOptionPane.showInputDialog(
-						"Please insert the \"FEN\" position in the text field below:                      ",
-						"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-				
-				if (fenPosition != null) {
-					// gameParameters.numOfRows = Constants.DEFAULT_NUM_OF_ROWS;
-					startNewGame();
-					placePiecesToChessBoard(fenPosition);
-				}
-				
-			}
-		});
+		importFenPositionItem.addActionListener(e -> {
+            String fenPosition = JOptionPane.showInputDialog(
+                    "Please insert the \"FEN\" position in the text field below:                      ",
+                    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+            
+            if (fenPosition != null) {
+                // gameParameters.numOfRows = Constants.DEFAULT_NUM_OF_ROWS;
+                startNewGame();
+                placePiecesToChessBoard(fenPosition);
+            }
+            
+        });
 		
-		exportFenPositionItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String exportedFenFilename = JOptionPane.showInputDialog(
-						"Please type the name of the export file:",
-						"exported_FEN_position.txt");
-				
-				String fenPosition = FenUtilities.getFenPositionFromChessBoard(chessBoard);
-				
-				if (fenPosition != null) {
-					BufferedWriter bw = null;
-					try {
-						bw = new BufferedWriter(new FileWriter(exportedFenFilename));
-						bw.write(fenPosition + "\n");
-					} catch (IOException ex) {
-						ex.printStackTrace();
-					} finally {
-						try {
-							bw.flush();
-							bw.close();
-						} catch (IOException ex) {
-							ex.printStackTrace();
-						}
-					}
-				}
-				
-			}
-		});
-		
-		saveCheckpointItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (!chessBoard.isTerminalState()) {
-					savedFenPosition = FenUtilities.getFenPositionFromChessBoard(chessBoard);
-					loadCheckpointItem.setEnabled(true);
-				}
-			}
-		});
-		
-		loadCheckpointItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {				
-				if (savedFenPosition != null) {
-					startNewGame();
-					placePiecesToChessBoard(savedFenPosition);
-				}
-			}
-		});
+		exportFenPositionItem.addActionListener(e -> {
+            String exportedFenFilename = JOptionPane.showInputDialog(
+                    "Please type the name of the export file:",
+                    "exported_FEN_position.txt");
+            
+            String fenPosition = FenUtilities.getFenPositionFromChessBoard(chessBoard);
 
-		exitItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
-			}
-		});
+            BufferedWriter bw = null;
+            try {
+                bw = new BufferedWriter(new FileWriter(exportedFenFilename));
+                bw.write(fenPosition + "\n");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } finally {
+                try {
+                    bw.flush();
+                    bw.close();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+
+        });
 		
-		howToPlayItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null,
-						"The game of chess is strictly played by 2 players and consists of 16 White and 16 Black pieces.\n"
-						+ "There are 6 different chess piece types: 1) King, 2) Rook, 3) Bishop, 4) Queen, 5) Knight & 6) Pawn. White always plays first.\n"
-						+ "A chess piece can only move to an empty tile or take the place of an opponent's chess piece, by capturing it.\n"
-						+ "However, no chess piece can't jump over other chess pieces, unless it is a Knight.\n"
-						+ "The aim of the game is to trap the opponent King. A move made by a player that threatens the opponent king is called a \"check\".\n"
-						+ "If the player makes a move with a piece that checks the opponent King, in a way that the opponent player has no legal moves for his King,\n"
-						+ "and he can't block the threat with another piece, that move is called a \"checkmate\" and the player that made the move wins the game.\n"
-						+ "\nThere are also 4 scenarios for a draw:\n"
-						+ "  1. If a player makes a move, that puts the opponent player in a place that he has not any legal move to make, and it is not a \"checkmate\",\n"
-						+ "     that move is called a \"stalemate\" and the game ends in a draw.\n"
-						+ "  2. If the only chess pieces standing on the board are for both sides are either a lone King, a King and a Bishop, a King and 1 or 2 Knights,\n"
-						+ "     then the game ends in a draw due to insufficient mating material.\n"
-						+ "  3. If 50 turns have passed and no player has captured an opponent's chess piece, then the player that plays next can declare a draw.\n"
-						+ "  4. If the exact game board position is repeated 3 times, then the player that plays next can declare a draw. This case is called threefold repetition.\n"
-						+ "\n\nThe chess pieces can move on the chess board as follows:\n"
-						+ "  1) The King can move only one tile in each direction. It can't move to a tile, where it will be threatened by an opponent's piece.\n"
-						+ "     It can also perform a combined move with an ally Rook, called \"castling\". The castling can only be performed once per game, for each player.\n"
-						+ "     There are two possible castling moves for each player's King, the \"queenside castling\" and the \"kingside castling\".\n"
-						+ "     The castling can only be performed under the condition that the King and the involved Rook have not moved from their starting positions.\n"
-						+ "     In addition, no other chess pieces must be between them, the king must not be in check and the intertwined tiles must not be threatened.\n"
-						+ "  2) The Rook can move any number of tiles horizontally or vertically.\n"
-						+ "  3) The Bishop can move any number of tiles diagonally.\n"
-						+ "  4) The Queen can move any number of tiles diagonally, horizontally or vertically. It is the strongest piece in the game.\n"
-						+ "  5) The Knight moves in an \"L\"-shape, after moving two tiles either forward, backwards, left or right. It is the only piece that can jump over other pieces.\n"
-						+ "  6) The Pawn can move one tile forward, or 2 tiles forward, if moving for the 1st time. It can capture an opponent's piece by moving one tile diagonally.\n"
-						+ "     It can also capture an opponent's Pawn, that has just moved 2 steps forward, the previous turn, while being next to it,\n"
-						+ "     by moving diagonally towards its direction (\"en passant\" move).\n"
-						+ "     If a Pawn reaches the final row οf the other side of the chess board, the player can promote it to a Bishop, Knight, Rook or even a Queen.",
-						"How to Play", JOptionPane.INFORMATION_MESSAGE);
-			}
-		});
+		saveCheckpointItem.addActionListener(e -> {
+            if (!chessBoard.isTerminalState()) {
+                savedFenPosition = FenUtilities.getFenPositionFromChessBoard(chessBoard);
+                loadCheckpointItem.setEnabled(true);
+            }
+        });
 		
-		aboutItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JLabel label = new JLabel("<html>A traditional chess game implementation using Minimax AI,<br>"
-						+ "with Alpha-Beta Pruning.<br>© Created by: Christos Kormaris, Athens 2020<br>"
-						+ "Version " + Constants.VERSION + "</html>");
-				
-				BufferedImage img = null;
-				try {
-				    img = ImageIO.read(ResourceLoader.load(Constants.ICON_PATH));
-				} catch (IOException ex) {
-				    ex.printStackTrace();
-				}
-				Image dimg = img.getScaledInstance(
-						Constants.CHESS_SQUARE_PIXEL_SIZE, Constants.CHESS_SQUARE_PIXEL_SIZE, Image.SCALE_SMOOTH);
-				ImageIcon icon = new ImageIcon(dimg);
-				
-				JOptionPane.showMessageDialog(frame, label, "About", JOptionPane.PLAIN_MESSAGE, icon);
-			}
-		});
+		loadCheckpointItem.addActionListener(e -> {				
+            if (savedFenPosition != null) {
+                startNewGame();
+                placePiecesToChessBoard(savedFenPosition);
+            }
+        });
+
+		exitItem.addActionListener(e -> System.exit(0));
+		
+		howToPlayItem.addActionListener(e -> JOptionPane.showMessageDialog(null,
+                "The game of chess is strictly played by 2 players and consists of 16 White and 16 Black pieces.\n"
+                + "There are 6 different chess piece types: 1) King, 2) Rook, 3) Bishop, 4) Queen, 5) Knight & 6) Pawn. White always plays first.\n"
+                + "A chess piece can only move to an empty tile or take the place of an opponent's chess piece, by capturing it.\n"
+                + "However, no chess piece can't jump over other chess pieces, unless it is a Knight.\n"
+                + "The aim of the game is to trap the opponent King. A move made by a player that threatens the opponent king is called a \"check\".\n"
+                + "If the player makes a move with a piece that checks the opponent King, in a way that the opponent player has no legal moves for his King,\n"
+                + "and he can't block the threat with another piece, that move is called a \"checkmate\" and the player that made the move wins the game.\n"
+                + "\nThere are also 4 scenarios for a draw:\n"
+                + "  1. If a player makes a move, that puts the opponent player in a place that he has not any legal move to make, and it is not a \"checkmate\",\n"
+                + "     that move is called a \"stalemate\" and the game ends in a draw.\n"
+                + "  2. If the only chess pieces standing on the board are for both sides are either a lone King, a King and a Bishop, a King and 1 or 2 Knights,\n"
+                + "     then the game ends in a draw due to insufficient mating material.\n"
+                + "  3. If 50 turns have passed and no player has captured an opponent's chess piece, then the player that plays next can declare a draw.\n"
+                + "  4. If the exact game board position is repeated 3 times, then the player that plays next can declare a draw. This case is called threefold repetition.\n"
+                + "\n\nThe chess pieces can move on the chess board as follows:\n"
+                + "  1) The King can move only one tile in each direction. It can't move to a tile, where it will be threatened by an opponent's piece.\n"
+                + "     It can also perform a combined move with an ally Rook, called \"castling\". The castling can only be performed once per game, for each player.\n"
+                + "     There are two possible castling moves for each player's King, the \"queen side castling\" and the \"king side castling\".\n"
+                + "     The castling can only be performed under the condition that the King and the involved Rook have not moved from their starting positions.\n"
+                + "     In addition, no other chess pieces must be between them, the king must not be in check and the intertwined tiles must not be threatened.\n"
+                + "  2) The Rook can move any number of tiles horizontally or vertically.\n"
+                + "  3) The Bishop can move any number of tiles diagonally.\n"
+                + "  4) The Queen can move any number of tiles diagonally, horizontally or vertically. It is the strongest piece in the game.\n"
+                + "  5) The Knight moves in an \"L\"-shape, after moving two tiles either forward, backwards, left or right. It is the only piece that can jump over other pieces.\n"
+                + "  6) The Pawn can move one tile forward, or 2 tiles forward, if moving for the 1st time. It can capture an opponent's piece by moving one tile diagonally.\n"
+                + "     It can also capture an opponent's Pawn, that has just moved 2 steps forward, the previous turn, while being next to it,\n"
+                + "     by moving diagonally towards its direction (\"en passant\" move).\n"
+                + "     If a Pawn reaches the final row οf the other side of the chess board, the player can promote it to a Bishop, Knight, Rook or even a Queen.",
+                "How to Play", JOptionPane.INFORMATION_MESSAGE));
+		
+		aboutItem.addActionListener(e -> {
+            JLabel label = new JLabel("<html>A traditional chess game implementation using Minimax AI,<br>"
+                    + "with Alpha-Beta Pruning.<br>© Created by: Christos Kormaris, Athens 2020<br>"
+                    + "Version " + Constants.VERSION + "</html>");
+            
+            BufferedImage img = null;
+            try {
+                img = ImageIO.read(ResourceLoader.load(Constants.ICON_PATH));
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            Image dImg = img.getScaledInstance(
+                    Constants.CHESS_SQUARE_PIXEL_SIZE, Constants.CHESS_SQUARE_PIXEL_SIZE, Image.SCALE_SMOOTH);
+            ImageIcon icon1 = new ImageIcon(dImg);
+            
+            JOptionPane.showMessageDialog(frame, label, "About", JOptionPane.PLAIN_MESSAGE, icon1);
+        });
 		
 		fileMenu.add(newGameItem);
 		fileMenu.add(undoItem);
@@ -446,10 +366,10 @@ public class ChessGUI {
 	
 	
 	public static void setTurnMessage() {
-		if (chessBoard.getHalfmoveNumber() == 1) {
+		if (chessBoard.getHalfMoveNumber() == 1) {
     		turnTextPane.setText(firstTurnText);
         } else {
-            String turnMessage = "Move number: " + (int) Math.ceil((float) chessBoard.getHalfmoveNumber() / 2) + ". ";
+            String turnMessage = "Move number: " + (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2) + ". ";
             turnMessage += (chessBoard.whitePlays()) ? "White plays." : "Black plays.";
 
             if (chessBoard.whitePlays() && chessBoard.isWhiteKingInCheck())
@@ -508,7 +428,7 @@ public class ChessGUI {
 				frame.paint(frame.getGraphics());
 				frame.revalidate();
 				frame.repaint();
-		    };
+		    }
 		}, 0, 1000);
 		
 		return timer;
@@ -551,9 +471,9 @@ public class ChessGUI {
 			chessBoard = previousChessBoards.pop();
 			
 			
-			ChessPiece[][] halfmoveGameBoard = halfmoveGameBoards.pop();
-			redoHalfmoveGameBoards.push(Utilities.copyGameBoard(halfmoveGameBoard));
-			// System.out.println("size of halfmoveGameBoards: " + halfmoveGameBoards.size());
+			ChessPiece[][] halfMoveGameBoard = halfMoveGameBoards.pop();
+			redoHalfMoveGameBoards.push(Utilities.copyGameBoard(halfMoveGameBoard));
+			// System.out.println("size of halfMoveGameBoards: " + halfMoveGameBoards.size());
 			
 			// Display the "undo" captured chess pieces icons.
 			initializeCapturedPiecesPanel();
@@ -620,9 +540,9 @@ public class ChessGUI {
 			previousChessBoards.push(new ChessBoard(chessBoard));
 			
 			
-			ChessPiece[][] halfmoveGameBoard = redoHalfmoveGameBoards.pop();
-			halfmoveGameBoards.push(Utilities.copyGameBoard(halfmoveGameBoard));
-			// System.out.println("size of halfmoveGameBoards: " + halfmoveGameBoards.size());
+			ChessPiece[][] halfMoveGameBoard = redoHalfMoveGameBoards.pop();
+			halfMoveGameBoards.push(Utilities.copyGameBoard(halfMoveGameBoard));
+			// System.out.println("size of halfMoveGameBoards: " + halfMoveGameBoards.size());
 			
 			// Push to the previousCapturedPiecesImages Stack.
 			JLabel[] newCapturedPiecesImages = new JLabel[31];
@@ -653,11 +573,11 @@ public class ChessGUI {
 			}
 			
 			
-			boolean isHalfmoveGameOver = checkForHalfmoveGameOver();
+			boolean isHalfMoveGameOver = checkForHalfMoveGameOver();
 			
 			chessBoard = redoChessBoard;
 			
-			if (!isHalfmoveGameOver)
+			if (!isHalfMoveGameOver)
 				checkForGameOver();
 			
 			System.out.println();
@@ -683,7 +603,8 @@ public class ChessGUI {
 			ImageIO.write(bi, "gif", new File(gifName));
 			System.out.println("Exported .gif file!");
 		} catch (Exception e) {
-			
+            System.err.println("Error exporting .gif file!");
+            System.err.flush();
 		}
 	}
 	
@@ -787,12 +708,7 @@ public class ChessGUI {
 					column = j;
 				}
 				
-				button.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						chessButtonClick(row, column, button);
-					}
-				});
+				button.addActionListener(e -> chessButtonClick(row, column, button));
 				
 				chessBoardSquares[i][j] = button;
 			}
@@ -868,8 +784,8 @@ public class ChessGUI {
 				capturedPiecesImages[i].setIcon(icon);
 				
 				// This is for TESTING.
-//				ImageIcon pieceImage = ChessGUI.preparePieceIcon(Constants.WHITE_PAWN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
-//				ChessGUI.capturedPiecesImages[i].setIcon(pieceImage);
+				// ImageIcon pieceImage = ChessGUI.preparePieceIcon(Constants.WHITE_PAWN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+				// ChessGUI.capturedPiecesImages[i].setIcon(pieceImage);
 			}
 
 		    capturedPiecesPanel.add(capturedPiecesImages[i]);
@@ -936,11 +852,11 @@ public class ChessGUI {
 	public static void restoreDefaultValues() {
 		chessBoard = new ChessBoard();
 		/*
-		halfmoveGameBoard = new ChessPiece[gameParameters.numOfRows][NUM_OF_COLUMNS];
+		halfMoveGameBoard = new ChessPiece[gameParameters.numOfRows][NUM_OF_COLUMNS];
 		
 		for (int i=0; i<gameParameters.numOfRows; i++) {
 			for (int j=0; j<NUM_OF_COLUMNS; j++) {
-				halfmoveGameBoard[i][j] = new EmptyTile();
+				halfMoveGameBoard[i][j] = new EmptyTile();
 			}	
 		}
  		*/
@@ -953,12 +869,12 @@ public class ChessGUI {
 		redoChessBoards.clear();
 		redoCapturedPiecesImages.clear();
 		
-		halfmoveGameBoards.clear();
-		redoHalfmoveGameBoards.clear();
+		halfMoveGameBoards.clear();
+		redoHalfMoveGameBoards.clear();
 		
 		startingButtonIsClicked = false;
 		
-		hintPositions = new TreeSet<String>();
+		hintPositions = new TreeSet<>();
 		
 		if (undoItem != null)
 			undoItem.setEnabled(false);
@@ -992,7 +908,7 @@ public class ChessGUI {
 		setTurnMessage();
 		
 		whiteMinimaxAiMoveAverageSecs = 0;
-		whiteMinimaxAiMoveAverageSecs = 0;
+		blackMinimaxAiMoveAverageSecs = 0;
 	}
 	
 	
@@ -1042,7 +958,7 @@ public class ChessGUI {
 				// If the White or Black King is in check, then get one of the following valid moves.
 				else if (chessBoard.whitePlays() && chessBoard.isWhiteKingInCheck() || chessBoard.blackPlays() 
 						&& chessBoard.isBlackKingInCheck()) {
-					hintPositions = new TreeSet<String>();
+					hintPositions = new TreeSet<>();
 					
 					if (chessBoard.whitePlays() 
 							&& chessBoard.getWhiteKingInCheckValidPieceMoves().containsKey(startingPosition)) {
@@ -1066,7 +982,7 @@ public class ChessGUI {
 						int hintPositionRow = Utilities.getRowFromPosition(hintPosition);
 						int hintPositionColumn = Utilities.getColumnFromPosition(hintPosition);
 						
-						JButton hintPositionButton;;
+						JButton hintPositionButton;
 						
 						if (gameParameters.gameMode == GameMode.HUMAN_VS_AI && gameParameters.humanPlayerAllegiance == Allegiance.BLACK) {
 							hintPositionButton = 
@@ -1154,10 +1070,10 @@ public class ChessGUI {
 					Move move = new Move(startingPosition, endingPosition);
 					chessBoard.makeMove(move, true);
 					
-					// Store the chess board of the halfmove that was just made.
-					ChessPiece[][] halfmoveGameBoard = Utilities.copyGameBoard(chessBoard.getGameBoard());
-					halfmoveGameBoards.push(halfmoveGameBoard);
-					// System.out.println("size of halfmoveGameBoards: " + halfmoveGameBoards.size());
+					// Store the chess board of the HalfMove that was just made.
+					ChessPiece[][] halfMoveGameBoard = Utilities.copyGameBoard(chessBoard.getGameBoard());
+					halfMoveGameBoards.push(halfMoveGameBoard);
+					// System.out.println("size of halfMoveGameBoards: " + halfMoveGameBoards.size());
 					
 					hideHintPositions(hintPositions);
 				}
@@ -1204,7 +1120,7 @@ public class ChessGUI {
 					redoItem.setEnabled(false);
 				
                 // Change chessBoard turn.
-				chessBoard.setHalfmoveNumber(chessBoard.getHalfmoveNumber() + 1);
+				chessBoard.setHalfMoveNumber(chessBoard.getHalfMoveNumber() + 1);
 		        chessBoard.setPlayer(!chessBoard.getPlayer());
 				if (gameParameters.gameMode == GameMode.HUMAN_VS_HUMAN) {
 					setTurnMessage();
@@ -1290,7 +1206,7 @@ public class ChessGUI {
 				gameResult = GameResult.WHITE_CHECKMATE;
 				
 				String turnMessage = "Move number: " 
-						+ (int) Math.ceil((float) chessBoard.getHalfmoveNumber() / 2) 
+						+ (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2) 
 						+ ". Checkmate. White wins!";
 				turnTextPane.setText(turnMessage);
 				
@@ -1315,7 +1231,7 @@ public class ChessGUI {
 				gameResult = GameResult.BLACK_CHECKMATE;
 				
 				String turnMessage = "Move number: " 
-						+ (int) Math.ceil((float) chessBoard.getHalfmoveNumber() / 2) 
+						+ (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2) 
 						+ ". Checkmate. Black wins!";
 				turnTextPane.setText(turnMessage);
 				
@@ -1344,7 +1260,7 @@ public class ChessGUI {
 				gameResult = GameResult.WHITE_STALEMATE_DRAW;
 				
 				String turnMessage = "Move number: " 
-						+ (int) Math.ceil((float) chessBoard.getHalfmoveNumber() / 2) 
+						+ (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2) 
 						+ ". Stalemate! No legal moves for White exist.";
 				turnTextPane.setText(turnMessage);
 				
@@ -1368,7 +1284,7 @@ public class ChessGUI {
 				gameResult = GameResult.BLACK_STALEMATE_DRAW;
 				
 				String turnMessage = "Move number: " 
-						+ (int) Math.ceil((float) chessBoard.getHalfmoveNumber() / 2) 
+						+ (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2) 
 						+ ". Stalemate! No legal moves for Black exist.";
 				turnTextPane.setText(turnMessage);
 				
@@ -1391,7 +1307,7 @@ public class ChessGUI {
 			gameResult = GameResult.INSUFFICIENT_MATERIAL_DRAW;
 
 			String turnMessage = "Move number: " 
-					+ (int) Math.ceil((float) chessBoard.getHalfmoveNumber() / 2) 
+					+ (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2) 
 					+ ". It is a draw.";
 			turnTextPane.setText(turnMessage);
 			
@@ -1406,7 +1322,7 @@ public class ChessGUI {
 		}
 		
 		
-		// 50 fullmoves without a chessPiece capture Draw implementation.
+		// 50 full moves without a chessPiece capture Draw implementation.
 		if (chessBoard.checkForNoPieceCaptureDraw()) {
 			int dialogResult = -1;
 			
@@ -1415,7 +1331,7 @@ public class ChessGUI {
 				|| gameParameters.gameMode == GameMode.AI_VS_AI) {
 				dialogResult = JOptionPane.showConfirmDialog(gui, 
 						(int) Math.ceil(Constants.NO_PIECE_CAPTURE_DRAW_HALFMOVES_LIMIT / (double) 2) + 
-						" fullmoves have passed without a piece capture! Do you want to declare a draw?",
+						" full moves have passed without a piece capture! Do you want to declare a draw?",
 						"Draw", JOptionPane.YES_NO_OPTION);
 			}
 			
@@ -1429,15 +1345,15 @@ public class ChessGUI {
 		}
 		
 		
-		return checkForHalfmoveGameOver();
+		return checkForHalfMoveGameOver();
 
 	}
 
 
 	public static boolean checkForThreefoldRepetitionDraw() {
 		
-		if (!halfmoveGameBoards.isEmpty()) {
-			int N = halfmoveGameBoards.size();
+		if (!halfMoveGameBoards.isEmpty()) {
+			int N = halfMoveGameBoards.size();
 			for (int i=0; i<N - 1; i++) {
 				int numOfRepeats = 0;
 				for (int j=i; j<N; j++) {
@@ -1446,11 +1362,11 @@ public class ChessGUI {
 					// The number of comparisons will be: (N 2) = N * (N-1) / 2
 					if (i != j && !(numOfRepeats < 2 && j == N - 1)) {
 						// System.out.println("i: " + i + ", j: " + j);
-						ChessPiece[][] halfmoveGameBoard1 = halfmoveGameBoards.get(i);
-						ChessPiece[][] halfmoveGameBoard2 = halfmoveGameBoards.get(j);
-						if (Utilities.checkEqualGameBoards(halfmoveGameBoard1, halfmoveGameBoard2)) {
+						ChessPiece[][] halfMoveGameBoard1 = halfMoveGameBoards.get(i);
+						ChessPiece[][] halfMoveGameBoard2 = halfMoveGameBoards.get(j);
+						if (Utilities.checkEqualGameBoards(halfMoveGameBoard1, halfMoveGameBoard2)) {
 							// System.out.println("i: " + i + ", j: " + j);
-							// ChessBoard.printChessBoard(halfmoveGameBoard1);
+							// ChessBoard.printChessBoard(halfMoveGameBoard1);
 							numOfRepeats++;
 						}
 					}
@@ -1464,7 +1380,7 @@ public class ChessGUI {
 	}
 	
 	
-	private static boolean checkForHalfmoveGameOver() {
+	private static boolean checkForHalfMoveGameOver() {
 		
 		
 		// Three-fold repetition draw rule implementation. 
@@ -1498,7 +1414,7 @@ public class ChessGUI {
 	private static void showDeclareDrawDialog() {
 
 		String turnMessage = "Move number: " 
-				+ (int) Math.ceil((float) chessBoard.getHalfmoveNumber() / 2) 
+				+ (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2) 
 				+ ". It is a draw.";
 		turnTextPane.setText(turnMessage);
 
@@ -1515,8 +1431,8 @@ public class ChessGUI {
 		if ((gameParameters.gameMode == GameMode.HUMAN_VS_AI || gameParameters.gameMode == GameMode.AI_VS_AI)
 				&& gameParameters.aiType == AiType.MINIMAX_AI) {
 			
-			whiteMinimaxAiMoveAverageSecs = (double) whiteMinimaxAiMoveAverageSecs / Math.ceil((double) chessBoard.getHalfmoveNumber() / 2.0);
-			blackMinimaxAiMoveAverageSecs = (double) blackMinimaxAiMoveAverageSecs / Math.floor((double) chessBoard.getHalfmoveNumber() / 2.0);
+			whiteMinimaxAiMoveAverageSecs = whiteMinimaxAiMoveAverageSecs / Math.ceil((double) chessBoard.getHalfMoveNumber() / 2.0);
+			blackMinimaxAiMoveAverageSecs = blackMinimaxAiMoveAverageSecs / Math.floor((double) chessBoard.getHalfMoveNumber() / 2.0);
 			
 			if ((gameParameters.gameMode == GameMode.HUMAN_VS_AI && gameParameters.humanPlayerAllegiance == Allegiance.BLACK 
 					|| gameParameters.gameMode == GameMode.AI_VS_AI))
@@ -1554,7 +1470,7 @@ public class ChessGUI {
 		String randomAiEndingPosition = "";
 		
 		// This map is used for the Random AI implementation.
-		Map<String, Set<String>> randomStartingEndingPositions = new TreeMap<String, Set<String>>();
+		Map<String, Set<String>> randomStartingEndingPositions = new TreeMap<>();
 		
 		/* STEP 1. Random starting position. */
 		if (chessBoard.whitePlays() && aiAllegiance == Allegiance.WHITE && !chessBoard.isWhiteKingInCheck() 
@@ -1581,7 +1497,7 @@ public class ChessGUI {
 			}
 
 			Random r = new Random();
-			List<String> keys = new ArrayList<String>(randomStartingEndingPositions.keySet());
+			List<String> keys = new ArrayList<>(randomStartingEndingPositions.keySet());
 			if (randomStartingEndingPositions.size() > 0) {
 				int randomStartingPositionIndex = r.nextInt(randomStartingEndingPositions.size());
 				// System.out.println("randomStartingPositionIndex: " + randomStartingPositionIndex);
@@ -1595,14 +1511,14 @@ public class ChessGUI {
 				 chessBoard.blackPlays() && aiAllegiance == Allegiance.BLACK && chessBoard.isBlackKingInCheck()) {
 			// System.out.println("chessBoard.blackKingInCheckValidPieceMoves: " + chessBoard.blackKingInCheckValidPieceMoves);
 			Random r = new Random();
-			List<String> keys = new ArrayList<String>();
+			List<String> keys = new ArrayList<>();
 			int randomStartingPositionIndex = 0;
 			
 			if (chessBoard.whitePlays()) {
-				keys = new ArrayList<String>(chessBoard.getWhiteKingInCheckValidPieceMoves().keySet());
+				keys = new ArrayList<>(chessBoard.getWhiteKingInCheckValidPieceMoves().keySet());
 				randomStartingPositionIndex = r.nextInt(chessBoard.getWhiteKingInCheckValidPieceMoves().size());
 			} else if (chessBoard.blackPlays()) {
-				keys = new ArrayList<String>(chessBoard.getBlackKingInCheckValidPieceMoves().keySet());
+				keys = new ArrayList<>(chessBoard.getBlackKingInCheckValidPieceMoves().keySet());
 				randomStartingPositionIndex = r.nextInt(chessBoard.getBlackKingInCheckValidPieceMoves().size());
 			}
 			
@@ -1612,7 +1528,7 @@ public class ChessGUI {
 		
 		
 		/* STEP 2. Random ending position. */
-		Set<String> possibleEndingPositions = new TreeSet<String>();
+		Set<String> possibleEndingPositions = new TreeSet<>();
 		if (chessBoard.whitePlays() && !chessBoard.isWhiteKingInCheck()
 				||
 			chessBoard.blackPlays() && !chessBoard.isBlackKingInCheck()) {
@@ -1657,7 +1573,7 @@ public class ChessGUI {
 		else if (chessBoard.blackPlays())
 			chessBoard.setBlackKingInCheck(false);
 		
-		chessBoard.setHalfmoveNumber(chessBoard.getHalfmoveNumber() + 1);
+		chessBoard.setHalfMoveNumber(chessBoard.getHalfMoveNumber() + 1);
         chessBoard.setPlayer(!chessBoard.getPlayer());
 
         setTurnMessage();
@@ -1679,10 +1595,10 @@ public class ChessGUI {
 		
 		// Move aiMove = ai.miniMax(chessBoard);
 		
-		Move aiMove = null;
+		Move aiMove;
 		if (chessBoard.whitePlays()) {
 			aiMove = ai.miniMax(chessBoard);
-		} else if (chessBoard.blackPlays()) {
+		} else {
 			aiMove = ai.miniMaxAlphaBeta(chessBoard);
 		}
 		System.out.println("aiMove: " + aiMove);
@@ -1708,7 +1624,7 @@ public class ChessGUI {
 		else if (chessBoard.blackPlays())
 			chessBoard.setBlackKingInCheck(false);
 		
-		chessBoard.setHalfmoveNumber(chessBoard.getHalfmoveNumber() + 1);
+		chessBoard.setHalfMoveNumber(chessBoard.getHalfMoveNumber() + 1);
         chessBoard.setPlayer(!chessBoard.getPlayer());
         
         setTurnMessage();
@@ -1769,7 +1685,7 @@ public class ChessGUI {
 		} else {
 			randomAiMove(allegiance);
 		}
-		halfmoveGameBoards.push(Utilities.copyGameBoard(chessBoard.getGameBoard()));
+		halfMoveGameBoards.push(Utilities.copyGameBoard(chessBoard.getGameBoard()));
 		
 		setTurnMessage();
 		setScoreMessage();
@@ -1810,7 +1726,7 @@ public class ChessGUI {
 	
 	
 	public static Color getColorByRowCol(int row, int column) {
-		Color color = null;
+		Color color;
 		if ((column % 2 == 1 && row % 2 == 1)
 				//) {
 			|| (column % 2 == 0 && row % 2 == 0)) {
@@ -1822,12 +1738,12 @@ public class ChessGUI {
 	}
 	
 	
-	public static ImageIcon preparePieceIcon(String imagepath, int size) {
-		ImageIcon pieceIcon = new ImageIcon(ResourceLoader.load(imagepath));
+	public static ImageIcon preparePieceIcon(String imagePath, int size) {
+		ImageIcon pieceIcon = new ImageIcon(ResourceLoader.load(imagePath));
 		Image image = pieceIcon.getImage(); // transform it 
 		 // scale it the smooth way
-		Image newimg = image.getScaledInstance(size, size, java.awt.Image.SCALE_SMOOTH);  
-		pieceIcon = new ImageIcon(newimg);  // transform it back
+		Image newImg = image.getScaledInstance(size, size, java.awt.Image.SCALE_SMOOTH);
+		pieceIcon = new ImageIcon(newImg);  // transform it back
 		return pieceIcon; 
 	}
 	
@@ -1900,7 +1816,7 @@ public class ChessGUI {
 		int row = Utilities.getRowFromPosition(position);
 		
 		// Our chess pieces are 64x64 px in size, so we'll
-		// 'fill this in' using a transparent icon..
+		// 'fill this in' using a transparent icon.
 		ImageIcon icon = new ImageIcon(new BufferedImage(
 				Constants.CHESS_SQUARE_PIXEL_SIZE, Constants.CHESS_SQUARE_PIXEL_SIZE, BufferedImage.TYPE_INT_ARGB));
 		
@@ -1980,8 +1896,8 @@ public class ChessGUI {
 		
 		setTurnMessage();
 		
-		ChessPiece[][] halfmoveGameBoard = Utilities.copyGameBoard(chessBoard.getGameBoard());
-		halfmoveGameBoards.push(halfmoveGameBoard);
+		ChessPiece[][] halfMoveGameBoard = Utilities.copyGameBoard(chessBoard.getGameBoard());
+		halfMoveGameBoards.push(halfMoveGameBoard);
 	}
 	
 	
@@ -2004,8 +1920,8 @@ public class ChessGUI {
 		
 		setTurnMessage();
 		
-		ChessPiece[][] halfmoveGameBoard = Utilities.copyGameBoard(chessBoard.getGameBoard());
-		halfmoveGameBoards.push(halfmoveGameBoard);
+		ChessPiece[][] halfMoveGameBoard = Utilities.copyGameBoard(chessBoard.getGameBoard());
+		halfMoveGameBoards.push(halfMoveGameBoard);
 	}
 	
 	
@@ -2015,7 +1931,7 @@ public class ChessGUI {
 				// chessBoardSquares[i][j].setEnabled(true);
 				
 				// Our chess pieces are 64x64 px in size, so we'll
-				// 'fill this in' using a transparent icon..
+				// 'fill this in' using a transparent icon.
 				ImageIcon icon = new ImageIcon(new BufferedImage(
 						Constants.CHESS_SQUARE_PIXEL_SIZE, Constants.CHESS_SQUARE_PIXEL_SIZE, BufferedImage.TYPE_INT_ARGB));
 				chessBoardSquares[i][j].setIcon(icon);
@@ -2048,12 +1964,7 @@ public class ChessGUI {
 					column = j;
 				}
 				
-				button.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						chessButtonClick(row, column, button);
-					}
-				});
+				button.addActionListener(e -> chessButtonClick(row, column, button));
 			}
 		}
 		buttonsEnabled = true;
@@ -2069,11 +1980,6 @@ public class ChessGUI {
 			}
 		}
 		buttonsEnabled = false;
-	}
-	
-	
-	public final JComponent getChessBoardPanel() {
-		return chessBoardPanel;
 	}
 	
 	

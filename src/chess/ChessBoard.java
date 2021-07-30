@@ -1,30 +1,15 @@
 package chess;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.TreeSet;
-
-import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
-
 import chess_gui.ChessGUI;
 import enumeration.Allegiance;
 import enumeration.GameMode;
-import piece.Bishop;
-import piece.ChessPiece;
-import piece.EmptyTile;
-import piece.King;
-import piece.Knight;
-import piece.Pawn;
-import piece.Queen;
-import piece.Rook;
+import piece.*;
 import utility.ChessPieceShortestPath;
 import utility.Constants;
 import utility.Utilities;
+
+import javax.swing.*;
+import java.util.*;
 
 
 public class ChessBoard {
@@ -97,11 +82,11 @@ public class ChessBoard {
 	private String enPassantPosition;
 	
 	/* This variable is used to determine a draw, 
-	 * if no chessPiece has been captured in 50 fullmoves (100 halfmoves). */
-	private int halfmoveClock;
+	 * if no chessPiece has been captured in 50 fullmoves (100 halfMoves). */
+	private int halfMoveClock;
 
-	/* 1 fullmove corresponds to 2 halfmoves. */
-	private int halfmoveNumber;
+	/* 1 fullmove corresponds to 2 halfMoves. */
+	private int halfMoveNumber;
 	
 	private boolean whiteKingInCheck;
 	private boolean blackKingInCheck;
@@ -150,8 +135,8 @@ public class ChessBoard {
 		
 		this.enPassantPosition = "-";
 
-		this.halfmoveClock = 0;
-		this.halfmoveNumber = 1;
+		this.halfMoveClock = 0;
+		this.halfMoveNumber = 1;
 		
 		this.whiteCapturedPiecesCounter = 0;
 		this.blackCapturedPiecesCounter = 0;
@@ -218,8 +203,8 @@ public class ChessBoard {
 
         this.enPassantPosition = otherBoard.getEnPassantPosition();
 
-		this.halfmoveClock = otherBoard.getHalfmoveClock();
-		this.halfmoveNumber = otherBoard.getHalfmoveNumber();
+		this.halfMoveClock = otherBoard.getHalfMoveClock();
+		this.halfMoveNumber = otherBoard.getHalfMoveNumber();
 		
 		this.whiteKingInCheck = otherBoard.isWhiteKingInCheck();
 		this.blackKingInCheck = otherBoard.isBlackKingInCheck();
@@ -288,7 +273,7 @@ public class ChessBoard {
  		if (endTile instanceof EmptyTile || 
  				chessPiece.getAllegiance() != endTile.getAllegiance()) {
  			
-			this.lastCapturedPieceValue = Utilities.getChessPieceValue(endTile, this.halfmoveNumber);
+			this.lastCapturedPieceValue = Utilities.getChessPieceValue(endTile, this.halfMoveNumber);
  			
 			if (chessPiece.getAllegiance() == Allegiance.BLACK)
 				this.lastCapturedPieceValue = -this.lastCapturedPieceValue;	
@@ -610,11 +595,11 @@ public class ChessBoard {
  			
  			setThreats();
  			
- 			// Increase the halfmoveClock if no capture has occurred.
+ 			// Increase the halfMoveClock if no capture has occurred.
  	 		if (endTile.getAllegiance() == Allegiance.EMPTY) {
- 	 			halfmoveClock++;
+ 	 			halfMoveClock++;
  	 		} else {  // a capture has occurred
- 	 			halfmoveClock = 0;
+ 	 			halfMoveClock = 0;
  	 		}
 	 	 		
  	 		// If a chessPiece capture has occurred.
@@ -831,7 +816,7 @@ public class ChessBoard {
 		// String startPosition = lastMove.getPositions().get(0);
 		String endPosition = lastMove.getPositions().get(1);
     	ChessPiece lastMovedPiece = Utilities.getChessPieceFromPosition(this.gameBoard, endPosition);
-    	double lastMovedChessPieceValue = Utilities.getChessPieceValue(lastMovedPiece, this.halfmoveNumber);
+    	double lastMovedChessPieceValue = Utilities.getChessPieceValue(lastMovedPiece, this.halfMoveNumber);
 		// System.out.println("lastPiece: " + Utilities.getPieceNameByValue(lastPiece));
     	
     	int endRow = Utilities.getRowFromPosition(endPosition);
@@ -871,13 +856,13 @@ public class ChessBoard {
 			for (int j=0; j<n2; j++) {
 				
 				/* In the beginning, these sum up to 39, for each player. */
-				valueBoard[i][j] = Utilities.getChessPieceValue(this.gameBoard[i][j], this.halfmoveNumber);
+				valueBoard[i][j] = Utilities.getChessPieceValue(this.gameBoard[i][j], this.halfMoveNumber);
 				
 			}
     	}
     	
     	double checkValue = 0;
-    	if (this.halfmoveNumber <= Constants.MIDDLEGAME_HALFMOVES_THRESHOLD)
+    	if (this.halfMoveNumber <= Constants.MIDDLEGAME_HALFMOVES_THRESHOLD)
     		checkValue = Constants.CHECK_VALUE;
 		else
 			checkValue = Constants.CHECK_LATE_VALUE;
@@ -1048,7 +1033,7 @@ public class ChessBoard {
 		*/
 		
 		// Add extra penalty, if the Queen, or any Rook is lost, in late game. 
-    	if (this.halfmoveNumber > Constants.MIDDLEGAME_HALFMOVES_THRESHOLD) {
+    	if (this.halfMoveNumber > Constants.MIDDLEGAME_HALFMOVES_THRESHOLD) {
     		whiteScore -= (isQueenLost(Allegiance.WHITE)) ? Constants.QUEEN_LATE_VALUE * 130 : 0;
 			blackScore -= (isQueenLost(Allegiance.BLACK)) ? Constants.QUEEN_LATE_VALUE * 130 : 0;
 			
@@ -1206,9 +1191,9 @@ public class ChessBoard {
     
     
     // This function is used for the Draw implementation.
-    // If the number of empty tiles before the halfmove, 
-    // is the same as the number of empty tiles after the halfmove, 
-    // the halfmoveClock increments by 1.
+    // If the number of empty tiles before the HalfMove, 
+    // is the same as the number of empty tiles after the HalfMove, 
+    // the halfMoveClock increments by 1.
     public int countNumberOfEmptyTiles() {
     	int numEmptyTiles = 0;
         for (int i=0; i<numOfRows; i++) {
@@ -1896,12 +1881,12 @@ public class ChessBoard {
 		this.player = player;
 	}
 	
-	public int getHalfmoveNumber() {
-		return halfmoveNumber;
+	public int getHalfMoveNumber() {
+		return halfMoveNumber;
 	}
 	
-	public void setHalfmoveNumber(int halfmoveNumber) {
-		this.halfmoveNumber = halfmoveNumber;
+	public void setHalfMoveNumber(int halfMoveNumber) {
+		this.halfMoveNumber = halfMoveNumber;
 	}
 
 	public boolean isWhiteCheckmate() {
@@ -1948,16 +1933,16 @@ public class ChessBoard {
 		return numOfRows;
 	}
 
-	public int getHalfmoveClock() {
-		return halfmoveClock;
+	public int getHalfMoveClock() {
+		return halfMoveClock;
 	}
 
-	public void setHalfmoveClock(int halfmoveClock) {
-		this.halfmoveClock = halfmoveClock;
+	public void setHalfMoveClock(int halfMoveClock) {
+		this.halfMoveClock = halfMoveClock;
 	}
 	
 	public boolean checkForNoPieceCaptureDraw() {
-		return this.halfmoveClock >= Constants.NO_PIECE_CAPTURE_DRAW_HALFMOVES_LIMIT;
+		return this.halfMoveClock >= Constants.NO_PIECE_CAPTURE_DRAW_HALFMOVES_LIMIT;
 	}
 
 	public int getWhiteCapturedPiecesCounter() {

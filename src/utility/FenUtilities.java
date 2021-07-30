@@ -2,14 +2,7 @@ package utility;
 
 import chess.ChessBoard;
 import enumeration.Allegiance;
-import piece.Bishop;
-import piece.ChessPiece;
-import piece.EmptyTile;
-import piece.King;
-import piece.Knight;
-import piece.Pawn;
-import piece.Queen;
-import piece.Rook;
+import piece.*;
 
 public class FenUtilities {
 	
@@ -99,9 +92,9 @@ public class FenUtilities {
 		
 		chessBoard.setEnPassantPosition(enPassantPosition);
 		
-		chessBoard.setHalfmoveClock(halfmoveClock);
+		chessBoard.setHalfMoveClock(halfmoveClock);
 		
-		chessBoard.setHalfmoveNumber(halfmoveNumber);
+		chessBoard.setHalfMoveNumber(halfmoveNumber);
 		
 		return chessBoard;
 	}
@@ -299,10 +292,10 @@ public class FenUtilities {
 		fenPosition += " " + chessBoard.getEnPassantPosition();
 		
 		/* Step 5: Append the half move clock. */
-		fenPosition += " " + chessBoard.getHalfmoveClock();
+		fenPosition += " " + chessBoard.getHalfMoveClock();
 		
 		/* Step 6: Append the half move number. */
-		fenPosition += " " + chessBoard.getHalfmoveNumber();
+		fenPosition += " " + chessBoard.getHalfMoveNumber();
 				
 		return fenPosition;
 	}

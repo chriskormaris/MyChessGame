@@ -1,12 +1,11 @@
 package chess_gui_tests;
 
 
-import org.junit.jupiter.api.Test;
-
 import chess.ChessBoard;
 import chess_gui.ChessGUI;
 import enumeration.Allegiance;
 import enumeration.GameMode;
+import org.junit.jupiter.api.Test;
 import piece.Bishop;
 import piece.King;
 import piece.Knight;
@@ -40,8 +39,8 @@ class ThreefoldRepetitionDrawTest {
 		System.out.println();
 		ChessBoard.printChessBoard(ChessGUI.chessBoard.getGameBoard());
 		
-		// ChessGUI.halfmoveGameBoards.clear();
-		ChessGUI.halfmoveGameBoards.push(Utilities.copyGameBoard(ChessGUI.chessBoard.getGameBoard()));
+		// ChessGUI.halfMoveGameBoards.clear();
+		ChessGUI.halfMoveGameBoards.push(Utilities.copyGameBoard(ChessGUI.chessBoard.getGameBoard()));
 		
 		// Continue playing for 5 minutes.
 		try {
