@@ -190,7 +190,7 @@ public class MiniMaxAi {
             }
 
             // Update the a of the current max node.
-            a = (a > maxMove.getValue()) ? a : maxMove.getValue();
+            a = Math.max(a, maxMove.getValue());
 		}
 		// System.out.println("max, depth: " + depth + ", maxMove -> " + maxMove);
 		return maxMove;
@@ -232,7 +232,7 @@ public class MiniMaxAi {
             }
             
             // Update the b of the current min node.
-            b = (b < minMove.getValue()) ? b : minMove.getValue();
+            b = Math.min(b, minMove.getValue());
         }
 		// System.out.println("min, depth: " + depth + ", minMove -> " + minMove);
         return minMove;
