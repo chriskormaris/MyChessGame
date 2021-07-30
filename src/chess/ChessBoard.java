@@ -1048,7 +1048,7 @@ public class ChessBoard {
 			blackScore -= (2 - getNumOfKnights(Allegiance.BLACK)) * Constants.KNIGHT_LATE_VALUE * 130;
     	} 
     	
-		// Add extra penalty, if the Queen, or any Rook is lost, in early game. 
+		// Add extra penalty, if any Queen, Rook, Bishop or Knight is lost, in early game.
     	else {
     		whiteScore -= (isQueenLost(Allegiance.WHITE)) ? Constants.QUEEN_VALUE * 130 : 0;
 			blackScore -= (isQueenLost(Allegiance.BLACK)) ? Constants.QUEEN_VALUE * 130 : 0;
