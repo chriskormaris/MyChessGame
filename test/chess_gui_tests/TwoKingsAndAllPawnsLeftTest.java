@@ -5,7 +5,8 @@ import chess.ChessBoard;
 import chess_gui.ChessGUI;
 import org.junit.jupiter.api.Test;
 
-import static junit.framework.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 //import enumerations.Allegiance;
 //import pieces.Pawn;
 
@@ -43,7 +44,7 @@ class TwoKingsAndAllPawnsLeftTest {
 		ChessGUI.checkForGameOver();
 		boolean isDraw = ChessGUI.chessBoard.isInsufficientMaterialDraw();
 		System.out.println((isDraw) ? "The game is a draw!" : "The game is NOT a draw!");
-		assertTrue("The game is NOT a draw.", isDraw == false);
+		assertFalse(isDraw, "The game is NOT a draw.");
 		// System.out.println("*****************************");
 		// System.out.println();
 		

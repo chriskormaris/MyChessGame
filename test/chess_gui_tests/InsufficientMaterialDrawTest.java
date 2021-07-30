@@ -9,7 +9,7 @@ import piece.Bishop;
 import piece.King;
 import piece.Knight;
 
-import static junit.framework.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 class InsufficientMaterialDrawTest {
@@ -38,7 +38,7 @@ class InsufficientMaterialDrawTest {
 		ChessBoard.printChessBoard(ChessGUI.chessBoard.getGameBoard());
 		
 		boolean isDraw = ChessGUI.chessBoard.checkForInsufficientMaterialDraw();
-		assertTrue("The game is not a draw.", isDraw == true);
+		assertTrue(isDraw, "The game is not a draw.");
 		System.out.println("*****************************");
 		System.out.println();
 		

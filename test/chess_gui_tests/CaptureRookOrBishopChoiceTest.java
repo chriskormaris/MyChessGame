@@ -12,7 +12,7 @@ import piece.Rook;
 import utility.Constants;
 import utility.Utilities;
 
-import static junit.framework.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 class CaptureRookOrBishopChoiceTest {
@@ -38,8 +38,8 @@ class CaptureRookOrBishopChoiceTest {
 		ChessGUI.chessBoard.setPlayer(Constants.BLACK);
 		ChessGUI.minimaxAiMove(ChessGUI.ai);
 		
-		assertTrue("The Black Knight did NOT capture the White Rook.", 
-				Utilities.getChessPieceFromPosition(ChessGUI.chessBoard.getGameBoard(), "A1") instanceof Knight);
+		assertTrue(Utilities.getChessPieceFromPosition(ChessGUI.chessBoard.getGameBoard(), "A1") instanceof Knight,
+				"The Black Knight did NOT capture the White Rook.");
 
 		// Continue playing for a minute.
 		try {

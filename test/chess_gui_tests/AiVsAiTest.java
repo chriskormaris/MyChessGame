@@ -1,11 +1,10 @@
 package chess_gui_tests;
 
 
-import org.junit.jupiter.api.Test;
-
 import chess.ChessBoard;
 import chess_gui.ChessGUI;
 import enumeration.GameMode;
+import org.junit.jupiter.api.Test;
 
 
 class AiVsAiTest {

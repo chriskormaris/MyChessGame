@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import piece.King;
 import piece.Pawn;
 
-import static junit.framework.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 
 class TwoKingsLeftTest {
@@ -29,7 +29,7 @@ class TwoKingsLeftTest {
 		ChessBoard.printChessBoard(ChessGUI.chessBoard.getGameBoard());
 		
 		boolean isDraw = ChessGUI.chessBoard.checkForInsufficientMaterialDraw();
-		assertTrue("The game is not a draw.", isDraw == false);
+		assertFalse(isDraw, "The game is not a draw.");
 		System.out.println("*****************************");
 		System.out.println();
 		
