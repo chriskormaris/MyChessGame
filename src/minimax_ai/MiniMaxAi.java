@@ -44,11 +44,11 @@ public class MiniMaxAi {
 	
     // Initiates the minimax algorithm
 	public Move miniMax(ChessBoard chessBoard) {
-        // If White plays, then it wants to MAXimize the heuristics value.
+        // If White plays, then it wants to maximize the heuristics value.
         if (aiPlayer == Constants.WHITE) {
             return max(new ChessBoard(chessBoard), 0);
         }
-        // If Black plays, then it wants to MINimize the heuristics value.
+        // If Black plays, then it wants to minimize the heuristics value.
         else {
             return min(new ChessBoard(chessBoard), 0);
         }
@@ -129,7 +129,7 @@ public class MiniMaxAi {
 	
 	// Initiates the minimax Alpha-Beta Pruning algorithm
 	public Move miniMaxAlphaBeta(ChessBoard chessBoard) {
-        // If White plays, then it wants to MAXimize the heuristics value.
+        // If White plays, then it wants to maximize the heuristics value.
         if (aiPlayer == Constants.WHITE) {
         	
         	Move maxMove = maxAlphaBeta(new ChessBoard(chessBoard), 0, Double.MAX_VALUE, Integer.MIN_VALUE);
@@ -137,7 +137,7 @@ public class MiniMaxAi {
         	
             return maxMove;
         }
-        // If Black plays, then it wants to MINimize the heuristics value.
+        // If Black plays, then it wants to minimize the heuristics value.
         else {
         	Move minMove = minAlphaBeta(new ChessBoard(chessBoard), 0, Integer.MIN_VALUE, Integer.MAX_VALUE);
         	// System.out.println("miniMax minMove -> " + minMove);
