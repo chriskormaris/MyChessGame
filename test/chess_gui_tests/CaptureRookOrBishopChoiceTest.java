@@ -1,19 +1,18 @@
 package chess_gui_tests;
 
 
-import static org.junit.Assert.assertTrue;
-
-import org.junit.jupiter.api.Test;
-
 import chess.ChessBoard;
 import chess_gui.ChessGUI;
 import enumeration.Allegiance;
+import org.junit.jupiter.api.Test;
 import piece.Bishop;
 import piece.King;
 import piece.Knight;
 import piece.Rook;
 import utility.Constants;
 import utility.Utilities;
+
+import static junit.framework.Assert.assertTrue;
 
 
 class CaptureRookOrBishopChoiceTest {

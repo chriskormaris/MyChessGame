@@ -1,12 +1,11 @@
 package chess_gui_tests;
 
 
-import static org.junit.Assert.assertTrue;
-
-import org.junit.jupiter.api.Test;
-
 import chess.ChessBoard;
 import chess_gui.ChessGUI;
+import org.junit.jupiter.api.Test;
+
+import static junit.framework.Assert.assertTrue;
 //import enumerations.Allegiance;
 //import pieces.Pawn;
 
