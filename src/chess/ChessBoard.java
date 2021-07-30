@@ -1034,7 +1034,7 @@ public class ChessBoard {
 		*/
 
 		// Add extra penalty, if any Queen, Rook, Bishop or Knight is lost, in early game.
-    	else {
+		if (this.halfMoveNumber <= Constants.MIDDLEGAME_HALFMOVES_THRESHOLD) {
     		whiteScore -= (isQueenLost(Allegiance.WHITE)) ? Constants.QUEEN_VALUE * 130 : 0;
 			blackScore -= (isQueenLost(Allegiance.BLACK)) ? Constants.QUEEN_VALUE * 130 : 0;
 			
@@ -1049,7 +1049,7 @@ public class ChessBoard {
     	}
 
 		// Add extra penalty, if any Queen, Rook, Bishop or Knight is lost, in late game.
-		if (this.halfMoveNumber > Constants.MIDDLEGAME_HALFMOVES_THRESHOLD) {
+		else {
 			whiteScore -= (isQueenLost(Allegiance.WHITE)) ? Constants.QUEEN_LATE_VALUE * 130 : 0;
 			blackScore -= (isQueenLost(Allegiance.BLACK)) ? Constants.QUEEN_LATE_VALUE * 130 : 0;
 
