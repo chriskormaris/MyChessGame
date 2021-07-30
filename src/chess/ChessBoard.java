@@ -1,15 +1,30 @@
 package chess;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
+
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+
 import chess_gui.ChessGUI;
 import enumeration.Allegiance;
 import enumeration.GameMode;
-import piece.*;
+import piece.Bishop;
+import piece.ChessPiece;
+import piece.EmptyTile;
+import piece.King;
+import piece.Knight;
+import piece.Pawn;
+import piece.Queen;
+import piece.Rook;
 import utility.ChessPieceShortestPath;
 import utility.Constants;
 import utility.Utilities;
-
-import javax.swing.*;
-import java.util.*;
 
 
 public class ChessBoard {
