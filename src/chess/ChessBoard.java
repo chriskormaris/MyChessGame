@@ -564,14 +564,13 @@ public class ChessBoard {
 
 						String value = null;
 	 					if (chessPiece.getAllegiance() == Allegiance.WHITE) {
-							value = (String) JOptionPane.showInputDialog(ChessGUI.gui, "Promote white pawn to:",
-									"White pawn promotion", JOptionPane.QUESTION_MESSAGE, null, promotionPieces, initialSelection);
-							// System.out.println("value: " + value);
+							value = (String) JOptionPane.showInputDialog(ChessGUI.gui, "Promote White Pawn to:",
+									"White Pawn promotion", JOptionPane.QUESTION_MESSAGE, null, promotionPieces, initialSelection);
 						} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
-							value = (String) JOptionPane.showInputDialog(ChessGUI.gui, "Promote black pawn to:",
-									"Black pawn promotion", JOptionPane.QUESTION_MESSAGE, null, promotionPieces, initialSelection);
-							// System.out.println("value: " + value);
+							value = (String) JOptionPane.showInputDialog(ChessGUI.gui, "Promote Black Pawn to:",
+									"Black Pawn promotion", JOptionPane.QUESTION_MESSAGE, null, promotionPieces, initialSelection);
 						}
+						// System.out.println("value: " + value);
 
 						if (value == null || value.equals("Queen")) {
 							ChessGUI.placePieceToPosition(positionEnd, queen);
