@@ -36,7 +36,7 @@ public class Pawn extends ChessPiece {
 		if (!(chessPiece instanceof Pawn))
 			return nextPawnPositions;
 		
-		int newRow = 0, newColumn;
+		int newRow = 0, newColumn = 0;
 		String newPosition;
 		
 		if (chessPiece.getAllegiance() == Allegiance.WHITE && row < chessBoard.getNumOfRows()-1
@@ -132,8 +132,8 @@ public class Pawn extends ChessPiece {
 		
 		if (!(chessPiece instanceof Pawn))
 			return enPassantPositions;
-		
-		int newRow = 0, newColumn;
+
+		int newRow = 0, newColumn = 0;
 		String newPosition;
 		
 		if (chessPiece.getAllegiance() == Allegiance.WHITE && row < chessBoard.getNumOfRows()-1
