@@ -1250,8 +1250,7 @@ public class ChessGUI {
 				gameResult = GameResult.WHITE_CHECKMATE;
 				
 				String turnMessage = "Move number: " 
-						+ (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2) 
-						+ ". Checkmate. White wins!";
+						+ (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2) + ". Checkmate! White wins!";
 				turnTextPane.setText(turnMessage);
 				
 				if (gameParameters.enableSounds)
@@ -1275,8 +1274,7 @@ public class ChessGUI {
 				gameResult = GameResult.BLACK_CHECKMATE;
 				
 				String turnMessage = "Move number: " 
-						+ (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2) 
-						+ ". Checkmate. Black wins!";
+						+ (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2) + ". Checkmate! Black wins!";
 				turnTextPane.setText(turnMessage);
 				
 				if (gameParameters.enableSounds)
