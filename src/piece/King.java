@@ -23,7 +23,7 @@ public class King extends ChessPiece {
 	public Set<String> getNextPositions(String position, ChessBoard chessBoard, boolean returnThreats) {
 		// System.out.println("current position: " + position);
 
-		Set<String> nextKingPositions = new HashSet<String>();
+		Set<String> nextKingPositions = new HashSet<>();
 
 		// First, find the row && the column
 		// that corresponds to the given position String.
@@ -34,7 +34,7 @@ public class King extends ChessPiece {
 		if (!(chessPiece instanceof King))
 			return nextKingPositions;
 
-		int newRow = 0, newColumn = 0;
+		int newRow, newColumn;
 		String newPosition;
 
 		// Up position
@@ -191,7 +191,7 @@ public class King extends ChessPiece {
 	
 	public static Set<String> getCastlingPositions(String position, ChessBoard chessBoard) {
 		
-		Set<String> castlingPositions = new HashSet<String>();
+		Set<String> castlingPositions = new HashSet<>();
 
 		// First, find the row && the column
 		// that corresponds to the given position String.
@@ -204,7 +204,7 @@ public class King extends ChessPiece {
 			return castlingPositions;
 		}
 
-		int newRow = 0, newColumn = 0;
+		int newRow, newColumn;
 		String newPosition;
 
 		chessBoard.setThreats();

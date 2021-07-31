@@ -24,7 +24,7 @@ public class Queen extends ChessPiece {
 	public Set<String> getNextPositions(String position, ChessBoard chessBoard, boolean returnThreats) {
 		// System.out.println("current position: " + position);
 
-		Set<String> nextQueenPositions = new HashSet<String>();
+		Set<String> nextQueenPositions = new HashSet<>();
 		
 		// First, find the row && the column 
 		// that corresponds to the given position String.
@@ -35,7 +35,7 @@ public class Queen extends ChessPiece {
 		if (!(chessPiece instanceof Queen))
 			return nextQueenPositions;
 		
-		int newRow = 0, newColumn = 0;
+		int newRow, newColumn;
 		String newPosition;
 		
 		// Find all the up positions.

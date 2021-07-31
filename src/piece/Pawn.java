@@ -25,7 +25,7 @@ public class Pawn extends ChessPiece {
 
 		// System.out.println("current position: " + position);
 
-		Set<String> nextPawnPositions = new HashSet<String>();
+		Set<String> nextPawnPositions = new HashSet<>();
 
 		// First, find the row && the column 
 		// that corresponds to the given position String.
@@ -36,7 +36,7 @@ public class Pawn extends ChessPiece {
 		if (!(chessPiece instanceof Pawn))
 			return nextPawnPositions;
 		
-		int newRow = 0, newColumn = 0;
+		int newRow = 0, newColumn;
 		String newPosition;
 		
 		if (chessPiece.getAllegiance() == Allegiance.WHITE && row < chessBoard.getNumOfRows()-1
@@ -122,7 +122,7 @@ public class Pawn extends ChessPiece {
 	public Set<String> getEnPassantPositions(String position, ChessBoard chessBoard, boolean returnThreats) {
 		// System.out.println("current position: " + position);
 
-		Set<String> enPassantPositions = new HashSet<String>();
+		Set<String> enPassantPositions = new HashSet<>();
 
 		// First, find the row && the column 
 		// that corresponds to the given position String.
@@ -133,7 +133,7 @@ public class Pawn extends ChessPiece {
 		if (!(chessPiece instanceof Pawn))
 			return enPassantPositions;
 		
-		int newRow = 0, newColumn = 0;
+		int newRow = 0, newColumn;
 		String newPosition;
 		
 		if (chessPiece.getAllegiance() == Allegiance.WHITE && row < chessBoard.getNumOfRows()-1

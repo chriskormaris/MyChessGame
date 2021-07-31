@@ -36,7 +36,7 @@ public class Bishop extends ChessPiece {
 		if (!(chessPiece instanceof Bishop))
 			return nextBishopPositions;
 
-		int newRow = 0, newColumn = 0;
+		int newRow, newColumn;
 		String newPosition;
 		int counter;
 		

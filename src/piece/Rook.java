@@ -25,7 +25,7 @@ public class Rook extends ChessPiece {
 		
 		// System.out.println("current position: " + position);
 
-		Set<String> nextRookPositions = new HashSet<String>();
+		Set<String> nextRookPositions = new HashSet<>();
 		
 		// First, find the row && the column 
 		// that corresponds to the given position String.
@@ -36,7 +36,7 @@ public class Rook extends ChessPiece {
 		if (!(chessPiece instanceof Rook))
 			return nextRookPositions;
 
-		int newRow = 0, newColumn = 0;
+		int newRow, newColumn;
 		String newPosition;
 		
 		// Find all the up positions.
