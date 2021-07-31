@@ -281,8 +281,8 @@ public class SettingsWindow extends JFrame {
 					dispose();
 				}
 				
-				catch(Exception e) {
-					System.err.println("ERROR : " + e.getMessage());
+				catch (Exception e) {
+					System.err.println("ERROR: " + e.getMessage());
 				}
 				
 			}  // else if.
@@ -292,4 +292,3 @@ public class SettingsWindow extends JFrame {
 	}  // inner class.
 	
 }  // class end.
-
