@@ -530,9 +530,10 @@ public class ChessBoard {
 						if (chessPiece.getAllegiance() == Allegiance.WHITE && chessBoard.isWhiteCheckmate()
 							|| 
 							chessPiece.getAllegiance() == Allegiance.BLACK && chessBoard.isBlackCheckmate()) {
-							this.gameBoard[rowEnd][columnEnd] = knight;
 							if (displayMove) {
 								ChessGUI.placePieceToPosition(positionEnd, knight);
+							} else {
+								this.gameBoard[rowEnd][columnEnd] = knight;
 							}
 	 						promotedPieces.add(knight);
 						} else {
@@ -540,15 +541,14 @@ public class ChessBoard {
 								chessBoard.getGameBoard()[rowEnd][columnEnd] = promotionChessPiece;
 								chessBoard.setThreats();
 		 						
-		 						if (chessPiece.getAllegiance() == Allegiance.WHITE 
-		 								&& !chessBoard.checkForBlackStalemateDraw()
+		 						if (chessPiece.getAllegiance() == Allegiance.WHITE && !chessBoard.checkForBlackStalemateDraw()
 		 							|| 
-		 							chessPiece.getAllegiance() == Allegiance.BLACK 
-		 								&& !chessBoard.checkForWhiteStalemateDraw()) {
-		 							this.gameBoard[rowEnd][columnEnd] = promotionChessPiece;
+		 							chessPiece.getAllegiance() == Allegiance.BLACK && !chessBoard.checkForWhiteStalemateDraw()) {
 		 							if (displayMove) {
 		 								ChessGUI.placePieceToPosition(positionEnd, promotionChessPiece);
-		 							}
+		 							} else {
+										this.gameBoard[rowEnd][columnEnd] = promotionChessPiece;
+									}
 	 								promotedPieces.add(promotionChessPiece);
 		 	 						break;
 		 						}
