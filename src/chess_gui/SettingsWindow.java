@@ -96,7 +96,7 @@ public class SettingsWindow extends JFrame {
 		add(numOfRowsLabel);
 
 		
-		gui_style_drop_down = new JComboBox<String>();
+		gui_style_drop_down = new JComboBox<>();
 		gui_style_drop_down.addItem("Cross-platform style");
 		gui_style_drop_down.addItem("Nimbus style");
 		
@@ -110,7 +110,7 @@ public class SettingsWindow extends JFrame {
 		enable_sounds_check_box.setSelected(enableSounds);
 		
 		
-		human_player_allegiance_drop_down = new JComboBox<String>();
+		human_player_allegiance_drop_down = new JComboBox<>();
 		human_player_allegiance_drop_down.addItem("White");
 		human_player_allegiance_drop_down.addItem("Black");
 		
@@ -120,7 +120,7 @@ public class SettingsWindow extends JFrame {
 			human_player_allegiance_drop_down.setSelectedIndex(1);
 		
 		
-		game_mode_drop_down = new JComboBox<String>();
+		game_mode_drop_down = new JComboBox<>();
 		game_mode_drop_down.addItem("Human Vs AI");
 		game_mode_drop_down.addItem("Human Vs Human");
 		game_mode_drop_down.addItem("AI Vs AI");
@@ -132,7 +132,7 @@ public class SettingsWindow extends JFrame {
 		else if (selectedGameMode == GameMode.AI_VS_AI)
 			game_mode_drop_down.setSelectedIndex(2);
 		
-		ai_type_drop_down = new JComboBox<String>();
+		ai_type_drop_down = new JComboBox<>();
 		ai_type_drop_down.addItem("Minimax AI");
 		ai_type_drop_down.addItem("Random AI");
 		
@@ -141,21 +141,21 @@ public class SettingsWindow extends JFrame {
 		else if (selectedAiMode == AiType.RANDOM_AI)
 			ai_type_drop_down.setSelectedIndex(1);
 		
-		max_depth1_drop_down = new JComboBox<Integer>();
+		max_depth1_drop_down = new JComboBox<>();
 		max_depth1_drop_down.addItem(1);
 		max_depth1_drop_down.addItem(2);
 		max_depth1_drop_down.addItem(3);
 		
 		max_depth1_drop_down.setSelectedIndex(maxDepth1);
 
-		max_depth2_drop_down = new JComboBox<Integer>();
+		max_depth2_drop_down = new JComboBox<>();
 		max_depth2_drop_down.addItem(1);
 		max_depth2_drop_down.addItem(2);
 		max_depth2_drop_down.addItem(3);
 		
 		max_depth2_drop_down.setSelectedIndex(maxDepth2);
 		
-		white_tile_color_drop_down = new JComboBox<String>();
+		white_tile_color_drop_down = new JComboBox<>();
 		white_tile_color_drop_down.addItem("White");
 		white_tile_color_drop_down.addItem("Pink");
 		
@@ -164,7 +164,7 @@ public class SettingsWindow extends JFrame {
 		else if (selectedWhiteTileColor == Constants.BRIGHT_PINK)
 			white_tile_color_drop_down.setSelectedIndex(1);
 		
-		black_tile_color_drop_down = new JComboBox<String>();
+		black_tile_color_drop_down = new JComboBox<>();
 		black_tile_color_drop_down.addItem("Dark Green");
 		black_tile_color_drop_down.addItem("Black");
 		black_tile_color_drop_down.addItem("Dark Gray");
@@ -221,9 +221,9 @@ public class SettingsWindow extends JFrame {
 		add(cancel);
 		
 		int distance = 10;
-		apply.setBounds((int) (width / 2) - 110 - (int) (distance / 2), 400, 100, 30);
+		apply.setBounds((width / 2) - 110 - (distance / 2), 400, 100, 30);
 		apply.addActionListener(handler);
-		cancel.setBounds((int) (width / 2) - 10 + (int) (distance / 2), 400, 100, 30);
+		cancel.setBounds((width / 2) - 10 + (distance / 2), 400, 100, 30);
 		cancel.addActionListener(handler);
 	}
 
@@ -251,7 +251,7 @@ public class SettingsWindow extends JFrame {
 					int whiteTileColorDropdownIndex = white_tile_color_drop_down.getSelectedIndex();
 					int blackTileColorDropdownIndex = black_tile_color_drop_down.getSelectedIndex();
 					int numOfRows = (int) num_of_rows_spinner.getValue();
-					// numOfRows = (numOfRows >= 8) ? numOfRows : 8;
+					// numOfRows = Math.max(numOfRows, 8);
 					
 					Color whiteTileColor = null;
 					if (whiteTileColorDropdownIndex == 0) {
