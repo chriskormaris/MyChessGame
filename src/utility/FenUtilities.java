@@ -71,12 +71,12 @@ public class FenUtilities {
 		
 		String enPassantPosition = fenPositionTokens[3].toUpperCase();
 		
-		int halfmoveClock = Integer.parseInt(fenPositionTokens[4]);
+		int halfMoveClock = Integer.parseInt(fenPositionTokens[4]);
 		
-		int fullmoveNumber = Integer.parseInt(fenPositionTokens[5]);
-		int halfmoveNumber = fullmoveNumber * 2;
+		int fullMoveNumber = Integer.parseInt(fenPositionTokens[5]);
+		int halfMoveNumber = fullMoveNumber * 2;
 		if (playerFlag == Constants.WHITE) {
-			halfmoveNumber -= 1;
+			halfMoveNumber -= 1;
 		}
 		
 		// set the ChessBoard parameters, according to the given FEN position
@@ -93,9 +93,9 @@ public class FenUtilities {
 		
 		chessBoard.setEnPassantPosition(enPassantPosition);
 		
-		chessBoard.setHalfMoveClock(halfmoveClock);
+		chessBoard.setHalfMoveClock(halfMoveClock);
 		
-		chessBoard.setHalfMoveNumber(halfmoveNumber);
+		chessBoard.setHalfMoveNumber(halfMoveNumber);
 		
 		return chessBoard;
 	}
