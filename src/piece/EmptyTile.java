@@ -1,9 +1,10 @@
 package piece;
 
-import java.util.Set;
-
 import chess.ChessBoard;
 import enumeration.Allegiance;
+
+import java.util.HashSet;
+import java.util.Set;
 
 
 public class EmptyTile extends ChessPiece {
@@ -19,7 +20,7 @@ public class EmptyTile extends ChessPiece {
 	
 	@Override
 	public Set<String> getNextPositions(String position, ChessBoard chessBoard, boolean returnThreats) {
-		return null;
+		return new HashSet<>();
 	}
 
 }
