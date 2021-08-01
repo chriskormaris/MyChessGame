@@ -67,7 +67,9 @@ public class Constants {
 	public static final char BLACK_ROOK = 'r';
 	public static final char BLACK_QUEEN = 'q';
 	public static final char BLACK_KING = 'k';
-	
+
+	public static final String DEFAULT_FEN_POSITION = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+
 	public static final String ICON_PATH = "images/icon.png";
 	
 	public static final String WHITE_IMG_PATH = "images/white/";

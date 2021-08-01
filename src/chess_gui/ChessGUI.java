@@ -262,7 +262,7 @@ public class ChessGUI {
 		importFenPositionItem.addActionListener(e -> {
             String fenPosition = JOptionPane.showInputDialog(
                     "Please insert the \"FEN\" position in the text field below:                      ",
-                    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+					Constants.DEFAULT_FEN_POSITION);
             
             if (fenPosition != null) {
                 // gameParameters.numOfRows = Constants.DEFAULT_NUM_OF_ROWS;
