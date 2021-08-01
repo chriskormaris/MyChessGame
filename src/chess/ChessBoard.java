@@ -137,8 +137,7 @@ public class ChessBoard {
             }
 		}
 		
-    	// String fenStartingPieces = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
-    	// this.gameBoard = FenUtilities.createGameBoard(this, fenStartingPieces);
+    	// this.gameBoard = FenUtilities.createGameBoard(this, Constants.DEFAULT_STARTING_PIECES);
     	
 		this.tilesThreatenedByWhite = new int[numOfRows][NUM_OF_COLUMNS];
 		this.tilesThreatenedByBlack = new int[numOfRows][NUM_OF_COLUMNS];
