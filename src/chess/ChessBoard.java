@@ -658,11 +658,8 @@ public class ChessBoard {
     // Checks whether a given tile (with given row and column) contains a chessPiece of the given player.
     // White pieces have positive values. Black pieces have negative values.
     private boolean rowColContainsPlayerPiece(int row, int column, boolean player) {
-		if (player == Constants.WHITE && gameBoard[row][column].getAllegiance() == Allegiance.WHITE
-			|| player == Constants.BLACK && gameBoard[row][column].getAllegiance() == Allegiance.BLACK) {
-			return true;
-		}
-		return false;
+		return player == Constants.WHITE && gameBoard[row][column].getAllegiance() == Allegiance.WHITE
+				|| player == Constants.BLACK && gameBoard[row][column].getAllegiance() == Allegiance.BLACK;
 	}
     
     /* Generates the children of the state
