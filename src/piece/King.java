@@ -46,9 +46,9 @@ public class King extends ChessPiece {
 			// System.out.println("endTile: " + endTile);
 			if ((endTile instanceof EmptyTile || chessPiece.getAllegiance() != endTile.getAllegiance()
 					&& !(endTile instanceof King))
-					&& ((chessPiece instanceof King && chessPiece.getAllegiance() == Allegiance.WHITE)
+					&& ((chessPiece.getAllegiance() == Allegiance.WHITE)
 						&& chessBoard.getTilesThreatenedByBlack()[newRow][newColumn] == 0
-						|| (chessPiece instanceof King && chessPiece.getAllegiance() == Allegiance.BLACK)
+						|| (chessPiece.getAllegiance() == Allegiance.BLACK)
 						&& chessBoard.getTilesThreatenedByWhite()[newRow][newColumn] == 0)
 				|| returnThreats)
 				nextKingPositions.add(newPosition);
@@ -80,9 +80,9 @@ public class King extends ChessPiece {
 			// System.out.println("endTile: " + endTile);
 			if ((endTile instanceof EmptyTile || chessPiece.getAllegiance() != endTile.getAllegiance()
 					&& !(endTile instanceof King))
-					&& ((chessPiece instanceof King && chessPiece.getAllegiance() == Allegiance.WHITE)
+					&& ((chessPiece.getAllegiance() == Allegiance.WHITE)
 						&& chessBoard.getTilesThreatenedByBlack()[newRow][newColumn] == 0
-						|| (chessPiece instanceof King && chessPiece.getAllegiance() == Allegiance.BLACK)
+						|| (chessPiece.getAllegiance() == Allegiance.BLACK)
 						&& chessBoard.getTilesThreatenedByWhite()[newRow][newColumn] == 0)
 				|| returnThreats)
 				nextKingPositions.add(newPosition);
@@ -97,9 +97,9 @@ public class King extends ChessPiece {
 			// System.out.println("endTile: " + endTile);
 			if ((endTile instanceof EmptyTile || chessPiece.getAllegiance() != endTile.getAllegiance()
 					&& !(endTile instanceof King))
-					&& ((chessPiece instanceof King && chessPiece.getAllegiance() == Allegiance.WHITE)
+					&& ((chessPiece.getAllegiance() == Allegiance.WHITE)
 						&& chessBoard.getTilesThreatenedByBlack()[newRow][newColumn] == 0
-						|| (chessPiece instanceof King && chessPiece.getAllegiance() == Allegiance.BLACK)
+						|| (chessPiece.getAllegiance() == Allegiance.BLACK)
 						&& chessBoard.getTilesThreatenedByWhite()[newRow][newColumn] == 0)
 				|| returnThreats)
 				nextKingPositions.add(newPosition);
@@ -115,9 +115,9 @@ public class King extends ChessPiece {
 			// System.out.println("endTile: " + endTile);
 			if ((endTile instanceof EmptyTile || chessPiece.getAllegiance() != endTile.getAllegiance()
 					&& !(endTile instanceof King))
-					&& ((chessPiece instanceof King && chessPiece.getAllegiance() == Allegiance.WHITE)
+					&& ((chessPiece.getAllegiance() == Allegiance.WHITE)
 						&& chessBoard.getTilesThreatenedByBlack()[newRow][newColumn] == 0
-						|| (chessPiece instanceof King && chessPiece.getAllegiance() == Allegiance.BLACK)
+						|| (chessPiece.getAllegiance() == Allegiance.BLACK)
 						&& chessBoard.getTilesThreatenedByWhite()[newRow][newColumn] == 0)
 				|| returnThreats)
 				nextKingPositions.add(newPosition);
@@ -134,9 +134,9 @@ public class King extends ChessPiece {
 			// System.out.println("endTile: " + endTile);
 			if ((endTile instanceof EmptyTile || chessPiece.getAllegiance() != endTile.getAllegiance()
 					&& !(endTile instanceof King))
-					&& ((chessPiece instanceof King && chessPiece.getAllegiance() == Allegiance.WHITE)
+					&& ((chessPiece.getAllegiance() == Allegiance.WHITE)
 						&& chessBoard.getTilesThreatenedByBlack()[newRow][newColumn] == 0
-						|| (chessPiece instanceof King && chessPiece.getAllegiance() == Allegiance.BLACK)
+						|| (chessPiece.getAllegiance() == Allegiance.BLACK)
 						&& chessBoard.getTilesThreatenedByWhite()[newRow][newColumn] == 0)
 				|| returnThreats)
 				nextKingPositions.add(newPosition);
@@ -153,9 +153,9 @@ public class King extends ChessPiece {
 			// System.out.println("endTile: " + endTile);
 			if ((endTile instanceof EmptyTile || chessPiece.getAllegiance() != endTile.getAllegiance()
 					&& !(endTile instanceof King))
-					&& ((chessPiece instanceof King && chessPiece.getAllegiance() == Allegiance.WHITE)
+					&& ((chessPiece.getAllegiance() == Allegiance.WHITE)
 						&& chessBoard.getTilesThreatenedByBlack()[newRow][newColumn] == 0
-						|| (chessPiece instanceof King && chessPiece.getAllegiance() == Allegiance.BLACK)
+						|| (chessPiece.getAllegiance() == Allegiance.BLACK)
 						&& chessBoard.getTilesThreatenedByWhite()[newRow][newColumn] == 0)
 				|| returnThreats)
 				nextKingPositions.add(newPosition);
@@ -171,9 +171,9 @@ public class King extends ChessPiece {
 			// System.out.println("endTile: " + endTile);
 			if ((endTile instanceof EmptyTile || chessPiece.getAllegiance() != endTile.getAllegiance()
 					&& !(endTile instanceof King))
-					&& ((chessPiece instanceof King && chessPiece.getAllegiance() == Allegiance.WHITE)
+					&& ((chessPiece.getAllegiance() == Allegiance.WHITE)
 						&& chessBoard.getTilesThreatenedByBlack()[newRow][newColumn] == 0
-						|| (chessPiece instanceof King && chessPiece.getAllegiance() == Allegiance.BLACK)
+						|| (chessPiece.getAllegiance() == Allegiance.BLACK)
 						&& chessBoard.getTilesThreatenedByWhite()[newRow][newColumn] == 0)
 				|| returnThreats)
 				nextKingPositions.add(newPosition);
@@ -210,7 +210,7 @@ public class King extends ChessPiece {
 		chessBoard.setThreats();
 		// ChessBoard.printChessBoard(chessBoard.getTilesThreatenedByBlack());
 
-		if (chessPiece instanceof King && chessPiece.getAllegiance() == Allegiance.WHITE) {
+		if (chessPiece.getAllegiance() == Allegiance.WHITE) {
 			// White castling long
 			if (!chessBoard.isWhiteKingMoved() && !chessBoard.isLeftWhiteRookMoved() && !chessBoard.isWhiteKingInCheck()
 				&& position.equals("E1") && column > 1 
@@ -248,7 +248,7 @@ public class King extends ChessPiece {
 				newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
 				castlingPositions.add(newPosition);
 			}
-		} else if (chessPiece instanceof King && chessPiece.getAllegiance() == Allegiance.BLACK) {
+		} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
 
 			// Black castling long
 			if (!chessBoard.isBlackKingMoved() && !chessBoard.isLeftBlackRookMoved() && !chessBoard.isBlackKingInCheck()

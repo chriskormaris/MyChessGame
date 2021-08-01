@@ -19,8 +19,8 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.Stack;
-import java.util.Timer;
-import java.util.TimerTask;
+// import java.util.Timer;
+// import java.util.TimerTask;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
@@ -168,13 +168,14 @@ public class ChessGUI {
 	public static JLabel[] aiVsAiNewCapturedPiecesImages;
 	
 	public static GameResult gameResult;
-	
+
+	/*
 	public static int whiteMinimaxAiMoveElapsedSecs;
 	public static int blackMinimaxAiMoveElapsedSecs;
 
     public static double whiteMinimaxAiMoveAverageSecs;
     public static double blackMinimaxAiMoveAverageSecs;
-	
+	*/
 	
 	public ChessGUI(String title) {
 		
@@ -425,7 +426,8 @@ public class ChessGUI {
         }
 	}
 	
-	
+
+	/*
 	public static void updateMinimaxAiMoveElapsedSecs() {
 		setTurnMessage();
 
@@ -447,6 +449,7 @@ public class ChessGUI {
 		
 		turnTextPane.setText(turnMessage);
 	}
+	*/
 	
 	
 	public static void setScoreMessage() {
@@ -459,7 +462,8 @@ public class ChessGUI {
 		}
 	}
 
-	
+
+	/*
 	private static Timer initializeMinimaxAiMoveTimer() {
 		Timer timer = new Timer(true);
 		
@@ -477,7 +481,7 @@ public class ChessGUI {
 		
 		return timer;
 	}
-	
+	*/
 	
 	private static void undoLastMove() {
 		if (!previousChessBoards.isEmpty()) {
@@ -951,8 +955,8 @@ public class ChessGUI {
 
 		setTurnMessage();
 		
-		whiteMinimaxAiMoveAverageSecs = 0;
-		blackMinimaxAiMoveAverageSecs = 0;
+		// whiteMinimaxAiMoveAverageSecs = 0;
+		// blackMinimaxAiMoveAverageSecs = 0;
 	}
 	
 	
@@ -1468,7 +1472,8 @@ public class ChessGUI {
 		
 	}
 	
-	
+
+	/*
 	private static void calculateAverageMinimaxAiMoveSecs() {
 		if ((gameParameters.gameMode == GameMode.HUMAN_VS_AI || gameParameters.gameMode == GameMode.AI_VS_AI)
 				&& gameParameters.aiType == AiType.MINIMAX_AI) {
@@ -1485,10 +1490,11 @@ public class ChessGUI {
 				System.out.println("Black Minimax AI move Average seconds: " + blackMinimaxAiMoveAverageSecs);
 		}
 	}
-	
+	*/
+
 	
 	private static void startNewGameOrNot(int dialogResult) {
-		calculateAverageMinimaxAiMoveSecs();
+		// calculateAverageMinimaxAiMoveSecs();
 		
 		if (dialogResult == JOptionPane.YES_OPTION) {
 			startNewGame();
@@ -1627,15 +1633,20 @@ public class ChessGUI {
 	
 	// Gets called after the human player makes a move. It makes a Minimax AI move.
 	public static void minimaxAiMove(MiniMaxAi ai) {
+	    /*
 		if (chessBoard.whitePlays()) {
 			whiteMinimaxAiMoveElapsedSecs = -1;
 		} else if (chessBoard.blackPlays()) {
 			blackMinimaxAiMoveElapsedSecs = -1;
 		}
-		
 		Timer timer = initializeMinimaxAiMoveTimer();
-		
-		// Move aiMove = ai.miniMax(chessBoard);
+	    */
+
+		setTurnMessage();
+
+		frame.paint(frame.getGraphics());
+		frame.revalidate();
+		frame.repaint();
 		
 		Move aiMove;
 		if (chessBoard.whitePlays()) {
@@ -1649,11 +1660,13 @@ public class ChessGUI {
 		chessBoard.makeMove(aiMove, true);
 		// System.out.println("board value after aiMove -> " + chessBoard.evaluate());
 
+        /*
         timer.cancel();
 		if (chessBoard.whitePlays())
 			whiteMinimaxAiMoveAverageSecs += whiteMinimaxAiMoveElapsedSecs;
 		else if (chessBoard.blackPlays())
 			blackMinimaxAiMoveAverageSecs += blackMinimaxAiMoveElapsedSecs;
+        */
 
 		isGameOver = checkForGameOver();
 		if (isGameOver) return;
