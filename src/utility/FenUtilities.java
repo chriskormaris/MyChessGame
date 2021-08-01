@@ -14,7 +14,7 @@ public class FenUtilities {
 		String[] fenPositionTokens = fenPosition.split(" ");
 		if (fenPositionTokens.length != 6) {
 			throw new InvalidFenFormatException(
-					"FEN position must contain 5 white spaces inbetween. White spaces inbetween: " 
+					"FEN position must contain 5 white spaces in between. White spaces in between: "
 							+ (fenPositionTokens.length-1));
 		}
 		
@@ -22,7 +22,7 @@ public class FenUtilities {
 		ChessPiece[][] gameBoard = createGameBoard(chessBoard, startingPieces);
 		
 		String nextPlayerChar = fenPositionTokens[1];
-		boolean playerFlag = false;
+		boolean playerFlag;
 		if (nextPlayerChar.equals("w")) {
 			playerFlag = true;
 		} else if (nextPlayerChar.equals("b")) {
