@@ -239,24 +239,24 @@ public class FenUtilities {
 
 	
 	public static String getFenPositionFromChessBoard(ChessBoard chessBoard) {
-		String fenPosition = "";
+		StringBuilder fenPosition = new StringBuilder();
 		
 		/* Step 1: Append the chess gameBoard pieces positions */
-		for (int i=0; i<chessBoard.getGameBoard().length; i++) {
+		for (int i=0; i<chessBoard.getNumOfRows(); i++) {
 			int emptyTilesCounter = 0;
-			for (int j=0; j<chessBoard.getGameBoard()[0].length; j++) {
+			for (int j=0; j<Constants.DEFAULT_NUM_OF_COLUMNS; j++) {
 				// Get the chessPiece in the indices [numOfRows-i-1][j], from the gameBoard. 
-				ChessPiece chessPiece = chessBoard.getGameBoard()[chessBoard.getGameBoard().length - i - 1][j];
+				ChessPiece chessPiece = chessBoard.getGameBoard()[chessBoard.getNumOfRows() - i - 1][j];
 				// Convert chessPiece value to chessPiece character.
 				char pieceChar = getPieceChar(chessPiece);
 				if (pieceChar != '-') {
 					if (emptyTilesCounter != 0) {
 						// Append the number of empty consecutive empty tiles in a row 
 						// and then, the chessPiece character.
-						fenPosition += String.valueOf(emptyTilesCounter) + pieceChar;	
+						fenPosition.append(emptyTilesCounter).append(pieceChar);
 					} else {
 						// Append the chessPiece character.
-						fenPosition += pieceChar;
+						fenPosition.append(pieceChar);
 					}
 					emptyTilesCounter = 0;
 				} else {
@@ -265,39 +265,39 @@ public class FenUtilities {
 			}
 			if (emptyTilesCounter != 0) {
 				// Append the chessPiece character.
-				fenPosition += emptyTilesCounter;
+				fenPosition.append(emptyTilesCounter);
 			}
 			emptyTilesCounter = 0;
-			if (i < chessBoard.getGameBoard().length - 1) {
+			if (i < chessBoard.getNumOfRows() - 1) {
 				// Append the row terminator character.
-				fenPosition += '/';
+				fenPosition.append('/');
 			}
 		}
 		
 		/* Step 2: Append the player who plays next. */
-		fenPosition += " " + (chessBoard.whitePlays() ? 'w' : 'b');
+		fenPosition.append(" ").append(chessBoard.whitePlays() ? 'w' : 'b');
 		
 		/* Step 3: Append the available castling moves. */
 		if (chessBoard.isWhiteKingSideCastlingAvailable() || chessBoard.isWhiteQueenSideCastlingAvailable()
 			|| chessBoard.isBlackKingSideCastlingAvailable() || chessBoard.isBlackQueenSideCastlingAvailable()) {
-			fenPosition += " " + (chessBoard.isWhiteKingSideCastlingAvailable() ? 'K' : "");
-			fenPosition += chessBoard.isWhiteQueenSideCastlingAvailable() ? 'Q' : "";
-			fenPosition += chessBoard.isBlackKingSideCastlingAvailable() ? 'k' : "";
-			fenPosition += chessBoard.isBlackQueenSideCastlingAvailable() ? 'q' : "";
+			fenPosition.append(" ").append(chessBoard.isWhiteKingSideCastlingAvailable() ? 'K' : "");
+			fenPosition.append(chessBoard.isWhiteQueenSideCastlingAvailable() ? 'Q' : "");
+			fenPosition.append(chessBoard.isBlackKingSideCastlingAvailable() ? 'k' : "");
+			fenPosition.append(chessBoard.isBlackQueenSideCastlingAvailable() ? 'q' : "");
 		} else {
-			fenPosition += " -";
+			fenPosition.append(" -");
 		}
 		
 		/* Step 4: Append the current "en passant" position. */
-		fenPosition += " " + chessBoard.getEnPassantPosition();
+		fenPosition.append(" ").append(chessBoard.getEnPassantPosition());
 		
 		/* Step 5: Append the half move clock. */
-		fenPosition += " " + chessBoard.getHalfMoveClock();
+		fenPosition.append(" ").append(chessBoard.getHalfMoveClock());
 		
 		/* Step 6: Append the half move number. */
-		fenPosition += " " + chessBoard.getHalfMoveNumber();
+		fenPosition.append(" ").append(chessBoard.getHalfMoveNumber());
 				
-		return fenPosition;
+		return fenPosition.toString();
 	}
 
 	
