@@ -75,7 +75,7 @@ public class FenUtilities {
 		
 		int fullmoveNumber = Integer.parseInt(fenPositionTokens[5]);
 		int halfmoveNumber = fullmoveNumber * 2;
-		if (!playerFlag)
+		if (playerFlag == Constants.WHITE)
 			halfmoveNumber -= 1;
 		
 		// set the ChessBoard parameters, according to the given FEN position
