@@ -267,7 +267,6 @@ public class FenUtilities {
 				// Append the chessPiece character.
 				fenPosition.append(emptyTilesCounter);
 			}
-			emptyTilesCounter = 0;
 			if (i < chessBoard.getNumOfRows() - 1) {
 				// Append the row terminator character.
 				fenPosition.append('/');
