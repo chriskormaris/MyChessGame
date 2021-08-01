@@ -70,6 +70,8 @@ import utility.InvalidFenFormatException;
 import utility.ResourceLoader;
 import utility.Utilities;
 
+import static javax.swing.JOptionPane.QUESTION_MESSAGE;
+
 
 public class ChessGUI {
 	
@@ -261,8 +263,11 @@ public class ChessGUI {
         });
 		
 		importFenPositionItem.addActionListener(e -> {
-            String fenPosition = JOptionPane.showInputDialog(
-                    "Please insert the \"FEN\" position in the text field below:                      ",
+            String fenPosition = (String) JOptionPane.showInputDialog(frame,
+                    "Please insert the \"FEN\" position in the text field below:" +
+							"                      ",
+					"Import FEN Position",
+					QUESTION_MESSAGE, null, null,
 					Constants.DEFAULT_STARTING_FEN_POSITION);
             
             if (fenPosition != null) {
@@ -274,8 +279,9 @@ public class ChessGUI {
         });
 		
 		exportFenPositionItem.addActionListener(e -> {
-            String exportedFenFilename = JOptionPane.showInputDialog(
+            String exportedFenFilename = (String) JOptionPane.showInputDialog(frame,
                     "Please type the name of the export file:",
+					"Export FEN Position", QUESTION_MESSAGE, null, null,
                     "exported_FEN_position.txt");
             
             String fenPosition = FenUtilities.getFenPositionFromChessBoard(chessBoard);
@@ -288,8 +294,10 @@ public class ChessGUI {
                 ex.printStackTrace();
             } finally {
                 try {
-                    bw.flush();
-                    bw.close();
+                	if (bw != null) {
+						bw.flush();
+						bw.close();
+					}
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
