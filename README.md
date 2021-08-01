@@ -7,4 +7,4 @@ A traditional chess game implementation using Minimax AI, with Alpha-Beta Prunin
 
 ### Screenshot
 
-![screenshot](/screenshots/chess_board.png)
+![screenshot](/screenshots/MyChessGame.png)
