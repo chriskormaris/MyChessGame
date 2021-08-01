@@ -109,7 +109,7 @@ public class Utilities {
    	
    	public static double getChessPieceValue(ChessPiece chessPiece, int halfmoveNumber) {
    		double value = 0;
-   		if (halfmoveNumber <= Constants.MIDDLEGAME_HALFMOVES_THRESHOLD) {
+   		if (halfmoveNumber <= Constants.MIDDLE_GAME_HALF_MOVES_THRESHOLD) {
 	   		if (chessPiece instanceof Pawn) {
 	   			value = Constants.PAWN_VALUE;
 			} else if (chessPiece instanceof Knight) {
