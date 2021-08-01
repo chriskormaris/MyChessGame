@@ -69,7 +69,7 @@ public class Constants {
 	public static final char BLACK_KING = 'k';
 
 	public static final String DEFAULT_STARTING_PIECES = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
-	public static final String DEFAULT_FEN_POSITION = DEFAULT_STARTING_PIECES + " w KQkq - 0 1";
+	public static final String DEFAULT_STARTING_FEN_POSITION = DEFAULT_STARTING_PIECES + " w KQkq - 0 1";
 
 	public static final String ICON_PATH = "images/icon.png";
 	
