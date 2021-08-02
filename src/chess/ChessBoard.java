@@ -703,7 +703,7 @@ public class ChessBoard {
 		                    Move move = new Move(moves);
 		                    
 		                    // move.setValue(this.evaluate());
-		                    		                    
+
 		                    child.makeMove(move, false);
 		                    this.player = !this.player;
 		                    
