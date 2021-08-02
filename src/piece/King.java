@@ -34,14 +34,11 @@ public class King extends ChessPiece {
 		if (!(chessPiece instanceof King))
 			return nextKingPositions;
 
-		int newRow, newColumn;
-		String newPosition;
-
 		// Up position
 		if (row + 1 < chessBoard.getNumOfRows()) {
-			newRow = row + 1;
-			newColumn = column;
-			newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
+			int newRow = row + 1;
+			int newColumn = column;
+			String newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
 			ChessPiece endTile = chessBoard.getGameBoard()[newRow][newColumn];
 			// System.out.println("endTile: " + endTile);
 			if ((endTile instanceof EmptyTile || chessPiece.getAllegiance() != endTile.getAllegiance()
@@ -56,9 +53,9 @@ public class King extends ChessPiece {
 
 		// Down position
 		if (row - 1 >= 0) {
-			newRow = row - 1;
-			newColumn = column;
-			newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
+			int newRow = row - 1;
+			int newColumn = column;
+			String newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
 			ChessPiece endTile = chessBoard.getGameBoard()[newRow][newColumn];
 			// System.out.println("endTile: " + endTile);
 			if ((endTile instanceof EmptyTile || chessPiece.getAllegiance() != endTile.getAllegiance()
@@ -73,9 +70,9 @@ public class King extends ChessPiece {
 
 		// Right position
 		if (column + 1 < Constants.DEFAULT_NUM_OF_COLUMNS) {
-			newRow = row;
-			newColumn = column + 1;
-			newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
+			int newRow = row;
+			int newColumn = column + 1;
+			String newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
 			ChessPiece endTile = chessBoard.getGameBoard()[newRow][newColumn];
 			// System.out.println("endTile: " + endTile);
 			if ((endTile instanceof EmptyTile || chessPiece.getAllegiance() != endTile.getAllegiance()
@@ -90,9 +87,9 @@ public class King extends ChessPiece {
 
 		// Left position
 		if (column - 1 >= 0) {
-			newRow = row;
-			newColumn = column - 1;
-			newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
+			int newRow = row;
+			int newColumn = column - 1;
+			String newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
 			ChessPiece endTile = chessBoard.getGameBoard()[newRow][newColumn];
 			// System.out.println("endTile: " + endTile);
 			if ((endTile instanceof EmptyTile || chessPiece.getAllegiance() != endTile.getAllegiance()
@@ -107,9 +104,9 @@ public class King extends ChessPiece {
 
 		// Upper right diagonal position
 		if (row + 1 < chessBoard.getNumOfRows() && column + 1 < Constants.DEFAULT_NUM_OF_COLUMNS) {
-			newRow = row + 1;
-			newColumn = column + 1;
-			newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
+			int newRow = row + 1;
+			int newColumn = column + 1;
+			String newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
 			// System.out.println("newPosition: " + newPosition);
 			ChessPiece endTile = chessBoard.getGameBoard()[newRow][newColumn];
 			// System.out.println("endTile: " + endTile);
@@ -126,9 +123,9 @@ public class King extends ChessPiece {
 		// Lower left diagonal position
 		if (row - 1 >= 0 && column - 1 >= 0) {
 
-			newRow = row - 1;
-			newColumn = column - 1;
-			newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
+			int newRow = row - 1;
+			int newColumn = column - 1;
+			String newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
 			// System.out.println("newPosition: " + newPosition);
 			ChessPiece endTile = chessBoard.getGameBoard()[newRow][newColumn];
 			// System.out.println("endTile: " + endTile);
@@ -145,9 +142,9 @@ public class King extends ChessPiece {
 		// Upper left diagonal position
 		if (row + 1 < chessBoard.getNumOfRows() && column - 1 >= 0) {
 
-			newRow = row + 1;
-			newColumn = column - 1;
-			newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
+			int newRow = row + 1;
+			int newColumn = column - 1;
+			String newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
 			// System.out.println("newPosition: " + newPosition);
 			ChessPiece endTile = chessBoard.getGameBoard()[newRow][newColumn];
 			// System.out.println("endTile: " + endTile);
@@ -163,9 +160,9 @@ public class King extends ChessPiece {
 
 		// Lower right diagonal position
 		if (row - 1 >= 0 && column + 1 < 8) {
-			newRow = row - 1;
-			newColumn = column + 1;
-			newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
+			int newRow = row - 1;
+			int newColumn = column + 1;
+			String newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
 			// System.out.println("newPosition: " + newPosition);
 			ChessPiece endTile = chessBoard.getGameBoard()[newRow][newColumn];
 			// System.out.println("endTile: " + endTile);

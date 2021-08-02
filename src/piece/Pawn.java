@@ -33,11 +33,11 @@ public class Pawn extends ChessPiece {
 		int column = Utilities.getColumnFromPosition(position);
 		ChessPiece chessPiece = chessBoard.getGameBoard()[row][column];
 
-		if (!(chessPiece instanceof Pawn))
+		if (!(chessPiece instanceof Pawn)) {
 			return nextPawnPositions;
+		}
 		
-		int newRow = 0, newColumn = 0;
-		String newPosition;
+		int newRow = 0;
 		
 		if (chessPiece.getAllegiance() == Allegiance.WHITE && row < chessBoard.getNumOfRows()-1
 				|| chessPiece.getAllegiance() == Allegiance.BLACK && row > 0) {
@@ -48,8 +48,8 @@ public class Pawn extends ChessPiece {
 					newRow = row + 1;
 				else if (chessPiece.getAllegiance() == Allegiance.BLACK)
 					newRow = row - 1;
-				newColumn = column;
-				newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
+				int newColumn = column;
+				String newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
 				ChessPiece endTile = chessBoard.getGameBoard()[newRow][newColumn];
 				// System.out.println("endTileCode: " + endTileCode);
 				if (endTile instanceof EmptyTile)
@@ -67,9 +67,8 @@ public class Pawn extends ChessPiece {
 						newRow = row + 2;
 					else if (chessPiece.getAllegiance() == Allegiance.BLACK && row == chessBoard.getNumOfRows()-2)
 						newRow = row - 2;
-					newColumn = column;
 					newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
-					endTile = chessBoard.getGameBoard()[newRow][newColumn];
+					// endTile = chessBoard.getGameBoard()[newRow][newColumn];
 					// System.out.println("endTile: " + endTile);
 					nextPawnPositions.add(newPosition);
 				}
@@ -82,8 +81,8 @@ public class Pawn extends ChessPiece {
 					newRow = row + 1;
 				else if (chessPiece.getAllegiance() == Allegiance.BLACK)
 					newRow = row - 1;
-				newColumn = column - 1;
-				newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
+				int newColumn = column - 1;
+				String newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
 				ChessPiece endTile = chessBoard.getGameBoard()[newRow][newColumn];
 				// System.out.println("endTile: " + endTile);
 				if ((!(endTile instanceof EmptyTile) && chessPiece.getAllegiance() != endTile.getAllegiance())
@@ -98,8 +97,8 @@ public class Pawn extends ChessPiece {
 					newRow = row + 1;
 				else if (chessPiece.getAllegiance() == Allegiance.BLACK)
 					newRow = row - 1;
-				newColumn = column + 1;
-				newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
+				int newColumn = column + 1;
+				String newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
 				ChessPiece endTile = chessBoard.getGameBoard()[newRow][newColumn];
 				// System.out.println("endTile: " + endTile);
 				if ((!(endTile instanceof EmptyTile) && chessPiece.getAllegiance() != endTile.getAllegiance())
@@ -133,8 +132,7 @@ public class Pawn extends ChessPiece {
 		if (!(chessPiece instanceof Pawn))
 			return enPassantPositions;
 
-		int newRow = 0, newColumn = 0;
-		String newPosition;
+		int newRow = 0;
 		
 		if (chessPiece.getAllegiance() == Allegiance.WHITE && row < chessBoard.getNumOfRows()-1
 				|| chessPiece.getAllegiance() == Allegiance.BLACK && row > 0) {
@@ -145,8 +143,8 @@ public class Pawn extends ChessPiece {
 					newRow = row + 1;
 				if (chessPiece.getAllegiance() == Allegiance.BLACK)
 					newRow = row - 1;
-				newColumn = column - 1;
-				newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
+				int newColumn = column - 1;
+				String newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
 				ChessPiece endTile = chessBoard.getGameBoard()[newRow][newColumn];
 				// System.out.println("endTile: " + endTile);
 				if (!(endTile instanceof King)
@@ -163,8 +161,8 @@ public class Pawn extends ChessPiece {
 					newRow = row + 1;
 				if (chessPiece.getAllegiance() == Allegiance.BLACK)
 					newRow = row - 1;
-				newColumn = column + 1;
-				newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
+				int newColumn = column + 1;
+				String newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
 				ChessPiece endTile = chessBoard.getGameBoard()[newRow][newColumn];
 				// System.out.println("endTile: " + endTile);
 				if (!(endTile instanceof King)

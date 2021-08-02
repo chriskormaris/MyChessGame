@@ -25,7 +25,7 @@ public class Bishop extends ChessPiece {
 
 		// System.out.println("current position: " + position);
 
-		Set<String> nextBishopPositions = new HashSet<String>();
+		Set<String> nextBishopPositions = new HashSet<>();
 		
 		// First, find the row && the column 
 		// that corresponds to the given position String.
@@ -33,11 +33,10 @@ public class Bishop extends ChessPiece {
 		int column = Utilities.getColumnFromPosition(position);
 		ChessPiece chessPiece = chessBoard.getGameBoard()[row][column];
 		
-		if (!(chessPiece instanceof Bishop))
+		if (!(chessPiece instanceof Bishop)) {
 			return nextBishopPositions;
+		}
 
-		int newRow, newColumn;
-		String newPosition;
 		int counter;
 		
 		// Find all the upper right diagonal positions.
@@ -45,9 +44,9 @@ public class Bishop extends ChessPiece {
 		for (int i=row+1; i<chessBoard.getNumOfRows(); i++) {
 			if (row < chessBoard.getNumOfRows() && column + counter < Constants.DEFAULT_NUM_OF_COLUMNS) {
 				
-				newRow = i;
-				newColumn = column + counter;
-				newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
+				int newRow = i;
+				int newColumn = column + counter;
+				String newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
 				// System.out.println("newPosition: " + newPosition);
 				ChessPiece endTile = chessBoard.getGameBoard()[newRow][newColumn];
 				// System.out.println("endTile: " + endTile);
@@ -70,9 +69,9 @@ public class Bishop extends ChessPiece {
 		for (int i=row-1; i>=0; i--) {
 			if (row >= 0 && column - counter >= 0) {
 				
-				newRow = i;
-				newColumn = column - counter;
-				newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
+				int newRow = i;
+				int newColumn = column - counter;
+				String newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
 				// System.out.println("newPosition: " + newPosition);
 				ChessPiece endTile = chessBoard.getGameBoard()[newRow][newColumn];
 				// System.out.println("endTile: " + endTile);
@@ -95,9 +94,9 @@ public class Bishop extends ChessPiece {
 		for (int i=row+1; i<chessBoard.getNumOfRows(); i++) {
 			if (row < chessBoard.getNumOfRows() && column - counter >= 0) {
 				
-				newRow = i;
-				newColumn = column - counter;
-				newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
+				int newRow = i;
+				int newColumn = column - counter;
+				String newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
 				// System.out.println("newPosition: " + newPosition);
 				ChessPiece endTile = chessBoard.getGameBoard()[newRow][newColumn];
 				// System.out.println("endTile: " + endTile);
@@ -120,9 +119,9 @@ public class Bishop extends ChessPiece {
 		for (int i=row-1; i>=0; i--) {
 			if (row >= 0 && column + counter < 8) {
 				
-				newRow = i;
-				newColumn = column + counter;
-				newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
+				int newRow = i;
+				int newColumn = column + counter;
+				String newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
 				// System.out.println("newPosition: " + newPosition);
 				ChessPiece endTile = chessBoard.getGameBoard()[newRow][newColumn];
 				// System.out.println("endTile: " + endTile);
