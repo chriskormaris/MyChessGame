@@ -694,9 +694,11 @@ public class ChessBoard {
 				        for (String nextPosition: nextPositions) {
 				        	// System.out.println(initialPosition + ": " + nextPositions);
 							ChessBoard child = new ChessBoard(this);
+
 							List<String> moves = new ArrayList<>();
 		                    moves.add(initialPosition);
 		                    moves.add(nextPosition);
+
 		                    // Move move = new Move(moves, evaluate());
 		                    Move move = new Move(moves);
 		                    
@@ -706,6 +708,7 @@ public class ChessBoard {
 		                    this.player = !this.player;
 		                    
 		                    // System.out.println("**********************************************");
+							child.getLastMove().setPositions(moves);
 		                    child.getLastMove().setValue(child.evaluate());
 		                    // System.out.println("**********************************************\n");
 		                    
