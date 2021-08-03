@@ -321,7 +321,7 @@ public class ChessGUI {
 
 		exitItem.addActionListener(e -> System.exit(0));
 		
-		howToPlayItem.addActionListener(e -> JOptionPane.showMessageDialog(null,
+		howToPlayItem.addActionListener(e -> JOptionPane.showMessageDialog(frame,
                 "The game of chess is strictly played by 2 players and consists of 16 White and 16 Black pieces.\n"
                 + "There are 6 different chess piece types: 1) King, 2) Rook, 3) Bishop, 4) Queen, 5) Knight & 6) Pawn. White always plays first.\n"
                 + "A chess piece can only move to an empty tile or take the place of an opponent's chess piece, by capturing it.\n"
