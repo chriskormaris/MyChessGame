@@ -363,8 +363,7 @@ public class ChessGUI {
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
-            Image dImg = img.getScaledInstance(
-                    Constants.CHESS_SQUARE_PIXEL_SIZE, Constants.CHESS_SQUARE_PIXEL_SIZE, Image.SCALE_SMOOTH);
+            Image dImg = img.getScaledInstance(Constants.CHESS_SQUARE_PIXEL_SIZE, Constants.CHESS_SQUARE_PIXEL_SIZE, Image.SCALE_SMOOTH);
             ImageIcon icon1 = new ImageIcon(dImg);
             
             JOptionPane.showMessageDialog(frame, label, "About", JOptionPane.PLAIN_MESSAGE, icon1);
