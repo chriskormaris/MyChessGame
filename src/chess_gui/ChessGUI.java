@@ -334,7 +334,7 @@ public class ChessGUI {
                 + "     that move is called a \"stalemate\" and the game ends in a draw.\n"
                 + "  2. If the only chess pieces standing on the board are for both sides are either a lone King, a King and a Bishop, a King and 1 or 2 Knights,\n"
                 + "     then the game ends in a draw due to insufficient mating material.\n"
-                + "  3. If 50 turns have passed and no player has captured an opponent's chess piece, then the player that plays next can declare a draw.\n"
+                + "  3. If 50 turns have passed and neither player has captured any opponent's chess piece, then the player that plays next can declare a draw.\n"
                 + "  4. If the exact game board position is repeated 3 times, then the player that plays next can declare a draw. This case is called threefold repetition.\n"
                 + "\n\nThe chess pieces can move on the chess board as follows:\n"
                 + "  1) The King can move only one tile in each direction. It can't move to a tile, where it will be threatened by an opponent's piece.\n"
