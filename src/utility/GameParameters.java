@@ -39,9 +39,8 @@ public class GameParameters {
 		this.humanPlayerAllegiance = Allegiance.WHITE;
 
 		this.gameMode = GameMode.HUMAN_VS_AI;
-		// this.gameMode = GameMode.HUMAN_VS_RANDOM_AI;
 		// this.gameMode = GameMode.HUMAN_VS_HUMAN;
-		// this.gameMode = GameMode.MINIMAX_AI_VS_MINIMAX_AI;
+		// this.gameMode = GameMode.AI_VS_AI;
 
 		this.aiType = AiType.MINIMAX_AI;
 		// this.aiType = AiType.RANDOM_AI;
