@@ -9,38 +9,55 @@ import enumeration.GuiStyle;
 
 public class GameParameters {
 
-	/* Default values */
-	private GuiStyle guiStyle = GuiStyle.CROSS_PLATFORM_STYLE;
-	// private static GuiStyle guiStyle = GuiStyle.NIMBUS_STYLE;
+	private GuiStyle guiStyle;
 
-	private boolean enableSounds = true;
+	private boolean enableSounds;
 
-	private Allegiance humanPlayerAllegiance = Allegiance.WHITE;
+	private Allegiance humanPlayerAllegiance;
 
-	private GameMode gameMode = GameMode.HUMAN_VS_AI;
-	// private static GameMode gameMode = GameMode.HUMAN_VS_RANDOM_AI;
-	// private static GameMode gameMode = GameMode.HUMAN_VS_HUMAN;
-	// private static GameMode gameMode = GameMode.MINIMAX_AI_VS_MINIMAX_AI;
+	private GameMode gameMode;
 
-	private AiType aiType = AiType.MINIMAX_AI;
-	// private static AiType aiType = AiType.RANDOM_AI;
+	private AiType aiType;
 
-	private int ai1MaxDepth = Constants.DEFAULT_MAX_DEPTH;
-	private int ai2MaxDepth = Constants.DEFAULT_MAX_DEPTH;
+	private int ai1MaxDepth;
+	private int ai2MaxDepth;
 
-	private Color whiteTileColor = Color.WHITE;
-	// private Color whiteTileColor = Color.PINK;
+	private Color whiteTileColor;
 
-	private Color blackTileColor = Constants.DARK_GREEN;
-	// private Color blackTileColor = Color.BLACK;
-	// private Color blackTileColor = Color.DARK_GRAY;
-	// private Color blackTileColor = Color.GRAY;
+	private Color blackTileColor;
 
-	private int numOfRows = Constants.DEFAULT_NUM_OF_ROWS;  // the number of rows
+	private int numOfRows;
 
 	// Default constructor
 	public GameParameters() {
-		
+		/* Default values */
+		this.guiStyle = GuiStyle.CROSS_PLATFORM_STYLE;
+		// this.guiStyle = GuiStyle.NIMBUS_STYLE;
+
+		this.enableSounds = true;
+
+		this.humanPlayerAllegiance = Allegiance.WHITE;
+
+		this.gameMode = GameMode.HUMAN_VS_AI;
+		// this.gameMode = GameMode.HUMAN_VS_RANDOM_AI;
+		// this.gameMode = GameMode.HUMAN_VS_HUMAN;
+		// this.gameMode = GameMode.MINIMAX_AI_VS_MINIMAX_AI;
+
+		this.aiType = AiType.MINIMAX_AI;
+		// this.aiType = AiType.RANDOM_AI;
+
+		this.ai1MaxDepth = Constants.DEFAULT_MAX_DEPTH;
+		this.ai2MaxDepth = Constants.DEFAULT_MAX_DEPTH;
+
+		this.whiteTileColor = Color.WHITE;
+		// this.whiteTileColor = Color.PINK;
+
+		this.blackTileColor = Constants.DARK_GREEN;
+		// this.blackTileColor = Color.BLACK;
+		// this.blackTileColor = Color.DARK_GRAY;
+		// this.blackTileColor = Color.GRAY;
+
+		this.numOfRows = Constants.DEFAULT_NUM_OF_ROWS;
 	}
 	
 	// Copy constructor
