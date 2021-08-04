@@ -60,16 +60,16 @@ public class SettingsWindow extends JFrame {
 
 		EventHandler handler = new EventHandler();
 		
-		GuiStyle selectedGuiStyle = ChessGUI.gameParameters.guiStyle;
-		boolean enableSounds = ChessGUI.gameParameters.enableSounds;
-		Allegiance humanPlayerAllegiance = ChessGUI.gameParameters.humanPlayerAllegiance;
-		GameMode selectedGameMode = ChessGUI.gameParameters.gameMode;
-		AiType selectedAiMode = ChessGUI.gameParameters.aiType;
-		int maxDepth1 = ChessGUI.gameParameters.ai1MaxDepth - 1;
-		int maxDepth2 = ChessGUI.gameParameters.ai2MaxDepth - 1;
-		Color selectedWhiteTileColor = ChessGUI.gameParameters.whiteTileColor;
-		Color selectedBlackTileColor = ChessGUI.gameParameters.blackTileColor;
-		int numOfRows = ChessGUI.gameParameters.numOfRows;
+		GuiStyle selectedGuiStyle = ChessGUI.gameParameters.getGuiStyle();
+		boolean enableSounds = ChessGUI.gameParameters.isEnableSounds();
+		Allegiance humanPlayerAllegiance = ChessGUI.gameParameters.getHumanPlayerAllegiance();
+		GameMode selectedGameMode = ChessGUI.gameParameters.getGameMode();
+		AiType selectedAiMode = ChessGUI.gameParameters.getAiType();
+		int maxDepth1 = ChessGUI.gameParameters.getAi1MaxDepth() - 1;
+		int maxDepth2 = ChessGUI.gameParameters.getAi2MaxDepth() - 1;
+		Color selectedWhiteTileColor = ChessGUI.gameParameters.getWhiteTileColor();
+		Color selectedBlackTileColor = ChessGUI.gameParameters.getBlackTileColor();
+		int numOfRows = ChessGUI.gameParameters.getNumOfRows();
 
 
 		JLabel guiStyleLabel = new JLabel("GUI style");

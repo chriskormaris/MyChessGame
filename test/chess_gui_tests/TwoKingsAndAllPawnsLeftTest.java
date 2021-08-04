@@ -6,9 +6,8 @@ import chess_gui.ChessGUI;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-//import enumerations.Allegiance;
-//import pieces.Pawn;
+// import enumerations.Allegiance;
+// import pieces.Pawn;
 
 
 class TwoKingsAndAllPawnsLeftTest {

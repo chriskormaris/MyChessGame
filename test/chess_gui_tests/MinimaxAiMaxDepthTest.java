@@ -17,11 +17,10 @@ public class MinimaxAiMaxDepthTest {
 		// ChessGUI.newGameParameters.gameMode = GameMode.AI_VS_AI;
 		// ChessGUI.newGameParameters.aiType = AiType.MINIMAX_AI;
 		
-		ChessGUI.newGameParameters.ai1MaxDepth = 2;
-		// ChessGUI.newGameParameters.ai1MaxDepth = 3;
-		
-		// ChessGUI.newGameParameters.ai2MaxDepth = 2;
-		
+		ChessGUI.newGameParameters.setAi1MaxDepth(2);
+		// ChessGUI.newGameParameters.setAi1MaxDepth(3);
+
+		// ChessGUI.newGameParameters.setAi2MaxDepth(2);
 		
 		ChessGUI.startNewGame();
 		

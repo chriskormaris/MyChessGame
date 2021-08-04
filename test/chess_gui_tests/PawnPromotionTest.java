@@ -16,7 +16,7 @@ class PawnPromotionTest {
 
 		@SuppressWarnings("unused")
 		ChessGUI cbg = new ChessGUI(title);
-		// ChessGUI.gameParameters.gameMode = GameMode.HUMAN_VS_HUMAN;
+		// ChessGUI.gameParameters.getGameMode() = GameMode.HUMAN_VS_HUMAN;
 		
 		/* Use these FEN positions, if playing as White. */
 		
@@ -31,7 +31,7 @@ class PawnPromotionTest {
 		
 		/* Use these FEN position, if playing as Black. */
 		
-		ChessGUI.newGameParameters.humanPlayerAllegiance = Allegiance.BLACK;
+		ChessGUI.newGameParameters.setHumanPlayerAllegiance(Allegiance.BLACK);
 		ChessGUI.startNewGame();
 		
 		// String fenPosition = "4k3/2P5/8/8/8/8/2p5/4K3 b - - 0 1";

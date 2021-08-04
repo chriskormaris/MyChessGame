@@ -24,9 +24,9 @@ public class ChessButton extends JButton {
 		// this.setBorderPainted(false);
 		
 		if ((i / N + i % N) % 2 == 1) {
-			this.setBackground(ChessGUI.gameParameters.blackTileColor);
+			this.setBackground(ChessGUI.gameParameters.getBlackTileColor());
 		} else {
-			this.setBackground(ChessGUI.gameParameters.whiteTileColor);
+			this.setBackground(ChessGUI.gameParameters.getWhiteTileColor());
 		}
 		
 	}

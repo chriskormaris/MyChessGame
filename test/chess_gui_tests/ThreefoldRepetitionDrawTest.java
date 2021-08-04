@@ -22,7 +22,7 @@ class ThreefoldRepetitionDrawTest {
 		@SuppressWarnings("unused")
 		ChessGUI cbg = new ChessGUI(title);
 		
-		ChessGUI.gameParameters.gameMode = GameMode.HUMAN_VS_HUMAN;
+		ChessGUI.gameParameters.setGameMode(GameMode.HUMAN_VS_HUMAN);
 		
 		ChessBoard.printChessBoard(ChessGUI.chessBoard.getGameBoard());
 		

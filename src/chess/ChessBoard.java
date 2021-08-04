@@ -124,7 +124,7 @@ public class ChessBoard {
 	
 	
     public ChessBoard() {
-		this.numOfRows = ChessGUI.gameParameters.numOfRows;
+		this.numOfRows = ChessGUI.gameParameters.getNumOfRows();
 
     	this.lastMove = new Move();
 
@@ -143,7 +143,7 @@ public class ChessBoard {
 		this.tilesThreatenedByBlack = new int[numOfRows][NUM_OF_COLUMNS];
 		
 		this.whiteKingPosition = "E1";
-		this.blackKingPosition = "E" + ChessGUI.gameParameters.numOfRows;
+		this.blackKingPosition = "E" + ChessGUI.gameParameters.getNumOfRows();
 		
 		this.player = Constants.WHITE;  // White plays first.
 		
@@ -499,10 +499,10 @@ public class ChessBoard {
 					
 					// If AI plays, choose the best promotion piece,
 					// based on the outcome of the immediately next move. 
-	 				if ((ChessGUI.gameParameters.gameMode == GameMode.HUMAN_VS_AI &&
-						(this.blackPlays() && ChessGUI.gameParameters.humanPlayerAllegiance == Allegiance.WHITE)
-						|| (this.whitePlays() && ChessGUI.gameParameters.humanPlayerAllegiance == Allegiance.BLACK))
-						|| ChessGUI.gameParameters.gameMode == GameMode.AI_VS_AI) {
+	 				if ((ChessGUI.gameParameters.getGameMode() == GameMode.HUMAN_VS_AI &&
+						(this.blackPlays() && ChessGUI.gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE)
+						|| (this.whitePlays() && ChessGUI.gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK))
+						|| ChessGUI.gameParameters.getGameMode() == GameMode.AI_VS_AI) {
  					
 						ChessPiece[] promotionChessPieces = {queen, rook, bishop, knight};
 						

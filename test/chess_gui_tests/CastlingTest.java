@@ -31,7 +31,7 @@ class CastlingTest {
 		// String fenPosition = "r3k2r/8/8/8/8/8/8/4K3 b kq - 0 1";
 		// String fenPosition = "r3k2r/8/8/8/8/8/8/4K2R b kq - 0 1";
 		
-		// ChessGUI.gameParameters.humanPlayerAllegiance = Allegiance.BLACK;
+		// ChessGUI.gameParameters.getHumanPlayerAllegiance() = Allegiance.BLACK;
 		// ChessGUI.ai = new MiniMaxAi(ChessGUI.gameParameters.maxDepth1, Constants.WHITE);
 		/*----------------*/
 		 

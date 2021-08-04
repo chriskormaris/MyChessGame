@@ -16,8 +16,8 @@ class AiVsAiTest {
 		@SuppressWarnings("unused")
 		ChessGUI cbg = new ChessGUI(title);
 		
-		ChessGUI.gameParameters.gameMode = GameMode.AI_VS_AI;
-		// ChessGUI.gameParameters.aiType = AiType.RANDOM_AI;
+		ChessGUI.gameParameters.setGameMode(GameMode.AI_VS_AI);
+		// ChessGUI.gameParameters.setAiType(AiType.RANDOM_AI);
 
 		ChessGUI.restoreDefaultValues();
 		

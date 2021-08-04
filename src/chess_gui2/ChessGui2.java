@@ -25,7 +25,7 @@ public class ChessGui2 extends JPanel {
 
 	private final static String title = "My Chess Game GUI 2";
 
-	private static final int numOfRows = ChessGUI.gameParameters.numOfRows;
+	private static final int numOfRows = ChessGUI.gameParameters.getNumOfRows();
 	private final static int numOfColumns = Constants.DEFAULT_NUM_OF_COLUMNS;
 	
 	private static final int HEIGHT = Constants.DEFAULT_HEIGHT;
@@ -38,10 +38,10 @@ public class ChessGui2 extends JPanel {
 	
 	public ChessGui2() {
 		super(new GridLayout(numOfRows+2, numOfColumns+2));
-		// ChessGUI.gameParameters.gameMode = Constants.HumanVsRandomAi;
+		// ChessGUI.gameParameters.getGameMode() = Constants.HumanVsRandomAi;
 		
-		if (ChessGUI.gameParameters.gameMode == GameMode.HUMAN_VS_AI) {
-			ChessGUI.ai = new MiniMaxAi(ChessGUI.gameParameters.ai1MaxDepth, Constants.BLACK);
+		if (ChessGUI.gameParameters.getGameMode() == GameMode.HUMAN_VS_AI) {
+			ChessGUI.ai = new MiniMaxAi(ChessGUI.gameParameters.getAi1MaxDepth(), Constants.BLACK);
 		}
 		
 		ChessGUI.configureGuiStyle();
