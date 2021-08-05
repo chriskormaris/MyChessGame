@@ -5,8 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
-import java.util.TreeSet;
+import java.util.HashMap;
 
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -159,8 +158,8 @@ public class ChessBoard {
 		this.lastCapturedPieceValue = 0;
 		this.promotedPieces = new HashSet<>();
 		
-		this.whiteKingInCheckValidPieceMoves = new TreeMap<>();
-		this.blackKingInCheckValidPieceMoves = new TreeMap<>();
+		this.whiteKingInCheckValidPieceMoves = new HashMap<>();
+		this.blackKingInCheckValidPieceMoves = new HashMap<>();
 		
 		setThreats();
 	}
@@ -223,8 +222,8 @@ public class ChessBoard {
 		this.whiteKingInCheck = otherBoard.isWhiteKingInCheck();
 		this.blackKingInCheck = otherBoard.isBlackKingInCheck();
 		
-		this.whiteKingInCheckValidPieceMoves = new TreeMap<>(otherBoard.whiteKingInCheckValidPieceMoves);
-		this.blackKingInCheckValidPieceMoves = new TreeMap<>(otherBoard.blackKingInCheckValidPieceMoves);
+		this.whiteKingInCheckValidPieceMoves = new HashMap<>(otherBoard.whiteKingInCheckValidPieceMoves);
+		this.blackKingInCheckValidPieceMoves = new HashMap<>(otherBoard.blackKingInCheckValidPieceMoves);
 		
 		this.isWhiteCheckmate = otherBoard.isWhiteCheckmate();
 		this.isBlackCheckmate = otherBoard.isBlackCheckmate();
@@ -678,7 +677,7 @@ public class ChessBoard {
 			for (int column=0; column<NUM_OF_COLUMNS; column++) {
 				if (rowColContainsPlayerPiece(row, column, player)) {
 					String initialPosition = Utilities.getPositionByRowCol(row, column);
-					Set<String> nextPositions = new TreeSet<>();
+					Set<String> nextPositions = new HashSet<>();
 					if (!this.whiteKingInCheck && whitePlays()
 							|| !this.blackKingInCheck && blackPlays()) {
 						nextPositions = getNextPositions(initialPosition);
@@ -739,7 +738,7 @@ public class ChessBoard {
 			for (int column=0; column<NUM_OF_COLUMNS; column++) {
 				if (rowColContainsPlayerPiece(row, column, player)) {
 					String initialPosition = Utilities.getPositionByRowCol(row, column);
-					Set<String> nextPositions = new TreeSet<>();
+					Set<String> nextPositions = new HashSet<>();
 					if (!this.blackKingInCheck && !this.player
 						|| !this.whiteKingInCheck && this.player) {
 						nextPositions = getNextPositions(initialPosition);
@@ -768,7 +767,7 @@ public class ChessBoard {
     	
 	    if (rowColContainsPlayerPiece(row, column, player)) {
 			String initialPosition = Utilities.getPositionByRowCol(row, column);
-			Set<String> nextPositions = new TreeSet<>();
+			Set<String> nextPositions = new HashSet<>();
 			if (!this.blackKingInCheck && !this.player
 				|| !this.whiteKingInCheck && this.player) {
 				nextPositions = getNextPositions(initialPosition);
@@ -1230,7 +1229,7 @@ public class ChessBoard {
 		
 		ChessBoard initialChessBoard = new ChessBoard(this);
 		
-		Set<String> tempNextPositions = new TreeSet<>(nextPositions);
+		Set<String> tempNextPositions = new HashSet<>(nextPositions);
 		for (String tempNextPosition: tempNextPositions) {
 			initialChessBoard.movePieceFromAPositionToAnother(position, tempNextPosition, false);
 			
@@ -1309,7 +1308,7 @@ public class ChessBoard {
 		int blackKingThreatened = getTilesThreatenedByWhite()[blackKingRow][blackKingColumn]; 
 		
 		if (storeKingInCheckMoves) {
-			this.blackKingInCheckValidPieceMoves = new TreeMap<>();
+			this.blackKingInCheckValidPieceMoves = new HashMap<>();
 		}
 		
 		if (blackKingThreatened == 1) {
@@ -1325,7 +1324,7 @@ public class ChessBoard {
 						String currentPosition = Utilities.getPositionByRowCol(i, j);
 						Set<String> currentHintPositions = initialChessBoard.getNextPositions(currentPosition);
 						
-						Set<String> validBlackKingInCheckTempHintPosition = new TreeSet<String>();
+						Set<String> validBlackKingInCheckTempHintPosition = new HashSet<String>();
 						for (String currentHintPosition: currentHintPositions) {
 							initialChessBoard.movePieceFromAPositionToAnother(currentPosition, currentHintPosition, false);
 							
@@ -1356,7 +1355,7 @@ public class ChessBoard {
 		} else {
 			if (storeKingInCheckMoves) {
 				this.blackKingInCheck = false;
-				this.blackKingInCheckValidPieceMoves = new TreeMap<>();
+				this.blackKingInCheckValidPieceMoves = new HashMap<>();
 			}
 		}
 				
@@ -1376,7 +1375,7 @@ public class ChessBoard {
 		int whiteKingThreatened = getTilesThreatenedByBlack()[whiteKingRow][whiteKingColumn];
 	
 		if (storeKingInCheckMoves) {
-			this.whiteKingInCheckValidPieceMoves = new TreeMap<>();
+			this.whiteKingInCheckValidPieceMoves = new HashMap<>();
 		}
 		
 		if (whiteKingThreatened == 1) {
@@ -1392,7 +1391,7 @@ public class ChessBoard {
 						String currentPosition = Utilities.getPositionByRowCol(i, j);
 						Set<String> currentHintPositions = initialChessBoard.getNextPositions(currentPosition);
 						
-						Set<String> validWhiteKingInCheckTempHintPositions = new TreeSet<>();
+						Set<String> validWhiteKingInCheckTempHintPositions = new HashSet<>();
 						for (String currentHintPosition: currentHintPositions) {
 							initialChessBoard.movePieceFromAPositionToAnother(currentPosition, currentHintPosition, false);
 							
@@ -1423,7 +1422,7 @@ public class ChessBoard {
 		} else {
 			if (storeKingInCheckMoves) {
 				this.whiteKingInCheck = false;
-				this.whiteKingInCheckValidPieceMoves = new TreeMap<>();
+				this.whiteKingInCheckValidPieceMoves = new HashMap<>();
 			}
 		}
 		
@@ -1838,7 +1837,7 @@ public class ChessBoard {
 	}
 
 	public void setWhiteKingInCheckValidPieceMoves(Map<String, Set<String>> whiteKingInCheckValidPieceMoves) {
-		this.whiteKingInCheckValidPieceMoves = new TreeMap<>(whiteKingInCheckValidPieceMoves);
+		this.whiteKingInCheckValidPieceMoves = new HashMap<>(whiteKingInCheckValidPieceMoves);
 	}
 
 	public Map<String, Set<String>> getBlackKingInCheckValidPieceMoves() {
@@ -1846,7 +1845,7 @@ public class ChessBoard {
 	}
 
 	public void setBlackKingInCheckValidPieceMoves(Map<String, Set<String>> blackKingInCheckValidPieceMoves) {
-		this.blackKingInCheckValidPieceMoves = new TreeMap<>(blackKingInCheckValidPieceMoves);
+		this.blackKingInCheckValidPieceMoves = new HashMap<>(blackKingInCheckValidPieceMoves);
 	}
 	
 	public boolean whitePlays() {

@@ -21,8 +21,8 @@ import java.util.Set;
 import java.util.Stack;
 // import java.util.Timer;
 // import java.util.TimerTask;
-import java.util.TreeMap;
-import java.util.TreeSet;
+import java.util.HashMap;
+import java.util.HashSet;
 
 import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
@@ -142,7 +142,7 @@ public class ChessGUI {
 	public static Stack<JLabel[]> redoCapturedPiecesImages = new Stack<>();
 	
 	public static boolean startingButtonIsClicked = false;
-	public static Set<String> hintPositions = new TreeSet<>();
+	public static Set<String> hintPositions = new HashSet<>();
 	
 	public static boolean buttonsEnabled = true;
 	
@@ -901,7 +901,7 @@ public class ChessGUI {
 		
 		startingButtonIsClicked = false;
 		
-		hintPositions = new TreeSet<>();
+		hintPositions = new HashSet<>();
 		
 		if (undoItem != null)
 			undoItem.setEnabled(false);
@@ -985,7 +985,7 @@ public class ChessGUI {
 				// If the White or Black King is in check, then get one of the following valid moves.
 				else if (chessBoard.whitePlays() && chessBoard.isWhiteKingInCheck() || chessBoard.blackPlays() 
 						&& chessBoard.isBlackKingInCheck()) {
-					hintPositions = new TreeSet<>();
+					hintPositions = new HashSet<>();
 					
 					if (chessBoard.whitePlays() 
 							&& chessBoard.getWhiteKingInCheckValidPieceMoves().containsKey(startingPosition)) {
@@ -1497,7 +1497,7 @@ public class ChessGUI {
 		String randomAiEndingPosition = "";
 		
 		// This map is used for the Random AI implementation.
-		Map<String, Set<String>> randomStartingEndingPositions = new TreeMap<>();
+		Map<String, Set<String>> randomStartingEndingPositions = new HashMap<>();
 		
 		/* STEP 1. Random starting position. */
 		if (chessBoard.whitePlays() && aiAllegiance == Allegiance.WHITE && !chessBoard.isWhiteKingInCheck() 
@@ -1555,7 +1555,7 @@ public class ChessGUI {
 		
 		
 		/* STEP 2. Random ending position. */
-		Set<String> possibleEndingPositions = new TreeSet<>();
+		Set<String> possibleEndingPositions = new HashSet<>();
 		if (chessBoard.whitePlays() && !chessBoard.isWhiteKingInCheck()
 				||
 			chessBoard.blackPlays() && !chessBoard.isBlackKingInCheck()) {
