@@ -1122,8 +1122,9 @@ public class ChessGUI {
 			
 			if (checkForGameOver()) return;
 
-			if (gameParameters.isEnableSounds())
-				Utilities.playSound("piece_move.wav");	
+			if (gameParameters.isEnableSounds()) {
+				Utilities.playSound("piece_move.wav");
+			}
 			
 			// Remove the check from the king of the player who made the last move.
 			// The thing that the player managed to make a move,
@@ -1236,8 +1237,9 @@ public class ChessGUI {
 						+ (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2) + ". Checkmate! White wins!";
 				turnTextPane.setText(turnMessage);
 				
-				if (gameParameters.isEnableSounds())
+				if (gameParameters.isEnableSounds()) {
 					Utilities.playSound("checkmate.wav");
+				}
 				
 				int dialogResult = JOptionPane.showConfirmDialog(gui, 
 						"White wins! Start a new game?", "Checkmate", JOptionPane.YES_NO_OPTION);
@@ -1260,8 +1262,9 @@ public class ChessGUI {
 						+ (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2) + ". Checkmate! Black wins!";
 				turnTextPane.setText(turnMessage);
 				
-				if (gameParameters.isEnableSounds())
+				if (gameParameters.isEnableSounds()) {
 					Utilities.playSound("checkmate.wav");
+				}
 
 				int dialogResult = JOptionPane.showConfirmDialog(gui, 
 						"Black wins! Start a new game?", "Checkmate", JOptionPane.YES_NO_OPTION);
