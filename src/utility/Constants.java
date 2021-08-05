@@ -141,6 +141,6 @@ public class Constants {
 		+ "  6) The Pawn can move one tile forward, or 2 tiles forward, if moving for the 1st time. It can capture an opponent's piece by moving one tile diagonally.\n"
 		+ "     It can also capture an opponent's Pawn, that has just moved 2 steps forward, the previous turn, while being next to it,\n"
 		+ "     by moving diagonally towards its direction (\"en passant\" move).\n"
-		+ "     If a Pawn reaches the final row οf the other side of the chess board, the player can promote it to a Bishop, Knight, Rook or even a Queen.";
+		+ "     If a Pawn reaches the final row of the other side of the chess board, the player can promote it to a Bishop, Knight, Rook or even a Queen.";
 
 }
