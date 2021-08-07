@@ -511,7 +511,7 @@ public class ChessGUI {
 			
 			// This is true if any terminal state has occurred.
 			// The terminal states are: "draw", "stalemate draw" & "checkmate"
-			if (!buttonsEnabled) {
+            if (!buttonsEnabled && GameParameters.gameMode != GameMode.AI_VS_AI) {
 				enableChessBoardButtons();
 			}
 			
