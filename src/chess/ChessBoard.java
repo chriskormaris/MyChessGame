@@ -1324,7 +1324,7 @@ public class ChessBoard {
 						String currentPosition = Utilities.getPositionByRowCol(i, j);
 						Set<String> currentHintPositions = initialChessBoard.getNextPositions(currentPosition);
 						
-						Set<String> validBlackKingInCheckTempHintPosition = new HashSet<String>();
+						Set<String> validBlackKingInCheckTempHintPosition = new HashSet<>();
 						for (String currentHintPosition: currentHintPositions) {
 							initialChessBoard.movePieceFromAPositionToAnother(currentPosition, currentHintPosition, false);
 							
