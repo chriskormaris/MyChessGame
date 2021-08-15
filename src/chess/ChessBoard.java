@@ -35,9 +35,7 @@ public class ChessBoard {
     private Move lastMove;
     
     
-    /*
-     * The ChessBoard's gameBoard:
-     * 
+    /* The ChessBoard's gameBoard:
      *      A     B     C     D     E     F     G     H
      *   _________________________________________________
      * 8 |(7,0)|(7,1)|(7,2)|(7,3)|(7,4)|(7,5)|(7,6)|(7,7)| 8
@@ -50,21 +48,17 @@ public class ChessBoard {
 	 * 1 |(0,0)|(0,1)|(0,2)|(0,3)|(0,4)|(0,5)|(0,6)|(0,7)| 1
 	 *   -------------------------------------------------
 	 *      A     B     C     D     E     F     G     H
-	 * 
-	 * E.g: A1 = (0,0), H8 = (7,7), B3 = (2,1), C2 = (1,2) etc.
-     */
+	 * E.g: A1 = (0,0), H8 = (7,7), B3 = (2,1), C2 = (1,2) etc. */
 	private ChessPiece[][] gameBoard;
 
 	/* A board with:
 	 * 1 for areas threatened by white pieces.
-	 * 0 for areas not threatened by white pieces.
-	 */ 
+	 * 0 for areas not threatened by white pieces. */
 	private int[][] tilesThreatenedByWhite;
 
 	/* A board with:
 	 * 1 for areas threatened by black pieces.
-	 * 0 for areas not threatened by black pieces.
-	 */
+	 * 0 for areas not threatened by black pieces. */
 	private int[][] tilesThreatenedByBlack;
 
 	/* These are used to define if a checkmate has occurred. */
@@ -91,15 +85,14 @@ public class ChessBoard {
 	 * would normally be, if it had only moved one step forward.
 	 * If the last move was not a move made by a pawn, 
 	 * or the move was not a leap of two tiles forward, 
-	 * this variable is equal to "-". 
-	 */
+	 * this variable is equal to "-". */
 	private String enPassantPosition;
 	
 	/* This variable is used to determine a draw, 
-	 * if no chessPiece has been captured in 50 full moves (100 halfMoves). */
+	 * if no chessPiece has been captured in 50 full moves (100 half moves). */
 	private int halfMoveClock;
 
-	/* 1 full move corresponds to 2 halfMoves. */
+	/* 1 full move corresponds to 2 half moves. */
 	private int halfMoveNumber;
 	
 	private boolean whiteKingInCheck;
@@ -495,13 +488,14 @@ public class ChessBoard {
  						bishop = new Bishop(Allegiance.BLACK);
  						knight = new Knight(Allegiance.BLACK);
  					}
-					
-					// If AI plays, choose the best promotion piece,
-					// based on the outcome of the immediately next move. 
-	 				if ((ChessGUI.gameParameters.getGameMode() == GameMode.HUMAN_VS_AI &&
-						(this.blackPlays() && ChessGUI.gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE)
-						|| (this.whitePlays() && ChessGUI.gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK))
-						|| ChessGUI.gameParameters.getGameMode() == GameMode.AI_VS_AI) {
+
+					boolean humanPlayerPlays = ChessGUI.gameParameters.getGameMode() == GameMode.HUMAN_VS_HUMAN
+					 		|| ChessGUI.gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
+					 			&& ChessGUI.gameParameters.getHumanPlayerAllegiance() == chessPiece.getAllegiance();
+
+					// If AI plays, or this is not a display move, choose the best promotion piece,
+					// based on the best outcome.
+					if (!humanPlayerPlays || !displayMove) {
  					
 						ChessPiece[] promotionChessPieces = {queen, rook, bishop, knight};
 						
@@ -554,8 +548,8 @@ public class ChessBoard {
 						}
 						
 	 				}
-	 				// If human player plays, select which promotion you want and display it on the GUI.
-	 				else if (displayMove) {
+	 				// If human player plays, or this is a display move, select which promotion piece you want and display it on the GUI.
+	 				else {
 	 					
 	 					String[] promotionPieces = {"Queen", "Rook", "Bishop", "Knight"};
 	 				    String initialSelection = "Queen";
@@ -810,7 +804,6 @@ public class ChessBoard {
     	if (this.isBlackStalemateDraw) return 0;
     	if (this.isInsufficientMaterialDraw) return 0;
     	// if (checkForNoPieceCaptureDraw()) return 0;
-
     	
 		// String startPosition = lastMove.getPositions().get(0);
 		String endPosition = lastMove.getPositions().get(1);
@@ -820,8 +813,7 @@ public class ChessBoard {
     	
     	int endRow = Utilities.getRowFromPosition(endPosition);
     	int endColumn = Utilities.getColumnFromPosition(endPosition);
-    	
-    	
+
     	/* DEBUGGING. */
     	// System.out.println(lastMove);
     	// System.out.println("lastCapturedPieceValue: " + this.lastCapturedPieceValue);
@@ -860,7 +852,7 @@ public class ChessBoard {
 			}
     	}
     	
-    	double checkValue = 0;
+    	double checkValue;
     	if (this.halfMoveNumber <= Constants.MIDDLE_GAME_HALF_MOVES_THRESHOLD)
     		checkValue = Constants.CHECK_VALUE;
 		else
@@ -1171,12 +1163,10 @@ public class ChessBoard {
     
 
 	public boolean isTerminalState() {
-		if (isWhiteCheckmate() || isBlackCheckmate() || 
-			isWhiteStalemateDraw() || isBlackStalemateDraw() || isInsufficientMaterialDraw()) {
-			// || checkForNoPieceCaptureDraw()()) {
-			return true;
-		}
-		return false;
+		// ) {
+		return isWhiteCheckmate() || isBlackCheckmate()
+				|| isWhiteStalemateDraw() || isBlackStalemateDraw()
+				|| isInsufficientMaterialDraw() /* || checkForNoPieceCaptureDraw() */;
 	}
 	
 	
@@ -1273,7 +1263,7 @@ public class ChessBoard {
 				ChessPiece chessPiece = this.gameBoard[i][j];
 				String position = Utilities.getPositionByRowCol(i, j);
 				
-				Set<String> threatPositions = null;
+				Set<String> threatPositions;
 				
 				threatPositions = chessPiece.getNextPositions(position, this, true);
 				
@@ -1525,10 +1515,8 @@ public class ChessBoard {
 				}
 			}
 		}
-		
-		if (numOfPawns <= 2) return false;
-		
-		return true;
+
+		return numOfPawns > 2;
 	}
 	
 	
@@ -1596,8 +1584,8 @@ public class ChessBoard {
 						
 						// If any move exists without getting the White king in check,
 						// then there still are legal moves, and we do not have a stalemate scenario.
-						boolean legalMovesExist = 
-								(initialChessBoard.getTilesThreatenedByBlack()[whiteKingRow][whiteKingColumn] == 0) ? true : false; 
+						boolean legalMovesExist =
+								initialChessBoard.getTilesThreatenedByBlack()[whiteKingRow][whiteKingColumn] == 0;
 
 						initialChessBoard = new ChessBoard(this);
 						
@@ -1642,8 +1630,8 @@ public class ChessBoard {
 	
 						// If any move exists without getting the Black king in check,
 						// then there still are legal moves, and we do not have a stalemate scenario.
-						boolean legalMovesExist = 
-								(initialChessBoard.getTilesThreatenedByWhite()[blackKingRow][blackKingColumn] == 0) ? true : false; 
+						boolean legalMovesExist =
+								initialChessBoard.getTilesThreatenedByWhite()[blackKingRow][blackKingColumn] == 0;
 						
 						initialChessBoard = new ChessBoard(this);
  						
@@ -1693,9 +1681,7 @@ public class ChessBoard {
 		int n2 = tilesThreatenedByWhite[0].length;
 		this.tilesThreatenedByWhite = new int[n1][n2];
 		for (int i=0; i<n1; i++) {
-			for (int j=0; j<n2; j++) {
-				this.tilesThreatenedByWhite[i][j] = tilesThreatenedByWhite[i][j];
-			}
+			System.arraycopy(tilesThreatenedByWhite[i], 0, this.tilesThreatenedByWhite[i], 0, n2);
 		}
 	}
 
@@ -1859,7 +1845,11 @@ public class ChessBoard {
 	public boolean getPlayer() {
 		return player;
 	}
-	
+
+	public boolean getNextPlayer() {
+		return !player;
+	}
+
 	public void setPlayer(boolean player) {
 		this.player = player;
 	}

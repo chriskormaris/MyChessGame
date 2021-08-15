@@ -613,8 +613,9 @@ public class ChessGUI {
 			setTurnMessage();
 			setScoreMessage();
 			
-			if (undoItem != null)
+			if (undoItem != null) {
 				undoItem.setEnabled(true);
+			}
 		}
 	}
 	
@@ -825,10 +826,12 @@ public class ChessGUI {
 		
 		gameParameters = new GameParameters(newGameParameters);
 		
-		if (undoItem != null)
+		if (undoItem != null) {
 			undoItem.setEnabled(false);
-		if (redoItem != null)
+		}
+		if (redoItem != null) {
 			redoItem.setEnabled(false);
+		}
 		
 		configureGuiStyle();
 		
@@ -903,14 +906,18 @@ public class ChessGUI {
 		
 		hintPositions = new HashSet<>();
 		
-		if (undoItem != null)
+		if (undoItem != null) {
 			undoItem.setEnabled(false);
-		if (redoItem != null)
+		}
+		if (redoItem != null) {
 			redoItem.setEnabled(false);
-		if (exportFenPositionItem != null)
+		}
+		if (exportFenPositionItem != null) {
 			exportFenPositionItem.setEnabled(true);
-		if (saveCheckpointItem != null)
+		}
+		if (saveCheckpointItem != null) {
 			saveCheckpointItem.setEnabled(true);
+		}
 		
 		if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI) {
 			if (gameParameters.getAiType() == AiType.MINIMAX_AI) {
@@ -1130,10 +1137,11 @@ public class ChessGUI {
 			// The thing that the player managed to make a move,
 			// means that his king has escaped from the check.
 			if (gameParameters.getGameMode() == GameMode.HUMAN_VS_HUMAN) {
-				if (chessBoard.whitePlays())
-					chessBoard.setWhiteKingInCheck(false);
-				else
-					chessBoard.setBlackKingInCheck(false);
+				if (chessBoard.whitePlays()) {
+                    chessBoard.setWhiteKingInCheck(false);
+                } else {
+                    chessBoard.setBlackKingInCheck(false);
+                }
 			}
 			
 			if (hintPositions.contains(endingPosition)) {
@@ -1142,14 +1150,16 @@ public class ChessGUI {
 				
 				// System.out.println("en passant position: " + chessBoard.getEnPassantPosition());
 				
-				if (undoItem != null)
+				if (undoItem != null) {
 					undoItem.setEnabled(true);
-				if (redoItem != null)
+				}
+				if (redoItem != null) {
 					redoItem.setEnabled(false);
+				}
 				
                 // Change chessBoard turn.
 				chessBoard.setHalfMoveNumber(chessBoard.getHalfMoveNumber() + 1);
-		        chessBoard.setPlayer(!chessBoard.getPlayer());
+		        chessBoard.setPlayer(chessBoard.getNextPlayer());
 				if (gameParameters.getGameMode() == GameMode.HUMAN_VS_HUMAN) {
 					setTurnMessage();
 				}
@@ -1481,14 +1491,18 @@ public class ChessGUI {
 		if (dialogResult == JOptionPane.YES_OPTION) {
 			startNewGame();
 		} else {
-			if (undoItem != null)
+			if (undoItem != null) {
 				undoItem.setEnabled(true);
-			if (redoItem != null)
+			}
+			if (redoItem != null) {
 				redoItem.setEnabled(false);
-			if (exportFenPositionItem != null)
+			}
+			if (exportFenPositionItem != null) {
 				exportFenPositionItem.setEnabled(false);
-			if (saveCheckpointItem != null)
+			}
+			if (saveCheckpointItem != null) {
 				saveCheckpointItem.setEnabled(false);
+			}
 			disableChessBoardSquares();
 		}
 	}
@@ -1598,13 +1612,14 @@ public class ChessGUI {
 		// Remove the check from the king of the player who made the last move.
 		// The thing that the player managed to make a move,
 		// means that his king has escaped from the check.
-		if (chessBoard.whitePlays())
-			chessBoard.setWhiteKingInCheck(false);
-		else if (chessBoard.blackPlays())
-			chessBoard.setBlackKingInCheck(false);
+		if (chessBoard.whitePlays()) {
+            chessBoard.setWhiteKingInCheck(false);
+        } else if (chessBoard.blackPlays()) {
+            chessBoard.setBlackKingInCheck(false);
+        }
 		
 		chessBoard.setHalfMoveNumber(chessBoard.getHalfMoveNumber() + 1);
-        chessBoard.setPlayer(!chessBoard.getPlayer());
+        chessBoard.setPlayer(chessBoard.getNextPlayer());
 
         setTurnMessage();
 		
@@ -1656,13 +1671,14 @@ public class ChessGUI {
 		// Remove the check from the king of the player who made the last move.
 		// The thing that the player managed to make a move,
 		// means that his king has escaped from the check.
-		if (chessBoard.whitePlays())
-			chessBoard.setWhiteKingInCheck(false);
-		else if (chessBoard.blackPlays())
-			chessBoard.setBlackKingInCheck(false);
+		if (chessBoard.whitePlays()) {
+            chessBoard.setWhiteKingInCheck(false);
+        } else if (chessBoard.blackPlays()) {
+            chessBoard.setBlackKingInCheck(false);
+        }
 		
 		chessBoard.setHalfMoveNumber(chessBoard.getHalfMoveNumber() + 1);
-        chessBoard.setPlayer(!chessBoard.getPlayer());
+        chessBoard.setPlayer(chessBoard.getNextPlayer());
         
         setTurnMessage();
 		
@@ -1700,8 +1716,9 @@ public class ChessGUI {
 			}
 		}
 		
-		if (undoItem != null)
+		if (undoItem != null) {
 			undoItem.setEnabled(true);
+		}
 	}
 	
 
