@@ -93,7 +93,7 @@ public class ChessGUI {
 	public static JPanel chessBoardPanel;
 	public static JPanel capturedPiecesPanel;
 	
-	public static String firstTurnText = "Move number: 1. White plays first.";
+	public static String firstTurnText = "Turn: 1. White plays first.";
 	public static JTextPane turnTextPane = new JTextPane();
 	
 	public static String zeroScoreText = "Score: 0";
@@ -393,7 +393,7 @@ public class ChessGUI {
 		if (chessBoard.getHalfMoveNumber() == 1) {
     		turnTextPane.setText(firstTurnText);
         } else {
-            String turnMessage = "Move number: " + (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2) + ". ";
+            String turnMessage = "Turn: " + (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2) + ". ";
             turnMessage += (chessBoard.whitePlays()) ? "White plays." : "Black plays.";
 
             if (chessBoard.whitePlays() && chessBoard.isWhiteKingInCheck())
