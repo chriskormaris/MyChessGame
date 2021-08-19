@@ -1730,7 +1730,7 @@ public class ChessGUI {
 
 	private static void aiVsAiMove(MiniMaxAi ai) {
 
-		Allegiance allegiance = ai.getAiPlayer() == Constants.WHITE ? Allegiance.WHITE : Allegiance.BLACK;
+		Allegiance allegiance = (ai.getAiPlayer() == Constants.WHITE) ? Allegiance.WHITE : Allegiance.BLACK;
 
 		previousChessBoards.push(new ChessBoard(chessBoard));
 		
