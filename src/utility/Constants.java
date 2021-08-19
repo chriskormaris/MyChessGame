@@ -32,8 +32,9 @@ public class Constants {
 	
 	public static final int DEAD_DRAW_MAX_BFS_DEPTH = 20;
 	
-	public static final long AI_MOVE_MILLISECONDS = 50;
-	
+	public static final long MINIMAX_AI_MOVE_MILLISECONDS = 50;
+	public static final long RANDOM_AI_MOVE_MILLISECONDS = 250;
+
 	public static final Color BRIGHT_PINK = new Color(240, 207, 207);
 	public static final Color DARK_GREEN = new Color(37, 82, 59);
 	

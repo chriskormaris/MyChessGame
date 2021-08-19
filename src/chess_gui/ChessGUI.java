@@ -1697,7 +1697,11 @@ public class ChessGUI {
 				System.out.println(turnTextPane.getText());
 				
 				try {
-					Thread.sleep(Constants.AI_MOVE_MILLISECONDS);
+					if (gameParameters.getAiType() == AiType.MINIMAX_AI) {
+						Thread.sleep(Constants.MINIMAX_AI_MOVE_MILLISECONDS);
+					} else if (gameParameters.getAiType() == AiType.RANDOM_AI) {
+						Thread.sleep(Constants.RANDOM_AI_MOVE_MILLISECONDS);
+					}
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
@@ -1707,7 +1711,11 @@ public class ChessGUI {
 			
 			if (!isGameOver) {
 				try {
-					Thread.sleep(Constants.AI_MOVE_MILLISECONDS);
+					if (gameParameters.getAiType() == AiType.MINIMAX_AI) {
+						Thread.sleep(Constants.MINIMAX_AI_MOVE_MILLISECONDS);
+					} else if (gameParameters.getAiType() == AiType.RANDOM_AI) {
+						Thread.sleep(Constants.RANDOM_AI_MOVE_MILLISECONDS);
+					}
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
