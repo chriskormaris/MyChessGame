@@ -1443,7 +1443,6 @@ public class ChessGUI {
 			
 		}
 		
-		
 		return false;
 	}
 	
