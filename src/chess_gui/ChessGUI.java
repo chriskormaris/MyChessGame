@@ -1691,7 +1691,7 @@ public class ChessGUI {
 				
 		while (!isGameOver) {
 			System.out.println(turnTextPane.getText());
-			aiVsAiMove(ai1, Allegiance.WHITE);
+			aiVsAiMove(ai1);
 			
 			if (!isGameOver) {
 				System.out.println(turnTextPane.getText());
@@ -1706,7 +1706,7 @@ public class ChessGUI {
 					e.printStackTrace();
 				}
 				
-				aiVsAiMove(ai2, Allegiance.BLACK);
+				aiVsAiMove(ai2);
 			}
 			
 			if (!isGameOver) {
@@ -1728,7 +1728,9 @@ public class ChessGUI {
 	}
 	
 
-	private static void aiVsAiMove(MiniMaxAi ai, Allegiance allegiance) {
+	private static void aiVsAiMove(MiniMaxAi ai) {
+
+		Allegiance allegiance = ai.getAiPlayer() == Constants.WHITE ? Allegiance.WHITE : Allegiance.BLACK;
 
 		previousChessBoards.push(new ChessBoard(chessBoard));
 		
