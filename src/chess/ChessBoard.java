@@ -281,8 +281,9 @@ public class ChessBoard {
  			
 			this.lastCapturedPieceValue = Utilities.getChessPieceValue(endTile, this.halfMoveNumber);
  			
-			if (chessPiece.getAllegiance() == Allegiance.BLACK)
-				this.lastCapturedPieceValue = -this.lastCapturedPieceValue;	
+			if (chessPiece.getAllegiance() == Allegiance.BLACK) {
+				this.lastCapturedPieceValue = -this.lastCapturedPieceValue;
+			}
 			
  			Set<String> castlingPositions = null;
  			if (chessPiece instanceof King) {
