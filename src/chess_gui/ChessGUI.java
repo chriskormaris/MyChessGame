@@ -1368,7 +1368,7 @@ public class ChessGUI {
 				|| !chessBoard.blackPlays() && gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK
 				|| gameParameters.getGameMode() == GameMode.AI_VS_AI) {
 				dialogResult = JOptionPane.showConfirmDialog(gui, 
-						(int) Math.ceil(Constants.NO_PIECE_CAPTURE_DRAW_HALF_MOVES_LIMIT / (double) 2) +
+						Constants.NO_PIECE_CAPTURE_DRAW_MOVES_LIMIT +
 						" full moves have passed without a piece capture! Do you want to declare a draw?",
 						"Draw", JOptionPane.YES_NO_OPTION);
 			}
@@ -1419,8 +1419,7 @@ public class ChessGUI {
 	
 	
 	private static boolean checkForHalfMoveGameOver() {
-		
-		
+
 		// Three-fold repetition draw rule implementation. 
 		// This situation occurs when we end up with the same chess board position 3 different times
 		// at any time in the game, not necessarily successively.
