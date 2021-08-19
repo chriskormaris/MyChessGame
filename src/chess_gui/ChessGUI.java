@@ -433,11 +433,11 @@ public class ChessGUI {
 	
 	public static void setScoreMessage() {
 		if (chessBoard.getScore() == 0) {
-			ChessGUI.capturedPiecesImages[15].setText(zeroScoreText);
+			capturedPiecesImages[15].setText(zeroScoreText);
 		} else if (chessBoard.getScore() > 0) {
-			ChessGUI.capturedPiecesImages[15].setText("White: +" + chessBoard.getScore());
+			capturedPiecesImages[15].setText("White: +" + chessBoard.getScore());
 		} else if (chessBoard.getScore() < 0) {
-			ChessGUI.capturedPiecesImages[15].setText("Black: +" + (-chessBoard.getScore()));
+			capturedPiecesImages[15].setText("Black: +" + (-chessBoard.getScore()));
 		}
 	}
 
@@ -805,15 +805,15 @@ public class ChessGUI {
 			capturedPiecesImages[i] = new JLabel();
 			
 			if (i == 15) {
-				ChessGUI.capturedPiecesImages[i].setText(zeroScoreText);
+				capturedPiecesImages[i].setText(zeroScoreText);
 			} else {
 				// We'll "fill this in" using a transparent icon...
 				ImageIcon icon = new ImageIcon(new BufferedImage(Constants.CAPTURED_PIECE_PIXEL_SIZE, Constants.CAPTURED_PIECE_PIXEL_SIZE, BufferedImage.TYPE_INT_ARGB));
 				capturedPiecesImages[i].setIcon(icon);
 				
 				// This is for TESTING.
-				// ImageIcon pieceImage = ChessGUI.preparePieceIcon(Constants.WHITE_PAWN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
-				// ChessGUI.capturedPiecesImages[i].setIcon(pieceImage);
+				// ImageIcon pieceImage = preparePieceIcon(Constants.WHITE_PAWN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+				// capturedPiecesImages[i].setIcon(pieceImage);
 			}
 
 		    capturedPiecesPanel.add(capturedPiecesImages[i]);
@@ -1192,43 +1192,43 @@ public class ChessGUI {
  		
 		if (chessBoard.getPromotedPieces().contains(endTile)) {
 			if (endTile.getAllegiance() == Allegiance.WHITE) {
-				pieceImage = ChessGUI.preparePieceIcon(Constants.WHITE_PAWN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+				pieceImage = preparePieceIcon(Constants.WHITE_PAWN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
 			} else if (endTile.getAllegiance() == Allegiance.BLACK) {
-				pieceImage = ChessGUI.preparePieceIcon(Constants.BLACK_PAWN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+				pieceImage = preparePieceIcon(Constants.BLACK_PAWN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
 			}
 		
 		} else if (endTile.getAllegiance() == Allegiance.WHITE) {
 		
 	 			if (endTile instanceof Pawn) {
-	 				pieceImage = ChessGUI.preparePieceIcon(Constants.WHITE_PAWN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+	 				pieceImage = preparePieceIcon(Constants.WHITE_PAWN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
 	 			} else if (endTile instanceof Rook) {
-	 				pieceImage = ChessGUI.preparePieceIcon(Constants.WHITE_ROOK_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+	 				pieceImage = preparePieceIcon(Constants.WHITE_ROOK_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
 	 			} else if (endTile instanceof Knight) {
-	 				pieceImage = ChessGUI.preparePieceIcon(Constants.WHITE_KNIGHT_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+	 				pieceImage = preparePieceIcon(Constants.WHITE_KNIGHT_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
 	 			} else if (endTile instanceof Bishop) {
-	 				pieceImage = ChessGUI.preparePieceIcon(Constants.WHITE_BISHOP_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+	 				pieceImage = preparePieceIcon(Constants.WHITE_BISHOP_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
 	 			} else if (endTile instanceof Queen) {
-	 				pieceImage = ChessGUI.preparePieceIcon(Constants.WHITE_QUEEN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+	 				pieceImage = preparePieceIcon(Constants.WHITE_QUEEN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
 	 			}
 	 			
  		} else if (endTile.getAllegiance() == Allegiance.BLACK) {
  			if (endTile instanceof Pawn) {
- 				pieceImage = ChessGUI.preparePieceIcon(Constants.BLACK_PAWN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+ 				pieceImage = preparePieceIcon(Constants.BLACK_PAWN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
  			} else if (endTile instanceof Rook) {
- 				pieceImage = ChessGUI.preparePieceIcon(Constants.BLACK_ROOK_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+ 				pieceImage = preparePieceIcon(Constants.BLACK_ROOK_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
  			} else if (endTile instanceof Knight) {
- 				pieceImage = ChessGUI.preparePieceIcon(Constants.BLACK_KNIGHT_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+ 				pieceImage = preparePieceIcon(Constants.BLACK_KNIGHT_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
  			} else if (endTile instanceof Bishop) {
- 				pieceImage = ChessGUI.preparePieceIcon(Constants.BLACK_BISHOP_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+ 				pieceImage = preparePieceIcon(Constants.BLACK_BISHOP_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
  			} else if (endTile instanceof Queen) {
- 				pieceImage = ChessGUI.preparePieceIcon(Constants.BLACK_QUEEN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+ 				pieceImage = preparePieceIcon(Constants.BLACK_QUEEN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
  			}
 		}
 		
 		if (endTile.getAllegiance() == Allegiance.WHITE) {
-			ChessGUI.capturedPiecesImages[chessBoard.getWhiteCapturedPiecesCounter()].setIcon(pieceImage);
+			capturedPiecesImages[chessBoard.getWhiteCapturedPiecesCounter()].setIcon(pieceImage);
 		} else if (endTile.getAllegiance() == Allegiance.BLACK) {
-			ChessGUI.capturedPiecesImages[31 - chessBoard.getBlackCapturedPiecesCounter() - 1].setIcon(pieceImage);
+			capturedPiecesImages[31 - chessBoard.getBlackCapturedPiecesCounter() - 1].setIcon(pieceImage);
 		}
 		
 		setScoreMessage();
@@ -1839,7 +1839,7 @@ public class ChessGUI {
 			}
 		}
 		
-		ImageIcon pieceImage = ChessGUI.preparePieceIcon(imagePath, Constants.CHESS_SQUARE_PIXEL_SIZE);
+		ImageIcon pieceImage = preparePieceIcon(imagePath, Constants.CHESS_SQUARE_PIXEL_SIZE);
 		
 		// int column = (int) Character.toUpperCase(position.charAt(0)) - 65;
 		// int row = N - Character.getNumericValue(position.charAt(1));
@@ -2045,7 +2045,7 @@ public class ChessGUI {
 	public static void main(String[] args) {
 		@SuppressWarnings("unused")
 		ChessGUI cbg = new ChessGUI(TITLE);
-		ChessGUI.placePiecesToChessBoard();
+		placePiecesToChessBoard();
 		
 		System.out.println(chessBoard);
 	}
