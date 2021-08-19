@@ -1187,7 +1187,7 @@ public class ChessGUI {
 	}
 	
 	
-	public static void configureCapturedPiecesImages(ChessPiece endTile) {
+	public static void addCapturedPieceImage(ChessPiece endTile) {
  		ImageIcon pieceImage = null;
  		
 		if (chessBoard.getPromotedPieces().contains(endTile)) {

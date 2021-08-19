@@ -632,7 +632,7 @@ public class ChessBoard {
  	 			}
  	 			
  	 			if (displayMove) {
- 	 				ChessGUI.configureCapturedPiecesImages(endTile);
+ 	 				ChessGUI.addCapturedPieceImage(endTile);
  	 			}
 
 				if (endTile.getAllegiance() == Allegiance.WHITE) {
