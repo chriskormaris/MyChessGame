@@ -1916,7 +1916,7 @@ public class ChessBoard {
 	}
 	
 	public boolean checkForNoPieceCaptureDraw() {
-		return this.halfMoveClock >= Constants.NO_PIECE_CAPTURE_DRAW_MOVES_LIMIT * 2;
+		return this.halfMoveClock >= Constants.NO_CAPTURE_DRAW_MOVES_LIMIT * 2;
 	}
 
 	public int getWhiteCapturedPiecesCounter() {

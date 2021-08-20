@@ -1368,7 +1368,7 @@ public class ChessGUI {
 				|| !chessBoard.blackPlays() && gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK
 				|| gameParameters.getGameMode() == GameMode.AI_VS_AI) {
 				dialogResult = JOptionPane.showConfirmDialog(gui, 
-						Constants.NO_PIECE_CAPTURE_DRAW_MOVES_LIMIT +
+						Constants.NO_CAPTURE_DRAW_MOVES_LIMIT +
 						" full moves have passed without a piece capture! Do you want to declare a draw?",
 						"Draw", JOptionPane.YES_NO_OPTION);
 			}
