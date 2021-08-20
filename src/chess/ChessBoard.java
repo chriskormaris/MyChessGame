@@ -214,9 +214,9 @@ public class ChessBoard {
 		
 		this.whiteKingInCheck = otherBoard.isWhiteKingInCheck();
 		this.blackKingInCheck = otherBoard.isBlackKingInCheck();
-		
-		this.whiteKingInCheckValidPieceMoves = new HashMap<>(otherBoard.whiteKingInCheckValidPieceMoves);
-		this.blackKingInCheckValidPieceMoves = new HashMap<>(otherBoard.blackKingInCheckValidPieceMoves);
+
+		this.whiteKingInCheckValidPieceMoves = new HashMap<>(otherBoard.getWhiteKingInCheckValidPieceMoves());
+		this.blackKingInCheckValidPieceMoves = new HashMap<>(otherBoard.getBlackKingInCheckValidPieceMoves());
 		
 		this.isWhiteCheckmate = otherBoard.isWhiteCheckmate();
 		this.isBlackCheckmate = otherBoard.isBlackCheckmate();
