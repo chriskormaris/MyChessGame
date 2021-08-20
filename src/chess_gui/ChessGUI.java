@@ -159,10 +159,7 @@ public class ChessGUI {
 	public static boolean isChessGui2;
 	
 	public static String savedFenPosition;
-	
-	// This board is used to check for a threefold repetition of a chess board position.
-	// public static ChessPiece[][] halfMoveGameBoard = new ChessPiece[gameParameters.getNumOfRows()][NUM_OF_COLUMNS];
-	
+
 	// These stack of 2d "ChessPiece" arrays is used to check for a threefold repetition of a chess board position.
 	public static Stack<ChessPiece[][]> halfMoveGameBoards = new Stack<>();
 	public static Stack<ChessPiece[][]> redoHalfMoveGameBoards = new Stack<>();
@@ -497,7 +494,6 @@ public class ChessGUI {
 			
 			chessBoard = previousChessBoards.pop();
 			
-			
 			ChessPiece[][] halfMoveGameBoard = halfMoveGameBoards.pop();
 			redoHalfMoveGameBoards.push(Utilities.copyGameBoard(halfMoveGameBoard));
 			// System.out.println("size of halfMoveGameBoards: " + halfMoveGameBoards.size());
@@ -565,8 +561,7 @@ public class ChessGUI {
 			}
 			
 			previousChessBoards.push(new ChessBoard(chessBoard));
-			
-			
+
 			ChessPiece[][] halfMoveGameBoard = redoHalfMoveGameBoards.pop();
 			halfMoveGameBoards.push(Utilities.copyGameBoard(halfMoveGameBoard));
 			// System.out.println("size of halfMoveGameBoards: " + halfMoveGameBoards.size());
@@ -579,7 +574,6 @@ public class ChessGUI {
 			previousCapturedPiecesImages.push(newCapturedPiecesImages);
 			
 			ChessBoard redoChessBoard = redoChessBoards.pop();
-			
 
 			// Display the "redo" captured chess pieces icons.
 			initializeCapturedPiecesPanel();
@@ -599,13 +593,13 @@ public class ChessGUI {
 				}
 			}
 			
-			
 			boolean isHalfMoveGameOver = checkForHalfMoveGameOver();
 			
 			chessBoard = redoChessBoard;
 			
-			if (!isHalfMoveGameOver)
-				checkForGameOver();
+			if (!isHalfMoveGameOver) {
+                checkForGameOver();
+            }
 			
 			System.out.println();
 			System.out.println(chessBoard);
@@ -1382,9 +1376,7 @@ public class ChessGUI {
 			
 		}
 		
-		
 		return checkForHalfMoveGameOver();
-
 	}
 
 
