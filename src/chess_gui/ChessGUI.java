@@ -592,15 +592,7 @@ public class ChessGUI {
 					placePieceToPosition(Utilities.getPositionByRowCol(i, j), redoChessBoard.getGameBoard()[i][j]);		
 				}
 			}
-			
-			boolean isHalfMoveGameOver = checkForHalfMoveGameOver();
-			
-			chessBoard = redoChessBoard;
-			
-			if (!isHalfMoveGameOver) {
-                checkForGameOver();
-            }
-			
+
 			System.out.println();
 			System.out.println(chessBoard);
 			
@@ -610,6 +602,8 @@ public class ChessGUI {
 			if (undoItem != null) {
 				undoItem.setEnabled(true);
 			}
+
+			checkForGameOver();
 		}
 	}
 	
