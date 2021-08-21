@@ -457,7 +457,8 @@ public class ChessGUI {
 		return timer;
 	}
 	*/
-	
+
+
 	private static void undoLastMove() {
 		if (!previousChessBoards.isEmpty()) {
 			System.out.println("Undo is pressed!");
