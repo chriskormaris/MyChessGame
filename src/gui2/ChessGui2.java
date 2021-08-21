@@ -1,4 +1,4 @@
-package chess_gui2;
+package gui2;
 
 
 import java.awt.Dimension;
@@ -10,7 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import chess_gui.ChessGUI;
+import gui.ChessGUI;
 import enumeration.GameMode;
 import minimax_ai.MiniMaxAi;
 import utility.Constants;

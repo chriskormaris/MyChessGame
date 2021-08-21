@@ -10,7 +10,7 @@ import java.util.HashMap;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
-import chess_gui.ChessGUI;
+import gui.ChessGUI;
 import enumeration.Allegiance;
 import enumeration.GameMode;
 import piece.Bishop;

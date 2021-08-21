@@ -7,5 +7,5 @@ copy res\images\black bin\images\black
 copy res\images\white bin\images\white
 copy res\images bin\images
 copy res\sounds bin\sounds
-javac src\chess_board\*.java src\chess_gui\*.java src\chess_gui2\*.java src\enumeration\*.java src\minimax_ai\*.java src\piece\*.java src\utility\*.java -d bin
+javac src\chess_board\*.java src\gui\*.java src\gui2\*.java src\enumeration\*.java src\minimax_ai\*.java src\piece\*.java src\utility\*.java -d bin
 pause

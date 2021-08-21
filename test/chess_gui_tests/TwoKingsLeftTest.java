@@ -2,7 +2,7 @@ package chess_gui_tests;
 
 
 import chess_board.ChessBoard;
-import chess_gui.ChessGUI;
+import gui.ChessGUI;
 import enumeration.Allegiance;
 import org.junit.jupiter.api.Test;
 import piece.King;

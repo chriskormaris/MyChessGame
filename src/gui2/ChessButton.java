@@ -1,10 +1,10 @@
-package chess_gui2;
+package gui2;
 
 import java.awt.Color;
 
 import javax.swing.JButton;
 
-import chess_gui.ChessGUI;
+import gui.ChessGUI;
 
 
 public class ChessButton extends JButton {
