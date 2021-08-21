@@ -1,6 +1,6 @@
 package piece;
 
-import chess.ChessBoard;
+import chess_board.ChessBoard;
 import enumeration.Allegiance;
 
 import java.util.HashSet;

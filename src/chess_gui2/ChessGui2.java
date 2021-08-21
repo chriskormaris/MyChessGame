@@ -82,7 +82,7 @@ public class ChessGui2 extends JPanel {
 			}
 		}
 		
-		// fill the chess board panel
+		// fill the chess_board board panel
 		add(new JLabel(""));
 		
 		// fill the top row

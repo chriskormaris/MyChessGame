@@ -2,7 +2,7 @@ package piece;
 
 import java.util.Set;
 
-import chess.ChessBoard;
+import chess_board.ChessBoard;
 import enumeration.Allegiance;
 import utility.Constants;
 

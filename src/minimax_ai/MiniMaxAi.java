@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import chess.ChessBoard;
-import chess.Move;
+import chess_board.ChessBoard;
+import chess_board.Move;
 import utility.Constants;
 
 public class MiniMaxAi {

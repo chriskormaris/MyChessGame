@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import chess.ChessBoard;
+import chess_board.ChessBoard;
 import enumeration.Allegiance;
 import piece.ChessPiece;
 import piece.EmptyTile;
@@ -195,7 +195,7 @@ public class ChessPieceShortestPath {
 	
 
 	// It runs the simple BFS algorithm.
-	// It returns true if the given chess piece can get from the given starting position to the given ending position, 
+	// It returns true if the given chess_board piece can get from the given starting position to the given ending position,
 	// within the specified "maxDepth".
 	public static boolean canGoToPosition(ChessBoard chessBoard, ChessPiece piece, 
 										String startingPosition, String endingPosition, int maxDepth) {

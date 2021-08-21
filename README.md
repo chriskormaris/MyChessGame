@@ -1,6 +1,6 @@
 # My Chess Game #
 
-A traditional chess game implementation using Minimax AI, with Alpha-Beta Pruning. 
+A traditional chess_board game implementation using Minimax AI, with Alpha-Beta Pruning. 
 
 © Created by: Christos Kormaris, Athens 2020
 

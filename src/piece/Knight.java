@@ -3,7 +3,7 @@ package piece;
 import java.util.HashSet;
 import java.util.Set;
 
-import chess.ChessBoard;
+import chess_board.ChessBoard;
 import enumeration.Allegiance;
 import utility.Constants;
 import utility.Utilities;
@@ -39,7 +39,7 @@ public class Knight extends ChessPiece {
 		}
 		
 		// The maximum number of next moves that a knight can have is 8
-		// && that situation occurs if the knight is in the center of the chess board.
+		// && that situation occurs if the knight is in the center of the chess_board board.
 		// In the sketches below, k designates the position of the knight.
 
 		/*

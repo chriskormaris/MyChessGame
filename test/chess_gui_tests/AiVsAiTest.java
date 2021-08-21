@@ -1,7 +1,7 @@
 package chess_gui_tests;
 
 
-// import chess.ChessBoard;
+// import chess_board.ChessBoard;
 import chess_gui.ChessGUI;
 import enumeration.GameMode;
 import org.junit.jupiter.api.Test;

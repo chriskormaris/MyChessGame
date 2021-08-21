@@ -1,4 +1,4 @@
-package chess;
+package chess_board;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -272,7 +272,7 @@ public class ChessBoard {
 	 	// 	System.out.println("endTile:" + endTile);
  		// }
 
- 		// Allow only valid moves, for all the chess pieces.
+ 		// Allow only valid moves, for all the chess_board pieces.
  		// Move only if the tile is empty or the tile contains an opponent chessPiece.
  		// Also allow castling, en passant and promotion moves.
  		// System.out.println("hintPositions: " + hintPositions);
@@ -1421,7 +1421,7 @@ public class ChessBoard {
 	}
 	
 	
-	// Checks if there are insufficient material for a checkmate, left on the chess board.
+	// Checks if there are insufficient material for a checkmate, left on the chess_board board.
 	public boolean checkForInsufficientMaterialDraw() {
 		boolean whiteHasInsufficientMaterial = 
 				isLoneKing(Allegiance.WHITE) 
@@ -1959,7 +1959,7 @@ public class ChessBoard {
 		this.promotedPieces = promotedPieces;
 	}
 	
-	// It prints the chess board on the console.
+	// It prints the chess_board board on the console.
    	public static void printChessBoard(ChessPiece[][] chessBoard) {
 		System.out.println(getChessBoardString(chessBoard));
 	}

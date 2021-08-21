@@ -3,7 +3,7 @@ package piece;
 import java.util.HashSet;
 import java.util.Set;
 
-import chess.ChessBoard;
+import chess_board.ChessBoard;
 import enumeration.Allegiance;
 import utility.Constants;
 import utility.Utilities;

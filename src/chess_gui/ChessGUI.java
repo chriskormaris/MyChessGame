@@ -47,8 +47,8 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
-import chess.ChessBoard;
-import chess.Move;
+import chess_board.ChessBoard;
+import chess_board.Move;
 import enumeration.AiType;
 import enumeration.Allegiance;
 import enumeration.GameMode;
@@ -160,7 +160,7 @@ public class ChessGUI {
 	
 	public static String savedFenPosition;
 
-	// These stack of 2d "ChessPiece" arrays is used to check for a threefold repetition of a chess board position.
+	// These stack of 2d "ChessPiece" arrays is used to check for a threefold repetition of a chess_board board position.
 	public static Stack<ChessPiece[][]> halfMoveGameBoards = new Stack<>();
 	public static Stack<ChessPiece[][]> redoHalfMoveGameBoards = new Stack<>();
 	
@@ -449,9 +449,8 @@ public class ChessGUI {
 
 		    	updateMinimaxAiMoveElapsedSecs();
 				
-				frame.paint(frame.getGraphics());
-				frame.revalidate();
-				frame.repaint();
+				chessBoardPanel.revalidate();
+				chessBoardPanel.repaint();
 		    }
 		}, 0, 1000);
 		
@@ -498,7 +497,7 @@ public class ChessGUI {
 			redoHalfMoveGameBoards.push(Utilities.copyGameBoard(halfMoveGameBoard));
 			// System.out.println("size of halfMoveGameBoards: " + halfMoveGameBoards.size());
 			
-			// Display the "undo" captured chess pieces icons.
+			// Display the "undo" captured chess_board pieces icons.
 			initializeCapturedPiecesPanel();
 			capturedPiecesImages = previousCapturedPiecesImages.pop();
 			for (int i=0; i<31; i++) {
@@ -511,7 +510,7 @@ public class ChessGUI {
 				enableChessBoardButtons();
 			}
 			
-			// Display the "undo" chess board.
+			// Display the "undo" chess_board board.
 			for (int i=0; i<chessBoard.getNumOfRows(); i++) {
 				for (int j=0; j<NUM_OF_COLUMNS; j++) {
 					placePieceToPosition(Utilities.getPositionByRowCol(i, j), chessBoard.getGameBoard()[i][j]);		
@@ -575,7 +574,7 @@ public class ChessGUI {
 			
 			ChessBoard redoChessBoard = redoChessBoards.pop();
 
-			// Display the "redo" captured chess pieces icons.
+			// Display the "redo" captured chess_board pieces icons.
 			initializeCapturedPiecesPanel();
 			capturedPiecesImages = redoCapturedPiecesImages.pop();
 			for (int i=0; i<31; i++) {
@@ -586,7 +585,7 @@ public class ChessGUI {
 				redoItem.setEnabled(false);
 			}
 			
-			// Display the "redo" chess board.
+			// Display the "redo" chess_board board.
 			for (int i=0; i<redoChessBoard.getNumOfRows(); i++) {
 				for (int j=0; j<NUM_OF_COLUMNS; j++) {
 					placePieceToPosition(Utilities.getPositionByRowCol(i, j), redoChessBoard.getGameBoard()[i][j]);		
@@ -692,14 +691,14 @@ public class ChessGUI {
 
 		chessBoardSquares = new JButton[gameParameters.getNumOfRows()][NUM_OF_COLUMNS];
 		
-		// Create the chess board square buttons.
+		// Create the chess_board board square buttons.
 		Insets buttonMargin = new Insets(0, 0, 0, 0);
 		for (int i=0; i<gameParameters.getNumOfRows(); i++) {
 			for (int j=0; j<NUM_OF_COLUMNS; j++) {
 				JButton button = new JButton();
 				button.setMargin(buttonMargin);
 				
-				// Our chess pieces are 64x64 px in size, so we'll
+				// Our chess_board pieces are 64x64 px in size, so we'll
 				// "fill this in" using a transparent icon...
 				ImageIcon icon = new ImageIcon(new BufferedImage(
 						Constants.CHESS_SQUARE_PIXEL_SIZE, Constants.CHESS_SQUARE_PIXEL_SIZE, BufferedImage.TYPE_INT_ARGB));
@@ -730,7 +729,7 @@ public class ChessGUI {
 			}
 		}
 
-		// fill the chess board panel
+		// fill the chess_board board panel
 		chessBoardPanel.add(new JLabel(""));
 		
 		// fill the top row
@@ -788,7 +787,7 @@ public class ChessGUI {
 
 		capturedPiecesImages = new JLabel[31];
 		
-		// Create the captured chess pieces icons.
+		// Create the captured chess_board pieces icons.
 		for (int i=0; i<31; i++) {
 			capturedPiecesImages[i] = new JLabel();
 			
@@ -934,7 +933,7 @@ public class ChessGUI {
 	}
 	
 	
-	// This method is only called from inside a chess button listener.
+	// This method is only called from inside a chess_board button listener.
 	public static void chessButtonClick(int row, int column, JButton button) {
 		// System.out.println("row: " + row + ", column: " + column);
 		
@@ -1092,7 +1091,7 @@ public class ChessGUI {
 					Move move = new Move(startingPosition, endingPosition);
 					chessBoard.makeMove(move, true);
 					
-					// Store the chess board of the HalfMove that was just made.
+					// Store the chess_board board of the HalfMove that was just made.
 					ChessPiece[][] halfMoveGameBoard = Utilities.copyGameBoard(chessBoard.getGameBoard());
 					halfMoveGameBoards.push(halfMoveGameBoard);
 					// System.out.println("size of halfMoveGameBoards: " + halfMoveGameBoards.size());
@@ -1371,7 +1370,7 @@ public class ChessGUI {
 		}
 
 		// Three-fold repetition draw rule implementation.
-		// This situation occurs when we end up with the same chess board position 3 different times
+		// This situation occurs when we end up with the same chess_board board position 3 different times
 		// at any time in the game, not necessarily successively.
 		if (checkForThreefoldRepetitionDraw()) {
 			int dialogResult = -1;
@@ -1619,9 +1618,8 @@ public class ChessGUI {
 
 		setTurnMessage();
 
-		frame.paint(frame.getGraphics());
-		frame.revalidate();
-		frame.repaint();
+		chessBoardPanel.revalidate();
+		chessBoardPanel.repaint();
 		
 		Move aiMove;
 		if (chessBoard.whitePlays()) {
@@ -1731,10 +1729,9 @@ public class ChessGUI {
 		
 		setTurnMessage();
 		setScoreMessage();
-		
-		frame.paint(frame.getGraphics());
-		frame.revalidate();
-		frame.repaint();
+
+		chessBoardPanel.revalidate();
+		chessBoardPanel.repaint();
 	}
 
 
@@ -1857,7 +1854,7 @@ public class ChessGUI {
 		int column = Utilities.getColumnFromPosition(position);
 		int row = Utilities.getRowFromPosition(position);
 		
-		// Our chess pieces are 64x64 px in size, so we'll
+		// Our chess_board pieces are 64x64 px in size, so we'll
 		// 'fill this in' using a transparent icon.
 		ImageIcon icon = new ImageIcon(new BufferedImage(
 				Constants.CHESS_SQUARE_PIXEL_SIZE, Constants.CHESS_SQUARE_PIXEL_SIZE, BufferedImage.TYPE_INT_ARGB));
@@ -1972,7 +1969,7 @@ public class ChessGUI {
 			for (int j=0; j<NUM_OF_COLUMNS; j++) {
 				// chessBoardSquares[i][j].setEnabled(true);
 				
-				// Our chess pieces are 64x64 px in size, so we'll
+				// Our chess_board pieces are 64x64 px in size, so we'll
 				// 'fill this in' using a transparent icon.
 				ImageIcon icon = new ImageIcon(new BufferedImage(
 						Constants.CHESS_SQUARE_PIXEL_SIZE, Constants.CHESS_SQUARE_PIXEL_SIZE, BufferedImage.TYPE_INT_ARGB));
