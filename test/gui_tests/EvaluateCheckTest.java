@@ -1,25 +1,27 @@
-package chess_gui_tests;
+package gui_tests;
 
 
 import chess_board.ChessBoard;
 import gui.ChessGUI;
 import org.junit.jupiter.api.Test;
-//import enumerations.AiType;
+//import enumerations.GameMode;
+//import utilities.GameParameters;
 
 
-class StalemateCheckmateTest {
+class EvaluateCheckTest {
 
 	@Test
-	public void testStalemateCheckmatePawnPromotion() {
-		String title = "Stalemate or Checkmate Test";
+	public void testEvaluateCheck() {
+		
+		String title = "Evaluate Check";
 
+		// GameParameters.gameMode = GameMode.HUMAN_VS_HUMAN;
+		
 		@SuppressWarnings("unused")
 		ChessGUI cbg = new ChessGUI(title);
 		
-		// ChessGUI.gameParameters.getAiType() = AiType.RANDOM_AI;
-
-		// String fenPosition = "5Knk/1P6/4Q3/8/8/8/8/8 w - - 0 1";
-		String fenPosition = "1R1q1Knk/8/4Q3/8/8/8/8/8 w - - 0 1";
+		// The Black Queen should capture the White Queen instead of going for a Check.
+		String fenPosition = "4k3/8/3q4/8/5Q2/8/8/R3K2R w KQkq - 0 1";
 		ChessGUI.placePiecesToChessBoard(fenPosition);
 		
 		ChessBoard.printChessBoard(ChessGUI.chessBoard.getGameBoard());

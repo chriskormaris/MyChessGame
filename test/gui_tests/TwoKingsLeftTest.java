@@ -1,9 +1,9 @@
-package chess_gui_tests;
+package gui_tests;
 
 
 import chess_board.ChessBoard;
-import gui.ChessGUI;
 import enumeration.Allegiance;
+import gui.ChessGUI;
 import org.junit.jupiter.api.Test;
 import piece.King;
 import piece.Pawn;

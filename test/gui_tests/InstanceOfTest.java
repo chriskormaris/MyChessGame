@@ -1,4 +1,4 @@
-package chess_gui_tests;
+package gui_tests;
 
 import enumeration.Allegiance;
 import org.junit.jupiter.api.Test;
