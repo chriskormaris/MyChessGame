@@ -28,8 +28,10 @@ public class Constants {
 	public static final int DEFAULT_MAX_DEPTH = 2;
 	
 	public static final int NO_CAPTURE_DRAW_MOVES_LIMIT = 50;
+	public static final int NO_CAPTURE_DRAW_HALF_MOVES_LIMIT = NO_CAPTURE_DRAW_MOVES_LIMIT * 2;
 	public static final int MIDDLE_GAME_MOVES_THRESHOLD = 20;
-	
+	public static final int MIDDLE_GAME_HALF_MOVES_THRESHOLD = MIDDLE_GAME_MOVES_THRESHOLD * 2;
+
 	public static final int DEAD_DRAW_MAX_BFS_DEPTH = 20;
 	
 	public static final long MINIMAX_AI_MOVE_MILLISECONDS = 50;

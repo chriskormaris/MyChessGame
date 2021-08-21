@@ -854,7 +854,7 @@ public class ChessBoard {
     	}
     	
     	double checkValue;
-    	if (this.halfMoveNumber <= Constants.MIDDLE_GAME_MOVES_THRESHOLD * 2)
+    	if (this.halfMoveNumber <= Constants.MIDDLE_GAME_HALF_MOVES_THRESHOLD)
     		checkValue = Constants.CHECK_VALUE;
 		else
 			checkValue = Constants.CHECK_LATE_VALUE;
@@ -1025,7 +1025,7 @@ public class ChessBoard {
 		*/
 
 		// Add extra penalty, if any Queen, Rook, Bishop or Knight is lost, in early game.
-		if (this.halfMoveNumber <= Constants.MIDDLE_GAME_MOVES_THRESHOLD * 2) {
+		if (this.halfMoveNumber <= Constants.MIDDLE_GAME_HALF_MOVES_THRESHOLD) {
     		whiteScore -= (isQueenLost(Allegiance.WHITE)) ? Constants.QUEEN_VALUE * 130 : 0;
 			blackScore -= (isQueenLost(Allegiance.BLACK)) ? Constants.QUEEN_VALUE * 130 : 0;
 			
@@ -1916,7 +1916,7 @@ public class ChessBoard {
 	}
 	
 	public boolean checkForNoPieceCaptureDraw() {
-		return this.halfMoveClock >= Constants.NO_CAPTURE_DRAW_MOVES_LIMIT * 2;
+		return this.halfMoveClock >= Constants.NO_CAPTURE_DRAW_HALF_MOVES_LIMIT;
 	}
 
 	public int getWhiteCapturedPiecesCounter() {
