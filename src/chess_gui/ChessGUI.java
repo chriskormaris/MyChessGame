@@ -1369,8 +1369,31 @@ public class ChessGUI {
 			}
 			
 		}
-		
-		return checkForHalfMoveGameOver();
+
+		// Three-fold repetition draw rule implementation.
+		// This situation occurs when we end up with the same chess board position 3 different times
+		// at any time in the game, not necessarily successively.
+		if (checkForThreefoldRepetitionDraw()) {
+			int dialogResult = -1;
+
+			if (!chessBoard.whitePlays() && gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE
+					|| !chessBoard.blackPlays() && gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK
+					|| gameParameters.getGameMode() == GameMode.AI_VS_AI) {
+				dialogResult = JOptionPane.showConfirmDialog(gui,
+						"Threefold repetition of the same chess board position has occurred! "
+								+ "Do you want to declare a draw?", "Draw", JOptionPane.YES_NO_OPTION);
+			}
+
+			// System.out.println("dialogResult:" + dialogResult);
+			if (dialogResult == JOptionPane.YES_OPTION) {
+				gameResult = GameResult.THREEFOLD_REPETITION_DRAW;
+				showDeclareDrawDialog();
+				return true;
+			}
+
+		}
+
+		return false;
 	}
 
 
@@ -1398,35 +1421,6 @@ public class ChessGUI {
 				// System.out.println("numOfRepeats: " + numOfRepeats);
 				if (numOfRepeats >= 3) return true; 
 			}
-		}
-		
-		return false;
-	}
-	
-	
-	private static boolean checkForHalfMoveGameOver() {
-
-		// Three-fold repetition draw rule implementation. 
-		// This situation occurs when we end up with the same chess board position 3 different times
-		// at any time in the game, not necessarily successively.
-		if (checkForThreefoldRepetitionDraw()) {
-			int dialogResult = -1;
-			
-			if (!chessBoard.whitePlays() && gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE
-				|| !chessBoard.blackPlays() && gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK
-				|| gameParameters.getGameMode() == GameMode.AI_VS_AI) {
-				dialogResult = JOptionPane.showConfirmDialog(gui,
-						"Threefold repetition of the same chess board position has occurred! "
-						+ "Do you want to declare a draw?", "Draw", JOptionPane.YES_NO_OPTION);
-			}
-			
-			// System.out.println("dialogResult:" + dialogResult);
-			if (dialogResult == JOptionPane.YES_OPTION) {
-				gameResult = GameResult.THREEFOLD_REPETITION_DRAW;
-				showDeclareDrawDialog();
-				return true;
-			}
-			
 		}
 		
 		return false;
