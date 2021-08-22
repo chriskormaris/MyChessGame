@@ -1370,6 +1370,7 @@ public class ChessGUI {
 			
 		}
 
+
 		// Three-fold repetition draw rule implementation.
 		// This situation occurs when we end up with the same chess_board board position 3 different times
 		// at any time in the game, not necessarily successively.
