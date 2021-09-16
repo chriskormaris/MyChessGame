@@ -16,7 +16,7 @@ public class MiniMaxAi extends AI {
     private boolean alphaBeta;
 
 	public MiniMaxAi() {
-        super(Constants.BLACK);
+        super(Constants.WHITE);
 		maxDepth = 2;
         alphaBeta = true;
 	}
