@@ -856,15 +856,14 @@ public class ChessGUI {
 		
 		System.out.println();
 		System.out.println(chessBoard);
-		
-		if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI 
-				&& gameParameters.getAiType() == AiType.MINIMAX_AI
+
+		if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
 				&& gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
-			aiMove(miniMaxAI);
-		} else if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI 
-				&& gameParameters.getAiType() == AiType.RANDOM_AI
-				&& gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
-			aiMove(randomChoiceAI);
+			if (gameParameters.getAiType() == AiType.MINIMAX_AI) {
+				aiMove(miniMaxAI);
+			} else if (gameParameters.getAiType() == AiType.RANDOM_AI) {
+				aiMove(randomChoiceAI);
+			}
 		} else if (gameParameters.getGameMode() == GameMode.AI_VS_AI) {
 			playAiVsAi();
 		}
