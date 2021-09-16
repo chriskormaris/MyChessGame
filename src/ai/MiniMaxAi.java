@@ -35,6 +35,14 @@ public class MiniMaxAi extends AI {
 		this.maxDepth = maxDepth;
 	}
 
+    public boolean isAlphaBeta() {
+        return alphaBeta;
+    }
+
+    public void setAlphaBeta(boolean alphaBeta) {
+        this.alphaBeta = alphaBeta;
+    }
+
     @Override
     public Move getNextMove(ChessBoard chessBoard) {
         if (alphaBeta) {
