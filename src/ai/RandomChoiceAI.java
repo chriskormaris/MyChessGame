@@ -10,6 +10,10 @@ import java.util.*;
 
 public class RandomChoiceAI extends AI {
 
+    public RandomChoiceAI() {
+        super(Constants.BLACK);
+    }
+
     public RandomChoiceAI(boolean aiPlayer) {
         super(aiPlayer);
     }
