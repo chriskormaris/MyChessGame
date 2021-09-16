@@ -8,20 +8,20 @@ import chess_board.ChessBoard;
 import chess_board.Move;
 import utility.Constants;
 
-public class MiniMaxAi extends AI {
+public class MiniMaxAI extends AI {
 
 	// Variable that holds the maximum depth the MiniMaxAi algorithm will reach for this player.
 	private int maxDepth;
 
     private boolean alphaBeta;
 
-	public MiniMaxAi() {
+	public MiniMaxAI() {
         super(Constants.WHITE);
 		maxDepth = 2;
         alphaBeta = true;
 	}
 	
-	public MiniMaxAi(int maxDepth, boolean aiPlayer, boolean alphaBeta) {
+	public MiniMaxAI(int maxDepth, boolean aiPlayer, boolean alphaBeta) {
         super(aiPlayer);
 		this.maxDepth = maxDepth;
         this.alphaBeta = alphaBeta;
