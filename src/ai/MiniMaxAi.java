@@ -1,4 +1,4 @@
-package minimax_ai;
+package ai;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,22 +8,23 @@ import chess_board.ChessBoard;
 import chess_board.Move;
 import utility.Constants;
 
-public class MiniMaxAi {
+public class MiniMaxAi extends AI {
 
 	// Variable that holds the maximum depth the MiniMaxAi algorithm will reach for this player.
 	private int maxDepth;
 
-    // Variable that holds which player played last; the opposite player of the one that plays.
-	private boolean aiPlayer;
+    private boolean alphaBeta;
 
 	public MiniMaxAi() {
+        super(Constants.BLACK);
 		maxDepth = 2;
-		aiPlayer = Constants.BLACK;
+        alphaBeta = true;
 	}
 	
-	public MiniMaxAi(int maxDepth, boolean aiPlayer) {
+	public MiniMaxAi(int maxDepth, boolean aiPlayer, boolean alphaBeta) {
+        super(aiPlayer);
 		this.maxDepth = maxDepth;
-		this.aiPlayer = aiPlayer;
+        this.alphaBeta = alphaBeta;
 	}
 
 	public int getMaxDepth() {
@@ -34,18 +35,19 @@ public class MiniMaxAi {
 		this.maxDepth = maxDepth;
 	}
 
-	public boolean getAiPlayer() {
-		return aiPlayer;
-	}
+    @Override
+    public Move getNextMove(ChessBoard chessBoard) {
+        if (alphaBeta) {
+            return miniMaxAlphaBeta(chessBoard);
+        } else {
+            return miniMax(chessBoard);
+        }
+    }
 
-	public void setAiPlayer(boolean aiPlayer) {
-		this.aiPlayer = aiPlayer;
-	}
-	
-    // Initiates the minimax algorithm
+    // Initiates the minimax algorithm.
 	public Move miniMax(ChessBoard chessBoard) {
         // If White plays, then it wants to maximize the heuristics value.
-        if (aiPlayer == Constants.WHITE) {
+        if (getAiPlayer() == Constants.WHITE) {
             return max(new ChessBoard(chessBoard), 0);
         }
         // If Black plays, then it wants to minimize the heuristics value.
@@ -54,7 +56,7 @@ public class MiniMaxAi {
         }
 	}
 
-    // The max and min functions are called interchangeably, one after another until a max depth is reached
+    // The max and min functions are called interchangeably, one after another until a max depth is reached.
 	public Move max(ChessBoard chessBoard, int depth) {
         Random r = new Random();
 
@@ -67,7 +69,7 @@ public class MiniMaxAi {
 			return lastMove;
 		}
         // The children-moves of the state are calculated
-        List<ChessBoard> children = new ArrayList<ChessBoard>(chessBoard.getChildren(Constants.WHITE));
+        List<ChessBoard> children = new ArrayList<>(chessBoard.getChildren(Constants.WHITE));
         if (children.size() == 1) {
         	return children.get(0).getLastMove();
 		}
@@ -94,7 +96,7 @@ public class MiniMaxAi {
 		return maxMove;
 	}
 	
-    // Min works similarly to max
+    // Min works similarly to max.
 	public Move min(ChessBoard chessBoard, int depth) {
         Random r = new Random();
 
@@ -103,7 +105,7 @@ public class MiniMaxAi {
 			// System.out.println("min, depth: " + depth + ", lastMove -> " + lastMove);
 			return lastMove;
 		}
-        List<ChessBoard> children = new ArrayList<ChessBoard>(chessBoard.getChildren(Constants.BLACK));
+        List<ChessBoard> children = new ArrayList<>(chessBoard.getChildren(Constants.BLACK));
         if (children.size() == 1) {
         	return children.get(0).getLastMove();
 		}
@@ -127,10 +129,10 @@ public class MiniMaxAi {
         return minMove;
     }
 	
-	// Initiates the minimax Alpha-Beta Pruning algorithm
+	// Initiates the minimax Alpha-Beta Pruning algorithm.
 	public Move miniMaxAlphaBeta(ChessBoard chessBoard) {
         // If White plays, then it wants to maximize the heuristics value.
-        if (aiPlayer == Constants.WHITE) {
+        if (getAiPlayer() == Constants.WHITE) {
         	
         	Move maxMove = maxAlphaBeta(new ChessBoard(chessBoard), 0, Double.MAX_VALUE, Integer.MIN_VALUE);
         	// System.out.println("miniMax maxMove -> " + maxMove);
@@ -159,7 +161,7 @@ public class MiniMaxAi {
 			return lastMove;
 		}
         // The children-moves of the state are calculated
-        List<ChessBoard> children = new ArrayList<ChessBoard>(chessBoard.getChildren(Constants.WHITE));
+        List<ChessBoard> children = new ArrayList<>(chessBoard.getChildren(Constants.WHITE));
         if (children.size() == 1) {
         	return children.get(0).getLastMove();
 		}
@@ -196,7 +198,7 @@ public class MiniMaxAi {
 		return maxMove;
 	}
 
-    // Min works similarly to max
+    // Min works similarly to max.
 	public Move minAlphaBeta(ChessBoard chessBoard, int depth, double a, double b) {
         Random r = new Random();
 
@@ -205,7 +207,7 @@ public class MiniMaxAi {
 			// System.out.println("min, depth: " + depth + ", lastMove -> " + lastMove);
 			return lastMove;
 		}
-        List<ChessBoard> children = new ArrayList<ChessBoard>(chessBoard.getChildren(Constants.BLACK));
+        List<ChessBoard> children = new ArrayList<>(chessBoard.getChildren(Constants.BLACK));
         if (children.size() == 1) {
         	return children.get(0).getLastMove();
 		}

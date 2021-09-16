@@ -36,7 +36,7 @@ class CaptureRookOrBishopChoiceTest {
 		ChessGUI.placePieceToPosition("B3", new Knight(Allegiance.BLACK));
 		
 		ChessGUI.chessBoard.setPlayer(Constants.BLACK);
-		ChessGUI.minimaxAiMove(ChessGUI.ai);
+		ChessGUI.aiMove(ChessGUI.miniMaxAi);
 		
 		assertTrue(Utilities.getChessPieceFromPosition(ChessGUI.chessBoard.getGameBoard(), "A1") instanceof Knight,
 				"The Black Knight did NOT capture the White Rook.");
