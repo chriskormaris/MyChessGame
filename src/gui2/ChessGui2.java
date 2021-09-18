@@ -19,52 +19,52 @@ import utility.Constants;
 
 
 public class ChessGui2 extends JPanel {
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -5684370471793136759L;
 
-	private final static String title = "My Chess Game GUI 2";
+    /**
+     *
+     */
+    private static final long serialVersionUID = -5684370471793136759L;
 
-	private static final int numOfRows = ChessGUI.gameParameters.getNumOfRows();
-	private final static int numOfColumns = Constants.DEFAULT_NUM_OF_COLUMNS;
-	
-	private static final int HEIGHT = Constants.DEFAULT_HEIGHT;
-	private static final int WIDTH = Constants.DEFAULT_WIDTH;
-	
-	// static int SIZE = 75;
+    private final static String title = "My Chess Game GUI 2";
 
-	public static JLabel labelMessage = new JLabel("Turn 1, White plays first.");
-	
-	
-	public ChessGui2() {
-		super(new GridLayout(numOfRows+2, numOfColumns+2));
-		// ChessGUI.gameParameters.getGameMode() = Constants.HumanVsRandomAi;
-		
-		if (ChessGUI.gameParameters.getGameMode() == GameMode.HUMAN_VS_AI) {
-			if (ChessGUI.gameParameters.getAiType() == AiType.MINIMAX_AI) {
-				ChessGUI.miniMaxAI = new MiniMaxAI(ChessGUI.gameParameters.getAi1MaxDepth(), Constants.BLACK, true);
-			} else if (ChessGUI.gameParameters.getAiType() == AiType.RANDOM_AI) {
-				ChessGUI.randomChoiceAI = new RandomChoiceAI(Constants.BLACK);
-			}
-		}
-		
-		ChessGUI.configureGuiStyle();
-		
-		// this.setPreferredSize(new Dimension(N * SIZE, N * SIZE));
-		this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
-		
-		// this.initializeChessBoardPanel();
-		
-		ChessGUI.isChessGui2 = true;
-		ChessGUI.chessBoardPanel = this;
-		ChessGUI.gui.add(ChessGUI.chessBoardPanel);
-		ChessGUI.initializeChessBoardSquareButtons();
-		
-		ChessGUI.initializeCapturedPiecesPanel();
-		ChessGUI.initializeCapturedPiecesImages();
-	}
+    private static final int numOfRows = ChessGUI.gameParameters.getNumOfRows();
+    private final static int numOfColumns = Constants.DEFAULT_NUM_OF_COLUMNS;
+
+    private static final int HEIGHT = Constants.DEFAULT_HEIGHT;
+    private static final int WIDTH = Constants.DEFAULT_WIDTH;
+
+    // static int SIZE = 75;
+
+    public static JLabel labelMessage = new JLabel("Turn 1, White plays first.");
+
+
+    public ChessGui2() {
+        super(new GridLayout(numOfRows + 2, numOfColumns + 2));
+        // ChessGUI.gameParameters.getGameMode() = Constants.HumanVsRandomAi;
+
+        if (ChessGUI.gameParameters.getGameMode() == GameMode.HUMAN_VS_AI) {
+            if (ChessGUI.gameParameters.getAiType() == AiType.MINIMAX_AI) {
+                ChessGUI.miniMaxAI = new MiniMaxAI(ChessGUI.gameParameters.getAi1MaxDepth(), Constants.BLACK, true);
+            } else if (ChessGUI.gameParameters.getAiType() == AiType.RANDOM_AI) {
+                ChessGUI.randomChoiceAI = new RandomChoiceAI(Constants.BLACK);
+            }
+        }
+
+        ChessGUI.configureGuiStyle();
+
+        // this.setPreferredSize(new Dimension(N * SIZE, N * SIZE));
+        this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+
+        // this.initializeChessBoardPanel();
+
+        ChessGUI.isChessGui2 = true;
+        ChessGUI.chessBoardPanel = this;
+        ChessGUI.gui.add(ChessGUI.chessBoardPanel);
+        ChessGUI.initializeChessBoardSquareButtons();
+
+        ChessGUI.initializeCapturedPiecesPanel();
+        ChessGUI.initializeCapturedPiecesImages();
+    }
 	
 	
 	/*
@@ -124,26 +124,26 @@ public class ChessGui2 extends JPanel {
 		
 	}
 	*/
-	
-	
-	public static void main(String[] args) {
 
-		ChessGui2 chessGui2 = new ChessGui2();
-		
-		JFrame f = new JFrame(title);
-		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.add(chessGui2);
-		f.pack();
-		
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		f.setLocation((int) (screenSize.getWidth() - f.getWidth()) / 2, 
-					  (int) (screenSize.getHeight() - f.getHeight()) / 2);
-		
-		f.setResizable(false);
-		f.setVisible(true);
-		
-		ChessGUI.placePiecesToChessBoard();
-		System.out.println(ChessGUI.chessBoard);
-	}
-	
+
+    public static void main(String[] args) {
+
+        ChessGui2 chessGui2 = new ChessGui2();
+
+        JFrame f = new JFrame(title);
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        f.add(chessGui2);
+        f.pack();
+
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        f.setLocation((int) (screenSize.getWidth() - f.getWidth()) / 2,
+                (int) (screenSize.getHeight() - f.getHeight()) / 2);
+
+        f.setResizable(false);
+        f.setVisible(true);
+
+        ChessGUI.placePiecesToChessBoard();
+        System.out.println(ChessGUI.chessBoard);
+    }
+
 }

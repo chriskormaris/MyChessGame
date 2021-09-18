@@ -19,11 +19,11 @@ public abstract class AI {
     }
 
     public boolean getAiPlayer() {
-     return aiPlayer;
+        return aiPlayer;
     }
 
     public void setAiPlayer(boolean aiPlayer) {
-     this.aiPlayer = aiPlayer;
+        this.aiPlayer = aiPlayer;
     }
 
     public abstract Move getNextMove(ChessBoard chessBoard);

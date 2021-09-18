@@ -1,7 +1,7 @@
 package enumeration;
 
 public enum Allegiance {
-	WHITE,
-	BLACK,
-	EMPTY
+    WHITE,
+    BLACK,
+    EMPTY
 }

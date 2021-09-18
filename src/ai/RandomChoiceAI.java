@@ -32,13 +32,13 @@ public class RandomChoiceAI extends AI {
         if (chessBoard.whitePlays() && getAiPlayer() == Constants.WHITE && !chessBoard.isWhiteKingInCheck()
                 ||
                 chessBoard.blackPlays() && getAiPlayer() == Constants.BLACK && !chessBoard.isBlackKingInCheck()) {
-            for (int i=0; i<chessBoard.getNumOfRows(); i++) {
-                for (int j=0; j<ChessBoard.NUM_OF_COLUMNS; j++) {
+            for (int i = 0; i < chessBoard.getNumOfRows(); i++) {
+                for (int j = 0; j < ChessBoard.NUM_OF_COLUMNS; j++) {
                     if (getAiPlayer() == Constants.WHITE
                             && chessBoard.getGameBoard()[i][j].getAllegiance() == Allegiance.WHITE
                             ||
-                        getAiPlayer() == Constants.BLACK
-                            && chessBoard.getGameBoard()[i][j].getAllegiance() == Allegiance.BLACK) {
+                            getAiPlayer() == Constants.BLACK
+                                    && chessBoard.getGameBoard()[i][j].getAllegiance() == Allegiance.BLACK) {
 
                         String randomStartingPosition = Utilities.getPositionByRowCol(i, j);
                         Set<String> randomEndingPositions = chessBoard.getNextPositions(randomStartingPosition);
@@ -102,7 +102,7 @@ public class RandomChoiceAI extends AI {
         int randomEndingPositionIndex = r.nextInt(possibleEndingPositions.size());
         // System.out.println("randomEndingPositionIndex: " + randomEndingPositionIndex);
         int i = 0;
-        for (String possibleEndingPosition: possibleEndingPositions) {
+        for (String possibleEndingPosition : possibleEndingPositions) {
             if (i == randomEndingPositionIndex) {
                 randomAiEndingPosition = possibleEndingPosition;
                 break;

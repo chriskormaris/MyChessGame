@@ -17,37 +17,37 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class CaptureRookOrBishopChoiceTest {
 
-	@Test
-	public void testCaptureRookOrBishopChoiceTest() {
-		
-		String title = "Capture Rook or Bishop?";
-		
-		@SuppressWarnings("unused")
-		ChessGUI cbg = new ChessGUI(title);
-		
-		ChessBoard.printChessBoard(ChessGUI.chessBoard.getGameBoard());
-		
-		ChessGUI.placePieceToPosition("E1", new King(Allegiance.WHITE));
-		ChessGUI.placePieceToPosition("C1", new Bishop(Allegiance.WHITE));
-		ChessGUI.placePieceToPosition("F1", new Bishop(Allegiance.WHITE));
-		ChessGUI.placePieceToPosition("A1", new Rook(Allegiance.WHITE));
-		
-		ChessGUI.placePieceToPosition("E8", new King(Allegiance.BLACK));
-		ChessGUI.placePieceToPosition("B3", new Knight(Allegiance.BLACK));
-		
-		ChessGUI.chessBoard.setPlayer(Constants.BLACK);
-		ChessGUI.aiMove(ChessGUI.miniMaxAI);
-		
-		assertTrue(Utilities.getChessPieceFromPosition(ChessGUI.chessBoard.getGameBoard(), "A1") instanceof Knight,
-				"The Black Knight did NOT capture the White Rook.");
+    @Test
+    public void testCaptureRookOrBishopChoiceTest() {
 
-		// Continue playing for a minute.
-		try {
-			Thread.sleep(60000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		
-	}
+        String title = "Capture Rook or Bishop?";
+
+        @SuppressWarnings("unused")
+        ChessGUI cbg = new ChessGUI(title);
+
+        ChessBoard.printChessBoard(ChessGUI.chessBoard.getGameBoard());
+
+        ChessGUI.placePieceToPosition("E1", new King(Allegiance.WHITE));
+        ChessGUI.placePieceToPosition("C1", new Bishop(Allegiance.WHITE));
+        ChessGUI.placePieceToPosition("F1", new Bishop(Allegiance.WHITE));
+        ChessGUI.placePieceToPosition("A1", new Rook(Allegiance.WHITE));
+
+        ChessGUI.placePieceToPosition("E8", new King(Allegiance.BLACK));
+        ChessGUI.placePieceToPosition("B3", new Knight(Allegiance.BLACK));
+
+        ChessGUI.chessBoard.setPlayer(Constants.BLACK);
+        ChessGUI.aiMove(ChessGUI.miniMaxAI);
+
+        assertTrue(Utilities.getChessPieceFromPosition(ChessGUI.chessBoard.getGameBoard(), "A1") instanceof Knight,
+                "The Black Knight did NOT capture the White Rook.");
+
+        // Continue playing for a minute.
+        try {
+            Thread.sleep(60000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+    }
 
 }
