@@ -30,6 +30,7 @@ public class ChessBoard {
 
     public final static int NUM_OF_COLUMNS = Constants.DEFAULT_NUM_OF_COLUMNS;
     private final int numOfRows;
+
     /* Immediate move that led to this board. */
     private Move lastMove;
 
