@@ -144,7 +144,6 @@ public class FenUtilities {
             counter++;
         }
 
-
         return gameBoard;
     }
 
@@ -291,6 +290,5 @@ public class FenUtilities {
 
         return fenPosition.toString();
     }
-
 
 }

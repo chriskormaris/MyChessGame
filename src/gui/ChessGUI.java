@@ -387,10 +387,11 @@ public class ChessGUI {
             String turnMessage = "Turn: " + (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2) + ". ";
             turnMessage += (chessBoard.whitePlays()) ? "White plays." : "Black plays.";
 
-            if (chessBoard.whitePlays() && chessBoard.isWhiteKingInCheck())
+            if (chessBoard.whitePlays() && chessBoard.isWhiteKingInCheck()) {
                 turnMessage += " White king is in check!";
-            else if (chessBoard.blackPlays() && chessBoard.isBlackKingInCheck())
+            } else if (chessBoard.blackPlays() && chessBoard.isBlackKingInCheck()) {
                 turnMessage += " Black king is in check!";
+            }
 
             turnTextPane.setText(turnMessage);
         }

@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 class StalemateCheckmateTest {
 
     @Test
-    public void testStalemateCheckmatePawnPromotion() {
+    public void testStalemateCheckmate() {
         String title = "Stalemate or Checkmate Test";
 
         @SuppressWarnings("unused")
@@ -30,7 +30,6 @@ class StalemateCheckmateTest {
         System.out.println();
 
         while (true) ;
-
     }
 
 }

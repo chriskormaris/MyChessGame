@@ -10,8 +10,7 @@ import org.junit.jupiter.api.Test;
 class PawnPromotionTest {
 
     @Test
-    public void testStalemateCheckmatePawnPromotion() {
-
+    public void testPawnPromotion() {
         String title = "Pawn Promotion Test";
 
         @SuppressWarnings("unused")
@@ -25,20 +24,22 @@ class PawnPromotionTest {
         // If you use this FEN position, you will mate if you promote the White Pawn to Knight.
         // String fenPosition = "7R/2Ppkp2/3bpn2/8/8/1p6/2p5/4K3 w - - 0 1";
 
+        // If you use this FEN position, you will mate if you promote the White Pawn to Queen or Rook.
+        String fenPosition = "7k/QP6/8/8/8/8/q7/8 w - - 0 1";
+
         // If you use this FEN position, you will lose if the Black player promotes the Pawn to Knight.
         // String fenPosition = "4k3/2P5/1P6/8/8/3BPN2/2pPKP2/7r w - - 0 1";
 
 
-        /* Use these FEN position, if playing as Black. */
+        /* Use these FEN positions, if playing as Black. */
 
-        ChessGUI.newGameParameters.setHumanPlayerAllegiance(Allegiance.BLACK);
-        ChessGUI.startNewGame();
+        // ChessGUI.newGameParameters.setHumanPlayerAllegiance(Allegiance.BLACK);
+        // ChessGUI.startNewGame();
 
         // String fenPosition = "4k3/2P5/8/8/8/8/2p5/4K3 b - - 0 1";
 
         // If you use this FEN position, you will lose if the White player promotes the Pawn to Knight.
-        String fenPosition = "7R/2Ppkp2/3bpn2/8/8/1p6/2p5/4K3 b - - 0 1";
-
+        // String fenPosition = "7R/2Ppkp2/3bpn2/8/8/1p6/2p5/4K3 b - - 0 1";
 
         ChessGUI.placePiecesToChessBoard(fenPosition);
 
@@ -50,7 +51,6 @@ class PawnPromotionTest {
         System.out.println();
 
         while (true) ;
-
     }
 
 }
