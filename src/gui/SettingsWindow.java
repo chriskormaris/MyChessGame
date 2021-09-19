@@ -71,7 +71,7 @@ public class SettingsWindow extends JFrame {
         JLabel gameModeLabel = new JLabel("Game mode");
         JLabel aiTypeLabel = new JLabel("AI type");
         JLabel maxDepth1Label = new JLabel("Minimax AI 1 depth");
-        JLabel maxDepth2Label = new JLabel("Minimax AI 2 depth (AiVsAi)");
+        JLabel maxDepth2Label = new JLabel("Minimax AI 2 depth (AIvsAI)");
         JLabel whiteTileColorLabel = new JLabel("White tile color");
         JLabel blackTileColorLabel = new JLabel("Black tile color");
         JLabel numOfRowsLabel = new JLabel("Number of rows");
