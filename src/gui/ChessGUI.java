@@ -1464,8 +1464,7 @@ public class ChessGUI {
 		chessBoardPanel.repaint();
 	    */
 
-        Move aiMove;
-        aiMove = ai.getNextMove(chessBoard);
+        Move aiMove = ai.getNextMove(chessBoard);
         System.out.println("aiMove: " + aiMove);
         // System.out.println("lastCapturedPieceValue: " + chessBoard.getLastCapturedPieceValue());
 
