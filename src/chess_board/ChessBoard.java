@@ -493,22 +493,10 @@ public class ChessBoard {
                 if (chessPiece.getAllegiance() == Allegiance.WHITE && rowEnd == this.numOfRows - 1
                         || chessPiece.getAllegiance() == Allegiance.BLACK && rowEnd == 0) {
 
-                    ChessPiece queen = null;
-                    ChessPiece rook = null;
-                    ChessPiece bishop = null;
-                    ChessPiece knight = null;
-
-                    if (chessPiece.getAllegiance() == Allegiance.WHITE) {
-                        queen = new Queen(Allegiance.WHITE);
-                        rook = new Rook(Allegiance.WHITE);
-                        bishop = new Bishop(Allegiance.WHITE);
-                        knight = new Knight(Allegiance.WHITE);
-                    } else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
-                        queen = new Queen(Allegiance.BLACK);
-                        rook = new Rook(Allegiance.BLACK);
-                        bishop = new Bishop(Allegiance.BLACK);
-                        knight = new Knight(Allegiance.BLACK);
-                    }
+                    ChessPiece queen = new Queen(chessPiece.getAllegiance());
+                    ChessPiece rook = new Rook(chessPiece.getAllegiance());
+                    ChessPiece bishop = new Bishop(chessPiece.getAllegiance());
+                    ChessPiece knight = new Knight(chessPiece.getAllegiance());
 
                     boolean humanPlayerPlays = ChessGUI.gameParameters.getGameMode() == GameMode.HUMAN_VS_HUMAN
                             || ChessGUI.gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
