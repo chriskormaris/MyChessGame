@@ -93,10 +93,11 @@ public class SettingsWindow extends JFrame {
         gui_style_drop_down.addItem("Cross-platform style");
         gui_style_drop_down.addItem("Nimbus style");
 
-        if (selectedGuiStyle == GuiStyle.CROSS_PLATFORM_STYLE)
+        if (selectedGuiStyle == GuiStyle.CROSS_PLATFORM_STYLE) {
             gui_style_drop_down.setSelectedIndex(0);
-        else if (selectedGuiStyle == GuiStyle.NIMBUS_STYLE)
+        } else if (selectedGuiStyle == GuiStyle.NIMBUS_STYLE) {
             gui_style_drop_down.setSelectedIndex(1);
+        }
 
 
         enable_sounds_check_box = new JCheckBox();
@@ -107,10 +108,11 @@ public class SettingsWindow extends JFrame {
         human_player_allegiance_drop_down.addItem("White");
         human_player_allegiance_drop_down.addItem("Black");
 
-        if (humanPlayerAllegiance == Allegiance.WHITE)
+        if (humanPlayerAllegiance == Allegiance.WHITE) {
             human_player_allegiance_drop_down.setSelectedIndex(0);
-        else if (humanPlayerAllegiance == Allegiance.BLACK)
+        } else if (humanPlayerAllegiance == Allegiance.BLACK) {
             human_player_allegiance_drop_down.setSelectedIndex(1);
+        }
 
 
         game_mode_drop_down = new JComboBox<>();
@@ -118,21 +120,23 @@ public class SettingsWindow extends JFrame {
         game_mode_drop_down.addItem("Human Vs Human");
         game_mode_drop_down.addItem("AI Vs AI");
 
-        if (selectedGameMode == GameMode.HUMAN_VS_AI)
+        if (selectedGameMode == GameMode.HUMAN_VS_AI) {
             game_mode_drop_down.setSelectedIndex(0);
-        else if (selectedGameMode == GameMode.HUMAN_VS_HUMAN)
+        } else if (selectedGameMode == GameMode.HUMAN_VS_HUMAN) {
             game_mode_drop_down.setSelectedIndex(1);
-        else if (selectedGameMode == GameMode.AI_VS_AI)
+        } else if (selectedGameMode == GameMode.AI_VS_AI) {
             game_mode_drop_down.setSelectedIndex(2);
+        }
 
         ai_type_drop_down = new JComboBox<>();
         ai_type_drop_down.addItem("Minimax AI");
         ai_type_drop_down.addItem("Random AI");
 
-        if (selectedAiMode == AiType.MINIMAX_AI)
+        if (selectedAiMode == AiType.MINIMAX_AI) {
             ai_type_drop_down.setSelectedIndex(0);
-        else if (selectedAiMode == AiType.RANDOM_AI)
+        } else if (selectedAiMode == AiType.RANDOM_AI) {
             ai_type_drop_down.setSelectedIndex(1);
+        }
 
         max_depth1_drop_down = new JComboBox<>();
         max_depth1_drop_down.addItem(1);
@@ -152,10 +156,11 @@ public class SettingsWindow extends JFrame {
         white_tile_color_drop_down.addItem("White");
         white_tile_color_drop_down.addItem("Pink");
 
-        if (selectedWhiteTileColor == Color.WHITE)
+        if (selectedWhiteTileColor == Color.WHITE) {
             white_tile_color_drop_down.setSelectedIndex(0);
-        else if (selectedWhiteTileColor == Constants.BRIGHT_PINK)
+        } else if (selectedWhiteTileColor == Constants.BRIGHT_PINK) {
             white_tile_color_drop_down.setSelectedIndex(1);
+        }
 
         black_tile_color_drop_down = new JComboBox<>();
         black_tile_color_drop_down.addItem("Dark Green");
@@ -163,14 +168,15 @@ public class SettingsWindow extends JFrame {
         black_tile_color_drop_down.addItem("Dark Gray");
         black_tile_color_drop_down.addItem("Gray");
 
-        if (selectedBlackTileColor == Constants.DARK_GREEN)
+        if (selectedBlackTileColor == Constants.DARK_GREEN) {
             black_tile_color_drop_down.setSelectedIndex(0);
-        else if (selectedBlackTileColor == Color.BLACK)
+        } else if (selectedBlackTileColor == Color.BLACK) {
             black_tile_color_drop_down.setSelectedIndex(1);
-        else if (selectedBlackTileColor == Color.DARK_GRAY)
+        } else if (selectedBlackTileColor == Color.DARK_GRAY) {
             black_tile_color_drop_down.setSelectedIndex(2);
-        else if (selectedBlackTileColor == Color.GRAY)
+        } else if (selectedBlackTileColor == Color.GRAY) {
             black_tile_color_drop_down.setSelectedIndex(3);
+        }
 
         spinnerModel.setValue(numOfRows);
 
