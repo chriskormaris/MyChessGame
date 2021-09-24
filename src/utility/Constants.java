@@ -8,14 +8,18 @@ public class Constants {
 
     public static final String VERSION = "4.7.4";
     public static final Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
+
     public static final int DEFAULT_HEIGHT = (int) SCREEN_SIZE.getHeight() - 60;
     public static final int DEFAULT_WIDTH = DEFAULT_HEIGHT + 40;
     public static final int CHESS_SQUARE_PIXEL_SIZE = 48;
     public static final int CAPTURED_PIECE_PIXEL_SIZE = 16;
+
     /* the default number of rows, (this may not always be 8) */
     public static final int DEFAULT_NUM_OF_ROWS = 8;
+
     /* the number of columns, (this should always be 8) */
     public static final int DEFAULT_NUM_OF_COLUMNS = 8;
+
     /* this could be 1, 2 or 3 at maximum */
     public static final int DEFAULT_MAX_DEPTH = 2;
     public static final int NO_CAPTURE_DRAW_MOVES_LIMIT = 50;
@@ -25,9 +29,12 @@ public class Constants {
     public static final int DEAD_DRAW_MAX_BFS_DEPTH = 20;
     public static final long MINIMAX_AI_MOVE_MILLISECONDS = 50;
     public static final long RANDOM_AI_MOVE_MILLISECONDS = 250;
+
     public static final Color BRIGHT_PINK = new Color(240, 207, 207);
     public static final Color DARK_GREEN = new Color(37, 82, 59);
+
     public static final boolean WHITE = true;
+    public static final boolean BLACK = false;
 
     // NOT USED
 	/*
@@ -42,7 +49,7 @@ public class Constants {
 		{"A1", "B1", "C1", "D1", "E1", "F1", "G1", "H1"}
     };
     */
-    public static final boolean BLACK = false;
+
     public static final char WHITE_PAWN = 'P';
     public static final char WHITE_KNIGHT = 'N';
     public static final char WHITE_BISHOP = 'B';
@@ -55,8 +62,10 @@ public class Constants {
     public static final char BLACK_ROOK = 'r';
     public static final char BLACK_QUEEN = 'q';
     public static final char BLACK_KING = 'k';
+
     public static final String DEFAULT_STARTING_PIECES = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
     public static final String DEFAULT_STARTING_FEN_POSITION = DEFAULT_STARTING_PIECES + " w KQkq - 0 1";
+
     public static final String ICON_PATH = "images/icon.png";
     public static final String WHITE_IMG_PATH = "images/white/";
     public static final String WHITE_PAWN_IMG_PATH = WHITE_IMG_PATH + "pawn.png";
@@ -72,6 +81,7 @@ public class Constants {
     public static final String BLACK_BISHOP_IMG_PATH = BLACK_IMG_PATH + "bishop.png";
     public static final String BLACK_QUEEN_IMG_PATH = BLACK_IMG_PATH + "queen.png";
     public static final String BLACK_KING_IMG_PATH = BLACK_IMG_PATH + "king.png";
+
     public static final double PAWN_VALUE = 1;
     public static final double KNIGHT_VALUE = 3;
     public static final double BISHOP_VALUE = 3;
@@ -91,6 +101,7 @@ public class Constants {
     public static final double CHECK_LATE_VALUE = 100;
     public static final double CASTLING_VALUE = 60;
     public static final double TWO_BISHOPS_VALUE = 10;
+
     public static final String RULES =
             "The game of chess is strictly played by 2 players and consists of 16 White and 16 Black pieces.\n"
                     + "There are 6 different chess piece types: 1) King, 2) Rook, 3) Bishop, 4) Queen, 5) Knight & 6) Pawn. White always plays first.\n"
