@@ -1,12 +1,12 @@
 package ai;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 import chess_board.ChessBoard;
 import chess_board.Move;
 import utility.Constants;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class MiniMaxAI extends AI {
 
@@ -193,14 +193,14 @@ public class MiniMaxAI extends AI {
                 }
             }
 
+            // Update the a of the current max node.
+            a = Math.max(a, maxMove.getValue());
+
             // Beta pruning.
-            if (maxMove.getValue() >= b) {
+            if (a >= b) {
                 // System.out.println("max, depth: " + depth + ", beta pruning move -> " + maxMove);
                 return maxMove;
             }
-
-            // Update the a of the current max node.
-            a = Math.max(a, maxMove.getValue());
         }
         // System.out.println("max, depth: " + depth + ", maxMove -> " + maxMove);
         return maxMove;
@@ -235,14 +235,14 @@ public class MiniMaxAI extends AI {
                 }
             }
 
+            // Update the b of the current min node.
+            b = Math.min(b, minMove.getValue());
+
             // Alpha pruning.
-            if (minMove.getValue() <= a) {
+            if (b <= a) {
                 // System.out.println("min, depth: " + depth + ", alpha pruning move -> " + minMove);
                 return minMove;
             }
-
-            // Update the b of the current min node.
-            b = Math.min(b, minMove.getValue());
         }
         // System.out.println("min, depth: " + depth + ", minMove -> " + minMove);
         return minMove;
