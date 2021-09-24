@@ -142,7 +142,7 @@ public class MiniMaxAI extends AI {
         // If White plays, then it wants to maximize the heuristics value.
         if (getAiPlayer() == Constants.WHITE) {
 
-            Move maxMove = maxAlphaBeta(new ChessBoard(chessBoard), 0, Double.MAX_VALUE, Integer.MIN_VALUE);
+            Move maxMove = maxAlphaBeta(new ChessBoard(chessBoard), 0, Integer.MAX_VALUE, Integer.MIN_VALUE);
             // System.out.println("miniMax maxMove -> " + maxMove);
 
             return maxMove;
