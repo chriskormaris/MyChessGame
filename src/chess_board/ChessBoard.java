@@ -964,12 +964,12 @@ public class ChessBoard {
                     // If the White chessPiece is threatened, and it has no cover.
                     if (this.tilesThreatenedByBlack[i][j] == 1 && this.tilesThreatenedByWhite[i][j] == 0) {
                         whiteScore -= 50 * valueBoard[i][j];
-                        // whiteScore -= Constants.ATTACK_MULTIPLIER * valueBoard[i][j];
+                        whiteScore -= Constants.ATTACK_MULTIPLIER * valueBoard[i][j];
                     }
                     // If the White chessPiece is threatened, and it has cover.
                     else if (this.tilesThreatenedByBlack[i][j] == 1 && this.tilesThreatenedByWhite[i][j] == 1) {
                         whiteScore -= 20 * valueBoard[i][j];
-                        // whiteScore -= Constants.ATTACK_MULTIPLIER * valueBoard[i][j];
+                        whiteScore -= Constants.ATTACK_MULTIPLIER * valueBoard[i][j];
                     }
                     // If the White chessPiece is not threatened, and it has no cover.
                     else if (this.tilesThreatenedByBlack[i][j] == 0 && this.tilesThreatenedByWhite[i][j] == 0) {
@@ -987,12 +987,12 @@ public class ChessBoard {
                     // If the Black chessPiece is threatened, and it has no cover.
                     if (this.tilesThreatenedByWhite[i][j] == 1 && this.tilesThreatenedByBlack[i][j] == 0) {
                         blackScore -= 50 * valueBoard[i][j];
-                        // blackScore -= Constants.ATTACK_MULTIPLIER * valueBoard[i][j];
+                        blackScore -= Constants.ATTACK_MULTIPLIER * valueBoard[i][j];
                     }
                     // If the Black chessPiece is threatened, and it has cover.
                     else if (this.tilesThreatenedByWhite[i][j] == 1 && this.tilesThreatenedByBlack[i][j] == 1) {
                         blackScore -= 20 * valueBoard[i][j];
-                        // blackScore -= Constants.ATTACK_MULTIPLIER * valueBoard[i][j];
+                        blackScore -= Constants.ATTACK_MULTIPLIER * valueBoard[i][j];
                     }
                     // If the Black chessPiece is not threatened, and it has no cover.
                     else if (this.tilesThreatenedByWhite[i][j] == 0 && this.tilesThreatenedByBlack[i][j] == 0) {

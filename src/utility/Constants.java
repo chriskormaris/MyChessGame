@@ -6,7 +6,7 @@ import java.awt.Toolkit;
 
 public class Constants {
 
-    public static final String VERSION = "4.7.6";
+    public static final String VERSION = "4.7.7";
     public static final Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
 
     public static final int DEFAULT_HEIGHT = (int) SCREEN_SIZE.getHeight() - 60;
@@ -98,7 +98,7 @@ public class Constants {
     public static final double CENTER_PAWN_VALUE = 0.5;
     public static final double MOBILITY_MULTIPLIER = 1;
     // public static final double KING_LATE_VALUE = 100;
-    // public static final double ATTACK_MULTIPLIER = 2;
+    public static final double ATTACK_MULTIPLIER = 2;
     public static final double CHECKMATE_VALUE = Integer.MAX_VALUE;
     public static final double CHECK_VALUE = 1;
     public static final double CHECK_LATE_VALUE = 10;
