@@ -6,7 +6,7 @@ import java.awt.Toolkit;
 
 public class Constants {
 
-    public static final String VERSION = "4.7.5";
+    public static final String VERSION = "4.7.6";
     public static final Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
 
     public static final int DEFAULT_HEIGHT = (int) SCREEN_SIZE.getHeight() - 60;
@@ -87,20 +87,23 @@ public class Constants {
     public static final double BISHOP_VALUE = 3;
     public static final double ROOK_VALUE = 5;
     public static final double QUEEN_VALUE = 9;
+
     public static final double PAWN_LATE_VALUE = 1;
     // public static final double KING_VALUE = 10;
     public static final double KNIGHT_LATE_VALUE = 3.5;
     public static final double BISHOP_LATE_VALUE = 3.5;
     public static final double ROOK_LATE_VALUE = 5.25;
     public static final double QUEEN_LATE_VALUE = 10;
-    public static final double MOBILITY_MULTIPLIER = 2;
+
+    public static final double CENTER_PAWN_VALUE = 0.5;
+    public static final double MOBILITY_MULTIPLIER = 1;
     // public static final double KING_LATE_VALUE = 100;
-    public static final double ATTACK_MULTIPLIER = 2;
+    // public static final double ATTACK_MULTIPLIER = 2;
     public static final double CHECKMATE_VALUE = Integer.MAX_VALUE;
-    public static final double CHECK_VALUE = 50;
-    public static final double CHECK_LATE_VALUE = 100;
-    public static final double CASTLING_VALUE = 60;
-    public static final double TWO_BISHOPS_VALUE = 10;
+    public static final double CHECK_VALUE = 1;
+    public static final double CHECK_LATE_VALUE = 10;
+    public static final double CASTLING_VALUE = 2;
+    // public static final double TWO_BISHOPS_VALUE = 10;
 
     public static final String RULES =
             "The game of chess is strictly played by 2 players and consists of 16 White and 16 Black pieces.\n"

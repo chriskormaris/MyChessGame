@@ -301,7 +301,7 @@ public class ChessBoard {
         if (endTile instanceof EmptyTile ||
                 chessPiece.getAllegiance() != endTile.getAllegiance()) {
 
-            this.lastCapturedPieceValue = Utilities.getChessPieceValue(endTile, this.halfMoveNumber);
+            this.lastCapturedPieceValue = Utilities.getChessPieceValue(positionEnd, endTile, this.halfMoveNumber);
 
             if (chessPiece.getAllegiance() == Allegiance.BLACK) {
                 this.lastCapturedPieceValue = -this.lastCapturedPieceValue;
@@ -813,7 +813,7 @@ public class ChessBoard {
         // String startPosition = lastMove.getPositions().get(0);
         String endPosition = lastMove.getPositions().get(1);
         ChessPiece lastMovedPiece = Utilities.getChessPieceFromPosition(this.gameBoard, endPosition);
-        double lastMovedChessPieceValue = Utilities.getChessPieceValue(lastMovedPiece, this.halfMoveNumber);
+        double lastMovedChessPieceValue = Utilities.getChessPieceValue(endPosition, lastMovedPiece, this.halfMoveNumber);
         // System.out.println("lastPiece: " + Utilities.getPieceNameByValue(lastPiece));
 
         int endRow = Utilities.getRowFromPosition(endPosition);
@@ -845,20 +845,20 @@ public class ChessBoard {
         int n1 = numOfRows;
         int n2 = NUM_OF_COLUMNS;
         double[][] valueBoard = new double[n1][n2];
-        for (int i = 0; i < n1; i++) {
-            for (int j = 0; j < n2; j++) {
-
+        for (int i=0; i<n1; i++) {
+            for (int j=0; j<n2; j++) {
+                String position = Utilities.getPositionByRowCol(i, j);
                 /* In the beginning, these sum up to 39, for each player. */
-                valueBoard[i][j] = Utilities.getChessPieceValue(this.gameBoard[i][j], this.halfMoveNumber);
-
+                valueBoard[i][j] = Utilities.getChessPieceValue(position, this.gameBoard[i][j], this.halfMoveNumber);
             }
         }
 
         double checkValue;
-        if (this.halfMoveNumber <= Constants.MIDDLE_GAME_HALF_MOVES_THRESHOLD)
+        if (this.halfMoveNumber <= Constants.MIDDLE_GAME_HALF_MOVES_THRESHOLD) {
             checkValue = Constants.CHECK_VALUE;
-        else
+        } else {
             checkValue = Constants.CHECK_LATE_VALUE;
+        }
 
         /* Evaluation for the check move. */
         // If last the chessPiece is White and the Black King is in check.

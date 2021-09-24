@@ -8,6 +8,7 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
+import enumeration.Allegiance;
 import piece.Bishop;
 import piece.ChessPiece;
 import piece.Knight;
@@ -108,11 +109,17 @@ public class Utilities {
     }
 
 
-    public static double getChessPieceValue(ChessPiece chessPiece, int halfmoveNumber) {
+    public static double getChessPieceValue(String position, ChessPiece chessPiece, int halfMoveNumber) {
+        int row = Utilities.getRowFromPosition(position);
         double value = 0;
-        if (halfmoveNumber <= Constants.MIDDLE_GAME_HALF_MOVES_THRESHOLD) {
+        if (halfMoveNumber <= Constants.MIDDLE_GAME_HALF_MOVES_THRESHOLD) {
             if (chessPiece instanceof Pawn) {
-                value = Constants.PAWN_VALUE;
+                if (chessPiece.getAllegiance() == Allegiance.WHITE && row <= 3
+                        || chessPiece.getAllegiance() == Allegiance.BLACK && row >= 4) {
+                    value = Constants.PAWN_VALUE;
+                } else {
+                    value = Constants.CENTER_PAWN_VALUE;
+                }
             } else if (chessPiece instanceof Knight) {
                 value = Constants.KNIGHT_VALUE;
             } else if (chessPiece instanceof Bishop) {
