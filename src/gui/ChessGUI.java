@@ -1525,6 +1525,7 @@ public class ChessGUI {
                     } else if (gameParameters.getAiType() == AiType.RANDOM_AI) {
                         Thread.sleep(Constants.RANDOM_AI_MOVE_MILLISECONDS);
                     }
+                    frame.paint(frame.getGraphics());
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -1551,9 +1552,6 @@ public class ChessGUI {
     }
 
     private static void aiVsAiMove(AI ai) {
-
-        Allegiance allegiance = (ai.getAiPlayer() == Constants.WHITE) ? Allegiance.WHITE : Allegiance.BLACK;
-
         previousChessBoards.push(new ChessBoard(chessBoard));
 
         // Push to the previousCapturedPiecesImages Stack.
@@ -1570,8 +1568,8 @@ public class ChessGUI {
         setTurnMessage();
         setScoreMessage();
 
-        chessBoardPanel.revalidate();
-        chessBoardPanel.repaint();
+        frame.revalidate();
+        frame.repaint();
     }
 
     public static void hideHintPositions(Set<String> positionsToHide) {
