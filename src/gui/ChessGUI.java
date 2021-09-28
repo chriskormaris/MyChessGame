@@ -1525,7 +1525,6 @@ public class ChessGUI {
                     } else if (gameParameters.getAiType() == AiType.RANDOM_AI) {
                         Thread.sleep(Constants.RANDOM_AI_MOVE_MILLISECONDS);
                     }
-                    frame.paint(frame.getGraphics());
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -1570,6 +1569,7 @@ public class ChessGUI {
 
         frame.revalidate();
         frame.repaint();
+        frame.paint(frame.getGraphics());
     }
 
     public static void hideHintPositions(Set<String> positionsToHide) {
