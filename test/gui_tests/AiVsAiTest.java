@@ -26,7 +26,7 @@ class AiVsAiTest {
         // String fenPosition = "1R1qpKnk/8/4Q3/8/8/8/8/8 w - - 0 1";
         // String fenPosition = "1R1rpKnk/8/4R3/8/8/8/8/8 w - - 0 1";
 
-        // If White King is in check, White does not plays first,
+        // If White King is in check, White does not play first,
         // because the "whiteKingInCheckValidPieceMoves" Map<String, Set<String>> is empty.
         // String fenPosition = "1R1q1Knk/8/4Q3/8/8/8/8/8 w - - 0 1";
 

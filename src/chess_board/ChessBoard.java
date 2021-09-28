@@ -307,11 +307,6 @@ public class ChessBoard {
                 this.lastCapturedPieceValue = -this.lastCapturedPieceValue;
             }
 
-            Set<String> castlingPositions = null;
-            if (chessPiece instanceof King) {
-                castlingPositions = King.getCastlingPositions(positionStart, this);
-            }
-
             if (displayMove) {
                 ChessGUI.removePieceFromPosition(positionStart);
                 ChessGUI.placePieceToPosition(positionEnd, chessPiece);
@@ -335,8 +330,9 @@ public class ChessBoard {
 
                 /* Castling implementation */
 
+                Set<String> castlingPositions = King.getCastlingPositions(positionStart, this);
                 // System.out.println("castlingPositions: " + castlingPositions);
-                if (castlingPositions != null && castlingPositions.contains(positionEnd)) {
+                if (castlingPositions.contains(positionEnd)) {
                     // White queen side castling
                     if (positionEnd.equals("C1")) {
                         // Move the left white rook to the correct position.
@@ -538,24 +534,34 @@ public class ChessBoard {
                             }
                             promotedPieces.add(knight);
                         } else {
-                            for (ChessPiece promotionChessPiece : promotionChessPieces) {
-                                chessBoard.getGameBoard()[rowEnd][columnEnd] = promotionChessPiece;
+                            for (ChessPiece currentPromotionPiece : promotionChessPieces) {
+                                chessBoard.getGameBoard()[rowEnd][columnEnd] = currentPromotionPiece;
                                 chessBoard.setThreats();
 
                                 if (chessPiece.getAllegiance() == Allegiance.WHITE && !chessBoard.checkForBlackStalemateDraw()
                                         ||
                                         chessPiece.getAllegiance() == Allegiance.BLACK && !chessBoard.checkForWhiteStalemateDraw()) {
                                     if (displayMove) {
-                                        ChessGUI.placePieceToPosition(positionEnd, promotionChessPiece);
+                                        ChessGUI.placePieceToPosition(positionEnd, currentPromotionPiece);
                                     } else {
-                                        this.gameBoard[rowEnd][columnEnd] = promotionChessPiece;
+                                        this.gameBoard[rowEnd][columnEnd] = currentPromotionPiece;
                                     }
-                                    promotedPieces.add(promotionChessPiece);
+                                    promotedPieces.add(currentPromotionPiece);
                                     break;
                                 }
                             }
                         }
 
+                        if (displayMove) {
+                            ChessPiece promotedPiece = this.gameBoard[rowEnd][columnEnd];
+                            if (promotedPiece.getAllegiance() == Allegiance.WHITE) {
+                                JOptionPane.showMessageDialog(null, "Promoting White Pawn to " + promotedPiece + "!",
+                                        "White Pawn Promotion", JOptionPane.INFORMATION_MESSAGE);
+                            } else if (promotedPiece.getAllegiance() == Allegiance.BLACK) {
+                                JOptionPane.showMessageDialog(null, "Promoting Black Pawn to " + promotedPiece + "!",
+                                        "Black Pawn Promotion", JOptionPane.INFORMATION_MESSAGE);
+                            }
+                        }
                     }
                     // If human player plays and this is a display move, select which promotion piece you want and display it on the GUI.
                     else {
@@ -566,10 +572,10 @@ public class ChessBoard {
                         String value = null;
                         if (chessPiece.getAllegiance() == Allegiance.WHITE) {
                             value = (String) JOptionPane.showInputDialog(ChessGUI.gui, "Promote White Pawn to:",
-                                    "White Pawn promotion", JOptionPane.QUESTION_MESSAGE, null, promotionPieces, initialSelection);
+                                    "White Pawn Promotion", JOptionPane.QUESTION_MESSAGE, null, promotionPieces, initialSelection);
                         } else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
                             value = (String) JOptionPane.showInputDialog(ChessGUI.gui, "Promote Black Pawn to:",
-                                    "Black Pawn promotion", JOptionPane.QUESTION_MESSAGE, null, promotionPieces, initialSelection);
+                                    "Black Pawn Promotion", JOptionPane.QUESTION_MESSAGE, null, promotionPieces, initialSelection);
                         }
                         // System.out.println("value: " + value);
 
@@ -845,8 +851,8 @@ public class ChessBoard {
         int n1 = numOfRows;
         int n2 = NUM_OF_COLUMNS;
         double[][] valueBoard = new double[n1][n2];
-        for (int i=0; i<n1; i++) {
-            for (int j=0; j<n2; j++) {
+        for (int i = 0; i < n1; i++) {
+            for (int j = 0; j < n2; j++) {
                 String position = Utilities.getPositionByRowCol(i, j);
                 /* In the beginning, these sum up to 39, for each player. */
                 valueBoard[i][j] = Utilities.getChessPieceValue(position, this.gameBoard[i][j], this.halfMoveNumber);

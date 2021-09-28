@@ -6,7 +6,7 @@ import java.awt.Toolkit;
 
 public class Constants {
 
-    public static final String VERSION = "4.7.8";
+    public static final String VERSION = "4.7.9";
     public static final Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
 
     public static final int DEFAULT_HEIGHT = (int) SCREEN_SIZE.getHeight() - 60;
@@ -22,11 +22,14 @@ public class Constants {
 
     /* this could be 1, 2 or 3 at maximum */
     public static final int DEFAULT_MAX_DEPTH = 2;
+
     public static final int NO_CAPTURE_DRAW_MOVES_LIMIT = 50;
     public static final int NO_CAPTURE_DRAW_HALF_MOVES_LIMIT = NO_CAPTURE_DRAW_MOVES_LIMIT * 2;
     public static final int MIDDLE_GAME_MOVES_THRESHOLD = 20;
     public static final int MIDDLE_GAME_HALF_MOVES_THRESHOLD = MIDDLE_GAME_MOVES_THRESHOLD * 2;
+
     public static final int DEAD_DRAW_MAX_BFS_DEPTH = 20;
+
     public static final long MINIMAX_AI_MOVE_MILLISECONDS = 50;
     public static final long RANDOM_AI_MOVE_MILLISECONDS = 250;
 

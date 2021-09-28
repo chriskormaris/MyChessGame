@@ -3,6 +3,7 @@ package gui_tests;
 
 import chess_board.ChessBoard;
 import enumeration.Allegiance;
+import enumeration.GameMode;
 import gui.ChessGUI;
 import org.junit.jupiter.api.Test;
 
@@ -15,6 +16,8 @@ class PawnPromotionTest {
 
         @SuppressWarnings("unused")
         ChessGUI cbg = new ChessGUI(title);
+
+        ChessGUI.gameParameters.setGameMode(GameMode.AI_VS_AI);
         // ChessGUI.gameParameters.getGameMode() = GameMode.HUMAN_VS_HUMAN;
 
         /* Use these FEN positions, if playing as White. */
@@ -44,6 +47,8 @@ class PawnPromotionTest {
         ChessGUI.placePiecesToChessBoard(fenPosition);
 
         ChessBoard.printChessBoard(ChessGUI.chessBoard.getGameBoard());
+
+        ChessGUI.playAiVsAi();
 
         System.out.println();
 

@@ -3,11 +3,11 @@ package gui_tests;
 import gui.ChessGUI;
 import org.junit.jupiter.api.Test;
 
-public class MinimaxAiMaxDepthTest {
+public class MiniMaxAiMaxDepthTest {
 
     @Test
-    public void testMinimaxAiMaxDepth() {
-        String title = "Minimax AI Max Depth Test";
+    public void testMiniMaxAiMaxDepth() {
+        String title = "MiniMax AI Max Depth Test";
 
         @SuppressWarnings("unused")
         ChessGUI cbg = new ChessGUI(title);
