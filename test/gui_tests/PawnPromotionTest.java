@@ -17,7 +17,7 @@ class PawnPromotionTest {
         @SuppressWarnings("unused")
         ChessGUI cbg = new ChessGUI(title);
 
-        ChessGUI.gameParameters.setGameMode(GameMode.AI_VS_AI);
+        // ChessGUI.gameParameters.setGameMode(GameMode.AI_VS_AI);
         // ChessGUI.gameParameters.getGameMode() = GameMode.HUMAN_VS_HUMAN;
 
         /* Use these FEN positions, if playing as White. */
@@ -48,7 +48,7 @@ class PawnPromotionTest {
 
         ChessBoard.printChessBoard(ChessGUI.chessBoard.getGameBoard());
 
-        ChessGUI.playAiVsAi();
+        // ChessGUI.playAiVsAi();
 
         System.out.println();
 
