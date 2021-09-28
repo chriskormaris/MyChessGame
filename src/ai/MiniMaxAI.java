@@ -90,7 +90,7 @@ public class MiniMaxAI extends AI {
             if (move.getValue() >= maxMove.getValue()) {
                 if ((move.getValue() == maxMove.getValue())) {
                     // If the heuristic has the same value then we randomly choose one of the two moves
-                    if (r.nextInt(2) == 1) {
+                    if (r.nextInt(2) == 0) {
                         maxMove.setPositions(child.getLastMove().getPositions());
                         maxMove.setValue(move.getValue());
                     }
@@ -183,7 +183,7 @@ public class MiniMaxAI extends AI {
             if (move.getValue() >= maxMove.getValue()) {
                 if ((move.getValue() == maxMove.getValue())) {
                     // If the heuristic has the same value then we randomly choose one of the two moves
-                    if (r.nextInt(2) == 1) {
+                    if (r.nextInt(2) == 0) {
                         maxMove.setPositions(child.getLastMove().getPositions());
                         maxMove.setValue(move.getValue());
                     }
