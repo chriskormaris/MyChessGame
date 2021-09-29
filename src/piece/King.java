@@ -135,8 +135,9 @@ public class King extends ChessPiece {
         int column = Utilities.getColumnFromPosition(position);
         ChessPiece chessPiece = chessBoard.getGameBoard()[row][column];
 
-        if (!(chessPiece instanceof King))
+        if (!(chessPiece instanceof King)) {
             return nextKingPositions;
+        }
 
         // Up position
         if (row + 1 < chessBoard.getNumOfRows()) {

@@ -6,7 +6,7 @@ import java.awt.Toolkit;
 
 public class Constants {
 
-    public static final String VERSION = "4.7.9";
+    public static final String VERSION = "4.7.10";
     public static final Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
 
     public static final int DEFAULT_HEIGHT = (int) SCREEN_SIZE.getHeight() - 60;

@@ -307,6 +307,11 @@ public class ChessBoard {
                 this.lastCapturedPieceValue = -this.lastCapturedPieceValue;
             }
 
+            Set<String> castlingPositions = null;
+            if (chessPiece instanceof King) {
+                castlingPositions = King.getCastlingPositions(positionStart, this);
+            }
+
             if (displayMove) {
                 ChessGUI.removePieceFromPosition(positionStart);
                 ChessGUI.placePieceToPosition(positionEnd, chessPiece);
@@ -330,7 +335,6 @@ public class ChessBoard {
 
                 /* Castling implementation */
 
-                Set<String> castlingPositions = King.getCastlingPositions(positionStart, this);
                 // System.out.println("castlingPositions: " + castlingPositions);
                 if (castlingPositions.contains(positionEnd)) {
                     // White queen side castling
