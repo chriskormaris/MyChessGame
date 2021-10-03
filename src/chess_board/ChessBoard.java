@@ -123,11 +123,9 @@ public class ChessBoard {
 
         this.lastMove = new Move();
 
-        int n1 = numOfRows;
-        int n2 = NUM_OF_COLUMNS;
-        this.gameBoard = new ChessPiece[n1][n2];
-        for (int i = 0; i < n1; i++) {
-            for (int j = 0; j < n2; j++) {
+        this.gameBoard = new ChessPiece[numOfRows][NUM_OF_COLUMNS];
+        for (int i = 0; i < numOfRows; i++) {
+            for (int j = 0; j < NUM_OF_COLUMNS; j++) {
                 this.gameBoard[i][j] = new EmptyTile();
             }
         }
@@ -138,7 +136,7 @@ public class ChessBoard {
         this.tilesThreatenedByBlack = new int[numOfRows][NUM_OF_COLUMNS];
 
         this.whiteKingPosition = "E1";
-        this.blackKingPosition = "E" + ChessGUI.gameParameters.getNumOfRows();
+        this.blackKingPosition = "E" + numOfRows;
 
         this.player = Constants.WHITE;  // White plays first.
 
