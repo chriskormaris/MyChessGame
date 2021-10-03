@@ -842,7 +842,7 @@ public class ChessGUI {
 
     // Restores all the default values.
     public static void restoreDefaultValues() {
-        chessBoard = new ChessBoard();
+        chessBoard = new ChessBoard(gameParameters.getNumOfRows());
 		/*
 		halfMoveGameBoard = new ChessPiece[gameParameters.getNumOfRows()][NUM_OF_COLUMNS];
 

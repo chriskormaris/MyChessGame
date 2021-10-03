@@ -114,9 +114,12 @@ public class ChessBoard {
     private double lastCapturedPieceValue;
     private Set<ChessPiece> promotedPieces;
 
-
     public ChessBoard() {
-        this.numOfRows = ChessGUI.gameParameters.getNumOfRows();
+        this(Constants.DEFAULT_NUM_OF_ROWS);
+    }
+
+    public ChessBoard(int numOfRows) {
+        this.numOfRows = numOfRows;
 
         this.lastMove = new Move();
 
