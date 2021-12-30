@@ -1934,7 +1934,7 @@ public class ChessBoard {
         return lastCapturedPieceValue;
     }
 
-    public void setLastCapturedPieceValue(int lastCapturedPieceValue) {
+    public void setLastCapturedPieceValue(double lastCapturedPieceValue) {
         this.lastCapturedPieceValue = lastCapturedPieceValue;
     }
 
