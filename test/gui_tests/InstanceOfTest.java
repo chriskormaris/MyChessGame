@@ -1,9 +1,9 @@
 package gui_tests;
 
-import enumeration.Allegiance;
+import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
+import com.chriskormaris.mychessgame.api.piece.ChessPiece;
+import com.chriskormaris.mychessgame.api.piece.Pawn;
 import org.junit.jupiter.api.Test;
-import piece.ChessPiece;
-import piece.Pawn;
 
 public class InstanceOfTest {
 

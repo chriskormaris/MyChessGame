@@ -1,8 +1,8 @@
 package gui_tests;
 
 
-import chess_board.ChessBoard;
-import gui.ChessGUI;
+import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
+import com.chriskormaris.mychessgame.gui.ChessGUI;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;

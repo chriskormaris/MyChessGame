@@ -1,16 +1,16 @@
 package gui_tests;
 
 
-import chess_board.ChessBoard;
-import enumeration.Allegiance;
-import gui.ChessGUI;
+import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
+import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
+import com.chriskormaris.mychessgame.api.piece.Bishop;
+import com.chriskormaris.mychessgame.api.piece.King;
+import com.chriskormaris.mychessgame.api.piece.Knight;
+import com.chriskormaris.mychessgame.api.piece.Rook;
+import com.chriskormaris.mychessgame.api.utility.Constants;
+import com.chriskormaris.mychessgame.api.utility.Utilities;
+import com.chriskormaris.mychessgame.gui.ChessGUI;
 import org.junit.jupiter.api.Test;
-import piece.Bishop;
-import piece.King;
-import piece.Knight;
-import piece.Rook;
-import utility.Constants;
-import utility.Utilities;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

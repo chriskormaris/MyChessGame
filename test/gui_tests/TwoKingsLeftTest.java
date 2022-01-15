@@ -1,12 +1,12 @@
 package gui_tests;
 
 
-import chess_board.ChessBoard;
-import enumeration.Allegiance;
-import gui.ChessGUI;
+import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
+import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
+import com.chriskormaris.mychessgame.api.piece.King;
+import com.chriskormaris.mychessgame.api.piece.Pawn;
+import com.chriskormaris.mychessgame.gui.ChessGUI;
 import org.junit.jupiter.api.Test;
-import piece.King;
-import piece.Pawn;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 

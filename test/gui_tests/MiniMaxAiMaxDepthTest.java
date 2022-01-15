@@ -1,6 +1,6 @@
 package gui_tests;
 
-import gui.ChessGUI;
+import com.chriskormaris.mychessgame.gui.ChessGUI;
 import org.junit.jupiter.api.Test;
 
 public class MiniMaxAiMaxDepthTest {

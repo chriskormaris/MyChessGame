@@ -7,5 +7,5 @@ copy res\images\black bin\images\black
 copy res\images\white bin\images\white
 copy res\images bin\images
 copy res\sounds bin\sounds
-javac src\chess_board\*.java src\gui\*.java src\gui2\*.java src\enumeration\*.java src\minimax_ai\*.java src\piece\*.java src\utility\*.java -d bin
+javac src\com.chriskormaris.mychessgame.api.chess_board\*.java src\com.chriskormaris.mychessgame.gui\*.java src\com.chriskormaris.mychessgame.gui.gui2\*.java src\com.chriskormaris.mychessgame.api.enumeration\*.java src\minimax_ai\*.java src\com.chriskormaris.mychessgame.api.piece\*.java src\utility\*.java -d bin
 pause
