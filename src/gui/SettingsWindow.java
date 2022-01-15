@@ -1,26 +1,16 @@
 package gui;
 
 
-import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerModel;
-import javax.swing.SpinnerNumberModel;
-
 import enumeration.AiType;
 import enumeration.Allegiance;
 import enumeration.GameMode;
 import enumeration.GuiStyle;
-import utility.Constants;
 import utility.GameParameters;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 
 public class SettingsWindow extends JFrame {
@@ -158,7 +148,7 @@ public class SettingsWindow extends JFrame {
 
         if (selectedWhiteTileColor == Color.WHITE) {
             white_tile_color_drop_down.setSelectedIndex(0);
-        } else if (selectedWhiteTileColor == Constants.BRIGHT_PINK) {
+        } else if (selectedWhiteTileColor == GuiConstants.BRIGHT_PINK) {
             white_tile_color_drop_down.setSelectedIndex(1);
         }
 
@@ -168,7 +158,7 @@ public class SettingsWindow extends JFrame {
         black_tile_color_drop_down.addItem("Dark Gray");
         black_tile_color_drop_down.addItem("Gray");
 
-        if (selectedBlackTileColor == Constants.DARK_GREEN) {
+        if (selectedBlackTileColor == GuiConstants.DARK_GREEN) {
             black_tile_color_drop_down.setSelectedIndex(0);
         } else if (selectedBlackTileColor == Color.BLACK) {
             black_tile_color_drop_down.setSelectedIndex(1);
@@ -254,12 +244,12 @@ public class SettingsWindow extends JFrame {
                     if (whiteTileColorDropdownIndex == 0) {
                         whiteTileColor = Color.WHITE;
                     } else if (whiteTileColorDropdownIndex == 1) {
-                        whiteTileColor = Constants.BRIGHT_PINK;
+                        whiteTileColor = GuiConstants.BRIGHT_PINK;
                     }
 
                     Color blackTileColor = null;
                     if (blackTileColorDropdownIndex == 0) {
-                        blackTileColor = Constants.DARK_GREEN;
+                        blackTileColor = GuiConstants.DARK_GREEN;
                     } else if (blackTileColorDropdownIndex == 1) {
                         blackTileColor = Color.BLACK;
                     } else if (blackTileColorDropdownIndex == 2) {

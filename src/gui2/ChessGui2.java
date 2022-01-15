@@ -1,21 +1,16 @@
 package gui2;
 
 
-import java.awt.Dimension;
-import java.awt.GridLayout;
-import java.awt.Toolkit;
-
-/*  www.java2s.com*/
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-
+import ai.MiniMaxAI;
 import ai.RandomChoiceAI;
 import enumeration.AiType;
-import gui.ChessGUI;
 import enumeration.GameMode;
-import ai.MiniMaxAI;
+import gui.ChessGUI;
+import gui.GuiConstants;
 import utility.Constants;
+
+import javax.swing.*;
+import java.awt.*;
 
 
 public class ChessGui2 extends JPanel {
@@ -30,8 +25,8 @@ public class ChessGui2 extends JPanel {
     private static final int numOfRows = ChessGUI.gameParameters.getNumOfRows();
     private final static int numOfColumns = Constants.DEFAULT_NUM_OF_COLUMNS;
 
-    private static final int HEIGHT = Constants.DEFAULT_HEIGHT;
-    private static final int WIDTH = Constants.DEFAULT_WIDTH;
+    private static final int HEIGHT = GuiConstants.DEFAULT_HEIGHT;
+    private static final int WIDTH = GuiConstants.DEFAULT_WIDTH;
 
     // static int SIZE = 75;
 

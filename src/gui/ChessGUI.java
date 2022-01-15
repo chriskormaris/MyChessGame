@@ -1,71 +1,32 @@
 package gui;
 
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.Insets;
-import java.awt.image.BufferedImage;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Set;
-import java.util.Stack;
-// import java.util.Timer;
-// import java.util.TimerTask;
-import java.util.HashSet;
+import ai.AI;
+import ai.MiniMaxAI;
+import ai.RandomChoiceAI;
+import chess_board.ChessBoard;
+import chess_board.Move;
+import enumeration.*;
+import piece.*;
+import utility.*;
 
 import javax.imageio.ImageIO;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextPane;
-import javax.swing.JToolBar;
-import javax.swing.SwingConstants;
-import javax.swing.UIManager;
+import javax.swing.*;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.border.LineBorder;
 import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
-
-import ai.AI;
-import ai.RandomChoiceAI;
-import chess_board.ChessBoard;
-import chess_board.Move;
-import enumeration.AiType;
-import enumeration.Allegiance;
-import enumeration.GameMode;
-import enumeration.GameResult;
-import enumeration.GuiStyle;
-import ai.MiniMaxAI;
-import piece.Bishop;
-import piece.ChessPiece;
-import piece.EmptyTile;
-import piece.King;
-import piece.Knight;
-import piece.Pawn;
-import piece.Queen;
-import piece.Rook;
-import utility.Constants;
-import utility.FenUtilities;
-import utility.GameParameters;
-import utility.InvalidFenFormatException;
-import utility.ResourceLoader;
-import utility.Utilities;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Stack;
 
 import static javax.swing.JOptionPane.QUESTION_MESSAGE;
 
@@ -74,8 +35,8 @@ public class ChessGUI {
 
     private static final String TITLE = "My Chess Game";
     private static final int NUM_OF_COLUMNS = Constants.DEFAULT_NUM_OF_COLUMNS;
-    private static final int HEIGHT = Constants.DEFAULT_HEIGHT;
-    private static final int WIDTH = Constants.DEFAULT_WIDTH;
+    private static final int HEIGHT = GuiConstants.DEFAULT_HEIGHT;
+    private static final int WIDTH = GuiConstants.DEFAULT_WIDTH;
 
     public static GameParameters gameParameters = new GameParameters();
     public static GameParameters newGameParameters = new GameParameters(gameParameters);
@@ -201,14 +162,14 @@ public class ChessGUI {
         // ensures the minimum size is enforced.
         frame.setMinimumSize(frame.getSize());
 
-        frame.setLocation((int) (Constants.SCREEN_SIZE.getWidth() - frame.getWidth()) / 2, 5);
+        frame.setLocation((int) (GuiConstants.SCREEN_SIZE.getWidth() - frame.getWidth()) / 2, 5);
 
         frame.setResizable(false);
         // frame.setFocusable(true);
 
         BufferedImage icon;
         try {
-            icon = ImageIO.read(ResourceLoader.load(Constants.ICON_PATH));
+            icon = ImageIO.read(ResourceLoader.load(GuiConstants.ICON_PATH));
             frame.setIconImage(icon);
         } catch (IOException e1) {
             e1.printStackTrace();
@@ -312,21 +273,21 @@ public class ChessGUI {
 
         exitItem.addActionListener(e -> System.exit(0));
 
-        howToPlayItem.addActionListener(e -> JOptionPane.showMessageDialog(frame, Constants.RULES, "How to Play",
+        howToPlayItem.addActionListener(e -> JOptionPane.showMessageDialog(frame, GuiConstants.RULES, "How to Play",
                 JOptionPane.INFORMATION_MESSAGE));
 
         aboutItem.addActionListener(e -> {
             JLabel label = new JLabel("<html>A traditional chess game implementation using Minimax AI,<br>"
                     + "with Alpha-Beta Pruning.<br>© Created by: Christos Kormaris, Athens 2020<br>"
-                    + "Version " + Constants.VERSION + "</html>");
+                    + "Version " + GuiConstants.VERSION + "</html>");
 
             BufferedImage img = null;
             try {
-                img = ImageIO.read(ResourceLoader.load(Constants.ICON_PATH));
+                img = ImageIO.read(ResourceLoader.load(GuiConstants.ICON_PATH));
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
-            Image dImg = img.getScaledInstance(Constants.CHESS_SQUARE_PIXEL_SIZE, Constants.CHESS_SQUARE_PIXEL_SIZE, Image.SCALE_SMOOTH);
+            Image dImg = img.getScaledInstance(GuiConstants.CHESS_SQUARE_PIXEL_SIZE, GuiConstants.CHESS_SQUARE_PIXEL_SIZE, Image.SCALE_SMOOTH);
             ImageIcon icon1 = new ImageIcon(dImg);
 
             JOptionPane.showMessageDialog(frame, label, "About", JOptionPane.PLAIN_MESSAGE, icon1);
@@ -475,7 +436,7 @@ public class ChessGUI {
                     startingButtonColor = getColorByRowCol(chessBoard.getNumOfRows() - 1 - startingPositionRow, startingPositionColumn);
                 }
 
-                changeTileColor(startingButton, startingButtonColor);
+                GuiUtilities.changeTileColor(startingButton, startingButtonColor);
             }
 
             redoChessBoards.push(new ChessBoard(chessBoard));
@@ -552,7 +513,7 @@ public class ChessGUI {
                     startingButtonColor = getColorByRowCol(chessBoard.getNumOfRows() - 1 - startingPositionRow, startingPositionColumn);
                 }
 
-                changeTileColor(startingButton, startingButtonColor);
+                GuiUtilities.changeTileColor(startingButton, startingButtonColor);
             }
 
             previousChessBoards.push(new ChessBoard(chessBoard));
@@ -649,8 +610,9 @@ public class ChessGUI {
     }
 
     public static void initializeChessBoardPanel() {
-        if (chessBoardPanel != null)
+        if (chessBoardPanel != null) {
             gui.remove(chessBoardPanel);
+        }
         chessBoardPanel = new JPanel(new GridLayout(gameParameters.getNumOfRows() + 2, NUM_OF_COLUMNS + 2));
         chessBoardPanel.setBorder(new LineBorder(Color.BLACK));
         chessBoardPanel.setPreferredSize(new Dimension(WIDTH, HEIGHT - 100));
@@ -658,14 +620,14 @@ public class ChessGUI {
     }
 
     public static void initializeCapturedPiecesPanel() {
-        if (capturedPiecesPanel != null)
+        if (capturedPiecesPanel != null) {
             gui.remove(capturedPiecesPanel);
+        }
         capturedPiecesPanel = new JPanel();
         gui.add(capturedPiecesPanel, BorderLayout.SOUTH);
     }
 
     public static void initializeChessBoardSquareButtons() {
-
         chessBoardSquares = new JButton[gameParameters.getNumOfRows()][NUM_OF_COLUMNS];
 
         // Create the chess_board board square buttons.
@@ -677,8 +639,8 @@ public class ChessGUI {
 
                 // Our chess_board pieces are 64x64 px in size, so we'll
                 // "fill this in" using a transparent icon...
-                ImageIcon icon = new ImageIcon(new BufferedImage(
-                        Constants.CHESS_SQUARE_PIXEL_SIZE, Constants.CHESS_SQUARE_PIXEL_SIZE, BufferedImage.TYPE_INT_ARGB));
+                ImageIcon icon = new ImageIcon(new BufferedImage(GuiConstants.CHESS_SQUARE_PIXEL_SIZE,
+                        GuiConstants.CHESS_SQUARE_PIXEL_SIZE, BufferedImage.TYPE_INT_ARGB));
                 button.setIcon(icon);
 
                 Color color = getColorByRowCol(i, j);
@@ -761,7 +723,6 @@ public class ChessGUI {
     }
 
     public static void initializeCapturedPiecesImages() {
-
         capturedPiecesImages = new JLabel[31];
 
         // Create the captured chess_board pieces icons.
@@ -772,11 +733,12 @@ public class ChessGUI {
                 capturedPiecesImages[i].setText(zeroScoreText);
             } else {
                 // We'll "fill this in" using a transparent icon...
-                ImageIcon icon = new ImageIcon(new BufferedImage(Constants.CAPTURED_PIECE_PIXEL_SIZE, Constants.CAPTURED_PIECE_PIXEL_SIZE, BufferedImage.TYPE_INT_ARGB));
+                ImageIcon icon = new ImageIcon(new BufferedImage(GuiConstants.CAPTURED_PIECE_PIXEL_SIZE,
+                        GuiConstants.CAPTURED_PIECE_PIXEL_SIZE, BufferedImage.TYPE_INT_ARGB));
                 capturedPiecesImages[i].setIcon(icon);
 
                 // This is for TESTING.
-                // ImageIcon pieceImage = preparePieceIcon(Constants.WHITE_PAWN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+                // ImageIcon pieceImage = GuiUtilities.preparePieceIcon(Constants.WHITE_PAWN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
                 // capturedPiecesImages[i].setIcon(pieceImage);
             }
 
@@ -965,7 +927,7 @@ public class ChessGUI {
 
                 }
 
-                changeTileColor(button, Color.CYAN);
+                GuiUtilities.changeTileColor(button, Color.CYAN);
 
                 // Display the hint positions.
                 if (hintPositions != null && hintPositions.size() != 0) {
@@ -994,13 +956,13 @@ public class ChessGUI {
                         if (chessPiece.getAllegiance() != hintPositionPiece.getAllegiance()
                                 && hintPositionPiece.getAllegiance() != Allegiance.EMPTY
                                 || chessBoard.getEnPassantPosition().equals(hintPosition) && chessPiece instanceof Pawn) {
-                            changeTileColor(hintPositionButton, Color.RED);
+                            GuiUtilities.changeTileColor(hintPositionButton, Color.RED);
                         } else if (chessPiece instanceof Pawn &&
                                 (chessPiece.getAllegiance() == Allegiance.WHITE && hintPositionRow == chessBoard.getNumOfRows() - 1
                                         || chessPiece.getAllegiance() == Allegiance.BLACK && hintPositionRow == 0)) {
-                            changeTileColor(hintPositionButton, Color.GREEN);
+                            GuiUtilities.changeTileColor(hintPositionButton, Color.GREEN);
                         } else if (hintPositionPiece instanceof EmptyTile) {
-                            changeTileColor(hintPositionButton, Color.BLUE);
+                            GuiUtilities.changeTileColor(hintPositionButton, Color.BLUE);
                         }
 
                     }
@@ -1035,7 +997,7 @@ public class ChessGUI {
                 }
 
                 // System.out.println("startingButtonColor: " + startingButtonColor);
-                changeTileColor(startingButton, startingButtonColor);
+                GuiUtilities.changeTileColor(startingButton, startingButtonColor);
 
                 startingButtonIsClicked = false;
                 return;
@@ -1060,7 +1022,7 @@ public class ChessGUI {
                     // chessBoard.movePieceFromAPositionToAnother(startingPosition, endingPosition, true);
 
                     Move move = new Move(startingPosition, endingPosition);
-                    chessBoard.makeMove(move, true);
+                    makeDisplayMove(move, false);
 
                     // Store the chess_board board of the HalfMove that was just made.
                     ChessPiece[][] halfMoveGameBoard = Utilities.copyGameBoard(chessBoard.getGameBoard());
@@ -1081,14 +1043,14 @@ public class ChessGUI {
                 }
 
                 // System.out.println("startingButtonColor: " + startingButtonColor);
-                changeTileColor(startingButton, startingButtonColor);
+                GuiUtilities.changeTileColor(startingButton, startingButtonColor);
 
             }
 
             if (checkForGameOver()) return;
 
             if (gameParameters.isEnableSounds()) {
-                Utilities.playSound("piece_move.wav");
+                SoundUtilities.playSound("piece_move.wav");
             }
 
             // Remove the check from the king of the player who made the last move.
@@ -1144,43 +1106,108 @@ public class ChessGUI {
         }
     }
 
+    private static void makeDisplayMove(Move move, boolean aiMove) {
+        String positionStart = move.getPositions().get(0);
+        int rowStart = Utilities.getRowFromPosition(positionStart);
+        int columnStart = Utilities.getColumnFromPosition(positionStart);
+        ChessPiece startingPiece = chessBoard.getGameBoard()[rowStart][columnStart];
+
+        String positionEnd = move.getPositions().get(1);
+        int rowEnd = Utilities.getRowFromPosition(positionEnd);
+        int columnEnd = Utilities.getColumnFromPosition(positionEnd);
+        ChessPiece endTile = chessBoard.getGameBoard()[rowEnd][columnEnd];
+
+        chessBoard.makeMove(move, true);
+
+        // Pawn promotion implementation.
+        // If AI plays, automatically choose the best promotion piece, based on the best outcome.
+        if (startingPiece instanceof Pawn
+            && (startingPiece.getAllegiance() == Allegiance.WHITE && rowEnd == chessBoard.getNumOfRows() - 1
+                || startingPiece.getAllegiance() == Allegiance.BLACK && rowEnd == 0)) {
+            if (aiMove) {
+                chessBoard.automaticPawnPromotion(startingPiece, positionEnd, true);
+
+                ChessPiece promotedPiece = chessBoard.getGameBoard()[rowEnd][columnEnd];
+                if (promotedPiece.getAllegiance() == Allegiance.WHITE) {
+                    JOptionPane.showMessageDialog(null, "Promoting White Pawn to " + promotedPiece + "!",
+                            "White Pawn Promotion", JOptionPane.INFORMATION_MESSAGE);
+                } else if (promotedPiece.getAllegiance() == Allegiance.BLACK) {
+                    JOptionPane.showMessageDialog(null, "Promoting Black Pawn to " + promotedPiece + "!",
+                            "Black Pawn Promotion", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+            // If human player plays and this is a display move, select which promotion piece you want and display it on the GUI.
+            else {
+                String[] promotionPieces = {"Queen", "Rook", "Bishop", "Knight"};
+                String initialSelection = "Queen";
+
+                String value = null;
+                if (startingPiece.getAllegiance() == Allegiance.WHITE) {
+                    value = (String) JOptionPane.showInputDialog(ChessGUI.gui, "Promote White Pawn to:",
+                            "White Pawn Promotion", JOptionPane.QUESTION_MESSAGE, null, promotionPieces, initialSelection);
+                } else if (startingPiece.getAllegiance() == Allegiance.BLACK) {
+                    value = (String) JOptionPane.showInputDialog(ChessGUI.gui, "Promote Black Pawn to:",
+                            "Black Pawn Promotion", JOptionPane.QUESTION_MESSAGE, null, promotionPieces, initialSelection);
+                }
+                // System.out.println("value: " + value);
+
+                ChessPiece queen = new Queen(startingPiece.getAllegiance());
+                ChessPiece rook = new Rook(startingPiece.getAllegiance());
+                ChessPiece bishop = new Bishop(startingPiece.getAllegiance());
+                ChessPiece knight = new Knight(startingPiece.getAllegiance());
+
+                if (value == null || value.equals("Queen")) {
+                    chessBoard.getPiecesToPlace().put(positionEnd, queen);
+                    chessBoard.getPromotedPieces().add(queen);
+                } else if (value.equals("Rook")) {
+                    chessBoard.getPiecesToPlace().put(positionEnd, rook);
+                    chessBoard.getPromotedPieces().add(rook);
+                } else if (value.equals("Bishop")) {
+                    chessBoard.getPiecesToPlace().put(positionEnd, bishop);
+                    chessBoard.getPromotedPieces().add(bishop);
+                } else if (value.equals("Knight")) {
+                    chessBoard.getPiecesToPlace().put(positionEnd, knight);
+                    chessBoard.getPromotedPieces().add(knight);
+                }
+
+            }
+        }
+
+        chessBoard.setThreats();
+
+        // If a chessPiece capture has occurred.
+        if (chessBoard.getCapturedPiece() != null) {  // true if an en passant captured piece exists
+            addCapturedPieceImage(chessBoard.getCapturedPiece());
+        } else if (startingPiece.getAllegiance() != endTile.getAllegiance() && !(endTile instanceof EmptyTile)) {
+            chessBoard.setCapturedPiece(endTile);
+            addCapturedPieceImage(chessBoard.getCapturedPiece());
+        }
+
+        for (String position : chessBoard.getPositionsToRemove()) {
+            ChessGUI.removePieceFromPosition(position);
+        }
+        for (String position : chessBoard.getPiecesToPlace().keySet()) {
+            ChessPiece chessPieceToPlace = chessBoard.getPiecesToPlace().get(position);
+            ChessGUI.placePieceToPosition(position, chessPieceToPlace);
+        }
+        chessBoard.getPositionsToRemove().clear();
+        chessBoard.getPiecesToPlace().clear();
+    }
+
     public static void addCapturedPieceImage(ChessPiece endTile) {
-        ImageIcon pieceImage = null;
+        String imagePath = "";
 
         if (chessBoard.getPromotedPieces().contains(endTile)) {
             if (endTile.getAllegiance() == Allegiance.WHITE) {
-                pieceImage = preparePieceIcon(Constants.WHITE_PAWN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+                imagePath = GuiConstants.WHITE_PAWN_IMG_PATH;
             } else if (endTile.getAllegiance() == Allegiance.BLACK) {
-                pieceImage = preparePieceIcon(Constants.BLACK_PAWN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
+                imagePath = GuiConstants.BLACK_PAWN_IMG_PATH;
             }
-
-        } else if (endTile.getAllegiance() == Allegiance.WHITE) {
-
-            if (endTile instanceof Pawn) {
-                pieceImage = preparePieceIcon(Constants.WHITE_PAWN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
-            } else if (endTile instanceof Rook) {
-                pieceImage = preparePieceIcon(Constants.WHITE_ROOK_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
-            } else if (endTile instanceof Knight) {
-                pieceImage = preparePieceIcon(Constants.WHITE_KNIGHT_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
-            } else if (endTile instanceof Bishop) {
-                pieceImage = preparePieceIcon(Constants.WHITE_BISHOP_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
-            } else if (endTile instanceof Queen) {
-                pieceImage = preparePieceIcon(Constants.WHITE_QUEEN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
-            }
-
-        } else if (endTile.getAllegiance() == Allegiance.BLACK) {
-            if (endTile instanceof Pawn) {
-                pieceImage = preparePieceIcon(Constants.BLACK_PAWN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
-            } else if (endTile instanceof Rook) {
-                pieceImage = preparePieceIcon(Constants.BLACK_ROOK_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
-            } else if (endTile instanceof Knight) {
-                pieceImage = preparePieceIcon(Constants.BLACK_KNIGHT_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
-            } else if (endTile instanceof Bishop) {
-                pieceImage = preparePieceIcon(Constants.BLACK_BISHOP_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
-            } else if (endTile instanceof Queen) {
-                pieceImage = preparePieceIcon(Constants.BLACK_QUEEN_IMG_PATH, Constants.CAPTURED_PIECE_PIXEL_SIZE);
-            }
+        } else {
+            imagePath = GuiUtilities.getImagePath(endTile);
         }
+
+        ImageIcon pieceImage = GuiUtilities.preparePieceIcon(imagePath, GuiConstants.CAPTURED_PIECE_PIXEL_SIZE);
 
         if (endTile.getAllegiance() == Allegiance.WHITE) {
             capturedPiecesImages[chessBoard.getWhiteCapturedPiecesCounter()].setIcon(pieceImage);
@@ -1189,6 +1216,9 @@ public class ChessGUI {
         }
 
         setScoreMessage();
+
+        chessBoard.updateScoreAfterPieceCapture(endTile);
+        chessBoard.setCapturedPiece(null);
     }
 
     public static boolean checkForGameOver() {
@@ -1204,7 +1234,7 @@ public class ChessGUI {
                 turnTextPane.setText(turnMessage);
 
                 if (gameParameters.isEnableSounds()) {
-                    Utilities.playSound("checkmate.wav");
+                    SoundUtilities.playSound("checkmate.wav");
                 }
 
                 int dialogResult = JOptionPane.showConfirmDialog(gui,
@@ -1229,7 +1259,7 @@ public class ChessGUI {
                 turnTextPane.setText(turnMessage);
 
                 if (gameParameters.isEnableSounds()) {
-                    Utilities.playSound("checkmate.wav");
+                    SoundUtilities.playSound("checkmate.wav");
                 }
 
                 int dialogResult = JOptionPane.showConfirmDialog(gui,
@@ -1395,7 +1425,6 @@ public class ChessGUI {
     }
 
     private static void showDeclareDrawDialog() {
-
         String turnMessage = "Move number: "
                 + (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2)
                 + ". It is a draw.";
@@ -1406,7 +1435,6 @@ public class ChessGUI {
                 "Draw", JOptionPane.YES_NO_OPTION);
 
         startNewGameOrNot(dialogResult);
-
     }
 
     private static void startNewGameOrNot(int dialogResult) {
@@ -1430,21 +1458,21 @@ public class ChessGUI {
             disableChessBoardSquares();
         }
     }
-	
+
 
 	/*
 	private static void calculateAverageMinimaxAiMoveSecs() {
 		if ((gameParameters.getGameMode() == GameMode.HUMAN_VS_AI || gameParameters.getGameMode() == GameMode.AI_VS_AI)
 				&& gameParameters.getAiType() == AiType.MINIMAX_AI) {
-			
+
 			whiteMinimaxAiMoveAverageSecs = whiteMinimaxAiMoveAverageSecs / Math.ceil((double) chessBoard.getHalfMoveNumber() / 2.0);
 			blackMinimaxAiMoveAverageSecs = blackMinimaxAiMoveAverageSecs / Math.floor((double) chessBoard.getHalfMoveNumber() / 2.0);
-			
-			if ((gameParameters.getGameMode() == GameMode.HUMAN_VS_AI && gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK 
+
+			if ((gameParameters.getGameMode() == GameMode.HUMAN_VS_AI && gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK
 					|| gameParameters.getGameMode() == GameMode.AI_VS_AI))
 				System.out.println("White Minimax AI move Average seconds: " + whiteMinimaxAiMoveAverageSecs);
-			
-			if ((gameParameters.getGameMode() == GameMode.HUMAN_VS_AI && gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE 
+
+			if ((gameParameters.getGameMode() == GameMode.HUMAN_VS_AI && gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE
 					|| gameParameters.getGameMode() == GameMode.AI_VS_AI))
 				System.out.println("Black Minimax AI move Average seconds: " + blackMinimaxAiMoveAverageSecs);
 		}
@@ -1469,7 +1497,7 @@ public class ChessGUI {
         System.out.println("aiMove: " + aiMove);
         // System.out.println("lastCapturedPieceValue: " + chessBoard.getLastCapturedPieceValue());
 
-        chessBoard.makeMove(aiMove, true);
+        makeDisplayMove(aiMove, true);
         // System.out.println("board value after aiMove -> " + chessBoard.evaluate());
 
         /*
@@ -1590,13 +1618,9 @@ public class ChessGUI {
                     buttonColor = getColorByRowCol(chessBoard.getNumOfRows() - 1 - row, column);
                 }
 
-                changeTileColor(button, buttonColor);
+                GuiUtilities.changeTileColor(button, buttonColor);
             }
         }
-    }
-
-    private static void changeTileColor(JButton button, Color color) {
-        button.setBackground(color);
     }
 
     public static Color getColorByRowCol(int row, int column) {
@@ -1611,51 +1635,12 @@ public class ChessGUI {
         return color;
     }
 
-    public static ImageIcon preparePieceIcon(String imagePath, int size) {
-        ImageIcon pieceIcon = new ImageIcon(ResourceLoader.load(imagePath));
-        Image image = pieceIcon.getImage(); // transform it
-        // scale it the smooth way
-        Image newImg = image.getScaledInstance(size, size, java.awt.Image.SCALE_SMOOTH);
-        pieceIcon = new ImageIcon(newImg);  // transform it back
-        return pieceIcon;
-    }
-
     // It inserts the given chessPiece to the given position on the board
     // (both the data structure and the GUI)
     public static void placePieceToPosition(String position, ChessPiece chessPiece) {
-        String imagePath = "";
+        String imagePath = GuiUtilities.getImagePath(chessPiece);
 
-        if (chessPiece.getAllegiance() == Allegiance.WHITE) {
-            if (chessPiece instanceof Pawn) {
-                imagePath = Constants.WHITE_PAWN_IMG_PATH;
-            } else if (chessPiece instanceof Rook) {
-                imagePath = Constants.WHITE_ROOK_IMG_PATH;
-            } else if (chessPiece instanceof Knight) {
-                imagePath = Constants.WHITE_KNIGHT_IMG_PATH;
-            } else if (chessPiece instanceof Bishop) {
-                imagePath = Constants.WHITE_BISHOP_IMG_PATH;
-            } else if (chessPiece instanceof Queen) {
-                imagePath = Constants.WHITE_QUEEN_IMG_PATH;
-            } else if (chessPiece instanceof King) {
-                imagePath = Constants.WHITE_KING_IMG_PATH;
-            }
-        } else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
-            if (chessPiece instanceof Pawn) {
-                imagePath = Constants.BLACK_PAWN_IMG_PATH;
-            } else if (chessPiece instanceof Rook) {
-                imagePath = Constants.BLACK_ROOK_IMG_PATH;
-            } else if (chessPiece instanceof Knight) {
-                imagePath = Constants.BLACK_KNIGHT_IMG_PATH;
-            } else if (chessPiece instanceof Bishop) {
-                imagePath = Constants.BLACK_BISHOP_IMG_PATH;
-            } else if (chessPiece instanceof Queen) {
-                imagePath = Constants.BLACK_QUEEN_IMG_PATH;
-            } else if (chessPiece instanceof King) {
-                imagePath = Constants.BLACK_KING_IMG_PATH;
-            }
-        }
-
-        ImageIcon pieceImage = preparePieceIcon(imagePath, Constants.CHESS_SQUARE_PIXEL_SIZE);
+        ImageIcon pieceImage = GuiUtilities.preparePieceIcon(imagePath, GuiConstants.CHESS_SQUARE_PIXEL_SIZE);
 
         // int column = (int) Character.toUpperCase(position.charAt(0)) - 65;
         // int row = N - Character.getNumericValue(position.charAt(1));
@@ -1666,13 +1651,13 @@ public class ChessGUI {
         // System.out.println("chessBoardSquares.length: " + chessBoardSquares.length);
         // System.out.println("chessBoardSquares[0].length: " + chessBoardSquares[0].length);
 
+        chessBoard.getGameBoard()[row][column] = chessPiece;
+
         if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI && gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
             chessBoardSquares[row][NUM_OF_COLUMNS - 1 - column].setIcon(pieceImage);
         } else {
             chessBoardSquares[chessBoard.getNumOfRows() - 1 - row][column].setIcon(pieceImage);
         }
-
-        chessBoard.getGameBoard()[row][column] = chessPiece;
     }
 
     // It removes the given chessPiece from the board (both the data structure and the GUI).
@@ -1686,16 +1671,16 @@ public class ChessGUI {
 
         // Our chess_board pieces are 64x64 px in size, so we'll
         // 'fill this in' using a transparent icon.
-        ImageIcon icon = new ImageIcon(new BufferedImage(
-                Constants.CHESS_SQUARE_PIXEL_SIZE, Constants.CHESS_SQUARE_PIXEL_SIZE, BufferedImage.TYPE_INT_ARGB));
+        ImageIcon icon = new ImageIcon(new BufferedImage(GuiConstants.CHESS_SQUARE_PIXEL_SIZE,
+                GuiConstants.CHESS_SQUARE_PIXEL_SIZE, BufferedImage.TYPE_INT_ARGB));
+
+        chessBoard.getGameBoard()[row][column] = new EmptyTile();
 
         if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI && gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
             chessBoardSquares[row][NUM_OF_COLUMNS - 1 - column].setIcon(icon);
         } else {
             chessBoardSquares[chessBoard.getNumOfRows() - 1 - row][column].setIcon(icon);
         }
-
-        chessBoard.getGameBoard()[row][column] = new EmptyTile();
     }
 
     public static void placePiecesToChessBoard() {
@@ -1718,8 +1703,8 @@ public class ChessGUI {
         placePieceToPosition(whiteQueenPosition, new Queen(Allegiance.WHITE));
 
         String whiteKingPosition = "E1";
-        placePieceToPosition(whiteKingPosition, new King(Allegiance.WHITE));
         chessBoard.setWhiteKingPosition(whiteKingPosition);
+        placePieceToPosition(whiteKingPosition, new King(Allegiance.WHITE));
 
         String rightWhiteBishopPosition = "F1";
         placePieceToPosition(rightWhiteBishopPosition, new Bishop(Allegiance.WHITE));
@@ -1748,8 +1733,8 @@ public class ChessGUI {
         placePieceToPosition(blackQueenPosition, new Queen(Allegiance.BLACK));
 
         String blackKingPosition = "E" + chessBoard.getNumOfRows();
-        placePieceToPosition(blackKingPosition, new King(Allegiance.BLACK));
         chessBoard.setBlackKingPosition(blackKingPosition);
+        placePieceToPosition(blackKingPosition, new King(Allegiance.BLACK));
 
         String rightBlackBishopPosition = "F" + chessBoard.getNumOfRows();
         placePieceToPosition(rightBlackBishopPosition, new Bishop(Allegiance.BLACK));
@@ -1798,8 +1783,8 @@ public class ChessGUI {
 
                 // Our chess_board pieces are 64x64 px in size, so we'll
                 // 'fill this in' using a transparent icon.
-                ImageIcon icon = new ImageIcon(new BufferedImage(
-                        Constants.CHESS_SQUARE_PIXEL_SIZE, Constants.CHESS_SQUARE_PIXEL_SIZE, BufferedImage.TYPE_INT_ARGB));
+                ImageIcon icon = new ImageIcon(new BufferedImage(GuiConstants.CHESS_SQUARE_PIXEL_SIZE,
+                        GuiConstants.CHESS_SQUARE_PIXEL_SIZE, BufferedImage.TYPE_INT_ARGB));
                 chessBoardSquares[i][j].setIcon(icon);
 
                 Color color = getColorByRowCol(i, j);
@@ -1855,7 +1840,6 @@ public class ChessGUI {
     }
 
     public final void initializeGui() {
-
         // Set up the main GUI.
         // gui.setBorder(new EmptyBorder(0,0,0,0));
         gui.setLayout(new BoxLayout(gui, BoxLayout.Y_AXIS));

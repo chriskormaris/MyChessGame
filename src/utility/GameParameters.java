@@ -1,11 +1,12 @@
 package utility;
 
-import java.awt.Color;
-
 import enumeration.AiType;
 import enumeration.Allegiance;
 import enumeration.GameMode;
 import enumeration.GuiStyle;
+import gui.GuiConstants;
+
+import java.awt.*;
 
 public class GameParameters {
 
@@ -51,7 +52,7 @@ public class GameParameters {
         this.whiteTileColor = Color.WHITE;
         // this.whiteTileColor = Color.PINK;
 
-        this.blackTileColor = Constants.DARK_GREEN;
+        this.blackTileColor = GuiConstants.DARK_GREEN;
         // this.blackTileColor = Color.BLACK;
         // this.blackTileColor = Color.DARK_GRAY;
         // this.blackTileColor = Color.GRAY;

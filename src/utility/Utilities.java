@@ -1,20 +1,7 @@
 package utility;
 
-// import java.io.File;
-
-import java.net.URL;
-
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-
 import enumeration.Allegiance;
-import piece.Bishop;
-import piece.ChessPiece;
-import piece.Knight;
-import piece.Pawn;
-import piece.Queen;
-import piece.Rook;
+import piece.*;
 
 
 public class Utilities {
@@ -60,14 +47,14 @@ public class Utilities {
     }
 
 
-    public static ChessPiece[][] copyGameBoard(ChessPiece[][] otherGameBoard) {
-        int n1 = otherGameBoard.length;
-        int n2 = otherGameBoard[0].length;
+    public static ChessPiece[][] copyGameBoard(ChessPiece[][] gameBoard) {
+        int n1 = gameBoard.length;
+        int n2 = gameBoard[0].length;
 
         ChessPiece[][] newGameBoard = new ChessPiece[n1][n2];
         for (int i = 0; i < n1; i++) {
             for (int j = 0; j < n2; j++) {
-                newGameBoard[i][j] = otherGameBoard[i][j].makeCopy();
+                newGameBoard[i][j] = gameBoard[i][j].makeCopy();
             }
         }
         return newGameBoard;
@@ -89,23 +76,18 @@ public class Utilities {
         return true;
     }
 
-    public static synchronized void playSound(final String path) {
 
-        try {
-            URL defaultSound = Utilities.class.getResource("/sounds/" + path);
+    public static int[][] copyIntBoard(int[][] intBoard) {
+        int n1 = intBoard.length;
+        int n2 = intBoard[0].length;
 
-            // File soundFile = new File(defaultSound.toURI());
-            // System.out.println("soundFile: " + soundFile);  // check the URL!
-
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(defaultSound);
-            Clip clip = AudioSystem.getClip();
-            clip.open(audioInputStream);
-            clip.start();
-        } catch (Exception ex) {
-            // ex.printStackTrace();
-            System.err.println(ex.getMessage());
+        int[][] newIntBoard = new int[n1][n2];
+        for (int i = 0; i < n1; i++) {
+            for (int j = 0; j < n2; j++) {
+                newIntBoard[i][j] = intBoard[i][j];
+            }
         }
-
+        return newIntBoard;
     }
 
 
