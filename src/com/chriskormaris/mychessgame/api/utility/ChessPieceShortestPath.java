@@ -191,7 +191,7 @@ public class ChessPieceShortestPath {
 
 
     // It runs the simple BFS algorithm.
-    // It returns true if the given com.chriskormaris.mychessgame.api.chess_board com.chriskormaris.mychessgame.api.piece can get from the given starting position to the given ending position,
+    // It returns true if the given chess_board piece can get from the given starting position to the given ending position,
     // within the specified "maxDepth".
     public static boolean canGoToPosition(ChessBoard chessBoard, ChessPiece piece,
                                           String startingPosition, String endingPosition, int maxDepth) {

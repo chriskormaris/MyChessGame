@@ -234,7 +234,7 @@ public class FenUtilities {
     public static String getFenPositionFromChessBoard(ChessBoard chessBoard) {
         StringBuilder fenPosition = new StringBuilder();
 
-        /* Step 1: Append the com.chriskormaris.mychessgame.api.chess_board gameBoard pieces positions */
+        /* Step 1: Append the chess gameBoard pieces positions */
         for (int i = 0; i < chessBoard.getNumOfRows(); i++) {
             int emptyTilesCounter = 0;
             for (int j = 0; j < Constants.DEFAULT_NUM_OF_COLUMNS; j++) {

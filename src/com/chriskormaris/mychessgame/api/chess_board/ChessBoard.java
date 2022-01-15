@@ -205,7 +205,7 @@ public class ChessBoard {
         this.capturedPiece = otherBoard.getCapturedPiece();
     }
 
-    // It prints the com.chriskormaris.mychessgame.api.chess_board board on the console.
+    // It prints the chess board board on the console.
     public static void printChessBoard(ChessPiece[][] chessBoard) {
         System.out.println(getChessBoardString(chessBoard));
     }
@@ -277,7 +277,7 @@ public class ChessBoard {
             capturedPiece = null;
         }
 
-        // Allow only valid moves, for all the com.chriskormaris.mychessgame.api.chess_board pieces.
+        // Allow only valid moves, for all the chess board pieces.
         // Move only if the tile is empty or the tile contains an opponent chessPiece.
         // Also allow castling, en passant and promotion moves.
         // System.out.println("hintPositions: " + hintPositions);
@@ -462,7 +462,7 @@ public class ChessBoard {
 
                 /* Pawn promotion implementation */
                 // If a pawn is going to be promoted and this is not a display move,
-                // automatically choose the best promotion com.chriskormaris.mychessgame.api.piece, based on the best outcome.
+                // automatically choose the best promotion piece, based on the best outcome.
                 if ((chessPiece.getAllegiance() == Allegiance.WHITE && rowEnd == this.numOfRows - 1
                         || chessPiece.getAllegiance() == Allegiance.BLACK && rowEnd == 0) && !displayMove) {
                     automaticPawnPromotion(chessPiece, positionEnd, false);
@@ -1306,7 +1306,7 @@ public class ChessBoard {
         return this.isBlackCheckmate;
     }
 
-    // Checks if there are insufficient material for a checkmate, left on the com.chriskormaris.mychessgame.api.chess_board board.
+    // Checks if there are insufficient material for a checkmate, left on the chess board.
     public boolean checkForInsufficientMaterialDraw() {
         boolean whiteHasInsufficientMaterial =
                 isLoneKing(Allegiance.WHITE)

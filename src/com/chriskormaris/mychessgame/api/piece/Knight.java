@@ -39,7 +39,7 @@ public class Knight extends ChessPiece {
         }
 
         // The maximum number of next moves that a knight can have is 8
-        // && that situation occurs if the knight is in the center of the com.chriskormaris.mychessgame.api.chess_board board.
+        // && that situation occurs if the knight is in the center of the chess board.
         // In the sketches below, k designates the position of the knight.
 
 		/*

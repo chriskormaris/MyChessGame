@@ -101,7 +101,7 @@ public class ChessGUI {
     public static boolean isChessGui2;
     public static String savedFenPosition;
 
-    // These stack of 2d "ChessPiece" arrays is used to check for a threefold repetition of a com.chriskormaris.mychessgame.api.chess_board board position.
+    // These stack of 2d "ChessPiece" arrays is used to check for a threefold repetition of a chess board position.
     public static Stack<ChessPiece[][]> halfMoveGameBoards = new Stack<>();
     public static Stack<ChessPiece[][]> redoHalfMoveGameBoards = new Stack<>();
     public static JLabel[] aiVsAiNewCapturedPiecesImages;
@@ -462,7 +462,7 @@ public class ChessGUI {
             redoHalfMoveGameBoards.push(Utilities.copyGameBoard(halfMoveGameBoard));
             // System.out.println("size of halfMoveGameBoards: " + halfMoveGameBoards.size());
 
-            // Display the "undo" captured com.chriskormaris.mychessgame.api.chess_board pieces icons.
+            // Display the "undo" captured chess board pieces icons.
             initializeCapturedPiecesPanel();
             capturedPiecesImages = previousCapturedPiecesImages.pop();
             for (int i = 0; i < 31; i++) {
@@ -475,7 +475,7 @@ public class ChessGUI {
                 enableChessBoardButtons();
             }
 
-            // Display the "undo" com.chriskormaris.mychessgame.api.chess_board board.
+            // Display the "undo" chess board.
             for (int i = 0; i < chessBoard.getNumOfRows(); i++) {
                 for (int j = 0; j < NUM_OF_COLUMNS; j++) {
                     placePieceToPosition(Utilities.getPositionByRowCol(i, j), chessBoard.getGameBoard()[i][j]);
@@ -539,7 +539,7 @@ public class ChessGUI {
 
             ChessBoard redoChessBoard = redoChessBoards.pop();
 
-            // Display the "redo" captured com.chriskormaris.mychessgame.api.chess_board pieces icons.
+            // Display the "redo" captured chess board pieces icons.
             initializeCapturedPiecesPanel();
             capturedPiecesImages = redoCapturedPiecesImages.pop();
             for (int i = 0; i < 31; i++) {
@@ -550,7 +550,7 @@ public class ChessGUI {
                 redoItem.setEnabled(false);
             }
 
-            // Display the "redo" com.chriskormaris.mychessgame.api.chess_board board.
+            // Display the "redo" chess board.
             for (int i = 0; i < redoChessBoard.getNumOfRows(); i++) {
                 for (int j = 0; j < NUM_OF_COLUMNS; j++) {
                     placePieceToPosition(Utilities.getPositionByRowCol(i, j), redoChessBoard.getGameBoard()[i][j]);
@@ -638,14 +638,14 @@ public class ChessGUI {
     public static void initializeChessBoardSquareButtons() {
         chessBoardSquares = new JButton[gameParameters.getNumOfRows()][NUM_OF_COLUMNS];
 
-        // Create the com.chriskormaris.mychessgame.api.chess_board board square buttons.
+        // Create the chess board square buttons.
         Insets buttonMargin = new Insets(0, 0, 0, 0);
         for (int i = 0; i < gameParameters.getNumOfRows(); i++) {
             for (int j = 0; j < NUM_OF_COLUMNS; j++) {
                 JButton button = new JButton();
                 button.setMargin(buttonMargin);
 
-                // Our com.chriskormaris.mychessgame.api.chess_board pieces are 64x64 px in size, so we'll
+                // Our chess board pieces are 64x64 px in size, so we'll
                 // "fill this in" using a transparent icon...
                 ImageIcon icon = new ImageIcon(new BufferedImage(GuiConstants.CHESS_SQUARE_PIXEL_SIZE,
                         GuiConstants.CHESS_SQUARE_PIXEL_SIZE, BufferedImage.TYPE_INT_ARGB));
@@ -676,7 +676,7 @@ public class ChessGUI {
             }
         }
 
-        // fill the com.chriskormaris.mychessgame.api.chess_board board panel
+        // fill the chess board panel
         chessBoardPanel.add(new JLabel(""));
 
         // fill the top row
@@ -733,7 +733,7 @@ public class ChessGUI {
     public static void initializeCapturedPiecesImages() {
         capturedPiecesImages = new JLabel[31];
 
-        // Create the captured com.chriskormaris.mychessgame.api.chess_board pieces icons.
+        // Create the captured chess board pieces icons.
         for (int i = 0; i < 31; i++) {
             capturedPiecesImages[i] = new JLabel();
 
@@ -877,7 +877,7 @@ public class ChessGUI {
         // blackMinimaxAiMoveAverageSecs = 0;
     }
 
-    // This method is only called from inside a com.chriskormaris.mychessgame.api.chess_board button listener.
+    // This method is only called from inside a chess board button listener.
     public static void chessButtonClick(int row, int column, JButton button) {
         // System.out.println("row: " + row + ", column: " + column);
 
@@ -1032,7 +1032,7 @@ public class ChessGUI {
                     Move move = new Move(startingPosition, endingPosition);
                     makeDisplayMove(move, false);
 
-                    // Store the com.chriskormaris.mychessgame.api.chess_board board of the HalfMove that was just made.
+                    // Store the chess board of the HalfMove that was just made.
                     ChessPiece[][] halfMoveGameBoard = Utilities.copyGameBoard(chessBoard.getGameBoard());
                     halfMoveGameBoards.push(halfMoveGameBoard);
                     // System.out.println("size of halfMoveGameBoards: " + halfMoveGameBoards.size());
@@ -1114,7 +1114,7 @@ public class ChessGUI {
         }
     }
 
-    private static void makeDisplayMove(Move move, boolean aiMove) {
+    private static void makeDisplayMove(Move move, boolean isAiMove) {
         String positionStart = move.getPositions().get(0);
         int rowStart = Utilities.getRowFromPosition(positionStart);
         int columnStart = Utilities.getColumnFromPosition(positionStart);
@@ -1128,11 +1128,11 @@ public class ChessGUI {
         chessBoard.makeMove(move, true);
 
         // Pawn promotion implementation.
-        // If AI plays, automatically choose the best promotion com.chriskormaris.mychessgame.api.piece, based on the best outcome.
+        // If AI plays, automatically choose the best promotion piece, based on the best outcome.
         if (startingPiece instanceof Pawn
             && (startingPiece.getAllegiance() == Allegiance.WHITE && rowEnd == chessBoard.getNumOfRows() - 1
                 || startingPiece.getAllegiance() == Allegiance.BLACK && rowEnd == 0)) {
-            if (aiMove) {
+            if (isAiMove) {
                 chessBoard.automaticPawnPromotion(startingPiece, positionEnd, true);
 
                 ChessPiece promotedPiece = chessBoard.getGameBoard()[rowEnd][columnEnd];
@@ -1144,7 +1144,7 @@ public class ChessGUI {
                             "Black Pawn Promotion", JOptionPane.INFORMATION_MESSAGE);
                 }
             }
-            // If human player plays and this is a display move, select which promotion com.chriskormaris.mychessgame.api.piece you want and display it on the GUI.
+            // If human player plays, select which promotion piece you want and display it on the GUI.
             else {
                 String[] promotionPieces = {"Queen", "Rook", "Bishop", "Knight"};
                 String initialSelection = "Queen";
@@ -1184,7 +1184,7 @@ public class ChessGUI {
         chessBoard.setThreats();
 
         // If a chessPiece capture has occurred.
-        if (chessBoard.getCapturedPiece() != null) {  // true if an en passant captured com.chriskormaris.mychessgame.api.piece exists
+        if (chessBoard.getCapturedPiece() != null) {  // true if an en passant captured piece exists
             addCapturedPieceImage(chessBoard.getCapturedPiece());
         } else if (startingPiece.getAllegiance() != endTile.getAllegiance() && !(endTile instanceof EmptyTile)) {
             chessBoard.setCapturedPiece(endTile);
@@ -1363,7 +1363,7 @@ public class ChessGUI {
                     || gameParameters.getGameMode() == GameMode.AI_VS_AI) {
                 dialogResult = JOptionPane.showConfirmDialog(gui,
                         Constants.NO_CAPTURE_DRAW_MOVES_LIMIT +
-                                " full moves have passed without a com.chriskormaris.mychessgame.api.piece capture! Do you want to declare a draw?",
+                                " full moves have passed without a piece capture! Do you want to declare a draw?",
                         "Draw", JOptionPane.YES_NO_OPTION);
             }
 
@@ -1378,7 +1378,7 @@ public class ChessGUI {
 
 
         // Three-fold repetition draw rule implementation.
-        // This situation occurs when we end up with the same com.chriskormaris.mychessgame.api.chess_board board position 3 different times
+        // This situation occurs when we end up with the same chess board position 3 different times
         // at any time in the game, not necessarily successively.
         if (checkForThreefoldRepetitionDraw()) {
             int dialogResult = -1;
@@ -1677,7 +1677,7 @@ public class ChessGUI {
         int column = Utilities.getColumnFromPosition(position);
         int row = Utilities.getRowFromPosition(position);
 
-        // Our com.chriskormaris.mychessgame.api.chess_board pieces are 64x64 px in size, so we'll
+        // Our chess board pieces are 64x64 px in size, so we'll
         // 'fill this in' using a transparent icon.
         ImageIcon icon = new ImageIcon(new BufferedImage(GuiConstants.CHESS_SQUARE_PIXEL_SIZE,
                 GuiConstants.CHESS_SQUARE_PIXEL_SIZE, BufferedImage.TYPE_INT_ARGB));
@@ -1789,7 +1789,7 @@ public class ChessGUI {
             for (int j = 0; j < NUM_OF_COLUMNS; j++) {
                 // chessBoardSquares[i][j].setEnabled(true);
 
-                // Our com.chriskormaris.mychessgame.api.chess_board pieces are 64x64 px in size, so we'll
+                // Our chess board pieces are 64x64 px in size, so we'll
                 // 'fill this in' using a transparent icon.
                 ImageIcon icon = new ImageIcon(new BufferedImage(GuiConstants.CHESS_SQUARE_PIXEL_SIZE,
                         GuiConstants.CHESS_SQUARE_PIXEL_SIZE, BufferedImage.TYPE_INT_ARGB));
