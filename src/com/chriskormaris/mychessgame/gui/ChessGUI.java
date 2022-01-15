@@ -1694,8 +1694,8 @@ public class ChessGUI {
     public static void placePiecesToChessBoard() {
 
         for (int j = 0; j < Constants.DEFAULT_NUM_OF_COLUMNS; j++) {
-            // System.out.println("test: " + ((char) (65 + j) + "2"));
-            placePieceToPosition((char) (65 + j) + "2", new Pawn(Allegiance.WHITE));
+            String position = (char) (65 + j) + "2";
+            placePieceToPosition(position, new Pawn(Allegiance.WHITE));
         }
 
         String leftWhiteRookPosition = "A1";
@@ -1724,8 +1724,8 @@ public class ChessGUI {
         placePieceToPosition(rightWhiteRookPosition, new Rook(Allegiance.WHITE));
 
         for (int j = 0; j < Constants.DEFAULT_NUM_OF_COLUMNS; j++) {
-            placePieceToPosition((char) (65 + j) + (chessBoard.getNumOfRows() - 1 + ""),
-                    new Pawn(Allegiance.BLACK));
+            String position = (char) (65 + j) + (chessBoard.getNumOfRows() - 1 + "");
+            placePieceToPosition(position, new Pawn(Allegiance.BLACK));
         }
 
         String leftBlackRookPosition = "A" + chessBoard.getNumOfRows();
