@@ -18,6 +18,7 @@ public class SettingsWindow extends JFrame {
 
 	public static int width = 450;
 	public static int height = 490;
+
 	private final JComboBox<String> gui_style_drop_down;
 	private final JCheckBox enable_sounds_check_box;
 	private final JComboBox<String> human_player_allegiance_drop_down;
@@ -27,8 +28,10 @@ public class SettingsWindow extends JFrame {
 	private final JComboBox<Integer> max_depth2_drop_down;
 	private final JComboBox<String> white_tile_color_drop_down;
 	private final JComboBox<String> black_tile_color_drop_down;
+
 	private final SpinnerModel spinnerModel = new SpinnerNumberModel(8, 4, 8, 1);
 	private final JSpinner num_of_rows_spinner = new JSpinner(spinnerModel);
+
 	private final JButton apply;
 	private final JButton cancel;
 

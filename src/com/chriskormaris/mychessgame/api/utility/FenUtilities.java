@@ -3,7 +3,14 @@ package com.chriskormaris.mychessgame.api.utility;
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 import com.chriskormaris.mychessgame.api.exception.InvalidFenFormatException;
-import com.chriskormaris.mychessgame.api.piece.*;
+import com.chriskormaris.mychessgame.api.piece.Bishop;
+import com.chriskormaris.mychessgame.api.piece.ChessPiece;
+import com.chriskormaris.mychessgame.api.piece.EmptyTile;
+import com.chriskormaris.mychessgame.api.piece.King;
+import com.chriskormaris.mychessgame.api.piece.Knight;
+import com.chriskormaris.mychessgame.api.piece.Pawn;
+import com.chriskormaris.mychessgame.api.piece.Queen;
+import com.chriskormaris.mychessgame.api.piece.Rook;
 
 public class FenUtilities {
 

@@ -1,7 +1,13 @@
 package com.chriskormaris.mychessgame.gui.utility;
 
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
-import com.chriskormaris.mychessgame.api.piece.*;
+import com.chriskormaris.mychessgame.api.piece.Bishop;
+import com.chriskormaris.mychessgame.api.piece.ChessPiece;
+import com.chriskormaris.mychessgame.api.piece.King;
+import com.chriskormaris.mychessgame.api.piece.Knight;
+import com.chriskormaris.mychessgame.api.piece.Pawn;
+import com.chriskormaris.mychessgame.api.piece.Queen;
+import com.chriskormaris.mychessgame.api.piece.Rook;
 
 import javax.swing.*;
 import java.awt.*;

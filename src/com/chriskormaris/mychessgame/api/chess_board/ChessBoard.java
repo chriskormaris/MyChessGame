@@ -1,12 +1,24 @@
 package com.chriskormaris.mychessgame.api.chess_board;
 
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
-import com.chriskormaris.mychessgame.api.piece.*;
+import com.chriskormaris.mychessgame.api.piece.Bishop;
+import com.chriskormaris.mychessgame.api.piece.ChessPiece;
+import com.chriskormaris.mychessgame.api.piece.EmptyTile;
+import com.chriskormaris.mychessgame.api.piece.King;
+import com.chriskormaris.mychessgame.api.piece.Knight;
+import com.chriskormaris.mychessgame.api.piece.Pawn;
+import com.chriskormaris.mychessgame.api.piece.Queen;
+import com.chriskormaris.mychessgame.api.piece.Rook;
 import com.chriskormaris.mychessgame.api.utility.ChessPieceShortestPath;
 import com.chriskormaris.mychessgame.api.utility.Constants;
 import com.chriskormaris.mychessgame.api.utility.Utilities;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 
 public class ChessBoard {

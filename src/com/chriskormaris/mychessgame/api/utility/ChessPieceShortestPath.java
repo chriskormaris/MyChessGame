@@ -6,7 +6,11 @@ import com.chriskormaris.mychessgame.api.piece.ChessPiece;
 import com.chriskormaris.mychessgame.api.piece.EmptyTile;
 import com.chriskormaris.mychessgame.api.piece.King;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
 
 public class ChessPieceShortestPath {
