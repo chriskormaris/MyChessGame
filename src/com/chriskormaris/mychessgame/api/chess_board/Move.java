@@ -9,70 +9,70 @@ import java.util.List;
  */
 public class Move {
 
-    private double value;
+	private double value;
 
-    // In this list we are going to keep 2 String objects.
-    // The first one is starting position and
-    // the second one is the ending position.
-    private List<String> positions;
+	// In this list we are going to keep 2 String objects.
+	// The first one is starting position and
+	// the second one is the ending position.
+	private List<String> positions;
 
-    public Move() {
-        this.positions = new ArrayList<>();
-        this.positions.add("A1");
-        this.positions.add("A1");
-        this.value = 0;
-    }
+	public Move() {
+		this.positions = new ArrayList<>();
+		this.positions.add("A1");
+		this.positions.add("A1");
+		this.value = 0;
+	}
 
-    public Move(List<String> positions) {
-        this.positions = new ArrayList<>(positions);
-        this.value = 0;
-    }
+	public Move(List<String> positions) {
+		this.positions = new ArrayList<>(positions);
+		this.value = 0;
+	}
 
-    public Move(String startingPosition, String endingPosition) {
-        this.positions = new ArrayList<>();
-        this.positions.add(startingPosition);
-        this.positions.add(endingPosition);
-        this.value = 0;
-    }
+	public Move(String startingPosition, String endingPosition) {
+		this.positions = new ArrayList<>();
+		this.positions.add(startingPosition);
+		this.positions.add(endingPosition);
+		this.value = 0;
+	}
 
-    public Move(String startingPosition, String endingPosition, double value) {
-        this.positions = new ArrayList<>();
-        this.positions.add(startingPosition);
-        this.positions.add(endingPosition);
-        this.value = value;
-    }
+	public Move(String startingPosition, String endingPosition, double value) {
+		this.positions = new ArrayList<>();
+		this.positions.add(startingPosition);
+		this.positions.add(endingPosition);
+		this.value = value;
+	}
 
-    public Move(int value) {
-        this.positions = new ArrayList<>();
-        this.positions.add("A1");
-        this.positions.add("A1");
-        this.value = value;
-    }
+	public Move(int value) {
+		this.positions = new ArrayList<>();
+		this.positions.add("A1");
+		this.positions.add("A1");
+		this.value = value;
+	}
 
-    public Move(Move otherMove) {
-        this.positions = new ArrayList<>(otherMove.positions);
-        this.value = otherMove.value;
-    }
+	public Move(Move otherMove) {
+		this.positions = new ArrayList<>(otherMove.positions);
+		this.value = otherMove.value;
+	}
 
-    public double getValue() {
-        return value;
-    }
+	public double getValue() {
+		return value;
+	}
 
-    public void setValue(double value) {
-        this.value = value;
-    }
+	public void setValue(double value) {
+		this.value = value;
+	}
 
-    public List<String> getPositions() {
-        return positions;
-    }
+	public List<String> getPositions() {
+		return positions;
+	}
 
-    public void setPositions(List<String> positions) {
-        this.positions = positions;
-    }
+	public void setPositions(List<String> positions) {
+		this.positions = positions;
+	}
 
-    @Override
-    public String toString() {
-        return "startingPosition: " + positions.get(0) + ", endingPosition: " + positions.get(1) + ", value: " + value;
-    }
+	@Override
+	public String toString() {
+		return "startingPosition: " + positions.get(0) + ", endingPosition: " + positions.get(1) + ", value: " + value;
+	}
 
 }
