@@ -95,8 +95,11 @@ public class ChessGUI {
 	// These stacks of "JLabel" arrays are used to handle the "undo" and "redo" functionality.
 	public static Stack<JLabel[]> previousCapturedPiecesImages = new Stack<>();
 	public static Stack<JLabel[]> redoCapturedPiecesImages = new Stack<>();
+
 	public static boolean startingButtonIsClicked = false;
+
 	public static Set<String> hintPositions = new HashSet<>();
+
 	public static boolean buttonsEnabled = true;
 
 	// This variable is used for the implementation of "Human Vs MiniMax AI".
@@ -108,14 +111,14 @@ public class ChessGUI {
 	// This variable is used for the implementation of MiniMax AI Vs MiniMax AI.
 	public static boolean isGameOver;
 
-	// This variable is true if the main is running from "ChessGui2" class.
-	public static boolean isChessGui2;
 	public static String savedFenPosition;
 
 	// These stack of 2d "ChessPiece" arrays is used to check for a threefold repetition of a chess board position.
 	public static Stack<ChessPiece[][]> halfMoveGameBoards = new Stack<>();
 	public static Stack<ChessPiece[][]> redoHalfMoveGameBoards = new Stack<>();
+
 	public static JLabel[] aiVsAiNewCapturedPiecesImages;
+
 	public static GameResult gameResult;
 
 	private static JMenuBar menuBar;
@@ -782,10 +785,6 @@ public class ChessGUI {
 
 		/* If running "ChessGUI.java", you must use this! */
 		chessBoardPanel.removeAll();
-		if (!isChessGui2) {
-			initializeChessBoardPanel();
-			initializeCapturedPiecesPanel();
-		}
 
 		initializeChessBoardSquareButtons();
 		initializeCapturedPiecesImages();
