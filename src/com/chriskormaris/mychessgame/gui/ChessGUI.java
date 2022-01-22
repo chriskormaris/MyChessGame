@@ -783,8 +783,10 @@ public class ChessGUI {
 
 		configureGuiStyle();
 
-		/* If running "ChessGUI.java", you must use this! */
 		chessBoardPanel.removeAll();
+
+		initializeChessBoardPanel();
+		initializeCapturedPiecesPanel();
 
 		initializeChessBoardSquareButtons();
 		initializeCapturedPiecesImages();
@@ -1202,11 +1204,11 @@ public class ChessGUI {
 		}
 
 		for (String position : chessBoard.getPositionsToRemove()) {
-			ChessGUI.removePieceFromPosition(position);
+			removePieceFromPosition(position);
 		}
 		for (String position : chessBoard.getPiecesToPlace().keySet()) {
 			ChessPiece chessPieceToPlace = chessBoard.getPiecesToPlace().get(position);
-			ChessGUI.placePieceToPosition(position, chessPieceToPlace);
+			placePieceToPosition(position, chessPieceToPlace);
 		}
 		chessBoard.getPositionsToRemove().clear();
 		chessBoard.getPiecesToPlace().clear();
@@ -1235,7 +1237,6 @@ public class ChessGUI {
 
 		setScoreMessage();
 
-		chessBoard.updateScoreAfterPieceCapture(endTile);
 		chessBoard.setCapturedPiece(null);
 	}
 

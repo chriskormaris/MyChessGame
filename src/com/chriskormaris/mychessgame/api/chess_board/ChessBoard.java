@@ -107,6 +107,7 @@ public class ChessBoard {
 
 	private int score;
 	private double lastCapturedPieceValue;
+
 	private Set<ChessPiece> promotedPieces;
 
 	private Set<String> positionsToRemove;
@@ -151,12 +152,12 @@ public class ChessBoard {
 		this.score = 0;
 		this.lastCapturedPieceValue = 0;
 
+		this.whiteKingInCheckValidPieceMoves = new HashMap<>();
+		this.blackKingInCheckValidPieceMoves = new HashMap<>();
+
 		this.promotedPieces = new HashSet<>();
 		this.positionsToRemove = new HashSet<>();
 		this.piecesToPlace = new HashMap<>();
-
-		this.whiteKingInCheckValidPieceMoves = new HashMap<>();
-		this.blackKingInCheckValidPieceMoves = new HashMap<>();
 
 		setThreats();
 	}
@@ -495,13 +496,13 @@ public class ChessBoard {
 
 			// If a chessPiece capture has occurred.
 			if (chessPiece.getAllegiance() != endTile.getAllegiance()
-					&& !(endTile instanceof EmptyTile) && !displayMove) {
+					&& !(endTile instanceof EmptyTile)) {
 				updateScoreAfterPieceCapture(endTile);
 			}
 		}
 	}
 
-	public void updateScoreAfterPieceCapture(ChessPiece endTile) {
+	private void updateScoreAfterPieceCapture(ChessPiece endTile) {
 		if (promotedPieces.contains(endTile)) {
 			if (endTile.getAllegiance() == Allegiance.WHITE) {
 				score -= Constants.PAWN_VALUE;
