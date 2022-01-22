@@ -791,12 +791,9 @@ public class ChessGUI {
 		initializeChessBoardSquareButtons();
 		initializeCapturedPiecesImages();
 
-		//* If running "ChessGui2.java", you must use this! */
-		chessBoardPanel.revalidate();
-		chessBoardPanel.repaint();
-
-		// if (!buttonsEnabled)
-		//	enableChessBoardButtons();
+		// if (!buttonsEnabled) {
+		// 	enableChessBoardButtons();
+		// }
 
 		restoreDefaultValues();
 
