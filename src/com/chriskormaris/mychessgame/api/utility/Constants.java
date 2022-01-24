@@ -26,7 +26,7 @@ public class Constants {
 
 	// NOT USED
 	/*
-	public static String[][] chessPositions = new String[][]{
+	public static String[][] CHESS_POSITIONS = new String[][]{
 		{"A8", "B8", "C8", "D8", "E8", "F8", "G8", "H8"},
 		{"A7", "B7", "C7", "D7", "E7", "F7", "G7", "H7"},
 		{"A6", "B6", "C6", "D6", "E6", "F6", "G6", "H6"},
@@ -37,6 +37,83 @@ public class Constants {
 		{"A1", "B1", "C1", "D1", "E1", "F1", "G1", "H1"}
     };
     */
+
+	public static int[][] PAWNS_SQUARES_TABLE = new int[][]{
+		{-50, -40, -30, -30, -30, -30, -40, -50},
+		{-40, -20,   0,   0,   0,   0, -20, -40},
+		{-30,   0,  10,  15,  15,  10,   0, -30},
+		{-30,   5,  15,  20,  20,  15,   5, -30},
+		{-30,   0,  15,  20,  20,  15,   0, -30},
+		{-30,   5,  10,  15,  15,  10,   5, -30},
+		{-40, -20,   0,   5,   5,   0, -20, -40},
+		{-50, -40, -30, -30, -30, -30, -40, -50},
+	};
+
+	public static int[][] KNIGHTS_SQUARES_TABLE = new int[][]{
+		{-50, -40, -30, -30, -30, -30, -40, -50},
+		{-40, -20,   0,   0,   0,   0, -20, -40},
+		{-30,   0,  10,  15,  15,  10,   0, -30},
+		{-30,   5,  15,  20,  20,  15,   5, -30},
+		{-30,   0,  15,  20,  20,  15,   0, -30},
+		{-30,   5,  10,  15,  15,  10,   5, -30},
+		{-40, -20,   0,   5,   5,   0, -20, -40},
+		{-50, -40, -30, -30, -30, -30, -40, -50},
+	};
+
+	public static int[][] BISHOPS_SQUARES_TABLE = new int[][]{
+		{-20, -10, -10, -10, -10, -10, -10, -20},
+		{-10,   0,   0,   0,   0,   0,   0, -10},
+		{-10,   0,   5,  10,  10,   5,   0, -10},
+		{-10,   5,   5,  10,  10,   5,   5, -10},
+		{-10,   0,  10,  10,  10,  10,   0, -10},
+		{-10,  10,  10,  10,  10,  10,  10, -10},
+		{-10,   5,   0,   0,   0,   0,   5, -10},
+		{-20, -10, -10, -10, -10, -10, -10, -20},
+	};
+
+	public static int[][] ROOKS_SQUARES_TABLE = new int[][]{
+		{0,   0,  0,  0,  0,  0,  0,  0},
+		{5,  10, 10, 10, 10, 10, 10,  5},
+		{-5,  0,  0,  0,  0,  0,  0, -5},
+		{-5,  0,  0,  0,  0,  0,  0, -5},
+		{-5,  0,  0,  0,  0,  0,  0, -5},
+		{-5,  0,  0,  0,  0,  0,  0, -5},
+		{-5,  0,  0,  0,  0,  0,  0, -5},
+		{0,   0,  0,  5,  5,  0,  0,  0}
+	};
+
+	public static int[][] QUEEN_SQUARES_TABLE = new int[][]{
+		{-20, -10, -10,  -5,  -5, -10, -10, -20},
+		{-10,   0,   0,   0,   0,   0,   0, -10},
+		{-10,   0,   5,   5,   5,   5,   0, -10},
+		{-5,    0,   5,   5,   5,   5,   0, -5},
+		{0,     0,   5,   5,   5,   5,   0, -5},
+		{-10,   5,   5,   5,   5,   5,   0, -10},
+		{-10,   0,   5,   0,   0,   0,   0, -10},
+		{-20, -10, -10,  -5,  -5, -10, -10, -20}
+	};
+
+	public static int[][] KING_SQUARES_TABLE_MIDDLE_GAME = new int[][]{
+		{-30, -40, -40, -50, -50, -40, -40, -30},
+		{-30, -40, -40, -50, -50, -40, -40, -30},
+		{-30, -40, -40, -50, -50, -40, -40, -30},
+		{-30, -40, -40, -50, -50, -40, -40, -30},
+		{-20, -30, -30, -40, -40, -30, -30, -20},
+		{-10, -20, -20, -20, -20, -20, -20, -10},
+		{20,   20,   0,   0,   0,   0,  20,  20},
+		{20,   30,  10,   0,   0,  10,  30,  20}
+	};
+
+	public static int[][] KING_SQUARES_TABLE_ENDGAME = new int[][]{
+		{-50, -40, -30, -20, -20, -30, -40, -50},
+		{-30, -20, -10,   0,   0, -10, -20, -30},
+		{-30, -10,  20,  30,  30,  20, -10, -30},
+		{-30, -10,  30,  40,  40,  30, -10, -30},
+		{-30, -10,  30,  40,  40,  30, -10, -30},
+		{-30, -10,  20,  30,  30,  20, -10, -30},
+		{-30, -30,   0,   0,   0,   0, -30, -30},
+		{-50, -30, -30, -30, -30, -30, -30, -50}
+	};
 
 	public static final char WHITE_PAWN = 'P';
 	public static final char WHITE_KNIGHT = 'N';
@@ -59,23 +136,15 @@ public class Constants {
 	public static final double BISHOP_VALUE = 3;
 	public static final double ROOK_VALUE = 5;
 	public static final double QUEEN_VALUE = 9;
-	// public static final double KING_VALUE = 10;
 
-	public static final double PAWN_LATE_VALUE = 1;
-	public static final double KNIGHT_LATE_VALUE = 3.5;
-	public static final double BISHOP_LATE_VALUE = 3.5;
-	public static final double ROOK_LATE_VALUE = 5.25;
-	public static final double QUEEN_LATE_VALUE = 10;
-	// public static final double KING_LATE_VALUE = 100;
-
-	public static final double CENTER_PAWN_VALUE = 0.5;
 	public static final double MOBILITY_MULTIPLIER = 1;
 	public static final double ATTACK_MULTIPLIER = 2;
+
 	public static final double CHECKMATE_VALUE = Integer.MAX_VALUE;
-	public static final double CHECK_VALUE = 1;
-	public static final double CHECK_LATE_VALUE = 10;
-	public static final double CASTLING_VALUE = 2;
-	// public static final double TWO_BISHOPS_VALUE = 10;
+	public static final double CHECK_VALUE = 100;
+	public static final double CHECK_LATE_VALUE = 1000;
+	public static final double CASTLING_VALUE = 200;
+	// public static final double TWO_BISHOPS_VALUE = 100;
 
 	private Constants() {
 	}  // Prevents instantiation.

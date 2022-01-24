@@ -674,6 +674,21 @@ public class ChessBoard {
 		return children;
 	}
 
+	private int countTotalPieces() {
+		int counter = 0;
+
+		for (int i = 0; i < numOfRows; i++) {
+			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
+				ChessPiece chessPiece = this.gameBoard[i][j];
+				if (chessPiece.getAllegiance() != Allegiance.EMPTY) {
+					counter++;
+				}
+			}
+		}
+
+		return counter;
+	}
+
 	@SuppressWarnings("unused")
 	private int countLegalMoves(boolean player) {
 		int counter = 0;
@@ -702,6 +717,7 @@ public class ChessBoard {
 		return counter;
 	}
 
+	@SuppressWarnings("unused")
 	private int countLegalMovesFromRowCol(int row, int column, boolean player) {
 		int counter = 0;
 
@@ -747,21 +763,33 @@ public class ChessBoard {
 		if (this.isInsufficientMaterialDraw) return 0;
 		// if (checkForNoPieceCaptureDraw()) return 0;
 
-		// String startPosition = lastMove.getPositions().get(0);
-		String endPosition = lastMove.getPositions().get(1);
-		ChessPiece lastMovedPiece = Utilities.getChessPieceFromPosition(this.gameBoard, endPosition);
-		double lastMovedChessPieceValue = Utilities.getChessPieceValue(endPosition, lastMovedPiece, this.halfMoveNumber);
-		// System.out.println("lastPiece: " + Utilities.getPieceNameByValue(lastPiece));
+		int totalPieces = countTotalPieces();
+		double phase = (double) totalPieces / 32;
 
-		int endRow = Utilities.getRowFromPosition(endPosition);
-		int endColumn = Utilities.getColumnFromPosition(endPosition);
+		// Calculate the values of each chessPiece and store them in the "valueBoard" array.
+		double whitePieceMiddleGameValuesSum = 0.0;
+		double whitePieceEndgameValuesSum = 0.0;
+		double blackPieceMiddleGameValuesSum = 0.0;
+		double blackPieceEndgameValuesSum = 0.0;
+		for (int i = 0; i < this.numOfRows; i++) {
+			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
+				String position = Utilities.getPositionByRowCol(i, j);
+				ChessPiece chessPiece = this.gameBoard[i][j];
 
-		/* DEBUGGING. */
-		// System.out.println(lastMove);
-		// System.out.println("lastCapturedPieceValue: " + this.lastCapturedPieceValue);
+				double middleGameValue = Utilities.getMiddleGameChessPieceValue(position, chessPiece);
+				double endgameValue = Utilities.getEndgameChessPieceValue(position, chessPiece);
 
-		// System.out.println("gameBoard");
-		// printChessBoard(gameBoard);
+				if (chessPiece.getAllegiance() == Allegiance.WHITE) {
+					whitePieceMiddleGameValuesSum += middleGameValue;
+					whitePieceEndgameValuesSum += endgameValue;
+				} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
+					blackPieceMiddleGameValuesSum += middleGameValue;
+					blackPieceEndgameValuesSum += endgameValue;
+				}
+			}
+		}
+		whiteScore += phase * whitePieceMiddleGameValuesSum + (1 - phase) * whitePieceEndgameValuesSum;
+		blackScore += phase * blackPieceMiddleGameValuesSum + (1 - phase) * blackPieceEndgameValuesSum;
 
 		// If Castling has occurred, add to the score.
 		if (whiteCastlingDone) {
@@ -772,225 +800,21 @@ public class ChessBoard {
 			blackScore += Constants.CASTLING_VALUE;
 		} else if (!whiteCastlingDone && !isWhiteQueenSideCastlingAvailable() && !isWhiteKingSideCastlingAvailable()) {
 			// System.out.println("White castling lost!");
-			whiteScore -= 10 * Constants.CASTLING_VALUE;
+			whiteScore -= Constants.CASTLING_VALUE;
 		} else if (!blackCastlingDone && !isBlackQueenSideCastlingAvailable() && !isBlackKingSideCastlingAvailable()) {
 			// System.out.println("Black castling lost!");
-			blackScore -= 10 * Constants.CASTLING_VALUE;
+			blackScore -= Constants.CASTLING_VALUE;
 		}
-
-		// Calculate the values of each chessPiece and store them in the "valueBoard" array.
-		int n1 = numOfRows;
-		int n2 = NUM_OF_COLUMNS;
-		double[][] valueBoard = new double[n1][n2];
-		for (int i = 0; i < n1; i++) {
-			for (int j = 0; j < n2; j++) {
-				String position = Utilities.getPositionByRowCol(i, j);
-				/* In the beginning, these sum up to 39, for each player. */
-				valueBoard[i][j] = Utilities.getChessPieceValue(position, this.gameBoard[i][j], this.halfMoveNumber);
-			}
-		}
-
-		double checkValue;
-		if (this.halfMoveNumber <= Constants.MIDDLE_GAME_HALF_MOVES_THRESHOLD) {
-			checkValue = Constants.CHECK_VALUE;
-		} else {
-			checkValue = Constants.CHECK_LATE_VALUE;
-		}
-
-		/* Evaluation for the check move. */
-		// If last the chessPiece is White and the Black King is in check.
-		if (lastMovedPiece.getAllegiance() == Allegiance.WHITE && this.blackKingInCheck) {
-			// If the White chessPiece is threatened, and it has no cover.
-			if (this.tilesThreatenedByBlack[endRow][endColumn] == 1 && this.tilesThreatenedByWhite[endRow][endColumn] == 0) {
-				whiteScore += checkValue / lastMovedChessPieceValue;
-			}
-			// If the White chessPiece is threatened, and it has cover.
-			if (this.tilesThreatenedByBlack[endRow][endColumn] == 1 && this.tilesThreatenedByWhite[endRow][endColumn] == 1) {
-				whiteScore += checkValue - lastMovedChessPieceValue;
-			}
-			// If the White chessPiece is not threatened, and it has no cover.
-			if (this.tilesThreatenedByBlack[endRow][endColumn] == 0 && this.tilesThreatenedByWhite[endRow][endColumn] == 0) {
-				whiteScore += checkValue;
-			}
-			// If the White chessPiece is not threatened, and it has cover.
-			if (this.tilesThreatenedByBlack[endRow][endColumn] == 0 && this.tilesThreatenedByWhite[endRow][endColumn] == 1) {
-				whiteScore += checkValue;
-			}
-		}
-		// If the last chessPiece is Black and the White King is in check.
-		else if (lastMovedPiece.getAllegiance() == Allegiance.BLACK && this.whiteKingInCheck) {
-			// If the Black chessPiece is threatened, and it has no cover.
-			if (this.tilesThreatenedByWhite[endRow][endColumn] == 1 && this.tilesThreatenedByBlack[endRow][endColumn] == 0) {
-				blackScore += checkValue / lastMovedChessPieceValue;
-			}
-			// If the Black chessPiece is threatened, and it has cover.
-			if (this.tilesThreatenedByWhite[endRow][endColumn] == 1 && this.tilesThreatenedByBlack[endRow][endColumn] == 1) {
-				blackScore += checkValue - lastMovedChessPieceValue;
-			}
-			// If the Black chessPiece is not threatened, and it has no cover.
-			if (this.tilesThreatenedByWhite[endRow][endColumn] == 0 && this.tilesThreatenedByBlack[endRow][endColumn] == 0) {
-				blackScore += checkValue;
-			}
-			// If the Black chessPiece is not threatened, and it has cover.
-			if (this.tilesThreatenedByWhite[endRow][endColumn] == 0 && this.tilesThreatenedByBlack[endRow][endColumn] == 1) {
-				blackScore += checkValue;
-			}
-		}
-
-		/* Evaluation for a capture move. */
-		// Check if a White chessPiece captured a Black chessPiece, which means that the score has increased.
-		if (lastMovedPiece.getAllegiance() == Allegiance.WHITE && this.lastCapturedPieceValue != 0) {
-			// System.out.println("White captured a Black chessPiece.");
-			// If the White chessPiece is threatened, and it has no cover.
-			if (this.tilesThreatenedByBlack[endRow][endColumn] == 1 && this.tilesThreatenedByWhite[endRow][endColumn] == 0) {
-				whiteScore += 5 * (this.lastCapturedPieceValue - lastMovedChessPieceValue);
-				// whiteScore += 1;
-			}
-			// If the White chessPiece is threatened, and it has cover.
-			else if (this.tilesThreatenedByBlack[endRow][endColumn] == 1 && this.tilesThreatenedByWhite[endRow][endColumn] == 1) {
-				whiteScore += 10 * (this.lastCapturedPieceValue - lastMovedChessPieceValue);
-				// whiteScore += 1;
-			}
-			// If the White chessPiece is not threatened, and it has no cover.
-			else if (this.tilesThreatenedByBlack[endRow][endColumn] == 0 && this.tilesThreatenedByWhite[endRow][endColumn] == 0) {
-				whiteScore += 80 * this.lastCapturedPieceValue;
-				// whiteScore += 1;
-			}
-			// If the White chessPiece is not threatened, and it has cover.
-			else if (this.tilesThreatenedByBlack[endRow][endColumn] == 0 && this.tilesThreatenedByWhite[endRow][endColumn] == 1) {
-				whiteScore += 100 * this.lastCapturedPieceValue;
-				// whiteScore += 2;
-			}
-		}
-		// If a Black chessPiece captured a White chessPiece, which means that the score has decreased.
-		if (lastMovedPiece.getAllegiance() == Allegiance.BLACK && this.lastCapturedPieceValue != 0) {
-			// System.out.println("Black captured a White chessPiece.");
-			// If the Black chessPiece is threatened, and it has no cover.
-			if (this.tilesThreatenedByWhite[endRow][endColumn] == 1 && this.tilesThreatenedByBlack[endRow][endColumn] == 0) {
-				blackScore += 5 * (this.lastCapturedPieceValue - lastMovedChessPieceValue);
-				// blackScore += 1;
-			}
-			// If the Black chessPiece is threatened, and it has cover.
-			else if (this.tilesThreatenedByWhite[endRow][endColumn] == 1 && this.tilesThreatenedByBlack[endRow][endColumn] == 1) {
-				blackScore += 10 * (this.lastCapturedPieceValue - lastMovedChessPieceValue);
-				// blackScore += 1;
-			}
-			// If the Black chessPiece is not threatened, and it has no cover.
-			else if (this.tilesThreatenedByWhite[endRow][endColumn] == 0 && this.tilesThreatenedByBlack[endRow][endColumn] == 0) {
-				blackScore += 80 * this.lastCapturedPieceValue;
-				// blackScore += 1;
-			}
-			// If the Black chessPiece is not threatened, and it has cover.
-			else if (this.tilesThreatenedByWhite[endRow][endColumn] == 0 && this.tilesThreatenedByBlack[endRow][endColumn] == 1) {
-				blackScore += 100 * this.lastCapturedPieceValue;
-				// blackScore += 2;
-			}
-		}
-
-		/* Add to the score the sum of the values of all the pieces of each player. */
-		/* Lower the score, for each chessPiece threatened by the opponent. */
-		int whiteLegalMoves = 0;
-		int blackLegalMoves = 0;
-		for (int i = 0; i < numOfRows; i++) {
-			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
-
-				/* Lower the score if the chessPiece is threatened by the opponent.
-				 * Else, if the chessPiece is not threatened, increment the score. */
-				// If the chessPiece is White.
-				if (this.gameBoard[i][j].getAllegiance() == Allegiance.WHITE) {
-					// If the White chessPiece is threatened, and it has no cover.
-					if (this.tilesThreatenedByBlack[i][j] == 1 && this.tilesThreatenedByWhite[i][j] == 0) {
-						whiteScore -= 50 * valueBoard[i][j];
-						whiteScore -= Constants.ATTACK_MULTIPLIER * valueBoard[i][j];
-					}
-					// If the White chessPiece is threatened, and it has cover.
-					else if (this.tilesThreatenedByBlack[i][j] == 1 && this.tilesThreatenedByWhite[i][j] == 1) {
-						whiteScore -= 20 * valueBoard[i][j];
-						whiteScore -= Constants.ATTACK_MULTIPLIER * valueBoard[i][j];
-					}
-					// If the White chessPiece is not threatened, and it has no cover.
-					else if (this.tilesThreatenedByBlack[i][j] == 0 && this.tilesThreatenedByWhite[i][j] == 0) {
-						// whiteScore += valueBoard[i][j];
-						whiteScore += valueBoard[i][j];
-					}
-					// If the White chessPiece is not threatened, and it has cover.
-					else if (this.tilesThreatenedByBlack[i][j] == 0 && this.tilesThreatenedByWhite[i][j] == 1) {
-						// whiteScore += valueBoard[i][j];
-						whiteScore += valueBoard[i][j];
-					}
-				}
-				// If the chessPiece is Black.
-				if (this.gameBoard[i][j].getAllegiance() == Allegiance.BLACK) {
-					// If the Black chessPiece is threatened, and it has no cover.
-					if (this.tilesThreatenedByWhite[i][j] == 1 && this.tilesThreatenedByBlack[i][j] == 0) {
-						blackScore -= 50 * valueBoard[i][j];
-						blackScore -= Constants.ATTACK_MULTIPLIER * valueBoard[i][j];
-					}
-					// If the Black chessPiece is threatened, and it has cover.
-					else if (this.tilesThreatenedByWhite[i][j] == 1 && this.tilesThreatenedByBlack[i][j] == 1) {
-						blackScore -= 20 * valueBoard[i][j];
-						blackScore -= Constants.ATTACK_MULTIPLIER * valueBoard[i][j];
-					}
-					// If the Black chessPiece is not threatened, and it has no cover.
-					else if (this.tilesThreatenedByWhite[i][j] == 0 && this.tilesThreatenedByBlack[i][j] == 0) {
-						// blackScore += valueBoard[i][j];
-						blackScore += valueBoard[i][j];
-					}
-					// If the Black chessPiece is not threatened, and it has cover.
-					else if (this.tilesThreatenedByWhite[i][j] == 0 && this.tilesThreatenedByBlack[i][j] == 1) {
-						// blackScore += valueBoard[i][j];
-						blackScore += valueBoard[i][j];
-					}
-				}
-
-				whiteLegalMoves += countLegalMovesFromRowCol(i, j, Constants.WHITE);
-				blackLegalMoves += countLegalMovesFromRowCol(i, j, Constants.BLACK);
-
-			}
-		}
-
-		whiteScore += Constants.MOBILITY_MULTIPLIER * whiteLegalMoves;
-		blackScore += Constants.MOBILITY_MULTIPLIER * blackLegalMoves;
 
 		/* Two bishops remaining check. */
+        /*
 		int numOfWhiteBishops = getNumOfBishops(Allegiance.WHITE);
 		int numOfBlackBishops = getNumOfBishops(Allegiance.BLACK);
-    	/*
 		if (numOfWhiteBishops == 2)
 			whiteScore += Constants.TWO_BISHOPS_VALUE;
 		if (numOfBlackBishops == 2)
 			blackScore += Constants.TWO_BISHOPS_VALUE;
 		*/
-
-		// Add extra penalty, if any Queen, Rook, Bishop or Knight is lost, in early game.
-		if (this.halfMoveNumber <= Constants.MIDDLE_GAME_HALF_MOVES_THRESHOLD) {
-			whiteScore -= (isQueenLost(Allegiance.WHITE)) ? Constants.QUEEN_VALUE * 130 : 0;
-			blackScore -= (isQueenLost(Allegiance.BLACK)) ? Constants.QUEEN_VALUE * 130 : 0;
-
-			whiteScore -= (2 - getNumOfRooks(Allegiance.WHITE)) * Constants.ROOK_VALUE * 130;
-			blackScore -= (2 - getNumOfRooks(Allegiance.BLACK)) * Constants.ROOK_VALUE * 130;
-
-			whiteScore -= (2 - numOfWhiteBishops) * Constants.BISHOP_VALUE * 130;
-			blackScore -= (2 - numOfBlackBishops) * Constants.BISHOP_VALUE * 130;
-
-			whiteScore -= (2 - getNumOfKnights(Allegiance.WHITE)) * Constants.KNIGHT_VALUE * 130;
-			blackScore -= (2 - getNumOfKnights(Allegiance.BLACK)) * Constants.KNIGHT_VALUE * 130;
-		}
-
-		// Add extra penalty, if any Queen, Rook, Bishop or Knight is lost, in late game.
-		else {
-			whiteScore -= (isQueenLost(Allegiance.WHITE)) ? Constants.QUEEN_LATE_VALUE * 130 : 0;
-			blackScore -= (isQueenLost(Allegiance.BLACK)) ? Constants.QUEEN_LATE_VALUE * 130 : 0;
-
-			whiteScore -= (2 - getNumOfRooks(Allegiance.WHITE)) * Constants.ROOK_LATE_VALUE * 130;
-			blackScore -= (2 - getNumOfRooks(Allegiance.BLACK)) * Constants.ROOK_LATE_VALUE * 130;
-
-			whiteScore -= (2 - numOfWhiteBishops) * Constants.BISHOP_LATE_VALUE * 130;
-			blackScore -= (2 - numOfBlackBishops) * Constants.BISHOP_LATE_VALUE * 130;
-
-			whiteScore -= (2 - getNumOfKnights(Allegiance.WHITE)) * Constants.KNIGHT_LATE_VALUE * 130;
-			blackScore -= (2 - getNumOfKnights(Allegiance.BLACK)) * Constants.KNIGHT_LATE_VALUE * 130;
-		}
 
 		return whiteScore - blackScore;
 	}
