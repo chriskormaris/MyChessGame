@@ -137,6 +137,13 @@ public class Constants {
 	public static final double ROOK_VALUE = 5;
 	public static final double QUEEN_VALUE = 9;
 
+	public static final double PAWN_CENTIPAWN_VALUE = 100;
+	public static final double KNIGHT_CENTIPAWN_VALUE = 320;
+	public static final double BISHOP_CENTIPAWN_VALUE = 330;
+	public static final double ROOK_CENTIPAWN_VALUE = 500;
+	public static final double QUEEN_CENTIPAWN_VALUE = 900;
+	public static final double KING_CENTIPAWN_VALUE = 20000;
+
 	public static final double MOBILITY_MULTIPLIER = 1;
 	public static final double ATTACK_MULTIPLIER = 2;
 

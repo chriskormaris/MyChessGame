@@ -150,7 +150,6 @@ public class ChessBoard {
 		this.blackCapturedPiecesCounter = 0;
 
 		this.score = 0;
-		this.lastCapturedPieceValue = 0;
 
 		this.whiteKingInCheckValidPieceMoves = new HashMap<>();
 		this.blackKingInCheckValidPieceMoves = new HashMap<>();
@@ -210,7 +209,6 @@ public class ChessBoard {
 		this.blackCapturedPiecesCounter = otherBoard.getBlackCapturedPiecesCounter();
 
 		this.score = otherBoard.getScore();
-		this.lastCapturedPieceValue = otherBoard.getLastCapturedPieceValue();
 
 		this.promotedPieces = new HashSet<>(otherBoard.getPromotedPieces());
 		this.positionsToRemove = new HashSet<>(otherBoard.getPositionsToRemove());
@@ -296,12 +294,6 @@ public class ChessBoard {
 		// System.out.println("hintPositions: " + hintPositions);
 		if (endTile instanceof EmptyTile ||
 				chessPiece.getAllegiance() != endTile.getAllegiance()) {
-
-			this.lastCapturedPieceValue = Utilities.getChessPieceValue(positionEnd, endTile, this.halfMoveNumber);
-
-			if (chessPiece.getAllegiance() == Allegiance.BLACK) {
-				this.lastCapturedPieceValue = -this.lastCapturedPieceValue;
-			}
 
 			Set<String> castlingPositions = null;
 			if (chessPiece instanceof King) {
@@ -773,11 +765,14 @@ public class ChessBoard {
 		double blackPieceEndgameValuesSum = 0.0;
 		for (int i = 0; i < this.numOfRows; i++) {
 			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
-				String position = Utilities.getPositionByRowCol(i, j);
 				ChessPiece chessPiece = this.gameBoard[i][j];
 
-				double middleGameValue = Utilities.getMiddleGameChessPieceValue(position, chessPiece);
-				double endgameValue = Utilities.getEndgameChessPieceValue(position, chessPiece);
+				int row = i;
+				if (chessPiece.getAllegiance() == Allegiance.BLACK) {
+					row = numOfRows - 1 - i;
+				}
+				double middleGameValue = Utilities.getMiddleGameChessPieceValue(row, j, chessPiece);
+				double endgameValue = Utilities.getEndgameChessPieceValue(row, j, chessPiece);
 
 				if (chessPiece.getAllegiance() == Allegiance.WHITE) {
 					whitePieceMiddleGameValuesSum += middleGameValue;
@@ -1645,14 +1640,6 @@ public class ChessBoard {
 
 	public void incrementScore() {
 		this.score++;
-	}
-
-	public double getLastCapturedPieceValue() {
-		return lastCapturedPieceValue;
-	}
-
-	public void setLastCapturedPieceValue(double lastCapturedPieceValue) {
-		this.lastCapturedPieceValue = lastCapturedPieceValue;
 	}
 
 	public Set<ChessPiece> getPromotedPieces() {

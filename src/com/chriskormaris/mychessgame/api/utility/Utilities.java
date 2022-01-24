@@ -96,50 +96,44 @@ public class Utilities {
 	}
 
 
-	public static double getChessPieceValue(String position, ChessPiece chessPiece, int halfMoveNumber) {
+	public static double getChessPieceValue(int row, int column, ChessPiece chessPiece, int halfMoveNumber) {
 		if (halfMoveNumber <= Constants.MIDDLE_GAME_HALF_MOVES_THRESHOLD) {
-			return getMiddleGameChessPieceValue(position, chessPiece);
+			return getMiddleGameChessPieceValue(row, column, chessPiece);
 		} else {
-			return getEndgameChessPieceValue(position, chessPiece);
+			return getEndgameChessPieceValue(row, column, chessPiece);
 		}
 	}
 
-	public static double getMiddleGameChessPieceValue(String position, ChessPiece chessPiece) {
-		int i = Utilities.getRowFromPosition(position);
-		int j = Utilities.getColumnFromPosition(position);
-
+	public static double getMiddleGameChessPieceValue(int row, int column, ChessPiece chessPiece) {
 		if (chessPiece instanceof Pawn) {
-			return Constants.PAWNS_SQUARES_TABLE[i][j];
+			return Constants.PAWN_CENTIPAWN_VALUE + Constants.PAWNS_SQUARES_TABLE[row][column];
 		} else if (chessPiece instanceof Knight) {
-			return Constants.KNIGHTS_SQUARES_TABLE[i][j];
+			return Constants.KNIGHT_CENTIPAWN_VALUE + Constants.KNIGHTS_SQUARES_TABLE[row][column];
 		} else if (chessPiece instanceof Bishop) {
-			return Constants.BISHOPS_SQUARES_TABLE[i][j];
+			return Constants.BISHOP_CENTIPAWN_VALUE + Constants.BISHOPS_SQUARES_TABLE[row][column];
 		} else if (chessPiece instanceof Rook) {
-			return Constants.ROOKS_SQUARES_TABLE[i][j];
+			return Constants.ROOK_CENTIPAWN_VALUE + Constants.ROOKS_SQUARES_TABLE[row][column];
 		} else if (chessPiece instanceof Queen) {
-			return Constants.QUEEN_SQUARES_TABLE[i][j];
+			return Constants.QUEEN_CENTIPAWN_VALUE + Constants.QUEEN_SQUARES_TABLE[row][column];
 		} else if (chessPiece instanceof King) {
-			return Constants.KING_SQUARES_TABLE_MIDDLE_GAME[i][j];
+			return Constants.KING_CENTIPAWN_VALUE + Constants.KING_SQUARES_TABLE_MIDDLE_GAME[row][column];
 		}
 		return 0.0;
 	}
 
-	public static double getEndgameChessPieceValue(String position, ChessPiece chessPiece) {
-		int i = Utilities.getRowFromPosition(position);
-		int j = Utilities.getColumnFromPosition(position);
-
+	public static double getEndgameChessPieceValue(int row, int column, ChessPiece chessPiece) {
 		if (chessPiece instanceof Pawn) {
-			return Constants.PAWNS_SQUARES_TABLE[i][j];
+			return Constants.PAWN_CENTIPAWN_VALUE + Constants.PAWNS_SQUARES_TABLE[row][column];
 		} else if (chessPiece instanceof Knight) {
-			return Constants.KNIGHTS_SQUARES_TABLE[i][j];
+			return Constants.KNIGHT_CENTIPAWN_VALUE + Constants.KNIGHTS_SQUARES_TABLE[row][column];
 		} else if (chessPiece instanceof Bishop) {
-			return Constants.BISHOPS_SQUARES_TABLE[i][j];
+			return Constants.BISHOP_CENTIPAWN_VALUE + Constants.BISHOPS_SQUARES_TABLE[row][column];
 		} else if (chessPiece instanceof Rook) {
-			return Constants.ROOKS_SQUARES_TABLE[i][j];
+			return Constants.ROOK_CENTIPAWN_VALUE + Constants.ROOKS_SQUARES_TABLE[row][column];
 		} else if (chessPiece instanceof Queen) {
-			return Constants.QUEEN_SQUARES_TABLE[i][j];
+			return Constants.QUEEN_CENTIPAWN_VALUE + Constants.QUEEN_SQUARES_TABLE[row][column];
 		} else if (chessPiece instanceof King) {
-			return Constants.KING_SQUARES_TABLE_ENDGAME[i][j];
+			return Constants.KING_CENTIPAWN_VALUE + Constants.KING_SQUARES_TABLE_MIDDLE_GAME[row][column];
 		}
 		return 0.0;
 	}
