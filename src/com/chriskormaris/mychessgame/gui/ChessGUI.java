@@ -1713,13 +1713,7 @@ public class ChessGUI {
 
 	public static void placePiecesToStartingPositions() {
 		chessBoard.placePiecesToStartingPositions();
-		for (int i = 0; i < gameParameters.getNumOfRows(); i++) {
-			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
-				ChessPiece chessPiece = chessBoard.getGameBoard()[i][j];
-				String position = Utilities.getPositionByRowCol(i, j);
-				placePieceToPosition(position, chessPiece);
-			}
-		}
+		redrawChessBoard();
 
 		chessBoard.setThreats();
 
