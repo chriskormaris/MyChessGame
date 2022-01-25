@@ -11,7 +11,7 @@ public class MiniMaxAiMaxDepthTest {
 
         @SuppressWarnings("unused")
         ChessGUI cbg = new ChessGUI(title);
-        ChessGUI.placePiecesToChessBoard();
+        ChessGUI.placePiecesToStartingPositions();
 
 
         // ChessGUI.newGameParameters.gameMode = GameMode.AI_VS_AI;

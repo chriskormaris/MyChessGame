@@ -130,6 +130,7 @@ public class ChessBoard {
 				this.gameBoard[i][j] = new EmptyTile();
 			}
 		}
+		placePiecesToStartingPositions();
 
 		// this.gameBoard = FenUtilities.createGameBoard(this, Constants.DEFAULT_STARTING_PIECES);
 
@@ -214,6 +215,43 @@ public class ChessBoard {
 		this.positionsToRemove = new HashSet<>(otherBoard.getPositionsToRemove());
 		this.piecesToPlace = new HashMap<>(otherBoard.getPiecesToPlace());
 		this.capturedPiece = otherBoard.getCapturedPiece();
+	}
+
+	public void placePiecesToStartingPositions() {
+		for (int j = 0; j < Constants.DEFAULT_NUM_OF_COLUMNS; j++) {
+			this.gameBoard[1][j] = new Pawn(Allegiance.WHITE);  // 2nd row
+		}
+
+		this.gameBoard[0][0] = new Rook(Allegiance.WHITE);  // A1
+		this.gameBoard[0][1] = new Knight(Allegiance.WHITE);  // B1
+		this.gameBoard[0][2] = new Bishop(Allegiance.WHITE);  // C1
+		this.gameBoard[0][3] = new Queen(Allegiance.WHITE);  // D1
+
+		String whiteKingPosition = "E1";
+		this.setWhiteKingPosition(whiteKingPosition);
+		this.gameBoard[0][4] = new King(Allegiance.WHITE);
+
+		this.gameBoard[0][5] = new Bishop(Allegiance.WHITE);  // F1
+		this.gameBoard[0][6] = new Knight(Allegiance.WHITE);  // G1
+		this.gameBoard[0][7] = new Rook(Allegiance.WHITE);  // H1
+
+
+		for (int j = 0; j < Constants.DEFAULT_NUM_OF_COLUMNS; j++) {
+			this.gameBoard[numOfRows - 2][j] = new Pawn(Allegiance.BLACK);  // (n-th - 1) row
+		}
+
+		this.gameBoard[numOfRows - 1][0] = new Rook(Allegiance.BLACK);  // A8
+		this.gameBoard[numOfRows - 1][1] = new Knight(Allegiance.BLACK);  // B8
+		this.gameBoard[numOfRows - 1][2] = new Bishop(Allegiance.BLACK);  // C8
+		this.gameBoard[numOfRows - 1][3] = new Queen(Allegiance.BLACK);  // D8
+
+		String blackKingPosition = "E" + numOfRows;
+		this.setBlackKingPosition(blackKingPosition);
+		this.gameBoard[numOfRows - 1][4] = new King(Allegiance.BLACK);
+
+		this.gameBoard[numOfRows - 1][5] = new Bishop(Allegiance.BLACK);  // F8
+		this.gameBoard[numOfRows - 1][6] = new Knight(Allegiance.BLACK);  // G8
+		this.gameBoard[numOfRows - 1][7] = new Rook(Allegiance.BLACK);  // H8
 	}
 
 	// It prints the chess board board on the console.
@@ -497,33 +535,33 @@ public class ChessBoard {
 	private void updateScoreAfterPieceCapture(ChessPiece endTile) {
 		if (promotedPieces.contains(endTile)) {
 			if (endTile.getAllegiance() == Allegiance.WHITE) {
-				score -= Constants.PAWN_VALUE;
+				score -= Constants.PAWN_SCORE_VALUE;
 			} else if (endTile.getAllegiance() == Allegiance.BLACK) {
-				score += Constants.PAWN_VALUE;
+				score += Constants.PAWN_SCORE_VALUE;
 			}
 		} else if (endTile.getAllegiance() == Allegiance.WHITE) {
 			if (endTile instanceof Pawn) {
-				score -= Constants.PAWN_VALUE;
+				score -= Constants.PAWN_SCORE_VALUE;
 			} else if (endTile instanceof Rook) {
-				score -= Constants.ROOK_VALUE;
+				score -= Constants.ROOK_SCORE_VALUE;
 			} else if (endTile instanceof Knight) {
-				score -= Constants.KNIGHT_VALUE;
+				score -= Constants.KNIGHT_SCORE_VALUE;
 			} else if (endTile instanceof Bishop) {
-				score -= Constants.BISHOP_VALUE;
+				score -= Constants.BISHOP_SCORE_VALUE;
 			} else if (endTile instanceof Queen) {
-				score -= Constants.QUEEN_VALUE;
+				score -= Constants.QUEEN_SCORE_VALUE;
 			}
 		} else if (endTile.getAllegiance() == Allegiance.BLACK) {
 			if (endTile instanceof Pawn) {
-				score += Constants.PAWN_VALUE;
+				score += Constants.PAWN_SCORE_VALUE;
 			} else if (endTile instanceof Rook) {
-				score += Constants.ROOK_VALUE;
+				score += Constants.ROOK_SCORE_VALUE;
 			} else if (endTile instanceof Knight) {
-				score += Constants.KNIGHT_VALUE;
+				score += Constants.KNIGHT_SCORE_VALUE;
 			} else if (endTile instanceof Bishop) {
-				score += Constants.BISHOP_VALUE;
+				score += Constants.BISHOP_SCORE_VALUE;
 			} else if (endTile instanceof Queen) {
-				score += Constants.QUEEN_VALUE;
+				score += Constants.QUEEN_SCORE_VALUE;
 			}
 		}
 
@@ -666,6 +704,7 @@ public class ChessBoard {
 		return children;
 	}
 
+	@SuppressWarnings("unused")
 	private int countTotalPieces() {
 		int counter = 0;
 
@@ -734,14 +773,10 @@ public class ChessBoard {
 	}
 
 	/*
-	 * We use a heuristic function that takes into consideration
-	 * how close we are to a checkmate and the importance of
-	 * the opponent's pieces we capture.
+	 * PeSTO's Evaluation Function.
+	 * see: https://www.chessprogramming.org/PeSTO%27s_Evaluation_Function
 	 */
 	public double evaluate() {
-		int whiteScore = 0;
-		int blackScore = 0;
-
 		this.isWhiteCheckmate = checkForWhiteCheckmate(false);
 		this.isBlackCheckmate = checkForBlackCheckmate(false);
 		this.isWhiteStalemateDraw = checkForWhiteStalemateDraw();
@@ -755,63 +790,51 @@ public class ChessBoard {
 		if (this.isInsufficientMaterialDraw) return 0;
 		// if (checkForNoPieceCaptureDraw()) return 0;
 
-		int totalPieces = countTotalPieces();
-		double phase = (double) totalPieces / 32;
+		int whiteMiddleGameValuesSum = 0;
+		int blackMiddleGameValuesSum = 0;
+		int whiteEndgameValuesSum = 0;
+		int blackEndgameValuesSum = 0;
+		int gamePhase = 0;
 
-		// Calculate the values of each chessPiece and store them in the "valueBoard" array.
-		double whitePieceMiddleGameValuesSum = 0.0;
-		double whitePieceEndgameValuesSum = 0.0;
-		double blackPieceMiddleGameValuesSum = 0.0;
-		double blackPieceEndgameValuesSum = 0.0;
-		for (int i = 0; i < this.numOfRows; i++) {
+		for (int i = 0; i < numOfRows; i++) {
 			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
 				ChessPiece chessPiece = this.gameBoard[i][j];
 
-				int row = i;
-				if (chessPiece.getAllegiance() == Allegiance.BLACK) {
-					row = numOfRows - 1 - i;
-				}
-				double middleGameValue = Utilities.getMiddleGameChessPieceValue(row, j, chessPiece);
-				double endgameValue = Utilities.getEndgameChessPieceValue(row, j, chessPiece);
-
 				if (chessPiece.getAllegiance() == Allegiance.WHITE) {
-					whitePieceMiddleGameValuesSum += middleGameValue;
-					whitePieceEndgameValuesSum += endgameValue;
+					whiteMiddleGameValuesSum += Utilities.getMiddleGamePieceSquareValue(i, j, chessPiece);
+					whiteEndgameValuesSum += Utilities.getEndgamePieceSquareValue(i, j, chessPiece);
 				} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
-					blackPieceMiddleGameValuesSum += middleGameValue;
-					blackPieceEndgameValuesSum += endgameValue;
+					int row = numOfRows - 1 - i;
+					blackMiddleGameValuesSum += Utilities.getMiddleGamePieceSquareValue(row, j, chessPiece);
+					blackEndgameValuesSum += Utilities.getEndgamePieceSquareValue(row, j, chessPiece);
+				}
+
+				if (chessPiece instanceof Pawn) {
+					gamePhase += Constants.PAWN_GAME_PHASE_VALUE;
+				} else if (chessPiece instanceof Knight) {
+					gamePhase += Constants.KNIGHT_GAME_PHASE_VALUE;
+				} else if (chessPiece instanceof Bishop) {
+					gamePhase += Constants.BISHOP_GAME_PHASE_VALUE;
+				} else if (chessPiece instanceof Rook) {
+					gamePhase += Constants.ROOK_GAME_PHASE_VALUE;
+				} else if (chessPiece instanceof Queen) {
+					gamePhase += Constants.QUEEN_GAME_PHASE_VALUE;
+				} else if (chessPiece instanceof King) {
+					gamePhase += Constants.KING_GAME_PHASE_VALUE;
 				}
 			}
 		}
-		whiteScore += phase * whitePieceMiddleGameValuesSum + (1 - phase) * whitePieceEndgameValuesSum;
-		blackScore += phase * blackPieceMiddleGameValuesSum + (1 - phase) * blackPieceEndgameValuesSum;
 
-		// If Castling has occurred, add to the score.
-		if (whiteCastlingDone) {
-			// System.out.println("White castling done!");
-			whiteScore += Constants.CASTLING_VALUE;
-		} else if (blackCastlingDone) {
-			// System.out.println("Black castling done!");
-			blackScore += Constants.CASTLING_VALUE;
-		} else if (!whiteCastlingDone && !isWhiteQueenSideCastlingAvailable() && !isWhiteKingSideCastlingAvailable()) {
-			// System.out.println("White castling lost!");
-			whiteScore -= Constants.CASTLING_VALUE;
-		} else if (!blackCastlingDone && !isBlackQueenSideCastlingAvailable() && !isBlackKingSideCastlingAvailable()) {
-			// System.out.println("Black castling lost!");
-			blackScore -= Constants.CASTLING_VALUE;
+		int middleGameScore = whiteMiddleGameValuesSum - blackMiddleGameValuesSum;
+		int endgameScore = whiteEndgameValuesSum - blackEndgameValuesSum;
+		int middleGamePhase = gamePhase;
+		// At the start of the game, the "gamePhase" value should be equal to 24.
+		// In case of early promotion, the "gamePhase" value could be more than 24.
+		if (middleGamePhase > 24) {
+			middleGamePhase = 24;
 		}
-
-		/* Two bishops remaining check. */
-        /*
-		int numOfWhiteBishops = getNumOfBishops(Allegiance.WHITE);
-		int numOfBlackBishops = getNumOfBishops(Allegiance.BLACK);
-		if (numOfWhiteBishops == 2)
-			whiteScore += Constants.TWO_BISHOPS_VALUE;
-		if (numOfBlackBishops == 2)
-			blackScore += Constants.TWO_BISHOPS_VALUE;
-		*/
-
-		return whiteScore - blackScore;
+		int endgamePhase = 24 - middleGamePhase;
+		return (middleGameScore * middleGamePhase + endgameScore * endgamePhase) / 24.0;
 	}
 
 	@SuppressWarnings("unused")

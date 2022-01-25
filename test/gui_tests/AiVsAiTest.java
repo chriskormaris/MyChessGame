@@ -45,7 +45,7 @@ class AiVsAiTest {
         // ChessGUI.chessBoard.checkForWhiteCheckmate(storeKingInCheckMoves);
         // System.out.println(chessBoard.getWhiteKingInCheckValidPieceMoves());
 
-        ChessGUI.placePiecesToChessBoard();
+        ChessGUI.placePiecesToStartingPositions();
         ChessGUI.playAiVsAi();
 
         System.out.println();

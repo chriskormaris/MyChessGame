@@ -11,7 +11,6 @@ import com.chriskormaris.mychessgame.api.piece.Rook;
 
 public class Utilities {
 
-
 	public static String getPositionByRowCol(int row, int column) {
 		String columnString = (char) (column + 65) + "";
 
@@ -96,46 +95,40 @@ public class Utilities {
 	}
 
 
-	public static double getChessPieceValue(int row, int column, ChessPiece chessPiece, int halfMoveNumber) {
-		if (halfMoveNumber <= Constants.MIDDLE_GAME_HALF_MOVES_THRESHOLD) {
-			return getMiddleGameChessPieceValue(row, column, chessPiece);
-		} else {
-			return getEndgameChessPieceValue(row, column, chessPiece);
+	public static int getMiddleGamePieceSquareValue(int row, int column, ChessPiece chessPiece) {
+		if (chessPiece instanceof Pawn) {
+			return Constants.PAWN_MIDDLE_GAME_VALUE + Constants.PAWNS_SQUARES_TABLE_MIDDLE_GAME[row][column];
+		} else if (chessPiece instanceof Knight) {
+			return Constants.KNIGHT_MIDDLE_GAME_VALUE + Constants.KNIGHTS_SQUARES_TABLE_MIDDLE_GAME[row][column];
+		} else if (chessPiece instanceof Bishop) {
+			return Constants.BISHOP_MIDDLE_GAME_VALUE + Constants.BISHOPS_SQUARES_TABLE_MIDDLE_GAME[row][column];
+		} else if (chessPiece instanceof Rook) {
+			return Constants.ROOK_MIDDLE_GAME_VALUE + Constants.ROOKS_SQUARES_TABLE_MIDDLE_GAME[row][column];
+		} else if (chessPiece instanceof Queen) {
+			return Constants.QUEEN_MIDDLE_GAME_VALUE + Constants.QUEEN_SQUARES_TABLE_MIDDLE_GAME[row][column];
+		} else if (chessPiece instanceof King) {
+			return Constants.KING_MIDDLE_GAME_VALUE + Constants.KING_SQUARES_TABLE_MIDDLE_GAME[row][column];
 		}
+		return 0;
 	}
 
-	public static double getMiddleGameChessPieceValue(int row, int column, ChessPiece chessPiece) {
+
+	public static int getEndgamePieceSquareValue(int row, int column, ChessPiece chessPiece) {
 		if (chessPiece instanceof Pawn) {
-			return Constants.PAWN_CENTIPAWN_VALUE + Constants.PAWNS_SQUARES_TABLE[row][column];
+			return Constants.PAWN_ENDGAME_VALUE + Constants.PAWNS_SQUARES_TABLE_ENDGAME[row][column];
 		} else if (chessPiece instanceof Knight) {
-			return Constants.KNIGHT_CENTIPAWN_VALUE + Constants.KNIGHTS_SQUARES_TABLE[row][column];
+			return Constants.KNIGHT_ENDGAME_VALUE + Constants.KNIGHTS_SQUARES_TABLE_ENDGAME[row][column];
 		} else if (chessPiece instanceof Bishop) {
-			return Constants.BISHOP_CENTIPAWN_VALUE + Constants.BISHOPS_SQUARES_TABLE[row][column];
+			return Constants.BISHOP_ENDGAME_VALUE + Constants.BISHOPS_SQUARES_TABLE_ENDGAME[row][column];
 		} else if (chessPiece instanceof Rook) {
-			return Constants.ROOK_CENTIPAWN_VALUE + Constants.ROOKS_SQUARES_TABLE[row][column];
+			return Constants.ROOK_ENDGAME_VALUE + Constants.ROOKS_SQUARES_TABLE_ENDGAME[row][column];
 		} else if (chessPiece instanceof Queen) {
-			return Constants.QUEEN_CENTIPAWN_VALUE + Constants.QUEEN_SQUARES_TABLE[row][column];
+			return Constants.QUEEN_ENDGAME_VALUE + Constants.QUEEN_SQUARES_TABLE_ENDGAME[row][column];
 		} else if (chessPiece instanceof King) {
-			return Constants.KING_CENTIPAWN_VALUE + Constants.KING_SQUARES_TABLE_MIDDLE_GAME[row][column];
+			return Constants.KING_ENDGAME_VALUE + Constants.KING_SQUARES_TABLE_ENDGAME[row][column];
 		}
-		return 0.0;
+		return 0;
 	}
 
-	public static double getEndgameChessPieceValue(int row, int column, ChessPiece chessPiece) {
-		if (chessPiece instanceof Pawn) {
-			return Constants.PAWN_CENTIPAWN_VALUE + Constants.PAWNS_SQUARES_TABLE[row][column];
-		} else if (chessPiece instanceof Knight) {
-			return Constants.KNIGHT_CENTIPAWN_VALUE + Constants.KNIGHTS_SQUARES_TABLE[row][column];
-		} else if (chessPiece instanceof Bishop) {
-			return Constants.BISHOP_CENTIPAWN_VALUE + Constants.BISHOPS_SQUARES_TABLE[row][column];
-		} else if (chessPiece instanceof Rook) {
-			return Constants.ROOK_CENTIPAWN_VALUE + Constants.ROOKS_SQUARES_TABLE[row][column];
-		} else if (chessPiece instanceof Queen) {
-			return Constants.QUEEN_CENTIPAWN_VALUE + Constants.QUEEN_SQUARES_TABLE[row][column];
-		} else if (chessPiece instanceof King) {
-			return Constants.KING_CENTIPAWN_VALUE + Constants.KING_SQUARES_TABLE_MIDDLE_GAME[row][column];
-		}
-		return 0.0;
-	}
 
 }

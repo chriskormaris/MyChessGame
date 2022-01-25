@@ -14,7 +14,6 @@ import com.chriskormaris.mychessgame.api.exception.InvalidFenFormatException;
 import com.chriskormaris.mychessgame.api.piece.Bishop;
 import com.chriskormaris.mychessgame.api.piece.ChessPiece;
 import com.chriskormaris.mychessgame.api.piece.EmptyTile;
-import com.chriskormaris.mychessgame.api.piece.King;
 import com.chriskormaris.mychessgame.api.piece.Knight;
 import com.chriskormaris.mychessgame.api.piece.Pawn;
 import com.chriskormaris.mychessgame.api.piece.Queen;
@@ -797,11 +796,14 @@ public class ChessGUI {
 
 		restoreDefaultValues();
 
-		// The call of the following method is important.
-		// Consider the case where the number of rows has been changed.
-		makeChessBoardSquaresEmpty();
+		chessBoard.setThreats();
 
-		placePiecesToChessBoard();
+		ChessPiece[][] halfMoveGameBoard = Utilities.copyGameBoard(chessBoard.getGameBoard());
+		halfMoveGameBoards.push(halfMoveGameBoard);
+
+		redrawChessBoard();
+
+		setTurnMessage();
 
 		System.out.println();
 		System.out.println(chessBoard);
@@ -1699,74 +1701,32 @@ public class ChessGUI {
 		}
 	}
 
-	public static void placePiecesToChessBoard() {
-
-		for (int j = 0; j < Constants.DEFAULT_NUM_OF_COLUMNS; j++) {
-			String position = (char) (65 + j) + "2";
-			placePieceToPosition(position, new Pawn(Allegiance.WHITE));
+	public static void placePiecesToStartingPositions() {
+		chessBoard.placePiecesToStartingPositions();
+		for (int i = 0; i < gameParameters.getNumOfRows(); i++) {
+			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
+				ChessPiece chessPiece = chessBoard.getGameBoard()[i][j];
+				String position = Utilities.getPositionByRowCol(i, j);
+				placePieceToPosition(position, chessPiece);
+			}
 		}
-
-		String leftWhiteRookPosition = "A1";
-		placePieceToPosition(leftWhiteRookPosition, new Rook(Allegiance.WHITE));
-
-		String leftWhiteKnightPosition = "B1";
-		placePieceToPosition(leftWhiteKnightPosition, new Knight(Allegiance.WHITE));
-
-		String leftWhiteBishopPosition = "C1";
-		placePieceToPosition(leftWhiteBishopPosition, new Bishop(Allegiance.WHITE));
-
-		String whiteQueenPosition = "D1";
-		placePieceToPosition(whiteQueenPosition, new Queen(Allegiance.WHITE));
-
-		String whiteKingPosition = "E1";
-		chessBoard.setWhiteKingPosition(whiteKingPosition);
-		placePieceToPosition(whiteKingPosition, new King(Allegiance.WHITE));
-
-		String rightWhiteBishopPosition = "F1";
-		placePieceToPosition(rightWhiteBishopPosition, new Bishop(Allegiance.WHITE));
-
-		String rightWhiteKnightPosition = "G1";
-		placePieceToPosition(rightWhiteKnightPosition, new Knight(Allegiance.WHITE));
-
-		String rightWhiteRookPosition = "H1";
-		placePieceToPosition(rightWhiteRookPosition, new Rook(Allegiance.WHITE));
-
-		for (int j = 0; j < Constants.DEFAULT_NUM_OF_COLUMNS; j++) {
-			String position = (char) (65 + j) + (gameParameters.getNumOfRows() - 1 + "");
-			placePieceToPosition(position, new Pawn(Allegiance.BLACK));
-		}
-
-		String leftBlackRookPosition = "A" + gameParameters.getNumOfRows();
-		placePieceToPosition(leftBlackRookPosition, new Rook(Allegiance.BLACK));
-
-		String leftBlackKnightPosition = "B" + gameParameters.getNumOfRows();
-		placePieceToPosition(leftBlackKnightPosition, new Knight(Allegiance.BLACK));
-
-		String leftBlackBishopPosition = "C" + gameParameters.getNumOfRows();
-		placePieceToPosition(leftBlackBishopPosition, new Bishop(Allegiance.BLACK));
-
-		String blackQueenPosition = "D" + gameParameters.getNumOfRows();
-		placePieceToPosition(blackQueenPosition, new Queen(Allegiance.BLACK));
-
-		String blackKingPosition = "E" + gameParameters.getNumOfRows();
-		chessBoard.setBlackKingPosition(blackKingPosition);
-		placePieceToPosition(blackKingPosition, new King(Allegiance.BLACK));
-
-		String rightBlackBishopPosition = "F" + gameParameters.getNumOfRows();
-		placePieceToPosition(rightBlackBishopPosition, new Bishop(Allegiance.BLACK));
-
-		String rightBlackKnightPosition = "G" + gameParameters.getNumOfRows();
-		placePieceToPosition(rightBlackKnightPosition, new Knight(Allegiance.BLACK));
-
-		String rightBlackRookPosition = "H" + gameParameters.getNumOfRows();
-		placePieceToPosition(rightBlackRookPosition, new Rook(Allegiance.BLACK));
 
 		chessBoard.setThreats();
 
-		setTurnMessage();
-
 		ChessPiece[][] halfMoveGameBoard = Utilities.copyGameBoard(chessBoard.getGameBoard());
 		halfMoveGameBoards.push(halfMoveGameBoard);
+
+		setTurnMessage();
+	}
+
+	public static void redrawChessBoard() {
+		for (int i = 0; i < gameParameters.getNumOfRows(); i++) {
+			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
+				ChessPiece chessPiece = chessBoard.getGameBoard()[i][j];
+				String position = Utilities.getPositionByRowCol(i, j);
+				placePieceToPosition(position, chessPiece);
+			}
+		}
 	}
 
 	public static void placePiecesToChessBoard(String fenPosition) {
@@ -1847,14 +1807,6 @@ public class ChessGUI {
 		buttonsEnabled = false;
 	}
 
-	public static void main(String[] args) {
-		@SuppressWarnings("unused")
-		ChessGUI cbg = new ChessGUI(TITLE);
-		placePiecesToChessBoard();
-
-		System.out.println(chessBoard);
-	}
-
 	public final void initializeGui() {
 		// Set up the main GUI.
 		// com.chriskormaris.mychessgame.gui.setBorder(new EmptyBorder(0,0,0,0));
@@ -1871,6 +1823,14 @@ public class ChessGUI {
 
 	public final JComponent getGui() {
 		return gui;
+	}
+
+	public static void main(String[] args) {
+		@SuppressWarnings("unused")
+		ChessGUI cbg = new ChessGUI(TITLE);
+		placePiecesToStartingPositions();
+
+		System.out.println(chessBoard);
 	}
 
 }
