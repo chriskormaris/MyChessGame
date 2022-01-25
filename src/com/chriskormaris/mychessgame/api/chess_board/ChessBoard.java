@@ -731,10 +731,8 @@ public class ChessBoard {
 			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
 				ChessPiece chessPiece = this.gameBoard[i][j];
 
-				/*
-				 * Simple Evaluation Function.
-				 * see: https://www.chessprogramming.org/Simplified_Evaluation_Function
-				 */
+				// Simple Evaluation Function.
+				// see: https://www.chessprogramming.org/Simplified_Evaluation_Function
 				/*
 				if (chessPiece.getAllegiance() == Allegiance.WHITE) {
 					int row = numOfRows - 1 - i;
@@ -746,10 +744,8 @@ public class ChessBoard {
 				}
 				*/
 
-				/*
-				 * PeSTO's Evaluation Function.
-				 * see: https://www.chessprogramming.org/PeSTO%27s_Evaluation_Function
-				 */
+				// PeSTO's Evaluation Function.
+				// see: https://www.chessprogramming.org/PeSTO%27s_Evaluation_Function
 				if (chessPiece.getAllegiance() == Allegiance.WHITE) {
 					int row = numOfRows - 1 - i;
 					whiteMiddleGameValuesSum += PeSTOEvaluationUtilities.getMiddleGamePieceSquareValue(row, j, chessPiece);
