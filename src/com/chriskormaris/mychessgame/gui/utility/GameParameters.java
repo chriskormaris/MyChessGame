@@ -24,13 +24,14 @@ public class GameParameters {
 	private int ai1MaxDepth;
 	private int ai2MaxDepth;
 
+	private EvaluationFunction evaluationFunction1;
+	private EvaluationFunction evaluationFunction2;
+
 	private Color whiteTileColor;
 
 	private Color blackTileColor;
 
 	private int numOfRows;
-
-	private EvaluationFunction evaluationFunction;
 
 	// Default constructor
 	public GameParameters() {
@@ -52,6 +53,9 @@ public class GameParameters {
 		this.ai1MaxDepth = Constants.DEFAULT_MAX_DEPTH;
 		this.ai2MaxDepth = Constants.DEFAULT_MAX_DEPTH;
 
+		this.evaluationFunction1 = EvaluationFunction.SIMPLIFIED;
+		this.evaluationFunction2 = EvaluationFunction.SIMPLIFIED;
+
 		this.whiteTileColor = Color.WHITE;
 		// this.whiteTileColor = Color.PINK;
 
@@ -61,8 +65,6 @@ public class GameParameters {
 		// this.blackTileColor = Color.GRAY;
 
 		this.numOfRows = Constants.DEFAULT_NUM_OF_ROWS;
-
-		this.evaluationFunction = EvaluationFunction.SIMPLIFIED;
 	}
 
 	// Copy constructor
@@ -74,18 +76,19 @@ public class GameParameters {
 		this.aiType = otherGameParameters.getAiType();
 		this.ai1MaxDepth = otherGameParameters.getAi1MaxDepth();
 		this.ai2MaxDepth = otherGameParameters.getAi2MaxDepth();
+		this.evaluationFunction1 = otherGameParameters.getEvaluationFunction1();
+		this.evaluationFunction2 = otherGameParameters.getEvaluationFunction2();
 		this.whiteTileColor = otherGameParameters.getWhiteTileColor();
 		this.blackTileColor = otherGameParameters.getBlackTileColor();
 		this.numOfRows = otherGameParameters.getNumOfRows();
-		this.evaluationFunction = otherGameParameters.getEvaluationFunction();
 	}
 
 
 	public GameParameters(GuiStyle guiStyle, boolean enableSounds,
-	                      Allegiance humanPlayerAllegiance, GameMode gameMode,
-	                      AiType aiMode, int maxDepth1, int maxDepth2,
-	                      Color whiteTileColor, Color blackTileColor,
-	                      int numOfRows, EvaluationFunction evaluationFunction) {
+	                      Allegiance humanPlayerAllegiance, GameMode gameMode, AiType aiMode,
+	                      int maxDepth1, int maxDepth2,
+	                      EvaluationFunction evaluationFunction1, EvaluationFunction evaluationFunction2,
+						  Color whiteTileColor, Color blackTileColor, int numOfRows) {
 		this.guiStyle = guiStyle;
 		this.enableSounds = enableSounds;
 		this.humanPlayerAllegiance = humanPlayerAllegiance;
@@ -93,10 +96,11 @@ public class GameParameters {
 		this.aiType = aiMode;
 		this.ai1MaxDepth = maxDepth1;
 		this.ai2MaxDepth = maxDepth2;
+		this.evaluationFunction1 = evaluationFunction1;
+		this.evaluationFunction2 = evaluationFunction2;
 		this.whiteTileColor = whiteTileColor;
 		this.blackTileColor = blackTileColor;
 		this.numOfRows = numOfRows;
-		this.evaluationFunction = evaluationFunction;
 	}
 
 	public GuiStyle getGuiStyle() {
@@ -155,6 +159,22 @@ public class GameParameters {
 		this.ai2MaxDepth = ai2MaxDepth;
 	}
 
+	public EvaluationFunction getEvaluationFunction1() {
+		return evaluationFunction1;
+	}
+
+	public void setEvaluationFunction1(EvaluationFunction evaluationFunction1) {
+		this.evaluationFunction1 = evaluationFunction1;
+	}
+
+	public EvaluationFunction getEvaluationFunction2() {
+		return evaluationFunction2;
+	}
+
+	public void setEvaluationFunction2(EvaluationFunction evaluationFunction2) {
+		this.evaluationFunction2 = evaluationFunction2;
+	}
+
 	public Color getWhiteTileColor() {
 		return whiteTileColor;
 	}
@@ -177,14 +197,6 @@ public class GameParameters {
 
 	public void setNumOfRows(int numOfRows) {
 		this.numOfRows = numOfRows;
-	}
-
-	public EvaluationFunction getEvaluationFunction() {
-		return evaluationFunction;
-	}
-
-	public void setEvaluationFunction(EvaluationFunction evaluationFunction) {
-		this.evaluationFunction = evaluationFunction;
 	}
 
 }
