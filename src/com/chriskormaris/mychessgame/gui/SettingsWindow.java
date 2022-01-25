@@ -272,26 +272,12 @@ public class SettingsWindow extends JFrame {
 					AiType aiType = AiType.valueOf(ai_type_drop_down.getSelectedItem().toString().toUpperCase().replace(" ", "_"));
 					int maxDepth1 = (int) max_depth1_drop_down.getSelectedItem();
 					int maxDepth2 = (int) max_depth2_drop_down.getSelectedItem();
-					int evaluationFunction1Index = evaluation_function1_drop_down.getSelectedIndex();
-					int evaluationFunction2Index = evaluation_function2_drop_down.getSelectedIndex();
+					EvaluationFunction evaluationFunction1 = EvaluationFunction.valueOf(evaluation_function1_drop_down.getSelectedItem().toString().toUpperCase());
+					EvaluationFunction evaluationFunction2 = EvaluationFunction.valueOf(evaluation_function2_drop_down.getSelectedItem().toString().toUpperCase());
 					int whiteTileColorDropdownIndex = white_tile_color_drop_down.getSelectedIndex();
 					int blackTileColorDropdownIndex = black_tile_color_drop_down.getSelectedIndex();
 					int numOfRows = (int) num_of_rows_spinner.getValue();
 					// numOfRows = Math.max(numOfRows, 8);
-
-					EvaluationFunction evaluationFunction1 = null;
-					if (evaluationFunction1Index == 0) {
-						evaluationFunction1 = EvaluationFunction.SIMPLIFIED;
-					} else if (evaluationFunction1Index == 1) {
-						evaluationFunction1 = EvaluationFunction.PESTO;
-					}
-
-					EvaluationFunction evaluationFunction2 = null;
-					if (evaluationFunction2Index == 0) {
-						evaluationFunction2 = EvaluationFunction.SIMPLIFIED;
-					} else if (evaluationFunction2Index == 1) {
-						evaluationFunction2 = EvaluationFunction.PESTO;
-					}
 
 					Color whiteTileColor = null;
 					if (whiteTileColorDropdownIndex == 0) {
