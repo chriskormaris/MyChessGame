@@ -2,6 +2,7 @@ package com.chriskormaris.mychessgame.gui.utility;
 
 import com.chriskormaris.mychessgame.api.enumeration.AiType;
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
+import com.chriskormaris.mychessgame.api.enumeration.EvaluationFunction;
 import com.chriskormaris.mychessgame.api.enumeration.GameMode;
 import com.chriskormaris.mychessgame.api.utility.Constants;
 import com.chriskormaris.mychessgame.gui.enumeration.GuiStyle;
@@ -28,6 +29,8 @@ public class GameParameters {
 	private Color blackTileColor;
 
 	private int numOfRows;
+
+	private EvaluationFunction evaluationFunction;
 
 	// Default constructor
 	public GameParameters() {
@@ -58,6 +61,8 @@ public class GameParameters {
 		// this.blackTileColor = Color.GRAY;
 
 		this.numOfRows = Constants.DEFAULT_NUM_OF_ROWS;
+
+		this.evaluationFunction = EvaluationFunction.SIMPLIFIED;
 	}
 
 	// Copy constructor
@@ -72,11 +77,15 @@ public class GameParameters {
 		this.whiteTileColor = otherGameParameters.getWhiteTileColor();
 		this.blackTileColor = otherGameParameters.getBlackTileColor();
 		this.numOfRows = otherGameParameters.getNumOfRows();
+		this.evaluationFunction = otherGameParameters.getEvaluationFunction();
 	}
 
 
-	public GameParameters(GuiStyle guiStyle, boolean enableSounds, Allegiance humanPlayerAllegiance, GameMode gameMode,
-	                      AiType aiMode, int maxDepth1, int maxDepth2, Color whiteTileColor, Color blackTileColor, int numOfRows) {
+	public GameParameters(GuiStyle guiStyle, boolean enableSounds,
+	                      Allegiance humanPlayerAllegiance, GameMode gameMode,
+	                      AiType aiMode, int maxDepth1, int maxDepth2,
+	                      Color whiteTileColor, Color blackTileColor,
+	                      int numOfRows, EvaluationFunction evaluationFunction) {
 		this.guiStyle = guiStyle;
 		this.enableSounds = enableSounds;
 		this.humanPlayerAllegiance = humanPlayerAllegiance;
@@ -87,6 +96,7 @@ public class GameParameters {
 		this.whiteTileColor = whiteTileColor;
 		this.blackTileColor = blackTileColor;
 		this.numOfRows = numOfRows;
+		this.evaluationFunction = evaluationFunction;
 	}
 
 	public GuiStyle getGuiStyle() {
@@ -167,6 +177,14 @@ public class GameParameters {
 
 	public void setNumOfRows(int numOfRows) {
 		this.numOfRows = numOfRows;
+	}
+
+	public EvaluationFunction getEvaluationFunction() {
+		return evaluationFunction;
+	}
+
+	public void setEvaluationFunction(EvaluationFunction evaluationFunction) {
+		this.evaluationFunction = evaluationFunction;
 	}
 
 }

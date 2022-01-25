@@ -1,6 +1,7 @@
 package com.chriskormaris.mychessgame.api.chess_board;
 
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
+import com.chriskormaris.mychessgame.api.enumeration.EvaluationFunction;
 import com.chriskormaris.mychessgame.api.enumeration.GamePhase;
 import com.chriskormaris.mychessgame.api.piece.Bishop;
 import com.chriskormaris.mychessgame.api.piece.ChessPiece;
@@ -632,19 +633,12 @@ public class ChessBoard {
 		}
 	}
 
-	// Checks whether a given tile (with given row and column) contains a chessPiece of the given player.
-	// White pieces have positive values. Black pieces have negative values.
-	private boolean rowColContainsPlayerPiece(int row, int column, boolean player) {
-		return player == Constants.WHITE && gameBoard[row][column].getAllegiance() == Allegiance.WHITE
-				|| player == Constants.BLACK && gameBoard[row][column].getAllegiance() == Allegiance.BLACK;
-	}
-
 	/* Generates the children of the state
 	 * Any square in the board that is empty,
 	 * or is an opponent chessPiece, results to a child.
 	 * Some special cases include "en passant" and castling.
 	 */
-	public List<ChessBoard> getChildren(boolean player) {
+	public List<ChessBoard> getChildren(Allegiance allegiance, EvaluationFunction evaluationFunction) {
 		List<ChessBoard> children = new ArrayList<>();
 
 		// int childPlayer = (getLastPlayer() == Constants.WHITE) ? Constants.BLACK : Constants.BLACK;
@@ -653,7 +647,8 @@ public class ChessBoard {
 		// System.out.println("**********************************************");
 		for (int row = 0; row < numOfRows; row++) {
 			for (int column = 0; column < NUM_OF_COLUMNS; column++) {
-				if (rowColContainsPlayerPiece(row, column, player)) {
+				ChessPiece chessPiece = this.gameBoard[row][column];
+				if (allegiance == chessPiece.getAllegiance()) {
 					String initialPosition = Utilities.getPositionByRowCol(row, column);
 					Set<String> nextPositions = new HashSet<>();
 					if (!this.whiteKingInCheck && whitePlays()
@@ -676,17 +671,17 @@ public class ChessBoard {
 							moves.add(initialPosition);
 							moves.add(nextPosition);
 
-							// Move move = new Move(moves, evaluate());
+							// Move move = new Move(moves, evaluate(evaluationFunction));
 							Move move = new Move(moves);
 
-							// move.setValue(this.evaluate());
+							// move.setValue(this.evaluate(evaluationFunction));
 
 							child.makeMove(move, false);
 							this.player = !this.player;
 
 							// System.out.println("**********************************************");
 							child.getLastMove().setPositions(moves);
-							child.getLastMove().setValue(child.evaluate());
+							child.getLastMove().setValue(child.evaluate(evaluationFunction));
 							// System.out.println("**********************************************\n");
 
 							// System.out.println("**********************************************");
@@ -709,7 +704,7 @@ public class ChessBoard {
 	/*
 	 * Evaluation Function.
 	 */
-	public double evaluate() {
+	public double evaluate(EvaluationFunction evaluationFunction) {
 		this.isWhiteCheckmate = checkForWhiteCheckmate(false);
 		this.isBlackCheckmate = checkForBlackCheckmate(false);
 		this.isWhiteStalemateDraw = checkForWhiteStalemateDraw();
@@ -723,8 +718,12 @@ public class ChessBoard {
 		if (this.isInsufficientMaterialDraw) return 0;
 		// if (checkForNoPieceCaptureDraw()) return 0;
 
-		// return simplifiedEvaluation();
-		return pestoEvaluation();
+		if (evaluationFunction == EvaluationFunction.SIMPLIFIED) {
+			return simplifiedEvaluation();
+		} else if (evaluationFunction == EvaluationFunction.PESTO) {
+			return pestoEvaluation();
+		}
+		return 0;
 	}
 
 	// Simplified Evaluation Function.
@@ -742,14 +741,14 @@ public class ChessBoard {
 					scoreEndgame += SimplifiedEvaluationUtilities.getPieceValue(chessPiece, GamePhase.ENDGAME);
 
 					int row = numOfRows - 1 - i;
-					scoreMiddleGame += SimplifiedEvaluationUtilities.getMiddleGamePieceSquareValue(row, j, chessPiece);
-					scoreEndgame += SimplifiedEvaluationUtilities.getEndgamePieceSquareValue(row, j, chessPiece);
+					scoreMiddleGame += SimplifiedEvaluationUtilities.getPieceSquareValue(row, j, chessPiece, GamePhase.MIDDLE_GAME);
+					scoreEndgame += SimplifiedEvaluationUtilities.getPieceSquareValue(row, j, chessPiece, GamePhase.ENDGAME);
 				} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
 					scoreMiddleGame -= SimplifiedEvaluationUtilities.getPieceValue(chessPiece, GamePhase.MIDDLE_GAME);
 					scoreEndgame -= SimplifiedEvaluationUtilities.getPieceValue(chessPiece, GamePhase.ENDGAME);
 
-					scoreMiddleGame -= SimplifiedEvaluationUtilities.getMiddleGamePieceSquareValue(i, j, chessPiece);
-					scoreEndgame -= SimplifiedEvaluationUtilities.getEndgamePieceSquareValue(i, j, chessPiece);
+					scoreMiddleGame -= SimplifiedEvaluationUtilities.getPieceSquareValue(i, j, chessPiece, GamePhase.MIDDLE_GAME);
+					scoreEndgame -= SimplifiedEvaluationUtilities.getPieceSquareValue(i, j, chessPiece, GamePhase.ENDGAME);
 				}
 
 			}

@@ -120,7 +120,7 @@ public class RandomChoiceAI extends AI {
 		// chessBoard.movePieceFromAPositionToAnother(randomAiStartingPosition, randomAiEndingPosition, true);
 		// hideHintPositions(possibleEndingPositions);
 
-		return new Move(randomAiStartingPosition, randomAiEndingPosition, chessBoard.evaluate());
+		return new Move(randomAiStartingPosition, randomAiEndingPosition);
 	}
 
 }

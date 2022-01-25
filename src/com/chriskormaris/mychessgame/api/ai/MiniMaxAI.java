@@ -2,6 +2,8 @@ package com.chriskormaris.mychessgame.api.ai;
 
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.api.chess_board.Move;
+import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
+import com.chriskormaris.mychessgame.api.enumeration.EvaluationFunction;
 import com.chriskormaris.mychessgame.api.utility.Constants;
 
 import java.util.ArrayList;
@@ -15,16 +17,20 @@ public class MiniMaxAI extends AI {
 
 	private boolean alphaBeta;
 
+	private EvaluationFunction evaluationFunction;
+
 	public MiniMaxAI() {
 		super(Constants.BLACK);
 		maxDepth = 2;
 		alphaBeta = true;
+		evaluationFunction = EvaluationFunction.SIMPLIFIED;
 	}
 
-	public MiniMaxAI(int maxDepth, boolean aiPlayer, boolean alphaBeta) {
+	public MiniMaxAI(int maxDepth, boolean aiPlayer, boolean alphaBeta, EvaluationFunction evaluationFunction) {
 		super(aiPlayer);
 		this.maxDepth = maxDepth;
 		this.alphaBeta = alphaBeta;
+		this.evaluationFunction = evaluationFunction;
 	}
 
 	public int getMaxDepth() {
@@ -77,7 +83,7 @@ public class MiniMaxAI extends AI {
 			return lastMove;
 		}
 		// The children-moves of the state are calculated
-		List<ChessBoard> children = new ArrayList<>(chessBoard.getChildren(Constants.WHITE));
+		List<ChessBoard> children = new ArrayList<>(chessBoard.getChildren(Allegiance.WHITE, evaluationFunction));
 		if (children.size() == 1) {
 			return children.get(0).getLastMove();
 		}
@@ -113,7 +119,7 @@ public class MiniMaxAI extends AI {
 			// System.out.println("min, depth: " + depth + ", lastMove -> " + lastMove);
 			return lastMove;
 		}
-		List<ChessBoard> children = new ArrayList<>(chessBoard.getChildren(Constants.BLACK));
+		List<ChessBoard> children = new ArrayList<>(chessBoard.getChildren(Allegiance.BLACK, evaluationFunction));
 		if (children.size() == 1) {
 			return children.get(0).getLastMove();
 		}
@@ -169,7 +175,7 @@ public class MiniMaxAI extends AI {
 			return lastMove;
 		}
 		// The children-moves of the state are calculated
-		List<ChessBoard> children = new ArrayList<>(chessBoard.getChildren(Constants.WHITE));
+		List<ChessBoard> children = new ArrayList<>(chessBoard.getChildren(Allegiance.WHITE, evaluationFunction));
 		if (children.size() == 1) {
 			return children.get(0).getLastMove();
 		}
@@ -215,7 +221,7 @@ public class MiniMaxAI extends AI {
 			// System.out.println("min, depth: " + depth + ", lastMove -> " + lastMove);
 			return lastMove;
 		}
-		List<ChessBoard> children = new ArrayList<>(chessBoard.getChildren(Constants.BLACK));
+		List<ChessBoard> children = new ArrayList<>(chessBoard.getChildren(Allegiance.BLACK, evaluationFunction));
 		if (children.size() == 1) {
 			return children.get(0).getLastMove();
 		}

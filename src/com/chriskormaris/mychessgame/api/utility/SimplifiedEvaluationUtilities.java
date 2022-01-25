@@ -191,7 +191,7 @@ public class SimplifiedEvaluationUtilities {
 		return 0;
 	}
 
-	public static int getMiddleGamePieceSquareValue(int row, int column, ChessPiece chessPiece) {
+	public static int getPieceSquareValue(int row, int column, ChessPiece chessPiece, GamePhase gamePhase) {
 		if (chessPiece instanceof Pawn) {
 			return PAWNS_SQUARES_TABLE[row][column];
 		} else if (chessPiece instanceof Knight) {
@@ -203,24 +203,11 @@ public class SimplifiedEvaluationUtilities {
 		} else if (chessPiece instanceof Queen) {
 			return QUEEN_SQUARES_TABLE[row][column];
 		} else if (chessPiece instanceof King) {
-			return KING_SQUARES_TABLE_MIDDLE_GAME[row][column];
-		}
-		return 0;
-	}
-
-	public static int getEndgamePieceSquareValue(int row, int column, ChessPiece chessPiece) {
-		if (chessPiece instanceof Pawn) {
-			return PAWNS_SQUARES_TABLE[row][column];
-		} else if (chessPiece instanceof Knight) {
-			return KNIGHTS_SQUARES_TABLE[row][column];
-		} else if (chessPiece instanceof Bishop) {
-			return BISHOPS_SQUARES_TABLE[row][column];
-		} else if (chessPiece instanceof Rook) {
-			return ROOKS_SQUARES_TABLE[row][column];
-		} else if (chessPiece instanceof Queen) {
-			return QUEEN_SQUARES_TABLE[row][column];
-		} else if (chessPiece instanceof King) {
-			return KING_SQUARES_TABLE_ENDGAME[row][column];
+			if (gamePhase == GamePhase.MIDDLE_GAME) {
+				return KING_SQUARES_TABLE_MIDDLE_GAME[row][column];
+			} else if (gamePhase == GamePhase.ENDGAME) {
+				return KING_SQUARES_TABLE_ENDGAME[row][column];
+			}
 		}
 		return 0;
 	}
@@ -238,9 +225,9 @@ public class SimplifiedEvaluationUtilities {
 
 				if (chessPiece.getAllegiance() == Allegiance.WHITE) {
 					int row = n1 - 1 - i;
-					gamePhaseScore += getMiddleGamePieceSquareValue(row, j, chessPiece) * pieceValue;
+					gamePhaseScore += getPieceSquareValue(row, j, chessPiece, GamePhase.MIDDLE_GAME) * pieceValue;
 				} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
-					gamePhaseScore += getMiddleGamePieceSquareValue(i, j, chessPiece) * pieceValue;
+					gamePhaseScore += getPieceSquareValue(i, j, chessPiece, GamePhase.MIDDLE_GAME) * pieceValue;
 				}
 			}
 		}

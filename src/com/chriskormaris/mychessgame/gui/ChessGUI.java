@@ -156,9 +156,11 @@ public class ChessGUI {
 		if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI) {
 			if (gameParameters.getAiType() == AiType.MINIMAX_AI) {
 				if (gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE) {
-					miniMaxAI = new MiniMaxAI(gameParameters.getAi1MaxDepth(), Constants.BLACK, true);
+					miniMaxAI = new MiniMaxAI(gameParameters.getAi1MaxDepth(), Constants.BLACK, true,
+											  gameParameters.getEvaluationFunction());
 				} else if (gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
-					miniMaxAI = new MiniMaxAI(gameParameters.getAi1MaxDepth(), Constants.WHITE, true);
+					miniMaxAI = new MiniMaxAI(gameParameters.getAi1MaxDepth(), Constants.WHITE, true,
+											  gameParameters.getEvaluationFunction());
 				}
 			} else if (gameParameters.getAiType() == AiType.RANDOM_AI) {
 				if (gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE) {
@@ -865,9 +867,11 @@ public class ChessGUI {
 		if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI) {
 			if (gameParameters.getAiType() == AiType.MINIMAX_AI) {
 				if (gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE) {
-					miniMaxAI = new MiniMaxAI(gameParameters.getAi1MaxDepth(), Constants.BLACK, true);
+					miniMaxAI = new MiniMaxAI(gameParameters.getAi1MaxDepth(), Constants.BLACK, true,
+											  gameParameters.getEvaluationFunction());
 				} else if (gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
-					miniMaxAI = new MiniMaxAI(gameParameters.getAi1MaxDepth(), Constants.WHITE, true);
+					miniMaxAI = new MiniMaxAI(gameParameters.getAi1MaxDepth(), Constants.WHITE, true,
+											  gameParameters.getEvaluationFunction());
 				}
 			} else if (gameParameters.getAiType() == AiType.RANDOM_AI) {
 				if (gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE) {
@@ -1551,8 +1555,10 @@ public class ChessGUI {
 		AI ai1 = null;
 		AI ai2 = null;
 		if (gameParameters.getAiType() == AiType.MINIMAX_AI) {
-			ai1 = new MiniMaxAI(gameParameters.getAi1MaxDepth(), Constants.WHITE, false);
-			ai2 = new MiniMaxAI(gameParameters.getAi2MaxDepth(), Constants.BLACK, true);
+			ai1 = new MiniMaxAI(gameParameters.getAi1MaxDepth(), Constants.WHITE, false,
+								gameParameters.getEvaluationFunction());
+			ai2 = new MiniMaxAI(gameParameters.getAi2MaxDepth(), Constants.BLACK, true,
+								gameParameters.getEvaluationFunction());
 		} else if (gameParameters.getAiType() == AiType.RANDOM_AI) {
 			ai1 = new RandomChoiceAI(Constants.WHITE);
 			ai2 = new RandomChoiceAI(Constants.BLACK);

@@ -3,6 +3,7 @@ package com.chriskormaris.mychessgame.gui;
 
 import com.chriskormaris.mychessgame.api.enumeration.AiType;
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
+import com.chriskormaris.mychessgame.api.enumeration.EvaluationFunction;
 import com.chriskormaris.mychessgame.api.enumeration.GameMode;
 import com.chriskormaris.mychessgame.gui.enumeration.GuiStyle;
 import com.chriskormaris.mychessgame.gui.utility.GameParameters;
@@ -17,7 +18,7 @@ import java.awt.event.ActionListener;
 public class SettingsWindow extends JFrame {
 
 	public static int width = 450;
-	public static int height = 490;
+	public static int height = 525;
 
 	private final JComboBox<String> gui_style_drop_down;
 	private final JCheckBox enable_sounds_check_box;
@@ -28,6 +29,7 @@ public class SettingsWindow extends JFrame {
 	private final JComboBox<Integer> max_depth2_drop_down;
 	private final JComboBox<String> white_tile_color_drop_down;
 	private final JComboBox<String> black_tile_color_drop_down;
+	private final JComboBox<String> evaluation_function_drop_down;
 
 	private final SpinnerModel spinnerModel = new SpinnerNumberModel(8, 4, 8, 1);
 	private final JSpinner num_of_rows_spinner = new JSpinner(spinnerModel);
@@ -57,6 +59,7 @@ public class SettingsWindow extends JFrame {
 		Color selectedWhiteTileColor = ChessGUI.gameParameters.getWhiteTileColor();
 		Color selectedBlackTileColor = ChessGUI.gameParameters.getBlackTileColor();
 		int numOfRows = ChessGUI.gameParameters.getNumOfRows();
+		EvaluationFunction evaluationFunction = ChessGUI.gameParameters.getEvaluationFunction();
 
 
 		JLabel guiStyleLabel = new JLabel("GUI style");
@@ -69,6 +72,7 @@ public class SettingsWindow extends JFrame {
 		JLabel whiteTileColorLabel = new JLabel("White tile color");
 		JLabel blackTileColorLabel = new JLabel("Black tile color");
 		JLabel numOfRowsLabel = new JLabel("Number of rows");
+		JLabel evaluationFunctionLabel = new JLabel("Evaluation Function");
 
 
 		add(guiStyleLabel);
@@ -81,6 +85,7 @@ public class SettingsWindow extends JFrame {
 		add(whiteTileColorLabel);
 		add(blackTileColorLabel);
 		add(numOfRowsLabel);
+		add(evaluationFunctionLabel);
 
 
 		gui_style_drop_down = new JComboBox<>();
@@ -174,6 +179,15 @@ public class SettingsWindow extends JFrame {
 
 		spinnerModel.setValue(numOfRows);
 
+		evaluation_function_drop_down = new JComboBox<>();
+		evaluation_function_drop_down.addItem("Simplified");
+		evaluation_function_drop_down.addItem("PeSTO");
+
+		if (evaluationFunction == EvaluationFunction.SIMPLIFIED) {
+			evaluation_function_drop_down.setSelectedIndex(0);
+		} else if (evaluationFunction == EvaluationFunction.PESTO) {
+			evaluation_function_drop_down.setSelectedIndex(1);
+		}
 
 		add(gui_style_drop_down);
 		add(enable_sounds_check_box);
@@ -185,6 +199,7 @@ public class SettingsWindow extends JFrame {
 		add(white_tile_color_drop_down);
 		add(black_tile_color_drop_down);
 		add(num_of_rows_spinner);
+		add(evaluation_function_drop_down);
 
 		guiStyleLabel.setBounds(25, 25, 205, 25);
 		enableSoundsLabel.setBounds(25, 60, 205, 25);
@@ -196,6 +211,7 @@ public class SettingsWindow extends JFrame {
 		whiteTileColorLabel.setBounds(25, 270, 205, 25);
 		blackTileColorLabel.setBounds(25, 305, 205, 25);
 		numOfRowsLabel.setBounds(25, 340, 205, 25);
+		evaluationFunctionLabel.setBounds(25, 375, 205, 25);
 
 		gui_style_drop_down.setBounds(225, 25, 180, 25);
 		enable_sounds_check_box.setBounds(225, 60, 180, 25);
@@ -207,6 +223,7 @@ public class SettingsWindow extends JFrame {
 		white_tile_color_drop_down.setBounds(225, 270, 180, 25);
 		black_tile_color_drop_down.setBounds(225, 305, 180, 25);
 		num_of_rows_spinner.setBounds(225, 340, 180, 25);
+		evaluation_function_drop_down.setBounds(225, 375, 180, 25);
 
 		apply = new JButton("Apply");
 		cancel = new JButton("Cancel");
@@ -214,9 +231,9 @@ public class SettingsWindow extends JFrame {
 		add(cancel);
 
 		int distance = 10;
-		apply.setBounds((width / 2) - 110 - (distance / 2), 400, 100, 30);
+		apply.setBounds((width / 2) - 110 - (distance / 2), 435, 100, 30);
 		apply.addActionListener(handler);
-		cancel.setBounds((width / 2) - 10 + (distance / 2), 400, 100, 30);
+		cancel.setBounds((width / 2) - 10 + (distance / 2), 435, 100, 30);
 		cancel.addActionListener(handler);
 	}
 
@@ -243,6 +260,7 @@ public class SettingsWindow extends JFrame {
 					int blackTileColorDropdownIndex = black_tile_color_drop_down.getSelectedIndex();
 					int numOfRows = (int) num_of_rows_spinner.getValue();
 					// numOfRows = Math.max(numOfRows, 8);
+					int evaluationFunctionIndex = evaluation_function_drop_down.getSelectedIndex();
 
 					Color whiteTileColor = null;
 					if (whiteTileColorDropdownIndex == 0) {
@@ -262,9 +280,17 @@ public class SettingsWindow extends JFrame {
 						blackTileColor = Color.GRAY;
 					}
 
+					EvaluationFunction evaluationFunction = null;
+					if (evaluationFunctionIndex == 0) {
+						evaluationFunction = EvaluationFunction.SIMPLIFIED;
+					} else if (evaluationFunctionIndex == 1) {
+						evaluationFunction = EvaluationFunction.PESTO;
+					}
+
 					// Change game parameters based on the settings.
 					ChessGUI.newGameParameters = new GameParameters(guiStyle, enableSounds, humanPlayerAllegiance,
-							gameMode, aiType, maxDepth1, maxDepth2, whiteTileColor, blackTileColor, numOfRows);
+							gameMode, aiType, maxDepth1, maxDepth2, whiteTileColor, blackTileColor,
+							numOfRows, evaluationFunction);
 
 					JOptionPane.showMessageDialog(ChessGUI.frame,
 							"Game settings have been changed.\nThe changes will be applied in the next new game.",
