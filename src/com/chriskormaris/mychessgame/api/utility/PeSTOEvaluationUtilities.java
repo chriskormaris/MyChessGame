@@ -8,6 +8,8 @@ import com.chriskormaris.mychessgame.api.piece.Pawn;
 import com.chriskormaris.mychessgame.api.piece.Queen;
 import com.chriskormaris.mychessgame.api.piece.Rook;
 
+// PeSTO's Evaluation Function.
+// see: https://www.chessprogramming.org/PeSTO%27s_Evaluation_Function
 public class PeSTOEvaluationUtilities {
 
 	public static int[][] PAWNS_SQUARES_TABLE_MIDDLE_GAME = new int[][]{

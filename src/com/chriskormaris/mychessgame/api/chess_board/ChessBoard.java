@@ -1,6 +1,7 @@
 package com.chriskormaris.mychessgame.api.chess_board;
 
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
+import com.chriskormaris.mychessgame.api.enumeration.GamePhase;
 import com.chriskormaris.mychessgame.api.piece.Bishop;
 import com.chriskormaris.mychessgame.api.piece.ChessPiece;
 import com.chriskormaris.mychessgame.api.piece.EmptyTile;
@@ -12,6 +13,7 @@ import com.chriskormaris.mychessgame.api.piece.Rook;
 import com.chriskormaris.mychessgame.api.utility.ChessPieceShortestPath;
 import com.chriskormaris.mychessgame.api.utility.Constants;
 import com.chriskormaris.mychessgame.api.utility.PeSTOEvaluationUtilities;
+import com.chriskormaris.mychessgame.api.utility.SimplifiedEvaluationUtilities;
 import com.chriskormaris.mychessgame.api.utility.Utilities;
 
 import java.util.ArrayList;
@@ -721,6 +723,54 @@ public class ChessBoard {
 		if (this.isInsufficientMaterialDraw) return 0;
 		// if (checkForNoPieceCaptureDraw()) return 0;
 
+		return simplifiedEvaluation();
+		// return pestoEvaluation();
+	}
+
+	// Simplified Evaluation Function.
+	private double simplifiedEvaluation() {
+		int gamePhaseScore = SimplifiedEvaluationUtilities.getGamePhaseScore(this);
+
+		int scoreOpening = 0;
+		int scoreEndgame = 0;
+		for (int i = 0; i < numOfRows; i++) {
+			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
+				ChessPiece chessPiece = this.gameBoard[i][j];
+
+				if (chessPiece.getAllegiance() == Allegiance.WHITE) {
+					scoreOpening += SimplifiedEvaluationUtilities.getPieceValue(chessPiece, GamePhase.MIDDLE_GAME);
+					scoreEndgame += SimplifiedEvaluationUtilities.getPieceValue(chessPiece, GamePhase.ENDGAME);
+
+					int row = numOfRows - 1 - i;
+					scoreOpening += SimplifiedEvaluationUtilities.getMiddleGamePieceSquareValue(row, j, chessPiece);
+					scoreEndgame += SimplifiedEvaluationUtilities.getEndgamePieceSquareValue(row, j, chessPiece);
+				} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
+					scoreOpening -= SimplifiedEvaluationUtilities.getPieceValue(chessPiece, GamePhase.MIDDLE_GAME);
+					scoreEndgame -= SimplifiedEvaluationUtilities.getPieceValue(chessPiece, GamePhase.ENDGAME);
+
+					scoreOpening -= SimplifiedEvaluationUtilities.getMiddleGamePieceSquareValue(i, j, chessPiece);
+					scoreEndgame -= SimplifiedEvaluationUtilities.getEndgamePieceSquareValue(i, j, chessPiece);
+				}
+
+			}
+		}
+
+		int score;
+		if (gamePhaseScore > SimplifiedEvaluationUtilities.OPENING_PHASE_SCORE) {
+			score = scoreOpening;
+		} else if (gamePhaseScore < SimplifiedEvaluationUtilities.ENDGAME_PHASE_SCORE) {
+			score = scoreEndgame;
+		} else {
+			score = (scoreOpening * gamePhaseScore
+					+ scoreEndgame * (SimplifiedEvaluationUtilities.OPENING_PHASE_SCORE - gamePhaseScore))
+					/ SimplifiedEvaluationUtilities.OPENING_PHASE_SCORE;
+		}
+
+		return score * 0.5;
+	}
+
+	// PeSTO's Evaluation Function.
+	private double pestoEvaluation() {
 		int whiteMiddleGameValuesSum = 0;
 		int blackMiddleGameValuesSum = 0;
 		int whiteEndgameValuesSum = 0;
@@ -731,21 +781,6 @@ public class ChessBoard {
 			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
 				ChessPiece chessPiece = this.gameBoard[i][j];
 
-				// Simple Evaluation Function.
-				// see: https://www.chessprogramming.org/Simplified_Evaluation_Function
-				/*
-				if (chessPiece.getAllegiance() == Allegiance.WHITE) {
-					int row = numOfRows - 1 - i;
-					whiteMiddleGameValuesSum += SimpleEvaluationUtilities.getMiddleGamePieceSquareValue(row, j, chessPiece);
-					whiteEndgameValuesSum += SimpleEvaluationUtilities.getEndgamePieceSquareValue(row, j, chessPiece);
-				} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
-					blackMiddleGameValuesSum += SimpleEvaluationUtilities.getMiddleGamePieceSquareValue(i, j, chessPiece);
-					blackEndgameValuesSum += SimpleEvaluationUtilities.getEndgamePieceSquareValue(i, j, chessPiece);
-				}
-				*/
-
-				// PeSTO's Evaluation Function.
-				// see: https://www.chessprogramming.org/PeSTO%27s_Evaluation_Function
 				if (chessPiece.getAllegiance() == Allegiance.WHITE) {
 					int row = numOfRows - 1 - i;
 					whiteMiddleGameValuesSum += PeSTOEvaluationUtilities.getMiddleGamePieceSquareValue(row, j, chessPiece);
