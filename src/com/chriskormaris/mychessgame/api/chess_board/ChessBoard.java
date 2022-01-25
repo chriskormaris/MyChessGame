@@ -760,17 +760,17 @@ public class ChessBoard {
 				}
 
 				if (chessPiece instanceof Pawn) {
-					gamePhase += PeSTOEvaluationUtilities.PAWN_GAME_PHASE_VALUE;
+					gamePhase += Constants.PAWN_GAME_PHASE_VALUE;
 				} else if (chessPiece instanceof Knight) {
-					gamePhase += PeSTOEvaluationUtilities.KNIGHT_GAME_PHASE_VALUE;
+					gamePhase += Constants.KNIGHT_GAME_PHASE_VALUE;
 				} else if (chessPiece instanceof Bishop) {
-					gamePhase += PeSTOEvaluationUtilities.BISHOP_GAME_PHASE_VALUE;
+					gamePhase += Constants.BISHOP_GAME_PHASE_VALUE;
 				} else if (chessPiece instanceof Rook) {
-					gamePhase += PeSTOEvaluationUtilities.ROOK_GAME_PHASE_VALUE;
+					gamePhase += Constants.ROOK_GAME_PHASE_VALUE;
 				} else if (chessPiece instanceof Queen) {
-					gamePhase += PeSTOEvaluationUtilities.QUEEN_GAME_PHASE_VALUE;
+					gamePhase += Constants.QUEEN_GAME_PHASE_VALUE;
 				} else if (chessPiece instanceof King) {
-					gamePhase += PeSTOEvaluationUtilities.KING_GAME_PHASE_VALUE;
+					gamePhase += Constants.KING_GAME_PHASE_VALUE;
 				}
 			}
 		}
