@@ -723,47 +723,47 @@ public class ChessBoard {
 		if (this.isInsufficientMaterialDraw) return 0;
 		// if (checkForNoPieceCaptureDraw()) return 0;
 
-		return simplifiedEvaluation();
-		// return pestoEvaluation();
+		// return simplifiedEvaluation();
+		return pestoEvaluation();
 	}
 
 	// Simplified Evaluation Function.
 	private double simplifiedEvaluation() {
 		int gamePhaseScore = SimplifiedEvaluationUtilities.getGamePhaseScore(this);
 
-		int scoreOpening = 0;
+		int scoreMiddleGame = 0;
 		int scoreEndgame = 0;
 		for (int i = 0; i < numOfRows; i++) {
 			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
 				ChessPiece chessPiece = this.gameBoard[i][j];
 
 				if (chessPiece.getAllegiance() == Allegiance.WHITE) {
-					scoreOpening += SimplifiedEvaluationUtilities.getPieceValue(chessPiece, GamePhase.MIDDLE_GAME);
+					scoreMiddleGame += SimplifiedEvaluationUtilities.getPieceValue(chessPiece, GamePhase.MIDDLE_GAME);
 					scoreEndgame += SimplifiedEvaluationUtilities.getPieceValue(chessPiece, GamePhase.ENDGAME);
 
 					int row = numOfRows - 1 - i;
-					scoreOpening += SimplifiedEvaluationUtilities.getMiddleGamePieceSquareValue(row, j, chessPiece);
+					scoreMiddleGame += SimplifiedEvaluationUtilities.getMiddleGamePieceSquareValue(row, j, chessPiece);
 					scoreEndgame += SimplifiedEvaluationUtilities.getEndgamePieceSquareValue(row, j, chessPiece);
 				} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
-					scoreOpening -= SimplifiedEvaluationUtilities.getPieceValue(chessPiece, GamePhase.MIDDLE_GAME);
+					scoreMiddleGame -= SimplifiedEvaluationUtilities.getPieceValue(chessPiece, GamePhase.MIDDLE_GAME);
 					scoreEndgame -= SimplifiedEvaluationUtilities.getPieceValue(chessPiece, GamePhase.ENDGAME);
 
-					scoreOpening -= SimplifiedEvaluationUtilities.getMiddleGamePieceSquareValue(i, j, chessPiece);
+					scoreMiddleGame -= SimplifiedEvaluationUtilities.getMiddleGamePieceSquareValue(i, j, chessPiece);
 					scoreEndgame -= SimplifiedEvaluationUtilities.getEndgamePieceSquareValue(i, j, chessPiece);
 				}
 
 			}
 		}
 
-		int score;
-		if (gamePhaseScore > SimplifiedEvaluationUtilities.OPENING_PHASE_SCORE) {
-			score = scoreOpening;
+		double score;
+		if (gamePhaseScore > SimplifiedEvaluationUtilities.MIDDLE_PHASE_SCORE) {
+			score = scoreMiddleGame;
 		} else if (gamePhaseScore < SimplifiedEvaluationUtilities.ENDGAME_PHASE_SCORE) {
 			score = scoreEndgame;
 		} else {
-			score = (scoreOpening * gamePhaseScore
-					+ scoreEndgame * (SimplifiedEvaluationUtilities.OPENING_PHASE_SCORE - gamePhaseScore))
-					/ SimplifiedEvaluationUtilities.OPENING_PHASE_SCORE;
+			score = (scoreMiddleGame * gamePhaseScore
+					+ scoreEndgame * (SimplifiedEvaluationUtilities.MIDDLE_PHASE_SCORE - gamePhaseScore))
+					/ (double) SimplifiedEvaluationUtilities.MIDDLE_PHASE_SCORE;
 		}
 
 		return score * 0.5;
@@ -790,19 +790,7 @@ public class ChessBoard {
 					blackEndgameValuesSum += PeSTOEvaluationUtilities.getEndgamePieceSquareValue(i, j, chessPiece);
 				}
 
-				if (chessPiece instanceof Pawn) {
-					gamePhase += Constants.PAWN_GAME_PHASE_VALUE;
-				} else if (chessPiece instanceof Knight) {
-					gamePhase += Constants.KNIGHT_GAME_PHASE_VALUE;
-				} else if (chessPiece instanceof Bishop) {
-					gamePhase += Constants.BISHOP_GAME_PHASE_VALUE;
-				} else if (chessPiece instanceof Rook) {
-					gamePhase += Constants.ROOK_GAME_PHASE_VALUE;
-				} else if (chessPiece instanceof Queen) {
-					gamePhase += Constants.QUEEN_GAME_PHASE_VALUE;
-				} else if (chessPiece instanceof King) {
-					gamePhase += Constants.KING_GAME_PHASE_VALUE;
-				}
+				gamePhase += PeSTOEvaluationUtilities.getPieceGamePhaseValue(chessPiece);
 			}
 		}
 

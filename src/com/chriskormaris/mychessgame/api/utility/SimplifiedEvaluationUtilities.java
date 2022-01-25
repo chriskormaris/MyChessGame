@@ -93,7 +93,7 @@ public class SimplifiedEvaluationUtilities {
 			{-50, -30, -30, -30, -30, -30, -30, -50}
 	};
 
-	public static final int OPENING_PHASE_SCORE = 5900;
+	public static final int MIDDLE_PHASE_SCORE = 5900;
 	public static final int ENDGAME_PHASE_SCORE = 500;
 
 	public static final int WHITE_PAWN_MIDDLE_GAME_VALUE = 89;
