@@ -94,41 +94,4 @@ public class Utilities {
 		return newIntBoard;
 	}
 
-
-	public static int getMiddleGamePieceSquareValue(int row, int column, ChessPiece chessPiece) {
-		if (chessPiece instanceof Pawn) {
-			return Constants.PAWN_MIDDLE_GAME_VALUE + Constants.PAWNS_SQUARES_TABLE_MIDDLE_GAME[row][column];
-		} else if (chessPiece instanceof Knight) {
-			return Constants.KNIGHT_MIDDLE_GAME_VALUE + Constants.KNIGHTS_SQUARES_TABLE_MIDDLE_GAME[row][column];
-		} else if (chessPiece instanceof Bishop) {
-			return Constants.BISHOP_MIDDLE_GAME_VALUE + Constants.BISHOPS_SQUARES_TABLE_MIDDLE_GAME[row][column];
-		} else if (chessPiece instanceof Rook) {
-			return Constants.ROOK_MIDDLE_GAME_VALUE + Constants.ROOKS_SQUARES_TABLE_MIDDLE_GAME[row][column];
-		} else if (chessPiece instanceof Queen) {
-			return Constants.QUEEN_MIDDLE_GAME_VALUE + Constants.QUEEN_SQUARES_TABLE_MIDDLE_GAME[row][column];
-		} else if (chessPiece instanceof King) {
-			return Constants.KING_MIDDLE_GAME_VALUE + Constants.KING_SQUARES_TABLE_MIDDLE_GAME[row][column];
-		}
-		return 0;
-	}
-
-
-	public static int getEndgamePieceSquareValue(int row, int column, ChessPiece chessPiece) {
-		if (chessPiece instanceof Pawn) {
-			return Constants.PAWN_ENDGAME_VALUE + Constants.PAWNS_SQUARES_TABLE_ENDGAME[row][column];
-		} else if (chessPiece instanceof Knight) {
-			return Constants.KNIGHT_ENDGAME_VALUE + Constants.KNIGHTS_SQUARES_TABLE_ENDGAME[row][column];
-		} else if (chessPiece instanceof Bishop) {
-			return Constants.BISHOP_ENDGAME_VALUE + Constants.BISHOPS_SQUARES_TABLE_ENDGAME[row][column];
-		} else if (chessPiece instanceof Rook) {
-			return Constants.ROOK_ENDGAME_VALUE + Constants.ROOKS_SQUARES_TABLE_ENDGAME[row][column];
-		} else if (chessPiece instanceof Queen) {
-			return Constants.QUEEN_ENDGAME_VALUE + Constants.QUEEN_SQUARES_TABLE_ENDGAME[row][column];
-		} else if (chessPiece instanceof King) {
-			return Constants.KING_ENDGAME_VALUE + Constants.KING_SQUARES_TABLE_ENDGAME[row][column];
-		}
-		return 0;
-	}
-
-
 }

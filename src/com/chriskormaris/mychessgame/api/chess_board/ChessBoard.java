@@ -11,6 +11,8 @@ import com.chriskormaris.mychessgame.api.piece.Queen;
 import com.chriskormaris.mychessgame.api.piece.Rook;
 import com.chriskormaris.mychessgame.api.utility.ChessPieceShortestPath;
 import com.chriskormaris.mychessgame.api.utility.Constants;
+import com.chriskormaris.mychessgame.api.utility.PeSTOEvaluationUtilities;
+import com.chriskormaris.mychessgame.api.utility.SimpleEvaluationUtilities;
 import com.chriskormaris.mychessgame.api.utility.Utilities;
 
 import java.util.ArrayList;
@@ -773,8 +775,7 @@ public class ChessBoard {
 	}
 
 	/*
-	 * PeSTO's Evaluation Function.
-	 * see: https://www.chessprogramming.org/PeSTO%27s_Evaluation_Function
+	 * Evaluation Function.
 	 */
 	public double evaluate() {
 		this.isWhiteCheckmate = checkForWhiteCheckmate(false);
@@ -800,27 +801,46 @@ public class ChessBoard {
 			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
 				ChessPiece chessPiece = this.gameBoard[i][j];
 
+				/*
+				 * Simple Evaluation Function.
+				 * see: https://www.chessprogramming.org/Simplified_Evaluation_Function
+				 */
 				if (chessPiece.getAllegiance() == Allegiance.WHITE) {
-					whiteMiddleGameValuesSum += Utilities.getMiddleGamePieceSquareValue(i, j, chessPiece);
-					whiteEndgameValuesSum += Utilities.getEndgamePieceSquareValue(i, j, chessPiece);
+					whiteMiddleGameValuesSum += SimpleEvaluationUtilities.getMiddleGamePieceSquareValue(i, j, chessPiece);
+					whiteEndgameValuesSum += SimpleEvaluationUtilities.getEndgamePieceSquareValue(i, j, chessPiece);
 				} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
 					int row = numOfRows - 1 - i;
-					blackMiddleGameValuesSum += Utilities.getMiddleGamePieceSquareValue(row, j, chessPiece);
-					blackEndgameValuesSum += Utilities.getEndgamePieceSquareValue(row, j, chessPiece);
+					blackMiddleGameValuesSum += SimpleEvaluationUtilities.getMiddleGamePieceSquareValue(row, j, chessPiece);
+					blackEndgameValuesSum += SimpleEvaluationUtilities.getEndgamePieceSquareValue(row, j, chessPiece);
 				}
 
+				/*
+				 * PeSTO's Evaluation Function.
+				 * see: https://www.chessprogramming.org/PeSTO%27s_Evaluation_Function
+				 */
+				/*
+				if (chessPiece.getAllegiance() == Allegiance.WHITE) {
+					whiteMiddleGameValuesSum += PeSTOEvaluationUtilities.getMiddleGamePieceSquareValue(i, j, chessPiece);
+					whiteEndgameValuesSum += PeSTOEvaluationUtilities.getEndgamePieceSquareValue(i, j, chessPiece);
+				} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
+					int row = numOfRows - 1 - i;
+					blackMiddleGameValuesSum += PeSTOEvaluationUtilities.getMiddleGamePieceSquareValue(row, j, chessPiece);
+					blackEndgameValuesSum += PeSTOEvaluationUtilities.getEndgamePieceSquareValue(row, j, chessPiece);
+				}
+				*/
+
 				if (chessPiece instanceof Pawn) {
-					gamePhase += Constants.PAWN_GAME_PHASE_VALUE;
+					gamePhase += PeSTOEvaluationUtilities.PAWN_GAME_PHASE_VALUE;
 				} else if (chessPiece instanceof Knight) {
-					gamePhase += Constants.KNIGHT_GAME_PHASE_VALUE;
+					gamePhase += PeSTOEvaluationUtilities.KNIGHT_GAME_PHASE_VALUE;
 				} else if (chessPiece instanceof Bishop) {
-					gamePhase += Constants.BISHOP_GAME_PHASE_VALUE;
+					gamePhase += PeSTOEvaluationUtilities.BISHOP_GAME_PHASE_VALUE;
 				} else if (chessPiece instanceof Rook) {
-					gamePhase += Constants.ROOK_GAME_PHASE_VALUE;
+					gamePhase += PeSTOEvaluationUtilities.ROOK_GAME_PHASE_VALUE;
 				} else if (chessPiece instanceof Queen) {
-					gamePhase += Constants.QUEEN_GAME_PHASE_VALUE;
+					gamePhase += PeSTOEvaluationUtilities.QUEEN_GAME_PHASE_VALUE;
 				} else if (chessPiece instanceof King) {
-					gamePhase += Constants.KING_GAME_PHASE_VALUE;
+					gamePhase += PeSTOEvaluationUtilities.KING_GAME_PHASE_VALUE;
 				}
 			}
 		}
