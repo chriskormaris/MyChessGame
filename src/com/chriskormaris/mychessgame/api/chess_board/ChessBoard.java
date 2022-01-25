@@ -12,7 +12,6 @@ import com.chriskormaris.mychessgame.api.piece.Rook;
 import com.chriskormaris.mychessgame.api.utility.ChessPieceShortestPath;
 import com.chriskormaris.mychessgame.api.utility.Constants;
 import com.chriskormaris.mychessgame.api.utility.PeSTOEvaluationUtilities;
-import com.chriskormaris.mychessgame.api.utility.SimpleEvaluationUtilities;
 import com.chriskormaris.mychessgame.api.utility.Utilities;
 
 import java.util.ArrayList;
@@ -108,7 +107,6 @@ public class ChessBoard {
 	private int blackCapturedPiecesCounter;
 
 	private int score;
-	private double lastCapturedPieceValue;
 
 	private Set<ChessPiece> promotedPieces;
 
@@ -256,7 +254,7 @@ public class ChessBoard {
 		this.gameBoard[numOfRows - 1][7] = new Rook(Allegiance.BLACK);  // H8
 	}
 
-	// It prints the chess board board on the console.
+	// It prints the chess board on the console.
 	public static void printChessBoard(ChessPiece[][] chessBoard) {
 		System.out.println(getChessBoardString(chessBoard));
 	}
@@ -706,74 +704,6 @@ public class ChessBoard {
 		return children;
 	}
 
-	@SuppressWarnings("unused")
-	private int countTotalPieces() {
-		int counter = 0;
-
-		for (int i = 0; i < numOfRows; i++) {
-			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
-				ChessPiece chessPiece = this.gameBoard[i][j];
-				if (chessPiece.getAllegiance() != Allegiance.EMPTY) {
-					counter++;
-				}
-			}
-		}
-
-		return counter;
-	}
-
-	@SuppressWarnings("unused")
-	private int countLegalMoves(boolean player) {
-		int counter = 0;
-
-		for (int row = 0; row < numOfRows; row++) {
-			for (int column = 0; column < NUM_OF_COLUMNS; column++) {
-				if (rowColContainsPlayerPiece(row, column, player)) {
-					String initialPosition = Utilities.getPositionByRowCol(row, column);
-					Set<String> nextPositions;
-					if (!this.whiteKingInCheck && this.player || !this.blackKingInCheck && !this.player) {
-						nextPositions = getNextPositions(initialPosition);
-					} else if (this.whiteKingInCheck && this.player) {
-						nextPositions = this.whiteKingInCheckValidPieceMoves.get(initialPosition);
-					} else {
-						nextPositions = this.blackKingInCheckValidPieceMoves.get(initialPosition);
-					}
-
-					if (nextPositions != null) {
-						counter += nextPositions.size();
-					}
-
-				}
-			}
-		}
-
-		return counter;
-	}
-
-	@SuppressWarnings("unused")
-	private int countLegalMovesFromRowCol(int row, int column, boolean player) {
-		int counter = 0;
-
-		if (rowColContainsPlayerPiece(row, column, player)) {
-			String initialPosition = Utilities.getPositionByRowCol(row, column);
-			Set<String> nextPositions;
-			if (!this.whiteKingInCheck && this.player || !this.blackKingInCheck && !this.player) {
-				nextPositions = getNextPositions(initialPosition);
-			} else if (this.whiteKingInCheck && this.player) {
-				nextPositions = this.whiteKingInCheckValidPieceMoves.get(initialPosition);
-			} else {
-				nextPositions = this.blackKingInCheckValidPieceMoves.get(initialPosition);
-			}
-
-			if (nextPositions != null) {
-				counter += nextPositions.size();
-			}
-
-		}
-
-		return counter;
-	}
-
 	/*
 	 * Evaluation Function.
 	 */
@@ -805,29 +735,29 @@ public class ChessBoard {
 				 * Simple Evaluation Function.
 				 * see: https://www.chessprogramming.org/Simplified_Evaluation_Function
 				 */
+				/*
 				if (chessPiece.getAllegiance() == Allegiance.WHITE) {
-					whiteMiddleGameValuesSum += SimpleEvaluationUtilities.getMiddleGamePieceSquareValue(i, j, chessPiece);
-					whiteEndgameValuesSum += SimpleEvaluationUtilities.getEndgamePieceSquareValue(i, j, chessPiece);
-				} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
 					int row = numOfRows - 1 - i;
-					blackMiddleGameValuesSum += SimpleEvaluationUtilities.getMiddleGamePieceSquareValue(row, j, chessPiece);
-					blackEndgameValuesSum += SimpleEvaluationUtilities.getEndgamePieceSquareValue(row, j, chessPiece);
+					whiteMiddleGameValuesSum += SimpleEvaluationUtilities.getMiddleGamePieceSquareValue(row, j, chessPiece);
+					whiteEndgameValuesSum += SimpleEvaluationUtilities.getEndgamePieceSquareValue(row, j, chessPiece);
+				} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
+					blackMiddleGameValuesSum += SimpleEvaluationUtilities.getMiddleGamePieceSquareValue(i, j, chessPiece);
+					blackEndgameValuesSum += SimpleEvaluationUtilities.getEndgamePieceSquareValue(i, j, chessPiece);
 				}
+				*/
 
 				/*
 				 * PeSTO's Evaluation Function.
 				 * see: https://www.chessprogramming.org/PeSTO%27s_Evaluation_Function
 				 */
-				/*
 				if (chessPiece.getAllegiance() == Allegiance.WHITE) {
-					whiteMiddleGameValuesSum += PeSTOEvaluationUtilities.getMiddleGamePieceSquareValue(i, j, chessPiece);
-					whiteEndgameValuesSum += PeSTOEvaluationUtilities.getEndgamePieceSquareValue(i, j, chessPiece);
-				} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
 					int row = numOfRows - 1 - i;
-					blackMiddleGameValuesSum += PeSTOEvaluationUtilities.getMiddleGamePieceSquareValue(row, j, chessPiece);
-					blackEndgameValuesSum += PeSTOEvaluationUtilities.getEndgamePieceSquareValue(row, j, chessPiece);
+					whiteMiddleGameValuesSum += PeSTOEvaluationUtilities.getMiddleGamePieceSquareValue(row, j, chessPiece);
+					whiteEndgameValuesSum += PeSTOEvaluationUtilities.getEndgamePieceSquareValue(row, j, chessPiece);
+				} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
+					blackMiddleGameValuesSum += PeSTOEvaluationUtilities.getMiddleGamePieceSquareValue(i, j, chessPiece);
+					blackEndgameValuesSum += PeSTOEvaluationUtilities.getEndgamePieceSquareValue(i, j, chessPiece);
 				}
-				*/
 
 				if (chessPiece instanceof Pawn) {
 					gamePhase += PeSTOEvaluationUtilities.PAWN_GAME_PHASE_VALUE;
@@ -857,50 +787,6 @@ public class ChessBoard {
 		return (middleGameScore * middleGamePhase + endgameScore * endgamePhase) / 24.0;
 	}
 
-	@SuppressWarnings("unused")
-	// Might be used to determine if we are in a late game state.
-	private int getPlayerNumOfPiecesLeft(boolean player) {
-		int numOfPieces = 0;
-		for (int i = 0; i < numOfRows; i++) {
-			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
-				if ((player == Constants.WHITE && gameBoard[i][j].getAllegiance() == Allegiance.WHITE)
-						|| (player == Constants.BLACK && gameBoard[i][j].getAllegiance() == Allegiance.BLACK))
-					numOfPieces++;
-			}
-		}
-		return numOfPieces;
-	}
-
-	private boolean isQueenLost(Allegiance playerAllegiance) {
-		int n1 = this.gameBoard.length;
-		int n2 = this.gameBoard[0].length;
-		for (int i = 0; i < n1; i++) {
-			for (int j = 0; j < n2; j++) {
-				if (this.gameBoard[i][j] instanceof Queen && playerAllegiance == this.gameBoard[i][j].getAllegiance()) {
-					return false;
-				}
-			}
-		}
-
-		return true;
-	}
-
-	private int getNumOfRooks(Allegiance playerAllegiance) {
-		int numOfRooks = 0;
-
-		int n1 = this.gameBoard.length;
-		int n2 = this.gameBoard[0].length;
-		for (int i = 0; i < n1; i++) {
-			for (int j = 0; j < n2; j++) {
-				if (this.gameBoard[i][j] instanceof Rook && playerAllegiance == this.gameBoard[i][j].getAllegiance()) {
-					numOfRooks++;
-				}
-			}
-		}
-
-		return numOfRooks;
-	}
-
 	private int getNumOfBishops(Allegiance playerAllegiance) {
 		int numOfBishops = 0;
 
@@ -916,23 +802,6 @@ public class ChessBoard {
 		}
 
 		return numOfBishops;
-	}
-
-	private int getNumOfKnights(Allegiance playerAllegiance) {
-		int numOfKnights = 0;
-
-		int n1 = this.gameBoard.length;
-		int n2 = this.gameBoard[0].length;
-		for (int i = 0; i < n1; i++) {
-			for (int j = 0; j < n2; j++) {
-				if (this.gameBoard[i][j] instanceof Knight
-						&& playerAllegiance == this.gameBoard[i][j].getAllegiance()) {
-					numOfKnights++;
-				}
-			}
-		}
-
-		return numOfKnights;
 	}
 
 	/*
@@ -1243,10 +1112,11 @@ public class ChessBoard {
 	public boolean isLoneKing(Allegiance playerAllegiance) {
 		for (int i = 0; i < numOfRows; i++) {
 			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
-				if (!(getGameBoard()[i][j] instanceof EmptyTile)
-						&& !(getGameBoard()[i][j] instanceof King)
-						&& playerAllegiance == getGameBoard()[i][j].getAllegiance()) {
-					// System.out.println("i: " + i + ", j: " + j + ", chessPiece: " + this.getGameBoard()[i][j]);
+				ChessPiece chessPiece = getGameBoard()[i][j];
+				if (!(chessPiece instanceof EmptyTile)
+						&& !(chessPiece instanceof King)
+						&& playerAllegiance == chessPiece.getAllegiance()) {
+					// System.out.println("i: " + i + ", j: " + j + ", chessPiece: " + chessPiece);
 					return false;
 				}
 			}
@@ -1261,14 +1131,15 @@ public class ChessBoard {
 
 		for (int i = 0; i < numOfRows; i++) {
 			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
-				if (!(getGameBoard()[i][j] instanceof EmptyTile)
-						&& !(getGameBoard()[i][j] instanceof King)
-						&& !(getGameBoard()[i][j] instanceof Pawn)
-						&& playerAllegiance == getGameBoard()[i][j].getAllegiance()) {
-					// System.out.println("i: " + i + ", j: " + j + ", chessPiece: " + this.getGameBoard()[i][j]);
+				ChessPiece chessPiece = getGameBoard()[i][j];
+				if (!(chessPiece instanceof EmptyTile)
+						&& !(chessPiece instanceof King)
+						&& !(chessPiece instanceof Pawn)
+						&& playerAllegiance == chessPiece.getAllegiance()) {
+					// System.out.println("i: " + i + ", j: " + j + ", chessPiece: " + chessPiece);
 					return false;
 				}
-				if (getGameBoard()[i][j] instanceof Pawn) {
+				if (chessPiece instanceof Pawn) {
 					numOfPawns++;
 				}
 			}
@@ -1279,13 +1150,13 @@ public class ChessBoard {
 
 	// Checks if only a king and one or two knights have remained on the board, on the given player's side.
 	public boolean isLoneKingPlusOneOrTwoKnights(Allegiance playerAllegiance) {
-
 		for (int i = 0; i < numOfRows; i++) {
 			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
-				if (!(getGameBoard()[i][j] instanceof EmptyTile)
-						&& !(getGameBoard()[i][j] instanceof King || getGameBoard()[i][j] instanceof Knight)
-						&& playerAllegiance == getGameBoard()[i][j].getAllegiance()) {
-					// System.out.println("i: " + i + ", j: " + j + ", chessPiece: " + this.getGameBoard()[i][j]);
+				ChessPiece chessPiece = getGameBoard()[i][j];
+				if (!(chessPiece instanceof EmptyTile)
+						&& !(chessPiece instanceof King || chessPiece instanceof Knight)
+						&& playerAllegiance == chessPiece.getAllegiance()) {
+					// System.out.println("i: " + i + ", j: " + j + ", chessPiece: " + chessPiece);
 					return false;
 				}
 			}
@@ -1301,10 +1172,11 @@ public class ChessBoard {
 
 		for (int i = 0; i < numOfRows; i++) {
 			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
-				if (!(getGameBoard()[i][j] instanceof EmptyTile)
-						&& !(getGameBoard()[i][j] instanceof King || getGameBoard()[i][j] instanceof Bishop)
-						&& playerAllegiance == getGameBoard()[i][j].getAllegiance()) {
-					// System.out.println("i: " + i + ", j: " + j + ", chessPiece: " + this.getGameBoard()[i][j]);
+				ChessPiece chessPiece = getGameBoard()[i][j];
+				if (!(chessPiece instanceof EmptyTile)
+						&& !(chessPiece instanceof King || chessPiece instanceof Bishop)
+						&& playerAllegiance == chessPiece.getAllegiance()) {
+					// System.out.println("i: " + i + ", j: " + j + ", chessPiece: " + chessPiece);
 					return false;
 				}
 			}

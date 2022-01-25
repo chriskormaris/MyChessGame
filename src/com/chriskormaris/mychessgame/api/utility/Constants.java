@@ -58,14 +58,7 @@ public class Constants {
 	public static final int ROOK_SCORE_VALUE = 5;
 	public static final int QUEEN_SCORE_VALUE = 9;
 
-	public static final double MOBILITY_MULTIPLIER = 1;
-	public static final double ATTACK_MULTIPLIER = 2;
-
 	public static final double CHECKMATE_VALUE = Integer.MAX_VALUE;
-	public static final double CHECK_VALUE = 100;
-	public static final double CHECK_LATE_VALUE = 1000;
-	public static final double CASTLING_VALUE = 200;
-	public static final double TWO_BISHOPS_VALUE = 100;
 
 	private Constants() {
 	}  // Prevents instantiation.
