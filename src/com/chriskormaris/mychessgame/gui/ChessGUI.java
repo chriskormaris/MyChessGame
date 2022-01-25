@@ -1198,6 +1198,8 @@ public class ChessGUI {
 
 		chessBoard.setThreats();
 
+		System.out.println("chessBoard.whiteCounter: " + chessBoard.getWhiteCapturedPiecesCounter());
+
 		// If a chessPiece capture has occurred.
 		if (chessBoard.getCapturedPiece() != null) {  // true if an en passant captured piece exists
 			addCapturedPieceImage(chessBoard.getCapturedPiece());
@@ -1237,6 +1239,8 @@ public class ChessGUI {
 		} else if (endTile.getAllegiance() == Allegiance.BLACK) {
 			capturedPiecesImages[31 - chessBoard.getBlackCapturedPiecesCounter() - 1].setIcon(pieceImage);
 		}
+
+		chessBoard.incrementCapturedPieceCounter(endTile);
 
 		setScoreMessage();
 
