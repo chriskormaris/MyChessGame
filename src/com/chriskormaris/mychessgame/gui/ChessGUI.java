@@ -56,6 +56,9 @@ public class ChessGUI {
 	private static final int HEIGHT = GuiConstants.DEFAULT_HEIGHT;
 	private static final int WIDTH = GuiConstants.DEFAULT_WIDTH;
 
+	public static final String FIRST_TURN_TEXT = "Turn: 1. White plays first.";
+	public static final String ZERO_SCORE_TEXT = "Score:  0";
+
 	public static GameParameters gameParameters = new GameParameters();
 	public static GameParameters newGameParameters = new GameParameters(gameParameters);
 	public static JFrame frame;
@@ -66,10 +69,7 @@ public class ChessGUI {
 	public static JPanel chessBoardPanel;
 	public static JPanel capturedPiecesPanel;
 
-	public static String firstTurnText = "Turn: 1. White plays first.";
 	public static JTextPane turnTextPane = new JTextPane();
-
-	public static String zeroScoreText = "Score: 0";
 
 	// The position (0, 0) of the chessBoardSquares,
 	// corresponds to the position (NUM_OF_COLUMNS - 1, 0) of the ChessBoard's gameBoard.
@@ -366,7 +366,7 @@ public class ChessGUI {
 
 	public static void setTurnMessage() {
 		if (chessBoard.getHalfMoveNumber() == 1) {
-			turnTextPane.setText(firstTurnText);
+			turnTextPane.setText(FIRST_TURN_TEXT);
 		} else {
 			String turnMessage = "Turn: " + (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2) + ". ";
 			turnMessage += (chessBoard.whitePlays()) ? "White plays." : "Black plays.";
@@ -409,7 +409,7 @@ public class ChessGUI {
 
 	public static void setScoreMessage() {
 		if (chessBoard.getScore() == 0) {
-			capturedPiecesImages[15].setText(zeroScoreText);
+			capturedPiecesImages[15].setText(ZERO_SCORE_TEXT);
 		} else if (chessBoard.getScore() > 0) {
 			capturedPiecesImages[15].setText("White: +" + chessBoard.getScore());
 		} else if (chessBoard.getScore() < 0) {
@@ -753,7 +753,7 @@ public class ChessGUI {
 			capturedPiecesImages[i] = new JLabel();
 
 			if (i == 15) {
-				capturedPiecesImages[i].setText(zeroScoreText);
+				capturedPiecesImages[i].setText(ZERO_SCORE_TEXT);
 			} else {
 				// We'll "fill this in" using a transparent icon...
 				ImageIcon icon = new ImageIcon(new BufferedImage(GuiConstants.CAPTURED_PIECE_PIXEL_SIZE,
@@ -1235,7 +1235,8 @@ public class ChessGUI {
 		if (endTile.getAllegiance() == Allegiance.WHITE) {
 			capturedPiecesImages[chessBoard.getWhiteCapturedPiecesCounter()].setIcon(pieceImage);
 		} else if (endTile.getAllegiance() == Allegiance.BLACK) {
-			capturedPiecesImages[31 - chessBoard.getBlackCapturedPiecesCounter() - 1].setIcon(pieceImage);
+			int index = (int) Math.ceil((capturedPiecesImages.length) / 2.0) + chessBoard.getBlackCapturedPiecesCounter();
+			capturedPiecesImages[index].setIcon(pieceImage);
 		}
 
 		chessBoard.incrementCapturedPiecesCounter(endTile);
