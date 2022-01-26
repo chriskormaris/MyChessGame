@@ -1240,7 +1240,7 @@ public class ChessGUI {
 			capturedPiecesImages[31 - chessBoard.getBlackCapturedPiecesCounter() - 1].setIcon(pieceImage);
 		}
 
-		chessBoard.incrementCapturedPieceCounter(endTile);
+		chessBoard.incrementCapturedPiecesCounter(endTile);
 
 		setScoreMessage();
 
@@ -1690,7 +1690,6 @@ public class ChessGUI {
 
 	// It removes the given chessPiece from the board (both the data structure and the GUI).
 	public static void removePieceFromPosition(String position) {
-
 		// int column = (int) Character.toUpperCase(position.charAt(0)) - 65;
 		// int row = N - Character.getNumericValue(position.charAt(1));
 
@@ -1734,7 +1733,6 @@ public class ChessGUI {
 	}
 
 	public static void placePiecesToChessBoard(String fenPosition) {
-
 		try {
 			chessBoard = FenUtilities.getChessBoardFromFenPosition(fenPosition);
 		} catch (InvalidFenFormatException ex) {

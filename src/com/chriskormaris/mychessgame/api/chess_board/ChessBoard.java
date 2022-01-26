@@ -531,11 +531,6 @@ public class ChessBoard {
 			if (chessPiece.getAllegiance() != endTile.getAllegiance()
 					&& !(endTile instanceof EmptyTile)) {
 				updateScoreAfterPieceCapture(endTile);
-
-				// Increment White or Black captured piece counter.
-				if (!displayMove) {
-					incrementCapturedPieceCounter(endTile);
-				}
 			}
 		}
 	}
@@ -574,7 +569,7 @@ public class ChessBoard {
 		}
 	}
 
-	public void incrementCapturedPieceCounter(ChessPiece chessPiece) {
+	public void incrementCapturedPiecesCounter(ChessPiece chessPiece) {
 		if (chessPiece.getAllegiance() == Allegiance.WHITE) {
 			this.whiteCapturedPiecesCounter++;
 		} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
