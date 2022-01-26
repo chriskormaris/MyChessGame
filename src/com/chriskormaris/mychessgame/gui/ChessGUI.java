@@ -1198,8 +1198,6 @@ public class ChessGUI {
 
 		chessBoard.setThreats();
 
-		System.out.println("chessBoard.whiteCounter: " + chessBoard.getWhiteCapturedPiecesCounter());
-
 		// If a chessPiece capture has occurred.
 		if (chessBoard.getCapturedPiece() != null) {  // true if an en passant captured piece exists
 			addCapturedPieceImage(chessBoard.getCapturedPiece());

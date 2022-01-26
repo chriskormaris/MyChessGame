@@ -730,57 +730,53 @@ public class ChessBoard {
 
 	// Simplified Evaluation Function.
 	private double simplifiedEvaluation() {
-		int gamePhaseScore = SimplifiedEvaluationUtilities.getGamePhaseScore(this);
+		int gamePhase = 0;
+		int middleGameScore = 0;
+		int endgameScore = 0;
 
-		int scoreMiddleGame = 0;
-		int scoreEndgame = 0;
 		for (int i = 0; i < numOfRows; i++) {
 			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
 				ChessPiece chessPiece = this.gameBoard[i][j];
 
+				gamePhase += Utilities.getPieceGamePhaseValue(chessPiece);
+
 				if (chessPiece.getAllegiance() == Allegiance.WHITE) {
-					scoreMiddleGame += SimplifiedEvaluationUtilities.getPieceValue(chessPiece, GamePhase.MIDDLE_GAME);
-					scoreEndgame += SimplifiedEvaluationUtilities.getPieceValue(chessPiece, GamePhase.ENDGAME);
+					middleGameScore += SimplifiedEvaluationUtilities.getPieceValue(chessPiece, GamePhase.MIDDLE_GAME);
+					endgameScore += SimplifiedEvaluationUtilities.getPieceValue(chessPiece, GamePhase.ENDGAME);
 
 					int row = numOfRows - 1 - i;
-					scoreMiddleGame += SimplifiedEvaluationUtilities.getPieceSquareValue(row, j, chessPiece, GamePhase.MIDDLE_GAME);
-					scoreEndgame += SimplifiedEvaluationUtilities.getPieceSquareValue(row, j, chessPiece, GamePhase.ENDGAME);
+					middleGameScore += SimplifiedEvaluationUtilities.getPieceSquareValue(row, j, chessPiece, GamePhase.MIDDLE_GAME);
+					endgameScore += SimplifiedEvaluationUtilities.getPieceSquareValue(row, j, chessPiece, GamePhase.ENDGAME);
 				} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
-					scoreMiddleGame -= SimplifiedEvaluationUtilities.getPieceValue(chessPiece, GamePhase.MIDDLE_GAME);
-					scoreEndgame -= SimplifiedEvaluationUtilities.getPieceValue(chessPiece, GamePhase.ENDGAME);
+					middleGameScore -= SimplifiedEvaluationUtilities.getPieceValue(chessPiece, GamePhase.MIDDLE_GAME);
+					endgameScore -= SimplifiedEvaluationUtilities.getPieceValue(chessPiece, GamePhase.ENDGAME);
 
-					scoreMiddleGame -= SimplifiedEvaluationUtilities.getPieceSquareValue(i, j, chessPiece, GamePhase.MIDDLE_GAME);
-					scoreEndgame -= SimplifiedEvaluationUtilities.getPieceSquareValue(i, j, chessPiece, GamePhase.ENDGAME);
+					middleGameScore -= SimplifiedEvaluationUtilities.getPieceSquareValue(i, j, chessPiece, GamePhase.MIDDLE_GAME);
+					endgameScore -= SimplifiedEvaluationUtilities.getPieceSquareValue(i, j, chessPiece, GamePhase.ENDGAME);
 				}
 
 			}
 		}
 
-		double score;
-		if (gamePhaseScore > SimplifiedEvaluationUtilities.MIDDLE_PHASE_SCORE) {
-			score = scoreMiddleGame;
-		} else if (gamePhaseScore < SimplifiedEvaluationUtilities.ENDGAME_PHASE_SCORE) {
-			score = scoreEndgame;
-		} else {
-			score = (scoreMiddleGame * gamePhaseScore
-					+ scoreEndgame * (SimplifiedEvaluationUtilities.MIDDLE_PHASE_SCORE - gamePhaseScore))
-					/ (double) SimplifiedEvaluationUtilities.MIDDLE_PHASE_SCORE;
-		}
-
-		return score * 0.5;
+		// In case of early promotion, the "gamePhase" value could be more than 24.
+		int middleGamePhase = Math.min(gamePhase, 24);
+		int endgamePhase = 24 - middleGamePhase;
+		return (middleGameScore * middleGamePhase + endgameScore * endgamePhase) / 24.0;
 	}
 
 	// PeSTO's Evaluation Function.
 	private double pestoEvaluation() {
+		int gamePhase = 0;
 		int whiteMiddleGameValuesSum = 0;
 		int blackMiddleGameValuesSum = 0;
 		int whiteEndgameValuesSum = 0;
 		int blackEndgameValuesSum = 0;
-		int gamePhase = 0;
 
 		for (int i = 0; i < numOfRows; i++) {
 			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
 				ChessPiece chessPiece = this.gameBoard[i][j];
+
+				gamePhase += Utilities.getPieceGamePhaseValue(chessPiece);
 
 				if (chessPiece.getAllegiance() == Allegiance.WHITE) {
 					int row = numOfRows - 1 - i;
@@ -790,19 +786,13 @@ public class ChessBoard {
 					blackMiddleGameValuesSum += PeSTOEvaluationUtilities.getMiddleGamePieceSquareValue(i, j, chessPiece);
 					blackEndgameValuesSum += PeSTOEvaluationUtilities.getEndgamePieceSquareValue(i, j, chessPiece);
 				}
-
-				gamePhase += PeSTOEvaluationUtilities.getPieceGamePhaseValue(chessPiece);
 			}
 		}
 
 		int middleGameScore = whiteMiddleGameValuesSum - blackMiddleGameValuesSum;
 		int endgameScore = whiteEndgameValuesSum - blackEndgameValuesSum;
-		int middleGamePhase = gamePhase;
-		// At the start of the game, the "gamePhase" value should be equal to 24.
 		// In case of early promotion, the "gamePhase" value could be more than 24.
-		if (middleGamePhase > 24) {
-			middleGamePhase = 24;
-		}
+		int middleGamePhase = Math.min(gamePhase, 24);
 		int endgamePhase = 24 - middleGamePhase;
 		return (middleGameScore * middleGamePhase + endgameScore * endgamePhase) / 24.0;
 	}

@@ -1,6 +1,5 @@
 package com.chriskormaris.mychessgame.api.utility;
 
-import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 import com.chriskormaris.mychessgame.api.enumeration.GamePhase;
 import com.chriskormaris.mychessgame.api.piece.Bishop;
@@ -92,9 +91,6 @@ public class SimplifiedEvaluationUtilities {
 			{-30, -30,   0,   0,   0,   0, -30, -30},
 			{-50, -30, -30, -30, -30, -30, -30, -50}
 	};
-
-	public static final int MIDDLE_PHASE_SCORE = 5900;
-	public static final int ENDGAME_PHASE_SCORE = 500;
 
 	public static final int WHITE_PAWN_MIDDLE_GAME_VALUE = 89;
 	public static final int WHITE_KNIGHT_MIDDLE_GAME_VALUE = 308;
@@ -210,29 +206,6 @@ public class SimplifiedEvaluationUtilities {
 			}
 		}
 		return 0;
-	}
-
-	public static int getGamePhaseScore(ChessBoard chessBoard) {
-		int gamePhaseScore = 0;
-
-		int n1 = chessBoard.getNumOfRows();
-		int n2 = Constants.DEFAULT_NUM_OF_COLUMNS;
-		for (int i = 0; i < n1; i++) {
-			for (int j = 0; j < n2; j++) {
-				ChessPiece chessPiece = chessBoard.getGameBoard()[i][j];
-
-				int pieceValue = getPieceValue(chessPiece, GamePhase.MIDDLE_GAME);
-
-				if (chessPiece.getAllegiance() == Allegiance.WHITE) {
-					int row = n1 - 1 - i;
-					gamePhaseScore += getPieceSquareValue(row, j, chessPiece, GamePhase.MIDDLE_GAME) * pieceValue;
-				} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
-					gamePhaseScore += getPieceSquareValue(i, j, chessPiece, GamePhase.MIDDLE_GAME) * pieceValue;
-				}
-			}
-		}
-
-		return gamePhaseScore;
 	}
 
 }
