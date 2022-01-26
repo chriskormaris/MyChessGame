@@ -767,10 +767,8 @@ public class ChessBoard {
 	// PeSTO's Evaluation Function.
 	private double pestoEvaluation() {
 		int gamePhase = 0;
-		int whiteMiddleGameValuesSum = 0;
-		int blackMiddleGameValuesSum = 0;
-		int whiteEndgameValuesSum = 0;
-		int blackEndgameValuesSum = 0;
+		int middleGameScore = 0;
+		int endgameScore = 0;
 
 		for (int i = 0; i < numOfRows; i++) {
 			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
@@ -779,18 +777,22 @@ public class ChessBoard {
 				gamePhase += Utilities.getPieceGamePhaseValue(chessPiece);
 
 				if (chessPiece.getAllegiance() == Allegiance.WHITE) {
+					middleGameScore += PeSTOEvaluationUtilities.getPieceValue(chessPiece, GamePhase.MIDDLE_GAME);
+					endgameScore += PeSTOEvaluationUtilities.getPieceValue(chessPiece, GamePhase.ENDGAME);
+
 					int row = numOfRows - 1 - i;
-					whiteMiddleGameValuesSum += PeSTOEvaluationUtilities.getMiddleGamePieceSquareValue(row, j, chessPiece);
-					whiteEndgameValuesSum += PeSTOEvaluationUtilities.getEndgamePieceSquareValue(row, j, chessPiece);
+					middleGameScore += PeSTOEvaluationUtilities.getMiddleGamePieceSquareValue(row, j, chessPiece);
+					endgameScore += PeSTOEvaluationUtilities.getEndgamePieceSquareValue(row, j, chessPiece);
 				} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
-					blackMiddleGameValuesSum += PeSTOEvaluationUtilities.getMiddleGamePieceSquareValue(i, j, chessPiece);
-					blackEndgameValuesSum += PeSTOEvaluationUtilities.getEndgamePieceSquareValue(i, j, chessPiece);
+					middleGameScore -= PeSTOEvaluationUtilities.getPieceValue(chessPiece, GamePhase.MIDDLE_GAME);
+					endgameScore -= PeSTOEvaluationUtilities.getPieceValue(chessPiece, GamePhase.ENDGAME);
+
+					middleGameScore -= PeSTOEvaluationUtilities.getMiddleGamePieceSquareValue(i, j, chessPiece);
+					endgameScore -= PeSTOEvaluationUtilities.getEndgamePieceSquareValue(i, j, chessPiece);
 				}
 			}
 		}
 
-		int middleGameScore = whiteMiddleGameValuesSum - blackMiddleGameValuesSum;
-		int endgameScore = whiteEndgameValuesSum - blackEndgameValuesSum;
 		// In case of early promotion, the "gamePhase" value could be more than 24.
 		int middleGamePhase = Math.min(gamePhase, 24);
 		int endgamePhase = 24 - middleGamePhase;

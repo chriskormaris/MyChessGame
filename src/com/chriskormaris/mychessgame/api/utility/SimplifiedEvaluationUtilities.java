@@ -153,7 +153,6 @@ public class SimplifiedEvaluationUtilities {
 			}
 		}
 		else if (gamePhase == GamePhase.ENDGAME) {
-
 			if (chessPiece.getAllegiance() == Allegiance.WHITE) {
 				if (chessPiece instanceof Pawn) {
 					return WHITE_PAWN_ENDGAME_VALUE;

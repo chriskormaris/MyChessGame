@@ -1,5 +1,6 @@
 package com.chriskormaris.mychessgame.api.utility;
 
+import com.chriskormaris.mychessgame.api.enumeration.GamePhase;
 import com.chriskormaris.mychessgame.api.piece.Bishop;
 import com.chriskormaris.mychessgame.api.piece.ChessPiece;
 import com.chriskormaris.mychessgame.api.piece.King;
@@ -159,19 +160,53 @@ public class PeSTOEvaluationUtilities {
 	public static final int KING_ENDGAME_VALUE = 0;
 
 
+	public static int getPieceValue(ChessPiece chessPiece, GamePhase gamePhase) {
+		if (gamePhase == GamePhase.MIDDLE_GAME) {
+			if (chessPiece instanceof Pawn) {
+				return PAWN_MIDDLE_GAME_VALUE;
+			} else if (chessPiece instanceof Knight) {
+				return KNIGHT_MIDDLE_GAME_VALUE;
+			} else if (chessPiece instanceof Bishop) {
+				return BISHOP_MIDDLE_GAME_VALUE;
+			} else if (chessPiece instanceof Rook) {
+				return ROOK_MIDDLE_GAME_VALUE;
+			} else if (chessPiece instanceof Queen) {
+				return QUEEN_MIDDLE_GAME_VALUE;
+			} else if (chessPiece instanceof King) {
+				return KING_MIDDLE_GAME_VALUE;
+			}
+		}
+		else if (gamePhase == GamePhase.ENDGAME) {
+			if (chessPiece instanceof Pawn) {
+				return PAWN_ENDGAME_VALUE;
+			} else if (chessPiece instanceof Knight) {
+				return KNIGHT_ENDGAME_VALUE;
+			} else if (chessPiece instanceof Bishop) {
+				return BISHOP_ENDGAME_VALUE;
+			} else if (chessPiece instanceof Rook) {
+				return ROOK_ENDGAME_VALUE;
+			} else if (chessPiece instanceof Queen) {
+				return QUEEN_ENDGAME_VALUE;
+			} else if (chessPiece instanceof King) {
+				return KING_ENDGAME_VALUE;
+			}
+		}
+		return 0;
+	}
+
 	public static int getMiddleGamePieceSquareValue(int row, int column, ChessPiece chessPiece) {
 		if (chessPiece instanceof Pawn) {
-			return PAWN_MIDDLE_GAME_VALUE + PAWNS_SQUARES_TABLE_MIDDLE_GAME[row][column];
+			return PAWNS_SQUARES_TABLE_MIDDLE_GAME[row][column];
 		} else if (chessPiece instanceof Knight) {
-			return KNIGHT_MIDDLE_GAME_VALUE + KNIGHTS_SQUARES_TABLE_MIDDLE_GAME[row][column];
+			return KNIGHTS_SQUARES_TABLE_MIDDLE_GAME[row][column];
 		} else if (chessPiece instanceof Bishop) {
-			return BISHOP_MIDDLE_GAME_VALUE + BISHOPS_SQUARES_TABLE_MIDDLE_GAME[row][column];
+			return BISHOPS_SQUARES_TABLE_MIDDLE_GAME[row][column];
 		} else if (chessPiece instanceof Rook) {
-			return ROOK_MIDDLE_GAME_VALUE + ROOKS_SQUARES_TABLE_MIDDLE_GAME[row][column];
+			return ROOKS_SQUARES_TABLE_MIDDLE_GAME[row][column];
 		} else if (chessPiece instanceof Queen) {
-			return QUEEN_MIDDLE_GAME_VALUE + QUEEN_SQUARES_TABLE_MIDDLE_GAME[row][column];
+			return QUEEN_SQUARES_TABLE_MIDDLE_GAME[row][column];
 		} else if (chessPiece instanceof King) {
-			return KING_MIDDLE_GAME_VALUE + KING_SQUARES_TABLE_MIDDLE_GAME[row][column];
+			return KING_SQUARES_TABLE_MIDDLE_GAME[row][column];
 		}
 		return 0;
 	}
@@ -179,17 +214,17 @@ public class PeSTOEvaluationUtilities {
 
 	public static int getEndgamePieceSquareValue(int row, int column, ChessPiece chessPiece) {
 		if (chessPiece instanceof Pawn) {
-			return PAWN_ENDGAME_VALUE + PAWNS_SQUARES_TABLE_ENDGAME[row][column];
+			return PAWNS_SQUARES_TABLE_ENDGAME[row][column];
 		} else if (chessPiece instanceof Knight) {
-			return KNIGHT_ENDGAME_VALUE + KNIGHTS_SQUARES_TABLE_ENDGAME[row][column];
+			return KNIGHTS_SQUARES_TABLE_ENDGAME[row][column];
 		} else if (chessPiece instanceof Bishop) {
-			return BISHOP_ENDGAME_VALUE + BISHOPS_SQUARES_TABLE_ENDGAME[row][column];
+			return BISHOPS_SQUARES_TABLE_ENDGAME[row][column];
 		} else if (chessPiece instanceof Rook) {
-			return ROOK_ENDGAME_VALUE + ROOKS_SQUARES_TABLE_ENDGAME[row][column];
+			return ROOKS_SQUARES_TABLE_ENDGAME[row][column];
 		} else if (chessPiece instanceof Queen) {
-			return QUEEN_ENDGAME_VALUE + QUEEN_SQUARES_TABLE_ENDGAME[row][column];
+			return QUEEN_SQUARES_TABLE_ENDGAME[row][column];
 		} else if (chessPiece instanceof King) {
-			return KING_ENDGAME_VALUE + KING_SQUARES_TABLE_ENDGAME[row][column];
+			return KING_SQUARES_TABLE_ENDGAME[row][column];
 		}
 		return 0;
 	}
