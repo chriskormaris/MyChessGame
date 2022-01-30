@@ -56,28 +56,28 @@ public class ChessGUI {
 	private static final int HEIGHT = GuiConstants.DEFAULT_HEIGHT;
 	private static final int WIDTH = GuiConstants.DEFAULT_WIDTH;
 
-	public static final String FIRST_TURN_TEXT = "Turn: 1. White plays first.";
-	public static final String ZERO_SCORE_TEXT = "Score:  0";
+	private static final String FIRST_TURN_TEXT = "Turn: 1. White plays first.";
+	private static final String ZERO_SCORE_TEXT = "Score:  0";
 
 	public static GameParameters gameParameters = new GameParameters();
 	public static GameParameters newGameParameters = new GameParameters(gameParameters);
 	public static JFrame frame;
-	public static JPanel gui = new JPanel();
+	private static final JPanel gui = new JPanel();
 
-	public static JToolBar tools = new JToolBar();
+	private static JToolBar tools = new JToolBar();
 
-	public static JPanel chessBoardPanel;
-	public static JPanel capturedPiecesPanel;
+	private static JPanel chessBoardPanel;
+	private static JPanel capturedPiecesPanel;
 
-	public static JTextPane turnTextPane = new JTextPane();
+	private static final JTextPane turnTextPane = new JTextPane();
 
 	// The position (0, 0) of the chessBoardSquares,
 	// corresponds to the position (NUM_OF_COLUMNS - 1, 0) of the ChessBoard's gameBoard.
-	public static JButton[][] chessBoardSquares;
+	private static JButton[][] chessBoardSquares;
 
 	// 30 captured pieces at maximum,
 	// plus 1 label for displaying the score = 31 labels size.
-	public static JLabel[] capturedPiecesImages;
+	private static JLabel[] capturedPiecesImages;
 
 	private static int whiteCapturedPiecesCounter;
 	private static int blackCapturedPiecesCounter;
@@ -86,42 +86,42 @@ public class ChessGUI {
 	// of the JButton array "chessBoardSquares".
 	// The position (gameParameters.getNumOfRows()-1, 0) of the "chessBoard.getGameBoard()" is the upper left button
 	// of the JButton array "chessBoardSquares".
-	public static ChessBoard chessBoard = new ChessBoard();
-	public static String startingPosition = "";
-	public static String endingPosition = "";
+	private static ChessBoard chessBoard = new ChessBoard();
+	private static String startingPosition = "";
+	private static String endingPosition = "";
 
 	// These stacks of "ChessBoard" objects are used to handle the "undo" and "redo" functionality.
-	public static Stack<ChessBoard> previousChessBoards = new Stack<>();
-	public static Stack<ChessBoard> redoChessBoards = new Stack<>();
+	private static final Stack<ChessBoard> previousChessBoards = new Stack<>();
+	private static final Stack<ChessBoard> redoChessBoards = new Stack<>();
 
 	// These stacks of "JLabel" arrays are used to handle the "undo" and "redo" functionality.
-	public static Stack<JLabel[]> previousCapturedPiecesImages = new Stack<>();
-	public static Stack<JLabel[]> redoCapturedPiecesImages = new Stack<>();
+	private static final Stack<JLabel[]> previousCapturedPiecesImages = new Stack<>();
+	private static final Stack<JLabel[]> redoCapturedPiecesImages = new Stack<>();
 
-	public static boolean startingButtonIsClicked = false;
+	private static boolean startingButtonIsClicked = false;
 
-	public static Set<String> hintPositions = new HashSet<>();
+	private static Set<String> hintPositions = new HashSet<>();
 
-	public static boolean buttonsEnabled = true;
+	private static boolean buttonsEnabled = true;
 
 	// This variable is used for the implementation of "Human Vs MiniMax AI".
 	public static MiniMaxAI miniMaxAI;
 
 	// This variable is used for the implementation of "Human Vs Random AI".
-	public static RandomChoiceAI randomChoiceAI;
+	private static RandomChoiceAI randomChoiceAI;
 
 	// This variable is used for the implementation of MiniMax AI Vs MiniMax AI.
-	public static boolean isGameOver;
+	private static boolean isGameOver;
 
-	public static String savedFenPosition;
+	private static String savedFenPosition;
 
 	// These stack of 2d "ChessPiece" arrays is used to check for a threefold repetition of a chess board position.
 	public static Stack<ChessPiece[][]> halfMoveGameBoards = new Stack<>();
 	public static Stack<ChessPiece[][]> redoHalfMoveGameBoards = new Stack<>();
 
-	public static JLabel[] aiVsAiNewCapturedPiecesImages;
+	private static JLabel[] aiVsAiNewCapturedPiecesImages;
 
-	public static GameResult gameResult;
+	private static GameResult gameResult;
 
 	private static JMenuBar menuBar;
 	private static JMenu fileMenu;
@@ -140,11 +140,11 @@ public class ChessGUI {
 	private static JMenuItem aboutItem;
 
 	/*
-	public static int whiteMinimaxAiMoveElapsedSecs;
-	public static int blackMinimaxAiMoveElapsedSecs;
+	private static int whiteMinimaxAiMoveElapsedSecs;
+	private static int blackMinimaxAiMoveElapsedSecs;
 
-    public static double whiteMinimaxAiMoveAverageSecs;
-    public static double blackMinimaxAiMoveAverageSecs;
+    private static double whiteMinimaxAiMoveAverageSecs;
+    private static double blackMinimaxAiMoveAverageSecs;
 	*/
 
 	public ChessGUI(String title) {
