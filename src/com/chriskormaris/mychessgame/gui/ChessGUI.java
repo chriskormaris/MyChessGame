@@ -79,6 +79,9 @@ public class ChessGUI {
 	// plus 1 label for displaying the score = 31 labels size.
 	public static JLabel[] capturedPiecesImages;
 
+	private static int whiteCapturedPiecesCounter;
+	private static int blackCapturedPiecesCounter;
+
 	// The position (0, 0) of the "chessBoard.getGameBoard()" is the lower left button
 	// of the JButton array "chessBoardSquares".
 	// The position (gameParameters.getNumOfRows()-1, 0) of the "chessBoard.getGameBoard()" is the upper left button
@@ -1217,6 +1220,14 @@ public class ChessGUI {
 		chessBoard.getPiecesToPlace().clear();
 	}
 
+	public static void incrementCapturedPiecesCounter(ChessPiece chessPiece) {
+		if (chessPiece.getAllegiance() == Allegiance.WHITE) {
+			whiteCapturedPiecesCounter++;
+		} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
+			blackCapturedPiecesCounter++;
+		}
+	}
+
 	public static void addCapturedPieceImage(ChessPiece endTile) {
 		String imagePath = "";
 
@@ -1233,13 +1244,13 @@ public class ChessGUI {
 		ImageIcon pieceImage = GuiUtilities.preparePieceIcon(imagePath, GuiConstants.CAPTURED_PIECE_PIXEL_SIZE);
 
 		if (endTile.getAllegiance() == Allegiance.WHITE) {
-			capturedPiecesImages[chessBoard.getWhiteCapturedPiecesCounter()].setIcon(pieceImage);
+			capturedPiecesImages[whiteCapturedPiecesCounter].setIcon(pieceImage);
 		} else if (endTile.getAllegiance() == Allegiance.BLACK) {
-			int index = (int) Math.ceil((capturedPiecesImages.length) / 2.0) + chessBoard.getBlackCapturedPiecesCounter();
+			int index = (int) Math.ceil((capturedPiecesImages.length) / 2.0) + blackCapturedPiecesCounter;
 			capturedPiecesImages[index].setIcon(pieceImage);
 		}
 
-		chessBoard.incrementCapturedPiecesCounter(endTile);
+		incrementCapturedPiecesCounter(endTile);
 
 		setScoreMessage();
 

@@ -106,9 +106,6 @@ public class ChessBoard {
 	private boolean isBlackStalemateDraw;
 	private boolean isInsufficientMaterialDraw;
 
-	private int whiteCapturedPiecesCounter;
-	private int blackCapturedPiecesCounter;
-
 	private int score;
 
 	private Set<ChessPiece> promotedPieces;
@@ -149,9 +146,6 @@ public class ChessBoard {
 
 		this.halfMoveClock = 0;
 		this.halfMoveNumber = 1;
-
-		this.whiteCapturedPiecesCounter = 0;
-		this.blackCapturedPiecesCounter = 0;
 
 		this.score = 0;
 
@@ -208,9 +202,6 @@ public class ChessBoard {
 		this.isWhiteStalemateDraw = otherBoard.isWhiteStalemateDraw();
 		this.isBlackStalemateDraw = otherBoard.isBlackStalemateDraw();
 		this.isInsufficientMaterialDraw = otherBoard.isInsufficientMaterialDraw();
-
-		this.whiteCapturedPiecesCounter = otherBoard.getWhiteCapturedPiecesCounter();
-		this.blackCapturedPiecesCounter = otherBoard.getBlackCapturedPiecesCounter();
 
 		this.score = otherBoard.getScore();
 
@@ -566,14 +557,6 @@ public class ChessBoard {
 			} else if (endTile instanceof Queen) {
 				score += Constants.QUEEN_SCORE_VALUE;
 			}
-		}
-	}
-
-	public void incrementCapturedPiecesCounter(ChessPiece chessPiece) {
-		if (chessPiece.getAllegiance() == Allegiance.WHITE) {
-			this.whiteCapturedPiecesCounter++;
-		} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
-			this.blackCapturedPiecesCounter++;
 		}
 	}
 
@@ -1543,22 +1526,6 @@ public class ChessBoard {
 
 	public boolean checkForNoPieceCaptureDraw() {
 		return this.halfMoveClock >= Constants.NO_CAPTURE_DRAW_HALF_MOVES_LIMIT;
-	}
-
-	public int getWhiteCapturedPiecesCounter() {
-		return whiteCapturedPiecesCounter;
-	}
-
-	public void incrementWhiteCapturedPiecesCounter() {
-		this.whiteCapturedPiecesCounter++;
-	}
-
-	public int getBlackCapturedPiecesCounter() {
-		return blackCapturedPiecesCounter;
-	}
-
-	public void incrementBlackCapturedPiecesCounter() {
-		this.blackCapturedPiecesCounter++;
 	}
 
 	public int getScore() {
