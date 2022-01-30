@@ -86,7 +86,7 @@ public class ChessGUI {
 	// of the JButton array "chessBoardSquares".
 	// The position (gameParameters.getNumOfRows()-1, 0) of the "chessBoard.getGameBoard()" is the upper left button
 	// of the JButton array "chessBoardSquares".
-	private static ChessBoard chessBoard = new ChessBoard();
+	public static ChessBoard chessBoard = new ChessBoard();
 	private static String startingPosition = "";
 	private static String endingPosition = "";
 
