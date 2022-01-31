@@ -893,6 +893,9 @@ public class ChessGUI {
 
 		// whiteMinimaxAiMoveAverageSecs = 0;
 		// blackMinimaxAiMoveAverageSecs = 0;
+
+		whiteCapturedPiecesCounter = 0;
+		blackCapturedPiecesCounter = 0;
 	}
 
 	// This method is only called from inside a chess board button listener.
