@@ -20,6 +20,7 @@ import com.chriskormaris.mychessgame.api.piece.Queen;
 import com.chriskormaris.mychessgame.api.piece.Rook;
 import com.chriskormaris.mychessgame.api.utility.Constants;
 import com.chriskormaris.mychessgame.api.utility.FenUtilities;
+import com.chriskormaris.mychessgame.api.utility.ShannonEvaluationUtilities;
 import com.chriskormaris.mychessgame.api.utility.Utilities;
 import com.chriskormaris.mychessgame.gui.enumeration.GuiStyle;
 import com.chriskormaris.mychessgame.gui.utility.GameParameters;
@@ -46,6 +47,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Stack;
 
+import static com.chriskormaris.mychessgame.gui.utility.SoundUtilities.CHECKMATE_SOUND;
+import static com.chriskormaris.mychessgame.gui.utility.SoundUtilities.PIECE_MOVE_SOUND;
 import static javax.swing.JOptionPane.QUESTION_MESSAGE;
 
 
@@ -78,9 +81,6 @@ public class ChessGUI {
 	// 30 captured pieces at maximum,
 	// plus 1 label for displaying the score = 31 labels size.
 	private static JLabel[] capturedPiecesImages;
-
-	private static int whiteCapturedPiecesCounter;
-	private static int blackCapturedPiecesCounter;
 
 	// The position (0, 0) of the "chessBoard.getGameBoard()" is the lower left button
 	// of the JButton array "chessBoardSquares".
@@ -893,9 +893,6 @@ public class ChessGUI {
 
 		// whiteMinimaxAiMoveAverageSecs = 0;
 		// blackMinimaxAiMoveAverageSecs = 0;
-
-		whiteCapturedPiecesCounter = 0;
-		blackCapturedPiecesCounter = 0;
 	}
 
 	// This method is only called from inside a chess board button listener.
@@ -918,10 +915,9 @@ public class ChessGUI {
 			startingPiece = chessBoard.getGameBoard()[startingPositionRow][startingPositionColumn];
 		}
 
-		if (!startingButtonIsClicked &&
-				(chessPiece.getAllegiance() == Allegiance.WHITE && chessBoard.whitePlays()
-						|| chessPiece.getAllegiance() == Allegiance.BLACK && chessBoard.blackPlays())) {
-
+		if (!startingButtonIsClicked
+				&& (chessPiece.getAllegiance() == Allegiance.WHITE && chessBoard.whitePlays()
+					|| chessPiece.getAllegiance() == Allegiance.BLACK && chessBoard.blackPlays())) {
 			startingPosition = position;
 			// System.out.println("startingPosition: " + startingPosition);
 
@@ -1003,18 +999,15 @@ public class ChessGUI {
 				startingButtonIsClicked = true;
 			}
 
-		} else if (startingButtonIsClicked && startingPiece != null &&
-				(startingPiece.getAllegiance() == Allegiance.WHITE && chessBoard.whitePlays()
-						|| startingPiece.getAllegiance() == Allegiance.BLACK && chessBoard.blackPlays())) {
-
+		} else if (startingButtonIsClicked && startingPiece != null
+				&& (startingPiece.getAllegiance() == Allegiance.WHITE && chessBoard.whitePlays()
+					|| startingPiece.getAllegiance() == Allegiance.BLACK && chessBoard.blackPlays())) {
 			startingButtonIsClicked = false;
 
 			endingPosition = position;
 			// System.out.println("endingPosition: " + endingPosition);
 
-			if (startingPosition.equals(endingPosition)
-					|| !hintPositions.contains(endingPosition)) {
-
+			if (!hintPositions.contains(endingPosition)) {
 				JButton startingButton;
 				Color startingButtonColor;
 				if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI && gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
@@ -1030,36 +1023,34 @@ public class ChessGUI {
 
 				startingButtonIsClicked = false;
 				return;
-			} else if (!startingPosition.equals(endingPosition)) {
-				if (hintPositions.contains(endingPosition)) {
+			} else {
+				previousChessBoards.push(new ChessBoard(chessBoard));
 
-					previousChessBoards.push(new ChessBoard(chessBoard));
-
-					// Push to the previousCapturedPiecesImages Stack.
-					JLabel[] newCapturedPiecesImages = new JLabel[31];
-					for (int i = 0; i <= 30; i++) {
-						newCapturedPiecesImages[i] = new JLabel(capturedPiecesImages[i].getIcon());
-					}
-					previousCapturedPiecesImages.push(newCapturedPiecesImages);
-
-					redoChessBoards.clear();
-					redoCapturedPiecesImages.clear();
-
-					// System.out.println("startingPositionGameBoard: ");
-					// ChessBoard.printChessBoard(startingPositionChessBoard.getGameBoard());
-
-					// chessBoard.movePieceFromAPositionToAnother(startingPosition, endingPosition, true);
-
-					Move move = new Move(startingPosition, endingPosition);
-					makeDisplayMove(move, false);
-
-					// Store the chess board of the HalfMove that was just made.
-					ChessPiece[][] halfMoveGameBoard = Utilities.copyGameBoard(chessBoard.getGameBoard());
-					halfMoveGameBoards.push(halfMoveGameBoard);
-					// System.out.println("size of halfMoveGameBoards: " + halfMoveGameBoards.size());
-
-					hideHintPositions(hintPositions);
+				// Push to the previousCapturedPiecesImages Stack.
+				JLabel[] newCapturedPiecesImages = new JLabel[31];
+				for (int i = 0; i <= 30; i++) {
+					newCapturedPiecesImages[i] = new JLabel(capturedPiecesImages[i].getIcon());
 				}
+				previousCapturedPiecesImages.push(newCapturedPiecesImages);
+
+				redoChessBoards.clear();
+				redoCapturedPiecesImages.clear();
+
+				// System.out.println("startingPositionGameBoard: ");
+				// ChessBoard.printChessBoard(startingPositionChessBoard.getGameBoard());
+
+				// chessBoard.movePieceFromAPositionToAnother(startingPosition, endingPosition, true);
+
+				Move move = new Move(startingPosition, endingPosition);
+				makeDisplayMove(move, false);
+				System.out.println("evaluation: " + chessBoard.evaluate(gameParameters.getEvaluationFunction1()));
+
+				// Store the chess board of the HalfMove that was just made.
+				ChessPiece[][] halfMoveGameBoard = Utilities.copyGameBoard(chessBoard.getGameBoard());
+				halfMoveGameBoards.push(halfMoveGameBoard);
+				// System.out.println("size of halfMoveGameBoards: " + halfMoveGameBoards.size());
+
+				hideHintPositions(hintPositions);
 
 				JButton startingButton;
 				Color startingButtonColor;
@@ -1073,13 +1064,12 @@ public class ChessGUI {
 
 				// System.out.println("startingButtonColor: " + startingButtonColor);
 				GuiUtilities.changeTileColor(startingButton, startingButtonColor);
-
 			}
 
 			if (checkForGameOver()) return;
 
 			if (gameParameters.isEnableSounds()) {
-				SoundUtilities.playSound("piece_move.wav");
+				SoundUtilities.playSound(PIECE_MOVE_SOUND);
 			}
 
 			// Remove the check from the king of the player who made the last move.
@@ -1223,14 +1213,6 @@ public class ChessGUI {
 		chessBoard.getPiecesToPlace().clear();
 	}
 
-	public static void incrementCapturedPiecesCounter(ChessPiece chessPiece) {
-		if (chessPiece.getAllegiance() == Allegiance.WHITE) {
-			whiteCapturedPiecesCounter++;
-		} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
-			blackCapturedPiecesCounter++;
-		}
-	}
-
 	public static void addCapturedPieceImage(ChessPiece endTile) {
 		String imagePath = "";
 
@@ -1247,13 +1229,13 @@ public class ChessGUI {
 		ImageIcon pieceImage = GuiUtilities.preparePieceIcon(imagePath, GuiConstants.CAPTURED_PIECE_PIXEL_SIZE);
 
 		if (endTile.getAllegiance() == Allegiance.WHITE) {
-			capturedPiecesImages[whiteCapturedPiecesCounter].setIcon(pieceImage);
+			capturedPiecesImages[chessBoard.getWhiteCapturedPiecesCounter()].setIcon(pieceImage);
 		} else if (endTile.getAllegiance() == Allegiance.BLACK) {
-			int index = (int) Math.ceil((capturedPiecesImages.length) / 2.0) + blackCapturedPiecesCounter;
+			int index = (int) Math.ceil((capturedPiecesImages.length) / 2.0) + chessBoard.getBlackCapturedPiecesCounter();
 			capturedPiecesImages[index].setIcon(pieceImage);
 		}
 
-		incrementCapturedPiecesCounter(endTile);
+		chessBoard.incrementCapturedPiecesCounter(endTile);
 
 		setScoreMessage();
 
@@ -1273,7 +1255,7 @@ public class ChessGUI {
 				turnTextPane.setText(turnMessage);
 
 				if (gameParameters.isEnableSounds()) {
-					SoundUtilities.playSound("checkmate.wav");
+					SoundUtilities.playSound(CHECKMATE_SOUND);
 				}
 
 				int dialogResult = JOptionPane.showConfirmDialog(gui,
@@ -1298,7 +1280,7 @@ public class ChessGUI {
 				turnTextPane.setText(turnMessage);
 
 				if (gameParameters.isEnableSounds()) {
-					SoundUtilities.playSound("checkmate.wav");
+					SoundUtilities.playSound(CHECKMATE_SOUND);
 				}
 
 				int dialogResult = JOptionPane.showConfirmDialog(gui,

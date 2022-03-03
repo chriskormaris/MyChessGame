@@ -14,6 +14,7 @@ import com.chriskormaris.mychessgame.api.piece.Rook;
 import com.chriskormaris.mychessgame.api.utility.ChessPieceShortestPath;
 import com.chriskormaris.mychessgame.api.utility.Constants;
 import com.chriskormaris.mychessgame.api.utility.PeSTOEvaluationUtilities;
+import com.chriskormaris.mychessgame.api.utility.ShannonEvaluationUtilities;
 import com.chriskormaris.mychessgame.api.utility.SimplifiedEvaluationUtilities;
 import com.chriskormaris.mychessgame.api.utility.Utilities;
 
@@ -114,6 +115,9 @@ public class ChessBoard {
 	private Map<String, ChessPiece> piecesToPlace;
 
 	private ChessPiece capturedPiece;
+
+	private int whiteCapturedPiecesCounter;
+	private int blackCapturedPiecesCounter;
 
 	public ChessBoard() {
 		this(Constants.DEFAULT_NUM_OF_ROWS);
@@ -707,6 +711,8 @@ public class ChessBoard {
 			return simplifiedEvaluation();
 		} else if (evaluationFunction == EvaluationFunction.PESTO) {
 			return pestoEvaluation();
+		} else if (evaluationFunction == EvaluationFunction.SHANNON) {
+			return shannonEvaluation();
 		}
 		return 0;
 	}
@@ -780,6 +786,44 @@ public class ChessBoard {
 		int middleGamePhase = Math.min(gamePhase, 24);
 		int endgamePhase = 24 - middleGamePhase;
 		return (middleGameScore * middleGamePhase + endgameScore * endgamePhase) / 24.0;
+	}
+
+	// Shannon's Evaluation Function.
+	private double shannonEvaluation() {
+		int score = 0;
+
+		for (int i = 0; i < numOfRows; i++) {
+			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
+				ChessPiece chessPiece = this.gameBoard[i][j];
+
+				String position = Utilities.getPositionByRowCol(i, j);
+				// System.out.println("chessPiece: " + chessPiece + ", i: " + i + ", j: " + j + ", position: " + position);
+				int numberOfLegalMoves = chessPiece.getNextPositions(position, this, false).size();
+
+				if (chessPiece.getAllegiance() == Allegiance.WHITE) {
+					score += ShannonEvaluationUtilities.getPieceValue(chessPiece);
+					score += ShannonEvaluationUtilities.MOBILITY_MULTIPLIER * numberOfLegalMoves;
+				} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
+					score -= ShannonEvaluationUtilities.getPieceValue(chessPiece);
+					score -= ShannonEvaluationUtilities.MOBILITY_MULTIPLIER * numberOfLegalMoves;
+				}
+
+				if (chessPiece instanceof Pawn) {
+					Pawn pawn = (Pawn) chessPiece;
+					if (pawn.isDoubledPawn(position, this) || pawn.isBlockedPawn(position, this)
+							|| pawn.isIsolatedPawn(position, this)) {
+						if (pawn.getAllegiance() == Allegiance.WHITE) {
+							score -= ShannonEvaluationUtilities.DOUBLED_BLOCKED_ISOLATED_PAWNS_MULTIPLIER;
+						} else if (pawn.getAllegiance() == Allegiance.BLACK) {
+							score += ShannonEvaluationUtilities.DOUBLED_BLOCKED_ISOLATED_PAWNS_MULTIPLIER;
+						}
+					}
+				}
+
+			}
+		}
+
+		return score;
 	}
 
 	private int getNumOfBishops(Allegiance playerAllegiance) {
@@ -915,7 +959,6 @@ public class ChessBoard {
 
 	// Check for White checkmate (if White wins!)
 	public boolean checkForWhiteCheckmate(boolean storeKingInCheckMoves) {
-
 		this.isWhiteCheckmate = false;
 
 		ChessBoard initialChessBoard = new ChessBoard(this);
@@ -954,21 +997,18 @@ public class ChessBoard {
 							}
 
 							initialChessBoard = new ChessBoard(this);
-
 						}
 						if (storeKingInCheckMoves && validBlackKingInCheckTempHintPosition.size() > 0) {
 							this.blackKingInCheckValidPieceMoves.put(currentPosition,
 									validBlackKingInCheckTempHintPosition);
 						}
 					}
-
 				}
 			}
 
 			if (blackKingThreatened == 1) {
 				this.isWhiteCheckmate = true;
 			}
-
 		} else {
 			if (storeKingInCheckMoves) {
 				this.blackKingInCheck = false;
@@ -981,7 +1021,6 @@ public class ChessBoard {
 
 	// Check for Black checkmate (if Black wins!)
 	public boolean checkForBlackCheckmate(boolean storeKingInCheckMoves) {
-
 		this.isBlackCheckmate = false;
 
 		ChessBoard initialChessBoard = new ChessBoard(this);
@@ -1020,21 +1059,17 @@ public class ChessBoard {
 							}
 
 							initialChessBoard = new ChessBoard(this);
-
 						}
 						if (storeKingInCheckMoves && validWhiteKingInCheckTempHintPositions.size() > 0) {
 							this.whiteKingInCheckValidPieceMoves.put(currentPosition, validWhiteKingInCheckTempHintPositions);
 						}
-
 					}
-
 				}
 			}
 
 			if (whiteKingThreatened == 1) {
 				this.isBlackCheckmate = true;
 			}
-
 		} else {
 			if (storeKingInCheckMoves) {
 				this.whiteKingInCheck = false;
@@ -1566,6 +1601,22 @@ public class ChessBoard {
 
 	public void setCapturedPiece(ChessPiece capturedPiece) {
 		this.capturedPiece = capturedPiece;
+	}
+
+	public int getWhiteCapturedPiecesCounter() {
+		return whiteCapturedPiecesCounter;
+	}
+
+	public int getBlackCapturedPiecesCounter() {
+		return blackCapturedPiecesCounter;
+	}
+
+	public void incrementCapturedPiecesCounter(ChessPiece chessPiece) {
+		if (chessPiece.getAllegiance() == Allegiance.WHITE) {
+			whiteCapturedPiecesCounter++;
+		} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
+			blackCapturedPiecesCounter++;
+		}
 	}
 
 	@Override

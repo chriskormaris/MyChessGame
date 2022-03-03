@@ -157,21 +157,27 @@ public class SettingsWindow extends JFrame {
 		evaluation_function1_drop_down = new JComboBox<>();
 		evaluation_function1_drop_down.addItem("Simplified");
 		evaluation_function1_drop_down.addItem("PeSTO");
+		evaluation_function1_drop_down.addItem("Shannon");
 
 		if (evaluationFunction1 == EvaluationFunction.SIMPLIFIED) {
 			evaluation_function1_drop_down.setSelectedIndex(0);
 		} else if (evaluationFunction1 == EvaluationFunction.PESTO) {
 			evaluation_function1_drop_down.setSelectedIndex(1);
+		} else if (evaluationFunction1 == EvaluationFunction.SHANNON) {
+			evaluation_function1_drop_down.setSelectedIndex(2);
 		}
 
 		evaluation_function2_drop_down = new JComboBox<>();
 		evaluation_function2_drop_down.addItem("Simplified");
 		evaluation_function2_drop_down.addItem("PeSTO");
+		evaluation_function2_drop_down.addItem("Shannon");
 
 		if (evaluationFunction2 == EvaluationFunction.SIMPLIFIED) {
 			evaluation_function2_drop_down.setSelectedIndex(0);
 		} else if (evaluationFunction2 == EvaluationFunction.PESTO) {
 			evaluation_function2_drop_down.setSelectedIndex(1);
+		} else if (evaluationFunction2 == EvaluationFunction.SHANNON) {
+			evaluation_function2_drop_down.setSelectedIndex(2);
 		}
 
 		white_tile_color_drop_down = new JComboBox<>();
@@ -264,16 +270,21 @@ public class SettingsWindow extends JFrame {
 			} else if (ev.getSource() == apply) {
 				try {
 
-					GuiStyle guiStyle =
-							GuiStyle.valueOf(gui_style_drop_down.getSelectedItem().toString().toUpperCase().replace("-", "_").replace(" ", "_"));
+					GuiStyle guiStyle = GuiStyle.valueOf(gui_style_drop_down.getSelectedItem().toString().toUpperCase()
+							.replace("-", "_").replace(" ", "_"));
 					boolean enableSounds = enable_sounds_check_box.isSelected();
-					Allegiance humanPlayerAllegiance = Allegiance.valueOf(human_player_allegiance_drop_down.getSelectedItem().toString().toUpperCase());
-					GameMode gameMode = GameMode.valueOf(game_mode_drop_down.getSelectedItem().toString().toUpperCase().replace(" ", "_"));
-					AiType aiType = AiType.valueOf(ai_type_drop_down.getSelectedItem().toString().toUpperCase().replace(" ", "_"));
+					Allegiance humanPlayerAllegiance = Allegiance.valueOf(human_player_allegiance_drop_down
+							.getSelectedItem().toString().toUpperCase());
+					GameMode gameMode = GameMode.valueOf(game_mode_drop_down.getSelectedItem().toString().toUpperCase()
+							.replace(" ", "_"));
+					AiType aiType = AiType.valueOf(ai_type_drop_down.getSelectedItem().toString().toUpperCase()
+							.replace(" ", "_"));
 					int maxDepth1 = (int) max_depth1_drop_down.getSelectedItem();
 					int maxDepth2 = (int) max_depth2_drop_down.getSelectedItem();
-					EvaluationFunction evaluationFunction1 = EvaluationFunction.valueOf(evaluation_function1_drop_down.getSelectedItem().toString().toUpperCase());
-					EvaluationFunction evaluationFunction2 = EvaluationFunction.valueOf(evaluation_function2_drop_down.getSelectedItem().toString().toUpperCase());
+					EvaluationFunction evaluationFunction1 = EvaluationFunction.valueOf(evaluation_function1_drop_down
+							.getSelectedItem().toString().toUpperCase());
+					EvaluationFunction evaluationFunction2 = EvaluationFunction.valueOf(evaluation_function2_drop_down
+							.getSelectedItem().toString().toUpperCase());
 					int whiteTileColorDropdownIndex = white_tile_color_drop_down.getSelectedIndex();
 					int blackTileColorDropdownIndex = black_tile_color_drop_down.getSelectedIndex();
 					int numOfRows = (int) num_of_rows_spinner.getValue();

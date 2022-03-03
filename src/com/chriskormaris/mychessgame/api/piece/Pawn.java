@@ -52,8 +52,9 @@ public class Pawn extends ChessPiece {
 				String newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
 				ChessPiece endTile = chessBoard.getGameBoard()[newRow][newColumn];
 				// System.out.println("endTileCode: " + endTileCode);
-				if (endTile instanceof EmptyTile)
+				if (endTile instanceof EmptyTile) {
 					nextPawnPositions.add(newPosition);
+				}
 
 				// Two steps forward position.
 				if (chessPiece.getAllegiance() == Allegiance.WHITE && row < chessBoard.getNumOfRows() - 2
@@ -116,7 +117,6 @@ public class Pawn extends ChessPiece {
 		return nextPawnPositions;
 	}
 
-
 	// Implementation of the "en passant" moves.
 	public Set<String> getEnPassantPositions(String position, ChessBoard chessBoard, boolean returnThreats) {
 		// System.out.println("current position: " + position);
@@ -129,8 +129,9 @@ public class Pawn extends ChessPiece {
 		int column = Utilities.getColumnFromPosition(position);
 		ChessPiece chessPiece = chessBoard.getGameBoard()[row][column];
 
-		if (!(chessPiece instanceof Pawn))
+		if (!(chessPiece instanceof Pawn)) {
 			return enPassantPositions;
+		}
 
 		int newRow = 0;
 
@@ -178,5 +179,123 @@ public class Pawn extends ChessPiece {
 		return enPassantPositions;
 	}
 
+	// A Pawn is doubled if it has other Pawns on its front rows.
+	public boolean isDoubledPawn(String position, ChessBoard chessBoard) {
+		// First, find the row && the column
+		// that corresponds to the given position String.
+		int row = Utilities.getRowFromPosition(position);
+		int column = Utilities.getColumnFromPosition(position);
+		ChessPiece chessPiece = chessBoard.getGameBoard()[row][column];
+
+		if (!(chessPiece instanceof Pawn)) {
+			return false;
+		}
+
+		if (chessPiece.getAllegiance() == Allegiance.WHITE) {
+			for (int i=row+1; i<chessBoard.getNumOfRows(); i++) {
+				ChessPiece frontPiece = chessBoard.getGameBoard()[i][column];
+				if (frontPiece instanceof Pawn && frontPiece.getAllegiance() == Allegiance.WHITE) {
+					return true;
+				}
+			}
+		} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
+			for (int i=row-1; i>=0; i--) {
+				ChessPiece frontPiece = chessBoard.getGameBoard()[i][column];
+				if (frontPiece instanceof Pawn && frontPiece.getAllegiance() == Allegiance.BLACK) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	// A Pawn is blocked if
+	public boolean isBlockedPawn(String position, ChessBoard chessBoard) {
+		// First, find the row && the column
+		// that corresponds to the given position String.
+		int row = Utilities.getRowFromPosition(position);
+		int column = Utilities.getColumnFromPosition(position);
+		ChessPiece chessPiece = chessBoard.getGameBoard()[row][column];
+
+		if (!(chessPiece instanceof Pawn)) {
+			return false;
+		}
+
+		int numberOfLegalMoves = chessPiece.getNextPositions(position, chessBoard, false).size();
+		return numberOfLegalMoves == 0;
+	}
+
+	// A Pawn is blocked if
+	public boolean isIsolatedPawn(String position, ChessBoard chessBoard) {
+		// First, find the row && the column
+		// that corresponds to the given position String.
+		int row = Utilities.getRowFromPosition(position);
+		int column = Utilities.getColumnFromPosition(position);
+		ChessPiece chessPiece = chessBoard.getGameBoard()[row][column];
+
+		if (!(chessPiece instanceof Pawn)) {
+			return false;
+		}
+
+		// top direction
+		if (row < chessBoard.getNumOfRows()-1) {
+			ChessPiece neighbour = chessBoard.getGameBoard()[row+1][column];
+			if (neighbour instanceof Pawn && chessPiece.getAllegiance() == neighbour.getAllegiance()) {
+				return false;
+			}
+		}
+		// up and top direction
+		if (row < chessBoard.getNumOfRows()-1 && column < Constants.DEFAULT_NUM_OF_COLUMNS-1) {
+			ChessPiece neighbour = chessBoard.getGameBoard()[row+1][column+1];
+			if (neighbour instanceof Pawn && chessPiece.getAllegiance() == neighbour.getAllegiance()) {
+				return false;
+			}
+		}
+		// right direction
+		if (column < Constants.DEFAULT_NUM_OF_COLUMNS-1) {
+			ChessPiece neighbour = chessBoard.getGameBoard()[row][column+1];
+			if (neighbour instanceof Pawn && chessPiece.getAllegiance() == neighbour.getAllegiance()) {
+				return false;
+			}
+		}
+		// right and bottom direction
+		if (row > 0 && column < Constants.DEFAULT_NUM_OF_COLUMNS-1) {
+			ChessPiece neighbour = chessBoard.getGameBoard()[row-1][column+1];
+			if (neighbour instanceof Pawn && chessPiece.getAllegiance() == neighbour.getAllegiance()) {
+				return false;
+			}
+		}
+		// bottom direction
+		if (row > 0) {
+			ChessPiece neighbour = chessBoard.getGameBoard()[row-1][column];
+			if (neighbour instanceof Pawn && chessPiece.getAllegiance() == neighbour.getAllegiance()) {
+				return false;
+			}
+		}
+		// left and bottom direction
+		if (row > 0 && column > 0) {
+			ChessPiece neighbour = chessBoard.getGameBoard()[row-1][column-1];
+			if (neighbour instanceof Pawn && chessPiece.getAllegiance() == neighbour.getAllegiance()) {
+				return false;
+			}
+		}
+		// left direction
+		if (column > 0) {
+			ChessPiece neighbour = chessBoard.getGameBoard()[row][column-1];
+			if (neighbour instanceof Pawn && chessPiece.getAllegiance() == neighbour.getAllegiance()) {
+				return false;
+			}
+		}
+		// top and left direction
+		if (row < chessBoard.getNumOfRows()-1 && column > 0) {
+			ChessPiece neighbour = chessBoard.getGameBoard()[row+1][column-1];
+			if (neighbour instanceof Pawn && chessPiece.getAllegiance() == neighbour.getAllegiance()) {
+				return false;
+			}
+		}
+
+		return true;
+	}
 
 }

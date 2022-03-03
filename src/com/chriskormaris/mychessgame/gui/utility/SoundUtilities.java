@@ -9,6 +9,9 @@ import java.net.URL;
 
 public class SoundUtilities {
 
+	public static final String PIECE_MOVE_SOUND = "piece_move.wav";
+	public static final String CHECKMATE_SOUND = "checkmate.wav";
+
 	public static synchronized void playSound(final String path) {
 
 		try {

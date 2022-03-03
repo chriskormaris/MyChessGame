@@ -9,7 +9,7 @@ import com.chriskormaris.mychessgame.api.piece.Pawn;
 import com.chriskormaris.mychessgame.api.piece.Queen;
 import com.chriskormaris.mychessgame.api.piece.Rook;
 
-// PeSTO's Evaluation Function.
+// PeSTO's (Piece-Square Tables Only) Evaluation Function.
 // see: https://www.chessprogramming.org/PeSTO%27s_Evaluation_Function
 public class PeSTOEvaluationUtilities {
 
