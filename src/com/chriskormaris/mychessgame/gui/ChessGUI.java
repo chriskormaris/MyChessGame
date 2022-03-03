@@ -443,11 +443,10 @@ public class ChessGUI {
 	private static void undoLastMove() {
 		if (!previousChessBoards.isEmpty()) {
 			System.out.println("Undo is pressed!");
+			startingButtonIsClicked = false;
+			hideHintPositions(hintPositions);
 
 			if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI || gameParameters.getGameMode() == GameMode.HUMAN_VS_HUMAN) {
-				startingButtonIsClicked = false;
-				hideHintPositions(hintPositions);
-
 				int startingPositionRow = Utilities.getRowFromPosition(startingPosition);
 				int startingPositionColumn = Utilities.getColumnFromPosition(startingPosition);
 
@@ -509,8 +508,9 @@ public class ChessGUI {
 				undoItem.setEnabled(false);
 			}
 
-			if (redoItem != null)
+			if (redoItem != null) {
 				redoItem.setEnabled(true);
+			}
 		}
 	}
 
@@ -520,11 +520,10 @@ public class ChessGUI {
 	private static void redoNextMove() {
 		if (!redoChessBoards.isEmpty()) {
 			System.out.println("Redo is pressed!");
+			startingButtonIsClicked = false;
+			hideHintPositions(hintPositions);
 
 			if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI || gameParameters.getGameMode() == GameMode.HUMAN_VS_HUMAN) {
-				startingButtonIsClicked = false;
-				hideHintPositions(hintPositions);
-
 				int startingPositionRow = Utilities.getRowFromPosition(startingPosition);
 				int startingPositionColumn = Utilities.getColumnFromPosition(startingPosition);
 

@@ -526,6 +526,10 @@ public class ChessBoard {
 			if (chessPiece.getAllegiance() != endTile.getAllegiance()
 					&& !(endTile instanceof EmptyTile)) {
 				updateScoreAfterPieceCapture(endTile);
+
+				if (!displayMove) {
+					incrementCapturedPiecesCounter(endTile);
+				}
 			}
 		}
 	}
