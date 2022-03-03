@@ -2,7 +2,7 @@ package com.chriskormaris.mychessgame.api.piece;
 
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
-import com.chriskormaris.mychessgame.api.utility.Constants;
+import com.chriskormaris.mychessgame.api.util.Constants;
 
 import java.util.Set;
 

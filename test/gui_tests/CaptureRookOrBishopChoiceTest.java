@@ -7,8 +7,8 @@ import com.chriskormaris.mychessgame.api.piece.Bishop;
 import com.chriskormaris.mychessgame.api.piece.King;
 import com.chriskormaris.mychessgame.api.piece.Knight;
 import com.chriskormaris.mychessgame.api.piece.Rook;
-import com.chriskormaris.mychessgame.api.utility.Constants;
-import com.chriskormaris.mychessgame.api.utility.Utilities;
+import com.chriskormaris.mychessgame.api.util.Constants;
+import com.chriskormaris.mychessgame.api.util.Utilities;
 import com.chriskormaris.mychessgame.gui.ChessGUI;
 import org.junit.jupiter.api.Test;
 

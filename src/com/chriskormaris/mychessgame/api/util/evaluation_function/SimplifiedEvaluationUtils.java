@@ -1,4 +1,4 @@
-package com.chriskormaris.mychessgame.api.utility;
+package com.chriskormaris.mychessgame.api.util.evaluation_function;
 
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 import com.chriskormaris.mychessgame.api.enumeration.GamePhase;
@@ -13,7 +13,7 @@ import com.chriskormaris.mychessgame.api.piece.Rook;
 // Simplified Evaluation Function.
 // see: https://www.chessprogramming.org/Simplified_Evaluation_Function
 // also see: https://github.com/maksimKorzh/wukongJS/blob/main/wukong.js
-public class SimplifiedEvaluationUtilities {
+public class SimplifiedEvaluationUtils {
 
 	public static int[][] PAWNS_SQUARES_TABLE = new int[][]{
 			{0,   0,   0,   0,   0,   0,  0,  0},

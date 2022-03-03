@@ -1,4 +1,4 @@
-package com.chriskormaris.mychessgame.gui.utility;
+package com.chriskormaris.mychessgame.gui.util;
 
 import java.net.URL;
 

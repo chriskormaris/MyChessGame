@@ -1,10 +1,10 @@
-package com.chriskormaris.mychessgame.gui.utility;
+package com.chriskormaris.mychessgame.gui.util;
 
 import com.chriskormaris.mychessgame.api.enumeration.AiType;
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 import com.chriskormaris.mychessgame.api.enumeration.EvaluationFunction;
 import com.chriskormaris.mychessgame.api.enumeration.GameMode;
-import com.chriskormaris.mychessgame.api.utility.Constants;
+import com.chriskormaris.mychessgame.api.util.Constants;
 import com.chriskormaris.mychessgame.gui.enumeration.GuiStyle;
 
 import java.awt.*;

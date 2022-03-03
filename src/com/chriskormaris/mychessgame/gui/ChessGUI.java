@@ -18,16 +18,15 @@ import com.chriskormaris.mychessgame.api.piece.Knight;
 import com.chriskormaris.mychessgame.api.piece.Pawn;
 import com.chriskormaris.mychessgame.api.piece.Queen;
 import com.chriskormaris.mychessgame.api.piece.Rook;
-import com.chriskormaris.mychessgame.api.utility.Constants;
-import com.chriskormaris.mychessgame.api.utility.FenUtilities;
-import com.chriskormaris.mychessgame.api.utility.ShannonEvaluationUtilities;
-import com.chriskormaris.mychessgame.api.utility.Utilities;
+import com.chriskormaris.mychessgame.api.util.Constants;
+import com.chriskormaris.mychessgame.api.util.FenUtils;
+import com.chriskormaris.mychessgame.api.util.Utilities;
 import com.chriskormaris.mychessgame.gui.enumeration.GuiStyle;
-import com.chriskormaris.mychessgame.gui.utility.GameParameters;
-import com.chriskormaris.mychessgame.gui.utility.GuiConstants;
-import com.chriskormaris.mychessgame.gui.utility.GuiUtilities;
-import com.chriskormaris.mychessgame.gui.utility.ResourceLoader;
-import com.chriskormaris.mychessgame.gui.utility.SoundUtilities;
+import com.chriskormaris.mychessgame.gui.util.GameParameters;
+import com.chriskormaris.mychessgame.gui.util.GuiConstants;
+import com.chriskormaris.mychessgame.gui.util.GuiUtils;
+import com.chriskormaris.mychessgame.gui.util.ResourceLoader;
+import com.chriskormaris.mychessgame.gui.util.SoundUtils;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -47,8 +46,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Stack;
 
-import static com.chriskormaris.mychessgame.gui.utility.SoundUtilities.CHECKMATE_SOUND;
-import static com.chriskormaris.mychessgame.gui.utility.SoundUtilities.PIECE_MOVE_SOUND;
+import static com.chriskormaris.mychessgame.gui.util.SoundUtils.CHECKMATE_SOUND;
+import static com.chriskormaris.mychessgame.gui.util.SoundUtils.PIECE_MOVE_SOUND;
 import static javax.swing.JOptionPane.QUESTION_MESSAGE;
 
 
@@ -262,7 +261,7 @@ public class ChessGUI {
 					"Export FEN Position", QUESTION_MESSAGE, null, null,
 					"exported_FEN_position.txt");
 
-			String fenPosition = FenUtilities.getFenPositionFromChessBoard(chessBoard);
+			String fenPosition = FenUtils.getFenPositionFromChessBoard(chessBoard);
 
 			BufferedWriter bw = null;
 			try {
@@ -285,7 +284,7 @@ public class ChessGUI {
 
 		saveCheckpointItem.addActionListener(e -> {
 			if (!chessBoard.isTerminalState()) {
-				savedFenPosition = FenUtilities.getFenPositionFromChessBoard(chessBoard);
+				savedFenPosition = FenUtils.getFenPositionFromChessBoard(chessBoard);
 				loadCheckpointItem.setEnabled(true);
 			}
 		});
@@ -462,7 +461,7 @@ public class ChessGUI {
 					startingButtonColor = getColorByRowCol(gameParameters.getNumOfRows() - 1 - startingPositionRow, startingPositionColumn);
 				}
 
-				GuiUtilities.changeTileColor(startingButton, startingButtonColor);
+				GuiUtils.changeTileColor(startingButton, startingButtonColor);
 			}
 
 			redoChessBoards.push(new ChessBoard(chessBoard));
@@ -539,7 +538,7 @@ public class ChessGUI {
 					startingButtonColor = getColorByRowCol(gameParameters.getNumOfRows() - 1 - startingPositionRow, startingPositionColumn);
 				}
 
-				GuiUtilities.changeTileColor(startingButton, startingButtonColor);
+				GuiUtils.changeTileColor(startingButton, startingButtonColor);
 			}
 
 			previousChessBoards.push(new ChessBoard(chessBoard));
@@ -952,7 +951,7 @@ public class ChessGUI {
 
 				}
 
-				GuiUtilities.changeTileColor(button, Color.CYAN);
+				GuiUtils.changeTileColor(button, Color.CYAN);
 
 				// Display the hint positions.
 				if (hintPositions != null && hintPositions.size() != 0) {
@@ -981,13 +980,13 @@ public class ChessGUI {
 						if (chessPiece.getAllegiance() != hintPositionPiece.getAllegiance()
 								&& hintPositionPiece.getAllegiance() != Allegiance.EMPTY
 								|| chessBoard.getEnPassantPosition().equals(hintPosition) && chessPiece instanceof Pawn) {
-							GuiUtilities.changeTileColor(hintPositionButton, Color.RED);
+							GuiUtils.changeTileColor(hintPositionButton, Color.RED);
 						} else if (chessPiece instanceof Pawn &&
 								(chessPiece.getAllegiance() == Allegiance.WHITE && hintPositionRow == gameParameters.getNumOfRows() - 1
 										|| chessPiece.getAllegiance() == Allegiance.BLACK && hintPositionRow == 0)) {
-							GuiUtilities.changeTileColor(hintPositionButton, Color.GREEN);
+							GuiUtils.changeTileColor(hintPositionButton, Color.GREEN);
 						} else if (hintPositionPiece instanceof EmptyTile) {
-							GuiUtilities.changeTileColor(hintPositionButton, Color.BLUE);
+							GuiUtils.changeTileColor(hintPositionButton, Color.BLUE);
 						}
 
 					}
@@ -1019,7 +1018,7 @@ public class ChessGUI {
 				}
 
 				// System.out.println("startingButtonColor: " + startingButtonColor);
-				GuiUtilities.changeTileColor(startingButton, startingButtonColor);
+				GuiUtils.changeTileColor(startingButton, startingButtonColor);
 
 				startingButtonIsClicked = false;
 				return;
@@ -1063,13 +1062,13 @@ public class ChessGUI {
 				}
 
 				// System.out.println("startingButtonColor: " + startingButtonColor);
-				GuiUtilities.changeTileColor(startingButton, startingButtonColor);
+				GuiUtils.changeTileColor(startingButton, startingButtonColor);
 			}
 
 			if (checkForGameOver()) return;
 
 			if (gameParameters.isEnableSounds()) {
-				SoundUtilities.playSound(PIECE_MOVE_SOUND);
+				SoundUtils.playSound(PIECE_MOVE_SOUND);
 			}
 
 			// Remove the check from the king of the player who made the last move.
@@ -1223,10 +1222,10 @@ public class ChessGUI {
 				imagePath = GuiConstants.BLACK_PAWN_IMG_PATH;
 			}
 		} else {
-			imagePath = GuiUtilities.getImagePath(endTile);
+			imagePath = GuiUtils.getImagePath(endTile);
 		}
 
-		ImageIcon pieceImage = GuiUtilities.preparePieceIcon(imagePath, GuiConstants.CAPTURED_PIECE_PIXEL_SIZE);
+		ImageIcon pieceImage = GuiUtils.preparePieceIcon(imagePath, GuiConstants.CAPTURED_PIECE_PIXEL_SIZE);
 
 		if (endTile.getAllegiance() == Allegiance.WHITE) {
 			capturedPiecesImages[chessBoard.getWhiteCapturedPiecesCounter()].setIcon(pieceImage);
@@ -1255,7 +1254,7 @@ public class ChessGUI {
 				turnTextPane.setText(turnMessage);
 
 				if (gameParameters.isEnableSounds()) {
-					SoundUtilities.playSound(CHECKMATE_SOUND);
+					SoundUtils.playSound(CHECKMATE_SOUND);
 				}
 
 				int dialogResult = JOptionPane.showConfirmDialog(gui,
@@ -1280,7 +1279,7 @@ public class ChessGUI {
 				turnTextPane.setText(turnMessage);
 
 				if (gameParameters.isEnableSounds()) {
-					SoundUtilities.playSound(CHECKMATE_SOUND);
+					SoundUtils.playSound(CHECKMATE_SOUND);
 				}
 
 				int dialogResult = JOptionPane.showConfirmDialog(gui,
@@ -1641,7 +1640,7 @@ public class ChessGUI {
 					buttonColor = getColorByRowCol(gameParameters.getNumOfRows() - 1 - row, column);
 				}
 
-				GuiUtilities.changeTileColor(button, buttonColor);
+				GuiUtils.changeTileColor(button, buttonColor);
 			}
 		}
 	}
@@ -1661,9 +1660,9 @@ public class ChessGUI {
 	// It inserts the given chessPiece to the given position on the board
 	// (both the data structure and the GUI)
 	public static void placePieceToPosition(String position, ChessPiece chessPiece) {
-		String imagePath = GuiUtilities.getImagePath(chessPiece);
+		String imagePath = GuiUtils.getImagePath(chessPiece);
 
-		ImageIcon pieceImage = GuiUtilities.preparePieceIcon(imagePath, GuiConstants.CHESS_SQUARE_PIXEL_SIZE);
+		ImageIcon pieceImage = GuiUtils.preparePieceIcon(imagePath, GuiConstants.CHESS_SQUARE_PIXEL_SIZE);
 
 		// int column = (int) Character.toUpperCase(position.charAt(0)) - 65;
 		// int row = N - Character.getNumericValue(position.charAt(1));
@@ -1729,7 +1728,7 @@ public class ChessGUI {
 
 	public static void placePiecesToChessBoard(String fenPosition) {
 		try {
-			chessBoard = FenUtilities.getChessBoardFromFenPosition(fenPosition);
+			chessBoard = FenUtils.getChessBoardFromFenPosition(fenPosition);
 		} catch (InvalidFenFormatException ex) {
 			System.err.println(ex.getMessage());
 			System.exit(1);

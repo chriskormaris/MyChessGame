@@ -1,4 +1,4 @@
-package com.chriskormaris.mychessgame.api.utility;
+package com.chriskormaris.mychessgame.api.util.evaluation_function;
 
 import com.chriskormaris.mychessgame.api.piece.Bishop;
 import com.chriskormaris.mychessgame.api.piece.ChessPiece;
@@ -10,7 +10,7 @@ import com.chriskormaris.mychessgame.api.piece.Rook;
 
 // Shannon's Evaluation Function.
 // see: https://www.chessprogramming.org/Evaluation
-public class ShannonEvaluationUtilities {
+public class ShannonEvaluationUtils {
 
 	public static final int PAWN_VALUE = 1;
 	public static final int KNIGHT_VALUE = 3;

@@ -1,4 +1,4 @@
-package com.chriskormaris.mychessgame.api.utility;
+package com.chriskormaris.mychessgame.api.util.evaluation_function;
 
 import com.chriskormaris.mychessgame.api.enumeration.GamePhase;
 import com.chriskormaris.mychessgame.api.piece.Bishop;
@@ -11,7 +11,7 @@ import com.chriskormaris.mychessgame.api.piece.Rook;
 
 // PeSTO's (Piece-Square Tables Only) Evaluation Function.
 // see: https://www.chessprogramming.org/PeSTO%27s_Evaluation_Function
-public class PeSTOEvaluationUtilities {
+public class PeSTOEvaluationUtils {
 
 	public static int[][] PAWNS_SQUARES_TABLE_MIDDLE_GAME = new int[][]{
 			{0,    0,   0,   0,   0,   0,  0,   0},

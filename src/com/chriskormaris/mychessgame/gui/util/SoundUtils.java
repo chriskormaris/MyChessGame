@@ -1,13 +1,13 @@
-package com.chriskormaris.mychessgame.gui.utility;
+package com.chriskormaris.mychessgame.gui.util;
 
-import com.chriskormaris.mychessgame.api.utility.Utilities;
+import com.chriskormaris.mychessgame.api.util.Utilities;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import java.net.URL;
 
-public class SoundUtilities {
+public class SoundUtils {
 
 	public static final String PIECE_MOVE_SOUND = "piece_move.wav";
 	public static final String CHECKMATE_SOUND = "checkmate.wav";

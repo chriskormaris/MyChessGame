@@ -1,4 +1,4 @@
-package com.chriskormaris.mychessgame.api.utility;
+package com.chriskormaris.mychessgame.api.util;
 
 import com.chriskormaris.mychessgame.api.piece.Bishop;
 import com.chriskormaris.mychessgame.api.piece.ChessPiece;

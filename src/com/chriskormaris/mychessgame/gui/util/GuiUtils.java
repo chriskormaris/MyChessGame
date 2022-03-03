@@ -1,4 +1,4 @@
-package com.chriskormaris.mychessgame.gui.utility;
+package com.chriskormaris.mychessgame.gui.util;
 
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 import com.chriskormaris.mychessgame.api.piece.Bishop;
@@ -12,7 +12,7 @@ import com.chriskormaris.mychessgame.api.piece.Rook;
 import javax.swing.*;
 import java.awt.*;
 
-public class GuiUtilities {
+public class GuiUtils {
 
 	public static ImageIcon preparePieceIcon(String imagePath, int size) {
 		ImageIcon pieceIcon = new ImageIcon(ResourceLoader.load(imagePath));

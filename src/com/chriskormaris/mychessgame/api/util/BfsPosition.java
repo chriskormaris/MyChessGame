@@ -1,4 +1,4 @@
-package com.chriskormaris.mychessgame.api.utility;
+package com.chriskormaris.mychessgame.api.util;
 
 
 public class BfsPosition {

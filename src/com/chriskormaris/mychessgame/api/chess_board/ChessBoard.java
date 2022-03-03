@@ -11,12 +11,12 @@ import com.chriskormaris.mychessgame.api.piece.Knight;
 import com.chriskormaris.mychessgame.api.piece.Pawn;
 import com.chriskormaris.mychessgame.api.piece.Queen;
 import com.chriskormaris.mychessgame.api.piece.Rook;
-import com.chriskormaris.mychessgame.api.utility.ChessPieceShortestPath;
-import com.chriskormaris.mychessgame.api.utility.Constants;
-import com.chriskormaris.mychessgame.api.utility.PeSTOEvaluationUtilities;
-import com.chriskormaris.mychessgame.api.utility.ShannonEvaluationUtilities;
-import com.chriskormaris.mychessgame.api.utility.SimplifiedEvaluationUtilities;
-import com.chriskormaris.mychessgame.api.utility.Utilities;
+import com.chriskormaris.mychessgame.api.util.ChessPieceShortestPath;
+import com.chriskormaris.mychessgame.api.util.Constants;
+import com.chriskormaris.mychessgame.api.util.Utilities;
+import com.chriskormaris.mychessgame.api.util.evaluation_function.PeSTOEvaluationUtils;
+import com.chriskormaris.mychessgame.api.util.evaluation_function.ShannonEvaluationUtils;
+import com.chriskormaris.mychessgame.api.util.evaluation_function.SimplifiedEvaluationUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -730,18 +730,18 @@ public class ChessBoard {
 				gamePhase += Utilities.getPieceGamePhaseValue(chessPiece);
 
 				if (chessPiece.getAllegiance() == Allegiance.WHITE) {
-					middleGameScore += SimplifiedEvaluationUtilities.getPieceValue(chessPiece, GamePhase.MIDDLE_GAME);
-					endgameScore += SimplifiedEvaluationUtilities.getPieceValue(chessPiece, GamePhase.ENDGAME);
+					middleGameScore += SimplifiedEvaluationUtils.getPieceValue(chessPiece, GamePhase.MIDDLE_GAME);
+					endgameScore += SimplifiedEvaluationUtils.getPieceValue(chessPiece, GamePhase.ENDGAME);
 
 					int row = numOfRows - 1 - i;
-					middleGameScore += SimplifiedEvaluationUtilities.getPieceSquareValue(row, j, chessPiece, GamePhase.MIDDLE_GAME);
-					endgameScore += SimplifiedEvaluationUtilities.getPieceSquareValue(row, j, chessPiece, GamePhase.ENDGAME);
+					middleGameScore += SimplifiedEvaluationUtils.getPieceSquareValue(row, j, chessPiece, GamePhase.MIDDLE_GAME);
+					endgameScore += SimplifiedEvaluationUtils.getPieceSquareValue(row, j, chessPiece, GamePhase.ENDGAME);
 				} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
-					middleGameScore -= SimplifiedEvaluationUtilities.getPieceValue(chessPiece, GamePhase.MIDDLE_GAME);
-					endgameScore -= SimplifiedEvaluationUtilities.getPieceValue(chessPiece, GamePhase.ENDGAME);
+					middleGameScore -= SimplifiedEvaluationUtils.getPieceValue(chessPiece, GamePhase.MIDDLE_GAME);
+					endgameScore -= SimplifiedEvaluationUtils.getPieceValue(chessPiece, GamePhase.ENDGAME);
 
-					middleGameScore -= SimplifiedEvaluationUtilities.getPieceSquareValue(i, j, chessPiece, GamePhase.MIDDLE_GAME);
-					endgameScore -= SimplifiedEvaluationUtilities.getPieceSquareValue(i, j, chessPiece, GamePhase.ENDGAME);
+					middleGameScore -= SimplifiedEvaluationUtils.getPieceSquareValue(i, j, chessPiece, GamePhase.MIDDLE_GAME);
+					endgameScore -= SimplifiedEvaluationUtils.getPieceSquareValue(i, j, chessPiece, GamePhase.ENDGAME);
 				}
 
 			}
@@ -766,18 +766,18 @@ public class ChessBoard {
 				gamePhase += Utilities.getPieceGamePhaseValue(chessPiece);
 
 				if (chessPiece.getAllegiance() == Allegiance.WHITE) {
-					middleGameScore += PeSTOEvaluationUtilities.getPieceValue(chessPiece, GamePhase.MIDDLE_GAME);
-					endgameScore += PeSTOEvaluationUtilities.getPieceValue(chessPiece, GamePhase.ENDGAME);
+					middleGameScore += PeSTOEvaluationUtils.getPieceValue(chessPiece, GamePhase.MIDDLE_GAME);
+					endgameScore += PeSTOEvaluationUtils.getPieceValue(chessPiece, GamePhase.ENDGAME);
 
 					int row = numOfRows - 1 - i;
-					middleGameScore += PeSTOEvaluationUtilities.getMiddleGamePieceSquareValue(row, j, chessPiece);
-					endgameScore += PeSTOEvaluationUtilities.getEndgamePieceSquareValue(row, j, chessPiece);
+					middleGameScore += PeSTOEvaluationUtils.getMiddleGamePieceSquareValue(row, j, chessPiece);
+					endgameScore += PeSTOEvaluationUtils.getEndgamePieceSquareValue(row, j, chessPiece);
 				} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
-					middleGameScore -= PeSTOEvaluationUtilities.getPieceValue(chessPiece, GamePhase.MIDDLE_GAME);
-					endgameScore -= PeSTOEvaluationUtilities.getPieceValue(chessPiece, GamePhase.ENDGAME);
+					middleGameScore -= PeSTOEvaluationUtils.getPieceValue(chessPiece, GamePhase.MIDDLE_GAME);
+					endgameScore -= PeSTOEvaluationUtils.getPieceValue(chessPiece, GamePhase.ENDGAME);
 
-					middleGameScore -= PeSTOEvaluationUtilities.getMiddleGamePieceSquareValue(i, j, chessPiece);
-					endgameScore -= PeSTOEvaluationUtilities.getEndgamePieceSquareValue(i, j, chessPiece);
+					middleGameScore -= PeSTOEvaluationUtils.getMiddleGamePieceSquareValue(i, j, chessPiece);
+					endgameScore -= PeSTOEvaluationUtils.getEndgamePieceSquareValue(i, j, chessPiece);
 				}
 			}
 		}
@@ -801,11 +801,11 @@ public class ChessBoard {
 				int numberOfLegalMoves = chessPiece.getNextPositions(position, this, false).size();
 
 				if (chessPiece.getAllegiance() == Allegiance.WHITE) {
-					score += ShannonEvaluationUtilities.getPieceValue(chessPiece);
-					score += ShannonEvaluationUtilities.MOBILITY_MULTIPLIER * numberOfLegalMoves;
+					score += ShannonEvaluationUtils.getPieceValue(chessPiece);
+					score += ShannonEvaluationUtils.MOBILITY_MULTIPLIER * numberOfLegalMoves;
 				} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
-					score -= ShannonEvaluationUtilities.getPieceValue(chessPiece);
-					score -= ShannonEvaluationUtilities.MOBILITY_MULTIPLIER * numberOfLegalMoves;
+					score -= ShannonEvaluationUtils.getPieceValue(chessPiece);
+					score -= ShannonEvaluationUtils.MOBILITY_MULTIPLIER * numberOfLegalMoves;
 				}
 
 				if (chessPiece instanceof Pawn) {
@@ -813,9 +813,9 @@ public class ChessBoard {
 					if (pawn.isDoubledPawn(position, this) || pawn.isBlockedPawn(position, this)
 							|| pawn.isIsolatedPawn(position, this)) {
 						if (pawn.getAllegiance() == Allegiance.WHITE) {
-							score -= ShannonEvaluationUtilities.DOUBLED_BLOCKED_ISOLATED_PAWNS_MULTIPLIER;
+							score -= ShannonEvaluationUtils.DOUBLED_BLOCKED_ISOLATED_PAWNS_MULTIPLIER;
 						} else if (pawn.getAllegiance() == Allegiance.BLACK) {
-							score += ShannonEvaluationUtilities.DOUBLED_BLOCKED_ISOLATED_PAWNS_MULTIPLIER;
+							score += ShannonEvaluationUtils.DOUBLED_BLOCKED_ISOLATED_PAWNS_MULTIPLIER;
 						}
 					}
 				}
