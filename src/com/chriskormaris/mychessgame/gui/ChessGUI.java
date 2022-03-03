@@ -443,10 +443,11 @@ public class ChessGUI {
 	private static void undoLastMove() {
 		if (!previousChessBoards.isEmpty()) {
 			System.out.println("Undo is pressed!");
-			startingButtonIsClicked = false;
-			hideHintPositions(hintPositions);
 
 			if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI || gameParameters.getGameMode() == GameMode.HUMAN_VS_HUMAN) {
+				startingButtonIsClicked = false;
+				hideHintPositions(hintPositions);
+
 				int startingPositionRow = Utilities.getRowFromPosition(startingPosition);
 				int startingPositionColumn = Utilities.getColumnFromPosition(startingPosition);
 
@@ -520,10 +521,11 @@ public class ChessGUI {
 	private static void redoNextMove() {
 		if (!redoChessBoards.isEmpty()) {
 			System.out.println("Redo is pressed!");
-			startingButtonIsClicked = false;
-			hideHintPositions(hintPositions);
 
 			if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI || gameParameters.getGameMode() == GameMode.HUMAN_VS_HUMAN) {
+				startingButtonIsClicked = false;
+				hideHintPositions(hintPositions);
+
 				int startingPositionRow = Utilities.getRowFromPosition(startingPosition);
 				int startingPositionColumn = Utilities.getColumnFromPosition(startingPosition);
 
@@ -553,7 +555,7 @@ public class ChessGUI {
 			}
 			previousCapturedPiecesImages.push(newCapturedPiecesImages);
 
-			ChessBoard redoChessBoard = redoChessBoards.pop();
+			chessBoard = redoChessBoards.pop();
 
 			// Display the "redo" captured chess board pieces icons.
 			initializeCapturedPiecesPanel();
@@ -569,7 +571,7 @@ public class ChessGUI {
 			// Display the "redo" chess board.
 			for (int i = 0; i < gameParameters.getNumOfRows(); i++) {
 				for (int j = 0; j < NUM_OF_COLUMNS; j++) {
-					placePieceToPosition(Utilities.getPositionByRowCol(i, j), redoChessBoard.getGameBoard()[i][j]);
+					placePieceToPosition(Utilities.getPositionByRowCol(i, j), chessBoard.getGameBoard()[i][j]);
 				}
 			}
 
