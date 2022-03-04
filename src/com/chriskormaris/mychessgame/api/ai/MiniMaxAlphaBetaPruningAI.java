@@ -54,7 +54,7 @@ public class MiniMaxAlphaBetaPruningAI extends AI {
 	}
 
 	// The max and min functions are called interchangeably, one after another until a max depth is reached.
-	public Move maxAlphaBeta(ChessBoard chessBoard, int depth, double a, double b) {
+	private Move maxAlphaBeta(ChessBoard chessBoard, int depth, double a, double b) {
 		Random r = new Random();
 
 		/* If MAX is called on a state that is terminal or after a maximum depth is reached,
@@ -103,7 +103,7 @@ public class MiniMaxAlphaBetaPruningAI extends AI {
 	}
 
 	// Min works similarly to max.
-	public Move minAlphaBeta(ChessBoard chessBoard, int depth, double a, double b) {
+	private Move minAlphaBeta(ChessBoard chessBoard, int depth, double a, double b) {
 		Random r = new Random();
 
 		if ((chessBoard.checkForTerminalState()) || (depth == maxDepth)) {

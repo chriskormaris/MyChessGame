@@ -50,7 +50,7 @@ public class MiniMaxAI extends AI {
 	}
 
 	// The max and min functions are called interchangeably, one after another until a max depth is reached.
-	public Move max(ChessBoard chessBoard, int depth) {
+	private Move max(ChessBoard chessBoard, int depth) {
 		Random r = new Random();
 
 		/* If MAX is called on a state that is terminal or after a maximum depth is reached,
@@ -89,7 +89,7 @@ public class MiniMaxAI extends AI {
 	}
 
 	// Min works similarly to max.
-	public Move min(ChessBoard chessBoard, int depth) {
+	private Move min(ChessBoard chessBoard, int depth) {
 		Random r = new Random();
 
 		if ((chessBoard.checkForTerminalState()) || (depth == maxDepth)) {
