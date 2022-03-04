@@ -88,12 +88,10 @@ public class RandomChoiceAI extends AI {
 		}
 		// System.out.println("random starting position: " + randomAiStartingPosition);
 
-
 		/* STEP 2. Random ending position. */
 		Set<String> possibleEndingPositions = new HashSet<>();
 		if (chessBoard.whitePlays() && !chessBoard.isWhiteKingInCheck()
-				||
-				chessBoard.blackPlays() && !chessBoard.isBlackKingInCheck()) {
+			|| chessBoard.blackPlays() && !chessBoard.isBlackKingInCheck()) {
 			possibleEndingPositions = randomStartingEndingPositions.get(randomAiStartingPosition);
 		} else {
 			if (chessBoard.whitePlays()) {
