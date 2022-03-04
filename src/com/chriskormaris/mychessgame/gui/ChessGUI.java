@@ -157,10 +157,10 @@ public class ChessGUI {
 			if (gameParameters.getAiType() == AiType.MINIMAX_AI) {
 				if (gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE) {
 					ai = new MiniMaxAlphaBetaPruningAI(gameParameters.getAi1MaxDepth(), Constants.BLACK,
-											  gameParameters.getEvaluationFunction1());
+											           gameParameters.getEvaluationFunction1());
 				} else if (gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
 					ai = new MiniMaxAI(gameParameters.getAi1MaxDepth(), Constants.WHITE,
-											  gameParameters.getEvaluationFunction1());
+									   gameParameters.getEvaluationFunction1());
 				}
 			} else if (gameParameters.getAiType() == AiType.RANDOM_AI) {
 				if (gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE) {
