@@ -10,20 +10,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class MiniMaxAI extends AI {
+public class MiniMaxAlphaBetaPruningAI extends AI {
 
 	// Variable that holds the maximum depth the MiniMaxAi algorithm will reach for this player.
 	private int maxDepth;
 
 	private EvaluationFunction evaluationFunction;
 
-	public MiniMaxAI() {
+	public MiniMaxAlphaBetaPruningAI() {
 		super(Constants.BLACK);
 		maxDepth = 2;
 		evaluationFunction = EvaluationFunction.SIMPLIFIED;
 	}
 
-	public MiniMaxAI(int maxDepth, boolean aiPlayer, EvaluationFunction evaluationFunction) {
+	public MiniMaxAlphaBetaPruningAI(int maxDepth, boolean aiPlayer, EvaluationFunction evaluationFunction) {
 		super(aiPlayer);
 		this.maxDepth = maxDepth;
 		this.evaluationFunction = evaluationFunction;
@@ -39,23 +39,27 @@ public class MiniMaxAI extends AI {
 
 	@Override
 	public Move getNextMove(ChessBoard chessBoard) {
-		return miniMax(chessBoard);
+		return miniMaxAlphaBeta(chessBoard);
 	}
 
-	// Initiates the minimax algorithm.
-	public Move miniMax(ChessBoard chessBoard) {
+	// Initiates the minimax Alpha-Beta Pruning algorithm.
+	public Move miniMaxAlphaBeta(ChessBoard chessBoard) {
 		// If White plays, then it wants to maximize the heuristics value.
 		if (getAiPlayer() == Constants.WHITE) {
-			return max(new ChessBoard(chessBoard), 0);
+			Move maxMove = maxAlphaBeta(new ChessBoard(chessBoard), 0, Integer.MAX_VALUE, Integer.MIN_VALUE);
+			// System.out.println("miniMax maxMove -> " + maxMove);
+			return maxMove;
 		}
 		// If Black plays, then it wants to minimize the heuristics value.
 		else {
-			return min(new ChessBoard(chessBoard), 0);
+			Move minMove = minAlphaBeta(new ChessBoard(chessBoard), 0, Integer.MIN_VALUE, Integer.MAX_VALUE);
+			// System.out.println("miniMax minMove -> " + minMove);
+			return minMove;
 		}
 	}
 
 	// The max and min functions are called interchangeably, one after another until a max depth is reached.
-	public Move max(ChessBoard chessBoard, int depth) {
+	public Move maxAlphaBeta(ChessBoard chessBoard, int depth, double a, double b) {
 		Random r = new Random();
 
 		/* If MAX is called on a state that is terminal or after a maximum depth is reached,
@@ -73,8 +77,9 @@ public class MiniMaxAI extends AI {
 
 		Move maxMove = new Move(Integer.MIN_VALUE);
 		for (ChessBoard child : children) {
+
 			// And for each child min is called, on a lower depth
-			Move move = min(child, depth + 1);
+			Move move = minAlphaBeta(child, depth + 1, a, b);
 			// The child-move with the greatest value is selected and returned by max
 			if (move.getValue() >= maxMove.getValue()) {
 				if ((move.getValue() == maxMove.getValue())) {
@@ -88,13 +93,22 @@ public class MiniMaxAI extends AI {
 					maxMove.setValue(move.getValue());
 				}
 			}
+
+			// Update the a of the current max node.
+			a = Math.max(a, maxMove.getValue());
+
+			// Beta pruning.
+			if (a >= b) {
+				// System.out.println("max, depth: " + depth + ", beta pruning move -> " + maxMove);
+				return maxMove;
+			}
 		}
 		// System.out.println("max, depth: " + depth + ", maxMove -> " + maxMove);
 		return maxMove;
 	}
 
 	// Min works similarly to max.
-	public Move min(ChessBoard chessBoard, int depth) {
+	public Move minAlphaBeta(ChessBoard chessBoard, int depth, double a, double b) {
 		Random r = new Random();
 
 		if ((chessBoard.checkForTerminalState()) || (depth == maxDepth)) {
@@ -109,7 +123,7 @@ public class MiniMaxAI extends AI {
 
 		Move minMove = new Move(Integer.MAX_VALUE);
 		for (ChessBoard child : children) {
-			Move move = max(child, depth + 1);
+			Move move = maxAlphaBeta(child, depth + 1, a, b);
 			if (move.getValue() <= minMove.getValue()) {
 				if ((move.getValue() == minMove.getValue())) {
 					if (r.nextInt(2) == 0) {
@@ -120,6 +134,15 @@ public class MiniMaxAI extends AI {
 					minMove.setPositions(child.getLastMove().getPositions());
 					minMove.setValue(move.getValue());
 				}
+			}
+
+			// Update the b of the current min node.
+			b = Math.min(b, minMove.getValue());
+
+			// Alpha pruning.
+			if (b <= a) {
+				// System.out.println("min, depth: " + depth + ", alpha pruning move -> " + minMove);
+				return minMove;
 			}
 		}
 		// System.out.println("min, depth: " + depth + ", minMove -> " + minMove);
