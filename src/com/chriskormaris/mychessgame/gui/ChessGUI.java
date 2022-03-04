@@ -104,13 +104,10 @@ public class ChessGUI {
 
 	private static boolean buttonsEnabled = true;
 
-	// This variable is used for the implementation of "Human Vs MiniMax AI".
-	public static AI miniMaxAI;
+	// This variable is used for the implementation of "Human Vs AI".
+	public static AI ai;
 
-	// This variable is used for the implementation of "Human Vs Random AI".
-	private static AI randomChoiceAI;
-
-	// This variable is used for the implementation of MiniMax AI Vs MiniMax AI.
+	// This variable is used for the implementation of "AI Vs AI".
 	private static boolean isGameOver;
 
 	private static String savedFenPosition;
@@ -159,17 +156,17 @@ public class ChessGUI {
 		if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI) {
 			if (gameParameters.getAiType() == AiType.MINIMAX_AI) {
 				if (gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE) {
-					miniMaxAI = new MiniMaxAlphaBetaPruningAI(gameParameters.getAi1MaxDepth(), Constants.BLACK,
+					ai = new MiniMaxAlphaBetaPruningAI(gameParameters.getAi1MaxDepth(), Constants.BLACK,
 											  gameParameters.getEvaluationFunction1());
 				} else if (gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
-					miniMaxAI = new MiniMaxAI(gameParameters.getAi1MaxDepth(), Constants.WHITE,
+					ai = new MiniMaxAI(gameParameters.getAi1MaxDepth(), Constants.WHITE,
 											  gameParameters.getEvaluationFunction1());
 				}
 			} else if (gameParameters.getAiType() == AiType.RANDOM_AI) {
 				if (gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE) {
-					randomChoiceAI = new RandomChoiceAI(Constants.BLACK);
+					ai = new RandomChoiceAI(Constants.BLACK);
 				} else if (gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
-					randomChoiceAI = new RandomChoiceAI(Constants.WHITE);
+					ai = new RandomChoiceAI(Constants.WHITE);
 				}
 			}
 		}
@@ -816,11 +813,7 @@ public class ChessGUI {
 
 		if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
 				&& gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
-			if (gameParameters.getAiType() == AiType.MINIMAX_AI) {
-				aiMove(miniMaxAI);
-			} else if (gameParameters.getAiType() == AiType.RANDOM_AI) {
-				aiMove(randomChoiceAI);
-			}
+			aiMove(ai);
 		} else if (gameParameters.getGameMode() == GameMode.AI_VS_AI) {
 			playAiVsAi();
 		}
@@ -871,17 +864,17 @@ public class ChessGUI {
 		if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI) {
 			if (gameParameters.getAiType() == AiType.MINIMAX_AI) {
 				if (gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE) {
-					miniMaxAI = new MiniMaxAlphaBetaPruningAI(gameParameters.getAi1MaxDepth(), Constants.BLACK,
+					ai = new MiniMaxAlphaBetaPruningAI(gameParameters.getAi1MaxDepth(), Constants.BLACK,
 											                  gameParameters.getEvaluationFunction1());
 				} else if (gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
-					miniMaxAI = new MiniMaxAI(gameParameters.getAi1MaxDepth(), Constants.WHITE,
+					ai = new MiniMaxAI(gameParameters.getAi1MaxDepth(), Constants.WHITE,
 											  gameParameters.getEvaluationFunction1());
 				}
 			} else if (gameParameters.getAiType() == AiType.RANDOM_AI) {
 				if (gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE) {
-					randomChoiceAI = new RandomChoiceAI(Constants.BLACK);
+					ai = new RandomChoiceAI(Constants.BLACK);
 				} else if (gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
-					randomChoiceAI = new RandomChoiceAI(Constants.WHITE);
+					ai = new RandomChoiceAI(Constants.WHITE);
 				}
 			}
 		}
@@ -1103,24 +1096,9 @@ public class ChessGUI {
 				if (gameParameters.getGameMode() == GameMode.HUMAN_VS_HUMAN) {
 					setTurnMessage();
 				}
-
-				if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI) {
-
-					/* MiniMax AI implementation here. */
-					if (gameParameters.getAiType() == AiType.MINIMAX_AI) {
-						// System.out.println("INSIDE MINIMAX AI");
-						aiMove(miniMaxAI);
-					}
-
-					/* Random AI implementation here. */
-					else if (gameParameters.getAiType() == AiType.RANDOM_AI) {
-						// System.out.println("INSIDE RANDOM AI");
-						aiMove(randomChoiceAI);
-					}
-
+				else if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI) {
+					aiMove(ai);
 				}
-
-				setScoreMessage();
 			}
 		}
 	}
@@ -1545,20 +1523,21 @@ public class ChessGUI {
 		chessBoard.setPlayer(chessBoard.getNextPlayer());
 
 		setTurnMessage();
+		setScoreMessage();
 
 		System.out.println();
 		System.out.println(chessBoard);
 	}
 
 	public static void playAiVsAi() {
-		AI ai1 = null;
-		AI ai2 = null;
+		AI ai1;
+		AI ai2;
 		if (gameParameters.getAiType() == AiType.MINIMAX_AI) {
 			ai1 = new MiniMaxAI(gameParameters.getAi1MaxDepth(), Constants.WHITE,
 								gameParameters.getEvaluationFunction1());
 			ai2 = new MiniMaxAlphaBetaPruningAI(gameParameters.getAi2MaxDepth(), Constants.BLACK,
 												gameParameters.getEvaluationFunction2());
-		} else if (gameParameters.getAiType() == AiType.RANDOM_AI) {
+		} else {
 			ai1 = new RandomChoiceAI(Constants.WHITE);
 			ai2 = new RandomChoiceAI(Constants.BLACK);
 		}
