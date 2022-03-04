@@ -1037,7 +1037,7 @@ public class ChessGUI {
 
 				Move move = new Move(startingPosition, endingPosition);
 				makeDisplayMove(move, false);
-				System.out.println("evaluation: " + chessBoard.evaluate(gameParameters.getEvaluationFunction1()));
+				// System.out.println("evaluation: " + chessBoard.evaluate(gameParameters.getEvaluationFunction1()));
 
 				// Store the chess board of the HalfMove that was just made.
 				ChessPiece[][] halfMoveGameBoard = Utilities.copyGameBoard(chessBoard.getGameBoard());
