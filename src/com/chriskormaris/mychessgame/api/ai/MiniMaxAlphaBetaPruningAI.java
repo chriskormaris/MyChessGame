@@ -39,11 +39,6 @@ public class MiniMaxAlphaBetaPruningAI extends AI {
 
 	@Override
 	public Move getNextMove(ChessBoard chessBoard) {
-		return miniMaxAlphaBeta(chessBoard);
-	}
-
-	// Initiates the minimax Alpha-Beta Pruning algorithm.
-	public Move miniMaxAlphaBeta(ChessBoard chessBoard) {
 		// If White plays, then it wants to maximize the heuristics value.
 		if (getAiPlayer() == Constants.WHITE) {
 			Move maxMove = maxAlphaBeta(new ChessBoard(chessBoard), 0, Integer.MAX_VALUE, Integer.MIN_VALUE);

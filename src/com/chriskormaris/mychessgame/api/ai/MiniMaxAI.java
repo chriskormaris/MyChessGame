@@ -39,11 +39,6 @@ public class MiniMaxAI extends AI {
 
 	@Override
 	public Move getNextMove(ChessBoard chessBoard) {
-		return miniMax(chessBoard);
-	}
-
-	// Initiates the minimax algorithm.
-	public Move miniMax(ChessBoard chessBoard) {
 		// If White plays, then it wants to maximize the heuristics value.
 		if (getAiPlayer() == Constants.WHITE) {
 			return max(new ChessBoard(chessBoard), 0);
