@@ -23,12 +23,12 @@ public class ChessPieceShortestPath {
 	                                                       String startingPosition, String endingPosition, int maxDepth) {
 		ChessBoard currentChessBoard = new ChessBoard(chessBoard);
 
-		List<List<BfsPosition>> solutionPaths = new ArrayList<List<BfsPosition>>();
-		List<BfsPosition> lastBfsPositions = new ArrayList<BfsPosition>();
+		List<List<BfsPosition>> solutionPaths = new ArrayList<>();
+		List<BfsPosition> lastBfsPositions = new ArrayList<>();
 
 		int[][] visitedChessBoard = new int[8][8];
 
-		LinkedList<BfsPosition> queue = new LinkedList<BfsPosition>();
+		LinkedList<BfsPosition> queue = new LinkedList<>();
 
 		int depth = 0;
 

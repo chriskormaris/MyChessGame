@@ -3,7 +3,7 @@ package gui_tests;
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 import com.chriskormaris.mychessgame.api.piece.ChessPiece;
 import com.chriskormaris.mychessgame.api.piece.Pawn;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 public class InstanceOfTest {
 
@@ -35,14 +35,13 @@ public class InstanceOfTest {
         startTime = System.nanoTime();
         for (ChessPiece chessPiece : chessPieces) {
             if (chessPiece.getChessPieceChar() == 'P') {
-//				System.out.println("P");
+				// System.out.println("P");
             }
         }
         endTime = System.nanoTime();
         elapsedTime = endTime - startTime;
 
         System.out.println("operator equals '=' elapsedTime: " + elapsedTime + " ns");
-
     }
 
 }

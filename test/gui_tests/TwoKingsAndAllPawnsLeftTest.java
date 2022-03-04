@@ -3,18 +3,18 @@ package gui_tests;
 
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.gui.ChessGUI;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.Assert.assertFalse;
+
 // import enumerations.Allegiance;
 // import pieces.Pawn;
 
 
-class TwoKingsAndAllPawnsLeftTest {
+public class TwoKingsAndAllPawnsLeftTest {
 
     @Test
     public void testTwoKingsAndAllPawnsLeft() {
-
         String title = "Two Kings And All Pawns Left Test";
 
         @SuppressWarnings("unused")
@@ -43,7 +43,7 @@ class TwoKingsAndAllPawnsLeftTest {
         ChessGUI.checkForGameOver();
         boolean isDraw = ChessGUI.chessBoard.isInsufficientMaterialDraw();
         System.out.println((isDraw) ? "The game is a draw!" : "The game is NOT a draw!");
-        assertFalse(isDraw, "The game is NOT a draw.");
+        assertFalse("The game is NOT a draw.", isDraw);
         // System.out.println("*****************************");
         // System.out.println();
 		
@@ -58,7 +58,7 @@ class TwoKingsAndAllPawnsLeftTest {
 		assertTrue("The game is a draw.", isDraw == true);
 		*/
 
-        while (true) ;
+        while (true);
     }
 
 }

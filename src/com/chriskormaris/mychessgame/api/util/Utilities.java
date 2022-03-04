@@ -18,9 +18,7 @@ public class Utilities {
 		// so that we get the correct number.
 		String rowString = (row + 1) + "";
 
-		String position = columnString + rowString;
-
-		return position;
+		return columnString + rowString;
 	}
 
 	// ALTERNATIVE
@@ -32,15 +30,13 @@ public class Utilities {
 
 	public static int getRowFromPosition(String position) {
 		// example: A2, column = 0, row = 1
-		int row = Integer.parseInt(position.substring(1)) - 1;
-		return row;
+		return Integer.parseInt(position.substring(1)) - 1;
 	}
 
 
 	public static int getColumnFromPosition(String position) {
 		// example: B1, column = 1, row = 0
-		int column = (int) position.charAt(0) - 65;
-		return column;
+		return (int) position.charAt(0) - 65;
 	}
 
 

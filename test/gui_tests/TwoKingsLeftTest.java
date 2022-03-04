@@ -6,16 +6,15 @@ import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 import com.chriskormaris.mychessgame.api.piece.King;
 import com.chriskormaris.mychessgame.api.piece.Pawn;
 import com.chriskormaris.mychessgame.gui.ChessGUI;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.Assert.assertFalse;
 
 
-class TwoKingsLeftTest {
+public class TwoKingsLeftTest {
 
     @Test
     public void testTwoKingsLeft() {
-
         String title = "Two Kings Left Test";
 
         @SuppressWarnings("unused")
@@ -29,7 +28,7 @@ class TwoKingsLeftTest {
         ChessBoard.printChessBoard(ChessGUI.chessBoard.getGameBoard());
 
         boolean isDraw = ChessGUI.chessBoard.checkForInsufficientMaterialDraw();
-        assertFalse(isDraw, "The game is not a draw.");
+        assertFalse("The game is not a draw.", isDraw);
         System.out.println("*****************************");
         System.out.println();
 

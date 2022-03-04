@@ -23,7 +23,7 @@ public class FenUtils {
 		if (fenPositionTokens.length != 6) {
 			throw new InvalidFenFormatException(
 					"FEN position must contain 5 white spaces in between. White spaces in between: "
-							+ (fenPositionTokens.length - 1));
+					+ (fenPositionTokens.length - 1));
 		}
 
 		String startingPieces = fenPositionTokens[0];

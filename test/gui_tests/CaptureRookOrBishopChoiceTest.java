@@ -10,16 +10,15 @@ import com.chriskormaris.mychessgame.api.piece.Rook;
 import com.chriskormaris.mychessgame.api.util.Constants;
 import com.chriskormaris.mychessgame.api.util.Utilities;
 import com.chriskormaris.mychessgame.gui.ChessGUI;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.Assert.assertTrue;
 
 
-class CaptureRookOrBishopChoiceTest {
+public class CaptureRookOrBishopChoiceTest {
 
     @Test
     public void testCaptureRookOrBishopChoiceTest() {
-
         String title = "Capture Rook or Bishop?";
 
         @SuppressWarnings("unused")
@@ -38,8 +37,8 @@ class CaptureRookOrBishopChoiceTest {
         ChessGUI.chessBoard.setPlayer(Constants.BLACK);
         ChessGUI.aiMove(ChessGUI.miniMaxAI);
 
-        assertTrue(Utilities.getChessPieceFromPosition(ChessGUI.chessBoard.getGameBoard(), "A1") instanceof Knight,
-                "The Black Knight did NOT capture the White Rook.");
+        assertTrue("The Black Knight did NOT capture the White Rook.",
+                Utilities.getChessPieceFromPosition(ChessGUI.chessBoard.getGameBoard(), "A1") instanceof Knight);
 
         // Continue playing for a minute.
         try {
@@ -47,7 +46,6 @@ class CaptureRookOrBishopChoiceTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
     }
 
 }

@@ -3,14 +3,13 @@ package gui_tests;
 
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.gui.ChessGUI;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 
-class OpeningTest {
+public class OpeningTest {
 
     @Test
     public void testOpening() {
-
         String title = "Chess Opening Test";
 
         @SuppressWarnings("unused")
@@ -34,7 +33,6 @@ class OpeningTest {
         System.out.println();
 
         while (true) ;
-
     }
 
 }

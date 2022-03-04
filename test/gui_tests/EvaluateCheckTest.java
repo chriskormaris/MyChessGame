@@ -3,16 +3,15 @@ package gui_tests;
 
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.gui.ChessGUI;
-import org.junit.jupiter.api.Test;
-//import enumerations.GameMode;
-//import utilities.GameParameters;
+import org.junit.Test;
+// import enumerations.GameMode;
+// import utilities.GameParameters;
 
 
-class EvaluateCheckTest {
+public class EvaluateCheckTest {
 
     @Test
     public void testEvaluateCheck() {
-
         String title = "Evaluate Check";
 
         // GameParameters.gameMode = GameMode.HUMAN_VS_HUMAN;
@@ -32,7 +31,6 @@ class EvaluateCheckTest {
         System.out.println();
 
         while (true) ;
-
     }
 
 }

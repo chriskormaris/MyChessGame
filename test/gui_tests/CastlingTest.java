@@ -3,17 +3,16 @@ package gui_tests;
 
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.gui.ChessGUI;
-import org.junit.jupiter.api.Test;
-//import enumerations.Allegiance;
-//import minimax_ai.MiniMaxAi;
-//import utilities.Constants;
+import org.junit.Test;
+// import enumerations.Allegiance;
+// import minimax_ai.MiniMaxAi;
+// import utilities.Constants;
 
 
-class CastlingTest {
+public class CastlingTest {
 
     @Test
     public void testCastling() {
-
         String title = "Castling Test";
 
         @SuppressWarnings("unused")
@@ -45,7 +44,6 @@ class CastlingTest {
         System.out.println();
 
         while (true) ;
-
     }
 
 }

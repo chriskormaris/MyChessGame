@@ -7,21 +7,21 @@ import com.chriskormaris.mychessgame.api.piece.Bishop;
 import com.chriskormaris.mychessgame.api.piece.King;
 import com.chriskormaris.mychessgame.api.piece.Knight;
 import com.chriskormaris.mychessgame.gui.ChessGUI;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.Assert.assertTrue;
 
 
-class InsufficientMaterialDrawTest {
+public class InsufficientMaterialDrawTest {
 
     @Test
     public void testInsufficientMaterialDraw() {
-
         String title = "Insufficient Material Draw Test";
 
         @SuppressWarnings("unused")
         ChessGUI cbg = new ChessGUI(title);
 
+        ChessGUI.makeChessBoardSquaresEmpty();
         ChessBoard.printChessBoard(ChessGUI.chessBoard.getGameBoard());
 
         ChessGUI.placePieceToPosition("A1", new King(Allegiance.WHITE));
@@ -38,7 +38,7 @@ class InsufficientMaterialDrawTest {
         ChessBoard.printChessBoard(ChessGUI.chessBoard.getGameBoard());
 
         boolean isDraw = ChessGUI.chessBoard.checkForInsufficientMaterialDraw();
-        assertTrue(isDraw, "The game is not a draw.");
+        assertTrue("The game is not a draw.", isDraw);
         System.out.println("*****************************");
         System.out.println();
 

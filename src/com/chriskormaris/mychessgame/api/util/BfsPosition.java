@@ -66,7 +66,7 @@ public class BfsPosition {
 	@Override
 	public String toString() {
 		return "position: " + position + ", row: " + row + ", column: " + column + ", depth: " + depth;
-//		return "position: " + position + ", row: " + row + ", column: " + column;
+		// return "position: " + position + ", row: " + row + ", column: " + column;
 	}
 
 }

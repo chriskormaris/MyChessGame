@@ -9,14 +9,13 @@ import com.chriskormaris.mychessgame.api.piece.King;
 import com.chriskormaris.mychessgame.api.piece.Knight;
 import com.chriskormaris.mychessgame.api.util.Utilities;
 import com.chriskormaris.mychessgame.gui.ChessGUI;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 
-class ThreefoldRepetitionDrawTest {
+public class ThreefoldRepetitionDrawTest {
 
     @Test
     public void testThreefoldRepetitionDraw() {
-
         String title = "Insufficient Material Draw Rule Test";
 
         @SuppressWarnings("unused")

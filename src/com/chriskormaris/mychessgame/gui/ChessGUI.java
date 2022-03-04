@@ -1120,7 +1120,6 @@ public class ChessGUI {
 				}
 
 				setScoreMessage();
-
 			}
 		}
 	}
@@ -1192,8 +1191,6 @@ public class ChessGUI {
 			}
 		}
 
-		chessBoard.setThreats();
-
 		// If a chessPiece capture has occurred.
 		if (chessBoard.getCapturedPiece() != null) {  // true if an en passant captured piece exists
 			addCapturedPieceImage(chessBoard.getCapturedPiece());
@@ -1211,6 +1208,8 @@ public class ChessGUI {
 		}
 		chessBoard.getPositionsToRemove().clear();
 		chessBoard.getPiecesToPlace().clear();
+
+		chessBoard.setThreats();
 	}
 
 	public static void addCapturedPieceImage(ChessPiece endTile) {

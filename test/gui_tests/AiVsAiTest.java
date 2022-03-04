@@ -5,10 +5,10 @@ package gui_tests;
 
 import com.chriskormaris.mychessgame.api.enumeration.GameMode;
 import com.chriskormaris.mychessgame.gui.ChessGUI;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 
-class AiVsAiTest {
+public class AiVsAiTest {
 
     @Test
     public void testAiVsAi() {
@@ -54,7 +54,6 @@ class AiVsAiTest {
         System.out.println();
 
         while (true) ;
-
     }
 
 }
