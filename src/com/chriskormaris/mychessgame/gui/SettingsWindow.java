@@ -18,13 +18,14 @@ import java.awt.event.ActionListener;
 public class SettingsWindow extends JFrame {
 
 	public static int width = 450;
-	public static int height = 550;
+	public static int height = 585;
 
 	private final JComboBox<String> gui_style_drop_down;
 	private final JCheckBox enable_sounds_check_box;
 	private final JComboBox<String> human_player_allegiance_drop_down;
 	private final JComboBox<String> game_mode_drop_down;
-	private final JComboBox<String> ai_type_drop_down;
+	private final JComboBox<String> ai1_type_drop_down;
+	private final JComboBox<String> ai2_type_drop_down;
 	private final JComboBox<Integer> max_depth1_drop_down;
 	private final JComboBox<Integer> max_depth2_drop_down;
 	private final JComboBox<String> evaluation_function1_drop_down;
@@ -54,7 +55,8 @@ public class SettingsWindow extends JFrame {
 		boolean enableSounds = ChessGUI.gameParameters.isEnableSounds();
 		Allegiance humanPlayerAllegiance = ChessGUI.gameParameters.getHumanPlayerAllegiance();
 		GameMode selectedGameMode = ChessGUI.gameParameters.getGameMode();
-		AiType selectedAiMode = ChessGUI.gameParameters.getAiType();
+		AiType selectedAi1Mode = ChessGUI.gameParameters.getAi1Type();
+		AiType selectedAi2Mode = ChessGUI.gameParameters.getAi2Type();
 		int maxDepth1 = ChessGUI.gameParameters.getAi1MaxDepth() - 1;
 		int maxDepth2 = ChessGUI.gameParameters.getAi2MaxDepth() - 1;
 		EvaluationFunction evaluationFunction1 = ChessGUI.gameParameters.getEvaluationFunction1();
@@ -68,7 +70,8 @@ public class SettingsWindow extends JFrame {
 		JLabel enableSoundsLabel = new JLabel("Sounds");
 		JLabel humanPlayerAllegianceLabel = new JLabel("Human Player Allegiance");
 		JLabel gameModeLabel = new JLabel("Game mode");
-		JLabel aiTypeLabel = new JLabel("AI type");
+		JLabel ai1TypeLabel = new JLabel("AI 1 type");
+		JLabel ai2TypeLabel = new JLabel("AI 2 type (AIvsAI)");
 		JLabel maxDepth1Label = new JLabel("Minimax AI 1 depth");
 		JLabel maxDepth2Label = new JLabel("Minimax AI 2 depth (AIvsAI)");
 		JLabel evaluationFunction1Label = new JLabel("AI 1 Evaluation Function");
@@ -82,7 +85,8 @@ public class SettingsWindow extends JFrame {
 		add(enableSoundsLabel);
 		add(humanPlayerAllegianceLabel);
 		add(gameModeLabel);
-		add(aiTypeLabel);
+		add(ai1TypeLabel);
+		add(ai2TypeLabel);
 		add(maxDepth1Label);
 		add(maxDepth2Label);
 		add(evaluationFunction1Label);
@@ -101,10 +105,8 @@ public class SettingsWindow extends JFrame {
 			gui_style_drop_down.setSelectedIndex(1);
 		}
 
-
 		enable_sounds_check_box = new JCheckBox();
 		enable_sounds_check_box.setSelected(enableSounds);
-
 
 		human_player_allegiance_drop_down = new JComboBox<>();
 		human_player_allegiance_drop_down.addItem("White");
@@ -115,7 +117,6 @@ public class SettingsWindow extends JFrame {
 		} else if (humanPlayerAllegiance == Allegiance.BLACK) {
 			human_player_allegiance_drop_down.setSelectedIndex(1);
 		}
-
 
 		game_mode_drop_down = new JComboBox<>();
 		game_mode_drop_down.addItem("Human Vs AI");
@@ -130,20 +131,31 @@ public class SettingsWindow extends JFrame {
 			game_mode_drop_down.setSelectedIndex(2);
 		}
 
-		ai_type_drop_down = new JComboBox<>();
-		ai_type_drop_down.addItem("Minimax AI");
-		ai_type_drop_down.addItem("Random AI");
+		ai1_type_drop_down = new JComboBox<>();
+		ai1_type_drop_down.addItem("Minimax AI");
+		ai1_type_drop_down.addItem("Random AI");
 
-		if (selectedAiMode == AiType.MINIMAX_AI) {
-			ai_type_drop_down.setSelectedIndex(0);
-		} else if (selectedAiMode == AiType.RANDOM_AI) {
-			ai_type_drop_down.setSelectedIndex(1);
+		if (selectedAi1Mode == AiType.MINIMAX_AI) {
+			ai1_type_drop_down.setSelectedIndex(0);
+		} else if (selectedAi1Mode == AiType.RANDOM_AI) {
+			ai1_type_drop_down.setSelectedIndex(1);
+		}
+
+		ai2_type_drop_down = new JComboBox<>();
+		ai2_type_drop_down.addItem("Minimax AI");
+		ai2_type_drop_down.addItem("Random AI");
+
+		if (selectedAi2Mode == AiType.MINIMAX_AI) {
+			ai2_type_drop_down.setSelectedIndex(0);
+		} else if (selectedAi2Mode == AiType.RANDOM_AI) {
+			ai2_type_drop_down.setSelectedIndex(1);
 		}
 
 		max_depth1_drop_down = new JComboBox<>();
 		max_depth1_drop_down.addItem(1);
 		max_depth1_drop_down.addItem(2);
 		max_depth1_drop_down.addItem(3);
+		max_depth1_drop_down.addItem(4);
 
 		max_depth1_drop_down.setSelectedIndex(maxDepth1);
 
@@ -151,6 +163,7 @@ public class SettingsWindow extends JFrame {
 		max_depth2_drop_down.addItem(1);
 		max_depth2_drop_down.addItem(2);
 		max_depth2_drop_down.addItem(3);
+		max_depth2_drop_down.addItem(4);
 
 		max_depth2_drop_down.setSelectedIndex(maxDepth2);
 
@@ -212,7 +225,8 @@ public class SettingsWindow extends JFrame {
 		add(enable_sounds_check_box);
 		add(human_player_allegiance_drop_down);
 		add(game_mode_drop_down);
-		add(ai_type_drop_down);
+		add(ai1_type_drop_down);
+		add(ai2_type_drop_down);
 		add(max_depth1_drop_down);
 		add(max_depth2_drop_down);
 		add(evaluation_function1_drop_down);
@@ -225,27 +239,29 @@ public class SettingsWindow extends JFrame {
 		enableSoundsLabel.setBounds(25, 60, 205, 25);
 		humanPlayerAllegianceLabel.setBounds(25, 95, 205, 25);
 		gameModeLabel.setBounds(25, 130, 205, 25);
-		aiTypeLabel.setBounds(25, 165, 205, 25);
-		maxDepth1Label.setBounds(25, 200, 205, 25);
-		maxDepth2Label.setBounds(25, 235, 205, 25);
-		evaluationFunction1Label.setBounds(25, 270, 205, 25);
-		evaluationFunction2Label.setBounds(25, 305, 205, 25);
-		whiteTileColorLabel.setBounds(25, 340, 205, 25);
-		blackTileColorLabel.setBounds(25, 375, 205, 25);
-		numOfRowsLabel.setBounds(25, 405, 205, 25);
+		ai1TypeLabel.setBounds(25, 165, 205, 25);
+		ai2TypeLabel.setBounds(25, 200, 205, 25);
+		maxDepth1Label.setBounds(25, 235, 205, 25);
+		maxDepth2Label.setBounds(25, 270, 205, 25);
+		evaluationFunction1Label.setBounds(25, 305, 205, 25);
+		evaluationFunction2Label.setBounds(25, 340, 205, 25);
+		whiteTileColorLabel.setBounds(25, 375, 205, 25);
+		blackTileColorLabel.setBounds(25, 405, 205, 25);
+		numOfRowsLabel.setBounds(25, 440, 205, 25);
 
 		gui_style_drop_down.setBounds(225, 25, 180, 25);
 		enable_sounds_check_box.setBounds(225, 60, 180, 25);
 		human_player_allegiance_drop_down.setBounds(225, 95, 180, 25);
 		game_mode_drop_down.setBounds(225, 130, 180, 25);
-		ai_type_drop_down.setBounds(225, 165, 180, 25);
-		max_depth1_drop_down.setBounds(225, 200, 180, 25);
-		max_depth2_drop_down.setBounds(225, 235, 180, 25);
-		evaluation_function1_drop_down.setBounds(225, 270, 180, 25);
-		evaluation_function2_drop_down.setBounds(225, 305, 180, 25);
-		white_tile_color_drop_down.setBounds(225, 340, 180, 25);
-		black_tile_color_drop_down.setBounds(225, 375, 180, 25);
-		num_of_rows_spinner.setBounds(225, 405, 180, 25);
+		ai1_type_drop_down.setBounds(225, 165, 180, 25);
+		ai2_type_drop_down.setBounds(225, 200, 180, 25);
+		max_depth1_drop_down.setBounds(225, 235, 180, 25);
+		max_depth2_drop_down.setBounds(225, 270, 180, 25);
+		evaluation_function1_drop_down.setBounds(225, 305, 180, 25);
+		evaluation_function2_drop_down.setBounds(225, 340, 180, 25);
+		white_tile_color_drop_down.setBounds(225, 375, 180, 25);
+		black_tile_color_drop_down.setBounds(225, 405, 180, 25);
+		num_of_rows_spinner.setBounds(225, 440, 180, 25);
 
 		apply = new JButton("Apply");
 		cancel = new JButton("Cancel");
@@ -253,9 +269,9 @@ public class SettingsWindow extends JFrame {
 		add(cancel);
 
 		int distance = 10;
-		apply.setBounds((width / 2) - 110 - (distance / 2), 450, 100, 30);
+		apply.setBounds((width / 2) - 110 - (distance / 2), 485, 100, 30);
 		apply.addActionListener(handler);
-		cancel.setBounds((width / 2) - 10 + (distance / 2), 450, 100, 30);
+		cancel.setBounds((width / 2) - 10 + (distance / 2), 485, 100, 30);
 		cancel.addActionListener(handler);
 	}
 
@@ -277,9 +293,11 @@ public class SettingsWindow extends JFrame {
 							.getSelectedItem().toString().toUpperCase());
 					GameMode gameMode = GameMode.valueOf(game_mode_drop_down.getSelectedItem().toString().toUpperCase()
 							.replace(" ", "_"));
-					AiType aiType = AiType.valueOf(ai_type_drop_down.getSelectedItem().toString().toUpperCase()
+					AiType ai1Type = AiType.valueOf(ai1_type_drop_down.getSelectedItem().toString().toUpperCase()
 							.replace(" ", "_"));
-					int maxDepth1 = (int) max_depth1_drop_down.getSelectedItem();
+					AiType ai2Type = AiType.valueOf(ai2_type_drop_down.getSelectedItem().toString().toUpperCase()
+							.replace(" ", "_"));
+					int maxDepth1 = (int)max_depth1_drop_down.getSelectedItem();
 					int maxDepth2 = (int) max_depth2_drop_down.getSelectedItem();
 					EvaluationFunction evaluationFunction1 = EvaluationFunction.valueOf(evaluation_function1_drop_down
 							.getSelectedItem().toString().toUpperCase());
@@ -310,7 +328,7 @@ public class SettingsWindow extends JFrame {
 
 					// Change game parameters based on the settings.
 					ChessGUI.newGameParameters = new GameParameters(guiStyle, enableSounds, humanPlayerAllegiance,
-							gameMode, aiType, maxDepth1, maxDepth2, evaluationFunction1, evaluationFunction2,
+							gameMode, ai1Type, ai2Type, maxDepth1, maxDepth2, evaluationFunction1, evaluationFunction2,
 							whiteTileColor, blackTileColor, numOfRows);
 
 					JOptionPane.showMessageDialog(ChessGUI.frame,

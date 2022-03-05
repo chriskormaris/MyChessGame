@@ -19,7 +19,8 @@ public class GameParameters {
 
 	private GameMode gameMode;
 
-	private AiType aiType;
+	private AiType ai1Type;
+	private AiType ai2Type;
 
 	private int ai1MaxDepth;
 	private int ai2MaxDepth;
@@ -47,8 +48,11 @@ public class GameParameters {
 		// this.gameMode = GameMode.HUMAN_VS_HUMAN;
 		// this.gameMode = GameMode.AI_VS_AI;
 
-		this.aiType = AiType.MINIMAX_AI;
+		this.ai1Type = AiType.MINIMAX_AI;
 		// this.aiType = AiType.RANDOM_AI;
+
+		this.ai2Type = AiType.MINIMAX_AI;
+		// this.ai2Type = AiType.RANDOM_AI;
 
 		this.ai1MaxDepth = Constants.DEFAULT_MAX_DEPTH;
 		this.ai2MaxDepth = Constants.DEFAULT_MAX_DEPTH;
@@ -73,7 +77,8 @@ public class GameParameters {
 		this.enableSounds = otherGameParameters.isEnableSounds();
 		this.humanPlayerAllegiance = otherGameParameters.getHumanPlayerAllegiance();
 		this.gameMode = otherGameParameters.getGameMode();
-		this.aiType = otherGameParameters.getAiType();
+		this.ai1Type = otherGameParameters.getAi1Type();
+		this.ai2Type = otherGameParameters.getAi2Type();
 		this.ai1MaxDepth = otherGameParameters.getAi1MaxDepth();
 		this.ai2MaxDepth = otherGameParameters.getAi2MaxDepth();
 		this.evaluationFunction1 = otherGameParameters.getEvaluationFunction1();
@@ -85,15 +90,16 @@ public class GameParameters {
 
 
 	public GameParameters(GuiStyle guiStyle, boolean enableSounds,
-	                      Allegiance humanPlayerAllegiance, GameMode gameMode, AiType aiMode,
-	                      int maxDepth1, int maxDepth2,
+	                      Allegiance humanPlayerAllegiance, GameMode gameMode,
+	                      AiType ai1Type, AiType ai2Type, int maxDepth1, int maxDepth2,
 	                      EvaluationFunction evaluationFunction1, EvaluationFunction evaluationFunction2,
 						  Color whiteTileColor, Color blackTileColor, int numOfRows) {
 		this.guiStyle = guiStyle;
 		this.enableSounds = enableSounds;
 		this.humanPlayerAllegiance = humanPlayerAllegiance;
 		this.gameMode = gameMode;
-		this.aiType = aiMode;
+		this.ai1Type = ai1Type;
+		this.ai2Type = ai2Type;
 		this.ai1MaxDepth = maxDepth1;
 		this.ai2MaxDepth = maxDepth2;
 		this.evaluationFunction1 = evaluationFunction1;
@@ -135,12 +141,20 @@ public class GameParameters {
 		this.gameMode = gameMode;
 	}
 
-	public AiType getAiType() {
-		return aiType;
+	public AiType getAi1Type() {
+		return ai1Type;
 	}
 
-	public void setAiType(AiType aiType) {
-		this.aiType = aiType;
+	public void setAi1Type(AiType ai1Type) {
+		this.ai1Type = ai1Type;
+	}
+
+	public AiType getAi2Type() {
+		return ai2Type;
+	}
+
+	public void setAi2Type(AiType ai2Type) {
+		this.ai2Type = ai2Type;
 	}
 
 	public int getAi1MaxDepth() {

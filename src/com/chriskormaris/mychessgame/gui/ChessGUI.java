@@ -154,7 +154,7 @@ public class ChessGUI {
 		initializeGui();
 
 		if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI) {
-			if (gameParameters.getAiType() == AiType.MINIMAX_AI) {
+			if (gameParameters.getAi1Type() == AiType.MINIMAX_AI) {
 				if (gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE) {
 					ai = new MiniMaxAlphaBetaPruningAI(gameParameters.getAi1MaxDepth(), Constants.BLACK,
 											           gameParameters.getEvaluationFunction1());
@@ -162,7 +162,7 @@ public class ChessGUI {
 					ai = new MiniMaxAI(gameParameters.getAi1MaxDepth(), Constants.WHITE,
 									   gameParameters.getEvaluationFunction1());
 				}
-			} else if (gameParameters.getAiType() == AiType.RANDOM_AI) {
+			} else if (gameParameters.getAi1Type() == AiType.RANDOM_AI) {
 				if (gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE) {
 					ai = new RandomChoiceAI(Constants.BLACK);
 				} else if (gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
@@ -862,7 +862,7 @@ public class ChessGUI {
 		}
 
 		if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI) {
-			if (gameParameters.getAiType() == AiType.MINIMAX_AI) {
+			if (gameParameters.getAi1Type() == AiType.MINIMAX_AI) {
 				if (gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE) {
 					ai = new MiniMaxAlphaBetaPruningAI(gameParameters.getAi1MaxDepth(), Constants.BLACK,
 											                  gameParameters.getEvaluationFunction1());
@@ -870,7 +870,7 @@ public class ChessGUI {
 					ai = new MiniMaxAI(gameParameters.getAi1MaxDepth(), Constants.WHITE,
 											  gameParameters.getEvaluationFunction1());
 				}
-			} else if (gameParameters.getAiType() == AiType.RANDOM_AI) {
+			} else if (gameParameters.getAi1Type() == AiType.RANDOM_AI) {
 				if (gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE) {
 					ai = new RandomChoiceAI(Constants.BLACK);
 				} else if (gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
@@ -1532,13 +1532,16 @@ public class ChessGUI {
 	public static void playAiVsAi() {
 		AI ai1;
 		AI ai2;
-		if (gameParameters.getAiType() == AiType.MINIMAX_AI) {
+		if (gameParameters.getAi1Type() == AiType.MINIMAX_AI) {
 			ai1 = new MiniMaxAI(gameParameters.getAi1MaxDepth(), Constants.WHITE,
 								gameParameters.getEvaluationFunction1());
-			ai2 = new MiniMaxAlphaBetaPruningAI(gameParameters.getAi2MaxDepth(), Constants.BLACK,
-												gameParameters.getEvaluationFunction2());
 		} else {
 			ai1 = new RandomChoiceAI(Constants.WHITE);
+		}
+		if (gameParameters.getAi2Type() == AiType.MINIMAX_AI) {
+			ai2 = new MiniMaxAlphaBetaPruningAI(gameParameters.getAi2MaxDepth(), Constants.BLACK,
+					gameParameters.getEvaluationFunction2());
+		} else {
 			ai2 = new RandomChoiceAI(Constants.BLACK);
 		}
 
@@ -1550,9 +1553,9 @@ public class ChessGUI {
 				System.out.println(turnTextPane.getText());
 
 				try {
-					if (gameParameters.getAiType() == AiType.MINIMAX_AI) {
+					if (gameParameters.getAi1Type() == AiType.MINIMAX_AI) {
 						Thread.sleep(Constants.MINIMAX_AI_MOVE_MILLISECONDS);
-					} else if (gameParameters.getAiType() == AiType.RANDOM_AI) {
+					} else if (gameParameters.getAi1Type() == AiType.RANDOM_AI) {
 						Thread.sleep(Constants.RANDOM_AI_MOVE_MILLISECONDS);
 					}
 				} catch (InterruptedException e) {
@@ -1564,9 +1567,9 @@ public class ChessGUI {
 
 			if (!isGameOver) {
 				try {
-					if (gameParameters.getAiType() == AiType.MINIMAX_AI) {
+					if (gameParameters.getAi1Type() == AiType.MINIMAX_AI) {
 						Thread.sleep(Constants.MINIMAX_AI_MOVE_MILLISECONDS);
-					} else if (gameParameters.getAiType() == AiType.RANDOM_AI) {
+					} else if (gameParameters.getAi1Type() == AiType.RANDOM_AI) {
 						Thread.sleep(Constants.RANDOM_AI_MOVE_MILLISECONDS);
 					}
 				} catch (InterruptedException e) {
