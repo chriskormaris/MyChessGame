@@ -562,6 +562,10 @@ public class ChessGUI {
 				capturedPiecesPanel.add(capturedPiecesImages[i]);
 			}
 
+			if (!buttonsEnabled && gameParameters.getGameMode() != GameMode.AI_VS_AI) {
+				enableChessBoardButtons();
+			}
+
 			if (redoChessBoards.isEmpty()) {
 				redoItem.setEnabled(false);
 			}
