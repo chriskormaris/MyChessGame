@@ -753,7 +753,7 @@ public class ChessBoard {
 	// PeSTO's Evaluation Function.
 	private double pestoEvaluation() {
 		int gamePhase = 0;
-		int middleGameScore = 0;
+		int openingScore = 0;
 		int endgameScore = 0;
 
 		for (int i = 0; i < numOfRows; i++) {
@@ -763,32 +763,32 @@ public class ChessBoard {
 				gamePhase += Utilities.getPieceGamePhaseValue(chessPiece);
 
 				if (chessPiece.getAllegiance() == Allegiance.WHITE) {
-					middleGameScore += PeSTOEvaluationUtils.getPieceCentipawnValue(chessPiece, GamePhase.MIDDLE_GAME);
+					openingScore += PeSTOEvaluationUtils.getPieceCentipawnValue(chessPiece, GamePhase.OPENING);
 					endgameScore += PeSTOEvaluationUtils.getPieceCentipawnValue(chessPiece, GamePhase.ENDGAME);
 
 					int row = numOfRows - 1 - i;
-					middleGameScore += PeSTOEvaluationUtils.getPieceSquareValue(row, j, chessPiece, GamePhase.MIDDLE_GAME);
+					openingScore += PeSTOEvaluationUtils.getPieceSquareValue(row, j, chessPiece, GamePhase.OPENING);
 					endgameScore += PeSTOEvaluationUtils.getPieceSquareValue(row, j, chessPiece, GamePhase.ENDGAME);
 				} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
-					middleGameScore -= PeSTOEvaluationUtils.getPieceCentipawnValue(chessPiece, GamePhase.MIDDLE_GAME);
+					openingScore -= PeSTOEvaluationUtils.getPieceCentipawnValue(chessPiece, GamePhase.OPENING);
 					endgameScore -= PeSTOEvaluationUtils.getPieceCentipawnValue(chessPiece, GamePhase.ENDGAME);
 
-					middleGameScore -= PeSTOEvaluationUtils.getPieceSquareValue(i, j, chessPiece, GamePhase.MIDDLE_GAME);
+					openingScore -= PeSTOEvaluationUtils.getPieceSquareValue(i, j, chessPiece, GamePhase.OPENING);
 					endgameScore -= PeSTOEvaluationUtils.getPieceSquareValue(i, j, chessPiece, GamePhase.ENDGAME);
 				}
 			}
 		}
 
 		// In case of early promotion, the "gamePhase" value could be more than 24.
-		int middleGamePhase = Math.min(gamePhase, 24);
-		int endgamePhase = 24 - middleGamePhase;
-		return (middleGameScore * middleGamePhase + endgameScore * endgamePhase) / 24.0;
+		int openingGamePhase = Math.min(gamePhase, 24);
+		int endGamePhase = 24 - openingGamePhase;
+		return (openingScore * openingGamePhase + endgameScore * endGamePhase) / 24.0;
 	}
 
 	// Wukong Evaluation Function.
 	private double wukongEvaluation() {
 		int gamePhase = 0;
-		int middleGameScore = 0;
+		int openingScore = 0;
 		int endgameScore = 0;
 
 		for (int i = 0; i < numOfRows; i++) {
@@ -798,17 +798,17 @@ public class ChessBoard {
 				gamePhase += Utilities.getPieceGamePhaseValue(chessPiece);
 
 				if (chessPiece.getAllegiance() == Allegiance.WHITE) {
-					middleGameScore += WukongEvaluationUtils.getPieceCentipawnValue(chessPiece, GamePhase.MIDDLE_GAME);
+					openingScore += WukongEvaluationUtils.getPieceCentipawnValue(chessPiece, GamePhase.OPENING);
 					endgameScore += WukongEvaluationUtils.getPieceCentipawnValue(chessPiece, GamePhase.ENDGAME);
 
 					int row = numOfRows - 1 - i;
-					middleGameScore += WukongEvaluationUtils.getPieceSquareValue(row, j, chessPiece, GamePhase.MIDDLE_GAME);
+					openingScore += WukongEvaluationUtils.getPieceSquareValue(row, j, chessPiece, GamePhase.OPENING);
 					endgameScore += WukongEvaluationUtils.getPieceSquareValue(row, j, chessPiece, GamePhase.ENDGAME);
 				} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
-					middleGameScore -= WukongEvaluationUtils.getPieceCentipawnValue(chessPiece, GamePhase.MIDDLE_GAME);
+					openingScore -= WukongEvaluationUtils.getPieceCentipawnValue(chessPiece, GamePhase.OPENING);
 					endgameScore -= WukongEvaluationUtils.getPieceCentipawnValue(chessPiece, GamePhase.ENDGAME);
 
-					middleGameScore -= WukongEvaluationUtils.getPieceSquareValue(i, j, chessPiece, GamePhase.MIDDLE_GAME);
+					openingScore -= WukongEvaluationUtils.getPieceSquareValue(i, j, chessPiece, GamePhase.OPENING);
 					endgameScore -= WukongEvaluationUtils.getPieceSquareValue(i, j, chessPiece, GamePhase.ENDGAME);
 				}
 
@@ -816,9 +816,9 @@ public class ChessBoard {
 		}
 
 		// In case of early promotion, the "gamePhase" value could be more than 24.
-		int middleGamePhase = Math.min(gamePhase, 24);
-		int endgamePhase = 24 - middleGamePhase;
-		return (middleGameScore * middleGamePhase + endgameScore * endgamePhase) / 24.0;
+		int openingGamePhase = Math.min(gamePhase, 24);
+		int endGamePhase = 24 - openingGamePhase;
+		return (openingScore * openingGamePhase + endgameScore * endGamePhase) / 24.0;
 	}
 
 	// Shannon's Evaluation Function.

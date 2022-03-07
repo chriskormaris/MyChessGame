@@ -13,7 +13,7 @@ import com.chriskormaris.mychessgame.api.piece.Rook;
 // see: https://www.chessprogramming.org/PeSTO%27s_Evaluation_Function
 public class PeSTOEvaluationUtils {
 
-	public static int[][] PAWNS_SQUARES_TABLE_MIDDLE_GAME = new int[][]{
+	public static int[][] PAWNS_SQUARES_TABLE_OPENING = new int[][]{
 			{0,    0,   0,   0,   0,   0,  0,   0},
 			{98, 134,  61,  95,  68, 126, 34, -11},
 			{-6,   7,  26,  31,  65,  56, 25, -20},
@@ -35,7 +35,7 @@ public class PeSTOEvaluationUtils {
 			{0,     0,   0,   0,   0,   0,   0,   0}
 	};
 
-	public static int[][] KNIGHTS_SQUARES_TABLE_MIDDLE_GAME = new int[][]{
+	public static int[][] KNIGHTS_SQUARES_TABLE_OPENING = new int[][]{
 			{-167, -89, -34, -49,  61, -97, -15, -107},
 			{-73,  -41,  72,  36,  23,  62,   7,  -17},
 			{-47,   60,  37,  65,  84, 129,  73,   44},
@@ -57,7 +57,7 @@ public class PeSTOEvaluationUtils {
 			{-29, -51, -23, -15, -22, -18, -50, -64}
 	};
 
-	public static int[][] BISHOPS_SQUARES_TABLE_MIDDLE_GAME = new int[][]{
+	public static int[][] BISHOPS_SQUARES_TABLE_OPENING = new int[][]{
 			{-29,   4, -82, -37, -25, -42,   7,  -8},
 			{-26,  16, -18, -13,  30,  59,  18, -47},
 			{-16,  37,  43,  40,  35,  50,  37,  -2},
@@ -79,7 +79,7 @@ public class PeSTOEvaluationUtils {
 			{-23,  -9, -23,  -5, -9, -16,  -5, -17}
 	};
 
-	public static int[][] ROOKS_SQUARES_TABLE_MIDDLE_GAME = new int[][]{
+	public static int[][] ROOKS_SQUARES_TABLE_OPENING = new int[][]{
 			{32,   42,  32,  51, 63,  9,  31,  43},
 			{27,   32,  58,  62, 80, 67,  26,  44},
 			{-5,   19,  26,  36, 17, 45,  61,  16},
@@ -101,7 +101,7 @@ public class PeSTOEvaluationUtils {
 			{-9,  2,  3, -1, -5, -13,   4, -20}
 	};
 
-	public static int[][] QUEEN_SQUARES_TABLE_MIDDLE_GAME = new int[][]{
+	public static int[][] QUEEN_SQUARES_TABLE_OPENING = new int[][]{
 			{-28,   0,  29,  12,  59,  44,  43,  45},
 			{-24, -39,  -5,   1, -16,  57,  28,  54},
 			{-13, -17,   7,   8,  29,  56,  47,  57},
@@ -123,7 +123,7 @@ public class PeSTOEvaluationUtils {
 			{-33, -28, -22, -43,  -5, -32, -20, -41}
 	};
 
-	public static int[][] KING_SQUARES_TABLE_MIDDLE_GAME = new int[][]{
+	public static int[][] KING_SQUARES_TABLE_OPENING = new int[][]{
 			{-65,  23,  16, -15, -56, -34,   2,  13},
 			{29,   -1, -20,  -7,  -8,  -4, -38, -29},
 			{-9,   24,   2, -16, -20,   6,  22, -22},
@@ -145,12 +145,12 @@ public class PeSTOEvaluationUtils {
 			{-53, -34, -21, -11, -28, -14, -24, -43}
 	};
 
-	public static final int PAWN_MIDDLE_GAME_CENTIPAWN_VALUE = 82;
-	public static final int KNIGHT_MIDDLE_GAME_CENTIPAWN_VALUE = 337;
-	public static final int BISHOP_MIDDLE_GAME_CENTIPAWN_VALUE = 365;
-	public static final int ROOK_MIDDLE_GAME_CENTIPAWN_VALUE = 477;
-	public static final int QUEEN_MIDDLE_GAME_CENTIPAWN_VALUE = 1025;
-	public static final int KING_MIDDLE_GAME_CENTIPAWN_VALUE = 0;
+	public static final int PAWN_OPENING_CENTIPAWN_VALUE = 82;
+	public static final int KNIGHT_OPENING_CENTIPAWN_VALUE = 337;
+	public static final int BISHOP_OPENING_CENTIPAWN_VALUE = 365;
+	public static final int ROOK_OPENING_CENTIPAWN_VALUE = 477;
+	public static final int QUEEN_OPENING_CENTIPAWN_VALUE = 1025;
+	public static final int KING_OPENING_CENTIPAWN_VALUE = 0;
 
 	public static final int PAWN_ENDGAME_CENTIPAWN_VALUE = 94;
 	public static final int KNIGHT_ENDGAME_CENTIPAWN_VALUE = 281;
@@ -161,19 +161,19 @@ public class PeSTOEvaluationUtils {
 
 
 	public static int getPieceCentipawnValue(ChessPiece chessPiece, GamePhase gamePhase) {
-		if (gamePhase == GamePhase.MIDDLE_GAME) {
+		if (gamePhase == GamePhase.OPENING) {
 			if (chessPiece instanceof Pawn) {
-				return PAWN_MIDDLE_GAME_CENTIPAWN_VALUE;
+				return PAWN_OPENING_CENTIPAWN_VALUE;
 			} else if (chessPiece instanceof Knight) {
-				return KNIGHT_MIDDLE_GAME_CENTIPAWN_VALUE;
+				return KNIGHT_OPENING_CENTIPAWN_VALUE;
 			} else if (chessPiece instanceof Bishop) {
-				return BISHOP_MIDDLE_GAME_CENTIPAWN_VALUE;
+				return BISHOP_OPENING_CENTIPAWN_VALUE;
 			} else if (chessPiece instanceof Rook) {
-				return ROOK_MIDDLE_GAME_CENTIPAWN_VALUE;
+				return ROOK_OPENING_CENTIPAWN_VALUE;
 			} else if (chessPiece instanceof Queen) {
-				return QUEEN_MIDDLE_GAME_CENTIPAWN_VALUE;
+				return QUEEN_OPENING_CENTIPAWN_VALUE;
 			} else if (chessPiece instanceof King) {
-				return KING_MIDDLE_GAME_CENTIPAWN_VALUE;
+				return KING_OPENING_CENTIPAWN_VALUE;
 			}
 		}
 		else if (gamePhase == GamePhase.ENDGAME) {
@@ -194,19 +194,19 @@ public class PeSTOEvaluationUtils {
 		return 0;
 	}
 
-	public static int getMiddleGamePieceSquareValue(int row, int column, ChessPiece chessPiece) {
+	public static int getOpeningPieceSquareValue(int row, int column, ChessPiece chessPiece) {
 		if (chessPiece instanceof Pawn) {
-			return PAWNS_SQUARES_TABLE_MIDDLE_GAME[row][column];
+			return PAWNS_SQUARES_TABLE_OPENING[row][column];
 		} else if (chessPiece instanceof Knight) {
-			return KNIGHTS_SQUARES_TABLE_MIDDLE_GAME[row][column];
+			return KNIGHTS_SQUARES_TABLE_OPENING[row][column];
 		} else if (chessPiece instanceof Bishop) {
-			return BISHOPS_SQUARES_TABLE_MIDDLE_GAME[row][column];
+			return BISHOPS_SQUARES_TABLE_OPENING[row][column];
 		} else if (chessPiece instanceof Rook) {
-			return ROOKS_SQUARES_TABLE_MIDDLE_GAME[row][column];
+			return ROOKS_SQUARES_TABLE_OPENING[row][column];
 		} else if (chessPiece instanceof Queen) {
-			return QUEEN_SQUARES_TABLE_MIDDLE_GAME[row][column];
+			return QUEEN_SQUARES_TABLE_OPENING[row][column];
 		} else if (chessPiece instanceof King) {
-			return KING_SQUARES_TABLE_MIDDLE_GAME[row][column];
+			return KING_SQUARES_TABLE_OPENING[row][column];
 		}
 		return 0;
 	}
@@ -229,8 +229,8 @@ public class PeSTOEvaluationUtils {
 	}
 
 	public static int getPieceSquareValue(int row, int column, ChessPiece chessPiece, GamePhase gamePhase) {
-		if (gamePhase == GamePhase.MIDDLE_GAME) {
-			return getMiddleGamePieceSquareValue(row, column, chessPiece);
+		if (gamePhase == GamePhase.OPENING) {
+			return getOpeningPieceSquareValue(row, column, chessPiece);
 		} else {
 			return getEndgamePieceSquareValue(row, column, chessPiece);
 		}

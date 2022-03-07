@@ -70,7 +70,7 @@ public class SimplifiedEvaluationUtils {
 			{-20, -10, -10,  -5,  -5, -10, -10, -20}
 	};
 
-	public static int[][] KING_SQUARES_TABLE_MIDDLE_GAME = new int[][]{
+	public static int[][] KING_SQUARES_TABLE_OPENING = new int[][]{
 			{-30, -40, -40, -50, -50, -40, -40, -30},
 			{-30, -40, -40, -50, -50, -40, -40, -30},
 			{-30, -40, -40, -50, -50, -40, -40, -30},
@@ -105,7 +105,7 @@ public class SimplifiedEvaluationUtils {
 				&& chessBoard.isQueenPlusOneMinorPieceMaximum(Allegiance.BLACK)) {
 			return GamePhase.ENDGAME;
 		} else {
-			return GamePhase.MIDDLE_GAME;
+			return GamePhase.OPENING;
 		}
 	}
 
@@ -138,8 +138,8 @@ public class SimplifiedEvaluationUtils {
 		} else if (chessPiece instanceof Queen) {
 			return QUEEN_SQUARES_TABLE[row][column];
 		} else if (chessPiece instanceof King) {
-			if (gamePhase == GamePhase.MIDDLE_GAME) {
-				return KING_SQUARES_TABLE_MIDDLE_GAME[row][column];
+			if (gamePhase == GamePhase.OPENING) {
+				return KING_SQUARES_TABLE_OPENING[row][column];
 			} else if (gamePhase == GamePhase.ENDGAME) {
 				return KING_SQUARES_TABLE_ENDGAME[row][column];
 			}
