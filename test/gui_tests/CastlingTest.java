@@ -5,7 +5,7 @@ import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.gui.ChessGUI;
 import org.junit.Test;
 // import enumerations.Allegiance;
-// import minimax_ai.MiniMaxAi;
+// import minimax_ai.MinimaxAi;
 // import utilities.Constants;
 
 
@@ -31,7 +31,7 @@ public class CastlingTest {
         // String fenPosition = "r3k2r/8/8/8/8/8/8/4K2R b kq - 0 1";
 
         // ChessGUI.gameParameters.getHumanPlayerAllegiance() = Allegiance.BLACK;
-        // ChessGUI.com.chriskormaris.mychessgame.api.ai = new MiniMaxAi(ChessGUI.gameParameters.maxDepth1, Constants.WHITE);
+        // ChessGUI.com.chriskormaris.mychessgame.api.ai = new MinimaxAi(ChessGUI.gameParameters.maxDepth1, Constants.WHITE);
         /*----------------*/
 
         ChessGUI.placePiecesToChessBoard(fenPosition);

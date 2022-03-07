@@ -3,11 +3,11 @@ package gui_tests;
 import com.chriskormaris.mychessgame.gui.ChessGUI;
 import org.junit.Test;
 
-public class MiniMaxAiMaxDepthTest {
+public class MinimaxAiMaxDepthTest {
 
     @Test
-    public void testMiniMaxAiMaxDepth() {
-        String title = "MiniMax AI Max Depth Test";
+    public void testMinimaxAiMaxDepth() {
+        String title = "Minimax AI Max Depth Test";
 
         @SuppressWarnings("unused")
         ChessGUI cbg = new ChessGUI(title);

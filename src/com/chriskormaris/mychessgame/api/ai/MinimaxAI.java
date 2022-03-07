@@ -10,20 +10,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class MiniMaxAI extends AI {
+public class MinimaxAI extends AI {
 
-	// Variable that holds the maximum depth the MiniMaxAi algorithm will reach for this player.
+	// Variable that holds the maximum depth the MinimaxAi algorithm will reach for this player.
 	private int maxDepth;
 
 	private EvaluationFunction evaluationFunction;
 
-	public MiniMaxAI() {
+	public MinimaxAI() {
 		super(Constants.BLACK);
 		maxDepth = 2;
 		evaluationFunction = EvaluationFunction.SIMPLIFIED;
 	}
 
-	public MiniMaxAI(int maxDepth, boolean aiPlayer, EvaluationFunction evaluationFunction) {
+	public MinimaxAI(int maxDepth, boolean aiPlayer, EvaluationFunction evaluationFunction) {
 		super(aiPlayer);
 		this.maxDepth = maxDepth;
 		this.evaluationFunction = evaluationFunction;
