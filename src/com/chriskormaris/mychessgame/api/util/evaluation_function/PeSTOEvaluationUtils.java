@@ -145,50 +145,50 @@ public class PeSTOEvaluationUtils {
 			{-53, -34, -21, -11, -28, -14, -24, -43}
 	};
 
-	public static final int PAWN_MIDDLE_GAME_VALUE = 82;
-	public static final int KNIGHT_MIDDLE_GAME_VALUE = 337;
-	public static final int BISHOP_MIDDLE_GAME_VALUE = 365;
-	public static final int ROOK_MIDDLE_GAME_VALUE = 477;
-	public static final int QUEEN_MIDDLE_GAME_VALUE = 1025;
-	public static final int KING_MIDDLE_GAME_VALUE = 0;
+	public static final int PAWN_MIDDLE_GAME_CENTIPAWN_VALUE = 82;
+	public static final int KNIGHT_MIDDLE_GAME_CENTIPAWN_VALUE = 337;
+	public static final int BISHOP_MIDDLE_GAME_CENTIPAWN_VALUE = 365;
+	public static final int ROOK_MIDDLE_GAME_CENTIPAWN_VALUE = 477;
+	public static final int QUEEN_MIDDLE_GAME_CENTIPAWN_VALUE = 1025;
+	public static final int KING_MIDDLE_GAME_CENTIPAWN_VALUE = 0;
 
-	public static final int PAWN_ENDGAME_VALUE = 94;
-	public static final int KNIGHT_ENDGAME_VALUE = 281;
-	public static final int BISHOP_ENDGAME_VALUE = 297;
-	public static final int ROOK_ENDGAME_VALUE = 512;
-	public static final int QUEEN_ENDGAME_VALUE = 936;
-	public static final int KING_ENDGAME_VALUE = 0;
+	public static final int PAWN_ENDGAME_CENTIPAWN_VALUE = 94;
+	public static final int KNIGHT_ENDGAME_CENTIPAWN_VALUE = 281;
+	public static final int BISHOP_ENDGAME_CENTIPAWN_VALUE = 297;
+	public static final int ROOK_ENDGAME_CENTIPAWN_VALUE = 512;
+	public static final int QUEEN_ENDGAME_CENTIPAWN_VALUE = 936;
+	public static final int KING_ENDGAME_CENTIPAWN_VALUE = 0;
 
 
-	public static int getPieceValue(ChessPiece chessPiece, GamePhase gamePhase) {
+	public static int getPieceCentipawnValue(ChessPiece chessPiece, GamePhase gamePhase) {
 		if (gamePhase == GamePhase.MIDDLE_GAME) {
 			if (chessPiece instanceof Pawn) {
-				return PAWN_MIDDLE_GAME_VALUE;
+				return PAWN_MIDDLE_GAME_CENTIPAWN_VALUE;
 			} else if (chessPiece instanceof Knight) {
-				return KNIGHT_MIDDLE_GAME_VALUE;
+				return KNIGHT_MIDDLE_GAME_CENTIPAWN_VALUE;
 			} else if (chessPiece instanceof Bishop) {
-				return BISHOP_MIDDLE_GAME_VALUE;
+				return BISHOP_MIDDLE_GAME_CENTIPAWN_VALUE;
 			} else if (chessPiece instanceof Rook) {
-				return ROOK_MIDDLE_GAME_VALUE;
+				return ROOK_MIDDLE_GAME_CENTIPAWN_VALUE;
 			} else if (chessPiece instanceof Queen) {
-				return QUEEN_MIDDLE_GAME_VALUE;
+				return QUEEN_MIDDLE_GAME_CENTIPAWN_VALUE;
 			} else if (chessPiece instanceof King) {
-				return KING_MIDDLE_GAME_VALUE;
+				return KING_MIDDLE_GAME_CENTIPAWN_VALUE;
 			}
 		}
 		else if (gamePhase == GamePhase.ENDGAME) {
 			if (chessPiece instanceof Pawn) {
-				return PAWN_ENDGAME_VALUE;
+				return PAWN_ENDGAME_CENTIPAWN_VALUE;
 			} else if (chessPiece instanceof Knight) {
-				return KNIGHT_ENDGAME_VALUE;
+				return KNIGHT_ENDGAME_CENTIPAWN_VALUE;
 			} else if (chessPiece instanceof Bishop) {
-				return BISHOP_ENDGAME_VALUE;
+				return BISHOP_ENDGAME_CENTIPAWN_VALUE;
 			} else if (chessPiece instanceof Rook) {
-				return ROOK_ENDGAME_VALUE;
+				return ROOK_ENDGAME_CENTIPAWN_VALUE;
 			} else if (chessPiece instanceof Queen) {
-				return QUEEN_ENDGAME_VALUE;
+				return QUEEN_ENDGAME_CENTIPAWN_VALUE;
 			} else if (chessPiece instanceof King) {
-				return KING_ENDGAME_VALUE;
+				return KING_ENDGAME_CENTIPAWN_VALUE;
 			}
 		}
 		return 0;
@@ -211,7 +211,6 @@ public class PeSTOEvaluationUtils {
 		return 0;
 	}
 
-
 	public static int getEndgamePieceSquareValue(int row, int column, ChessPiece chessPiece) {
 		if (chessPiece instanceof Pawn) {
 			return PAWNS_SQUARES_TABLE_ENDGAME[row][column];
@@ -227,6 +226,14 @@ public class PeSTOEvaluationUtils {
 			return KING_SQUARES_TABLE_ENDGAME[row][column];
 		}
 		return 0;
+	}
+
+	public static int getPieceSquareValue(int row, int column, ChessPiece chessPiece, GamePhase gamePhase) {
+		if (gamePhase == GamePhase.MIDDLE_GAME) {
+			return getMiddleGamePieceSquareValue(row, column, chessPiece);
+		} else {
+			return getEndgamePieceSquareValue(row, column, chessPiece);
+		}
 	}
 
 }

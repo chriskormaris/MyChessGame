@@ -170,27 +170,33 @@ public class SettingsWindow extends JFrame {
 		evaluation_function1_drop_down = new JComboBox<>();
 		evaluation_function1_drop_down.addItem("Simplified");
 		evaluation_function1_drop_down.addItem("PeSTO");
+		evaluation_function1_drop_down.addItem("Wukong");
 		evaluation_function1_drop_down.addItem("Shannon");
 
 		if (evaluationFunction1 == EvaluationFunction.SIMPLIFIED) {
 			evaluation_function1_drop_down.setSelectedIndex(0);
 		} else if (evaluationFunction1 == EvaluationFunction.PESTO) {
 			evaluation_function1_drop_down.setSelectedIndex(1);
-		} else if (evaluationFunction1 == EvaluationFunction.SHANNON) {
+		} else if (evaluationFunction1 == EvaluationFunction.WUKONG) {
 			evaluation_function1_drop_down.setSelectedIndex(2);
+		} else if (evaluationFunction1 == EvaluationFunction.SHANNON) {
+			evaluation_function1_drop_down.setSelectedIndex(3);
 		}
 
 		evaluation_function2_drop_down = new JComboBox<>();
 		evaluation_function2_drop_down.addItem("Simplified");
 		evaluation_function2_drop_down.addItem("PeSTO");
+		evaluation_function2_drop_down.addItem("Wukong");
 		evaluation_function2_drop_down.addItem("Shannon");
 
 		if (evaluationFunction2 == EvaluationFunction.SIMPLIFIED) {
 			evaluation_function2_drop_down.setSelectedIndex(0);
 		} else if (evaluationFunction2 == EvaluationFunction.PESTO) {
 			evaluation_function2_drop_down.setSelectedIndex(1);
-		} else if (evaluationFunction2 == EvaluationFunction.SHANNON) {
+		} else if (evaluationFunction2 == EvaluationFunction.WUKONG) {
 			evaluation_function2_drop_down.setSelectedIndex(2);
+		} else if (evaluationFunction2 == EvaluationFunction.SHANNON) {
+			evaluation_function2_drop_down.setSelectedIndex(3);
 		}
 
 		white_tile_color_drop_down = new JComboBox<>();

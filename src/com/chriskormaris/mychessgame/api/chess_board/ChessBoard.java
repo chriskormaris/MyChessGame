@@ -17,6 +17,7 @@ import com.chriskormaris.mychessgame.api.util.Utilities;
 import com.chriskormaris.mychessgame.api.util.evaluation_function.PeSTOEvaluationUtils;
 import com.chriskormaris.mychessgame.api.util.evaluation_function.ShannonEvaluationUtils;
 import com.chriskormaris.mychessgame.api.util.evaluation_function.SimplifiedEvaluationUtils;
+import com.chriskormaris.mychessgame.api.util.evaluation_function.WukongEvaluationUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -694,9 +695,11 @@ public class ChessBoard {
 		return children;
 	}
 
-	/*
-	 * Evaluation Function.
-	 */
+	/* Evaluation Function. 4 options:
+	 * 1) Simplified
+	 * 2) PeSTO's
+	 * 3) Wukong
+	 * 4) Shannon's */
 	public double evaluate(EvaluationFunction evaluationFunction) {
 		this.isWhiteCheckmate = checkForWhiteCheckmate(false);
 		this.isBlackCheckmate = checkForBlackCheckmate(false);
@@ -715,6 +718,8 @@ public class ChessBoard {
 			return simplifiedEvaluation();
 		} else if (evaluationFunction == EvaluationFunction.PESTO) {
 			return pestoEvaluation();
+		} else if (evaluationFunction == EvaluationFunction.WUKONG) {
+			return wukongEvaluation();
 		} else if (evaluationFunction == EvaluationFunction.SHANNON) {
 			return shannonEvaluation();
 		}
@@ -723,38 +728,26 @@ public class ChessBoard {
 
 	// Simplified Evaluation Function.
 	private double simplifiedEvaluation() {
-		int gamePhase = 0;
-		int middleGameScore = 0;
-		int endgameScore = 0;
+		int score = 0;
+		GamePhase gamePhase = SimplifiedEvaluationUtils.getGamePhase(this);
 
 		for (int i = 0; i < numOfRows; i++) {
 			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
 				ChessPiece chessPiece = this.gameBoard[i][j];
-
-				gamePhase += Utilities.getPieceGamePhaseValue(chessPiece);
-
 				if (chessPiece.getAllegiance() == Allegiance.WHITE) {
-					middleGameScore += SimplifiedEvaluationUtils.getPieceValue(chessPiece, GamePhase.MIDDLE_GAME);
-					endgameScore += SimplifiedEvaluationUtils.getPieceValue(chessPiece, GamePhase.ENDGAME);
+					score += SimplifiedEvaluationUtils.getPieceCentipawnValue(chessPiece);
 
 					int row = numOfRows - 1 - i;
-					middleGameScore += SimplifiedEvaluationUtils.getPieceSquareValue(row, j, chessPiece, GamePhase.MIDDLE_GAME);
-					endgameScore += SimplifiedEvaluationUtils.getPieceSquareValue(row, j, chessPiece, GamePhase.ENDGAME);
+					score += SimplifiedEvaluationUtils.getPieceSquareValue(row, j, chessPiece, gamePhase);
 				} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
-					middleGameScore -= SimplifiedEvaluationUtils.getPieceValue(chessPiece, GamePhase.MIDDLE_GAME);
-					endgameScore -= SimplifiedEvaluationUtils.getPieceValue(chessPiece, GamePhase.ENDGAME);
-
-					middleGameScore -= SimplifiedEvaluationUtils.getPieceSquareValue(i, j, chessPiece, GamePhase.MIDDLE_GAME);
-					endgameScore -= SimplifiedEvaluationUtils.getPieceSquareValue(i, j, chessPiece, GamePhase.ENDGAME);
+					score -= SimplifiedEvaluationUtils.getPieceCentipawnValue(chessPiece);
+					score -= SimplifiedEvaluationUtils.getPieceSquareValue(i, j, chessPiece, gamePhase);
 				}
 
 			}
 		}
 
-		// In case of early promotion, the "gamePhase" value could be more than 24.
-		int middleGamePhase = Math.min(gamePhase, 24);
-		int endgamePhase = 24 - middleGamePhase;
-		return (middleGameScore * middleGamePhase + endgameScore * endgamePhase) / 24.0;
+		return score;
 	}
 
 	// PeSTO's Evaluation Function.
@@ -770,19 +763,55 @@ public class ChessBoard {
 				gamePhase += Utilities.getPieceGamePhaseValue(chessPiece);
 
 				if (chessPiece.getAllegiance() == Allegiance.WHITE) {
-					middleGameScore += PeSTOEvaluationUtils.getPieceValue(chessPiece, GamePhase.MIDDLE_GAME);
-					endgameScore += PeSTOEvaluationUtils.getPieceValue(chessPiece, GamePhase.ENDGAME);
+					middleGameScore += PeSTOEvaluationUtils.getPieceCentipawnValue(chessPiece, GamePhase.MIDDLE_GAME);
+					endgameScore += PeSTOEvaluationUtils.getPieceCentipawnValue(chessPiece, GamePhase.ENDGAME);
 
 					int row = numOfRows - 1 - i;
-					middleGameScore += PeSTOEvaluationUtils.getMiddleGamePieceSquareValue(row, j, chessPiece);
-					endgameScore += PeSTOEvaluationUtils.getEndgamePieceSquareValue(row, j, chessPiece);
+					middleGameScore += PeSTOEvaluationUtils.getPieceSquareValue(row, j, chessPiece, GamePhase.MIDDLE_GAME);
+					endgameScore += PeSTOEvaluationUtils.getPieceSquareValue(row, j, chessPiece, GamePhase.ENDGAME);
 				} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
-					middleGameScore -= PeSTOEvaluationUtils.getPieceValue(chessPiece, GamePhase.MIDDLE_GAME);
-					endgameScore -= PeSTOEvaluationUtils.getPieceValue(chessPiece, GamePhase.ENDGAME);
+					middleGameScore -= PeSTOEvaluationUtils.getPieceCentipawnValue(chessPiece, GamePhase.MIDDLE_GAME);
+					endgameScore -= PeSTOEvaluationUtils.getPieceCentipawnValue(chessPiece, GamePhase.ENDGAME);
 
-					middleGameScore -= PeSTOEvaluationUtils.getMiddleGamePieceSquareValue(i, j, chessPiece);
-					endgameScore -= PeSTOEvaluationUtils.getEndgamePieceSquareValue(i, j, chessPiece);
+					middleGameScore -= PeSTOEvaluationUtils.getPieceSquareValue(i, j, chessPiece, GamePhase.MIDDLE_GAME);
+					endgameScore -= PeSTOEvaluationUtils.getPieceSquareValue(i, j, chessPiece, GamePhase.ENDGAME);
 				}
+			}
+		}
+
+		// In case of early promotion, the "gamePhase" value could be more than 24.
+		int middleGamePhase = Math.min(gamePhase, 24);
+		int endgamePhase = 24 - middleGamePhase;
+		return (middleGameScore * middleGamePhase + endgameScore * endgamePhase) / 24.0;
+	}
+
+	// Wukong Evaluation Function.
+	private double wukongEvaluation() {
+		int gamePhase = 0;
+		int middleGameScore = 0;
+		int endgameScore = 0;
+
+		for (int i = 0; i < numOfRows; i++) {
+			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
+				ChessPiece chessPiece = this.gameBoard[i][j];
+
+				gamePhase += Utilities.getPieceGamePhaseValue(chessPiece);
+
+				if (chessPiece.getAllegiance() == Allegiance.WHITE) {
+					middleGameScore += WukongEvaluationUtils.getPieceCentipawnValue(chessPiece, GamePhase.MIDDLE_GAME);
+					endgameScore += WukongEvaluationUtils.getPieceCentipawnValue(chessPiece, GamePhase.ENDGAME);
+
+					int row = numOfRows - 1 - i;
+					middleGameScore += WukongEvaluationUtils.getPieceSquareValue(row, j, chessPiece, GamePhase.MIDDLE_GAME);
+					endgameScore += WukongEvaluationUtils.getPieceSquareValue(row, j, chessPiece, GamePhase.ENDGAME);
+				} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
+					middleGameScore -= WukongEvaluationUtils.getPieceCentipawnValue(chessPiece, GamePhase.MIDDLE_GAME);
+					endgameScore -= WukongEvaluationUtils.getPieceCentipawnValue(chessPiece, GamePhase.ENDGAME);
+
+					middleGameScore -= WukongEvaluationUtils.getPieceSquareValue(i, j, chessPiece, GamePhase.MIDDLE_GAME);
+					endgameScore -= WukongEvaluationUtils.getPieceSquareValue(i, j, chessPiece, GamePhase.ENDGAME);
+				}
+
 			}
 		}
 
@@ -830,13 +859,26 @@ public class ChessBoard {
 		return score;
 	}
 
-	private int getNumOfBishops(Allegiance playerAllegiance) {
+	private int countKnights(Allegiance playerAllegiance) {
 		int numOfBishops = 0;
 
-		int n1 = this.gameBoard.length;
-		int n2 = this.gameBoard[0].length;
-		for (int i = 0; i < n1; i++) {
-			for (int j = 0; j < n2; j++) {
+		for (int i = 0; i < numOfRows; i++) {
+			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
+				if (this.gameBoard[i][j] instanceof Knight
+						&& playerAllegiance == this.gameBoard[i][j].getAllegiance()) {
+					numOfBishops++;
+				}
+			}
+		}
+
+		return numOfBishops;
+	}
+
+	private int countBishops(Allegiance playerAllegiance) {
+		int numOfBishops = 0;
+
+		for (int i = 0; i < numOfRows; i++) {
+			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
 				if (this.gameBoard[i][j] instanceof Bishop
 						&& playerAllegiance == this.gameBoard[i][j].getAllegiance()) {
 					numOfBishops++;
@@ -845,6 +887,49 @@ public class ChessBoard {
 		}
 
 		return numOfBishops;
+	}
+
+	public int countQueens(Allegiance playerAllegiance) {
+		int numOfQueens = 0;
+
+		for (int i = 0; i < numOfRows; i++) {
+			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
+				if (this.gameBoard[i][j] instanceof Queen
+						&& playerAllegiance == this.gameBoard[i][j].getAllegiance()) {
+					numOfQueens++;
+				}
+			}
+		}
+
+		return numOfQueens;
+	}
+
+	// A minor piece is considered a Knight or a Bishop.
+	// The method is true if no more than one Queen exists,
+	// and the other pieces are all Pawns plus one Knight or Bishop maximum.
+	public boolean isQueenPlusOneMinorPieceMaximum(Allegiance playerAllegiance) {
+		int numOfQueens = countQueens(playerAllegiance);
+		if (numOfQueens == 0) return true;
+		if (numOfQueens > 1) return false;
+		int numOfKnights = countKnights(playerAllegiance);
+		if (numOfKnights > 1) return false;
+		int numOfBishops = countBishops(playerAllegiance);
+		if (numOfBishops > 1) return false;
+		if (numOfKnights + numOfBishops > 1) return false;
+
+		for (int i = 0; i < numOfRows; i++) {
+			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
+				ChessPiece chessPiece = this.gameBoard[i][j];
+				if (!(chessPiece instanceof EmptyTile)
+						&& !(chessPiece instanceof Queen || chessPiece instanceof Pawn
+							 || chessPiece instanceof Knight || chessPiece instanceof Bishop)
+						&& playerAllegiance == chessPiece.getAllegiance()) {
+					return false;
+				}
+			}
+		}
+
+		return true;
 	}
 
 	/*
@@ -1112,10 +1197,8 @@ public class ChessBoard {
 		if (isLoneKingPlusAtLeastThreePawns(Allegiance.WHITE) && isLoneKingPlusAtLeastThreePawns(Allegiance.BLACK)) {
 
 			// Check if the pawns can make any move.
-			int n1 = gameBoard.length;
-			int n2 = gameBoard[0].length;
-			for (int i = 0; i < n1; i++) {
-				for (int j = 0; j < n2; j++) {
+			for (int i = 0; i < numOfRows; i++) {
+				for (int j = 0; j < NUM_OF_COLUMNS; j++) {
 					if (gameBoard[i][j] instanceof Pawn) {
 						String position = Utilities.getPositionByRowCol(i, j);
 						Set<String> nextPositions = getNextPositions(position);
@@ -1201,7 +1284,7 @@ public class ChessBoard {
 
 	// Checks if only a king and one bishop have remained on the board, on the given player's side.
 	public boolean isLoneKingPlusABishop(Allegiance playerAllegiance) {
-		int numOfBishops = getNumOfBishops(playerAllegiance);
+		int numOfBishops = countBishops(playerAllegiance);
 		if (numOfBishops != 1) return false;
 
 		for (int i = 0; i < numOfRows; i++) {
@@ -1323,11 +1406,9 @@ public class ChessBoard {
 	}
 
 	public void setGameBoard(ChessPiece[][] gameBoard) {
-		int n1 = gameBoard.length;
-		int n2 = gameBoard[0].length;
-		this.gameBoard = new ChessPiece[n1][n2];
-		for (int i = 0; i < n1; i++) {
-			System.arraycopy(gameBoard[i], 0, this.gameBoard[i], 0, n2);
+		this.gameBoard = new ChessPiece[numOfRows][NUM_OF_COLUMNS];
+		for (int i = 0; i < numOfRows; i++) {
+			System.arraycopy(gameBoard[i], 0, this.gameBoard[i], 0, NUM_OF_COLUMNS);
 		}
 	}
 
