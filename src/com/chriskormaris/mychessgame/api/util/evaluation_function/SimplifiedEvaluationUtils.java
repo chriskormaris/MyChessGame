@@ -100,8 +100,7 @@ public class SimplifiedEvaluationUtils {
 	public static final int KING_CENTIPAWN_VALUE = 20000;
 
 	public static GamePhase getGamePhase(ChessBoard chessBoard) {
-		if (chessBoard.countQueens(Allegiance.WHITE) == 0 && chessBoard.countQueens(Allegiance.BLACK) == 0
-			|| chessBoard.isQueenPlusOneMinorPieceMaximum(Allegiance.WHITE)
+		if (chessBoard.isQueenPlusOneMinorPieceMaximum(Allegiance.WHITE)
 				&& chessBoard.isQueenPlusOneMinorPieceMaximum(Allegiance.BLACK)) {
 			return GamePhase.ENDGAME;
 		} else {

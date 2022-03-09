@@ -145,7 +145,6 @@ public class ChessGUI {
 	*/
 
 	public ChessGUI(String title) {
-
 		// Change JDialog style.
 		// JDialog.setDefaultLookAndFeelDecorated(true);
 

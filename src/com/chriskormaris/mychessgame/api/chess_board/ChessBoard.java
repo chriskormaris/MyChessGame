@@ -743,7 +743,6 @@ public class ChessBoard {
 					score -= SimplifiedEvaluationUtils.getPieceCentipawnValue(chessPiece);
 					score -= SimplifiedEvaluationUtils.getPieceSquareValue(i, j, chessPiece, gamePhase);
 				}
-
 			}
 		}
 
@@ -759,7 +758,6 @@ public class ChessBoard {
 		for (int i = 0; i < numOfRows; i++) {
 			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
 				ChessPiece chessPiece = this.gameBoard[i][j];
-
 				gamePhase += Utilities.getPieceGamePhaseValue(chessPiece);
 
 				if (chessPiece.getAllegiance() == Allegiance.WHITE) {
@@ -794,7 +792,6 @@ public class ChessBoard {
 		for (int i = 0; i < numOfRows; i++) {
 			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
 				ChessPiece chessPiece = this.gameBoard[i][j];
-
 				gamePhase += Utilities.getPieceGamePhaseValue(chessPiece);
 
 				if (chessPiece.getAllegiance() == Allegiance.WHITE) {
@@ -811,7 +808,6 @@ public class ChessBoard {
 					openingScore -= WukongEvaluationUtils.getPieceSquareValue(i, j, chessPiece, GamePhase.OPENING);
 					endgameScore -= WukongEvaluationUtils.getPieceSquareValue(i, j, chessPiece, GamePhase.ENDGAME);
 				}
-
 			}
 		}
 
@@ -859,19 +855,34 @@ public class ChessBoard {
 		return score;
 	}
 
+	private int countPawns(Allegiance playerAllegiance) {
+		int numOfPawns = 0;
+
+		for (int i = 0; i < numOfRows; i++) {
+			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
+				if (this.gameBoard[i][j] instanceof Pawn
+						&& playerAllegiance == this.gameBoard[i][j].getAllegiance()) {
+					numOfPawns++;
+				}
+			}
+		}
+
+		return numOfPawns;
+	}
+
 	private int countKnights(Allegiance playerAllegiance) {
-		int numOfBishops = 0;
+		int numOfKnights = 0;
 
 		for (int i = 0; i < numOfRows; i++) {
 			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
 				if (this.gameBoard[i][j] instanceof Knight
 						&& playerAllegiance == this.gameBoard[i][j].getAllegiance()) {
-					numOfBishops++;
+					numOfKnights++;
 				}
 			}
 		}
 
-		return numOfBishops;
+		return numOfKnights;
 	}
 
 	private int countBishops(Allegiance playerAllegiance) {
@@ -887,6 +898,21 @@ public class ChessBoard {
 		}
 
 		return numOfBishops;
+	}
+
+	private int countRooks(Allegiance playerAllegiance) {
+		int numOfRooks = 0;
+
+		for (int i = 0; i < numOfRows; i++) {
+			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
+				if (this.gameBoard[i][j] instanceof Rook
+						&& playerAllegiance == this.gameBoard[i][j].getAllegiance()) {
+					numOfRooks++;
+				}
+			}
+		}
+
+		return numOfRooks;
 	}
 
 	public int countQueens(Allegiance playerAllegiance) {
@@ -911,23 +937,13 @@ public class ChessBoard {
 		int numOfQueens = countQueens(playerAllegiance);
 		if (numOfQueens == 0) return true;
 		if (numOfQueens > 1) return false;
+
 		int numOfKnights = countKnights(playerAllegiance);
-		if (numOfKnights > 1) return false;
 		int numOfBishops = countBishops(playerAllegiance);
-		if (numOfBishops > 1) return false;
 		if (numOfKnights + numOfBishops > 1) return false;
 
-		for (int i = 0; i < numOfRows; i++) {
-			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
-				ChessPiece chessPiece = this.gameBoard[i][j];
-				if (!(chessPiece instanceof EmptyTile)
-						&& !(chessPiece instanceof Queen || chessPiece instanceof Pawn
-							 || chessPiece instanceof Knight || chessPiece instanceof Bishop)
-						&& playerAllegiance == chessPiece.getAllegiance()) {
-					return false;
-				}
-			}
-		}
+		int numOfRooks = countRooks(playerAllegiance);
+		if (numOfRooks > 0) return false;
 
 		return true;
 	}
