@@ -26,10 +26,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import static com.chriskormaris.mychessgame.api.util.Constants.NUM_OF_COLUMNS;
+
 
 public class ChessBoard {
 
-	public final static int NUM_OF_COLUMNS = Constants.NUM_OF_COLUMNS;
 	private final int numOfRows;
 
 	/* Immediate move that led to this board. */
@@ -218,7 +219,7 @@ public class ChessBoard {
 			}
 		}
 
-		for (int j = 0; j < Constants.NUM_OF_COLUMNS; j++) {
+		for (int j = 0; j < NUM_OF_COLUMNS; j++) {
 			this.gameBoard[1][j] = new Pawn(Allegiance.BLACK);  // 2nd row
 		}
 
@@ -236,7 +237,7 @@ public class ChessBoard {
 		this.gameBoard[0][7] = new Rook(Allegiance.BLACK);  // H8
 
 
-		for (int j = 0; j < Constants.NUM_OF_COLUMNS; j++) {
+		for (int j = 0; j < NUM_OF_COLUMNS; j++) {
 			this.gameBoard[numOfRows - 2][j] = new Pawn(Allegiance.WHITE);  // (n-th - 1) row
 		}
 
