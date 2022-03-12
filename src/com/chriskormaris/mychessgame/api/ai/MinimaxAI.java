@@ -19,8 +19,8 @@ public class MinimaxAI extends AI {
 
 	public MinimaxAI() {
 		super(Constants.BLACK);
-		maxDepth = 2;
-		evaluationFunction = EvaluationFunction.SIMPLIFIED;
+		this.maxDepth = 2;
+		this.evaluationFunction = EvaluationFunction.SIMPLIFIED;
 	}
 
 	public MinimaxAI(int maxDepth, boolean aiPlayer, EvaluationFunction evaluationFunction) {
@@ -35,6 +35,14 @@ public class MinimaxAI extends AI {
 
 	public void setMaxDepth(int maxDepth) {
 		this.maxDepth = maxDepth;
+	}
+
+	public EvaluationFunction getEvaluationFunction() {
+		return evaluationFunction;
+	}
+
+	public void setEvaluationFunction(EvaluationFunction evaluationFunction) {
+		this.evaluationFunction = evaluationFunction;
 	}
 
 	@Override
@@ -73,7 +81,7 @@ public class MinimaxAI extends AI {
 			if (move.getValue() >= maxMove.getValue()) {
 				if ((move.getValue() == maxMove.getValue())) {
 					// If the heuristic has the same value then we randomly choose one of the two moves
-					if (r.nextInt(2) == 0) {
+					if (r.nextInt(2) == 0 || move.getValue() == Integer.MIN_VALUE) {
 						maxMove.setPositions(child.getLastMove().getPositions());
 						maxMove.setValue(move.getValue());
 					}
@@ -105,7 +113,7 @@ public class MinimaxAI extends AI {
 			Move move = max(child, depth + 1);
 			if (move.getValue() <= minMove.getValue()) {
 				if ((move.getValue() == minMove.getValue())) {
-					if (r.nextInt(2) == 0) {
+					if (r.nextInt(2) == 0 || move.getValue() == Integer.MAX_VALUE) {
 						minMove.setPositions(child.getLastMove().getPositions());
 						minMove.setValue(move.getValue());
 					}

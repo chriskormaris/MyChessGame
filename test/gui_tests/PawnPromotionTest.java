@@ -43,7 +43,6 @@ public class PawnPromotionTest {
         // String fenPosition = "7R/2Ppkp2/3bpn2/8/8/1p6/2p5/4K3 b - - 0 1";
 
         ChessGUI.placePiecesToChessBoard(fenPosition);
-
         ChessBoard.printChessBoard(ChessGUI.chessBoard.getGameBoard());
 
         // ChessGUI.playAiVsAi();

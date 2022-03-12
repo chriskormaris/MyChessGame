@@ -42,18 +42,15 @@ public class RandomChoiceAI extends AI {
 				for (int j = 0; j < ChessBoard.NUM_OF_COLUMNS; j++) {
 					if (getAiPlayer() == Constants.WHITE
 							&& chessBoard.getGameBoard()[i][j].getAllegiance() == Allegiance.WHITE
-							||
-							getAiPlayer() == Constants.BLACK
-									&& chessBoard.getGameBoard()[i][j].getAllegiance() == Allegiance.BLACK) {
-
-						String randomStartingPosition = Utilities.getPositionByRowCol(i, j);
+						|| getAiPlayer() == Constants.BLACK
+							&& chessBoard.getGameBoard()[i][j].getAllegiance() == Allegiance.BLACK) {
+						String randomStartingPosition = Utilities.getPositionByRowCol(i, j, chessBoard.getNumOfRows());
 						Set<String> randomEndingPositions = chessBoard.getNextPositions(randomStartingPosition);
 
 						if (randomEndingPositions.size() > 0) {
 							randomStartingEndingPositions.put(randomStartingPosition, randomEndingPositions);
 							// System.out.println("randomStartingPosition: " + randomStartingPosition + " -> " + randomEndingPositions);
 						}
-
 					}
 				}
 			}

@@ -22,14 +22,13 @@ public class Rook extends ChessPiece {
 
 	@Override
 	public Set<String> getNextPositions(String position, ChessBoard chessBoard, boolean returnThreats) {
-
 		// System.out.println("current position: " + position);
 
 		Set<String> nextRookPositions = new HashSet<>();
 
 		// First, find the row && the column
 		// that corresponds to the given position String.
-		int row = Utilities.getRowFromPosition(position);
+		int row = Utilities.getRowFromPosition(position, chessBoard.getNumOfRows());
 		int column = Utilities.getColumnFromPosition(position);
 		ChessPiece chessPiece = chessBoard.getGameBoard()[row][column];
 
@@ -37,13 +36,13 @@ public class Rook extends ChessPiece {
 			return nextRookPositions;
 		}
 
-		// Find all the up positions.
+		// Find all the down positions.
 		for (int i = row + 1; i < chessBoard.getNumOfRows(); i++) {
 			if (row < chessBoard.getNumOfRows()) {
 
 				int newRow = i;
 				int newColumn = column;
-				String newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
+				String newPosition = Utilities.getPositionByRowCol(newRow, newColumn, chessBoard.getNumOfRows());
 				ChessPiece endTile = chessBoard.getGameBoard()[newRow][newColumn];
 				// System.out.println("endTile: " + endTile);
 				if (endTile instanceof EmptyTile || chessPiece.getAllegiance() != endTile.getAllegiance()
@@ -59,13 +58,13 @@ public class Rook extends ChessPiece {
 			}
 		}
 
-		// Find all the down positions.
+		// Find all the up positions.
 		for (int i = row - 1; i >= 0; i--) {
 			if (row > 0) {
 
 				int newRow = i;
 				int newColumn = column;
-				String newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
+				String newPosition = Utilities.getPositionByRowCol(newRow, newColumn, chessBoard.getNumOfRows());
 				ChessPiece endTile = chessBoard.getGameBoard()[newRow][newColumn];
 				// System.out.println("endTile: " + endTile);
 				if (endTile instanceof EmptyTile || chessPiece.getAllegiance() != endTile.getAllegiance()
@@ -82,12 +81,12 @@ public class Rook extends ChessPiece {
 		}
 
 		// Find all the right positions.
-		for (int j = column + 1; j < Constants.DEFAULT_NUM_OF_COLUMNS; j++) {
-			if (column < Constants.DEFAULT_NUM_OF_COLUMNS) {
+		for (int j = column + 1; j < Constants.NUM_OF_COLUMNS; j++) {
+			if (column < Constants.NUM_OF_COLUMNS) {
 
 				int newRow = row;
 				int newColumn = j;
-				String newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
+				String newPosition = Utilities.getPositionByRowCol(newRow, newColumn, chessBoard.getNumOfRows());
 				ChessPiece endTile = chessBoard.getGameBoard()[newRow][newColumn];
 				// System.out.println("endTile: " + endTile);
 				if (endTile instanceof EmptyTile || chessPiece.getAllegiance() != endTile.getAllegiance()
@@ -109,7 +108,7 @@ public class Rook extends ChessPiece {
 
 				int newRow = row;
 				int newColumn = j;
-				String newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
+				String newPosition = Utilities.getPositionByRowCol(newRow, newColumn, chessBoard.getNumOfRows());
 				ChessPiece endTile = chessBoard.getGameBoard()[newRow][newColumn];
 				// System.out.println("endTile: " + endTile);
 				if (endTile instanceof EmptyTile || chessPiece.getAllegiance() != endTile.getAllegiance()
@@ -126,7 +125,6 @@ public class Rook extends ChessPiece {
 		}
 
 		return nextRookPositions;
-
 	}
 
 }

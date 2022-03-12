@@ -6,7 +6,7 @@ public class Constants {
 	public static final int DEFAULT_NUM_OF_ROWS = 8;
 
 	/* the number of columns, (this should always be 8) */
-	public static final int DEFAULT_NUM_OF_COLUMNS = 8;
+	public static final int NUM_OF_COLUMNS = 8;
 
 	/* this could be 1, 2 or 3 at maximum */
 	public static final int DEFAULT_MAX_DEPTH = 2;

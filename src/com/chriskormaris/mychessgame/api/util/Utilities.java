@@ -11,15 +11,13 @@ import com.chriskormaris.mychessgame.api.piece.Rook;
 
 public class Utilities {
 
-	public static String getPositionByRowCol(int row, int column) {
+	public static String getPositionByRowCol(int row, int column, int numOfRows) {
 		String columnString = (char) (column + 65) + "";
-
-		// We add '0' which is equal to 48 in decimal,
-		// so that we get the correct number.
-		String rowString = (row + 1) + "";
+		String rowString = (numOfRows - row) + "";
 
 		return columnString + rowString;
 	}
+
 
 	// ALTERNATIVE
 	/*
@@ -28,20 +26,26 @@ public class Utilities {
 	}
 	*/
 
-	public static int getRowFromPosition(String position) {
-		// example: A2, column = 0, row = 1
-		return Integer.parseInt(position.substring(1)) - 1;
+
+	public static int getRowFromPosition(String position, int numOfRows) {
+		// examples:
+		// A8, column = 0, row = 0
+		// A2, column = 0, row = 6
+		// A1, column = 0, row = 7
+		return numOfRows - Integer.parseInt(position.substring(1));
 	}
 
 
 	public static int getColumnFromPosition(String position) {
-		// example: B1, column = 1, row = 0
+		// examples:
+		// A1, column = 0, row = 7
+		// B1, column = 1, row = 7
 		return (int) position.charAt(0) - 65;
 	}
 
 
 	public static ChessPiece getChessPieceFromPosition(ChessPiece[][] gameBoard, String position) {
-		int row = getRowFromPosition(position);
+		int row = getRowFromPosition(position, gameBoard.length);
 		int column = getColumnFromPosition(position);
 		return gameBoard[row][column];
 	}

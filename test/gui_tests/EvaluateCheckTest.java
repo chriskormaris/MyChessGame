@@ -30,7 +30,7 @@ public class EvaluateCheckTest {
         System.out.println("*****************************");
         System.out.println();
 
-        while (true) ;
+        while (true);
     }
 
 }

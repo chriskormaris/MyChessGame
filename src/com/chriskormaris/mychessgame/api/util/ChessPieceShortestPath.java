@@ -32,7 +32,7 @@ public class ChessPieceShortestPath {
 
 		int depth = 0;
 
-		int startingRow = Utilities.getRowFromPosition(startingPosition);
+		int startingRow = Utilities.getRowFromPosition(startingPosition, chessBoard.getNumOfRows());
 		int startingColumn = Utilities.getColumnFromPosition(startingPosition);
 		BfsPosition startingBfsPosition = new BfsPosition(startingPosition, startingRow, startingColumn, depth);
 
@@ -42,7 +42,7 @@ public class ChessPieceShortestPath {
 		while (queue.size() != 0 && depth <= maxDepth) {
 
 			if (currentPosition != null) {
-				int previousRow = Utilities.getRowFromPosition(currentPosition);
+				int previousRow = Utilities.getRowFromPosition(currentPosition, chessBoard.getNumOfRows());
 				int previousColumn = Utilities.getColumnFromPosition(currentPosition);
 				currentChessBoard.getGameBoard()[previousRow][previousColumn] = new EmptyTile();
 			}
@@ -68,7 +68,7 @@ public class ChessPieceShortestPath {
 
 				Set<String> nextPositions;
 				if (currentBfsPosition.getParentBfsPosition() != null) {
-					int currentRow = Utilities.getRowFromPosition(currentPosition);
+					int currentRow = Utilities.getRowFromPosition(currentPosition, chessBoard.getNumOfRows());
 					int currentColumn = Utilities.getColumnFromPosition(currentPosition);
 					currentChessBoard.getGameBoard()[currentRow][currentColumn] = piece;
 					if (piece instanceof King) {
@@ -87,7 +87,7 @@ public class ChessPieceShortestPath {
 				for (String candidatePosition : nextPositions) {
 					// System.out.println("candidate position: " + candidatePosition + ", depth: " + (depth + 1));
 
-					int candidateRow = Utilities.getRowFromPosition(candidatePosition);
+					int candidateRow = Utilities.getRowFromPosition(candidatePosition, chessBoard.getNumOfRows());
 					int candidateColumn = Utilities.getColumnFromPosition(candidatePosition);
 					BfsPosition candidateBfsPosition = new BfsPosition(candidatePosition, candidateRow, candidateColumn, depth + 1);
 					candidateBfsPosition.setParentBfsPosition(currentBfsPosition);
@@ -122,7 +122,7 @@ public class ChessPieceShortestPath {
 
 		int depth = 0;
 
-		int startingRow = Utilities.getRowFromPosition(startingPosition);
+		int startingRow = Utilities.getRowFromPosition(startingPosition, chessBoard.getNumOfRows());
 		int startingColumn = Utilities.getColumnFromPosition(startingPosition);
 		BfsPosition startingBfsPosition = new BfsPosition(startingPosition, startingRow, startingColumn, depth);
 
@@ -132,7 +132,7 @@ public class ChessPieceShortestPath {
 		while (queue.size() != 0 && depth <= maxDepth) {
 
 			if (currentPosition != null) {
-				int previousRow = Utilities.getRowFromPosition(currentPosition);
+				int previousRow = Utilities.getRowFromPosition(currentPosition, chessBoard.getNumOfRows());
 				int previousColumn = Utilities.getColumnFromPosition(currentPosition);
 				currentChessBoard.getGameBoard()[previousRow][previousColumn] = new EmptyTile();
 			}
@@ -159,7 +159,7 @@ public class ChessPieceShortestPath {
 
 				Set<String> nextPositions;
 				if (currentBfsPosition.getParentBfsPosition() != null) {
-					int currentRow = Utilities.getRowFromPosition(currentPosition);
+					int currentRow = Utilities.getRowFromPosition(currentPosition, chessBoard.getNumOfRows());
 					int currentColumn = Utilities.getColumnFromPosition(currentPosition);
 					currentChessBoard.getGameBoard()[currentRow][currentColumn] = piece;
 					if (piece instanceof King) {
@@ -169,16 +169,14 @@ public class ChessPieceShortestPath {
 							currentChessBoard.setBlackKingPosition(currentPosition);
 						}
 					}
-					nextPositions = piece.getNextPositions(currentPosition, currentChessBoard, false);
-				} else {
-					nextPositions = piece.getNextPositions(currentPosition, currentChessBoard, false);
 				}
+				nextPositions = piece.getNextPositions(currentPosition, currentChessBoard, false);
 				// System.out.println("nextPositions: " + nextPositions);
 
 				for (String candidatePosition : nextPositions) {
 					// System.out.println("candidate position: " + candidatePosition + ", depth: " + (depth + 1));
 
-					int candidateRow = Utilities.getRowFromPosition(candidatePosition);
+					int candidateRow = Utilities.getRowFromPosition(candidatePosition, chessBoard.getNumOfRows());
 					int candidateColumn = Utilities.getColumnFromPosition(candidatePosition);
 					BfsPosition candidateBfsPosition = new BfsPosition(candidatePosition, candidateRow, candidateColumn, depth + 1);
 					candidateBfsPosition.setParentBfsPosition(currentBfsPosition);
@@ -218,7 +216,6 @@ public class ChessPieceShortestPath {
 
 
 	public static void printSolutions(List<List<BfsPosition>> solutionPaths) {
-
 		if (solutionPaths.size() > 0) {
 			int pathCounter = 1;
 			for (List<BfsPosition> solutionPath : solutionPaths) {
@@ -235,12 +232,10 @@ public class ChessPieceShortestPath {
 			}
 
 		}
-
 	}
 
 
 	public static String getShortestPath(List<List<BfsPosition>> solutionPaths, String maxDepth) {
-
 		String pathOutput = "";
 
 		if (solutionPaths.size() > 0) {
@@ -271,7 +266,6 @@ public class ChessPieceShortestPath {
 			System.out.println("There is no solution for max depth " + maxDepth + ".");
 		}
 		return pathOutput;
-
 	}
 
 

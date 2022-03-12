@@ -28,7 +28,7 @@ public class Queen extends ChessPiece {
 
 		// First, find the row && the column
 		// that corresponds to the given position String.
-		int row = Utilities.getRowFromPosition(position);
+		int row = Utilities.getRowFromPosition(position, chessBoard.getNumOfRows());
 		int column = Utilities.getColumnFromPosition(position);
 		ChessPiece chessPiece = chessBoard.getGameBoard()[row][column];
 
@@ -36,13 +36,13 @@ public class Queen extends ChessPiece {
 			return nextQueenPositions;
 		}
 
-		// Find all the up positions.
+		// Find all the down positions.
 		for (int i = row + 1; i < chessBoard.getNumOfRows(); i++) {
 			if (row < chessBoard.getNumOfRows()) {
 
 				int newRow = i;
 				int newColumn = column;
-				String newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
+				String newPosition = Utilities.getPositionByRowCol(newRow, newColumn, chessBoard.getNumOfRows());
 				ChessPiece endTile = chessBoard.getGameBoard()[newRow][newColumn];
 				// System.out.println("endTile: " + endTile);
 				if (endTile instanceof EmptyTile || chessPiece.getAllegiance() != endTile.getAllegiance()
@@ -58,13 +58,13 @@ public class Queen extends ChessPiece {
 			}
 		}
 
-		// Find all the down positions.
+		// Find all the up positions.
 		for (int i = row - 1; i >= 0; i--) {
 			if (row > 0) {
 
 				int newRow = i;
 				int newColumn = column;
-				String newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
+				String newPosition = Utilities.getPositionByRowCol(newRow, newColumn, chessBoard.getNumOfRows());
 				ChessPiece endTile = chessBoard.getGameBoard()[newRow][newColumn];
 				// System.out.println("endTile: " + endTile);
 				if (endTile instanceof EmptyTile || chessPiece.getAllegiance() != endTile.getAllegiance()
@@ -81,12 +81,12 @@ public class Queen extends ChessPiece {
 		}
 
 		// Find all the right positions.
-		for (int j = column + 1; j < Constants.DEFAULT_NUM_OF_COLUMNS; j++) {
-			if (column < Constants.DEFAULT_NUM_OF_COLUMNS) {
+		for (int j = column + 1; j < Constants.NUM_OF_COLUMNS; j++) {
+			if (column < Constants.NUM_OF_COLUMNS) {
 
 				int newRow = row;
 				int newColumn = j;
-				String newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
+				String newPosition = Utilities.getPositionByRowCol(newRow, newColumn, chessBoard.getNumOfRows());
 				ChessPiece endTile = chessBoard.getGameBoard()[newRow][newColumn];
 				// System.out.println("endTile: " + endTile);
 				if (endTile instanceof EmptyTile || chessPiece.getAllegiance() != endTile.getAllegiance()
@@ -108,7 +108,7 @@ public class Queen extends ChessPiece {
 
 				int newRow = row;
 				int newColumn = j;
-				String newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
+				String newPosition = Utilities.getPositionByRowCol(newRow, newColumn, chessBoard.getNumOfRows());
 				ChessPiece endTile = chessBoard.getGameBoard()[newRow][newColumn];
 				// System.out.println("endTile: " + endTile);
 				if (endTile instanceof EmptyTile || chessPiece.getAllegiance() != endTile.getAllegiance()
@@ -127,39 +127,14 @@ public class Queen extends ChessPiece {
 
 		int counter;
 
-		// Find all the upper right diagonal positions.
+		// Find all the lower right diagonal positions.
 		counter = 1;
 		for (int i = row + 1; i < chessBoard.getNumOfRows(); i++) {
-			if (row < chessBoard.getNumOfRows() && column + counter < Constants.DEFAULT_NUM_OF_COLUMNS) {
+			if (row < chessBoard.getNumOfRows() && column + counter < Constants.NUM_OF_COLUMNS) {
 
 				int newRow = i;
 				int newColumn = column + counter;
-				String newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
-				// System.out.println("newPosition: " + newPosition);
-				ChessPiece endTile = chessBoard.getGameBoard()[newRow][newColumn];
-				// System.out.println("endTile: " + endTile);
-				if (endTile instanceof EmptyTile || chessPiece.getAllegiance() != endTile.getAllegiance()
-						&& !(endTile instanceof King) || returnThreats) {
-					nextQueenPositions.add(newPosition);
-				}
-
-				// Stop searching for other positions, if another chessPiece is reached.
-				if (chessPiece.getAllegiance() != endTile.getAllegiance() && !(endTile instanceof EmptyTile)
-						|| chessPiece.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
-					break;
-				}
-			}
-			counter++;
-		}
-
-		// Find all the lower left diagonal positions.
-		counter = 1;
-		for (int i = row - 1; i >= 0; i--) {
-			if (row >= 0 && column - counter >= 0) {
-
-				int newRow = i;
-				int newColumn = column - counter;
-				String newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
+				String newPosition = Utilities.getPositionByRowCol(newRow, newColumn, chessBoard.getNumOfRows());
 				// System.out.println("newPosition: " + newPosition);
 				ChessPiece endTile = chessBoard.getGameBoard()[newRow][newColumn];
 				// System.out.println("endTile: " + endTile);
@@ -179,12 +154,12 @@ public class Queen extends ChessPiece {
 
 		// Find all the upper left diagonal positions.
 		counter = 1;
-		for (int i = row + 1; i < chessBoard.getNumOfRows(); i++) {
-			if (row < chessBoard.getNumOfRows() && column - counter >= 0) {
+		for (int i = row - 1; i >= 0; i--) {
+			if (row >= 0 && column - counter >= 0) {
 
 				int newRow = i;
 				int newColumn = column - counter;
-				String newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
+				String newPosition = Utilities.getPositionByRowCol(newRow, newColumn, chessBoard.getNumOfRows());
 				// System.out.println("newPosition: " + newPosition);
 				ChessPiece endTile = chessBoard.getGameBoard()[newRow][newColumn];
 				// System.out.println("endTile: " + endTile);
@@ -202,14 +177,39 @@ public class Queen extends ChessPiece {
 			counter++;
 		}
 
-		// Find all the lower right diagonal positions.
+		// Find all the lower left diagonal positions.
+		counter = 1;
+		for (int i = row + 1; i < chessBoard.getNumOfRows(); i++) {
+			if (row < chessBoard.getNumOfRows() && column - counter >= 0) {
+
+				int newRow = i;
+				int newColumn = column - counter;
+				String newPosition = Utilities.getPositionByRowCol(newRow, newColumn, chessBoard.getNumOfRows());
+				// System.out.println("newPosition: " + newPosition);
+				ChessPiece endTile = chessBoard.getGameBoard()[newRow][newColumn];
+				// System.out.println("endTile: " + endTile);
+				if (endTile instanceof EmptyTile || chessPiece.getAllegiance() != endTile.getAllegiance()
+						&& !(endTile instanceof King) || returnThreats) {
+					nextQueenPositions.add(newPosition);
+				}
+
+				// Stop searching for other positions, if another chessPiece is reached.
+				if (chessPiece.getAllegiance() != endTile.getAllegiance() && !(endTile instanceof EmptyTile)
+						|| chessPiece.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
+					break;
+				}
+			}
+			counter++;
+		}
+
+		// Find all the upper right diagonal positions.
 		counter = 1;
 		for (int i = row - 1; i >= 0; i--) {
-			if (row >= 0 && column + counter < Constants.DEFAULT_NUM_OF_COLUMNS) {
+			if (row >= 0 && column + counter < Constants.NUM_OF_COLUMNS) {
 
 				int newRow = i;
 				int newColumn = column + counter;
-				String newPosition = Utilities.getPositionByRowCol(newRow, newColumn);
+				String newPosition = Utilities.getPositionByRowCol(newRow, newColumn, chessBoard.getNumOfRows());
 				// System.out.println("newPosition: " + newPosition);
 				ChessPiece endTile = chessBoard.getGameBoard()[newRow][newColumn];
 				// System.out.println("endTile: " + endTile);

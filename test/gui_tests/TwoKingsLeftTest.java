@@ -20,6 +20,8 @@ public class TwoKingsLeftTest {
         @SuppressWarnings("unused")
         ChessGUI cbg = new ChessGUI(title);
 
+        ChessGUI.makeChessBoardSquaresEmpty();
+
         ChessGUI.placePieceToPosition("A1", new King(Allegiance.WHITE));
         ChessGUI.placePieceToPosition("H8", new King(Allegiance.BLACK));
         ChessGUI.placePieceToPosition("B2", new Pawn(Allegiance.WHITE));

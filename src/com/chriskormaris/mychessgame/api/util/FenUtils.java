@@ -110,9 +110,9 @@ public class FenUtils {
 
 
 	public static ChessPiece[][] createGameBoard(ChessBoard chessBoard, String startingPieces) {
-		ChessPiece[][] gameBoard = new ChessPiece[chessBoard.getNumOfRows()][Constants.DEFAULT_NUM_OF_COLUMNS];
+		ChessPiece[][] gameBoard = new ChessPiece[chessBoard.getNumOfRows()][Constants.NUM_OF_COLUMNS];
 		for (int i = 0; i < chessBoard.getNumOfRows(); i++) {
-			for (int j = 0; j < Constants.DEFAULT_NUM_OF_COLUMNS; j++) {
+			for (int j = 0; j < Constants.NUM_OF_COLUMNS; j++) {
 				gameBoard[i][j] = new EmptyTile();
 			}
 		}
@@ -123,7 +123,7 @@ public class FenUtils {
 			char pieceChar = startingPieces.charAt(counter);
 			// System.out.println("counter: " + counter + ", pieceChar: " + pieceChar);
 
-			j = j % Constants.DEFAULT_NUM_OF_COLUMNS;
+			j = j % Constants.NUM_OF_COLUMNS;
 
 			if (Character.isDigit(pieceChar)) {
 				j = j + Character.getNumericValue(pieceChar);
@@ -138,13 +138,13 @@ public class FenUtils {
 
 			// System.out.println("i: " + i + ", j: " + j);
 			// System.out.println("chessPiece: " + getChessPieceByChar(pieceChar));
-			gameBoard[chessBoard.getNumOfRows() - 1 - i][j] = getChessPieceByChar(pieceChar);
+			gameBoard[i][j] = getChessPieceByChar(pieceChar);
 
 			if (pieceChar == Constants.WHITE_KING) {
-				chessBoard.setWhiteKingPosition(Utilities.getPositionByRowCol(chessBoard.getNumOfRows() - 1 - i, j));
+				chessBoard.setWhiteKingPosition(Utilities.getPositionByRowCol(i, j, chessBoard.getNumOfRows()));
 				// System.out.println("White king position: " + chessBoard.getWhiteKingPosition());
 			} else if (pieceChar == Constants.BLACK_KING) {
-				chessBoard.setBlackKingPosition(Utilities.getPositionByRowCol(chessBoard.getNumOfRows() - 1 - i, j));
+				chessBoard.setBlackKingPosition(Utilities.getPositionByRowCol(i, j, chessBoard.getNumOfRows()));
 				// System.out.println("Black king position: " + chessBoard.getBlackKingPosition());
 			}
 
@@ -244,9 +244,9 @@ public class FenUtils {
 		/* Step 1: Append the chess gameBoard pieces positions */
 		for (int i = 0; i < chessBoard.getNumOfRows(); i++) {
 			int emptyTilesCounter = 0;
-			for (int j = 0; j < Constants.DEFAULT_NUM_OF_COLUMNS; j++) {
-				// Get the chessPiece in the indices [numOfRows-i-1][j], from the gameBoard.
-				ChessPiece chessPiece = chessBoard.getGameBoard()[chessBoard.getNumOfRows() - i - 1][j];
+			for (int j = 0; j < Constants.NUM_OF_COLUMNS; j++) {
+				// Get the chessPiece in the indices [i][j], from the gameBoard.
+				ChessPiece chessPiece = chessBoard.getGameBoard()[i][j];
 				// Convert chessPiece value to chessPiece character.
 				char pieceChar = getPieceChar(chessPiece);
 				if (pieceChar != '-') {

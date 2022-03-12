@@ -16,14 +16,14 @@ public class ThreefoldRepetitionDrawTest {
 
     @Test
     public void testThreefoldRepetitionDraw() {
-        String title = "Insufficient Material Draw Rule Test";
+        String title = "Threefold Repetition Draw Test";
 
         @SuppressWarnings("unused")
         ChessGUI cbg = new ChessGUI(title);
 
         ChessGUI.gameParameters.setGameMode(GameMode.HUMAN_VS_HUMAN);
 
-        ChessBoard.printChessBoard(ChessGUI.chessBoard.getGameBoard());
+        ChessGUI.makeChessBoardSquaresEmpty();
 
         ChessGUI.placePieceToPosition("A1", new King(Allegiance.WHITE));
         ChessGUI.placePieceToPosition("A2", new Bishop(Allegiance.WHITE));
