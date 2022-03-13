@@ -1546,13 +1546,8 @@ public class ChessGUI {
 		AI ai1;
 		AI ai2;
 		if (gameParameters.getAi1Type() == AiType.MINIMAX_AI) {
-			if (gameParameters.getAi1MaxDepth() <= 2) {
-				ai1 = new MinimaxAI(gameParameters.getAi1MaxDepth(), Constants.WHITE,
-						gameParameters.getEvaluationFunction1());
-			} else {
-				ai1 = new MinimaxAlphaBetaPruningAI(gameParameters.getAi1MaxDepth(), Constants.WHITE,
-						gameParameters.getEvaluationFunction1());
-			}
+			ai1 = new MinimaxAI(gameParameters.getAi1MaxDepth(), Constants.WHITE,
+					gameParameters.getEvaluationFunction1());
 		} else {
 			ai1 = new RandomChoiceAI(Constants.WHITE);
 		}
