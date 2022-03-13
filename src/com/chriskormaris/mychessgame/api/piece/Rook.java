@@ -36,9 +36,9 @@ public class Rook extends ChessPiece {
 			return nextRookPositions;
 		}
 
-		// Find all the down positions.
-		for (int i = row + 1; i < chessBoard.getNumOfRows(); i++) {
-			if (row < chessBoard.getNumOfRows()) {
+		// Find all the up positions.
+		for (int i = row - 1; i >= 0; i--) {
+			if (row > 0) {
 
 				int newRow = i;
 				int newColumn = column;
@@ -58,9 +58,9 @@ public class Rook extends ChessPiece {
 			}
 		}
 
-		// Find all the up positions.
-		for (int i = row - 1; i >= 0; i--) {
-			if (row > 0) {
+		// Find all the down positions.
+		for (int i = row + 1; i < chessBoard.getNumOfRows(); i++) {
+			if (row < chessBoard.getNumOfRows()) {
 
 				int newRow = i;
 				int newColumn = column;
