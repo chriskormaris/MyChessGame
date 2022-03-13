@@ -387,18 +387,18 @@ public class ChessGUI {
 
 		String turnMessage = turnTextPane.getText();
 
-		if (chessBoard.whitePlays() &&
-				(gameParameters.getGameMode() == GameMode.HUMAN_VS_AI && gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK
-				|| gameParameters.getGameMode() == GameMode.AI_VS_AI && gameParameters.getAiType() == AiType.MINIMAX_AI)) {
-	    	whiteMinimaxAiMoveElapsedSecs++;
-			turnMessage += " Minimax AI has been thinking for: " + whiteMinimaxAiMoveElapsedSecs + " secs";
-	    	// System.out.println("whiteMinimaxAiMoveElapsedSecs: " + whiteMinimaxAiMoveElapsedSecs);
-		} else if (chessBoard.blackPlays() &&
+		if (chessBoard.blackPlays() &&
 				(gameParameters.getGameMode() == GameMode.HUMAN_VS_AI && gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE
 				|| gameParameters.getGameMode() == GameMode.AI_VS_AI && gameParameters.getAiType() == AiType.MINIMAX_AI)) {
 			blackMinimaxAiMoveElapsedSecs++;
 			turnMessage += " Minimax AI has been thinking for: " + blackMinimaxAiMoveElapsedSecs + " secs";
 	    	// System.out.println("blackMinimaxAiMoveElapsedSecs: " + blackMinimaxAiMoveElapsedSecs);
+		} else if (chessBoard.whitePlays() &&
+				(gameParameters.getGameMode() == GameMode.HUMAN_VS_AI && gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK
+				|| gameParameters.getGameMode() == GameMode.AI_VS_AI && gameParameters.getAiType() == AiType.MINIMAX_AI)) {
+	    	whiteMinimaxAiMoveElapsedSecs++;
+			turnMessage += " Minimax AI has been thinking for: " + whiteMinimaxAiMoveElapsedSecs + " secs";
+	    	// System.out.println("whiteMinimaxAiMoveElapsedSecs: " + whiteMinimaxAiMoveElapsedSecs);
 		}
 
 		turnTextPane.setText(turnMessage);
@@ -716,13 +716,6 @@ public class ChessGUI {
 			for (int j = 0; j < NUM_OF_COLUMNS + 1; j++) {
 				switch (j) {
 					case 0:
-						if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI && gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
-							chessBoardPanel.add(new JLabel("" + (i + 1), SwingConstants.CENTER));
-						} else {
-							chessBoardPanel.add(new JLabel("" + (gameParameters.getNumOfRows() - i), SwingConstants.CENTER));
-						}
-						chessBoardPanel.add(chessBoardSquares[i][j]);
-						break;
 					case NUM_OF_COLUMNS:
 						if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI && gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
 							chessBoardPanel.add(new JLabel("" + (i + 1), SwingConstants.CENTER));
@@ -732,6 +725,9 @@ public class ChessGUI {
 						break;
 					default:
 						chessBoardPanel.add(chessBoardSquares[i][j]);
+				}
+				if (j == 0) {
+					chessBoardPanel.add(chessBoardSquares[i][j]);
 				}
 			}
 		}
@@ -1468,13 +1464,14 @@ public class ChessGUI {
 			whiteMinimaxAiMoveAverageSecs = whiteMinimaxAiMoveAverageSecs / Math.ceil((double) chessBoard.getHalfMoveNumber() / 2.0);
 			blackMinimaxAiMoveAverageSecs = blackMinimaxAiMoveAverageSecs / Math.floor((double) chessBoard.getHalfMoveNumber() / 2.0);
 
-			if ((gameParameters.getGameMode() == GameMode.HUMAN_VS_AI && gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK
-					|| gameParameters.getGameMode() == GameMode.AI_VS_AI))
-				System.out.println("White Minimax AI move Average seconds: " + whiteMinimaxAiMoveAverageSecs);
-
 			if ((gameParameters.getGameMode() == GameMode.HUMAN_VS_AI && gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE
-					|| gameParameters.getGameMode() == GameMode.AI_VS_AI))
+					|| gameParameters.getGameMode() == GameMode.AI_VS_AI)) {
 				System.out.println("Black Minimax AI move Average seconds: " + blackMinimaxAiMoveAverageSecs);
+			}
+			else if ((gameParameters.getGameMode() == GameMode.HUMAN_VS_AI && gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK
+					|| gameParameters.getGameMode() == GameMode.AI_VS_AI)) {
+				System.out.println("White Minimax AI move Average seconds: " + whiteMinimaxAiMoveAverageSecs);
+			}
 		}
 	}
 	*/

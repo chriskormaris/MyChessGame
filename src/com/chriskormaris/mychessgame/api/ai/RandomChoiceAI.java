@@ -14,6 +14,8 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
+import static com.chriskormaris.mychessgame.api.util.Constants.NUM_OF_COLUMNS;
+
 public class RandomChoiceAI extends AI {
 
 	public RandomChoiceAI() {
@@ -39,7 +41,7 @@ public class RandomChoiceAI extends AI {
 				||
 				chessBoard.blackPlays() && getAiPlayer() == Constants.BLACK && !chessBoard.isBlackKingInCheck()) {
 			for (int i = 0; i < chessBoard.getNumOfRows(); i++) {
-				for (int j = 0; j < ChessBoard.NUM_OF_COLUMNS; j++) {
+				for (int j = 0; j < NUM_OF_COLUMNS; j++) {
 					if (getAiPlayer() == Constants.WHITE
 							&& chessBoard.getGameBoard()[i][j].getAllegiance() == Allegiance.WHITE
 						|| getAiPlayer() == Constants.BLACK
