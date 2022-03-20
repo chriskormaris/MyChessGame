@@ -169,7 +169,7 @@ public class ChessGUI {
 		}
 
 		frame = new JFrame(title);
-		frame.add(getGui());
+		frame.add(gui);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setLocationByPlatform(true);
 
@@ -1794,10 +1794,6 @@ public class ChessGUI {
 
 		initializeCapturedPiecesPanel();
 		initializeCapturedPiecesImages();
-	}
-
-	public final JComponent getGui() {
-		return gui;
 	}
 
 	public static void main(String[] args) {
