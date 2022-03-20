@@ -2,7 +2,6 @@ package com.chriskormaris.mychessgame.gui;
 
 
 import com.chriskormaris.mychessgame.api.ai.AI;
-import com.chriskormaris.mychessgame.api.ai.MinimaxAI;
 import com.chriskormaris.mychessgame.api.ai.MinimaxAlphaBetaPruningAI;
 import com.chriskormaris.mychessgame.api.ai.RandomChoiceAI;
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
@@ -155,20 +154,10 @@ public class ChessGUI {
 		if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI) {
 			if (gameParameters.getAi1Type() == AiType.MINIMAX_AI) {
 				if (gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE) {
-					if (gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE) {
-						if (gameParameters.getAi1MaxDepth() <= 2) {
-							ai = new MinimaxAI(gameParameters.getAi1MaxDepth(), Constants.BLACK,
-									gameParameters.getEvaluationFunction1());
-						} else {
-							ai = new MinimaxAlphaBetaPruningAI(gameParameters.getAi1MaxDepth(), Constants.BLACK,
-									gameParameters.getEvaluationFunction1());
-						}
-					} else if (gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
-						ai = new MinimaxAI(gameParameters.getAi1MaxDepth(), Constants.WHITE,
-								gameParameters.getEvaluationFunction1());
-					}
+					ai = new MinimaxAlphaBetaPruningAI(gameParameters.getAi1MaxDepth(), Constants.BLACK,
+							gameParameters.getEvaluationFunction1());
 				} else if (gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
-					ai = new MinimaxAI(gameParameters.getAi1MaxDepth(), Constants.WHITE,
+					ai = new MinimaxAlphaBetaPruningAI(gameParameters.getAi1MaxDepth(), Constants.WHITE,
 									   gameParameters.getEvaluationFunction1());
 				}
 			} else if (gameParameters.getAi1Type() == AiType.RANDOM_AI) {
@@ -872,15 +861,10 @@ public class ChessGUI {
 		if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI) {
 			if (gameParameters.getAi1Type() == AiType.MINIMAX_AI) {
 				if (gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE) {
-					if (gameParameters.getAi1MaxDepth() <= 2) {
-						ai = new MinimaxAI(gameParameters.getAi1MaxDepth(), Constants.BLACK,
-								gameParameters.getEvaluationFunction1());
-					} else {
-						ai = new MinimaxAlphaBetaPruningAI(gameParameters.getAi1MaxDepth(), Constants.BLACK,
-								gameParameters.getEvaluationFunction1());
-					}
+					ai = new MinimaxAlphaBetaPruningAI(gameParameters.getAi1MaxDepth(), Constants.BLACK,
+							gameParameters.getEvaluationFunction1());
 				} else if (gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
-					ai = new MinimaxAI(gameParameters.getAi1MaxDepth(), Constants.WHITE,
+					ai = new MinimaxAlphaBetaPruningAI(gameParameters.getAi1MaxDepth(), Constants.WHITE,
 											  gameParameters.getEvaluationFunction1());
 				}
 			} else if (gameParameters.getAi1Type() == AiType.RANDOM_AI) {
@@ -1546,7 +1530,7 @@ public class ChessGUI {
 		AI ai1;
 		AI ai2;
 		if (gameParameters.getAi1Type() == AiType.MINIMAX_AI) {
-			ai1 = new MinimaxAI(gameParameters.getAi1MaxDepth(), Constants.WHITE,
+			ai1 = new MinimaxAlphaBetaPruningAI(gameParameters.getAi1MaxDepth(), Constants.WHITE,
 					gameParameters.getEvaluationFunction1());
 		} else {
 			ai1 = new RandomChoiceAI(Constants.WHITE);
