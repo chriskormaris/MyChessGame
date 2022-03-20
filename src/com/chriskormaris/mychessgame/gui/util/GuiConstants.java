@@ -4,7 +4,13 @@ import java.awt.*;
 
 public class GuiConstants {
 
+	public static final String TITLE = "My Chess Game";
+
 	public static final String VERSION = "6.8.3";
+
+	public static final String FIRST_TURN_TEXT = "Turn: 1. White plays first.";
+	public static final String ZERO_SCORE_TEXT = "Score:  0";
+
 	public static final Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
 
 	public static final int DEFAULT_HEIGHT = (int) SCREEN_SIZE.getHeight() - 60;

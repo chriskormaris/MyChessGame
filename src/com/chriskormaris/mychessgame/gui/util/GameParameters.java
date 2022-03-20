@@ -61,7 +61,7 @@ public class GameParameters {
 		this.evaluationFunction2 = EvaluationFunction.SIMPLIFIED;
 
 		this.whiteTileColor = Color.WHITE;
-		// this.whiteTileColor = Color.PINK;
+		// this.whiteTileColor = GuiConstants.BRIGHT_PINK;
 
 		this.blackTileColor = GuiConstants.DARK_GREEN;
 		// this.blackTileColor = Color.BLACK;

@@ -47,6 +47,9 @@ import java.util.Set;
 import java.util.Stack;
 
 import static com.chriskormaris.mychessgame.api.util.Constants.NUM_OF_COLUMNS;
+import static com.chriskormaris.mychessgame.gui.util.GuiConstants.FIRST_TURN_TEXT;
+import static com.chriskormaris.mychessgame.gui.util.GuiConstants.TITLE;
+import static com.chriskormaris.mychessgame.gui.util.GuiConstants.ZERO_SCORE_TEXT;
 import static com.chriskormaris.mychessgame.gui.util.SoundUtils.CHECKMATE_SOUND;
 import static com.chriskormaris.mychessgame.gui.util.SoundUtils.PIECE_MOVE_SOUND;
 import static javax.swing.JOptionPane.QUESTION_MESSAGE;
@@ -54,12 +57,8 @@ import static javax.swing.JOptionPane.QUESTION_MESSAGE;
 
 public class ChessGUI {
 
-	private static final String TITLE = "My Chess Game";
 	private static final int HEIGHT = GuiConstants.DEFAULT_HEIGHT;
 	private static final int WIDTH = GuiConstants.DEFAULT_WIDTH;
-
-	private static final String FIRST_TURN_TEXT = "Turn: 1. White plays first.";
-	private static final String ZERO_SCORE_TEXT = "Score:  0";
 
 	public static GameParameters gameParameters = new GameParameters();
 	public static GameParameters newGameParameters = new GameParameters(gameParameters);
