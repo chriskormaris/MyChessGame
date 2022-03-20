@@ -1784,7 +1784,7 @@ public class ChessGUI {
 
 	public final void initializeGui() {
 		// Set up the main GUI.
-		// com.chriskormaris.mychessgame.gui.setBorder(new EmptyBorder(0,0,0,0));
+		// gui.setBorder(new EmptyBorder(0,0,0,0));
 		gui.setLayout(new BoxLayout(gui, BoxLayout.Y_AXIS));
 
 		initializeTurnTextPaneBar();
