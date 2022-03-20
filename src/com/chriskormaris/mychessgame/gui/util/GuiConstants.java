@@ -4,7 +4,7 @@ import java.awt.*;
 
 public class GuiConstants {
 
-	public static final String VERSION = "6.8.1";
+	public static final String VERSION = "6.8.2";
 	public static final Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
 
 	public static final int DEFAULT_HEIGHT = (int) SCREEN_SIZE.getHeight() - 60;
