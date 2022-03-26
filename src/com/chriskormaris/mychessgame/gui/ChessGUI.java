@@ -2,6 +2,7 @@ package com.chriskormaris.mychessgame.gui;
 
 
 import com.chriskormaris.mychessgame.api.ai.AI;
+import com.chriskormaris.mychessgame.api.ai.MinimaxAI;
 import com.chriskormaris.mychessgame.api.ai.MinimaxAlphaBetaPruningAI;
 import com.chriskormaris.mychessgame.api.ai.RandomChoiceAI;
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
@@ -59,61 +60,44 @@ public class ChessGUI {
 
 	private static final int HEIGHT = GuiConstants.DEFAULT_HEIGHT;
 	private static final int WIDTH = GuiConstants.DEFAULT_WIDTH;
-
+	private static final JPanel gui = new JPanel();
+	private static final JTextPane turnTextPane = new JTextPane();
+	// These stacks of "ChessBoard" objects are used to handle the "undo" and "redo" functionality.
+	private static final Stack<ChessBoard> previousChessBoards = new Stack<>();
+	private static final Stack<ChessBoard> redoChessBoards = new Stack<>();
+	// These stacks of "JLabel" arrays are used to handle the "undo" and "redo" functionality.
+	private static final Stack<JLabel[]> previousCapturedPiecesImages = new Stack<>();
+	private static final Stack<JLabel[]> redoCapturedPiecesImages = new Stack<>();
 	public static GameParameters gameParameters = new GameParameters();
 	public static GameParameters newGameParameters = new GameParameters(gameParameters);
 	public static JFrame frame;
-	private static final JPanel gui = new JPanel();
-
-	private static JToolBar tools = new JToolBar();
-
-	private static JPanel chessBoardPanel;
-	private static JPanel capturedPiecesPanel;
-
-	private static final JTextPane turnTextPane = new JTextPane();
-
-	// The position (0, 0) of the chessBoardSquares,
-	// corresponds to the position (NUM_OF_COLUMNS - 1, 0) of the ChessBoard's gameBoard.
-	private static JButton[][] chessBoardSquares;
-
-	// 30 captured pieces at maximum,
-	// plus 1 label for displaying the score = 31 labels size.
-	private static JLabel[] capturedPiecesImages;
-
 	// The position (0, 0) of the "chessBoard.getGameBoard()" is the upper left button
 	// of the JButton array "chessBoardSquares".
 	// The position (gameParameters.getNumOfRows()-1, 0) of the "chessBoard.getGameBoard()" is the lower left button
 	// of the JButton array "chessBoardSquares".
 	public static ChessBoard chessBoard = new ChessBoard();
-	private static String startingPosition = "";
-	private static String endingPosition = "";
-
-	// These stacks of "ChessBoard" objects are used to handle the "undo" and "redo" functionality.
-	private static final Stack<ChessBoard> previousChessBoards = new Stack<>();
-	private static final Stack<ChessBoard> redoChessBoards = new Stack<>();
-
-	// These stacks of "JLabel" arrays are used to handle the "undo" and "redo" functionality.
-	private static final Stack<JLabel[]> previousCapturedPiecesImages = new Stack<>();
-	private static final Stack<JLabel[]> redoCapturedPiecesImages = new Stack<>();
-
-	private static boolean startingButtonIsClicked = false;
-
-	private static Set<String> hintPositions = new HashSet<>();
-
-	private static boolean buttonsEnabled = true;
-
 	// This variable is used for the implementation of "Human Vs AI".
 	public static AI ai;
-
-	// This variable is used for the implementation of "AI Vs AI".
-	private static boolean isGameOver;
-
-	private static String savedFenPosition;
-
 	// These stack of 2d "ChessPiece" arrays is used to check for a threefold repetition of a chess board position.
 	public static Stack<ChessPiece[][]> halfMoveGameBoards = new Stack<>();
 	public static Stack<ChessPiece[][]> redoHalfMoveGameBoards = new Stack<>();
-
+	private static JToolBar tools = new JToolBar();
+	private static JPanel chessBoardPanel;
+	private static JPanel capturedPiecesPanel;
+	// The position (0, 0) of the chessBoardSquares,
+	// corresponds to the position (NUM_OF_COLUMNS - 1, 0) of the ChessBoard's gameBoard.
+	private static JButton[][] chessBoardSquares;
+	// 30 captured pieces at maximum,
+	// plus 1 label for displaying the score = 31 labels size.
+	private static JLabel[] capturedPiecesImages;
+	private static String startingPosition = "";
+	private static String endingPosition = "";
+	private static boolean startingButtonIsClicked = false;
+	private static Set<String> hintPositions = new HashSet<>();
+	private static boolean buttonsEnabled = true;
+	// This variable is used for the implementation of "AI Vs AI".
+	private static boolean isGameOver;
+	private static String savedFenPosition;
 	private static JLabel[] aiVsAiNewCapturedPiecesImages;
 
 	private static GameResult gameResult;
@@ -153,11 +137,21 @@ public class ChessGUI {
 		if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI) {
 			if (gameParameters.getAi1Type() == AiType.MINIMAX_AI) {
 				if (gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE) {
-					ai = new MinimaxAlphaBetaPruningAI(gameParameters.getAi1MaxDepth(), Constants.BLACK,
-							gameParameters.getEvaluationFunction1());
+					if (gameParameters.getAi1MaxDepth() <= 2) {
+						ai = new MinimaxAI(gameParameters.getAi1MaxDepth(), Constants.BLACK,
+								gameParameters.getEvaluationFunction1());
+					} else {
+						ai = new MinimaxAlphaBetaPruningAI(gameParameters.getAi1MaxDepth(), Constants.BLACK,
+								gameParameters.getEvaluationFunction1());
+					}
 				} else if (gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
-					ai = new MinimaxAlphaBetaPruningAI(gameParameters.getAi1MaxDepth(), Constants.WHITE,
-									   gameParameters.getEvaluationFunction1());
+					if (gameParameters.getAi2MaxDepth() <= 2) {
+						ai = new MinimaxAI(gameParameters.getAi2MaxDepth(), Constants.WHITE,
+								gameParameters.getEvaluationFunction2());
+					} else {
+						ai = new MinimaxAlphaBetaPruningAI(gameParameters.getAi2MaxDepth(), Constants.WHITE,
+								gameParameters.getEvaluationFunction2());
+					}
 				}
 			} else if (gameParameters.getAi1Type() == AiType.RANDOM_AI) {
 				if (gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE) {
@@ -860,11 +854,21 @@ public class ChessGUI {
 		if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI) {
 			if (gameParameters.getAi1Type() == AiType.MINIMAX_AI) {
 				if (gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE) {
-					ai = new MinimaxAlphaBetaPruningAI(gameParameters.getAi1MaxDepth(), Constants.BLACK,
-							gameParameters.getEvaluationFunction1());
+					if (gameParameters.getAi1MaxDepth() <= 2) {
+						ai = new MinimaxAI(gameParameters.getAi1MaxDepth(), Constants.BLACK,
+								gameParameters.getEvaluationFunction1());
+					} else {
+						ai = new MinimaxAlphaBetaPruningAI(gameParameters.getAi1MaxDepth(), Constants.BLACK,
+								gameParameters.getEvaluationFunction1());
+					}
 				} else if (gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
-					ai = new MinimaxAlphaBetaPruningAI(gameParameters.getAi1MaxDepth(), Constants.WHITE,
-											  gameParameters.getEvaluationFunction1());
+					if (gameParameters.getAi2MaxDepth() <= 2) {
+						ai = new MinimaxAI(gameParameters.getAi2MaxDepth(), Constants.WHITE,
+								gameParameters.getEvaluationFunction2());
+					} else {
+						ai = new MinimaxAlphaBetaPruningAI(gameParameters.getAi2MaxDepth(), Constants.WHITE,
+								gameParameters.getEvaluationFunction2());
+					}
 				}
 			} else if (gameParameters.getAi1Type() == AiType.RANDOM_AI) {
 				if (gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE) {
@@ -907,7 +911,7 @@ public class ChessGUI {
 
 		if (!startingButtonIsClicked
 				&& (chessPiece.getAllegiance() == Allegiance.WHITE && chessBoard.whitePlays()
-					|| chessPiece.getAllegiance() == Allegiance.BLACK && chessBoard.blackPlays())) {
+				|| chessPiece.getAllegiance() == Allegiance.BLACK && chessBoard.blackPlays())) {
 			startingPosition = position;
 			// System.out.println("startingPosition: " + startingPosition);
 
@@ -990,7 +994,7 @@ public class ChessGUI {
 
 		} else if (startingButtonIsClicked && startingPiece != null
 				&& (startingPiece.getAllegiance() == Allegiance.WHITE && chessBoard.whitePlays()
-					|| startingPiece.getAllegiance() == Allegiance.BLACK && chessBoard.blackPlays())) {
+				|| startingPiece.getAllegiance() == Allegiance.BLACK && chessBoard.blackPlays())) {
 			startingButtonIsClicked = false;
 
 			endingPosition = position;
@@ -1090,8 +1094,7 @@ public class ChessGUI {
 				chessBoard.setPlayer(chessBoard.getNextPlayer());
 				if (gameParameters.getGameMode() == GameMode.HUMAN_VS_HUMAN) {
 					setTurnMessage();
-				}
-				else if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI) {
+				} else if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI) {
 					aiMove(ai);
 				}
 			}
@@ -1529,8 +1532,13 @@ public class ChessGUI {
 		AI ai1;
 		AI ai2;
 		if (gameParameters.getAi1Type() == AiType.MINIMAX_AI) {
-			ai1 = new MinimaxAlphaBetaPruningAI(gameParameters.getAi1MaxDepth(), Constants.WHITE,
-					gameParameters.getEvaluationFunction1());
+			if (gameParameters.getAi1MaxDepth() <= 2) {
+				ai1 = new MinimaxAI(gameParameters.getAi1MaxDepth(), Constants.WHITE,
+						gameParameters.getEvaluationFunction1());
+			} else {
+				ai1 = new MinimaxAlphaBetaPruningAI(gameParameters.getAi1MaxDepth(), Constants.WHITE,
+						gameParameters.getEvaluationFunction1());
+			}
 		} else {
 			ai1 = new RandomChoiceAI(Constants.WHITE);
 		}
@@ -1782,6 +1790,14 @@ public class ChessGUI {
 		buttonsEnabled = false;
 	}
 
+	public static void main(String[] args) {
+		@SuppressWarnings("unused")
+		ChessGUI cbg = new ChessGUI(TITLE);
+		placePiecesToStartingPositions();
+
+		System.out.println(chessBoard);
+	}
+
 	public final void initializeGui() {
 		// Set up the main GUI.
 		// gui.setBorder(new EmptyBorder(0,0,0,0));
@@ -1794,14 +1810,6 @@ public class ChessGUI {
 
 		initializeCapturedPiecesPanel();
 		initializeCapturedPiecesImages();
-	}
-
-	public static void main(String[] args) {
-		@SuppressWarnings("unused")
-		ChessGUI cbg = new ChessGUI(TITLE);
-		placePiecesToStartingPositions();
-
-		System.out.println(chessBoard);
 	}
 
 }
