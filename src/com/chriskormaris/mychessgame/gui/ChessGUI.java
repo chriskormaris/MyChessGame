@@ -109,7 +109,7 @@ public class ChessGUI {
 	private static JMenuItem redoItem;
 	private static JMenuItem exportToGifItem;
 	private static JMenuItem settingsItem;
-	private static JMenuItem importFenPositionItem;
+	private static JMenuItem importStartingFenPositionItem;
 	private static JMenuItem exportFenPositionItem;
 	private static JMenuItem saveCheckpointItem;
 	private static JMenuItem loadCheckpointItem;
@@ -196,8 +196,8 @@ public class ChessGUI {
 		redoItem = new JMenuItem("Redo");
 		exportToGifItem = new JMenuItem("Export to .gif");
 		settingsItem = new JMenuItem("Preferences");
-		importFenPositionItem = new JMenuItem("Import FEN Position");
-		exportFenPositionItem = new JMenuItem("Export FEN Position to file");
+		importStartingFenPositionItem = new JMenuItem("Import starting FEN position");
+		exportFenPositionItem = new JMenuItem("Export FEN position to file");
 		saveCheckpointItem = new JMenuItem("Save Checkpoint");
 		loadCheckpointItem = new JMenuItem("Load Checkpoint");
 		exitItem = new JMenuItem("Exit");
@@ -228,47 +228,32 @@ public class ChessGUI {
 			settings.setVisible(true);
 		});
 
-		importFenPositionItem.addActionListener(e -> {
+		importStartingFenPositionItem.addActionListener(e -> {
 			String fenPosition = (String) JOptionPane.showInputDialog(frame,
-					"Please insert the \"FEN\" position in the text field below:" +
+					"Please insert the starting \"FEN\" position in the text field below:" +
 							"                      ",
-					"Import FEN Position",
+					"Import starting FEN position",
 					QUESTION_MESSAGE, null, null,
 					Constants.DEFAULT_STARTING_FEN_POSITION);
 
 			if (fenPosition != null) {
 				// gameParameters.getNumOfRows() = Constants.DEFAULT_NUM_OF_ROWS;
-				startNewGame();
-				placePiecesToChessBoard(fenPosition);
+				startNewGame(fenPosition);
 			}
-
 		});
 
 		exportFenPositionItem.addActionListener(e -> {
 			String exportedFenFilename = (String) JOptionPane.showInputDialog(frame,
 					"Please type the name of the export file:",
-					"Export FEN Position", QUESTION_MESSAGE, null, null,
+					"Export FEN position", QUESTION_MESSAGE, null, null,
 					"exported_FEN_position.txt");
 
-			String fenPosition = FenUtils.getFenPositionFromChessBoard(chessBoard);
-
-			BufferedWriter bw = null;
-			try {
-				bw = new BufferedWriter(new FileWriter(exportedFenFilename));
+			try (BufferedWriter bw = new BufferedWriter(new FileWriter(exportedFenFilename))) {
+				String fenPosition = FenUtils.getFenPositionFromChessBoard(chessBoard);
 				bw.write(fenPosition + "\n");
 			} catch (IOException ex) {
 				ex.printStackTrace();
-			} finally {
-				try {
-					if (bw != null) {
-						bw.flush();
-						bw.close();
-					}
-				} catch (IOException ex) {
-					ex.printStackTrace();
-				}
 			}
-
 		});
 
 		saveCheckpointItem.addActionListener(e -> {
@@ -280,8 +265,7 @@ public class ChessGUI {
 
 		loadCheckpointItem.addActionListener(e -> {
 			if (savedFenPosition != null) {
-				startNewGame();
-				placePiecesToChessBoard(savedFenPosition);
+				startNewGame(savedFenPosition);
 			}
 		});
 
@@ -312,7 +296,7 @@ public class ChessGUI {
 		fileMenu.add(redoItem);
 		fileMenu.add(exportToGifItem);
 		fileMenu.add(settingsItem);
-		fileMenu.add(importFenPositionItem);
+		fileMenu.add(importStartingFenPositionItem);
 		fileMenu.add(exportFenPositionItem);
 		fileMenu.add(saveCheckpointItem);
 		fileMenu.add(loadCheckpointItem);
@@ -763,6 +747,10 @@ public class ChessGUI {
 	}
 
 	public static void startNewGame() {
+		startNewGame(Constants.DEFAULT_STARTING_FEN_POSITION);
+	}
+
+	public static void startNewGame(String fenPosition) {
 		System.out.println("Starting new game!");
 
 		gameParameters = new GameParameters(newGameParameters);
@@ -789,6 +777,9 @@ public class ChessGUI {
 		// }
 
 		restoreDefaultValues();
+		if (!fenPosition.equals(Constants.DEFAULT_STARTING_FEN_POSITION)) {
+			placePiecesToChessBoard(fenPosition);
+		}
 
 		chessBoard.setThreats();
 
