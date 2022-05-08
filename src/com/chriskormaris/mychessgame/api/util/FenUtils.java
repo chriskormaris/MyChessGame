@@ -30,11 +30,11 @@ public class FenUtils {
 		ChessPiece[][] gameBoard = createGameBoard(chessBoard, startingPieces);
 
 		String nextPlayerChar = fenPositionTokens[1];
-		boolean playerFlag;
+		boolean whitePlays;
 		if (nextPlayerChar.equals("w")) {
-			playerFlag = true;
+			whitePlays = true;
 		} else if (nextPlayerChar.equals("b")) {
-			playerFlag = false;
+			whitePlays = false;
 		} else {
 			throw new InvalidFenFormatException(
 					"Invalid player character. It should be \"w\" or \"b\", NOT: \"" + nextPlayerChar + "\"!");
@@ -94,14 +94,14 @@ public class FenUtils {
 		}
 
 		int halfMoveNumber = fullMoveNumber * 2;
-		if (playerFlag == Constants.WHITE) {
+		if (whitePlays) {
 			halfMoveNumber -= 1;
 		}
 
 		// set the ChessBoard parameters, according to the given FEN position
 		chessBoard.setGameBoard(gameBoard);
 
-		chessBoard.setPlayer(playerFlag);
+		chessBoard.setPlayer(whitePlays);
 
 		chessBoard.setWhiteKingMoved(whiteKingMoved);
 		chessBoard.setLeftWhiteRookMoved(leftWhiteRookMoved);
