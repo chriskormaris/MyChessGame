@@ -79,9 +79,20 @@ public class FenUtils {
 
 		String enPassantPosition = fenPositionTokens[3].toUpperCase();
 
-		int halfMoveClock = Integer.parseInt(fenPositionTokens[4]);
+		int halfMoveClock;
+		try {
+			halfMoveClock = Integer.parseInt(fenPositionTokens[4]);
+		} catch (NumberFormatException ex) {
+			throw new InvalidFenFormatException("Provided half move clock value is not a number!");
+		}
 
-		int fullMoveNumber = Integer.parseInt(fenPositionTokens[5]);
+		int fullMoveNumber;
+		try {
+			fullMoveNumber = Integer.parseInt(fenPositionTokens[5]);
+		} catch (NumberFormatException ex) {
+			throw new InvalidFenFormatException("Provided full move counter value is not a number!");
+		}
+
 		int halfMoveNumber = fullMoveNumber * 2;
 		if (playerFlag == Constants.WHITE) {
 			halfMoveNumber -= 1;

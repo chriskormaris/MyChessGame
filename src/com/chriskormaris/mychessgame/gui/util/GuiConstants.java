@@ -6,7 +6,7 @@ public class GuiConstants {
 
 	public static final String TITLE = "My Chess Game";
 
-	public static final String VERSION = "6.9.0";
+	public static final String VERSION = "6.9.1";
 
 	public static final String FIRST_TURN_TEXT = "Turn: 1. White plays first.";
 	public static final String ZERO_SCORE_TEXT = "Score:  0";
