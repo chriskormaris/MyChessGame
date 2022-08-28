@@ -210,6 +210,9 @@ public class ChessBoard {
 		this.positionsToRemove = new HashSet<>(otherBoard.getPositionsToRemove());
 		this.piecesToPlace = new HashMap<>(otherBoard.getPiecesToPlace());
 		this.capturedPiece = otherBoard.getCapturedPiece();
+
+		this.whiteCapturedPiecesCounter = otherBoard.getWhiteCapturedPiecesCounter();
+		this.blackCapturedPiecesCounter = otherBoard.getBlackCapturedPiecesCounter();
 	}
 
 	public void placePiecesToStartingPositions() {

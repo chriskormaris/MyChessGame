@@ -98,7 +98,6 @@ public class ChessGUI {
 	// This variable is used for the implementation of "AI Vs AI".
 	private static boolean isGameOver;
 	private static String savedFenPosition;
-	private static JLabel[] aiVsAiNewCapturedPiecesImages;
 
 	private static GameResult gameResult;
 
@@ -440,13 +439,17 @@ public class ChessGUI {
 			redoChessBoards.push(new ChessBoard(chessBoard));
 
 			// Push to the redoCapturedPiecesImages Stack.
-			JLabel[] newCapturedPiecesImages = new JLabel[31];
+			JLabel[] tempCapturedPiecesImages = new JLabel[31];
 			for (int i = 0; i <= 30; i++) {
-				newCapturedPiecesImages[i] = new JLabel(capturedPiecesImages[i].getIcon());
+				tempCapturedPiecesImages[i] = new JLabel(capturedPiecesImages[i].getIcon());
 			}
-			redoCapturedPiecesImages.push(newCapturedPiecesImages);
+			redoCapturedPiecesImages.push(tempCapturedPiecesImages);
 
+			System.out.println("chessBoard.getWhiteCapturedPiecesCounter(): " + chessBoard.getWhiteCapturedPiecesCounter());
+			System.out.println("chessBoard.getBlackCapturedPiecesCounter(): " + chessBoard.getBlackCapturedPiecesCounter());
 			chessBoard = previousChessBoards.pop();
+			System.out.println("chessBoard.getWhiteCapturedPiecesCounter(): " + chessBoard.getWhiteCapturedPiecesCounter());
+			System.out.println("chessBoard.getBlackCapturedPiecesCounter(): " + chessBoard.getBlackCapturedPiecesCounter());
 
 			ChessPiece[][] halfMoveGameBoard = halfMoveGameBoards.pop();
 			redoHalfMoveGameBoards.push(Utilities.copyGameBoard(halfMoveGameBoard));
@@ -522,11 +525,11 @@ public class ChessGUI {
 			// System.out.println("size of halfMoveGameBoards: " + halfMoveGameBoards.size());
 
 			// Push to the previousCapturedPiecesImages Stack.
-			JLabel[] newCapturedPiecesImages = new JLabel[31];
+			JLabel[] tempCapturedPiecesImages = new JLabel[31];
 			for (int i = 0; i <= 30; i++) {
-				newCapturedPiecesImages[i] = new JLabel(capturedPiecesImages[i].getIcon());
+				tempCapturedPiecesImages[i] = new JLabel(capturedPiecesImages[i].getIcon());
 			}
-			previousCapturedPiecesImages.push(newCapturedPiecesImages);
+			previousCapturedPiecesImages.push(tempCapturedPiecesImages);
 
 			chessBoard = redoChessBoards.pop();
 
@@ -1011,11 +1014,11 @@ public class ChessGUI {
 				previousChessBoards.push(new ChessBoard(chessBoard));
 
 				// Push to the previousCapturedPiecesImages Stack.
-				JLabel[] newCapturedPiecesImages = new JLabel[31];
+				JLabel[] tempCapturedPiecesImages = new JLabel[31];
 				for (int i = 0; i <= 30; i++) {
-					newCapturedPiecesImages[i] = new JLabel(capturedPiecesImages[i].getIcon());
+					tempCapturedPiecesImages[i] = new JLabel(capturedPiecesImages[i].getIcon());
 				}
-				previousCapturedPiecesImages.push(newCapturedPiecesImages);
+				previousCapturedPiecesImages.push(tempCapturedPiecesImages);
 
 				redoChessBoards.clear();
 				redoCapturedPiecesImages.clear();
@@ -1582,11 +1585,11 @@ public class ChessGUI {
 		previousChessBoards.push(new ChessBoard(chessBoard));
 
 		// Push to the previousCapturedPiecesImages Stack.
-		aiVsAiNewCapturedPiecesImages = new JLabel[31];
+		JLabel[] tempCapturedPiecesImages = new JLabel[31];
 		for (int i = 0; i <= 30; i++) {
-			aiVsAiNewCapturedPiecesImages[i] = new JLabel(capturedPiecesImages[i].getIcon());
+			tempCapturedPiecesImages[i] = new JLabel(capturedPiecesImages[i].getIcon());
 		}
-		previousCapturedPiecesImages.push(aiVsAiNewCapturedPiecesImages);
+		previousCapturedPiecesImages.push(tempCapturedPiecesImages);
 
 		// System.out.println("white plays: " + chessBoard.whitePlays());
 		aiMove(ai);
