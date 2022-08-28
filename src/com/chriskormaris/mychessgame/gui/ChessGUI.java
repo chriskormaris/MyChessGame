@@ -445,11 +445,7 @@ public class ChessGUI {
 			}
 			redoCapturedPiecesImages.push(tempCapturedPiecesImages);
 
-			System.out.println("chessBoard.getWhiteCapturedPiecesCounter(): " + chessBoard.getWhiteCapturedPiecesCounter());
-			System.out.println("chessBoard.getBlackCapturedPiecesCounter(): " + chessBoard.getBlackCapturedPiecesCounter());
 			chessBoard = previousChessBoards.pop();
-			System.out.println("chessBoard.getWhiteCapturedPiecesCounter(): " + chessBoard.getWhiteCapturedPiecesCounter());
-			System.out.println("chessBoard.getBlackCapturedPiecesCounter(): " + chessBoard.getBlackCapturedPiecesCounter());
 
 			ChessPiece[][] halfMoveGameBoard = halfMoveGameBoards.pop();
 			redoHalfMoveGameBoards.push(Utilities.copyGameBoard(halfMoveGameBoard));
