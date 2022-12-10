@@ -39,7 +39,7 @@ public class SettingsWindow extends JFrame {
 	private final JButton apply;
 	private final JButton cancel;
 
-	public SettingsWindow(Component parentComponent) throws HeadlessException {
+	public SettingsWindow(Component parentComponent) {
 		super("Settings");
 
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
