@@ -194,7 +194,7 @@ public class ChessGUI {
 		undoItem = new JMenuItem("Undo");
 		redoItem = new JMenuItem("Redo");
 		exportToGifItem = new JMenuItem("Export to .gif");
-		settingsItem = new JMenuItem("Preferences");
+		settingsItem = new JMenuItem("Settings");
 		importStartingFenPositionItem = new JMenuItem("Import starting FEN position");
 		exportFenPositionItem = new JMenuItem("Export FEN position to file");
 		saveCheckpointItem = new JMenuItem("Save Checkpoint");
