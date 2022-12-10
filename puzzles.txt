@@ -1,0 +1,6 @@
+k4r2/rp3b2/pp2N3/2pp4/1b3Q2/2p5/K7/8 w KQkq - 0 1
+solution:
+1. Nc7+ Kb8
+2. Nd5+ Ka8 (or else Qc7 mate)
+3. Ka1 (threatens Nb6 mate) Bxd5.
+4. Qxf8

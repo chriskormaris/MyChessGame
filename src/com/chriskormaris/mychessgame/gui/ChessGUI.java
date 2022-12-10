@@ -223,7 +223,7 @@ public class ChessGUI {
 		exportToGifItem.addActionListener(e -> exportToGif());
 
 		settingsItem.addActionListener(e -> {
-			SettingsWindow settings = new SettingsWindow();
+			SettingsWindow settings = new SettingsWindow(frame);
 			settings.setVisible(true);
 		});
 
@@ -567,7 +567,11 @@ public class ChessGUI {
 
 
 	public static void exportToGif() {
-		String gifName = JOptionPane.showInputDialog("Please type the exported \".gif\" file name:", "com.chriskormaris.mychessgame.api.chess_board.gif");
+		String gifName = JOptionPane.showInputDialog(
+				frame,
+				"Please type the exported \".gif\" file name:",
+				"chess_board.gif"
+		);
 
 		BufferedImage bi = new BufferedImage(gui.getSize().width, gui.getSize().height, BufferedImage.TYPE_INT_ARGB);
 		Graphics g = bi.createGraphics();
@@ -1028,11 +1032,6 @@ public class ChessGUI {
 				makeDisplayMove(move, false);
 				// System.out.println("evaluation: " + chessBoard.evaluate(gameParameters.getEvaluationFunction1()));
 
-				// Store the chess board of the HalfMove that was just made.
-				ChessPiece[][] halfMoveGameBoard = Utilities.copyGameBoard(chessBoard.getGameBoard());
-				halfMoveGameBoards.push(halfMoveGameBoard);
-				// System.out.println("size of halfMoveGameBoards: " + halfMoveGameBoards.size());
-
 				hideHintPositions(hintPositions);
 
 				JButton startingButton;
@@ -1177,6 +1176,11 @@ public class ChessGUI {
 		chessBoard.getPiecesToPlace().clear();
 
 		chessBoard.setThreats();
+
+		// Store the chess board of the HalfMove that was just made.
+		ChessPiece[][] halfMoveGameBoard = Utilities.copyGameBoard(chessBoard.getGameBoard());
+		halfMoveGameBoards.push(halfMoveGameBoard);
+		// System.out.println("size of halfMoveGameBoards: " + halfMoveGameBoards.size());
 	}
 
 	public static void addCapturedPieceImage(ChessPiece endTile) {
@@ -1362,16 +1366,20 @@ public class ChessGUI {
 		if (checkForThreefoldRepetitionDraw()) {
 			int dialogResult = -1;
 
-			if (!chessBoard.whitePlays() && gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE
-					|| !chessBoard.blackPlays() && gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK
+			if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI &&
+					(!chessBoard.whitePlays() && gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE
+					|| !chessBoard.blackPlays() && gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK)
+					|| gameParameters.getGameMode() == GameMode.HUMAN_VS_HUMAN
 					|| gameParameters.getGameMode() == GameMode.AI_VS_AI) {
-				dialogResult = JOptionPane.showConfirmDialog(gui,
+				dialogResult = JOptionPane.showConfirmDialog(
+						gui,
 						"Threefold repetition of the same chess board position has occurred! "
-								+ "Do you want to declare a draw?", "Draw", JOptionPane.YES_NO_OPTION);
+								+ "Do you want to declare a draw?", "Draw", JOptionPane.YES_NO_OPTION
+				);
 			}
 
 			// System.out.println("dialogResult:" + dialogResult);
-			if (dialogResult == JOptionPane.YES_OPTION) {
+			if (JOptionPane.YES_OPTION == dialogResult) {
 				gameResult = GameResult.THREEFOLD_REPETITION_DRAW;
 				showDeclareDrawDialog();
 				return true;
@@ -1386,26 +1394,27 @@ public class ChessGUI {
 
 		if (!halfMoveGameBoards.isEmpty()) {
 			int N = halfMoveGameBoards.size();
-			for (int i = 0; i < N - 1; i++) {
-				int numOfRepeats = 0;
-				for (int j = i; j < N; j++) {
-					// Skip the iteration where i=j,
-					// and the last iteration, if the number of repeats found is less than 2.
-					// The number of comparisons will be: (N 2) = N * (N-1) / 2
-					if (i != j && !(numOfRepeats < 2 && j == N - 1)) {
-						// System.out.println("i: " + i + ", j: " + j);
-						ChessPiece[][] halfMoveGameBoard1 = halfMoveGameBoards.get(i);
-						ChessPiece[][] halfMoveGameBoard2 = halfMoveGameBoards.get(j);
-						if (Utilities.checkEqualGameBoards(halfMoveGameBoard1, halfMoveGameBoard2)) {
-							// System.out.println("i: " + i + ", j: " + j);
-							// ChessBoard.printChessBoard(halfMoveGameBoard1);
-							numOfRepeats++;
+			ChessPiece[][] lastHalfMoveGameBoard = halfMoveGameBoards.get(N-1);
+			int numOfRepeats = 0;
+			for (int i = 0; i < N-1; i++) {
+				// Skip the last iteration, if the number of repeats found is less ore equal to 1.
+				// Also, skip the second to last iteration, if the number of repeats found is 0.
+				if (!(numOfRepeats <= 1 && i == N - 2 || numOfRepeats == 0 && i == N - 3)) {
+					// System.out.println("i: " + i);
+					ChessPiece[][] otherHalfMoveGameBoard = halfMoveGameBoards.get(i);
+					if (Utilities.checkEqualGameBoards(lastHalfMoveGameBoard, otherHalfMoveGameBoard)) {
+						// System.out.println("i: " + i + ");
+						// ChessBoard.printChessBoard(lastHalfMoveGameBoard);
+						// ChessBoard.printChessBoard(otherHalfMoveGameBoard);
+						numOfRepeats++;
+						if (numOfRepeats == 3) {
+							break;
 						}
 					}
 				}
-				// System.out.println("numOfRepeats: " + numOfRepeats);
-				if (numOfRepeats >= 3) return true;
 			}
+			// System.out.println("numOfRepeats: " + numOfRepeats);
+			return numOfRepeats == 3;
 		}
 
 		return false;

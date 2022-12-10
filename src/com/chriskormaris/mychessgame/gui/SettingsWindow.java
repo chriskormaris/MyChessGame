@@ -39,14 +39,13 @@ public class SettingsWindow extends JFrame {
 	private final JButton apply;
 	private final JButton cancel;
 
-
-	public SettingsWindow() {
+	public SettingsWindow(Component parentComponent) throws HeadlessException {
 		super("Settings");
 
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setLayout(null);
 		setSize(width, height);
-		setLocationRelativeTo(null);
+		setLocationRelativeTo(parentComponent);
 		setResizable(false);
 
 		EventHandler handler = new EventHandler();
