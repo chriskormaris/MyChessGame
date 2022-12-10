@@ -242,16 +242,23 @@ public class ChessGUI {
 		});
 
 		exportFenPositionItem.addActionListener(e -> {
-			String exportedFenFilename = (String) JOptionPane.showInputDialog(frame,
+			String exportedFenFilename = (String) JOptionPane.showInputDialog(
+					frame,
 					"Please type the name of the export file:",
-					"Export FEN position", QUESTION_MESSAGE, null, null,
-					"exported_FEN_position.txt");
+					"Export FEN position",
+					QUESTION_MESSAGE,
+					null,
+					null,
+					"exported_FEN_position.txt"
+			);
 
-			try (BufferedWriter bw = new BufferedWriter(new FileWriter(exportedFenFilename))) {
-				String fenPosition = FenUtils.getFenPositionFromChessBoard(chessBoard);
-				bw.write(fenPosition + "\n");
-			} catch (IOException ex) {
-				ex.printStackTrace();
+			if (exportedFenFilename != null) {
+				try (BufferedWriter bw = new BufferedWriter(new FileWriter(exportedFenFilename))) {
+					String fenPosition = FenUtils.getFenPositionFromChessBoard(chessBoard);
+					bw.write(fenPosition + "\n");
+				} catch (IOException ex) {
+					ex.printStackTrace();
+				}
 			}
 		});
 
@@ -573,16 +580,18 @@ public class ChessGUI {
 				"chess_board.gif"
 		);
 
-		BufferedImage bi = new BufferedImage(gui.getSize().width, gui.getSize().height, BufferedImage.TYPE_INT_ARGB);
-		Graphics g = bi.createGraphics();
-		gui.paint(g);
-		g.dispose();
-		try {
-			ImageIO.write(bi, "gif", new File(gifName));
-			System.out.println("Exported .gif file!");
-		} catch (Exception e) {
-			System.err.println("Error exporting .gif file!");
-			System.err.flush();
+		if (gifName != null) {
+			BufferedImage bi = new BufferedImage(gui.getSize().width, gui.getSize().height, BufferedImage.TYPE_INT_ARGB);
+			Graphics g = bi.createGraphics();
+			gui.paint(g);
+			g.dispose();
+			try {
+				ImageIO.write(bi, "gif", new File(gifName));
+				System.out.println("Exported .gif file!");
+			} catch (Exception e) {
+				System.err.println("Error exporting .gif file!");
+				System.err.flush();
+			}
 		}
 	}
 
