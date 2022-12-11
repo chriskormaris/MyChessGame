@@ -60,43 +60,60 @@ public class ChessGUI {
 
 	private static final int HEIGHT = GuiConstants.DEFAULT_HEIGHT;
 	private static final int WIDTH = GuiConstants.DEFAULT_WIDTH;
+
 	private static final JPanel gui = new JPanel();
 	private static final JTextPane turnTextPane = new JTextPane();
+
 	// These stacks of "ChessBoard" objects are used to handle the "undo" and "redo" functionality.
 	private static final Stack<ChessBoard> previousChessBoards = new Stack<>();
 	private static final Stack<ChessBoard> redoChessBoards = new Stack<>();
+
 	// These stacks of "JLabel" arrays are used to handle the "undo" and "redo" functionality.
 	private static final Stack<JLabel[]> previousCapturedPiecesImages = new Stack<>();
 	private static final Stack<JLabel[]> redoCapturedPiecesImages = new Stack<>();
+
 	public static GameParameters gameParameters = new GameParameters();
 	public static GameParameters newGameParameters = new GameParameters(gameParameters);
+
 	public static JFrame frame;
+
 	// The position (0, 0) of the "chessBoard.getGameBoard()" is the upper left button
 	// of the JButton array "chessBoardSquares".
 	// The position (gameParameters.getNumOfRows()-1, 0) of the "chessBoard.getGameBoard()" is the lower left button
 	// of the JButton array "chessBoardSquares".
 	public static ChessBoard chessBoard = new ChessBoard();
+
 	// This variable is used for the implementation of "Human Vs AI".
 	public static AI ai;
+
 	// These stack of 2d "ChessPiece" arrays is used to check for a threefold repetition of a chess board position.
 	public static Stack<ChessPiece[][]> halfMoveGameBoards = new Stack<>();
 	public static Stack<ChessPiece[][]> redoHalfMoveGameBoards = new Stack<>();
+
 	private static JToolBar tools = new JToolBar();
 	private static JPanel chessBoardPanel;
 	private static JPanel capturedPiecesPanel;
+
 	// The position (0, 0) of the chessBoardSquares,
 	// corresponds to the position (NUM_OF_COLUMNS - 1, 0) of the ChessBoard's gameBoard.
 	private static JButton[][] chessBoardSquares;
+
 	// 30 captured pieces at maximum,
 	// plus 1 label for displaying the score = 31 labels size.
 	private static JLabel[] capturedPiecesImages;
+
 	private static String startingPosition = "";
 	private static String endingPosition = "";
+
 	private static boolean startingButtonIsClicked = false;
+
 	private static Set<String> hintPositions = new HashSet<>();
+
 	private static boolean buttonsEnabled = true;
+
 	// This variable is used for the implementation of "AI Vs AI".
 	private static boolean isGameOver;
+
 	private static String savedFenPosition;
 
 	private static GameResult gameResult;
