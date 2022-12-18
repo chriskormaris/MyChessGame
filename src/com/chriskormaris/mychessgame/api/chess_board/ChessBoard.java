@@ -3,6 +3,10 @@ package com.chriskormaris.mychessgame.api.chess_board;
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 import com.chriskormaris.mychessgame.api.enumeration.EvaluationFunction;
 import com.chriskormaris.mychessgame.api.enumeration.GamePhase;
+import com.chriskormaris.mychessgame.api.evaluation_function.PeSTOEvaluationUtils;
+import com.chriskormaris.mychessgame.api.evaluation_function.ShannonEvaluationUtils;
+import com.chriskormaris.mychessgame.api.evaluation_function.SimplifiedEvaluationUtils;
+import com.chriskormaris.mychessgame.api.evaluation_function.WukongEvaluationUtils;
 import com.chriskormaris.mychessgame.api.piece.Bishop;
 import com.chriskormaris.mychessgame.api.piece.ChessPiece;
 import com.chriskormaris.mychessgame.api.piece.EmptyTile;
@@ -14,10 +18,6 @@ import com.chriskormaris.mychessgame.api.piece.Rook;
 import com.chriskormaris.mychessgame.api.util.ChessPieceShortestPath;
 import com.chriskormaris.mychessgame.api.util.Constants;
 import com.chriskormaris.mychessgame.api.util.Utilities;
-import com.chriskormaris.mychessgame.api.evaluation_function.PeSTOEvaluationUtils;
-import com.chriskormaris.mychessgame.api.evaluation_function.ShannonEvaluationUtils;
-import com.chriskormaris.mychessgame.api.evaluation_function.SimplifiedEvaluationUtils;
-import com.chriskormaris.mychessgame.api.evaluation_function.WukongEvaluationUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -730,7 +730,7 @@ public class ChessBoard {
 	// Simplified Evaluation Function.
 	private double simplifiedEvaluation() {
 		int score = 0;
-		GamePhase gamePhase = SimplifiedEvaluationUtils.getGamePhase(this);
+		GamePhase gamePhase = SimplifiedEvaluationUtils.getGamePhase(this, this.halfMoveNumber);
 
 		for (int i = 0; i < numOfRows; i++) {
 			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
