@@ -1,4 +1,4 @@
-package com.chriskormaris.mychessgame.api.util.evaluation_function;
+package com.chriskormaris.mychessgame.api.evaluation_function;
 
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;

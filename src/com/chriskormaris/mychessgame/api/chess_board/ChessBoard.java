@@ -14,10 +14,10 @@ import com.chriskormaris.mychessgame.api.piece.Rook;
 import com.chriskormaris.mychessgame.api.util.ChessPieceShortestPath;
 import com.chriskormaris.mychessgame.api.util.Constants;
 import com.chriskormaris.mychessgame.api.util.Utilities;
-import com.chriskormaris.mychessgame.api.util.evaluation_function.PeSTOEvaluationUtils;
-import com.chriskormaris.mychessgame.api.util.evaluation_function.ShannonEvaluationUtils;
-import com.chriskormaris.mychessgame.api.util.evaluation_function.SimplifiedEvaluationUtils;
-import com.chriskormaris.mychessgame.api.util.evaluation_function.WukongEvaluationUtils;
+import com.chriskormaris.mychessgame.api.evaluation_function.PeSTOEvaluationUtils;
+import com.chriskormaris.mychessgame.api.evaluation_function.ShannonEvaluationUtils;
+import com.chriskormaris.mychessgame.api.evaluation_function.SimplifiedEvaluationUtils;
+import com.chriskormaris.mychessgame.api.evaluation_function.WukongEvaluationUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
