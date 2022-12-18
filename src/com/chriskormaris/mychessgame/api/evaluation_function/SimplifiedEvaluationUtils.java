@@ -60,7 +60,6 @@ public class SimplifiedEvaluationUtils {
 			{0,   0,  0,  5,  5,  0,  0,  0}
 	};
 
-	/*
 	public static int[][] QUEEN_SQUARES_TABLE = new int[][]{
 			{-20, -10, -10,  -5,  -5, -10, -10, -20},
 			{-10,   0,   0,   0,   0,   0,   0, -10},
@@ -71,20 +70,7 @@ public class SimplifiedEvaluationUtils {
 			{-10,   0,   5,   0,   0,   0,   0, -10},
 			{-20, -10, -10,  -5,  -5, -10, -10, -20}
 	};
-	*/
 
-	public static int[][] QUEEN_SQUARES_TABLE = new int[][]{
-			{-20, -10, -10,  -5,  -5, -10, -10, -20},
-			{-10,   0,   0,   0,   0,   0,   0, -10},
-			{-10,   0,   0,   0,   0,   0,   0, -10},
-			{-5,    0,   0,   0,   0,   0,   0,  -5},
-			{0,     0,   0,   0,   0,   0,   0,  -5},
-			{-10,   0,   0,   0,   0,   0,   0, -10},
-			{-10,   0,   0,   0,   0,   0,   0, -10},
-			{-20, -10, -10,   0,  -5, -10, -10, -20}
-	};
-
-	/*
 	public static int[][] KING_SQUARES_TABLE_OPENING = new int[][]{
 			{-30, -40, -40, -50, -50, -40, -40, -30},
 			{-30, -40, -40, -50, -50, -40, -40, -30},
@@ -94,18 +80,6 @@ public class SimplifiedEvaluationUtils {
 			{-10, -20, -20, -20, -20, -20, -20, -10},
 			{20,   20,   0,   0,   0,   0,  20,  20},
 			{20,   30,  10,   0,   0,  10,  30,  20}
-	};
-	*/
-
-	public static int[][] KING_SQUARES_TABLE_OPENING = new int[][]{
-			{-30, -40, -40, -50, -50, -40, -40, -30},
-			{-30, -40, -40, -50, -50, -40, -40, -30},
-			{-30, -40, -40, -50, -50, -40, -40, -30},
-			{-30, -40, -40, -50, -50, -40, -40, -30},
-			{-20, -30, -30, -40, -40, -30, -30, -20},
-			{-10, -20, -20, -20, -20, -20, -20, -10},
-			{20,   20,  -5,  -5,  -5,  -5,  20,  20},
-			{20,   30,  10,  -5,   0,  10,  30,  20}
 	};
 
 	public static int[][] KING_SQUARES_TABLE_ENDGAME = new int[][]{
@@ -129,7 +103,7 @@ public class SimplifiedEvaluationUtils {
 	public static GamePhase getGamePhase(ChessBoard chessBoard, int halfMoveNumber) {
 		if (chessBoard.isQueenPlusOneMinorPieceMaximum(Allegiance.WHITE)
 				&& chessBoard.isQueenPlusOneMinorPieceMaximum(Allegiance.BLACK)
-				&& Constants.ENDGAME_HALF_MOVES_THRESHOLD <= halfMoveNumber) {
+				&& Constants.ENDGAME_HALF_MOVES_THRESHOLD < halfMoveNumber) {
 			return GamePhase.ENDGAME;
 		} else {
 			return GamePhase.OPENING;
