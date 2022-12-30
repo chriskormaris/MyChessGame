@@ -65,11 +65,11 @@ public class ChessGUI {
 	private static final JTextPane turnTextPane = new JTextPane();
 
 	// These stacks of FEN Position String objects are used to handle the "undo" and "redo" functionality.
-	private static final Stack<String> previousFenPositions = new Stack<>();
+	private static final Stack<String> undoFenPositions = new Stack<>();
 	private static final Stack<String> redoFenPositions = new Stack<>();
 
 	// These stacks of "JLabel" arrays are used to handle the "undo" and "redo" functionality.
-	private static final Stack<JLabel[]> previousCapturedPiecesImages = new Stack<>();
+	private static final Stack<JLabel[]> undoCapturedPiecesImages = new Stack<>();
 	private static final Stack<JLabel[]> redoCapturedPiecesImages = new Stack<>();
 
 	public static GameParameters gameParameters = new GameParameters();
@@ -437,7 +437,7 @@ public class ChessGUI {
 
 
 	private static void undoLastMove() {
-		if (!previousFenPositions.isEmpty()) {
+		if (!undoFenPositions.isEmpty()) {
 			System.out.println("Undo is pressed!");
 
 			if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI || gameParameters.getGameMode() == GameMode.HUMAN_VS_HUMAN) {
@@ -469,7 +469,7 @@ public class ChessGUI {
 			}
 			redoCapturedPiecesImages.push(tempCapturedPiecesImages);
 
-			chessBoard = FenUtils.getChessBoardFromFenPosition(previousFenPositions.pop());
+			chessBoard = FenUtils.getChessBoardFromFenPosition(undoFenPositions.pop());
 
 			String halfMoveFenPosition = halfMoveFenPositions.pop();
 			redoHalfMoveFenPositions.push(halfMoveFenPosition);
@@ -477,7 +477,7 @@ public class ChessGUI {
 
 			// Display the "undo" captured chess board pieces icons.
 			initializeCapturedPiecesPanel();
-			capturedPiecesImages = previousCapturedPiecesImages.pop();
+			capturedPiecesImages = undoCapturedPiecesImages.pop();
 			for (int i = 0; i < 31; i++) {
 				capturedPiecesPanel.add(capturedPiecesImages[i]);
 			}
@@ -501,7 +501,7 @@ public class ChessGUI {
 			setTurnMessage();
 			setScoreMessage();
 
-			if (previousFenPositions.isEmpty()) {
+			if (undoFenPositions.isEmpty()) {
 				undoItem.setEnabled(false);
 			}
 
@@ -538,17 +538,17 @@ public class ChessGUI {
 				GuiUtils.changeTileColor(startingButton, startingButtonColor);
 			}
 
-			previousFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
+			undoFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
 
 			halfMoveFenPositions.push(redoHalfMoveFenPositions.pop());
 			// System.out.println("size of halfMoveGameBoards: " + halfMoveGameBoards.size());
 
-			// Push to the previousCapturedPiecesImages Stack.
+			// Push to the "undoCapturedPiecesImages" Stack.
 			JLabel[] tempCapturedPiecesImages = new JLabel[31];
 			for (int i = 0; i <= 30; i++) {
 				tempCapturedPiecesImages[i] = new JLabel(capturedPiecesImages[i].getIcon());
 			}
-			previousCapturedPiecesImages.push(tempCapturedPiecesImages);
+			undoCapturedPiecesImages.push(tempCapturedPiecesImages);
 
 			chessBoard = FenUtils.getChessBoardFromFenPosition(redoFenPositions.pop());
 
@@ -844,8 +844,8 @@ public class ChessGUI {
 		startingPosition = "";
 		endingPosition = "";
 
-		previousFenPositions.clear();
-		previousCapturedPiecesImages.clear();
+		undoFenPositions.clear();
+		undoCapturedPiecesImages.clear();
 		redoFenPositions.clear();
 		redoCapturedPiecesImages.clear();
 
@@ -1035,14 +1035,14 @@ public class ChessGUI {
 				startingButtonIsClicked = false;
 				return;
 			} else {
-				previousFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
+				undoFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
 
-				// Push to the previousCapturedPiecesImages Stack.
+				// Push to the "undoCapturedPiecesImages" Stack.
 				JLabel[] tempCapturedPiecesImages = new JLabel[31];
 				for (int i = 0; i <= 30; i++) {
 					tempCapturedPiecesImages[i] = new JLabel(capturedPiecesImages[i].getIcon());
 				}
-				previousCapturedPiecesImages.push(tempCapturedPiecesImages);
+				undoCapturedPiecesImages.push(tempCapturedPiecesImages);
 
 				redoFenPositions.clear();
 				redoCapturedPiecesImages.clear();
@@ -1610,14 +1610,14 @@ public class ChessGUI {
 	}
 
 	private static void aiVsAiMove(AI ai) {
-		previousFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
+		undoFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
 
-		// Push to the previousCapturedPiecesImages Stack.
+		// Push to the "undoCapturedPiecesImages" Stack.
 		JLabel[] tempCapturedPiecesImages = new JLabel[31];
 		for (int i = 0; i <= 30; i++) {
 			tempCapturedPiecesImages[i] = new JLabel(capturedPiecesImages[i].getIcon());
 		}
-		previousCapturedPiecesImages.push(tempCapturedPiecesImages);
+		undoCapturedPiecesImages.push(tempCapturedPiecesImages);
 
 		// System.out.println("white plays: " + chessBoard.whitePlays());
 		aiMove(ai);
