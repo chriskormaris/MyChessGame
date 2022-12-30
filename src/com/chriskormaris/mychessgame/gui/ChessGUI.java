@@ -1419,10 +1419,10 @@ public class ChessGUI {
 			int N = halfMoveFenPositions.size();
 			ChessPiece[][] lastHalfMoveGameBoard = FenUtils.getChessBoardFromFenPosition(halfMoveFenPositions.get(N-1)).getGameBoard();
 			int numOfRepeats = 0;
-			for (int i = 0; i < N-1; i++) {
+			for (int i = N-2; i >= 0; i--) {
 				// Skip the last iteration, if the number of repeats found is less ore equal to 1.
 				// Also, skip the second to last iteration, if the number of repeats found is 0.
-				if (!(numOfRepeats <= 1 && i == N - 2 || numOfRepeats == 0 && i == N - 3)) {
+				if (!(numOfRepeats <= 1 && i == 0 || numOfRepeats == 0 && i == 1)) {
 					// System.out.println("i: " + i);
 					ChessPiece[][] otherHalfMoveGameBoard = FenUtils.getChessBoardFromFenPosition(halfMoveFenPositions.get(i)).getGameBoard();
 					if (Utilities.checkEqualGameBoards(lastHalfMoveGameBoard, otherHalfMoveGameBoard)) {
