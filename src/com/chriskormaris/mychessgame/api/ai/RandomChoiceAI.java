@@ -51,7 +51,8 @@ public class RandomChoiceAI extends AI {
 
 						if (randomEndingPositions.size() > 0) {
 							randomStartingEndingPositions.put(randomStartingPosition, randomEndingPositions);
-							// System.out.println("randomStartingPosition: " + randomStartingPosition + " -> " + randomEndingPositions);
+							// System.out.print("randomStartingPosition: " + randomStartingPosition);
+							// System.out.println(" -> " + randomEndingPositions);
 						}
 					}
 				}
@@ -70,7 +71,7 @@ public class RandomChoiceAI extends AI {
 		else if (chessBoard.whitePlays() && getAiPlayer() == Constants.WHITE && chessBoard.isWhiteKingInCheck()
 				||
 				chessBoard.blackPlays() && getAiPlayer() == Constants.BLACK && chessBoard.isBlackKingInCheck()) {
-			// System.out.println("chessBoard.blackKingInCheckValidPieceMoves: " + chessBoard.blackKingInCheckValidPieceMoves);
+			// System.out.println("blackKingInCheckValidPieceMoves: " + chessBoard.blackKingInCheckValidPieceMoves);
 			Random r = new Random();
 			List<String> keys = new ArrayList<>();
 			int randomStartingPositionIndex = 0;

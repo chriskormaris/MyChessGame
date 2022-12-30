@@ -332,13 +332,29 @@ public class SettingsWindow extends JFrame {
 					}
 
 					// Change game parameters based on the settings.
-					ChessGUI.newGameParameters = new GameParameters(guiStyle, enableSounds, humanPlayerAllegiance,
-							gameMode, ai1Type, ai2Type, maxDepth1, maxDepth2, evaluationFunction1, evaluationFunction2,
-							whiteTileColor, blackTileColor, numOfRows);
+					ChessGUI.newGameParameters = new GameParameters(
+							guiStyle,
+							enableSounds,
+							humanPlayerAllegiance,
+							gameMode,
+							ai1Type,
+							ai2Type,
+							maxDepth1,
+							maxDepth2,
+							evaluationFunction1,
+							evaluationFunction2,
+							whiteTileColor,
+							blackTileColor,
+							numOfRows
+					);
 
-					JOptionPane.showMessageDialog(ChessGUI.frame,
-							"Game settings have been changed.\nThe changes will be applied in the next new game.",
-							"", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(
+							ChessGUI.frame,
+							"Game settings have been changed.\n" +
+									"The changes will be applied in the next new game.",
+							"",
+							JOptionPane.INFORMATION_MESSAGE
+					);
 					dispose();
 				} catch (Exception e) {
 					System.err.println("ERROR: " + e.getMessage());

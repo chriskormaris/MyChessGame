@@ -89,7 +89,12 @@ public class ChessPieceShortestPath {
 
 					int candidateRow = Utilities.getRowFromPosition(candidatePosition, chessBoard.getNumOfRows());
 					int candidateColumn = Utilities.getColumnFromPosition(candidatePosition);
-					BfsPosition candidateBfsPosition = new BfsPosition(candidatePosition, candidateRow, candidateColumn, depth + 1);
+					BfsPosition candidateBfsPosition = new BfsPosition(
+							candidatePosition,
+							candidateRow,
+							candidateColumn,
+							depth + 1
+					);
 					candidateBfsPosition.setParentBfsPosition(currentBfsPosition);
 
 					queue.add(candidateBfsPosition);
@@ -178,7 +183,12 @@ public class ChessPieceShortestPath {
 
 					int candidateRow = Utilities.getRowFromPosition(candidatePosition, chessBoard.getNumOfRows());
 					int candidateColumn = Utilities.getColumnFromPosition(candidatePosition);
-					BfsPosition candidateBfsPosition = new BfsPosition(candidatePosition, candidateRow, candidateColumn, depth + 1);
+					BfsPosition candidateBfsPosition = new BfsPosition(
+							candidatePosition,
+							candidateRow,
+							candidateColumn,
+							depth + 1
+					);
 					candidateBfsPosition.setParentBfsPosition(currentBfsPosition);
 
 					queue.add(candidateBfsPosition);
@@ -193,10 +203,15 @@ public class ChessPieceShortestPath {
 
 
 	// It runs the simple BFS algorithm.
-	// It returns true if the given chess_board piece can get from the given starting position to the given ending position,
-	// within the specified "maxDepth".
-	public static boolean canGoToPosition(ChessBoard chessBoard, ChessPiece piece,
-	                                      String startingPosition, String endingPosition, int maxDepth) {
+	// It returns true if the given ChessBoard piece can get
+	// from the given starting position to the given ending position, within the specified "maxDepth".
+	public static boolean canGoToPosition(
+			ChessBoard chessBoard,
+			ChessPiece piece,
+			String startingPosition,
+			String endingPosition,
+			int maxDepth
+	) {
 		return getMinDepth(chessBoard, piece, startingPosition, endingPosition, maxDepth) >= 0;
 	}
 

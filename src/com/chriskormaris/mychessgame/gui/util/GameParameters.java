@@ -89,11 +89,21 @@ public class GameParameters {
 	}
 
 
-	public GameParameters(GuiStyle guiStyle, boolean enableSounds,
-	                      Allegiance humanPlayerAllegiance, GameMode gameMode,
-	                      AiType ai1Type, AiType ai2Type, int maxDepth1, int maxDepth2,
-	                      EvaluationFunction evaluationFunction1, EvaluationFunction evaluationFunction2,
-						  Color whiteTileColor, Color blackTileColor, int numOfRows) {
+	public GameParameters(
+			GuiStyle guiStyle,
+			boolean enableSounds,
+			Allegiance humanPlayerAllegiance,
+			GameMode gameMode,
+			AiType ai1Type,
+			AiType ai2Type,
+			int maxDepth1,
+			int maxDepth2,
+			EvaluationFunction evaluationFunction1,
+			EvaluationFunction evaluationFunction2,
+			Color whiteTileColor,
+			Color blackTileColor,
+			int numOfRows
+	) {
 		this.guiStyle = guiStyle;
 		this.enableSounds = enableSounds;
 		this.humanPlayerAllegiance = humanPlayerAllegiance;
