@@ -86,7 +86,7 @@ public class ChessGUI {
 	// This variable is used for the implementation of "Human Vs AI".
 	public static AI ai;
 
-	// These stack of 2d "ChessPiece" arrays is used to check for a threefold repetition of a chess board position.
+	// These stacks of 2d "ChessPiece" arrays are used to check for a threefold repetition of a chess board position.
 	public static Stack<ChessPiece[][]> halfMoveGameBoards = new Stack<>();
 	public static Stack<ChessPiece[][]> redoHalfMoveGameBoards = new Stack<>();
 
