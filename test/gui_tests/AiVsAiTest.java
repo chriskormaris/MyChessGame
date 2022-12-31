@@ -1,8 +1,6 @@
 package gui_tests;
 
 
-// import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
-
 import com.chriskormaris.mychessgame.api.enumeration.GameMode;
 import com.chriskormaris.mychessgame.gui.ChessGUI;
 import org.junit.Test;

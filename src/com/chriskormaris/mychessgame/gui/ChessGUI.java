@@ -1277,11 +1277,10 @@ public class ChessGUI {
 		}
 
 		// If a chessPiece capture has occurred.
-		if (chessBoard.getCapturedPiece() != null) {  // true if an en passant captured piece exists
-			addCapturedPieceImage(chessBoard.getCapturedPiece());
+		if (chessBoard.getCapturedEnPassantPiece() != null) {  // true if an en passant captured piece exists
+			addCapturedPieceImage(chessBoard.getCapturedEnPassantPiece());
 		} else if (startingPiece.getAllegiance() != endTile.getAllegiance() && !(endTile instanceof EmptyTile)) {
-			chessBoard.setCapturedPiece(endTile);
-			addCapturedPieceImage(chessBoard.getCapturedPiece());
+			addCapturedPieceImage(endTile);
 		}
 
 		for (String position : chessBoard.getPositionsToRemove()) {
@@ -1326,8 +1325,6 @@ public class ChessGUI {
 		chessBoard.incrementCapturedPiecesCounter(endTile);
 
 		setScoreMessage();
-
-		chessBoard.setCapturedPiece(null);
 	}
 
 	public static boolean checkForGameOver() {

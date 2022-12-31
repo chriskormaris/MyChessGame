@@ -4,8 +4,6 @@ package gui_tests;
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.gui.ChessGUI;
 import org.junit.Test;
-// import enumerations.GameMode;
-// import utilities.GameParameters;
 
 
 public class EvaluateCheckTest {

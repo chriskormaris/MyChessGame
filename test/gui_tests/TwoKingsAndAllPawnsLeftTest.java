@@ -7,9 +7,6 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;
 
-// import enumerations.Allegiance;
-// import pieces.Pawn;
-
 
 public class TwoKingsAndAllPawnsLeftTest {
 

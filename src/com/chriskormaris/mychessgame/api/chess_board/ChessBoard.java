@@ -115,8 +115,7 @@ public class ChessBoard {
 	private Set<String> positionsToRemove;
 	private Map<String, ChessPiece> piecesToPlace;
 
-	// Used for the "en passant" move.
-	private ChessPiece capturedPiece;
+	private ChessPiece capturedEnPassantPiece;
 
 	private int whiteCapturedPiecesCounter;
 	private int blackCapturedPiecesCounter;
@@ -207,7 +206,7 @@ public class ChessBoard {
 
 		this.positionsToRemove = new HashSet<>(otherBoard.getPositionsToRemove());
 		this.piecesToPlace = new HashMap<>(otherBoard.getPiecesToPlace());
-		this.capturedPiece = otherBoard.getCapturedPiece();
+		this.capturedEnPassantPiece = otherBoard.getCapturedEnPassantPiece();
 
 		this.whiteCapturedPiecesCounter = otherBoard.getWhiteCapturedPiecesCounter();
 		this.blackCapturedPiecesCounter = otherBoard.getBlackCapturedPiecesCounter();
@@ -324,8 +323,8 @@ public class ChessBoard {
 		if (piecesToPlace.size() > 0) {
 			piecesToPlace.clear();
 		}
-		if (capturedPiece != null) {
-			capturedPiece = null;
+		if (capturedEnPassantPiece != null) {
+			capturedEnPassantPiece = null;
 		}
 
 		// Allow only valid moves, for all the chess board pieces.
@@ -473,7 +472,7 @@ public class ChessBoard {
 						if (displayMove) {
 							positionsToRemove.add(twoStepsForwardBlackPawnPosition);
 
-							capturedPiece = possibleBlackEnPassantCapturedPawn;
+							capturedEnPassantPiece = possibleBlackEnPassantCapturedPawn;
 						} else {
 							this.gameBoard
 									[twoStepsForwardBlackPawnPositionRow]
@@ -506,7 +505,7 @@ public class ChessBoard {
 						if (displayMove) {
 							positionsToRemove.add(twoStepsForwardWhitePawnPosition);
 
-							capturedPiece = possibleWhiteEnPassantCapturedPawn;
+							capturedEnPassantPiece = possibleWhiteEnPassantCapturedPawn;
 						} else {
 							this.gameBoard
 									[twoStepsForwardWhitePawnPositionRow]
@@ -1745,12 +1744,12 @@ public class ChessBoard {
 		this.piecesToPlace = new HashMap<>(piecesToPlace);
 	}
 
-	public ChessPiece getCapturedPiece() {
-		return capturedPiece;
+	public ChessPiece getCapturedEnPassantPiece() {
+		return capturedEnPassantPiece;
 	}
 
-	public void setCapturedPiece(ChessPiece capturedPiece) {
-		this.capturedPiece = capturedPiece;
+	public void setCapturedEnPassantPiece(ChessPiece capturedEnPassantPiece) {
+		this.capturedEnPassantPiece = capturedEnPassantPiece;
 	}
 
 	public int getWhiteCapturedPiecesCounter() {

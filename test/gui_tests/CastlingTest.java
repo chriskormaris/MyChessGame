@@ -4,9 +4,6 @@ package gui_tests;
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.gui.ChessGUI;
 import org.junit.Test;
-// import enumerations.Allegiance;
-// import minimax_ai.MinimaxAi;
-// import utilities.Constants;
 
 
 public class CastlingTest {

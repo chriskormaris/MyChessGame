@@ -2,7 +2,7 @@ package com.chriskormaris.mychessgame.api.piece;
 
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
-import com.chriskormaris.mychessgame.api.util.Constants;
+import com.chriskormaris.mychessgame.api.util.Utilities;
 
 import java.util.Set;
 
@@ -24,46 +24,13 @@ public abstract class ChessPiece {
 
 	public ChessPiece(Allegiance allegiance) {
 		this.allegiance = allegiance;
-		this.chessPieceChar = extractChessPieceChar(allegiance);
+		this.chessPieceChar = Utilities.getPieceChar(this);
 	}
 
 	public ChessPiece(Allegiance allegiance, boolean isPromoted) {
 		this.allegiance = allegiance;
 		this.isPromoted = isPromoted;
-		this.chessPieceChar = extractChessPieceChar(allegiance);
-	}
-
-	private char extractChessPieceChar(Allegiance allegiance) {
-		if (allegiance == Allegiance.WHITE) {
-			if (this instanceof Pawn) {
-				return Constants.WHITE_PAWN;
-			} else if (this instanceof Rook) {
-				return Constants.WHITE_ROOK;
-			} else if (this instanceof Knight) {
-				return Constants.WHITE_KNIGHT;
-			} else if (this instanceof Bishop) {
-				return Constants.WHITE_BISHOP;
-			} else if (this instanceof Queen) {
-				return Constants.WHITE_QUEEN;
-			} else if (this instanceof King) {
-				return Constants.WHITE_KING;
-			}
-		} else if (allegiance == Allegiance.BLACK) {
-			if (this instanceof Pawn) {
-				return Constants.BLACK_PAWN;
-			} else if (this instanceof Rook) {
-				return Constants.BLACK_ROOK;
-			} else if (this instanceof Knight) {
-				return Constants.BLACK_KNIGHT;
-			} else if (this instanceof Bishop) {
-				return Constants.BLACK_BISHOP;
-			} else if (this instanceof Queen) {
-				return Constants.BLACK_QUEEN;
-			} else if (this instanceof King) {
-				return Constants.BLACK_KING;
-			}
-		}
-		return '-';
+		this.chessPieceChar = Utilities.getPieceChar(this);
 	}
 
 	public Allegiance getAllegiance() {
