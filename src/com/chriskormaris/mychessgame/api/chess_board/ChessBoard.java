@@ -113,9 +113,11 @@ public class ChessBoard {
 
 	private Set<ChessPiece> promotedPieces;
 
+	// These variables are used for "castling" and "en passant".
 	private Set<String> positionsToRemove;
 	private Map<String, ChessPiece> piecesToPlace;
 
+	// Used for the "en passant" move.
 	private ChessPiece capturedPiece;
 
 	private int whiteCapturedPiecesCounter;
