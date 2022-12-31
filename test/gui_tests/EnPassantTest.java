@@ -2,6 +2,7 @@ package gui_tests;
 
 
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
+import com.chriskormaris.mychessgame.api.enumeration.GameMode;
 import com.chriskormaris.mychessgame.gui.ChessGUI;
 import org.junit.Test;
 
@@ -16,18 +17,18 @@ public class EnPassantTest {
         ChessGUI cbg = new ChessGUI(title);
 
         // ChessGUI.gameParameters.setGameMode(GameMode.AI_VS_AI);
-        // ChessGUI.gameParameters.getGameMode() = GameMode.HUMAN_VS_HUMAN;
+        ChessGUI.gameParameters.setGameMode(GameMode.HUMAN_VS_HUMAN);
 
         /* Use these FEN positions, if playing as White. */
 
-        String fenPosition = "4k3/8/8/1pP5/8/8/8/4K3 w - B6 0 1";
+        String fenPosition = "4k3/8/8/1pP3p1/8/8/7P/4K3 w - B6 0 1";
 
         /* Use these FEN positions, if playing as Black. */
 
         // ChessGUI.newGameParameters.setHumanPlayerAllegiance(Allegiance.BLACK);
         // ChessGUI.startNewGame();
 
-        // String fenPosition = "4k3/8/8/8/1Pp5/8/8/4K3 b - B3 0 1";
+        // String fenPosition = "4k3/7p/8/8/1Pp3P1/8/8/4K3 b - B3 0 1";
 
         ChessGUI.placePiecesToChessBoard(fenPosition);
         ChessBoard.printChessBoard(ChessGUI.chessBoard.getGameBoard());
@@ -39,7 +40,7 @@ public class EnPassantTest {
         System.out.println("*****************************");
         System.out.println();
 
-        while (true) ;
+        while (true);
     }
 
 }

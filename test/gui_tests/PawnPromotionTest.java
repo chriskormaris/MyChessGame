@@ -2,6 +2,7 @@ package gui_tests;
 
 
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
+import com.chriskormaris.mychessgame.api.enumeration.GameMode;
 import com.chriskormaris.mychessgame.gui.ChessGUI;
 import org.junit.Test;
 
@@ -16,7 +17,7 @@ public class PawnPromotionTest {
         ChessGUI cbg = new ChessGUI(title);
 
         // ChessGUI.gameParameters.setGameMode(GameMode.AI_VS_AI);
-        // ChessGUI.gameParameters.getGameMode() = GameMode.HUMAN_VS_HUMAN;
+        ChessGUI.gameParameters.setGameMode(GameMode.HUMAN_VS_HUMAN);
 
         /* Use these FEN positions, if playing as White. */
 
@@ -52,7 +53,7 @@ public class PawnPromotionTest {
         System.out.println("*****************************");
         System.out.println();
 
-        while (true) ;
+        while (true);
     }
 
 }

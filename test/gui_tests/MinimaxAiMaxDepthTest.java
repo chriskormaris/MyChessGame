@@ -26,7 +26,7 @@ public class MinimaxAiMaxDepthTest {
 
         System.out.println(ChessGUI.chessBoard);
 
-        while (true) ;
+        while (true);
     }
 
 }

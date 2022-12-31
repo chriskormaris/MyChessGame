@@ -33,7 +33,7 @@ public class StalemateCheckmateTest {
         System.out.println("*****************************");
         System.out.println();
 
-        while (true) ;
+        while (true);
     }
 
 }
