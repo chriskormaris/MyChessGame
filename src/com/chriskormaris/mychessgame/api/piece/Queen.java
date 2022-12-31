@@ -15,9 +15,13 @@ public class Queen extends ChessPiece {
 		super(allegiance);
 	}
 
+	public Queen(Allegiance allegiance, boolean isPromoted) {
+		super(allegiance, isPromoted);
+	}
+
 	@Override
 	public ChessPiece makeCopy() {
-		return new Queen(super.getAllegiance());
+		return new Queen(super.getAllegiance(), super.isPromoted());
 	}
 
 	@Override

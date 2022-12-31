@@ -15,43 +15,55 @@ public abstract class ChessPiece {
 	// a small letter if the allegiance is Black.
 	private char chessPieceChar;
 
+	// True if the piece was initially a Pawn and got promoted.
+	private boolean isPromoted;
+
 	public ChessPiece() {
 
 	}
 
 	public ChessPiece(Allegiance allegiance) {
 		this.allegiance = allegiance;
+		this.chessPieceChar = extractChessPieceChar(allegiance);
+	}
+
+	public ChessPiece(Allegiance allegiance, boolean isPromoted) {
+		this.allegiance = allegiance;
+		this.isPromoted = isPromoted;
+		this.chessPieceChar = extractChessPieceChar(allegiance);
+	}
+
+	private char extractChessPieceChar(Allegiance allegiance) {
 		if (allegiance == Allegiance.WHITE) {
 			if (this instanceof Pawn) {
-				this.chessPieceChar = Constants.WHITE_PAWN;
+				return Constants.WHITE_PAWN;
 			} else if (this instanceof Rook) {
-				this.chessPieceChar = Constants.WHITE_ROOK;
+				return Constants.WHITE_ROOK;
 			} else if (this instanceof Knight) {
-				this.chessPieceChar = Constants.WHITE_KNIGHT;
+				return Constants.WHITE_KNIGHT;
 			} else if (this instanceof Bishop) {
-				this.chessPieceChar = Constants.WHITE_BISHOP;
+				return Constants.WHITE_BISHOP;
 			} else if (this instanceof Queen) {
-				this.chessPieceChar = Constants.WHITE_QUEEN;
+				return Constants.WHITE_QUEEN;
 			} else if (this instanceof King) {
-				this.chessPieceChar = Constants.WHITE_KING;
+				return Constants.WHITE_KING;
 			}
 		} else if (allegiance == Allegiance.BLACK) {
 			if (this instanceof Pawn) {
-				this.chessPieceChar = Constants.BLACK_PAWN;
+				return Constants.BLACK_PAWN;
 			} else if (this instanceof Rook) {
-				this.chessPieceChar = Constants.BLACK_ROOK;
+				return Constants.BLACK_ROOK;
 			} else if (this instanceof Knight) {
-				this.chessPieceChar = Constants.BLACK_KNIGHT;
+				return Constants.BLACK_KNIGHT;
 			} else if (this instanceof Bishop) {
-				this.chessPieceChar = Constants.BLACK_BISHOP;
+				return Constants.BLACK_BISHOP;
 			} else if (this instanceof Queen) {
-				this.chessPieceChar = Constants.BLACK_QUEEN;
+				return Constants.BLACK_QUEEN;
 			} else if (this instanceof King) {
-				this.chessPieceChar = Constants.BLACK_KING;
+				return Constants.BLACK_KING;
 			}
-		} else {
-			this.chessPieceChar = '-';
 		}
+		return '-';
 	}
 
 	public Allegiance getAllegiance() {
@@ -65,6 +77,14 @@ public abstract class ChessPiece {
 	// Capital for White, small for Black, '-' for Empty.
 	public char getChessPieceChar() {
 		return chessPieceChar;
+	}
+
+	public boolean isPromoted() {
+		return isPromoted;
+	}
+
+	public void setPromoted(boolean promoted) {
+		isPromoted = promoted;
 	}
 
 	public abstract ChessPiece makeCopy();

@@ -111,8 +111,6 @@ public class ChessBoard {
 
 	private int score;
 
-	private Set<ChessPiece> promotedPieces;
-
 	// These variables are used for "castling" and "en passant".
 	private Set<String> positionsToRemove;
 	private Map<String, ChessPiece> piecesToPlace;
@@ -155,7 +153,6 @@ public class ChessBoard {
 		this.whiteKingInCheckValidPieceMoves = new HashMap<>();
 		this.blackKingInCheckValidPieceMoves = new HashMap<>();
 
-		this.promotedPieces = new HashSet<>();
 		this.positionsToRemove = new HashSet<>();
 		this.piecesToPlace = new HashMap<>();
 
@@ -208,7 +205,6 @@ public class ChessBoard {
 
 		this.score = otherBoard.getScore();
 
-		this.promotedPieces = new HashSet<>(otherBoard.getPromotedPieces());
 		this.positionsToRemove = new HashSet<>(otherBoard.getPositionsToRemove());
 		this.piecesToPlace = new HashMap<>(otherBoard.getPiecesToPlace());
 		this.capturedPiece = otherBoard.getCapturedPiece();
@@ -563,7 +559,7 @@ public class ChessBoard {
 	}
 
 	private void updateScoreAfterPieceCapture(ChessPiece endTile) {
-		if (promotedPieces.contains(endTile)) {
+		if (endTile.isPromoted()) {
 			if (endTile.getAllegiance() == Allegiance.WHITE) {
 				score -= Constants.PAWN_SCORE_VALUE;
 			} else if (endTile.getAllegiance() == Allegiance.BLACK) {
@@ -634,7 +630,7 @@ public class ChessBoard {
 			if (displayMove) {
 				piecesToPlace.put(positionEnd, knight);
 			}
-			promotedPieces.add(knight);
+			knight.setPromoted(true);
 		} else {
 			for (ChessPiece currentPromotionPiece : promotionChessPieces) {
 				chessBoard.getGameBoard()[rowEnd][columnEnd] = currentPromotionPiece;
@@ -647,7 +643,7 @@ public class ChessBoard {
 					if (displayMove) {
 						piecesToPlace.put(positionEnd, currentPromotionPiece);
 					}
-					promotedPieces.add(currentPromotionPiece);
+					currentPromotionPiece.setPromoted(true);
 					break;
 				}
 			}
@@ -1731,14 +1727,6 @@ public class ChessBoard {
 
 	public void incrementScore() {
 		this.score++;
-	}
-
-	public Set<ChessPiece> getPromotedPieces() {
-		return promotedPieces;
-	}
-
-	public void setPromotedPieces(Set<ChessPiece> promotedPieces) {
-		this.promotedPieces = new HashSet<>(promotedPieces);
 	}
 
 	public Set<String> getPositionsToRemove() {

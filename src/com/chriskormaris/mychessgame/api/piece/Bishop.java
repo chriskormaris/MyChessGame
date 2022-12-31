@@ -15,9 +15,13 @@ public class Bishop extends ChessPiece {
 		super(allegiance);
 	}
 
+	public Bishop(Allegiance allegiance, boolean isPromoted) {
+		super(allegiance, isPromoted);
+	}
+
 	@Override
 	public ChessPiece makeCopy() {
-		return new Bishop(super.getAllegiance());
+		return new Bishop(super.getAllegiance(), super.isPromoted());
 	}
 
 	@Override

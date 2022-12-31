@@ -15,9 +15,13 @@ public class Rook extends ChessPiece {
 		super(allegiance);
 	}
 
+	public Rook(Allegiance allegiance, boolean isPromoted) {
+		super(allegiance, isPromoted);
+	}
+
 	@Override
 	public ChessPiece makeCopy() {
-		return new Rook(super.getAllegiance());
+		return new Rook(super.getAllegiance(), super.isPromoted());
 	}
 
 	@Override

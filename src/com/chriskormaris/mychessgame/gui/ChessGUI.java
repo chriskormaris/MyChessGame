@@ -1261,22 +1261,20 @@ public class ChessGUI {
 
 				if (value == null || value.equals("Queen")) {
 					chessBoard.getPiecesToPlace().put(positionEnd, queen);
-					chessBoard.getPromotedPieces().add(queen);
+					queen.setPromoted(true);
 				} else if (value.equals("Rook")) {
 					chessBoard.getPiecesToPlace().put(positionEnd, rook);
-					chessBoard.getPromotedPieces().add(rook);
+					rook.setPromoted(true);
 				} else if (value.equals("Bishop")) {
 					chessBoard.getPiecesToPlace().put(positionEnd, bishop);
-					chessBoard.getPromotedPieces().add(bishop);
+					bishop.setPromoted(true);
 				} else if (value.equals("Knight")) {
 					chessBoard.getPiecesToPlace().put(positionEnd, knight);
-					chessBoard.getPromotedPieces().add(knight);
+					knight.setPromoted(true);
 				}
 
 			}
 		}
-
-		System.out.println(chessBoard.getPromotedPieces());
 
 		// If a chessPiece capture has occurred.
 		if (chessBoard.getCapturedPiece() != null) {  // true if an en passant captured piece exists
@@ -1307,9 +1305,7 @@ public class ChessGUI {
 	public static void addCapturedPieceImage(ChessPiece endTile) {
 		String imagePath = "";
 
-		// TODO: There is a bug here.
-		// If undo is pressed and I redo the same move, it doesn't work.
-		if (chessBoard.getPromotedPieces().contains(endTile)) {
+		if (endTile.isPromoted()) {
 			if (endTile.getAllegiance() == Allegiance.WHITE) {
 				imagePath = GuiConstants.WHITE_PAWN_IMG_PATH;
 			} else if (endTile.getAllegiance() == Allegiance.BLACK) {
