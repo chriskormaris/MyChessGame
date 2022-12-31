@@ -1,4 +1,4 @@
-package gui_tests;
+package com.chriskormaris.mychessgame.gui;
 
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 import com.chriskormaris.mychessgame.api.piece.ChessPiece;

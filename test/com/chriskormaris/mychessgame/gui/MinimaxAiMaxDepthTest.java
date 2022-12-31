@@ -1,6 +1,5 @@
-package gui_tests;
+package com.chriskormaris.mychessgame.gui;
 
-import com.chriskormaris.mychessgame.gui.ChessGUI;
 import org.junit.Test;
 
 public class MinimaxAiMaxDepthTest {

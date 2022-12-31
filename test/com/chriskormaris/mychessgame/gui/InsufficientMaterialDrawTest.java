@@ -1,4 +1,4 @@
-package gui_tests;
+package com.chriskormaris.mychessgame.gui;
 
 
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
@@ -6,7 +6,6 @@ import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 import com.chriskormaris.mychessgame.api.piece.Bishop;
 import com.chriskormaris.mychessgame.api.piece.King;
 import com.chriskormaris.mychessgame.api.piece.Knight;
-import com.chriskormaris.mychessgame.gui.ChessGUI;
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
