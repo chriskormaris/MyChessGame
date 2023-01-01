@@ -1488,6 +1488,7 @@ public class ChessGUI {
 
 			// System.out.println("dialogResult:" + dialogResult);
 			if (dialogResult == JOptionPane.YES_OPTION) {
+				chessBoard.setGameResult(GameResult.NO_CAPTURE_DRAW);
 				showDeclareDrawDialog();
 				return true;
 			}

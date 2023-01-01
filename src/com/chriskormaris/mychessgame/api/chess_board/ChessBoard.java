@@ -1682,11 +1682,7 @@ public class ChessBoard {
 	}
 
 	public boolean checkForNoPieceCaptureDraw() {
-		if (this.halfMoveClock >= Constants.NO_CAPTURE_DRAW_HALF_MOVES_LIMIT) {
-			this.gameResult = GameResult.NO_CAPTURE_DRAW;
-			return true;
-		}
-		return false;
+		return this.halfMoveClock >= Constants.NO_CAPTURE_DRAW_HALF_MOVES_LIMIT;
 	}
 
 	public int getScore() {
