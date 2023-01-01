@@ -153,19 +153,31 @@ public class ChessGUI {
 			if (gameParameters.getAi1Type() == AiType.MINIMAX_AI) {
 				if (gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE) {
 					if (gameParameters.getAi1MaxDepth() <= 2) {
-						ai = new MinimaxAI(gameParameters.getAi1MaxDepth(), Constants.BLACK,
-								gameParameters.getEvaluationFunction1());
+						ai = new MinimaxAI(
+								gameParameters.getAi1MaxDepth(),
+								Constants.BLACK,
+								gameParameters.getEvaluationFunction1()
+						);
 					} else {
-						ai = new MinimaxAlphaBetaPruningAI(gameParameters.getAi1MaxDepth(), Constants.BLACK,
-								gameParameters.getEvaluationFunction1());
+						ai = new MinimaxAlphaBetaPruningAI(
+								gameParameters.getAi1MaxDepth(),
+								Constants.BLACK,
+								gameParameters.getEvaluationFunction1()
+						);
 					}
 				} else if (gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
 					if (gameParameters.getAi2MaxDepth() <= 2) {
-						ai = new MinimaxAI(gameParameters.getAi2MaxDepth(), Constants.WHITE,
-								gameParameters.getEvaluationFunction2());
+						ai = new MinimaxAI(
+								gameParameters.getAi2MaxDepth(),
+								Constants.WHITE,
+								gameParameters.getEvaluationFunction2()
+						);
 					} else {
-						ai = new MinimaxAlphaBetaPruningAI(gameParameters.getAi2MaxDepth(), Constants.WHITE,
-								gameParameters.getEvaluationFunction2());
+						ai = new MinimaxAlphaBetaPruningAI(
+								gameParameters.getAi2MaxDepth(),
+								Constants.WHITE,
+								gameParameters.getEvaluationFunction2()
+						);
 					}
 				}
 			} else if (gameParameters.getAi1Type() == AiType.RANDOM_AI) {
@@ -1254,23 +1266,19 @@ public class ChessGUI {
 				}
 				// System.out.println("value: " + value);
 
-				ChessPiece queen = new Queen(startingPiece.getAllegiance());
-				ChessPiece rook = new Rook(startingPiece.getAllegiance());
-				ChessPiece bishop = new Bishop(startingPiece.getAllegiance());
-				ChessPiece knight = new Knight(startingPiece.getAllegiance());
+				ChessPiece queen = new Queen(startingPiece.getAllegiance(), true);
+				ChessPiece rook = new Rook(startingPiece.getAllegiance(), true);
+				ChessPiece bishop = new Bishop(startingPiece.getAllegiance(), true);
+				ChessPiece knight = new Knight(startingPiece.getAllegiance(), true);
 
 				if (value == null || value.equals("Queen")) {
 					chessBoard.getPiecesToPlace().put(positionEnd, queen);
-					queen.setPromoted(true);
 				} else if (value.equals("Rook")) {
 					chessBoard.getPiecesToPlace().put(positionEnd, rook);
-					rook.setPromoted(true);
 				} else if (value.equals("Bishop")) {
 					chessBoard.getPiecesToPlace().put(positionEnd, bishop);
-					bishop.setPromoted(true);
 				} else if (value.equals("Knight")) {
 					chessBoard.getPiecesToPlace().put(positionEnd, knight);
-					knight.setPromoted(true);
 				}
 
 			}
@@ -1463,10 +1471,13 @@ public class ChessGUI {
 			if (!chessBoard.whitePlays() && gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE
 					|| !chessBoard.blackPlays() && gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK
 					|| gameParameters.getGameMode() == GameMode.AI_VS_AI) {
-				dialogResult = JOptionPane.showConfirmDialog(gui,
+				dialogResult = JOptionPane.showConfirmDialog(
+						gui,
 						Constants.NO_CAPTURE_DRAW_MOVES_LIMIT +
 								" full moves have passed without a piece capture! Do you want to declare a draw?",
-						"Draw", JOptionPane.YES_NO_OPTION);
+						"Draw",
+						JOptionPane.YES_NO_OPTION
+				);
 			}
 
 			// System.out.println("dialogResult:" + dialogResult);
@@ -1545,9 +1556,12 @@ public class ChessGUI {
 				+ ". It is a draw.";
 		turnTextPane.setText(turnMessage);
 
-		int dialogResult = JOptionPane.showConfirmDialog(gui,
+		int dialogResult = JOptionPane.showConfirmDialog(
+				gui,
 				"It is a draw! Start a new game?",
-				"Draw", JOptionPane.YES_NO_OPTION);
+				"Draw",
+				JOptionPane.YES_NO_OPTION
+		);
 
 		startNewGameOrNot(dialogResult);
 	}
@@ -1623,10 +1637,11 @@ public class ChessGUI {
 
         /*
         timer.cancel();
-		if (chessBoard.whitePlays())
+		if (chessBoard.whitePlays()) {
 			whiteMinimaxAiMoveAverageSecs += whiteMinimaxAiMoveElapsedSecs;
-		else if (chessBoard.blackPlays())
+		} else if (chessBoard.blackPlays()) {
 			blackMinimaxAiMoveAverageSecs += blackMinimaxAiMoveElapsedSecs;
+		}
         */
 
 		isGameOver = checkForGameOver();
@@ -1871,8 +1886,13 @@ public class ChessGUI {
 
 				// Our chess board pieces are 64x64 px in size, so we'll
 				// 'fill this in' using a transparent icon.
-				ImageIcon icon = new ImageIcon(new BufferedImage(GuiConstants.CHESS_SQUARE_PIXEL_SIZE,
-						GuiConstants.CHESS_SQUARE_PIXEL_SIZE, BufferedImage.TYPE_INT_ARGB));
+				ImageIcon icon = new ImageIcon(
+						new BufferedImage(
+								GuiConstants.CHESS_SQUARE_PIXEL_SIZE,
+								GuiConstants.CHESS_SQUARE_PIXEL_SIZE,
+								BufferedImage.TYPE_INT_ARGB
+						)
+				);
 				chessBoardSquares[i][j].setIcon(icon);
 
 				Color color = getColorByRowCol(i, j);
@@ -1913,7 +1933,6 @@ public class ChessGUI {
 		for (int i = 0; i < gameParameters.getNumOfRows(); i++) {
 			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
 				// chessBoardSquares[i][j].setEnabled(false);
-
 				chessBoardSquares[i][j].removeActionListener(chessBoardSquares[i][j].getActionListeners()[0]);
 			}
 		}

@@ -1,14 +1,16 @@
 package com.chriskormaris.mychessgame.gui;
 
+
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 import com.chriskormaris.mychessgame.api.piece.ChessPiece;
 import com.chriskormaris.mychessgame.api.piece.Pawn;
 import org.junit.Test;
 
+
 public class InstanceOfTest {
 
     @Test
-    public void testInstanceofVsOperatorEqualsSpeed() {
+    public void testInstanceOfVsOperatorEqualsSpeed() {
         ChessPiece[] chessPieces = new ChessPiece[100000];
 
         for (int i = 0; i < chessPieces.length; i++) {

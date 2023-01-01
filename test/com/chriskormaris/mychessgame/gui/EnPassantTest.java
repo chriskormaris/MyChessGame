@@ -5,6 +5,10 @@ import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.api.enumeration.GameMode;
 import org.junit.Test;
 
+import static com.chriskormaris.mychessgame.gui.ChessGUI.chessBoard;
+import static com.chriskormaris.mychessgame.gui.ChessGUI.gameParameters;
+import static com.chriskormaris.mychessgame.gui.ChessGUI.placePiecesToChessBoard;
+
 
 public class EnPassantTest {
 
@@ -15,8 +19,8 @@ public class EnPassantTest {
         @SuppressWarnings("unused")
         ChessGUI cbg = new ChessGUI(title);
 
-        // ChessGUI.gameParameters.setGameMode(GameMode.AI_VS_AI);
-        ChessGUI.gameParameters.setGameMode(GameMode.HUMAN_VS_HUMAN);
+        // gameParameters.setGameMode(GameMode.AI_VS_AI);
+        gameParameters.setGameMode(GameMode.HUMAN_VS_HUMAN);
 
         /* Use these FEN positions, if playing as White. */
 
@@ -24,15 +28,15 @@ public class EnPassantTest {
 
         /* Use these FEN positions, if playing as Black. */
 
-        // ChessGUI.newGameParameters.setHumanPlayerAllegiance(Allegiance.BLACK);
-        // ChessGUI.startNewGame();
+        // newGameParameters.setHumanPlayerAllegiance(Allegiance.BLACK);
+        // startNewGame();
 
         // String fenPosition = "4k3/7p/8/8/1Pp3P1/8/8/4K3 b - B3 0 1";
 
-        ChessGUI.placePiecesToChessBoard(fenPosition);
-        ChessBoard.printChessBoard(ChessGUI.chessBoard.getGameBoard());
+        placePiecesToChessBoard(fenPosition);
+        ChessBoard.printChessBoard(chessBoard.getGameBoard());
 
-        // ChessGUI.playAiVsAi();
+        // playAiVsAi();
 
         System.out.println();
 

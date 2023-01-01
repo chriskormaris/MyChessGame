@@ -5,6 +5,10 @@ import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.api.enumeration.GameMode;
 import org.junit.Test;
 
+import static com.chriskormaris.mychessgame.gui.ChessGUI.chessBoard;
+import static com.chriskormaris.mychessgame.gui.ChessGUI.gameParameters;
+import static com.chriskormaris.mychessgame.gui.ChessGUI.placePiecesToChessBoard;
+
 
 public class PawnPromotionTest {
 
@@ -15,8 +19,8 @@ public class PawnPromotionTest {
         @SuppressWarnings("unused")
         ChessGUI cbg = new ChessGUI(title);
 
-        // ChessGUI.gameParameters.setGameMode(GameMode.AI_VS_AI);
-        ChessGUI.gameParameters.setGameMode(GameMode.HUMAN_VS_HUMAN);
+        // gameParameters.setGameMode(GameMode.AI_VS_AI);
+        gameParameters.setGameMode(GameMode.HUMAN_VS_HUMAN);
 
         /* Use these FEN positions, if playing as White. */
 
@@ -34,18 +38,18 @@ public class PawnPromotionTest {
 
         /* Use these FEN positions, if playing as Black. */
 
-        // ChessGUI.newGameParameters.setHumanPlayerAllegiance(Allegiance.BLACK);
-        // ChessGUI.startNewGame();
+        // newGameParameters.setHumanPlayerAllegiance(Allegiance.BLACK);
+        // startNewGame();
 
         // String fenPosition = "4k3/2P5/8/8/8/8/2p5/4K3 b - - 0 1";
 
         // If you use this FEN position, you will lose if the White player promotes the Pawn to Knight.
         // String fenPosition = "7R/2Ppkp2/3bpn2/8/8/1p6/2p5/4K3 b - - 0 1";
 
-        ChessGUI.placePiecesToChessBoard(fenPosition);
-        ChessBoard.printChessBoard(ChessGUI.chessBoard.getGameBoard());
+        placePiecesToChessBoard(fenPosition);
+        ChessBoard.printChessBoard(chessBoard.getGameBoard());
 
-        // ChessGUI.playAiVsAi();
+        // playAiVsAi();
 
         System.out.println();
 

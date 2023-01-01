@@ -4,6 +4,9 @@ package com.chriskormaris.mychessgame.gui;
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import org.junit.Test;
 
+import static com.chriskormaris.mychessgame.gui.ChessGUI.checkForGameOver;
+import static com.chriskormaris.mychessgame.gui.ChessGUI.chessBoard;
+import static com.chriskormaris.mychessgame.gui.ChessGUI.placePiecesToChessBoard;
 import static org.junit.Assert.assertFalse;
 
 
@@ -32,26 +35,26 @@ public class TwoKingsAndAllPawnsLeftTest {
         // if the White pawn is moved!
         // String fenPosition = "4k3/8/8/p2p2p1/3P2P1/P7/8/4K3 w KQ - 0 1";
 
-        ChessGUI.placePiecesToChessBoard(fenPosition);
+        placePiecesToChessBoard(fenPosition);
 
-        ChessBoard.printChessBoard(ChessGUI.chessBoard.getGameBoard());
+        ChessBoard.printChessBoard(chessBoard.getGameBoard());
 
         System.out.println("Checking if a draw has occurred...");
-        ChessGUI.checkForGameOver();
-        boolean isDraw = ChessGUI.chessBoard.isInsufficientMaterialDraw();
+        checkForGameOver();
+        boolean isDraw = chessBoard.isInsufficientMaterialDraw();
         System.out.println(isDraw ? "The game is a draw!" : "The game is NOT a draw!");
         assertFalse("The game is NOT a draw.", isDraw);
         // System.out.println("*****************************");
         // System.out.println();
 		
 		/*
-		ChessGUI.removePieceFromPosition("A3");
-		ChessGUI.placePieceToPosition("A4", new Pawn(Allegiance.WHITE));
+		removePieceFromPosition("A3");
+		placePieceToPosition("A4", new Pawn(Allegiance.WHITE));
 		
 		// After the White player has moved the White pawn, it should be a draw!
 		System.out.println("Checking if a draw has occurred...");
-		ChessGUI.checkForGameOver();
-		isDraw = ChessGUI.chessBoard.isInsufficientMaterialDraw();
+		checkForGameOver();
+		isDraw = chessBoard.isInsufficientMaterialDraw();
 		assertTrue("The game is a draw.", isDraw == true);
 		*/
 

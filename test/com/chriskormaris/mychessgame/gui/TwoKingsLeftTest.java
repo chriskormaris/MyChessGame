@@ -7,6 +7,10 @@ import com.chriskormaris.mychessgame.api.piece.King;
 import com.chriskormaris.mychessgame.api.piece.Pawn;
 import org.junit.Test;
 
+import static com.chriskormaris.mychessgame.gui.ChessGUI.checkForGameOver;
+import static com.chriskormaris.mychessgame.gui.ChessGUI.chessBoard;
+import static com.chriskormaris.mychessgame.gui.ChessGUI.makeChessBoardSquaresEmpty;
+import static com.chriskormaris.mychessgame.gui.ChessGUI.placePieceToPosition;
 import static org.junit.Assert.assertFalse;
 
 
@@ -19,21 +23,21 @@ public class TwoKingsLeftTest {
         @SuppressWarnings("unused")
         ChessGUI cbg = new ChessGUI(title);
 
-        ChessGUI.makeChessBoardSquaresEmpty();
+        makeChessBoardSquaresEmpty();
 
-        ChessGUI.placePieceToPosition("A1", new King(Allegiance.WHITE));
-        ChessGUI.placePieceToPosition("H8", new King(Allegiance.BLACK));
-        ChessGUI.placePieceToPosition("B2", new Pawn(Allegiance.WHITE));
+        placePieceToPosition("A1", new King(Allegiance.WHITE));
+        placePieceToPosition("H8", new King(Allegiance.BLACK));
+        placePieceToPosition("B2", new Pawn(Allegiance.WHITE));
 
         System.out.println();
-        ChessBoard.printChessBoard(ChessGUI.chessBoard.getGameBoard());
+        ChessBoard.printChessBoard(chessBoard.getGameBoard());
 
-        boolean isDraw = ChessGUI.chessBoard.checkForInsufficientMaterialDraw();
+        boolean isDraw = chessBoard.checkForInsufficientMaterialDraw();
         assertFalse("The game is not a draw.", isDraw);
         System.out.println("*****************************");
         System.out.println();
 
-        ChessGUI.checkForGameOver();
+        checkForGameOver();
 
         // Continue playing for a minute.
         try {

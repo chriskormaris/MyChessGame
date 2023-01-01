@@ -4,6 +4,9 @@ package com.chriskormaris.mychessgame.gui;
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import org.junit.Test;
 
+import static com.chriskormaris.mychessgame.gui.ChessGUI.chessBoard;
+import static com.chriskormaris.mychessgame.gui.ChessGUI.placePiecesToChessBoard;
+
 
 public class CastlingTest {
 
@@ -26,13 +29,13 @@ public class CastlingTest {
         // String fenPosition = "r3k2r/8/8/8/8/8/8/4K3 b kq - 0 1";
         // String fenPosition = "r3k2r/8/8/8/8/8/8/4K2R b kq - 0 1";
 
-        // ChessGUI.gameParameters.getHumanPlayerAllegiance() = Allegiance.BLACK;
-        // ChessGUI.com.chriskormaris.mychessgame.api.ai = new MinimaxAi(ChessGUI.gameParameters.maxDepth1, Constants.WHITE);
+        // gameParameters.getHumanPlayerAllegiance() = Allegiance.BLACK;
+        // com.chriskormaris.mychessgame.api.ai = new MinimaxAi(gameParameters.maxDepth1, Constants.WHITE);
         /*----------------*/
 
-        ChessGUI.placePiecesToChessBoard(fenPosition);
+        placePiecesToChessBoard(fenPosition);
 
-        ChessBoard.printChessBoard(ChessGUI.chessBoard.getGameBoard());
+        ChessBoard.printChessBoard(chessBoard.getGameBoard());
 
         System.out.println();
 

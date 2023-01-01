@@ -11,6 +11,10 @@ import com.chriskormaris.mychessgame.api.util.Constants;
 import com.chriskormaris.mychessgame.api.util.Utilities;
 import org.junit.Test;
 
+import static com.chriskormaris.mychessgame.gui.ChessGUI.ai;
+import static com.chriskormaris.mychessgame.gui.ChessGUI.aiMove;
+import static com.chriskormaris.mychessgame.gui.ChessGUI.chessBoard;
+import static com.chriskormaris.mychessgame.gui.ChessGUI.placePieceToPosition;
 import static org.junit.Assert.assertTrue;
 
 
@@ -23,21 +27,21 @@ public class CaptureRookOrBishopChoiceTest {
         @SuppressWarnings("unused")
         ChessGUI cbg = new ChessGUI(title);
 
-        ChessBoard.printChessBoard(ChessGUI.chessBoard.getGameBoard());
+        ChessBoard.printChessBoard(chessBoard.getGameBoard());
 
-        ChessGUI.placePieceToPosition("E1", new King(Allegiance.WHITE));
-        ChessGUI.placePieceToPosition("C1", new Bishop(Allegiance.WHITE));
-        ChessGUI.placePieceToPosition("F1", new Bishop(Allegiance.WHITE));
-        ChessGUI.placePieceToPosition("A1", new Rook(Allegiance.WHITE));
+        placePieceToPosition("E1", new King(Allegiance.WHITE));
+        placePieceToPosition("C1", new Bishop(Allegiance.WHITE));
+        placePieceToPosition("F1", new Bishop(Allegiance.WHITE));
+        placePieceToPosition("A1", new Rook(Allegiance.WHITE));
 
-        ChessGUI.placePieceToPosition("E8", new King(Allegiance.BLACK));
-        ChessGUI.placePieceToPosition("B3", new Knight(Allegiance.BLACK));
+        placePieceToPosition("E8", new King(Allegiance.BLACK));
+        placePieceToPosition("B3", new Knight(Allegiance.BLACK));
 
-        ChessGUI.chessBoard.setPlayer(Constants.BLACK);
-        ChessGUI.aiMove(ChessGUI.ai);
+        chessBoard.setPlayer(Constants.BLACK);
+        aiMove(ai);
 
         assertTrue("The Black Knight did NOT capture the White Rook.",
-                Utilities.getChessPieceFromPosition(ChessGUI.chessBoard.getGameBoard(), "A1") instanceof Knight);
+                Utilities.getChessPieceFromPosition(chessBoard.getGameBoard(), "A1") instanceof Knight);
 
         // Continue playing for a minute.
         try {

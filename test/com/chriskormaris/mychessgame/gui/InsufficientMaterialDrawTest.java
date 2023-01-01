@@ -8,6 +8,10 @@ import com.chriskormaris.mychessgame.api.piece.King;
 import com.chriskormaris.mychessgame.api.piece.Knight;
 import org.junit.Test;
 
+import static com.chriskormaris.mychessgame.gui.ChessGUI.checkForGameOver;
+import static com.chriskormaris.mychessgame.gui.ChessGUI.chessBoard;
+import static com.chriskormaris.mychessgame.gui.ChessGUI.makeChessBoardSquaresEmpty;
+import static com.chriskormaris.mychessgame.gui.ChessGUI.placePieceToPosition;
 import static org.junit.Assert.assertTrue;
 
 
@@ -20,28 +24,28 @@ public class InsufficientMaterialDrawTest {
         @SuppressWarnings("unused")
         ChessGUI cbg = new ChessGUI(title);
 
-        ChessGUI.makeChessBoardSquaresEmpty();
-        ChessBoard.printChessBoard(ChessGUI.chessBoard.getGameBoard());
+        makeChessBoardSquaresEmpty();
+        ChessBoard.printChessBoard(chessBoard.getGameBoard());
 
-        ChessGUI.placePieceToPosition("A1", new King(Allegiance.WHITE));
-        ChessGUI.placePieceToPosition("A2", new Bishop(Allegiance.WHITE));
-        // ChessGUI.placePieceToPosition("A3", new Knight(Allegiance.WHITE));
-        // ChessGUI.placePieceToPosition("A4", new Knight(Allegiance.WHITE));
+        placePieceToPosition("A1", new King(Allegiance.WHITE));
+        placePieceToPosition("A2", new Bishop(Allegiance.WHITE));
+        // placePieceToPosition("A3", new Knight(Allegiance.WHITE));
+        // placePieceToPosition("A4", new Knight(Allegiance.WHITE));
 
-        ChessGUI.placePieceToPosition("H8", new King(Allegiance.BLACK));
-        // ChessGUI.placePieceToPosition("H7", new Bishop(Allegiance.BLACK));
-        ChessGUI.placePieceToPosition("H6", new Knight(Allegiance.BLACK));
-        ChessGUI.placePieceToPosition("H5", new Knight(Allegiance.BLACK));
+        placePieceToPosition("H8", new King(Allegiance.BLACK));
+        // placePieceToPosition("H7", new Bishop(Allegiance.BLACK));
+        placePieceToPosition("H6", new Knight(Allegiance.BLACK));
+        placePieceToPosition("H5", new Knight(Allegiance.BLACK));
 
         System.out.println();
-        ChessBoard.printChessBoard(ChessGUI.chessBoard.getGameBoard());
+        ChessBoard.printChessBoard(chessBoard.getGameBoard());
 
-        boolean isDraw = ChessGUI.chessBoard.checkForInsufficientMaterialDraw();
+        boolean isDraw = chessBoard.checkForInsufficientMaterialDraw();
         assertTrue("The game is not a draw.", isDraw);
         System.out.println("*****************************");
         System.out.println();
 
-        ChessGUI.checkForGameOver();
+        checkForGameOver();
 
         // Continue playing for a minute.
         try {

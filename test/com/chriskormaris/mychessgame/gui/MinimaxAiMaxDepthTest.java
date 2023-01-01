@@ -1,6 +1,13 @@
 package com.chriskormaris.mychessgame.gui;
 
+
 import org.junit.Test;
+
+import static com.chriskormaris.mychessgame.gui.ChessGUI.chessBoard;
+import static com.chriskormaris.mychessgame.gui.ChessGUI.newGameParameters;
+import static com.chriskormaris.mychessgame.gui.ChessGUI.placePiecesToStartingPositions;
+import static com.chriskormaris.mychessgame.gui.ChessGUI.startNewGame;
+
 
 public class MinimaxAiMaxDepthTest {
 
@@ -10,20 +17,20 @@ public class MinimaxAiMaxDepthTest {
 
         @SuppressWarnings("unused")
         ChessGUI cbg = new ChessGUI(title);
-        ChessGUI.placePiecesToStartingPositions();
+        placePiecesToStartingPositions();
 
 
-        // ChessGUI.newGameParameters.gameMode = GameMode.AI_VS_AI;
-        // ChessGUI.newGameParameters.aiType = AiType.MINIMAX_AI;
+        // newGameParameters.gameMode = GameMode.AI_VS_AI;
+        // newGameParameters.aiType = AiType.MINIMAX_AI;
 
-        ChessGUI.newGameParameters.setAi1MaxDepth(2);
-        // ChessGUI.newGameParameters.setAi1MaxDepth(3);
+        newGameParameters.setAi1MaxDepth(2);
+        // newGameParameters.setAi1MaxDepth(3);
 
-        // ChessGUI.newGameParameters.setAi2MaxDepth(2);
+        // newGameParameters.setAi2MaxDepth(2);
 
-        ChessGUI.startNewGame();
+        startNewGame();
 
-        System.out.println(ChessGUI.chessBoard);
+        System.out.println(chessBoard);
 
         while (true);
     }

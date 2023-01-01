@@ -132,7 +132,7 @@ public class ChessBoard {
 		this.gameBoard = new ChessPiece[numOfRows][NUM_OF_COLUMNS];
 		placePiecesToStartingPositions();
 
-		// this.gameBoard = FenUtilities.createGameBoard(this, Constants.DEFAULT_STARTING_PIECES);
+		// this.gameBoard = FenUtils.createGameBoard(this, Constants.DEFAULT_STARTING_PIECES);
 
 		this.tilesThreatenedByWhite = new int[numOfRows][NUM_OF_COLUMNS];
 		this.tilesThreatenedByBlack = new int[numOfRows][NUM_OF_COLUMNS];
@@ -428,12 +428,12 @@ public class ChessBoard {
 					this.setRightWhiteRookMoved(true);
 					this.setWhiteCastlingDone(false);
 				} else if (!this.isLeftBlackRookMoved() && (positionStart.equals("A" + numOfRows) ||
-						!(Utilities.getChessPieceFromPosition(this.gameBoard, "A" + numOfRows) 
+						!(Utilities.getChessPieceFromPosition(this.gameBoard, "A" + numOfRows)
 								instanceof Rook))) {
 					this.setLeftBlackRookMoved(true);
 					this.setBlackCastlingDone(false);
 				} else if (!this.isRightBlackRookMoved() && (positionStart.equals("H" + numOfRows) ||
-						!(Utilities.getChessPieceFromPosition(this.gameBoard, "H" + numOfRows) 
+						!(Utilities.getChessPieceFromPosition(this.gameBoard, "H" + numOfRows)
 								instanceof Rook))) {
 					this.setRightBlackRookMoved(true);
 					this.setBlackCastlingDone(false);
@@ -450,7 +450,7 @@ public class ChessBoard {
 
 					String twoStepsForwardBlackPawnPosition = Utilities.getPositionByRowCol(
 							rowEnd + 1,
-							columnEnd, 
+							columnEnd,
 							numOfRows
 					);
 					// if (displayMove)
@@ -466,12 +466,11 @@ public class ChessBoard {
 					ChessPiece possibleBlackEnPassantCapturedPawn = this.gameBoard[rowEnd + 1][columnEnd];
 					if (possibleBlackEnPassantCapturedPawn instanceof Pawn
 							&& possibleBlackEnPassantCapturedPawn.getAllegiance() == Allegiance.BLACK
-							&& this.enPassantPosition.equals(Utilities.getPositionByRowCol(
-									rowEnd, columnEnd, numOfRows))) {
+							&& this.enPassantPosition.equals(
+									Utilities.getPositionByRowCol(rowEnd, columnEnd, numOfRows))) {
 
 						if (displayMove) {
 							positionsToRemove.add(twoStepsForwardBlackPawnPosition);
-
 							capturedEnPassantPiece = possibleBlackEnPassantCapturedPawn;
 						} else {
 							this.gameBoard
@@ -496,15 +495,15 @@ public class ChessBoard {
 					int twoStepsForwardWhitePawnPositionColumn = Utilities.getColumnFromPosition(
 							twoStepsForwardWhitePawnPosition);
 
+					// Black pawn captures white pawn.
 					ChessPiece possibleWhiteEnPassantCapturedPawn = this.gameBoard[rowEnd - 1][columnEnd];
 					if (possibleWhiteEnPassantCapturedPawn instanceof Pawn
 							&& possibleWhiteEnPassantCapturedPawn.getAllegiance() == Allegiance.WHITE
-							&& this.enPassantPosition.equals(Utilities.getPositionByRowCol(
-									rowEnd, columnEnd, numOfRows))) {
+							&& this.enPassantPosition.equals(
+									Utilities.getPositionByRowCol(rowEnd, columnEnd, numOfRows))) {
 
 						if (displayMove) {
 							positionsToRemove.add(twoStepsForwardWhitePawnPosition);
-
 							capturedEnPassantPiece = possibleWhiteEnPassantCapturedPawn;
 						} else {
 							this.gameBoard
@@ -592,10 +591,10 @@ public class ChessBoard {
 	}
 
 	public void automaticPawnPromotion(ChessPiece chessPiece, String positionEnd, boolean displayMove) {
-		ChessPiece queen = new Queen(chessPiece.getAllegiance());
-		ChessPiece rook = new Rook(chessPiece.getAllegiance());
-		ChessPiece bishop = new Bishop(chessPiece.getAllegiance());
-		ChessPiece knight = new Knight(chessPiece.getAllegiance());
+		ChessPiece queen = new Queen(chessPiece.getAllegiance(), true);
+		ChessPiece rook = new Rook(chessPiece.getAllegiance(), true);
+		ChessPiece bishop = new Bishop(chessPiece.getAllegiance(), true);
+		ChessPiece knight = new Knight(chessPiece.getAllegiance(), true);
 
 		ChessPiece[] promotionChessPieces = {queen, rook, bishop, knight};
 
@@ -629,7 +628,6 @@ public class ChessBoard {
 			if (displayMove) {
 				piecesToPlace.put(positionEnd, knight);
 			}
-			knight.setPromoted(true);
 		} else {
 			for (ChessPiece currentPromotionPiece : promotionChessPieces) {
 				chessBoard.getGameBoard()[rowEnd][columnEnd] = currentPromotionPiece;
@@ -642,7 +640,6 @@ public class ChessBoard {
 					if (displayMove) {
 						piecesToPlace.put(positionEnd, currentPromotionPiece);
 					}
-					currentPromotionPiece.setPromoted(true);
 					break;
 				}
 			}

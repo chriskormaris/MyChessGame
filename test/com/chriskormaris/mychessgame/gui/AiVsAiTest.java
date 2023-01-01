@@ -4,6 +4,11 @@ package com.chriskormaris.mychessgame.gui;
 import com.chriskormaris.mychessgame.api.enumeration.GameMode;
 import org.junit.Test;
 
+import static com.chriskormaris.mychessgame.gui.ChessGUI.gameParameters;
+import static com.chriskormaris.mychessgame.gui.ChessGUI.placePiecesToStartingPositions;
+import static com.chriskormaris.mychessgame.gui.ChessGUI.playAiVsAi;
+import static com.chriskormaris.mychessgame.gui.ChessGUI.restoreDefaultValues;
+
 
 public class AiVsAiTest {
 
@@ -14,10 +19,10 @@ public class AiVsAiTest {
         @SuppressWarnings("unused")
         ChessGUI cbg = new ChessGUI(title);
 
-        ChessGUI.gameParameters.setGameMode(GameMode.AI_VS_AI);
-        // ChessGUI.gameParameters.setAiType(AiType.RANDOM_AI);
+        gameParameters.setGameMode(GameMode.AI_VS_AI);
+        // gameParameters.setAiType(AiType.RANDOM_AI);
 
-        ChessGUI.restoreDefaultValues();
+        restoreDefaultValues();
 
         // String fenPosition = "5Knk/1P6/4Q3/8/8/8/8/8 w - - 0 1";
         // String fenPosition = "1R1qpKnk/8/4Q3/8/8/8/8/8 w - - 0 1";
@@ -27,23 +32,23 @@ public class AiVsAiTest {
         // because the "whiteKingInCheckValidPieceMoves" Map<String, Set<String>> is empty.
         // String fenPosition = "1R1q1Knk/8/4Q3/8/8/8/8/8 w - - 0 1";
 
-        // ChessGUI.placePiecesToChessBoard(fenPosition);
-        // System.out.println("White king position: " + ChessGUI.chessBoard.getWhiteKingPosition());
-        // System.out.println("Black king position: " + ChessGUI.chessBoard.getBlackKingPosition());
+        // placePiecesToChessBoard(fenPosition);
+        // System.out.println("White king position: " + chessBoard.getWhiteKingPosition());
+        // System.out.println("Black king position: " + chessBoard.getBlackKingPosition());
 
-        // System.out.println("player: " + ChessGUI.chessBoard.getPlayer());
+        // System.out.println("player: " + chessBoard.getPlayer());
 
-        // ChessBoard.printChessBoard(ChessGUI.chessBoard.getGameBoard());
+        // ChessBoard.printChessBoard(chessBoard.getGameBoard());
 
         // Find the "whiteKingInCheckValidPieceMoves" and "blackKingInCheckValidPieceMoves",
         // if the White or Black King respectively is in check.
         // boolean storeKingInCheckMoves = true;
-        // ChessGUI.chessBoard.checkForBlackCheckmate(storeKingInCheckMoves);
-        // ChessGUI.chessBoard.checkForWhiteCheckmate(storeKingInCheckMoves);
+        // chessBoard.checkForBlackCheckmate(storeKingInCheckMoves);
+        // chessBoard.checkForWhiteCheckmate(storeKingInCheckMoves);
         // System.out.println(chessBoard.getWhiteKingInCheckValidPieceMoves());
 
-        ChessGUI.placePiecesToStartingPositions();
-        ChessGUI.playAiVsAi();
+        placePiecesToStartingPositions();
+        playAiVsAi();
 
         System.out.println();
 
