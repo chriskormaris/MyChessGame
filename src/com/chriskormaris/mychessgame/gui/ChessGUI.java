@@ -308,9 +308,11 @@ public class ChessGUI {
 				JOptionPane.INFORMATION_MESSAGE));
 
 		aboutItem.addActionListener(e -> {
-			JLabel label = new JLabel("<html>A traditional chess game implementation using Minimax AI,<br>"
-					+ "with Alpha-Beta Pruning.<br>© Created by: Christos Kormaris, Athens 2020<br>"
-					+ "Version " + GuiConstants.VERSION + "</html>");
+			JLabel label = new JLabel(
+					"<html>A traditional chess game implementation using Minimax AI,<br>"
+							+ "with Alpha-Beta Pruning.<br>© Created by: Christos Kormaris, Athens 2020<br>"
+							+ "Version " + GuiConstants.VERSION + "</html>"
+			);
 
 			BufferedImage img = null;
 			try {
@@ -323,9 +325,9 @@ public class ChessGUI {
 					GuiConstants.CHESS_SQUARE_PIXEL_SIZE,
 					Image.SCALE_SMOOTH
 			);
-			ImageIcon icon1 = new ImageIcon(dImg);
+			ImageIcon imageIcon = new ImageIcon(dImg);
 
-			JOptionPane.showMessageDialog(frame, label, "About", JOptionPane.PLAIN_MESSAGE, icon1);
+			JOptionPane.showMessageDialog(frame, label, "About", JOptionPane.PLAIN_MESSAGE, imageIcon);
 		});
 
 		fileMenu.add(newGameItem);
