@@ -4,6 +4,7 @@ package com.chriskormaris.mychessgame.gui;
 import com.chriskormaris.mychessgame.api.enumeration.GameMode;
 import org.junit.Test;
 
+import static com.chriskormaris.mychessgame.gui.ChessGUI.disableChessBoardSquares;
 import static com.chriskormaris.mychessgame.gui.ChessGUI.gameParameters;
 import static com.chriskormaris.mychessgame.gui.ChessGUI.placePiecesToStartingPositions;
 import static com.chriskormaris.mychessgame.gui.ChessGUI.playAiVsAi;
@@ -48,6 +49,7 @@ public class AiVsAiTest {
         // System.out.println(chessBoard.getWhiteKingInCheckValidPieceMoves());
 
         placePiecesToStartingPositions();
+        disableChessBoardSquares();
         playAiVsAi();
 
         System.out.println();

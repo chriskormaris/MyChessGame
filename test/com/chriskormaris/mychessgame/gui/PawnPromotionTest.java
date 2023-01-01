@@ -6,8 +6,10 @@ import com.chriskormaris.mychessgame.api.enumeration.GameMode;
 import org.junit.Test;
 
 import static com.chriskormaris.mychessgame.gui.ChessGUI.chessBoard;
+import static com.chriskormaris.mychessgame.gui.ChessGUI.disableChessBoardSquares;
 import static com.chriskormaris.mychessgame.gui.ChessGUI.gameParameters;
 import static com.chriskormaris.mychessgame.gui.ChessGUI.placePiecesToChessBoard;
+import static com.chriskormaris.mychessgame.gui.ChessGUI.playAiVsAi;
 
 
 public class PawnPromotionTest {
@@ -49,6 +51,7 @@ public class PawnPromotionTest {
         placePiecesToChessBoard(fenPosition);
         ChessBoard.printChessBoard(chessBoard.getGameBoard());
 
+        // disableChessBoardSquares();
         // playAiVsAi();
 
         System.out.println();

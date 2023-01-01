@@ -621,28 +621,29 @@ public class ChessBoard {
 			// System.out.println("chessBoard.isBlackCheckmate: " + chessBoard.isBlackCheckmate);
 		}
 
-		if (chessPiece.getAllegiance() == Allegiance.WHITE && chessBoard.isWhiteCheckmate()
-				||
-			chessPiece.getAllegiance() == Allegiance.BLACK && chessBoard.isBlackCheckmate()) {
-			this.gameBoard[rowEnd][columnEnd] = knight;
-			if (displayMove) {
-				piecesToPlace.put(positionEnd, knight);
-			}
-		} else {
+		ChessPiece promotedPiece = knight;
+		// If promoting to Knight does not cause a mate, then try other promotions.
+		if (!(chessPiece.getAllegiance() == Allegiance.WHITE && chessBoard.isWhiteCheckmate())
+				&& !(chessPiece.getAllegiance() == Allegiance.BLACK && chessBoard.isBlackCheckmate())) {
 			for (ChessPiece currentPromotionPiece : promotionChessPieces) {
-				chessBoard.getGameBoard()[rowEnd][columnEnd] = currentPromotionPiece;
+				promotedPiece = currentPromotionPiece;
+				chessBoard.getGameBoard()[rowEnd][columnEnd] = promotedPiece;
 				chessBoard.setThreats();
 
 				if (chessPiece.getAllegiance() == Allegiance.WHITE && !chessBoard.checkForBlackStalemateDraw()
 						||
 					chessPiece.getAllegiance() == Allegiance.BLACK && !chessBoard.checkForWhiteStalemateDraw()) {
-					this.gameBoard[rowEnd][columnEnd] = currentPromotionPiece;
-					if (displayMove) {
-						piecesToPlace.put(positionEnd, currentPromotionPiece);
-					}
 					break;
 				}
+				// If Stalemate can't be avoided, at least end the game with a Queen promotion.
+				else if (currentPromotionPiece instanceof Knight) {
+					promotedPiece = queen;
+				}
 			}
+		}
+		this.gameBoard[rowEnd][columnEnd] = promotedPiece;
+		if (displayMove) {
+			piecesToPlace.put(positionEnd, promotedPiece);
 		}
 	}
 

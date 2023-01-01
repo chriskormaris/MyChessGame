@@ -38,6 +38,7 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -1933,7 +1934,10 @@ public class ChessGUI {
 		for (int i = 0; i < gameParameters.getNumOfRows(); i++) {
 			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
 				// chessBoardSquares[i][j].setEnabled(false);
-				chessBoardSquares[i][j].removeActionListener(chessBoardSquares[i][j].getActionListeners()[0]);
+				ActionListener[] actionListeners = chessBoardSquares[i][j].getActionListeners();
+				if (actionListeners.length > 0) {
+					chessBoardSquares[i][j].removeActionListener(actionListeners[0]);
+				}
 			}
 		}
 		buttonsEnabled = false;

@@ -36,6 +36,7 @@ public class EnPassantTest {
         placePiecesToChessBoard(fenPosition);
         ChessBoard.printChessBoard(chessBoard.getGameBoard());
 
+        // disableChessBoardSquares();
         // playAiVsAi();
 
         System.out.println();
