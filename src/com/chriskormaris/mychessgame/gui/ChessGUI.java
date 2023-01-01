@@ -132,13 +132,6 @@ public class ChessGUI {
 	private static JMenuItem howToPlayItem;
 	private static JMenuItem aboutItem;
 
-	/*
-	private static int whiteMinimaxAiMoveElapsedSecs;
-	private static int blackMinimaxAiMoveElapsedSecs;
-
-    private static double whiteMinimaxAiMoveAverageSecs;
-    private static double blackMinimaxAiMoveAverageSecs;
-	*/
 
 	public ChessGUI(String title) {
 		// Change JDialog style.
@@ -396,35 +389,6 @@ public class ChessGUI {
 	}
 
 
-	/*
-	public static void updateMinimaxAiMoveElapsedSecs() {
-		setTurnMessage();
-
-		String turnMessage = turnTextPane.getText();
-
-		if (chessBoard.blackPlays() &&
-				(gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
-				&& gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE
-				|| gameParameters.getGameMode() == GameMode.AI_VS_AI
-				&& gameParameters.getAiType() == AiType.MINIMAX_AI)) {
-			blackMinimaxAiMoveElapsedSecs++;
-			turnMessage += " Minimax AI has been thinking for: " + blackMinimaxAiMoveElapsedSecs + " secs";
-	    	// System.out.println("blackMinimaxAiMoveElapsedSecs: " + blackMinimaxAiMoveElapsedSecs);
-		} else if (chessBoard.whitePlays() &&
-				(gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
-				&& gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK
-				|| gameParameters.getGameMode() == GameMode.AI_VS_AI
-				&& gameParameters.getAiType() == AiType.MINIMAX_AI)) {
-	    	whiteMinimaxAiMoveElapsedSecs++;
-			turnMessage += " Minimax AI has been thinking for: " + whiteMinimaxAiMoveElapsedSecs + " secs";
-	    	// System.out.println("whiteMinimaxAiMoveElapsedSecs: " + whiteMinimaxAiMoveElapsedSecs);
-		}
-
-		turnTextPane.setText(turnMessage);
-	}
-	*/
-
-
 	public static void setScoreMessage() {
 		if (chessBoard.getScore() == 0) {
 			capturedPiecesImages[15].setText(ZERO_SCORE_TEXT);
@@ -434,26 +398,6 @@ public class ChessGUI {
 			capturedPiecesImages[15].setText("Black: +" + (-chessBoard.getScore()));
 		}
 	}
-
-
-	/*
-	private static Timer initializeMinimaxAiMoveTimer() {
-		Timer timer = new Timer(true);
-
-		timer.schedule(new TimerTask() {
-		    @Override
-		    public void run() {
-
-		    	updateMinimaxAiMoveElapsedSecs();
-
-				chessBoardPanel.revalidate();
-				chessBoardPanel.repaint();
-		    }
-		}, 0, 1000);
-
-		return timer;
-	}
-	*/
 
 
 	private static void undoLastMove() {
@@ -969,9 +913,6 @@ public class ChessGUI {
 		isGameOver = false;
 
 		setTurnMessage();
-
-		// whiteMinimaxAiMoveAverageSecs = 0;
-		// blackMinimaxAiMoveAverageSecs = 0;
 	}
 
 	// This method is only called from inside a chess board button listener.
@@ -1570,8 +1511,6 @@ public class ChessGUI {
 	}
 
 	private static void startNewGameOrNot(int dialogResult) {
-		// calculateAverageMinimaxAiMoveSecs();
-
 		if (dialogResult == JOptionPane.YES_OPTION) {
 			startNewGame();
 		} else {
@@ -1592,60 +1531,14 @@ public class ChessGUI {
 	}
 
 
-	/*
-	private static void calculateAverageMinimaxAiMoveSecs() {
-		if ((gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
-			|| gameParameters.getGameMode() == GameMode.AI_VS_AI)
-				&& gameParameters.getAiType() == AiType.MINIMAX_AI) {
-
-			whiteMinimaxAiMoveAverageSecs = whiteMinimaxAiMoveAverageSecs
-					/ Math.ceil((double) chessBoard.getHalfMoveNumber() / 2.0);
-			blackMinimaxAiMoveAverageSecs = blackMinimaxAiMoveAverageSecs
-					/ Math.floor((double) chessBoard.getHalfMoveNumber() / 2.0);
-
-			if ((gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
-					&& gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE
-					|| gameParameters.getGameMode() == GameMode.AI_VS_AI)) {
-				System.out.println("Black Minimax AI move Average seconds: " + blackMinimaxAiMoveAverageSecs);
-			}
-			if ((gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
-					&& gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK
-					|| gameParameters.getGameMode() == GameMode.AI_VS_AI)) {
-				System.out.println("White Minimax AI move Average seconds: " + whiteMinimaxAiMoveAverageSecs);
-			}
-		}
-	}
-	*/
-
 	// Gets called after the human player makes a move. It makes a Minimax AI move.
 	public static void aiMove(AI ai) {
-	    /*
-		if (chessBoard.whitePlays()) {
-			whiteMinimaxAiMoveElapsedSecs = -1;
-		} else if (chessBoard.blackPlays()) {
-			blackMinimaxAiMoveElapsedSecs = -1;
-		}
-		Timer timer = initializeMinimaxAiMoveTimer();
-		setTurnMessage();
-		chessBoardPanel.revalidate();
-		chessBoardPanel.repaint();
-	    */
-
 		Move aiMove = ai.getNextMove(chessBoard);
 		System.out.println("aiMove: " + aiMove);
 		// System.out.println("lastCapturedPieceValue: " + chessBoard.getLastCapturedPieceValue());
 
 		makeDisplayMove(aiMove, true);
 		// System.out.println("board value after aiMove -> " + chessBoard.evaluate());
-
-        /*
-        timer.cancel();
-		if (chessBoard.whitePlays()) {
-			whiteMinimaxAiMoveAverageSecs += whiteMinimaxAiMoveElapsedSecs;
-		} else if (chessBoard.blackPlays()) {
-			blackMinimaxAiMoveAverageSecs += blackMinimaxAiMoveElapsedSecs;
-		}
-        */
 
 		isGameOver = checkForGameOver();
 		if (isGameOver) return;

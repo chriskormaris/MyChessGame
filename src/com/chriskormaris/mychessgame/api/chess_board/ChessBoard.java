@@ -1120,8 +1120,10 @@ public class ChessBoard {
 							initialChessBoard = new ChessBoard(this);
 						}
 						if (storeKingInCheckMoves && validBlackKingInCheckTempNextPosition.size() > 0) {
-							this.blackKingInCheckValidPieceMoves.put(currentPosition,
-									validBlackKingInCheckTempNextPosition);
+							this.blackKingInCheckValidPieceMoves.put(
+									currentPosition,
+									validBlackKingInCheckTempNextPosition
+							);
 						}
 					}
 				}
@@ -1211,6 +1213,116 @@ public class ChessBoard {
 		}
 
 		return isBlackCheckmate;
+	}
+
+	// It checks for a stalemate. It gets called after the opposing player, makes a move.
+	// A stalemate occurs when a player has no legal moves to make. Then, the game ends in a draw.
+	// If the Black player makes a move, then we check for a White player stalemate and vice-versa.
+	public boolean checkForWhiteStalemateDraw() {
+		boolean isWhiteStalemateDraw = true;
+
+		ChessBoard initialChessBoard = new ChessBoard(this);
+
+		// System.out.println("Checking for White stalemate...");
+		for (int i = 0; i < numOfRows; i++) {
+			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
+				ChessPiece currentPiece = initialChessBoard.getGameBoard()[i][j];
+				// System.out.println("i: " + i + ", j: " + j + ", tempChessPiece: " + tempChessPiece);
+				if (currentPiece.getAllegiance() == Allegiance.WHITE) {
+					String currentPosition = Utilities.getPositionByRowCol(i, j, numOfRows);
+					Set<String> nextPositions = initialChessBoard.getNextPositions(currentPosition);
+
+					for (String nextPosition : nextPositions) {
+						initialChessBoard.movePieceFromAPositionToAnother(
+								currentPosition,
+								nextPosition,
+								false
+						);
+
+						int whiteKingRow = Utilities.getRowFromPosition(
+								initialChessBoard.getWhiteKingPosition(),
+								numOfRows
+						);
+						int whiteKingColumn = Utilities.getColumnFromPosition(initialChessBoard.getWhiteKingPosition());
+
+						// If any move exists without getting the White king in check,
+						// then there still are legal moves, and we do not have a stalemate scenario.
+						boolean legalMovesExist =
+								initialChessBoard.getTilesThreatenedByBlack()[whiteKingRow][whiteKingColumn] == 0;
+
+						initialChessBoard = new ChessBoard(this);
+
+						if (legalMovesExist) {
+							isWhiteStalemateDraw = false;
+							i = j = 1000000;
+							break;
+						}
+
+					}
+				}
+			}
+		}
+
+		if (isWhiteStalemateDraw) {
+			this.gameResult = GameResult.WHITE_STALEMATE_DRAW;
+		}
+
+		return isWhiteStalemateDraw;
+	}
+
+	// It checks for a stalemate. It gets called after the opposing player, makes a move.
+	// A stalemate occurs when a player has no legal moves to make. Then, the game ends in a draw.
+	// If the White player makes a move, then we check for a Black player stalemate and vice-versa.
+	public boolean checkForBlackStalemateDraw() {
+		boolean isBlackStalemateDraw = true;
+
+		ChessBoard initialChessBoard = new ChessBoard(this);
+
+		// System.out.println("Checking for Black stalemate...");
+		for (int i = 0; i < numOfRows; i++) {
+			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
+				ChessPiece currentPiece = initialChessBoard.getGameBoard()[i][j];
+				// System.out.println("i: " + i + ", j: " + j + ", tempChessPiece: " + tempChessPiece);
+				if (currentPiece.getAllegiance() == Allegiance.BLACK) {
+					String currentPosition = Utilities.getPositionByRowCol(i, j, numOfRows);
+					Set<String> nextPositions = initialChessBoard.getNextPositions(currentPosition);
+
+					for (String nextPosition : nextPositions) {
+						initialChessBoard.movePieceFromAPositionToAnother(
+								currentPosition,
+								nextPosition,
+								false
+						);
+
+						int blackKingRow = Utilities.getRowFromPosition(
+								initialChessBoard.getBlackKingPosition(),
+								numOfRows
+						);
+						int blackKingColumn = Utilities.getColumnFromPosition(initialChessBoard.getBlackKingPosition());
+
+						// If any move exists without getting the Black king in check,
+						// then there still are legal moves, and we do not have a stalemate scenario.
+						boolean legalMovesExist =
+								initialChessBoard.getTilesThreatenedByWhite()[blackKingRow][blackKingColumn] == 0;
+
+						initialChessBoard = new ChessBoard(this);
+
+						if (legalMovesExist) {
+							isBlackStalemateDraw = false;
+							i = j = 1000000;
+							break;
+						}
+
+					}
+				}
+			}
+		}
+
+		if (isBlackStalemateDraw) {
+			this.gameResult = GameResult.BLACK_STALEMATE_DRAW;
+		}
+
+		return isBlackStalemateDraw;
 	}
 
 	// Checks if there is insufficient mating material left on the chess board.
@@ -1349,116 +1461,6 @@ public class ChessBoard {
 		}
 
 		return true;
-	}
-
-	// It checks for a stalemate. It gets called after the opposing player, makes a move.
-	// A stalemate occurs when a player has no legal moves to make. Then, the game ends in a draw.
-	// If the Black player makes a move, then we check for a White player stalemate and vice-versa.
-	public boolean checkForWhiteStalemateDraw() {
-		boolean isWhiteStalemateDraw = true;
-
-		ChessBoard initialChessBoard = new ChessBoard(this);
-
-		// System.out.println("Checking for White stalemate...");
-		for (int i = 0; i < numOfRows; i++) {
-			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
-				ChessPiece currentPiece = initialChessBoard.getGameBoard()[i][j];
-				// System.out.println("i: " + i + ", j: " + j + ", tempChessPiece: " + tempChessPiece);
-				if (currentPiece.getAllegiance() == Allegiance.WHITE) {
-					String currentPosition = Utilities.getPositionByRowCol(i, j, numOfRows);
-					Set<String> nextPositions = initialChessBoard.getNextPositions(currentPosition);
-
-					for (String nextPosition : nextPositions) {
-						initialChessBoard.movePieceFromAPositionToAnother(
-								currentPosition,
-								nextPosition,
-								false
-						);
-
-						int whiteKingRow = Utilities.getRowFromPosition(
-								initialChessBoard.getWhiteKingPosition(),
-								numOfRows
-						);
-						int whiteKingColumn = Utilities.getColumnFromPosition(initialChessBoard.getWhiteKingPosition());
-
-						// If any move exists without getting the White king in check,
-						// then there still are legal moves, and we do not have a stalemate scenario.
-						boolean legalMovesExist =
-								initialChessBoard.getTilesThreatenedByBlack()[whiteKingRow][whiteKingColumn] == 0;
-
-						initialChessBoard = new ChessBoard(this);
-
-						if (legalMovesExist) {
-							isWhiteStalemateDraw = false;
-							i = j = 1000000;
-							break;
-						}
-
-					}
-				}
-			}
-		}
-
-		if (isWhiteStalemateDraw) {
-			this.gameResult = GameResult.WHITE_STALEMATE_DRAW;
-		}
-
-		return isWhiteStalemateDraw;
-	}
-
-	// It checks for a stalemate. It gets called after the opposing player, makes a move.
-	// A stalemate occurs when a player has no legal moves to make. Then, the game ends in a draw.
-	// If the White player makes a move, then we check for a Black player stalemate and vice-versa.
-	public boolean checkForBlackStalemateDraw() {
-		boolean isBlackStalemateDraw = true;
-
-		ChessBoard initialChessBoard = new ChessBoard(this);
-
-		// System.out.println("Checking for Black stalemate...");
-		for (int i = 0; i < numOfRows; i++) {
-			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
-				ChessPiece currentPiece = initialChessBoard.getGameBoard()[i][j];
-				// System.out.println("i: " + i + ", j: " + j + ", tempChessPiece: " + tempChessPiece);
-				if (currentPiece.getAllegiance() == Allegiance.BLACK) {
-					String currentPosition = Utilities.getPositionByRowCol(i, j, numOfRows);
-					Set<String> nextPositions = initialChessBoard.getNextPositions(currentPosition);
-
-					for (String nextPosition : nextPositions) {
-						initialChessBoard.movePieceFromAPositionToAnother(
-								currentPosition,
-								nextPosition,
-								false
-						);
-
-						int blackKingRow = Utilities.getRowFromPosition(
-								initialChessBoard.getBlackKingPosition(),
-								numOfRows
-						);
-						int blackKingColumn = Utilities.getColumnFromPosition(initialChessBoard.getBlackKingPosition());
-
-						// If any move exists without getting the Black king in check,
-						// then there still are legal moves, and we do not have a stalemate scenario.
-						boolean legalMovesExist =
-								initialChessBoard.getTilesThreatenedByWhite()[blackKingRow][blackKingColumn] == 0;
-
-						initialChessBoard = new ChessBoard(this);
-
-						if (legalMovesExist) {
-							isBlackStalemateDraw = false;
-							i = j = 1000000;
-							break;
-						}
-
-					}
-				}
-			}
-		}
-
-		if (isBlackStalemateDraw) {
-			this.gameResult = GameResult.BLACK_STALEMATE_DRAW;
-		}
-
-		return isBlackStalemateDraw;
 	}
 
 	public Move getLastMove() {
