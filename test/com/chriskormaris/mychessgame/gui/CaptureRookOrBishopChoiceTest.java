@@ -40,12 +40,14 @@ public class CaptureRookOrBishopChoiceTest {
         chessBoard.setPlayer(Constants.BLACK);
         aiMove(ai);
 
-        assertTrue("The Black Knight did NOT capture the White Rook.",
-                Utilities.getChessPieceFromPosition(chessBoard.getGameBoard(), "A1") instanceof Knight);
+        assertTrue(
+                "The Black Knight did NOT capture the White Rook.",
+                Utilities.getChessPieceFromPosition(chessBoard.getGameBoard(), "A1") instanceof Knight
+        );
 
         // Continue playing for a minute.
         try {
-            Thread.sleep(60000);
+            Thread.sleep(60 * 1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

@@ -3,6 +3,7 @@ package com.chriskormaris.mychessgame.api.chess_board;
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 import com.chriskormaris.mychessgame.api.enumeration.EvaluationFunction;
 import com.chriskormaris.mychessgame.api.enumeration.GamePhase;
+import com.chriskormaris.mychessgame.api.enumeration.GameResult;
 import com.chriskormaris.mychessgame.api.evaluation_function.PeSTOEvaluationUtils;
 import com.chriskormaris.mychessgame.api.evaluation_function.ShannonEvaluationUtils;
 import com.chriskormaris.mychessgame.api.evaluation_function.SimplifiedEvaluationUtils;
@@ -102,12 +103,7 @@ public class ChessBoard {
 	private Map<String, Set<String>> whiteKingInCheckValidPieceMoves;
 	private Map<String, Set<String>> blackKingInCheckValidPieceMoves;
 
-	/* These variables are also used for the "undo" functionality. */
-	private boolean isWhiteCheckmate;
-	private boolean isBlackCheckmate;
-	private boolean isWhiteStalemateDraw;
-	private boolean isBlackStalemateDraw;
-	private boolean isInsufficientMaterialDraw;
+	private GameResult gameResult;
 
 	private int score;
 
@@ -146,6 +142,8 @@ public class ChessBoard {
 
 		this.halfMoveClock = 0;
 		this.halfMoveNumber = 1;
+
+		this.gameResult = GameResult.NONE;
 
 		this.score = 0;
 
@@ -196,11 +194,7 @@ public class ChessBoard {
 		this.whiteKingInCheckValidPieceMoves = new HashMap<>(otherBoard.getWhiteKingInCheckValidPieceMoves());
 		this.blackKingInCheckValidPieceMoves = new HashMap<>(otherBoard.getBlackKingInCheckValidPieceMoves());
 
-		this.isWhiteCheckmate = otherBoard.isWhiteCheckmate();
-		this.isBlackCheckmate = otherBoard.isBlackCheckmate();
-		this.isWhiteStalemateDraw = otherBoard.isWhiteStalemateDraw();
-		this.isBlackStalemateDraw = otherBoard.isBlackStalemateDraw();
-		this.isInsufficientMaterialDraw = otherBoard.isInsufficientMaterialDraw();
+		this.gameResult = otherBoard.getGameResult();
 
 		this.score = otherBoard.getScore();
 
@@ -623,8 +617,10 @@ public class ChessBoard {
 
 		ChessPiece promotedPiece = knight;
 		// If promoting to Knight does not cause a mate, then try other promotions.
-		if (!(chessPiece.getAllegiance() == Allegiance.WHITE && chessBoard.isWhiteCheckmate())
-				&& !(chessPiece.getAllegiance() == Allegiance.BLACK && chessBoard.isBlackCheckmate())) {
+		if (!(chessPiece.getAllegiance() == Allegiance.WHITE
+				&& chessBoard.getGameResult() == GameResult.WHITE_CHECKMATE)
+				&& !(chessPiece.getAllegiance() == Allegiance.BLACK
+				&& chessBoard.getGameResult() == GameResult.BLACK_CHECKMATE)) {
 			for (ChessPiece currentPromotionPiece : promotionChessPieces) {
 				promotedPiece = currentPromotionPiece;
 				chessBoard.getGameBoard()[rowEnd][columnEnd] = promotedPiece;
@@ -632,7 +628,7 @@ public class ChessBoard {
 
 				if (chessPiece.getAllegiance() == Allegiance.WHITE && !chessBoard.checkForBlackStalemateDraw()
 						||
-					chessPiece.getAllegiance() == Allegiance.BLACK && !chessBoard.checkForWhiteStalemateDraw()) {
+						chessPiece.getAllegiance() == Allegiance.BLACK && !chessBoard.checkForWhiteStalemateDraw()) {
 					break;
 				}
 				// If Stalemate can't be avoided, at least end the game with a Queen promotion.
@@ -721,18 +717,12 @@ public class ChessBoard {
 	 * 3) Wukong
 	 * 4) Shannon's */
 	public double evaluate(EvaluationFunction evaluationFunction) {
-		this.isWhiteCheckmate = checkForWhiteCheckmate(false);
-		this.isBlackCheckmate = checkForBlackCheckmate(false);
-		this.isWhiteStalemateDraw = checkForWhiteStalemateDraw();
-		this.isBlackStalemateDraw = checkForBlackStalemateDraw();
-		this.isInsufficientMaterialDraw = checkForInsufficientMaterialDraw();
-
-		if (this.isWhiteCheckmate) return Constants.CHECKMATE_VALUE;
-		if (this.isBlackCheckmate) return -Constants.CHECKMATE_VALUE;
-		if (this.isWhiteStalemateDraw) return 0;
-		if (this.isBlackStalemateDraw) return 0;
-		if (this.isInsufficientMaterialDraw) return 0;
-		// if (checkForNoPieceCaptureDraw()) return 0;
+		if (checkForWhiteCheckmate(false)) return Constants.CHECKMATE_VALUE;
+		if (checkForBlackCheckmate(false)) return -Constants.CHECKMATE_VALUE;
+		if (checkForWhiteStalemateDraw()) return 0;
+		if (checkForBlackStalemateDraw()) return 0;
+		if (checkForInsufficientMaterialDraw()) return 0;
+		if (checkForNoPieceCaptureDraw()) return 0;
 
 		if (evaluationFunction == EvaluationFunction.SIMPLIFIED) {
 			return simplifiedEvaluation();
@@ -985,15 +975,13 @@ public class ChessBoard {
 		// meaning that the next player should be Black.
 		if (blackPlays() && checkForBlackStalemateDraw()) return true;
 
-		return checkForInsufficientMaterialDraw();
+		if (checkForInsufficientMaterialDraw()) return true;
 
-		// if (checkForNoPieceCaptureDraw()) return true;
+		return checkForNoPieceCaptureDraw();
 	}
 
 	public boolean isTerminalState() {
-		return isWhiteCheckmate() || isBlackCheckmate()
-				|| isWhiteStalemateDraw() || isBlackStalemateDraw()
-				|| isInsufficientMaterialDraw() /* || checkForNoPieceCaptureDraw() */;
+		return this.gameResult != GameResult.NONE;
 	}
 
 	public Set<String> getNextPositions(String position) {
@@ -1085,7 +1073,7 @@ public class ChessBoard {
 
 	// Check for White checkmate (if White wins!)
 	public boolean checkForWhiteCheckmate(boolean storeKingInCheckMoves) {
-		this.isWhiteCheckmate = false;
+		boolean isWhiteCheckmate = false;
 
 		ChessBoard initialChessBoard = new ChessBoard(this);
 
@@ -1140,7 +1128,8 @@ public class ChessBoard {
 			}
 
 			if (blackKingThreatened == 1) {
-				this.isWhiteCheckmate = true;
+				isWhiteCheckmate = true;
+				this.gameResult = GameResult.WHITE_CHECKMATE;
 			}
 		} else {
 			if (storeKingInCheckMoves) {
@@ -1149,12 +1138,12 @@ public class ChessBoard {
 			}
 		}
 
-		return this.isWhiteCheckmate;
+		return isWhiteCheckmate;
 	}
 
 	// Check for Black checkmate (if Black wins!)
 	public boolean checkForBlackCheckmate(boolean storeKingInCheckMoves) {
-		this.isBlackCheckmate = false;
+		boolean isBlackCheckmate = false;
 
 		ChessBoard initialChessBoard = new ChessBoard(this);
 
@@ -1211,7 +1200,8 @@ public class ChessBoard {
 			}
 
 			if (whiteKingThreatened == 1) {
-				this.isBlackCheckmate = true;
+				isBlackCheckmate = true;
+				this.gameResult = GameResult.BLACK_CHECKMATE;
 			}
 		} else {
 			if (storeKingInCheckMoves) {
@@ -1220,29 +1210,32 @@ public class ChessBoard {
 			}
 		}
 
-		return this.isBlackCheckmate;
+		return isBlackCheckmate;
 	}
 
-	// Checks if there are insufficient material for a checkmate, left on the chess board.
+	// Checks if there is insufficient mating material left on the chess board.
 	public boolean checkForInsufficientMaterialDraw() {
-		boolean whiteHasInsufficientMaterial =
-				isLoneKing(Allegiance.WHITE)
-						|| isLoneKingPlusOneOrTwoKnights(Allegiance.WHITE) || isLoneKingPlusABishop(Allegiance.WHITE);
+		boolean whiteHasInsufficientMaterial = isLoneKing(Allegiance.WHITE)
+				|| isLoneKingPlusOneOrTwoKnights(Allegiance.WHITE)
+				|| isLoneKingPlusABishop(Allegiance.WHITE);
 
-		boolean blackHasInsufficientMaterial =
-				isLoneKing(Allegiance.BLACK) || isLoneKingPlusOneOrTwoKnights(Allegiance.BLACK)
-						|| isLoneKingPlusABishop(Allegiance.BLACK);
+		boolean blackHasInsufficientMaterial = isLoneKing(Allegiance.BLACK)
+				|| isLoneKingPlusOneOrTwoKnights(Allegiance.BLACK)
+				|| isLoneKingPlusABishop(Allegiance.BLACK);
 
-		this.isInsufficientMaterialDraw = whiteHasInsufficientMaterial && blackHasInsufficientMaterial;
+		boolean isInsufficientMaterialDraw = whiteHasInsufficientMaterial && blackHasInsufficientMaterial;
 
 		/*
-		boolean isDeadGameDraw = checkForDeadGameDraw();
-		if (isDeadGameDraw) {
-			this.isInsufficientMaterialDraw = true;
+		if (checkForDeadGameDraw()) {
+			isInsufficientMaterialDraw = true;
 		}
 		*/
 
-		return this.isInsufficientMaterialDraw;
+		if (isInsufficientMaterialDraw) {
+			this.gameResult = GameResult.INSUFFICIENT_MATERIAL_DRAW;
+		}
+
+		return isInsufficientMaterialDraw;
 	}
 
 	public boolean checkForDeadGameDraw() {
@@ -1362,8 +1355,7 @@ public class ChessBoard {
 	// A stalemate occurs when a player has no legal moves to make. Then, the game ends in a draw.
 	// If the Black player makes a move, then we check for a White player stalemate and vice-versa.
 	public boolean checkForWhiteStalemateDraw() {
-
-		this.isWhiteStalemateDraw = true;
+		boolean isWhiteStalemateDraw = true;
 
 		ChessBoard initialChessBoard = new ChessBoard(this);
 
@@ -1397,7 +1389,7 @@ public class ChessBoard {
 						initialChessBoard = new ChessBoard(this);
 
 						if (legalMovesExist) {
-							this.isWhiteStalemateDraw = false;
+							isWhiteStalemateDraw = false;
 							i = j = 1000000;
 							break;
 						}
@@ -1407,15 +1399,18 @@ public class ChessBoard {
 			}
 		}
 
-		return this.isWhiteStalemateDraw;
+		if (isWhiteStalemateDraw) {
+			this.gameResult = GameResult.WHITE_STALEMATE_DRAW;
+		}
+
+		return isWhiteStalemateDraw;
 	}
 
 	// It checks for a stalemate. It gets called after the opposing player, makes a move.
 	// A stalemate occurs when a player has no legal moves to make. Then, the game ends in a draw.
 	// If the White player makes a move, then we check for a Black player stalemate and vice-versa.
 	public boolean checkForBlackStalemateDraw() {
-
-		this.isBlackStalemateDraw = true;
+		boolean isBlackStalemateDraw = true;
 
 		ChessBoard initialChessBoard = new ChessBoard(this);
 
@@ -1449,7 +1444,7 @@ public class ChessBoard {
 						initialChessBoard = new ChessBoard(this);
 
 						if (legalMovesExist) {
-							this.isBlackStalemateDraw = false;
+							isBlackStalemateDraw = false;
 							i = j = 1000000;
 							break;
 						}
@@ -1459,7 +1454,11 @@ public class ChessBoard {
 			}
 		}
 
-		return this.isBlackStalemateDraw;
+		if (isBlackStalemateDraw) {
+			this.gameResult = GameResult.BLACK_STALEMATE_DRAW;
+		}
+
+		return isBlackStalemateDraw;
 	}
 
 	public Move getLastMove() {
@@ -1662,44 +1661,12 @@ public class ChessBoard {
 		this.halfMoveNumber = halfMoveNumber;
 	}
 
-	public boolean isWhiteCheckmate() {
-		return isWhiteCheckmate;
+	public GameResult getGameResult() {
+		return gameResult;
 	}
 
-	public void setWhiteCheckmate(boolean isWhiteCheckmate) {
-		this.isWhiteCheckmate = isWhiteCheckmate;
-	}
-
-	public boolean isBlackCheckmate() {
-		return isBlackCheckmate;
-	}
-
-	public void setBlackCheckmate(boolean isBlackCheckmate) {
-		this.isBlackCheckmate = isBlackCheckmate;
-	}
-
-	public boolean isInsufficientMaterialDraw() {
-		return isInsufficientMaterialDraw;
-	}
-
-	public void setInsufficientMaterialDraw(boolean isInsufficientMaterialDraw) {
-		this.isInsufficientMaterialDraw = isInsufficientMaterialDraw;
-	}
-
-	public boolean isWhiteStalemateDraw() {
-		return isWhiteStalemateDraw;
-	}
-
-	public void setWhiteStalemateDraw(boolean isWhiteStalemateDraw) {
-		this.isWhiteStalemateDraw = isWhiteStalemateDraw;
-	}
-
-	public boolean isBlackStalemateDraw() {
-		return isBlackStalemateDraw;
-	}
-
-	public void setBlackStalemateDraw(boolean isBlackStalemateDraw) {
-		this.isBlackStalemateDraw = isBlackStalemateDraw;
+	public void setGameResult(GameResult gameResult) {
+		this.gameResult = gameResult;
 	}
 
 	public int getNumOfRows() {
@@ -1715,7 +1682,11 @@ public class ChessBoard {
 	}
 
 	public boolean checkForNoPieceCaptureDraw() {
-		return this.halfMoveClock >= Constants.NO_CAPTURE_DRAW_HALF_MOVES_LIMIT;
+		if (this.halfMoveClock >= Constants.NO_CAPTURE_DRAW_HALF_MOVES_LIMIT) {
+			this.gameResult = GameResult.NO_CAPTURE_DRAW;
+			return true;
+		}
+		return false;
 	}
 
 	public int getScore() {

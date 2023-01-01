@@ -4,11 +4,11 @@ package com.chriskormaris.mychessgame.gui;
 import com.chriskormaris.mychessgame.api.enumeration.GameMode;
 import org.junit.Test;
 
-import static com.chriskormaris.mychessgame.gui.ChessGUI.disableChessBoardSquares;
-import static com.chriskormaris.mychessgame.gui.ChessGUI.gameParameters;
+import static com.chriskormaris.mychessgame.gui.ChessGUI.chessBoard;
+import static com.chriskormaris.mychessgame.gui.ChessGUI.newGameParameters;
 import static com.chriskormaris.mychessgame.gui.ChessGUI.placePiecesToStartingPositions;
 import static com.chriskormaris.mychessgame.gui.ChessGUI.playAiVsAi;
-import static com.chriskormaris.mychessgame.gui.ChessGUI.restoreDefaultValues;
+import static com.chriskormaris.mychessgame.gui.ChessGUI.startNewGame;
 
 
 public class AiVsAiTest {
@@ -20,10 +20,10 @@ public class AiVsAiTest {
         @SuppressWarnings("unused")
         ChessGUI cbg = new ChessGUI(title);
 
-        gameParameters.setGameMode(GameMode.AI_VS_AI);
-        // gameParameters.setAiType(AiType.RANDOM_AI);
+        newGameParameters.setGameMode(GameMode.AI_VS_AI);
+        // newGameParameters.setAiType(AiType.RANDOM_AI);
 
-        restoreDefaultValues();
+        startNewGame();
 
         // String fenPosition = "5Knk/1P6/4Q3/8/8/8/8/8 w - - 0 1";
         // String fenPosition = "1R1qpKnk/8/4Q3/8/8/8/8/8 w - - 0 1";
@@ -49,7 +49,6 @@ public class AiVsAiTest {
         // System.out.println(chessBoard.getWhiteKingInCheckValidPieceMoves());
 
         placePiecesToStartingPositions();
-        disableChessBoardSquares();
         playAiVsAi();
 
         System.out.println();
@@ -57,7 +56,7 @@ public class AiVsAiTest {
         System.out.println("*****************************");
         System.out.println();
 
-        while (true);
+        while (!chessBoard.isTerminalState());
     }
 
 }

@@ -1,13 +1,11 @@
-package com.chriskormaris.mychessgame.gui;
+package com.chriskormaris.mychessgame.api.piece;
 
 
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
-import com.chriskormaris.mychessgame.api.piece.ChessPiece;
-import com.chriskormaris.mychessgame.api.piece.Pawn;
 import org.junit.Test;
 
 
-public class InstanceOfTest {
+public class ChessPieceInstanceOfTest {
 
     @Test
     public void testInstanceOfVsOperatorEqualsSpeed() {

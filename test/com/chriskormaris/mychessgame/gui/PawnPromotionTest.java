@@ -6,10 +6,9 @@ import com.chriskormaris.mychessgame.api.enumeration.GameMode;
 import org.junit.Test;
 
 import static com.chriskormaris.mychessgame.gui.ChessGUI.chessBoard;
-import static com.chriskormaris.mychessgame.gui.ChessGUI.disableChessBoardSquares;
-import static com.chriskormaris.mychessgame.gui.ChessGUI.gameParameters;
+import static com.chriskormaris.mychessgame.gui.ChessGUI.newGameParameters;
 import static com.chriskormaris.mychessgame.gui.ChessGUI.placePiecesToChessBoard;
-import static com.chriskormaris.mychessgame.gui.ChessGUI.playAiVsAi;
+import static com.chriskormaris.mychessgame.gui.ChessGUI.startNewGame;
 
 
 public class PawnPromotionTest {
@@ -21,8 +20,10 @@ public class PawnPromotionTest {
         @SuppressWarnings("unused")
         ChessGUI cbg = new ChessGUI(title);
 
-        // gameParameters.setGameMode(GameMode.AI_VS_AI);
-        gameParameters.setGameMode(GameMode.HUMAN_VS_HUMAN);
+        // newGameParameters.setGameMode(GameMode.AI_VS_AI);
+        newGameParameters.setGameMode(GameMode.HUMAN_VS_HUMAN);
+
+        startNewGame();
 
         /* Use these FEN positions, if playing as White. */
 
@@ -51,7 +52,6 @@ public class PawnPromotionTest {
         placePiecesToChessBoard(fenPosition);
         ChessBoard.printChessBoard(chessBoard.getGameBoard());
 
-        // disableChessBoardSquares();
         // playAiVsAi();
 
         System.out.println();

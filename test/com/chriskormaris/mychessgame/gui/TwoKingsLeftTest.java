@@ -41,7 +41,7 @@ public class TwoKingsLeftTest {
 
         // Continue playing for a minute.
         try {
-            Thread.sleep(60000);
+            Thread.sleep(60 * 1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

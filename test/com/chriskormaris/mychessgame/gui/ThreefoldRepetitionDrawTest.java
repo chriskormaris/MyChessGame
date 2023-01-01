@@ -11,10 +11,11 @@ import com.chriskormaris.mychessgame.api.util.Utilities;
 import org.junit.Test;
 
 import static com.chriskormaris.mychessgame.gui.ChessGUI.chessBoard;
-import static com.chriskormaris.mychessgame.gui.ChessGUI.gameParameters;
 import static com.chriskormaris.mychessgame.gui.ChessGUI.halfMoveGameBoards;
 import static com.chriskormaris.mychessgame.gui.ChessGUI.makeChessBoardSquaresEmpty;
+import static com.chriskormaris.mychessgame.gui.ChessGUI.newGameParameters;
 import static com.chriskormaris.mychessgame.gui.ChessGUI.placePieceToPosition;
+import static com.chriskormaris.mychessgame.gui.ChessGUI.startNewGame;
 
 
 public class ThreefoldRepetitionDrawTest {
@@ -26,7 +27,8 @@ public class ThreefoldRepetitionDrawTest {
         @SuppressWarnings("unused")
         ChessGUI cbg = new ChessGUI(title);
 
-        gameParameters.setGameMode(GameMode.HUMAN_VS_HUMAN);
+        newGameParameters.setGameMode(GameMode.HUMAN_VS_HUMAN);
+        startNewGame();
 
         makeChessBoardSquaresEmpty();
 

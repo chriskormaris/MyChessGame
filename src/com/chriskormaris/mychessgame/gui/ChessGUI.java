@@ -116,8 +116,6 @@ public class ChessGUI {
 
 	private static String savedFenPosition;
 
-	private static GameResult gameResult;
-
 	private static JMenuBar menuBar;
 	private static JMenu fileMenu;
 	private static JMenuItem newGameItem;
@@ -968,8 +966,6 @@ public class ChessGUI {
 
 		isGameOver = false;
 
-		gameResult = GameResult.NONE;
-
 		setTurnMessage();
 
 		// whiteMinimaxAiMoveAverageSecs = 0;
@@ -1341,8 +1337,7 @@ public class ChessGUI {
 		/* Check for White checkmate. */
 		if (chessBoard.whitePlays()) {
 			chessBoard.checkForWhiteCheckmate(true);
-			if (chessBoard.isWhiteCheckmate()) {
-				gameResult = GameResult.WHITE_CHECKMATE;
+			if (chessBoard.getGameResult() == GameResult.WHITE_CHECKMATE) {
 
 				String turnMessage = "Move number: "
 						+ (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2) + ". Checkmate! White wins!";
@@ -1352,8 +1347,12 @@ public class ChessGUI {
 					SoundUtils.playSound(CHECKMATE_SOUND);
 				}
 
-				int dialogResult = JOptionPane.showConfirmDialog(gui,
-						"White wins! Start a new game?", "Checkmate", JOptionPane.YES_NO_OPTION);
+				int dialogResult = JOptionPane.showConfirmDialog(
+						gui,
+						"White wins! Start a new game?",
+						"Checkmate",
+						JOptionPane.YES_NO_OPTION
+				);
 
 				// System.out.println("dialogResult:" + dialogResult);
 
@@ -1366,8 +1365,7 @@ public class ChessGUI {
 		/* Check for Black checkmate. */
 		else {
 			chessBoard.checkForBlackCheckmate(true);
-			if (chessBoard.isBlackCheckmate()) {
-				gameResult = GameResult.BLACK_CHECKMATE;
+			if (chessBoard.getGameResult() == GameResult.BLACK_CHECKMATE) {
 
 				String turnMessage = "Move number: "
 						+ (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2) + ". Checkmate! Black wins!";
@@ -1377,8 +1375,12 @@ public class ChessGUI {
 					SoundUtils.playSound(CHECKMATE_SOUND);
 				}
 
-				int dialogResult = JOptionPane.showConfirmDialog(gui,
-						"Black wins! Start a new game?", "Checkmate", JOptionPane.YES_NO_OPTION);
+				int dialogResult = JOptionPane.showConfirmDialog(
+						gui,
+						"Black wins! Start a new game?",
+						"Checkmate",
+						JOptionPane.YES_NO_OPTION
+				);
 
 				// System.out.println("dialogResult:" + dialogResult);
 
@@ -1395,17 +1397,18 @@ public class ChessGUI {
 		if (chessBoard.blackPlays() && !chessBoard.isWhiteKingInCheck()) {
 			// System.out.println("Checking for white stalemate!");
 			chessBoard.checkForWhiteStalemateDraw();
-			if (chessBoard.isWhiteStalemateDraw()) {
-				gameResult = GameResult.WHITE_STALEMATE_DRAW;
+			if (chessBoard.getGameResult() == GameResult.WHITE_STALEMATE_DRAW) {
 
 				String turnMessage = "Move number: "
 						+ (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2)
 						+ ". Stalemate! No legal moves for White exist.";
 				turnTextPane.setText(turnMessage);
 
-				int dialogResult = JOptionPane.showConfirmDialog(gui,
+				int dialogResult = JOptionPane.showConfirmDialog(
+						gui,
 						"Stalemate! No legal moves for White exist. Start a new game?",
-						"Draw", JOptionPane.YES_NO_OPTION);
+						"Draw", JOptionPane.YES_NO_OPTION
+				);
 
 				// System.out.println("dialogResult:" + dialogResult);
 
@@ -1419,17 +1422,18 @@ public class ChessGUI {
 		else if (chessBoard.whitePlays() && !chessBoard.isBlackKingInCheck()) {
 			// System.out.println("Checking for black stalemate!");
 			chessBoard.checkForBlackStalemateDraw();
-			if (chessBoard.isBlackStalemateDraw()) {
-				gameResult = GameResult.BLACK_STALEMATE_DRAW;
+			if (chessBoard.getGameResult() == GameResult.BLACK_STALEMATE_DRAW) {
 
 				String turnMessage = "Move number: "
 						+ (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2)
 						+ ". Stalemate! No legal moves for Black exist.";
 				turnTextPane.setText(turnMessage);
 
-				int dialogResult = JOptionPane.showConfirmDialog(gui,
+				int dialogResult = JOptionPane.showConfirmDialog(
+						gui,
 						"Stalemate! No legal moves for Black exist. Start a new game?",
-						"Draw", JOptionPane.YES_NO_OPTION);
+						"Draw", JOptionPane.YES_NO_OPTION
+				);
 
 				// System.out.println("dialogResult:" + dialogResult);
 
@@ -1442,8 +1446,7 @@ public class ChessGUI {
 
 		/* Insufficient checkmate material draw implementation. */
 		chessBoard.checkForInsufficientMaterialDraw();
-		if (chessBoard.isInsufficientMaterialDraw()) {
-			gameResult = GameResult.INSUFFICIENT_MATERIAL_DRAW;
+		if (chessBoard.getGameResult() == GameResult.INSUFFICIENT_MATERIAL_DRAW) {
 
 			String turnMessage = "Move number: "
 					+ (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2)
@@ -1483,11 +1486,9 @@ public class ChessGUI {
 
 			// System.out.println("dialogResult:" + dialogResult);
 			if (dialogResult == JOptionPane.YES_OPTION) {
-				gameResult = GameResult.NO_CAPTURE_DRAW;
 				showDeclareDrawDialog();
 				return true;
 			}
-
 		}
 
 
@@ -1511,11 +1512,10 @@ public class ChessGUI {
 
 			// System.out.println("dialogResult:" + dialogResult);
 			if (JOptionPane.YES_OPTION == dialogResult) {
-				gameResult = GameResult.THREEFOLD_REPETITION_DRAW;
+				chessBoard.setGameResult(GameResult.THREEFOLD_REPETITION_DRAW);
 				showDeclareDrawDialog();
 				return true;
 			}
-
 		}
 
 		return false;
@@ -1537,15 +1537,14 @@ public class ChessGUI {
 						// System.out.println("i: " + i + ");
 						// ChessBoard.printChessBoard(lastHalfMoveGameBoard);
 						// ChessBoard.printChessBoard(otherHalfMoveGameBoard);
+						// System.out.println("numOfRepeats: " + numOfRepeats);
 						numOfRepeats++;
 						if (numOfRepeats == 3) {
-							break;
+							return true;
 						}
 					}
 				}
 			}
-			// System.out.println("numOfRepeats: " + numOfRepeats);
-			return numOfRepeats == 3;
 		}
 
 		return false;

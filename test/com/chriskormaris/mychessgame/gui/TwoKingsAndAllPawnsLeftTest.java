@@ -2,6 +2,7 @@ package com.chriskormaris.mychessgame.gui;
 
 
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
+import com.chriskormaris.mychessgame.api.enumeration.GameResult;
 import org.junit.Test;
 
 import static com.chriskormaris.mychessgame.gui.ChessGUI.checkForGameOver;
@@ -41,7 +42,7 @@ public class TwoKingsAndAllPawnsLeftTest {
 
         System.out.println("Checking if a draw has occurred...");
         checkForGameOver();
-        boolean isDraw = chessBoard.isInsufficientMaterialDraw();
+        boolean isDraw = chessBoard.getGameResult() == GameResult.INSUFFICIENT_MATERIAL_DRAW;
         System.out.println(isDraw ? "The game is a draw!" : "The game is NOT a draw!");
         assertFalse("The game is NOT a draw.", isDraw);
         // System.out.println("*****************************");
