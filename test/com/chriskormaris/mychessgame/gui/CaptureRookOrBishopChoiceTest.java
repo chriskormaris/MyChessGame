@@ -20,37 +20,37 @@ import static org.junit.Assert.assertTrue;
 
 public class CaptureRookOrBishopChoiceTest {
 
-    @Test
-    public void testCaptureRookOrBishopChoiceTest() {
-        String title = "Capture Rook or Bishop?";
+	@Test
+	public void testCaptureRookOrBishopChoiceTest() {
+		String title = "Capture Rook or Bishop?";
 
-        @SuppressWarnings("unused")
-        ChessGUI cbg = new ChessGUI(title);
+		@SuppressWarnings("unused")
+		ChessGUI cbg = new ChessGUI(title);
 
-        ChessBoard.printChessBoard(chessBoard.getGameBoard());
+		ChessBoard.printChessBoard(chessBoard.getGameBoard());
 
-        placePieceToPosition("E1", new King(Allegiance.WHITE));
-        placePieceToPosition("C1", new Bishop(Allegiance.WHITE));
-        placePieceToPosition("F1", new Bishop(Allegiance.WHITE));
-        placePieceToPosition("A1", new Rook(Allegiance.WHITE));
+		placePieceToPosition("E1", new King(Allegiance.WHITE));
+		placePieceToPosition("C1", new Bishop(Allegiance.WHITE));
+		placePieceToPosition("F1", new Bishop(Allegiance.WHITE));
+		placePieceToPosition("A1", new Rook(Allegiance.WHITE));
 
-        placePieceToPosition("E8", new King(Allegiance.BLACK));
-        placePieceToPosition("B3", new Knight(Allegiance.BLACK));
+		placePieceToPosition("E8", new King(Allegiance.BLACK));
+		placePieceToPosition("B3", new Knight(Allegiance.BLACK));
 
-        chessBoard.setPlayer(Constants.BLACK);
-        aiMove(ai);
+		chessBoard.setPlayer(Constants.BLACK);
+		aiMove(ai);
 
-        assertTrue(
-                "The Black Knight did NOT capture the White Rook.",
-                Utilities.getChessPieceFromPosition(chessBoard.getGameBoard(), "A1") instanceof Knight
-        );
+		assertTrue(
+				"The Black Knight did NOT capture the White Rook.",
+				Utilities.getChessPieceFromPosition(chessBoard.getGameBoard(), "A1") instanceof Knight
+		);
 
-        // Continue playing for a minute.
-        try {
-            Thread.sleep(60 * 1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
+		// Continue playing for a minute.
+		try {
+			Thread.sleep(60 * 1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
 
 }

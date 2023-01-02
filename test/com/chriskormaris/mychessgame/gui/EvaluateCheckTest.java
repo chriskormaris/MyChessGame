@@ -10,27 +10,27 @@ import static com.chriskormaris.mychessgame.gui.ChessGUI.placePiecesToChessBoard
 
 public class EvaluateCheckTest {
 
-    @Test
-    public void testEvaluateCheck() {
-        String title = "Evaluate Check";
+	@Test
+	public void testEvaluateCheck() {
+		String title = "Evaluate Check";
 
-        // GameParameters.gameMode = GameMode.HUMAN_VS_HUMAN;
+		// GameParameters.gameMode = GameMode.HUMAN_VS_HUMAN;
 
-        @SuppressWarnings("unused")
-        ChessGUI cbg = new ChessGUI(title);
+		@SuppressWarnings("unused")
+		ChessGUI cbg = new ChessGUI(title);
 
-        // The Black Queen should capture the White Queen instead of going for a Check.
-        String fenPosition = "4k3/8/3q4/8/5Q2/8/8/R3K2R w KQkq - 0 1";
-        placePiecesToChessBoard(fenPosition);
+		// The Black Queen should capture the White Queen instead of going for a Check.
+		String fenPosition = "4k3/8/3q4/8/5Q2/8/8/R3K2R w KQkq - 0 1";
+		placePiecesToChessBoard(fenPosition);
 
-        ChessBoard.printChessBoard(chessBoard.getGameBoard());
+		ChessBoard.printChessBoard(chessBoard.getGameBoard());
 
-        System.out.println();
+		System.out.println();
 
-        System.out.println("*****************************");
-        System.out.println();
+		System.out.println("*****************************");
+		System.out.println();
 
-        while (true);
-    }
+		while (true) ;
+	}
 
 }

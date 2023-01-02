@@ -141,9 +141,9 @@ public class King extends ChessPiece {
 			if ((endTile instanceof EmptyTile || chessPiece.getAllegiance() != endTile.getAllegiance()
 					&& !(endTile instanceof King))
 					&& ((chessPiece.getAllegiance() == Allegiance.WHITE)
-						&& chessBoard.getTilesThreatenedByBlack()[newRow][newColumn] == 0
-						|| (chessPiece.getAllegiance() == Allegiance.BLACK)
-						&& chessBoard.getTilesThreatenedByWhite()[newRow][newColumn] == 0)
+					&& chessBoard.getTilesThreatenedByBlack()[newRow][newColumn] == 0
+					|| (chessPiece.getAllegiance() == Allegiance.BLACK)
+					&& chessBoard.getTilesThreatenedByWhite()[newRow][newColumn] == 0)
 					|| returnThreats)
 				nextKingPositions.add(newPosition);
 		}
@@ -175,9 +175,9 @@ public class King extends ChessPiece {
 			if ((endTile instanceof EmptyTile || chessPiece.getAllegiance() != endTile.getAllegiance()
 					&& !(endTile instanceof King))
 					&& ((chessPiece.getAllegiance() == Allegiance.WHITE)
-						&& chessBoard.getTilesThreatenedByBlack()[newRow][newColumn] == 0
-						|| (chessPiece.getAllegiance() == Allegiance.BLACK)
-						&& chessBoard.getTilesThreatenedByWhite()[newRow][newColumn] == 0)
+					&& chessBoard.getTilesThreatenedByBlack()[newRow][newColumn] == 0
+					|| (chessPiece.getAllegiance() == Allegiance.BLACK)
+					&& chessBoard.getTilesThreatenedByWhite()[newRow][newColumn] == 0)
 					|| returnThreats)
 				nextKingPositions.add(newPosition);
 		}
@@ -192,9 +192,9 @@ public class King extends ChessPiece {
 			if ((endTile instanceof EmptyTile || chessPiece.getAllegiance() != endTile.getAllegiance()
 					&& !(endTile instanceof King))
 					&& ((chessPiece.getAllegiance() == Allegiance.WHITE)
-						&& chessBoard.getTilesThreatenedByBlack()[newRow][newColumn] == 0
-						|| (chessPiece.getAllegiance() == Allegiance.BLACK)
-						&& chessBoard.getTilesThreatenedByWhite()[newRow][newColumn] == 0)
+					&& chessBoard.getTilesThreatenedByBlack()[newRow][newColumn] == 0
+					|| (chessPiece.getAllegiance() == Allegiance.BLACK)
+					&& chessBoard.getTilesThreatenedByWhite()[newRow][newColumn] == 0)
 					|| returnThreats)
 				nextKingPositions.add(newPosition);
 		}
@@ -264,9 +264,9 @@ public class King extends ChessPiece {
 			if ((endTile instanceof EmptyTile || chessPiece.getAllegiance() != endTile.getAllegiance()
 					&& !(endTile instanceof King))
 					&& ((chessPiece.getAllegiance() == Allegiance.WHITE)
-						&& chessBoard.getTilesThreatenedByBlack()[newRow][newColumn] == 0
-						|| (chessPiece.getAllegiance() == Allegiance.BLACK)
-						&& chessBoard.getTilesThreatenedByWhite()[newRow][newColumn] == 0)
+					&& chessBoard.getTilesThreatenedByBlack()[newRow][newColumn] == 0
+					|| (chessPiece.getAllegiance() == Allegiance.BLACK)
+					&& chessBoard.getTilesThreatenedByWhite()[newRow][newColumn] == 0)
 					|| returnThreats)
 				nextKingPositions.add(newPosition);
 		}

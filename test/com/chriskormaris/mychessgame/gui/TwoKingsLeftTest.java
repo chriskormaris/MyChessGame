@@ -16,35 +16,35 @@ import static org.junit.Assert.assertFalse;
 
 public class TwoKingsLeftTest {
 
-    @Test
-    public void testTwoKingsLeft() {
-        String title = "Two Kings Left Test";
+	@Test
+	public void testTwoKingsLeft() {
+		String title = "Two Kings Left Test";
 
-        @SuppressWarnings("unused")
-        ChessGUI cbg = new ChessGUI(title);
+		@SuppressWarnings("unused")
+		ChessGUI cbg = new ChessGUI(title);
 
-        makeChessBoardSquaresEmpty();
+		makeChessBoardSquaresEmpty();
 
-        placePieceToPosition("A1", new King(Allegiance.WHITE));
-        placePieceToPosition("H8", new King(Allegiance.BLACK));
-        placePieceToPosition("B2", new Pawn(Allegiance.WHITE));
+		placePieceToPosition("A1", new King(Allegiance.WHITE));
+		placePieceToPosition("H8", new King(Allegiance.BLACK));
+		placePieceToPosition("B2", new Pawn(Allegiance.WHITE));
 
-        System.out.println();
-        ChessBoard.printChessBoard(chessBoard.getGameBoard());
+		System.out.println();
+		ChessBoard.printChessBoard(chessBoard.getGameBoard());
 
-        boolean isDraw = chessBoard.checkForInsufficientMaterialDraw();
-        assertFalse("The game is not a draw.", isDraw);
-        System.out.println("*****************************");
-        System.out.println();
+		boolean isDraw = chessBoard.checkForInsufficientMaterialDraw();
+		assertFalse("The game is not a draw.", isDraw);
+		System.out.println("*****************************");
+		System.out.println();
 
-        checkForGameOver();
+		checkForGameOver();
 
-        // Continue playing for a minute.
-        try {
-            Thread.sleep(60 * 1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
+		// Continue playing for a minute.
+		try {
+			Thread.sleep(60 * 1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
 
 }

@@ -159,9 +159,7 @@ public class Utilities {
 
 		int[][] newIntBoard = new int[n1][n2];
 		for (int i = 0; i < n1; i++) {
-			for (int j = 0; j < n2; j++) {
-				newIntBoard[i][j] = intBoard[i][j];
-			}
+			System.arraycopy(intBoard[i], 0, newIntBoard[i], 0, n2);
 		}
 		return newIntBoard;
 	}

@@ -19,8 +19,13 @@ public class ChessPieceShortestPath {
 	// It runs the simple BFS algorithm.
 	// It returns all the possible paths that match the given starting and ending position,
 	// within the specified "maxDepth".
-	public static List<List<BfsPosition>> getSolutionPaths(ChessBoard chessBoard, ChessPiece piece,
-	                                                       String startingPosition, String endingPosition, int maxDepth) {
+	public static List<List<BfsPosition>> getSolutionPaths(
+			ChessBoard chessBoard,
+			ChessPiece piece,
+			String startingPosition,
+			String endingPosition,
+			int maxDepth
+	) {
 		ChessBoard currentChessBoard = new ChessBoard(chessBoard);
 
 		List<List<BfsPosition>> solutionPaths = new ArrayList<>();
@@ -118,8 +123,13 @@ public class ChessPieceShortestPath {
 
 	// It runs the BFS algorithm.
 	// It returns the depth of the shortest path, if exists else it returns -1.
-	public static int getMinDepth(ChessBoard chessBoard, ChessPiece piece,
-	                              String startingPosition, String endingPosition, int maxDepth) {
+	public static int getMinDepth(
+			ChessBoard chessBoard,
+			ChessPiece piece,
+			String startingPosition,
+			String endingPosition,
+			int maxDepth
+	) {
 		ChessBoard currentChessBoard = new ChessBoard(chessBoard);
 		int[][] visitedChessBoard = new int[8][8];
 

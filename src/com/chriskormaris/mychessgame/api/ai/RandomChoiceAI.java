@@ -44,7 +44,7 @@ public class RandomChoiceAI extends AI {
 				for (int j = 0; j < NUM_OF_COLUMNS; j++) {
 					if (getAiPlayer() == Constants.WHITE
 							&& chessBoard.getGameBoard()[i][j].getAllegiance() == Allegiance.WHITE
-						|| getAiPlayer() == Constants.BLACK
+							|| getAiPlayer() == Constants.BLACK
 							&& chessBoard.getGameBoard()[i][j].getAllegiance() == Allegiance.BLACK) {
 						String randomStartingPosition = Utilities.getPositionByRowCol(i, j, chessBoard.getNumOfRows());
 						Set<String> randomEndingPositions = chessBoard.getNextPositions(randomStartingPosition);
@@ -91,7 +91,7 @@ public class RandomChoiceAI extends AI {
 		/* STEP 2. Random ending position. */
 		Set<String> possibleEndingPositions = new HashSet<>();
 		if (chessBoard.whitePlays() && !chessBoard.isWhiteKingInCheck()
-			|| chessBoard.blackPlays() && !chessBoard.isBlackKingInCheck()) {
+				|| chessBoard.blackPlays() && !chessBoard.isBlackKingInCheck()) {
 			possibleEndingPositions = randomStartingEndingPositions.get(randomAiStartingPosition);
 		} else {
 			if (chessBoard.whitePlays()) {

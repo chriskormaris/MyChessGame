@@ -384,7 +384,7 @@ public class ChessBoard {
 						setWhiteCastlingDone(true);
 					}
 					// Black queen side castling
-					else if (positionEnd.equals("C" +  this.numOfRows)) {
+					else if (positionEnd.equals("C" + this.numOfRows)) {
 						// Move the left black rook to the correct position.
 						this.gameBoard[0][0] = new EmptyTile();
 						this.gameBoard[0][3] = new Rook(Allegiance.BLACK);
@@ -461,7 +461,7 @@ public class ChessBoard {
 					if (possibleBlackEnPassantCapturedPawn instanceof Pawn
 							&& possibleBlackEnPassantCapturedPawn.getAllegiance() == Allegiance.BLACK
 							&& this.enPassantPosition.equals(
-									Utilities.getPositionByRowCol(rowEnd, columnEnd, numOfRows))) {
+							Utilities.getPositionByRowCol(rowEnd, columnEnd, numOfRows))) {
 
 						if (displayMove) {
 							positionsToRemove.add(twoStepsForwardBlackPawnPosition);
@@ -475,7 +475,7 @@ public class ChessBoard {
 					}
 
 					// Black pawn captures white pawn.
-				} else if (chessPiece.getAllegiance() == Allegiance.BLACK && rowEnd - 1 >= 0 ) {
+				} else if (chessPiece.getAllegiance() == Allegiance.BLACK && rowEnd - 1 >= 0) {
 
 					String twoStepsForwardWhitePawnPosition = Utilities.getPositionByRowCol(
 							rowEnd - 1,
@@ -494,7 +494,7 @@ public class ChessBoard {
 					if (possibleWhiteEnPassantCapturedPawn instanceof Pawn
 							&& possibleWhiteEnPassantCapturedPawn.getAllegiance() == Allegiance.WHITE
 							&& this.enPassantPosition.equals(
-									Utilities.getPositionByRowCol(rowEnd, columnEnd, numOfRows))) {
+							Utilities.getPositionByRowCol(rowEnd, columnEnd, numOfRows))) {
 
 						if (displayMove) {
 							positionsToRemove.add(twoStepsForwardWhitePawnPosition);
@@ -522,8 +522,8 @@ public class ChessBoard {
 				// If a pawn is going to be promoted and this is not a display move,
 				// automatically choose the best promotion piece, based on the best outcome.
 				if ((chessPiece.getAllegiance() == Allegiance.WHITE && rowEnd == 0
-					 || chessPiece.getAllegiance() == Allegiance.BLACK && rowEnd == this.numOfRows - 1)
-					&& !displayMove) {
+						|| chessPiece.getAllegiance() == Allegiance.BLACK && rowEnd == this.numOfRows - 1)
+						&& !displayMove) {
 					automaticPawnPromotion(chessPiece, positionEnd, false);
 				}
 			} else {
@@ -1375,8 +1375,13 @@ public class ChessBoard {
 			if (isDeadGameDraw) {
 				// Run algorithm to find if the White king can get to position "A8"
 				// in the given number of moves (max depth).
-				isDeadGameDraw = !ChessPieceShortestPath.canGoToPosition(this, new King(Allegiance.WHITE),
-						whiteKingPosition, "A8", Constants.DEAD_DRAW_MAX_BFS_DEPTH);
+				isDeadGameDraw = !ChessPieceShortestPath.canGoToPosition(
+						this,
+						new King(Allegiance.WHITE),
+						whiteKingPosition,
+						"A8",
+						Constants.DEAD_DRAW_MAX_BFS_DEPTH
+				);
 			}
 
 		} else {

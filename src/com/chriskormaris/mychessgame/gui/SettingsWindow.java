@@ -302,7 +302,7 @@ public class SettingsWindow extends JFrame {
 							.replace(" ", "_"));
 					AiType ai2Type = AiType.valueOf(ai2_type_drop_down.getSelectedItem().toString().toUpperCase()
 							.replace(" ", "_"));
-					int maxDepth1 = (int)max_depth1_drop_down.getSelectedItem();
+					int maxDepth1 = (int) max_depth1_drop_down.getSelectedItem();
 					int maxDepth2 = (int) max_depth2_drop_down.getSelectedItem();
 					EvaluationFunction evaluationFunction1 = EvaluationFunction.valueOf(evaluation_function1_drop_down
 							.getSelectedItem().toString().toUpperCase());

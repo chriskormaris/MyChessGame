@@ -1444,7 +1444,8 @@ public class ChessGUI {
 
 			if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI &&
 					(!chessBoard.whitePlays() && gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE
-					|| !chessBoard.blackPlays() && gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK)
+							|| !chessBoard.blackPlays()
+							&& gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK)
 					|| gameParameters.getGameMode() == GameMode.HUMAN_VS_HUMAN
 					|| gameParameters.getGameMode() == GameMode.AI_VS_AI) {
 				dialogResult = JOptionPane.showConfirmDialog(
@@ -1469,9 +1470,9 @@ public class ChessGUI {
 
 		if (!halfMoveGameBoards.isEmpty()) {
 			int N = halfMoveGameBoards.size();
-			ChessPiece[][] lastHalfMoveGameBoard = halfMoveGameBoards.get(N-1);
+			ChessPiece[][] lastHalfMoveGameBoard = halfMoveGameBoards.get(N - 1);
 			int numOfRepeats = 0;
-			for (int i = N-2; i >= 0; i--) {
+			for (int i = N - 2; i >= 0; i--) {
 				// Skip the last iteration, if the number of repeats found is less ore equal to 1.
 				// Also, skip the second to last iteration, if the number of repeats found is 0.
 				if (!(numOfRepeats <= 1 && i == 0 || numOfRepeats == 0 && i == 1)) {
