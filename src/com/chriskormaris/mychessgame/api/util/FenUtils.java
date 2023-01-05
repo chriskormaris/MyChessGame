@@ -1,20 +1,20 @@
 package com.chriskormaris.mychessgame.api.util;
 
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
-import com.chriskormaris.mychessgame.api.exception.InvalidFenFormatException;
+import com.chriskormaris.mychessgame.api.exception.InvalidFenPositionException;
 import com.chriskormaris.mychessgame.api.piece.ChessPiece;
 import com.chriskormaris.mychessgame.api.piece.EmptySquare;
 
 public class FenUtils {
 
 
-	public static ChessBoard getChessBoardFromFenPosition(String fenPosition) throws InvalidFenFormatException {
+	public static ChessBoard getChessBoardFromFenPosition(String fenPosition) throws InvalidFenPositionException {
 		ChessBoard chessBoard = new ChessBoard();
 
 		fenPosition = fenPosition.trim();
 		String[] fenPositionTokens = fenPosition.split(" ");
 		if (fenPositionTokens.length != 6) {
-			throw new InvalidFenFormatException(
+			throw new InvalidFenPositionException(
 					"FEN position must contain 5 white spaces in between. White spaces in between: "
 							+ (fenPositionTokens.length - 1)
 			);
@@ -30,7 +30,7 @@ public class FenUtils {
 		} else if (nextPlayerChar.equals("b")) {
 			whitePlays = false;
 		} else {
-			throw new InvalidFenFormatException(
+			throw new InvalidFenPositionException(
 					"Invalid player character. It should be \"w\" or \"b\", NOT: \"" + nextPlayerChar + "\"!"
 			);
 		}
@@ -78,14 +78,14 @@ public class FenUtils {
 		try {
 			halfMoveClock = Integer.parseInt(fenPositionTokens[4]);
 		} catch (NumberFormatException ex) {
-			throw new InvalidFenFormatException("Provided half move clock value is not a number!");
+			throw new InvalidFenPositionException("Provided half move clock value is not a number!");
 		}
 
 		int fullMoveNumber;
 		try {
 			fullMoveNumber = Integer.parseInt(fenPositionTokens[5]);
 		} catch (NumberFormatException ex) {
-			throw new InvalidFenFormatException("Provided full move counter value is not a number!");
+			throw new InvalidFenPositionException("Provided full move counter value is not a number!");
 		}
 
 		int halfMoveNumber = fullMoveNumber * 2;

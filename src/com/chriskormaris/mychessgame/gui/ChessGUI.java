@@ -11,7 +11,7 @@ import com.chriskormaris.mychessgame.api.enumeration.AiType;
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 import com.chriskormaris.mychessgame.api.enumeration.GameMode;
 import com.chriskormaris.mychessgame.api.enumeration.GameResult;
-import com.chriskormaris.mychessgame.api.exception.InvalidFenFormatException;
+import com.chriskormaris.mychessgame.api.exception.InvalidFenPositionException;
 import com.chriskormaris.mychessgame.api.piece.Bishop;
 import com.chriskormaris.mychessgame.api.piece.ChessPiece;
 import com.chriskormaris.mychessgame.api.piece.EmptySquare;
@@ -1758,7 +1758,7 @@ public class ChessGUI {
 	public static void placePiecesToChessBoard(String fenPosition) {
 		try {
 			chessBoard = FenUtils.getChessBoardFromFenPosition(fenPosition);
-		} catch (InvalidFenFormatException ex) {
+		} catch (InvalidFenPositionException ex) {
 			System.err.println(ex.getMessage());
 			System.exit(1);
 		}
