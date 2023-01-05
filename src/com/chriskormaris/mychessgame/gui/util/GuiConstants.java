@@ -21,15 +21,16 @@ public class GuiConstants {
 	public static final Color BRIGHT_PINK = new Color(240, 207, 207);
 	public static final Color DARK_GREEN = new Color(37, 82, 59);
 
-	public static final String ICON_PATH = "images/icon.png";
-	public static final String WHITE_IMG_PATH = "images/white/";
+	public static final String IMG_PATH = "images/";
+	public static final String ICON_PATH = IMG_PATH + "icon.png";
+	public static final String WHITE_IMG_PATH = IMG_PATH + "white/";
 	public static final String WHITE_PAWN_IMG_PATH = WHITE_IMG_PATH + "pawn.png";
 	public static final String WHITE_ROOK_IMG_PATH = WHITE_IMG_PATH + "rook.png";
 	public static final String WHITE_KNIGHT_IMG_PATH = WHITE_IMG_PATH + "knight.png";
 	public static final String WHITE_BISHOP_IMG_PATH = WHITE_IMG_PATH + "bishop.png";
 	public static final String WHITE_QUEEN_IMG_PATH = WHITE_IMG_PATH + "queen.png";
 	public static final String WHITE_KING_IMG_PATH = WHITE_IMG_PATH + "king.png";
-	public static final String BLACK_IMG_PATH = "images/black/";
+	public static final String BLACK_IMG_PATH = IMG_PATH + "black/";
 	public static final String BLACK_PAWN_IMG_PATH = BLACK_IMG_PATH + "pawn.png";
 	public static final String BLACK_ROOK_IMG_PATH = BLACK_IMG_PATH + "rook.png";
 	public static final String BLACK_KNIGHT_IMG_PATH = BLACK_IMG_PATH + "knight.png";
