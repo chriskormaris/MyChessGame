@@ -297,8 +297,14 @@ public class ChessGUI {
 
 		exitItem.addActionListener(e -> System.exit(0));
 
-		howToPlayItem.addActionListener(e -> JOptionPane.showMessageDialog(frame, GuiConstants.RULES, "How to Play",
-				JOptionPane.INFORMATION_MESSAGE));
+		howToPlayItem.addActionListener(
+				e -> JOptionPane.showMessageDialog(
+						frame,
+						GuiConstants.RULES,
+						"How to Play",
+						JOptionPane.INFORMATION_MESSAGE
+				)
+		);
 
 		aboutItem.addActionListener(e -> {
 			JLabel label = new JLabel(
