@@ -3,7 +3,7 @@ package com.chriskormaris.mychessgame.api.util;
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.api.exception.InvalidFenFormatException;
 import com.chriskormaris.mychessgame.api.piece.ChessPiece;
-import com.chriskormaris.mychessgame.api.piece.EmptyTile;
+import com.chriskormaris.mychessgame.api.piece.EmptySquare;
 
 public class FenUtils {
 
@@ -119,7 +119,7 @@ public class FenUtils {
 		ChessPiece[][] gameBoard = new ChessPiece[chessBoard.getNumOfRows()][Constants.NUM_OF_COLUMNS];
 		for (int i = 0; i < chessBoard.getNumOfRows(); i++) {
 			for (int j = 0; j < Constants.NUM_OF_COLUMNS; j++) {
-				gameBoard[i][j] = new EmptyTile();
+				gameBoard[i][j] = new EmptySquare();
 			}
 		}
 
@@ -167,29 +167,29 @@ public class FenUtils {
 
 		/* Step 1: Append the chess gameBoard pieces positions */
 		for (int i = 0; i < chessBoard.getNumOfRows(); i++) {
-			int emptyTilesCounter = 0;
+			int emptySquaresCounter = 0;
 			for (int j = 0; j < Constants.NUM_OF_COLUMNS; j++) {
 				// Get the chessPiece in the indices [i][j], from the gameBoard.
 				ChessPiece chessPiece = chessBoard.getGameBoard()[i][j];
 				// Convert chessPiece value to chessPiece character.
 				char pieceChar = Utilities.getPieceChar(chessPiece);
 				if (pieceChar != '-') {
-					if (emptyTilesCounter != 0) {
-						// Append the number of empty consecutive empty tiles in a row
+					if (emptySquaresCounter != 0) {
+						// Append the number of empty consecutive empty squares in a row
 						// and then, the chessPiece character.
-						fenPosition.append(emptyTilesCounter).append(pieceChar);
+						fenPosition.append(emptySquaresCounter).append(pieceChar);
 					} else {
 						// Append the chessPiece character.
 						fenPosition.append(pieceChar);
 					}
-					emptyTilesCounter = 0;
+					emptySquaresCounter = 0;
 				} else {
-					emptyTilesCounter++;
+					emptySquaresCounter++;
 				}
 			}
-			if (emptyTilesCounter != 0) {
+			if (emptySquaresCounter != 0) {
 				// Append the chessPiece character.
-				fenPosition.append(emptyTilesCounter);
+				fenPosition.append(emptySquaresCounter);
 			}
 			if (i < chessBoard.getNumOfRows() - 1) {
 				// Append the row terminator character.

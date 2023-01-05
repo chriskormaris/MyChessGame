@@ -3,7 +3,7 @@ package com.chriskormaris.mychessgame.api.util;
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 import com.chriskormaris.mychessgame.api.piece.ChessPiece;
-import com.chriskormaris.mychessgame.api.piece.EmptyTile;
+import com.chriskormaris.mychessgame.api.piece.EmptySquare;
 import com.chriskormaris.mychessgame.api.piece.King;
 
 import java.util.ArrayList;
@@ -49,7 +49,7 @@ public class ChessPieceShortestPath {
 			if (currentPosition != null) {
 				int previousRow = Utilities.getRowFromPosition(currentPosition, chessBoard.getNumOfRows());
 				int previousColumn = Utilities.getColumnFromPosition(currentPosition);
-				currentChessBoard.getGameBoard()[previousRow][previousColumn] = new EmptyTile();
+				currentChessBoard.getGameBoard()[previousRow][previousColumn] = new EmptySquare();
 			}
 
 			// Get the first item of the queue and reBfsPosition it.
@@ -149,7 +149,7 @@ public class ChessPieceShortestPath {
 			if (currentPosition != null) {
 				int previousRow = Utilities.getRowFromPosition(currentPosition, chessBoard.getNumOfRows());
 				int previousColumn = Utilities.getColumnFromPosition(currentPosition);
-				currentChessBoard.getGameBoard()[previousRow][previousColumn] = new EmptyTile();
+				currentChessBoard.getGameBoard()[previousRow][previousColumn] = new EmptySquare();
 			}
 
 			// Get the first item of the queue and reBfsPosition it.

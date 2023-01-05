@@ -30,8 +30,8 @@ public class SettingsWindow extends JFrame {
 	private final JComboBox<Integer> max_depth2_drop_down;
 	private final JComboBox<String> evaluation_function1_drop_down;
 	private final JComboBox<String> evaluation_function2_drop_down;
-	private final JComboBox<String> white_tile_color_drop_down;
-	private final JComboBox<String> black_tile_color_drop_down;
+	private final JComboBox<String> white_square_color_drop_down;
+	private final JComboBox<String> black_square_color_drop_down;
 
 	private final SpinnerModel num_of_rows_spinner_model = new SpinnerNumberModel(8, 4, 8, 1);
 	private final JSpinner num_of_rows_spinner = new JSpinner(num_of_rows_spinner_model);
@@ -60,8 +60,8 @@ public class SettingsWindow extends JFrame {
 		int maxDepth2 = ChessGUI.gameParameters.getAi2MaxDepth() - 1;
 		EvaluationFunction evaluationFunction1 = ChessGUI.gameParameters.getEvaluationFunction1();
 		EvaluationFunction evaluationFunction2 = ChessGUI.gameParameters.getEvaluationFunction2();
-		Color selectedWhiteTileColor = ChessGUI.gameParameters.getWhiteTileColor();
-		Color selectedBlackTileColor = ChessGUI.gameParameters.getBlackTileColor();
+		Color selectedWhiteSquareColor = ChessGUI.gameParameters.getWhiteSquareColor();
+		Color selectedBlackSquareColor = ChessGUI.gameParameters.getBlackSquareColor();
 		int numOfRows = ChessGUI.gameParameters.getNumOfRows();
 
 
@@ -75,8 +75,8 @@ public class SettingsWindow extends JFrame {
 		JLabel maxDepth2Label = new JLabel("Minimax AI 2 depth (AIvsAI)");
 		JLabel evaluationFunction1Label = new JLabel("AI 1 Evaluation Function");
 		JLabel evaluationFunction2Label = new JLabel("AI 2 Evaluation Function (AIvsAI)");
-		JLabel whiteTileColorLabel = new JLabel("White tile color");
-		JLabel blackTileColorLabel = new JLabel("Black tile color");
+		JLabel whiteSquareColorLabel = new JLabel("White square color");
+		JLabel blackSquareColorLabel = new JLabel("Black square color");
 		JLabel numOfRowsLabel = new JLabel("Number of rows");
 
 
@@ -90,8 +90,8 @@ public class SettingsWindow extends JFrame {
 		add(maxDepth2Label);
 		add(evaluationFunction1Label);
 		add(evaluationFunction2Label);
-		add(whiteTileColorLabel);
-		add(blackTileColorLabel);
+		add(whiteSquareColorLabel);
+		add(blackSquareColorLabel);
 		add(numOfRowsLabel);
 
 		gui_style_drop_down = new JComboBox<>();
@@ -198,30 +198,30 @@ public class SettingsWindow extends JFrame {
 			evaluation_function2_drop_down.setSelectedIndex(3);
 		}
 
-		white_tile_color_drop_down = new JComboBox<>();
-		white_tile_color_drop_down.addItem("White");
-		white_tile_color_drop_down.addItem("Pink");
+		white_square_color_drop_down = new JComboBox<>();
+		white_square_color_drop_down.addItem("White");
+		white_square_color_drop_down.addItem("Pink");
 
-		if (selectedWhiteTileColor == Color.WHITE) {
-			white_tile_color_drop_down.setSelectedIndex(0);
-		} else if (selectedWhiteTileColor == GuiConstants.BRIGHT_PINK) {
-			white_tile_color_drop_down.setSelectedIndex(1);
+		if (selectedWhiteSquareColor == Color.WHITE) {
+			white_square_color_drop_down.setSelectedIndex(0);
+		} else if (selectedWhiteSquareColor == GuiConstants.BRIGHT_PINK) {
+			white_square_color_drop_down.setSelectedIndex(1);
 		}
 
-		black_tile_color_drop_down = new JComboBox<>();
-		black_tile_color_drop_down.addItem("Dark Green");
-		black_tile_color_drop_down.addItem("Black");
-		black_tile_color_drop_down.addItem("Dark Gray");
-		black_tile_color_drop_down.addItem("Gray");
+		black_square_color_drop_down = new JComboBox<>();
+		black_square_color_drop_down.addItem("Dark Green");
+		black_square_color_drop_down.addItem("Black");
+		black_square_color_drop_down.addItem("Dark Gray");
+		black_square_color_drop_down.addItem("Gray");
 
-		if (selectedBlackTileColor == GuiConstants.DARK_GREEN) {
-			black_tile_color_drop_down.setSelectedIndex(0);
-		} else if (selectedBlackTileColor == Color.BLACK) {
-			black_tile_color_drop_down.setSelectedIndex(1);
-		} else if (selectedBlackTileColor == Color.DARK_GRAY) {
-			black_tile_color_drop_down.setSelectedIndex(2);
-		} else if (selectedBlackTileColor == Color.GRAY) {
-			black_tile_color_drop_down.setSelectedIndex(3);
+		if (selectedBlackSquareColor == GuiConstants.DARK_GREEN) {
+			black_square_color_drop_down.setSelectedIndex(0);
+		} else if (selectedBlackSquareColor == Color.BLACK) {
+			black_square_color_drop_down.setSelectedIndex(1);
+		} else if (selectedBlackSquareColor == Color.DARK_GRAY) {
+			black_square_color_drop_down.setSelectedIndex(2);
+		} else if (selectedBlackSquareColor == Color.GRAY) {
+			black_square_color_drop_down.setSelectedIndex(3);
 		}
 
 		num_of_rows_spinner_model.setValue(numOfRows);
@@ -236,8 +236,8 @@ public class SettingsWindow extends JFrame {
 		add(max_depth2_drop_down);
 		add(evaluation_function1_drop_down);
 		add(evaluation_function2_drop_down);
-		add(white_tile_color_drop_down);
-		add(black_tile_color_drop_down);
+		add(white_square_color_drop_down);
+		add(black_square_color_drop_down);
 		add(num_of_rows_spinner);
 
 		guiStyleLabel.setBounds(25, 25, 205, 25);
@@ -250,8 +250,8 @@ public class SettingsWindow extends JFrame {
 		maxDepth2Label.setBounds(25, 270, 205, 25);
 		evaluationFunction1Label.setBounds(25, 305, 205, 25);
 		evaluationFunction2Label.setBounds(25, 340, 205, 25);
-		whiteTileColorLabel.setBounds(25, 375, 205, 25);
-		blackTileColorLabel.setBounds(25, 405, 205, 25);
+		whiteSquareColorLabel.setBounds(25, 375, 205, 25);
+		blackSquareColorLabel.setBounds(25, 405, 205, 25);
 		numOfRowsLabel.setBounds(25, 440, 205, 25);
 
 		gui_style_drop_down.setBounds(225, 25, 180, 25);
@@ -264,8 +264,8 @@ public class SettingsWindow extends JFrame {
 		max_depth2_drop_down.setBounds(225, 270, 180, 25);
 		evaluation_function1_drop_down.setBounds(225, 305, 180, 25);
 		evaluation_function2_drop_down.setBounds(225, 340, 180, 25);
-		white_tile_color_drop_down.setBounds(225, 375, 180, 25);
-		black_tile_color_drop_down.setBounds(225, 405, 180, 25);
+		white_square_color_drop_down.setBounds(225, 375, 180, 25);
+		black_square_color_drop_down.setBounds(225, 405, 180, 25);
 		num_of_rows_spinner.setBounds(225, 440, 180, 25);
 
 		apply = new JButton("Apply");
@@ -308,27 +308,27 @@ public class SettingsWindow extends JFrame {
 							.getSelectedItem().toString().toUpperCase());
 					EvaluationFunction evaluationFunction2 = EvaluationFunction.valueOf(evaluation_function2_drop_down
 							.getSelectedItem().toString().toUpperCase());
-					int whiteTileColorDropdownIndex = white_tile_color_drop_down.getSelectedIndex();
-					int blackTileColorDropdownIndex = black_tile_color_drop_down.getSelectedIndex();
+					int whiteSquareColorDropdownIndex = white_square_color_drop_down.getSelectedIndex();
+					int blackSquareColorDropdownIndex = black_square_color_drop_down.getSelectedIndex();
 					int numOfRows = (int) num_of_rows_spinner.getValue();
 					// numOfRows = Math.max(numOfRows, 8);
 
-					Color whiteTileColor = null;
-					if (whiteTileColorDropdownIndex == 0) {
-						whiteTileColor = Color.WHITE;
-					} else if (whiteTileColorDropdownIndex == 1) {
-						whiteTileColor = GuiConstants.BRIGHT_PINK;
+					Color whiteSquareColor = null;
+					if (whiteSquareColorDropdownIndex == 0) {
+						whiteSquareColor = Color.WHITE;
+					} else if (whiteSquareColorDropdownIndex == 1) {
+						whiteSquareColor = GuiConstants.BRIGHT_PINK;
 					}
 
-					Color blackTileColor = null;
-					if (blackTileColorDropdownIndex == 0) {
-						blackTileColor = GuiConstants.DARK_GREEN;
-					} else if (blackTileColorDropdownIndex == 1) {
-						blackTileColor = Color.BLACK;
-					} else if (blackTileColorDropdownIndex == 2) {
-						blackTileColor = Color.DARK_GRAY;
-					} else if (blackTileColorDropdownIndex == 3) {
-						blackTileColor = Color.GRAY;
+					Color blackSquareColor = null;
+					if (blackSquareColorDropdownIndex == 0) {
+						blackSquareColor = GuiConstants.DARK_GREEN;
+					} else if (blackSquareColorDropdownIndex == 1) {
+						blackSquareColor = Color.BLACK;
+					} else if (blackSquareColorDropdownIndex == 2) {
+						blackSquareColor = Color.DARK_GRAY;
+					} else if (blackSquareColorDropdownIndex == 3) {
+						blackSquareColor = Color.GRAY;
 					}
 
 					// Change game parameters based on the settings.
@@ -343,8 +343,8 @@ public class SettingsWindow extends JFrame {
 							maxDepth2,
 							evaluationFunction1,
 							evaluationFunction2,
-							whiteTileColor,
-							blackTileColor,
+							whiteSquareColor,
+							blackSquareColor,
 							numOfRows
 					);
 

@@ -60,8 +60,8 @@ public abstract class ChessPiece {
 
 	@Override
 	public String toString() {
-		if (this instanceof EmptyTile) {
-			return "Empty Tile";
+		if (this instanceof EmptySquare) {
+			return "Empty Square";
 		} else {
 			String returnString = "";
 			if (this.allegiance == Allegiance.WHITE) {

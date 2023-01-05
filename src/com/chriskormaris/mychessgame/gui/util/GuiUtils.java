@@ -59,7 +59,7 @@ public class GuiUtils {
 		return imagePath;
 	}
 
-	public static void changeTileColor(JButton button, Color color) {
+	public static void changeSquareColor(JButton button, Color color) {
 		button.setBackground(color);
 	}
 

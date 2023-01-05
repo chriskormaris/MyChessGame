@@ -7,15 +7,15 @@ import java.util.HashSet;
 import java.util.Set;
 
 
-public class EmptyTile extends ChessPiece {
+public class EmptySquare extends ChessPiece {
 
-	public EmptyTile() {
+	public EmptySquare() {
 		super(Allegiance.EMPTY);
 	}
 
 	@Override
 	public ChessPiece makeCopy() {
-		return new EmptyTile();
+		return new EmptySquare();
 	}
 
 	@Override

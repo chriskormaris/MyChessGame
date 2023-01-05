@@ -3,7 +3,7 @@ package com.chriskormaris.mychessgame.api.util;
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 import com.chriskormaris.mychessgame.api.piece.Bishop;
 import com.chriskormaris.mychessgame.api.piece.ChessPiece;
-import com.chriskormaris.mychessgame.api.piece.EmptyTile;
+import com.chriskormaris.mychessgame.api.piece.EmptySquare;
 import com.chriskormaris.mychessgame.api.piece.King;
 import com.chriskormaris.mychessgame.api.piece.Knight;
 import com.chriskormaris.mychessgame.api.piece.Pawn;
@@ -43,7 +43,7 @@ public class Utilities {
 			return new King(Allegiance.BLACK);
 		}
 		System.err.println("Invalid chessPiece character \"" + pieceChar + "\"!");
-		return new EmptyTile();
+		return new EmptySquare();
 	}
 
 
@@ -77,7 +77,7 @@ public class Utilities {
 				return Constants.BLACK_KING;
 			}
 		}
-		if (!(chessPiece instanceof EmptyTile)) {
+		if (!(chessPiece instanceof EmptySquare)) {
 			System.err.println("Invalid chessPiece value \"" + chessPiece + "\"!");
 		}
 		return '-';

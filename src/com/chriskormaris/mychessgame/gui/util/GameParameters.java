@@ -28,9 +28,9 @@ public class GameParameters {
 	private EvaluationFunction evaluationFunction1;
 	private EvaluationFunction evaluationFunction2;
 
-	private Color whiteTileColor;
+	private Color whiteSquareColor;
 
-	private Color blackTileColor;
+	private Color blackSquareColor;
 
 	private int numOfRows;
 
@@ -60,13 +60,13 @@ public class GameParameters {
 		this.evaluationFunction1 = EvaluationFunction.SIMPLIFIED;
 		this.evaluationFunction2 = EvaluationFunction.SIMPLIFIED;
 
-		this.whiteTileColor = Color.WHITE;
-		// this.whiteTileColor = GuiConstants.BRIGHT_PINK;
+		this.whiteSquareColor = Color.WHITE;
+		// this.whiteSquareColor = GuiConstants.BRIGHT_PINK;
 
-		this.blackTileColor = GuiConstants.DARK_GREEN;
-		// this.blackTileColor = Color.BLACK;
-		// this.blackTileColor = Color.DARK_GRAY;
-		// this.blackTileColor = Color.GRAY;
+		this.blackSquareColor = GuiConstants.DARK_GREEN;
+		// this.blackSquareColor = Color.BLACK;
+		// this.blackSquareColor = Color.DARK_GRAY;
+		// this.blackSquareColor = Color.GRAY;
 
 		this.numOfRows = Constants.DEFAULT_NUM_OF_ROWS;
 	}
@@ -83,8 +83,8 @@ public class GameParameters {
 		this.ai2MaxDepth = otherGameParameters.getAi2MaxDepth();
 		this.evaluationFunction1 = otherGameParameters.getEvaluationFunction1();
 		this.evaluationFunction2 = otherGameParameters.getEvaluationFunction2();
-		this.whiteTileColor = otherGameParameters.getWhiteTileColor();
-		this.blackTileColor = otherGameParameters.getBlackTileColor();
+		this.whiteSquareColor = otherGameParameters.getWhiteSquareColor();
+		this.blackSquareColor = otherGameParameters.getBlackSquareColor();
 		this.numOfRows = otherGameParameters.getNumOfRows();
 	}
 
@@ -100,8 +100,8 @@ public class GameParameters {
 			int maxDepth2,
 			EvaluationFunction evaluationFunction1,
 			EvaluationFunction evaluationFunction2,
-			Color whiteTileColor,
-			Color blackTileColor,
+			Color whiteSquareColor,
+			Color blackSquareColor,
 			int numOfRows
 	) {
 		this.guiStyle = guiStyle;
@@ -114,8 +114,8 @@ public class GameParameters {
 		this.ai2MaxDepth = maxDepth2;
 		this.evaluationFunction1 = evaluationFunction1;
 		this.evaluationFunction2 = evaluationFunction2;
-		this.whiteTileColor = whiteTileColor;
-		this.blackTileColor = blackTileColor;
+		this.whiteSquareColor = whiteSquareColor;
+		this.blackSquareColor = blackSquareColor;
 		this.numOfRows = numOfRows;
 	}
 
@@ -199,20 +199,20 @@ public class GameParameters {
 		this.evaluationFunction2 = evaluationFunction2;
 	}
 
-	public Color getWhiteTileColor() {
-		return whiteTileColor;
+	public Color getWhiteSquareColor() {
+		return whiteSquareColor;
 	}
 
-	public void setWhiteTileColor(Color whiteTileColor) {
-		this.whiteTileColor = whiteTileColor;
+	public void setWhiteSquareColor(Color whiteSquareColor) {
+		this.whiteSquareColor = whiteSquareColor;
 	}
 
-	public Color getBlackTileColor() {
-		return blackTileColor;
+	public Color getBlackSquareColor() {
+		return blackSquareColor;
 	}
 
-	public void setBlackTileColor(Color blackTileColor) {
-		this.blackTileColor = blackTileColor;
+	public void setBlackSquareColor(Color blackSquareColor) {
+		this.blackSquareColor = blackSquareColor;
 	}
 
 	public int getNumOfRows() {

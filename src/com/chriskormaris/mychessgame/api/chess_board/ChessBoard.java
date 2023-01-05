@@ -10,7 +10,7 @@ import com.chriskormaris.mychessgame.api.evaluation_function.SimplifiedEvaluatio
 import com.chriskormaris.mychessgame.api.evaluation_function.WukongEvaluationUtils;
 import com.chriskormaris.mychessgame.api.piece.Bishop;
 import com.chriskormaris.mychessgame.api.piece.ChessPiece;
-import com.chriskormaris.mychessgame.api.piece.EmptyTile;
+import com.chriskormaris.mychessgame.api.piece.EmptySquare;
 import com.chriskormaris.mychessgame.api.piece.King;
 import com.chriskormaris.mychessgame.api.piece.Knight;
 import com.chriskormaris.mychessgame.api.piece.Pawn;
@@ -57,12 +57,12 @@ public class ChessBoard {
 	/* A board with:
 	 * 1 for areas threatened by white pieces.
 	 * 0 for areas not threatened by white pieces. */
-	private int[][] tilesThreatenedByWhite;
+	private int[][] squaresThreatenedByWhite;
 
 	/* A board with:
 	 * 1 for areas threatened by black pieces.
 	 * 0 for areas not threatened by black pieces. */
-	private int[][] tilesThreatenedByBlack;
+	private int[][] squaresThreatenedByBlack;
 
 	/* These are used to define if a checkmate has occurred. */
 	private String whiteKingPosition;
@@ -87,7 +87,7 @@ public class ChessBoard {
 	/* The position where the last pawn that leaped two steps forward
 	 * would normally be, if it had only moved one step forward.
 	 * If the last move was not a move made by a pawn,
-	 * or the move was not a leap of two tiles forward,
+	 * or the move was not a leap of two squares forward,
 	 * this variable is equal to "-". */
 	private String enPassantPosition;
 
@@ -130,8 +130,8 @@ public class ChessBoard {
 
 		// this.gameBoard = FenUtils.createGameBoard(this, Constants.DEFAULT_STARTING_PIECES);
 
-		this.tilesThreatenedByWhite = new int[numOfRows][NUM_OF_COLUMNS];
-		this.tilesThreatenedByBlack = new int[numOfRows][NUM_OF_COLUMNS];
+		this.squaresThreatenedByWhite = new int[numOfRows][NUM_OF_COLUMNS];
+		this.squaresThreatenedByBlack = new int[numOfRows][NUM_OF_COLUMNS];
 
 		this.whiteKingPosition = "E1";
 		this.blackKingPosition = "E" + numOfRows;
@@ -164,8 +164,8 @@ public class ChessBoard {
 		this.lastMove = new Move(otherBoard.lastMove);
 
 		this.gameBoard = Utilities.copyGameBoard(otherBoard.getGameBoard());
-		this.tilesThreatenedByWhite = Utilities.copyIntBoard(otherBoard.getTilesThreatenedByWhite());
-		this.tilesThreatenedByBlack = Utilities.copyIntBoard(otherBoard.getTilesThreatenedByBlack());
+		this.squaresThreatenedByWhite = Utilities.copyIntBoard(otherBoard.getSquaresThreatenedByWhite());
+		this.squaresThreatenedByBlack = Utilities.copyIntBoard(otherBoard.getSquaresThreatenedByBlack());
 
 		this.whiteKingPosition = otherBoard.getWhiteKingPosition();
 		this.blackKingPosition = otherBoard.getBlackKingPosition();
@@ -209,7 +209,7 @@ public class ChessBoard {
 	public void placePiecesToStartingPositions() {
 		for (int i = 0; i < numOfRows; i++) {
 			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
-				this.gameBoard[i][j] = new EmptyTile();
+				this.gameBoard[i][j] = new EmptySquare();
 			}
 		}
 
@@ -305,10 +305,10 @@ public class ChessBoard {
 
 		int rowEnd = Utilities.getRowFromPosition(positionEnd, numOfRows);
 		int columnEnd = Utilities.getColumnFromPosition(positionEnd);
-		ChessPiece endTile = this.gameBoard[rowEnd][columnEnd];
+		ChessPiece endSquare = this.gameBoard[rowEnd][columnEnd];
 		// if (displayMove) {
 		// 	System.out.println("rowEnd: " + rowEnd + ", columnEnd: " + columnEnd);
-		// 	System.out.println("endTile:" + endTile);
+		// 	System.out.println("endSquare:" + endSquare);
 		// }
 
 		if (positionsToRemove.size() > 0) {
@@ -322,16 +322,16 @@ public class ChessBoard {
 		}
 
 		// Allow only valid moves, for all the chess board pieces.
-		// Move only if the tile is empty or the tile contains an opponent chessPiece.
+		// Move only if the square is empty or the square contains an opponent chessPiece.
 		// Also allow castling, en passant and promotion moves.
-		if (endTile instanceof EmptyTile || chessPiece.getAllegiance() != endTile.getAllegiance()) {
+		if (endSquare instanceof EmptySquare || chessPiece.getAllegiance() != endSquare.getAllegiance()) {
 
 			Set<String> castlingPositions = null;
 			if (chessPiece instanceof King) {
 				castlingPositions = King.getCastlingPositions(positionStart, this);
 			}
 
-			this.gameBoard[rowStart][columnStart] = new EmptyTile();
+			this.gameBoard[rowStart][columnStart] = new EmptySquare();
 			this.gameBoard[rowEnd][columnEnd] = chessPiece;
 			if (displayMove) {
 				positionsToRemove.add(positionStart);
@@ -358,7 +358,7 @@ public class ChessBoard {
 					// White queen side castling
 					if (positionEnd.equals("C1")) {
 						// Move the left white rook to the correct position.
-						this.gameBoard[this.numOfRows - 1][0] = new EmptyTile();
+						this.gameBoard[this.numOfRows - 1][0] = new EmptySquare();
 						this.gameBoard[this.numOfRows - 1][3] = new Rook(Allegiance.WHITE);
 						if (displayMove) {
 							positionsToRemove.add("A1");
@@ -372,7 +372,7 @@ public class ChessBoard {
 					// White king side castling
 					else if (positionEnd.equals("G1")) {
 						// Move the right white rook to the correct position.
-						this.gameBoard[this.numOfRows - 1][7] = new EmptyTile();
+						this.gameBoard[this.numOfRows - 1][7] = new EmptySquare();
 						this.gameBoard[this.numOfRows - 1][5] = new Rook(Allegiance.WHITE);
 						if (displayMove) {
 							positionsToRemove.add("H1");
@@ -386,7 +386,7 @@ public class ChessBoard {
 					// Black queen side castling
 					else if (positionEnd.equals("C" + this.numOfRows)) {
 						// Move the left black rook to the correct position.
-						this.gameBoard[0][0] = new EmptyTile();
+						this.gameBoard[0][0] = new EmptySquare();
 						this.gameBoard[0][3] = new Rook(Allegiance.BLACK);
 						if (displayMove) {
 							positionsToRemove.add("A" + this.numOfRows);
@@ -400,7 +400,7 @@ public class ChessBoard {
 					// Black king side castling
 					else if (positionEnd.equals("G" + this.numOfRows)) {
 						// Move the right black rook to the correct position.
-						this.gameBoard[0][7] = new EmptyTile();
+						this.gameBoard[0][7] = new EmptySquare();
 						this.gameBoard[0][5] = new Rook(Allegiance.BLACK);
 						if (displayMove) {
 							positionsToRemove.add("H" + this.numOfRows);
@@ -469,7 +469,7 @@ public class ChessBoard {
 						} else {
 							this.gameBoard
 									[twoStepsForwardBlackPawnPositionRow]
-									[twoStepsForwardBlackPawnPositionColumn] = new EmptyTile();
+									[twoStepsForwardBlackPawnPositionColumn] = new EmptySquare();
 						}
 						this.enPassantPosition = "-";
 					}
@@ -502,7 +502,7 @@ public class ChessBoard {
 						} else {
 							this.gameBoard
 									[twoStepsForwardWhitePawnPositionRow]
-									[twoStepsForwardWhitePawnPositionColumn] = new EmptyTile();
+									[twoStepsForwardWhitePawnPositionColumn] = new EmptySquare();
 						}
 						this.enPassantPosition = "-";
 					}
@@ -533,52 +533,52 @@ public class ChessBoard {
 			setThreats();
 
 			// Increase the halfMoveClock if no capture has occurred.
-			if (endTile.getAllegiance() == Allegiance.EMPTY) {
+			if (endSquare.getAllegiance() == Allegiance.EMPTY) {
 				halfMoveClock++;
 			} else {  // a capture has occurred
 				halfMoveClock = 0;
 			}
 
 			// If a chessPiece capture has occurred.
-			if (chessPiece.getAllegiance() != endTile.getAllegiance() && !(endTile instanceof EmptyTile)) {
-				updateScoreAfterPieceCapture(endTile);
+			if (chessPiece.getAllegiance() != endSquare.getAllegiance() && !(endSquare instanceof EmptySquare)) {
+				updateScoreAfterPieceCapture(endSquare);
 
 				if (!displayMove) {
-					incrementCapturedPiecesCounter(endTile);
+					incrementCapturedPiecesCounter(endSquare);
 				}
 			}
 		}
 	}
 
-	private void updateScoreAfterPieceCapture(ChessPiece endTile) {
-		if (endTile.isPromoted()) {
-			if (endTile.getAllegiance() == Allegiance.WHITE) {
+	private void updateScoreAfterPieceCapture(ChessPiece endSquare) {
+		if (endSquare.isPromoted()) {
+			if (endSquare.getAllegiance() == Allegiance.WHITE) {
 				score -= Constants.PAWN_SCORE_VALUE;
-			} else if (endTile.getAllegiance() == Allegiance.BLACK) {
+			} else if (endSquare.getAllegiance() == Allegiance.BLACK) {
 				score += Constants.PAWN_SCORE_VALUE;
 			}
-		} else if (endTile.getAllegiance() == Allegiance.WHITE) {
-			if (endTile instanceof Pawn) {
+		} else if (endSquare.getAllegiance() == Allegiance.WHITE) {
+			if (endSquare instanceof Pawn) {
 				score -= Constants.PAWN_SCORE_VALUE;
-			} else if (endTile instanceof Rook) {
+			} else if (endSquare instanceof Rook) {
 				score -= Constants.ROOK_SCORE_VALUE;
-			} else if (endTile instanceof Knight) {
+			} else if (endSquare instanceof Knight) {
 				score -= Constants.KNIGHT_SCORE_VALUE;
-			} else if (endTile instanceof Bishop) {
+			} else if (endSquare instanceof Bishop) {
 				score -= Constants.BISHOP_SCORE_VALUE;
-			} else if (endTile instanceof Queen) {
+			} else if (endSquare instanceof Queen) {
 				score -= Constants.QUEEN_SCORE_VALUE;
 			}
-		} else if (endTile.getAllegiance() == Allegiance.BLACK) {
-			if (endTile instanceof Pawn) {
+		} else if (endSquare.getAllegiance() == Allegiance.BLACK) {
+			if (endSquare instanceof Pawn) {
 				score += Constants.PAWN_SCORE_VALUE;
-			} else if (endTile instanceof Rook) {
+			} else if (endSquare instanceof Rook) {
 				score += Constants.ROOK_SCORE_VALUE;
-			} else if (endTile instanceof Knight) {
+			} else if (endSquare instanceof Knight) {
 				score += Constants.KNIGHT_SCORE_VALUE;
-			} else if (endTile instanceof Bishop) {
+			} else if (endSquare instanceof Bishop) {
 				score += Constants.BISHOP_SCORE_VALUE;
-			} else if (endTile instanceof Queen) {
+			} else if (endSquare instanceof Queen) {
 				score += Constants.QUEEN_SCORE_VALUE;
 			}
 		}
@@ -954,9 +954,7 @@ public class ChessBoard {
 		if (numOfKnights + numOfBishops > 1) return false;
 
 		int numOfRooks = countRooks(playerAllegiance);
-		if (numOfRooks > 0) return false;
-
-		return true;
+		return numOfRooks <= 0;
 	}
 
 	/*
@@ -1017,9 +1015,9 @@ public class ChessBoard {
 			int blackKingColumn = Utilities.getColumnFromPosition(initialChessBoard.getBlackKingPosition());
 
 			if (chessPiece.getAllegiance() == Allegiance.WHITE
-					&& initialChessBoard.getTilesThreatenedByBlack()[whiteKingRow][whiteKingColumn] == 1
+					&& initialChessBoard.getSquaresThreatenedByBlack()[whiteKingRow][whiteKingColumn] == 1
 					|| chessPiece.getAllegiance() == Allegiance.BLACK
-					&& initialChessBoard.getTilesThreatenedByWhite()[blackKingRow][blackKingColumn] == 1) {
+					&& initialChessBoard.getSquaresThreatenedByWhite()[blackKingRow][blackKingColumn] == 1) {
 				nextPositions.remove(tempNextPosition);
 			}
 
@@ -1038,8 +1036,8 @@ public class ChessBoard {
 		// First, remove all the threatened areas.
 		for (int i = 0; i < numOfRows; i++) {
 			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
-				this.tilesThreatenedByWhite[i][j] = 0;
-				this.tilesThreatenedByBlack[i][j] = 0;
+				this.squaresThreatenedByWhite[i][j] = 0;
+				this.squaresThreatenedByBlack[i][j] = 0;
 			}
 		}
 
@@ -1060,9 +1058,9 @@ public class ChessBoard {
 						int row = Utilities.getRowFromPosition(threatPosition, numOfRows);
 						int column = Utilities.getColumnFromPosition(threatPosition);
 						if (chessPiece.getAllegiance() == Allegiance.WHITE)
-							this.tilesThreatenedByWhite[row][column] = 1;
+							this.squaresThreatenedByWhite[row][column] = 1;
 						else if (chessPiece.getAllegiance() == Allegiance.BLACK)
-							this.tilesThreatenedByBlack[row][column] = 1;
+							this.squaresThreatenedByBlack[row][column] = 1;
 					}
 				}
 
@@ -1079,7 +1077,7 @@ public class ChessBoard {
 
 		int blackKingRow = Utilities.getRowFromPosition(this.getBlackKingPosition(), numOfRows);
 		int blackKingColumn = Utilities.getColumnFromPosition(this.getBlackKingPosition());
-		int blackKingThreatened = getTilesThreatenedByWhite()[blackKingRow][blackKingColumn];
+		int blackKingThreatened = getSquaresThreatenedByWhite()[blackKingRow][blackKingColumn];
 
 		if (storeKingInCheckMoves) {
 			this.blackKingInCheckValidPieceMoves = new HashMap<>();
@@ -1112,7 +1110,7 @@ public class ChessBoard {
 							);
 							blackKingColumn = Utilities.getColumnFromPosition(initialChessBoard.getBlackKingPosition());
 
-							if (initialChessBoard.getTilesThreatenedByWhite()[blackKingRow][blackKingColumn] == 0) {
+							if (initialChessBoard.getSquaresThreatenedByWhite()[blackKingRow][blackKingColumn] == 0) {
 								blackKingThreatened = 0;
 								validBlackKingInCheckTempNextPosition.add(nextPosition);
 							}
@@ -1151,7 +1149,7 @@ public class ChessBoard {
 
 		int whiteKingRow = Utilities.getRowFromPosition(this.getWhiteKingPosition(), numOfRows);
 		int whiteKingColumn = Utilities.getColumnFromPosition(this.getWhiteKingPosition());
-		int whiteKingThreatened = getTilesThreatenedByBlack()[whiteKingRow][whiteKingColumn];
+		int whiteKingThreatened = getSquaresThreatenedByBlack()[whiteKingRow][whiteKingColumn];
 
 		if (storeKingInCheckMoves) {
 			this.whiteKingInCheckValidPieceMoves = new HashMap<>();
@@ -1184,7 +1182,7 @@ public class ChessBoard {
 							);
 							whiteKingColumn = Utilities.getColumnFromPosition(initialChessBoard.getWhiteKingPosition());
 
-							if (initialChessBoard.getTilesThreatenedByBlack()[whiteKingRow][whiteKingColumn] == 0) {
+							if (initialChessBoard.getSquaresThreatenedByBlack()[whiteKingRow][whiteKingColumn] == 0) {
 								whiteKingThreatened = 0;
 								validWhiteKingInCheckTempNextPositions.add(nextPosition);
 							}
@@ -1248,7 +1246,7 @@ public class ChessBoard {
 						// If any move exists without getting the White king in check,
 						// then there still are legal moves, and we do not have a stalemate scenario.
 						boolean legalMovesExist =
-								initialChessBoard.getTilesThreatenedByBlack()[whiteKingRow][whiteKingColumn] == 0;
+								initialChessBoard.getSquaresThreatenedByBlack()[whiteKingRow][whiteKingColumn] == 0;
 
 						initialChessBoard = new ChessBoard(this);
 
@@ -1303,7 +1301,7 @@ public class ChessBoard {
 						// If any move exists without getting the Black king in check,
 						// then there still are legal moves, and we do not have a stalemate scenario.
 						boolean legalMovesExist =
-								initialChessBoard.getTilesThreatenedByWhite()[blackKingRow][blackKingColumn] == 0;
+								initialChessBoard.getSquaresThreatenedByWhite()[blackKingRow][blackKingColumn] == 0;
 
 						initialChessBoard = new ChessBoard(this);
 
@@ -1396,7 +1394,7 @@ public class ChessBoard {
 		for (int i = 0; i < numOfRows; i++) {
 			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
 				ChessPiece chessPiece = getGameBoard()[i][j];
-				if (!(chessPiece instanceof EmptyTile)
+				if (!(chessPiece instanceof EmptySquare)
 						&& !(chessPiece instanceof King)
 						&& playerAllegiance == chessPiece.getAllegiance()) {
 					// System.out.println("i: " + i + ", j: " + j + ", chessPiece: " + chessPiece);
@@ -1415,7 +1413,7 @@ public class ChessBoard {
 		for (int i = 0; i < numOfRows; i++) {
 			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
 				ChessPiece chessPiece = getGameBoard()[i][j];
-				if (!(chessPiece instanceof EmptyTile)
+				if (!(chessPiece instanceof EmptySquare)
 						&& !(chessPiece instanceof King)
 						&& !(chessPiece instanceof Pawn)
 						&& playerAllegiance == chessPiece.getAllegiance()) {
@@ -1436,7 +1434,7 @@ public class ChessBoard {
 		for (int i = 0; i < numOfRows; i++) {
 			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
 				ChessPiece chessPiece = getGameBoard()[i][j];
-				if (!(chessPiece instanceof EmptyTile)
+				if (!(chessPiece instanceof EmptySquare)
 						&& !(chessPiece instanceof King || chessPiece instanceof Knight)
 						&& playerAllegiance == chessPiece.getAllegiance()) {
 					// System.out.println("i: " + i + ", j: " + j + ", chessPiece: " + chessPiece);
@@ -1456,7 +1454,7 @@ public class ChessBoard {
 		for (int i = 0; i < numOfRows; i++) {
 			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
 				ChessPiece chessPiece = getGameBoard()[i][j];
-				if (!(chessPiece instanceof EmptyTile)
+				if (!(chessPiece instanceof EmptySquare)
 						&& !(chessPiece instanceof King || chessPiece instanceof Bishop)
 						&& playerAllegiance == chessPiece.getAllegiance()) {
 					// System.out.println("i: " + i + ", j: " + j + ", chessPiece: " + chessPiece);
@@ -1488,20 +1486,20 @@ public class ChessBoard {
 		}
 	}
 
-	public int[][] getTilesThreatenedByWhite() {
-		return tilesThreatenedByWhite;
+	public int[][] getSquaresThreatenedByWhite() {
+		return squaresThreatenedByWhite;
 	}
 
-	public void setTilesThreatenedByWhite(int[][] tilesThreatenedByWhite) {
-		this.tilesThreatenedByWhite = tilesThreatenedByWhite;
+	public void setSquaresThreatenedByWhite(int[][] squaresThreatenedByWhite) {
+		this.squaresThreatenedByWhite = squaresThreatenedByWhite;
 	}
 
-	public int[][] getTilesThreatenedByBlack() {
-		return tilesThreatenedByBlack;
+	public int[][] getSquaresThreatenedByBlack() {
+		return squaresThreatenedByBlack;
 	}
 
-	public void setTilesThreatenedByBlack(int[][] tilesThreatenedByBlack) {
-		this.tilesThreatenedByBlack = tilesThreatenedByBlack;
+	public void setSquaresThreatenedByBlack(int[][] squaresThreatenedByBlack) {
+		this.squaresThreatenedByBlack = squaresThreatenedByBlack;
 	}
 
 	public String getEnPassantPosition() {
