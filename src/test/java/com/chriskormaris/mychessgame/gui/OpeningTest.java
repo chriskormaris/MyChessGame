@@ -4,8 +4,8 @@ package com.chriskormaris.mychessgame.gui;
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import org.junit.jupiter.api.Test;
 
-import static com.chriskormaris.mychessgame.gui.ChessGUI.chessBoard;
-import static com.chriskormaris.mychessgame.gui.ChessGUI.placePiecesToChessBoard;
+import static com.chriskormaris.mychessgame.gui.GUI.chessBoard;
+import static com.chriskormaris.mychessgame.gui.GUI.placePiecesToChessBoard;
 
 
 public class OpeningTest {
@@ -15,7 +15,7 @@ public class OpeningTest {
 		String title = "Chess Opening Test";
 
 		@SuppressWarnings("unused")
-		ChessGUI cbg = new ChessGUI(title);
+		GUI cbg = new GUI(title);
 
 		// This is the default Chess starting game state. The moves are taken from Wikipedia:
 		// https://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation

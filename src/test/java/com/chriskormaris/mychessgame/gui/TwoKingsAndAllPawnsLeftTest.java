@@ -5,9 +5,9 @@ import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.api.enumeration.GameResult;
 import org.junit.jupiter.api.Test;
 
-import static com.chriskormaris.mychessgame.gui.ChessGUI.checkForGameOver;
-import static com.chriskormaris.mychessgame.gui.ChessGUI.chessBoard;
-import static com.chriskormaris.mychessgame.gui.ChessGUI.placePiecesToChessBoard;
+import static com.chriskormaris.mychessgame.gui.GUI.checkForGameOver;
+import static com.chriskormaris.mychessgame.gui.GUI.chessBoard;
+import static com.chriskormaris.mychessgame.gui.GUI.placePiecesToChessBoard;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 
@@ -18,7 +18,7 @@ public class TwoKingsAndAllPawnsLeftTest {
 		String title = "Two Kings And All Pawns Left Test";
 
 		@SuppressWarnings("unused")
-		ChessGUI cbg = new ChessGUI(title);
+		GUI cbg = new GUI(title);
 
 		// These FEN positions are considered a draw!
 		// Each king is stuck on their side.

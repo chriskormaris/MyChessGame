@@ -4,8 +4,8 @@ package com.chriskormaris.mychessgame.gui;
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import org.junit.jupiter.api.Test;
 
-import static com.chriskormaris.mychessgame.gui.ChessGUI.chessBoard;
-import static com.chriskormaris.mychessgame.gui.ChessGUI.placePiecesToChessBoard;
+import static com.chriskormaris.mychessgame.gui.GUI.chessBoard;
+import static com.chriskormaris.mychessgame.gui.GUI.placePiecesToChessBoard;
 
 
 public class CastlingTest {
@@ -15,7 +15,7 @@ public class CastlingTest {
 		String title = "Castling Test";
 
 		@SuppressWarnings("unused")
-		ChessGUI cbg = new ChessGUI(title);
+		GUI cbg = new GUI(title);
 
 		/* Play as White. */
 		String fenPosition = "4k3/8/8/8/8/8/8/R3K2R w KQ - 0 1";

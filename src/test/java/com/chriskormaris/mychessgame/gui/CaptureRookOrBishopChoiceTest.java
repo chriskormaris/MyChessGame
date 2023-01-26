@@ -11,10 +11,10 @@ import com.chriskormaris.mychessgame.api.util.Constants;
 import com.chriskormaris.mychessgame.api.util.Utilities;
 import org.junit.jupiter.api.Test;
 
-import static com.chriskormaris.mychessgame.gui.ChessGUI.ai;
-import static com.chriskormaris.mychessgame.gui.ChessGUI.aiMove;
-import static com.chriskormaris.mychessgame.gui.ChessGUI.chessBoard;
-import static com.chriskormaris.mychessgame.gui.ChessGUI.placePieceToPosition;
+import static com.chriskormaris.mychessgame.gui.GUI.ai;
+import static com.chriskormaris.mychessgame.gui.GUI.aiMove;
+import static com.chriskormaris.mychessgame.gui.GUI.chessBoard;
+import static com.chriskormaris.mychessgame.gui.GUI.placePieceToPosition;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
@@ -25,7 +25,7 @@ public class CaptureRookOrBishopChoiceTest {
 		String title = "Capture Rook or Bishop?";
 
 		@SuppressWarnings("unused")
-		ChessGUI cbg = new ChessGUI(title);
+		GUI cbg = new GUI(title);
 
 		ChessBoard.printChessBoard(chessBoard.getGameBoard());
 

@@ -8,10 +8,10 @@ import com.chriskormaris.mychessgame.api.piece.King;
 import com.chriskormaris.mychessgame.api.piece.Knight;
 import org.junit.jupiter.api.Test;
 
-import static com.chriskormaris.mychessgame.gui.ChessGUI.checkForGameOver;
-import static com.chriskormaris.mychessgame.gui.ChessGUI.chessBoard;
-import static com.chriskormaris.mychessgame.gui.ChessGUI.makeChessBoardSquaresEmpty;
-import static com.chriskormaris.mychessgame.gui.ChessGUI.placePieceToPosition;
+import static com.chriskormaris.mychessgame.gui.GUI.checkForGameOver;
+import static com.chriskormaris.mychessgame.gui.GUI.chessBoard;
+import static com.chriskormaris.mychessgame.gui.GUI.makeChessBoardSquaresEmpty;
+import static com.chriskormaris.mychessgame.gui.GUI.placePieceToPosition;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
@@ -22,7 +22,7 @@ public class InsufficientMaterialDrawTest {
 		String title = "Insufficient Material Draw Test";
 
 		@SuppressWarnings("unused")
-		ChessGUI cbg = new ChessGUI(title);
+		GUI cbg = new GUI(title);
 
 		makeChessBoardSquaresEmpty();
 		ChessBoard.printChessBoard(chessBoard.getGameBoard());

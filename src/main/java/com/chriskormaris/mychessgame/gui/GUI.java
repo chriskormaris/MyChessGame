@@ -57,7 +57,7 @@ import static com.chriskormaris.mychessgame.gui.util.SoundUtils.PIECE_MOVE_SOUND
 import static javax.swing.JOptionPane.QUESTION_MESSAGE;
 
 
-public class ChessGUI {
+public class GUI {
 
 	private static final int HEIGHT = GuiConstants.DEFAULT_HEIGHT;
 	private static final int WIDTH = GuiConstants.DEFAULT_WIDTH;
@@ -133,7 +133,7 @@ public class ChessGUI {
 	private static JMenuItem aboutItem;
 
 
-	public ChessGUI(String title) {
+	public GUI(String title) {
 		// Change JDialog style.
 		// JDialog.setDefaultLookAndFeelDecorated(true);
 
@@ -1191,7 +1191,7 @@ public class ChessGUI {
 				String value = null;
 				if (startingPiece.getAllegiance() == Allegiance.WHITE) {
 					value = (String) JOptionPane.showInputDialog(
-							ChessGUI.gui,
+							GUI.gui,
 							"Promote White Pawn to:",
 							"White Pawn Promotion",
 							JOptionPane.QUESTION_MESSAGE,
@@ -1201,7 +1201,7 @@ public class ChessGUI {
 					);
 				} else if (startingPiece.getAllegiance() == Allegiance.BLACK) {
 					value = (String) JOptionPane.showInputDialog(
-							ChessGUI.gui,
+							GUI.gui,
 							"Promote Black Pawn to:",
 							"Black Pawn Promotion",
 							JOptionPane.QUESTION_MESSAGE,
@@ -1848,7 +1848,7 @@ public class ChessGUI {
 
 	public static void main(String[] args) {
 		@SuppressWarnings("unused")
-		ChessGUI cbg = new ChessGUI(TITLE);
+		GUI cbg = new GUI(TITLE);
 		placePiecesToStartingPositions();
 
 		System.out.println(chessBoard);

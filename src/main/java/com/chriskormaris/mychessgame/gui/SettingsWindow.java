@@ -50,19 +50,19 @@ public class SettingsWindow extends JFrame {
 
 		EventHandler handler = new EventHandler();
 
-		GuiStyle selectedGuiStyle = ChessGUI.gameParameters.getGuiStyle();
-		boolean enableSounds = ChessGUI.gameParameters.isEnableSounds();
-		Allegiance humanPlayerAllegiance = ChessGUI.gameParameters.getHumanPlayerAllegiance();
-		GameMode selectedGameMode = ChessGUI.gameParameters.getGameMode();
-		AiType selectedAi1Mode = ChessGUI.gameParameters.getAi1Type();
-		AiType selectedAi2Mode = ChessGUI.gameParameters.getAi2Type();
-		int maxDepth1 = ChessGUI.gameParameters.getAi1MaxDepth() - 1;
-		int maxDepth2 = ChessGUI.gameParameters.getAi2MaxDepth() - 1;
-		EvaluationFunction evaluationFunction1 = ChessGUI.gameParameters.getEvaluationFunction1();
-		EvaluationFunction evaluationFunction2 = ChessGUI.gameParameters.getEvaluationFunction2();
-		Color selectedWhiteSquareColor = ChessGUI.gameParameters.getWhiteSquareColor();
-		Color selectedBlackSquareColor = ChessGUI.gameParameters.getBlackSquareColor();
-		int numOfRows = ChessGUI.gameParameters.getNumOfRows();
+		GuiStyle selectedGuiStyle = GUI.gameParameters.getGuiStyle();
+		boolean enableSounds = GUI.gameParameters.isEnableSounds();
+		Allegiance humanPlayerAllegiance = GUI.gameParameters.getHumanPlayerAllegiance();
+		GameMode selectedGameMode = GUI.gameParameters.getGameMode();
+		AiType selectedAi1Mode = GUI.gameParameters.getAi1Type();
+		AiType selectedAi2Mode = GUI.gameParameters.getAi2Type();
+		int maxDepth1 = GUI.gameParameters.getAi1MaxDepth() - 1;
+		int maxDepth2 = GUI.gameParameters.getAi2MaxDepth() - 1;
+		EvaluationFunction evaluationFunction1 = GUI.gameParameters.getEvaluationFunction1();
+		EvaluationFunction evaluationFunction2 = GUI.gameParameters.getEvaluationFunction2();
+		Color selectedWhiteSquareColor = GUI.gameParameters.getWhiteSquareColor();
+		Color selectedBlackSquareColor = GUI.gameParameters.getBlackSquareColor();
+		int numOfRows = GUI.gameParameters.getNumOfRows();
 
 
 		JLabel guiStyleLabel = new JLabel("GUI style");
@@ -332,7 +332,7 @@ public class SettingsWindow extends JFrame {
 					}
 
 					// Change game parameters based on the settings.
-					ChessGUI.newGameParameters = new GameParameters(
+					GUI.newGameParameters = new GameParameters(
 							guiStyle,
 							enableSounds,
 							humanPlayerAllegiance,
@@ -349,7 +349,7 @@ public class SettingsWindow extends JFrame {
 					);
 
 					JOptionPane.showMessageDialog(
-							ChessGUI.frame,
+							GUI.frame,
 							"Game settings have been changed.\n" +
 									"The changes will be applied in the next new game.",
 							"",
