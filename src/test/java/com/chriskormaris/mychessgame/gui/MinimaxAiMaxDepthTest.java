@@ -16,7 +16,7 @@ public class MinimaxAiMaxDepthTest {
 		String title = "Minimax AI Max Depth Test";
 
 		@SuppressWarnings("unused")
-		GUI cbg = new GUI(title);
+		GUI gui = new GUI(title);
 		placePiecesToStartingPositions();
 
 

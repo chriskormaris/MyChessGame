@@ -15,7 +15,7 @@ public class StalemateCheckmateTest {
 		String title = "Stalemate or Checkmate Test";
 
 		@SuppressWarnings("unused")
-		GUI cbg = new GUI(title);
+		GUI gui = new GUI(title);
 
 		// newGameParameters.setAi1Type(AiType.RANDOM_AI);
 		// newGameParameters.setAi1MaxDepth(1);

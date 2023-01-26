@@ -22,7 +22,7 @@ public class InsufficientMaterialDrawTest {
 		String title = "Insufficient Material Draw Test";
 
 		@SuppressWarnings("unused")
-		GUI cbg = new GUI(title);
+		GUI gui = new GUI(title);
 
 		makeChessBoardSquaresEmpty();
 		ChessBoard.printChessBoard(chessBoard.getGameBoard());

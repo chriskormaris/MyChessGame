@@ -21,7 +21,7 @@ public class TwoKingsLeftTest {
 		String title = "Two Kings Left Test";
 
 		@SuppressWarnings("unused")
-		GUI cbg = new GUI(title);
+		GUI gui = new GUI(title);
 
 		makeChessBoardSquaresEmpty();
 

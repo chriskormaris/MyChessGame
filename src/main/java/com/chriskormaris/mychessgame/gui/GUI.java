@@ -1848,7 +1848,7 @@ public class GUI {
 
 	public static void main(String[] args) {
 		@SuppressWarnings("unused")
-		GUI cbg = new GUI(TITLE);
+		GUI gui = new GUI(TITLE);
 		placePiecesToStartingPositions();
 
 		System.out.println(chessBoard);

@@ -25,7 +25,7 @@ public class CaptureRookOrBishopChoiceTest {
 		String title = "Capture Rook or Bishop?";
 
 		@SuppressWarnings("unused")
-		GUI cbg = new GUI(title);
+		GUI gui = new GUI(title);
 
 		ChessBoard.printChessBoard(chessBoard.getGameBoard());
 

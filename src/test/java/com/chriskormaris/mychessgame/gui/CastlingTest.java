@@ -15,7 +15,7 @@ public class CastlingTest {
 		String title = "Castling Test";
 
 		@SuppressWarnings("unused")
-		GUI cbg = new GUI(title);
+		GUI gui = new GUI(title);
 
 		/* Play as White. */
 		String fenPosition = "4k3/8/8/8/8/8/8/R3K2R w KQ - 0 1";

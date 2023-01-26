@@ -18,7 +18,7 @@ public class TwoKingsAndAllPawnsLeftTest {
 		String title = "Two Kings And All Pawns Left Test";
 
 		@SuppressWarnings("unused")
-		GUI cbg = new GUI(title);
+		GUI gui = new GUI(title);
 
 		// These FEN positions are considered a draw!
 		// Each king is stuck on their side.
