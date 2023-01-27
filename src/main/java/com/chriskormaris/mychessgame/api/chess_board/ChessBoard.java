@@ -19,6 +19,8 @@ import com.chriskormaris.mychessgame.api.piece.Rook;
 import com.chriskormaris.mychessgame.api.util.ChessPieceShortestPath;
 import com.chriskormaris.mychessgame.api.util.Constants;
 import com.chriskormaris.mychessgame.api.util.Utilities;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,6 +32,8 @@ import java.util.Set;
 import static com.chriskormaris.mychessgame.api.util.Constants.NUM_OF_COLUMNS;
 
 
+@Getter
+@Setter
 public class ChessBoard {
 
 	private final int numOfRows;
@@ -1466,104 +1470,12 @@ public class ChessBoard {
 		return true;
 	}
 
-	public Move getLastMove() {
-		return lastMove;
-	}
-
-	public void setLastMove(Move lastMove) {
-		this.lastMove.setPositions(lastMove.getPositions());
-		this.lastMove.setValue(lastMove.getValue());
-	}
-
-	public ChessPiece[][] getGameBoard() {
-		return gameBoard;
-	}
-
-	public void setGameBoard(ChessPiece[][] gameBoard) {
-		this.gameBoard = new ChessPiece[numOfRows][NUM_OF_COLUMNS];
-		for (int i = 0; i < numOfRows; i++) {
-			System.arraycopy(gameBoard[i], 0, this.gameBoard[i], 0, NUM_OF_COLUMNS);
-		}
-	}
-
-	public int[][] getSquaresThreatenedByWhite() {
-		return squaresThreatenedByWhite;
-	}
-
-	public void setSquaresThreatenedByWhite(int[][] squaresThreatenedByWhite) {
-		this.squaresThreatenedByWhite = squaresThreatenedByWhite;
-	}
-
-	public int[][] getSquaresThreatenedByBlack() {
-		return squaresThreatenedByBlack;
-	}
-
-	public void setSquaresThreatenedByBlack(int[][] squaresThreatenedByBlack) {
-		this.squaresThreatenedByBlack = squaresThreatenedByBlack;
-	}
-
-	public String getEnPassantPosition() {
-		return enPassantPosition;
-	}
-
-	public void setEnPassantPosition(String enPassantPosition) {
-		this.enPassantPosition = enPassantPosition;
-	}
-
-	public boolean isWhiteKingMoved() {
-		return whiteKingMoved;
-	}
-
-	public void setWhiteKingMoved(boolean whiteKingMoved) {
-		this.whiteKingMoved = whiteKingMoved;
-	}
-
-	public boolean isLeftWhiteRookMoved() {
-		return leftWhiteRookMoved;
-	}
-
-	public void setLeftWhiteRookMoved(boolean leftWhiteRookMoved) {
-		this.leftWhiteRookMoved = leftWhiteRookMoved;
-	}
-
-	public boolean isRightWhiteRookMoved() {
-		return rightWhiteRookMoved;
-	}
-
-	public void setRightWhiteRookMoved(boolean rightWhiteRookMoved) {
-		this.rightWhiteRookMoved = rightWhiteRookMoved;
-	}
-
 	public boolean isWhiteQueenSideCastlingAvailable() {
 		return !whiteKingMoved && !leftWhiteRookMoved;
 	}
 
 	public boolean isWhiteKingSideCastlingAvailable() {
 		return !whiteKingMoved && !rightWhiteRookMoved;
-	}
-
-	public boolean isBlackKingMoved() {
-		return blackKingMoved;
-	}
-
-	public void setBlackKingMoved(boolean blackKingMoved) {
-		this.blackKingMoved = blackKingMoved;
-	}
-
-	public boolean isLeftBlackRookMoved() {
-		return leftBlackRookMoved;
-	}
-
-	public void setLeftBlackRookMoved(boolean leftBlackRookMoved) {
-		this.leftBlackRookMoved = leftBlackRookMoved;
-	}
-
-	public boolean isRightBlackRookMoved() {
-		return rightBlackRookMoved;
-	}
-
-	public void setRightBlackRookMoved(boolean rightBlackRookMoved) {
-		this.rightBlackRookMoved = rightBlackRookMoved;
 	}
 
 	public boolean isBlackQueenSideCastlingAvailable() {
@@ -1574,70 +1486,6 @@ public class ChessBoard {
 		return !blackKingMoved && !rightBlackRookMoved;
 	}
 
-	public boolean isWhiteCastlingDone() {
-		return whiteCastlingDone;
-	}
-
-	public void setWhiteCastlingDone(boolean whiteCastlingDone) {
-		this.whiteCastlingDone = whiteCastlingDone;
-	}
-
-	public boolean isBlackCastlingDone() {
-		return blackCastlingDone;
-	}
-
-	public void setBlackCastlingDone(boolean blackCastlingDone) {
-		this.blackCastlingDone = blackCastlingDone;
-	}
-
-	public String getWhiteKingPosition() {
-		return whiteKingPosition;
-	}
-
-	public void setWhiteKingPosition(String whiteKingPosition) {
-		this.whiteKingPosition = whiteKingPosition;
-	}
-
-	public String getBlackKingPosition() {
-		return blackKingPosition;
-	}
-
-	public void setBlackKingPosition(String blackKingPosition) {
-		this.blackKingPosition = blackKingPosition;
-	}
-
-	public boolean isWhiteKingInCheck() {
-		return whiteKingInCheck;
-	}
-
-	public void setWhiteKingInCheck(boolean whiteKingInCheck) {
-		this.whiteKingInCheck = whiteKingInCheck;
-	}
-
-	public boolean isBlackKingInCheck() {
-		return blackKingInCheck;
-	}
-
-	public void setBlackKingInCheck(boolean blackKingInCheck) {
-		this.blackKingInCheck = blackKingInCheck;
-	}
-
-	public Map<String, Set<String>> getWhiteKingInCheckValidPieceMoves() {
-		return whiteKingInCheckValidPieceMoves;
-	}
-
-	public void setWhiteKingInCheckValidPieceMoves(Map<String, Set<String>> whiteKingInCheckValidPieceMoves) {
-		this.whiteKingInCheckValidPieceMoves = new HashMap<>(whiteKingInCheckValidPieceMoves);
-	}
-
-	public Map<String, Set<String>> getBlackKingInCheckValidPieceMoves() {
-		return blackKingInCheckValidPieceMoves;
-	}
-
-	public void setBlackKingInCheckValidPieceMoves(Map<String, Set<String>> blackKingInCheckValidPieceMoves) {
-		this.blackKingInCheckValidPieceMoves = new HashMap<>(blackKingInCheckValidPieceMoves);
-	}
-
 	public boolean whitePlays() {
 		return (this.player == Constants.WHITE);
 	}
@@ -1646,88 +1494,12 @@ public class ChessBoard {
 		return (this.player == Constants.BLACK);
 	}
 
-	public boolean getPlayer() {
-		return player;
-	}
-
-	public void setPlayer(boolean player) {
-		this.player = player;
-	}
-
 	public boolean getNextPlayer() {
 		return !player;
 	}
 
-	public int getHalfMoveNumber() {
-		return halfMoveNumber;
-	}
-
-	public void setHalfMoveNumber(int halfMoveNumber) {
-		this.halfMoveNumber = halfMoveNumber;
-	}
-
-	public GameResult getGameResult() {
-		return gameResult;
-	}
-
-	public void setGameResult(GameResult gameResult) {
-		this.gameResult = gameResult;
-	}
-
-	public int getNumOfRows() {
-		return numOfRows;
-	}
-
-	public int getHalfMoveClock() {
-		return halfMoveClock;
-	}
-
-	public void setHalfMoveClock(int halfMoveClock) {
-		this.halfMoveClock = halfMoveClock;
-	}
-
 	public boolean checkForNoPieceCaptureDraw() {
 		return this.halfMoveClock >= Constants.NO_CAPTURE_DRAW_HALF_MOVES_LIMIT;
-	}
-
-	public int getScore() {
-		return score;
-	}
-
-	public void incrementScore() {
-		this.score++;
-	}
-
-	public Set<String> getPositionsToRemove() {
-		return positionsToRemove;
-	}
-
-	public void setPositionsToRemove(Set<String> positionsToRemove) {
-		this.positionsToRemove = new HashSet<>(positionsToRemove);
-	}
-
-	public Map<String, ChessPiece> getPiecesToPlace() {
-		return piecesToPlace;
-	}
-
-	public void setPiecesToPlace(Map<String, ChessPiece> piecesToPlace) {
-		this.piecesToPlace = new HashMap<>(piecesToPlace);
-	}
-
-	public ChessPiece getCapturedEnPassantPiece() {
-		return capturedEnPassantPiece;
-	}
-
-	public void setCapturedEnPassantPiece(ChessPiece capturedEnPassantPiece) {
-		this.capturedEnPassantPiece = capturedEnPassantPiece;
-	}
-
-	public int getWhiteCapturedPiecesCounter() {
-		return whiteCapturedPiecesCounter;
-	}
-
-	public int getBlackCapturedPiecesCounter() {
-		return blackCapturedPiecesCounter;
 	}
 
 	public void incrementCapturedPiecesCounter(ChessPiece chessPiece) {
