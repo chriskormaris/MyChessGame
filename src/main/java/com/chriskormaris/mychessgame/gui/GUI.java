@@ -1573,18 +1573,27 @@ public class GUI {
 		AI ai2;
 		if (gameParameters.getAi1Type() == AiType.MINIMAX_AI) {
 			if (gameParameters.getAi1MaxDepth() <= 2) {
-				ai1 = new MinimaxAI(gameParameters.getAi1MaxDepth(), Constants.WHITE,
-						gameParameters.getEvaluationFunction1());
+				ai1 = new MinimaxAI(
+						gameParameters.getAi1MaxDepth(),
+						Constants.WHITE,
+						gameParameters.getEvaluationFunction1()
+				);
 			} else {
-				ai1 = new MinimaxAlphaBetaPruningAI(gameParameters.getAi1MaxDepth(), Constants.WHITE,
-						gameParameters.getEvaluationFunction1());
+				ai1 = new MinimaxAlphaBetaPruningAI(
+						gameParameters.getAi1MaxDepth(),
+						Constants.WHITE,
+						gameParameters.getEvaluationFunction1()
+				);
 			}
 		} else {
 			ai1 = new RandomChoiceAI(Constants.WHITE);
 		}
 		if (gameParameters.getAi2Type() == AiType.MINIMAX_AI) {
-			ai2 = new MinimaxAlphaBetaPruningAI(gameParameters.getAi2MaxDepth(), Constants.BLACK,
-					gameParameters.getEvaluationFunction2());
+			ai2 = new MinimaxAlphaBetaPruningAI(
+					gameParameters.getAi2MaxDepth(),
+					Constants.BLACK,
+					gameParameters.getEvaluationFunction2()
+			);
 		} else {
 			ai2 = new RandomChoiceAI(Constants.BLACK);
 		}
