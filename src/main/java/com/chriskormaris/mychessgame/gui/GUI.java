@@ -136,48 +136,8 @@ public class GUI {
 		// JDialog.setDefaultLookAndFeelDecorated(true);
 
 		configureGuiStyle();
-
 		initializeGui();
-
-		if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI) {
-			if (gameParameters.getAi1Type() == AiType.MINIMAX_AI) {
-				if (gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE) {
-					if (gameParameters.getAi1MaxDepth() <= 2) {
-						ai = new MinimaxAI(
-								gameParameters.getAi1MaxDepth(),
-								Constants.BLACK,
-								gameParameters.getEvaluationFunction1()
-						);
-					} else {
-						ai = new MinimaxAlphaBetaPruningAI(
-								gameParameters.getAi1MaxDepth(),
-								Constants.BLACK,
-								gameParameters.getEvaluationFunction1()
-						);
-					}
-				} else if (gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
-					if (gameParameters.getAi2MaxDepth() <= 2) {
-						ai = new MinimaxAI(
-								gameParameters.getAi2MaxDepth(),
-								Constants.WHITE,
-								gameParameters.getEvaluationFunction2()
-						);
-					} else {
-						ai = new MinimaxAlphaBetaPruningAI(
-								gameParameters.getAi2MaxDepth(),
-								Constants.WHITE,
-								gameParameters.getEvaluationFunction2()
-						);
-					}
-				}
-			} else if (gameParameters.getAi1Type() == AiType.RANDOM_AI) {
-				if (gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE) {
-					ai = new RandomChoiceAI(Constants.BLACK);
-				} else if (gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
-					ai = new RandomChoiceAI(Constants.WHITE);
-				}
-			}
-		}
+		initializeAi();
 
 		frame = new JFrame(title);
 		frame.add(gui);
@@ -874,6 +834,14 @@ public class GUI {
 			saveCheckpointItem.setEnabled(true);
 		}
 
+		initializeAi();
+
+		isGameOver = false;
+
+		setTurnMessage();
+	}
+
+	private static void initializeAi() {
 		if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI) {
 			if (gameParameters.getAi1Type() == AiType.MINIMAX_AI) {
 				if (gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE) {
@@ -913,10 +881,6 @@ public class GUI {
 				}
 			}
 		}
-
-		isGameOver = false;
-
-		setTurnMessage();
 	}
 
 	// This method is only called from inside a chess board button listener.
