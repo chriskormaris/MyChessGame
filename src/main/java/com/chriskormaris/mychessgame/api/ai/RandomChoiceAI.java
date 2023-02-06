@@ -37,15 +37,13 @@ public class RandomChoiceAI extends AI {
 		Map<String, Set<String>> randomStartingEndingPositions = new HashMap<>();
 
 		/* STEP 1. Random starting position. */
-		if (chessBoard.whitePlays() && getAiPlayer() == Constants.WHITE && !chessBoard.isWhiteKingInCheck()
+		if (chessBoard.whitePlays() && whitePlays() && !chessBoard.isWhiteKingInCheck()
 				||
-				chessBoard.blackPlays() && getAiPlayer() == Constants.BLACK && !chessBoard.isBlackKingInCheck()) {
+				chessBoard.blackPlays() && blackPlays() && !chessBoard.isBlackKingInCheck()) {
 			for (int i = 0; i < chessBoard.getNumOfRows(); i++) {
 				for (int j = 0; j < NUM_OF_COLUMNS; j++) {
-					if (getAiPlayer() == Constants.WHITE
-							&& chessBoard.getGameBoard()[i][j].getAllegiance() == Allegiance.WHITE
-							|| getAiPlayer() == Constants.BLACK
-							&& chessBoard.getGameBoard()[i][j].getAllegiance() == Allegiance.BLACK) {
+					if (whitePlays() && chessBoard.getGameBoard()[i][j].getAllegiance() == Allegiance.WHITE
+							|| blackPlays() && chessBoard.getGameBoard()[i][j].getAllegiance() == Allegiance.BLACK) {
 						String randomStartingPosition = Utilities.getPositionByRowCol(i, j, chessBoard.getNumOfRows());
 						Set<String> randomEndingPositions = chessBoard.getNextPositions(randomStartingPosition);
 
@@ -68,9 +66,8 @@ public class RandomChoiceAI extends AI {
 
 		}
 		// If the AI King is in check, then get one of the following valid moves.
-		else if (chessBoard.whitePlays() && getAiPlayer() == Constants.WHITE && chessBoard.isWhiteKingInCheck()
-				||
-				chessBoard.blackPlays() && getAiPlayer() == Constants.BLACK && chessBoard.isBlackKingInCheck()) {
+		else if (chessBoard.whitePlays() && whitePlays() && chessBoard.isWhiteKingInCheck()
+				|| chessBoard.blackPlays() && blackPlays() && chessBoard.isBlackKingInCheck()) {
 			// System.out.println("blackKingInCheckValidPieceMoves: " + chessBoard.blackKingInCheckValidPieceMoves);
 			Random r = new Random();
 			List<String> keys = new ArrayList<>();

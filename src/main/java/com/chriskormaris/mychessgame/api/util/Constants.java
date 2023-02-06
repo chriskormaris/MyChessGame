@@ -1,5 +1,9 @@
 package com.chriskormaris.mychessgame.api.util;
 
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class Constants {
 
 	/* the default number of rows, (this may not always be 8) */
@@ -25,7 +29,7 @@ public class Constants {
 
 	// NOT USED
 	/*
-	public static String[][] CHESS_POSITIONS = new String[][]{
+	public static final String[][] CHESS_POSITIONS = new String[][]{
 		{"A8", "B8", "C8", "D8", "E8", "F8", "G8", "H8"},
 		{"A7", "B7", "C7", "D7", "E7", "F7", "G7", "H7"},
 		{"A6", "B6", "C6", "D6", "E6", "F6", "G6", "H6"},
@@ -67,8 +71,5 @@ public class Constants {
 	public static final int KING_GAME_PHASE_VALUE = 0;
 
 	public static final double CHECKMATE_VALUE = Integer.MAX_VALUE;
-
-	private Constants() {
-	}  // Prevents instantiation.
 
 }

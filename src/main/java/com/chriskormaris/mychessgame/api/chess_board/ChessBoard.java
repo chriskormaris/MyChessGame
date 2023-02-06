@@ -1487,11 +1487,11 @@ public class ChessBoard {
 	}
 
 	public boolean whitePlays() {
-		return (this.player == Constants.WHITE);
+		return this.player;
 	}
 
 	public boolean blackPlays() {
-		return (this.player == Constants.BLACK);
+		return !this.player;
 	}
 
 	public boolean getNextPlayer() {

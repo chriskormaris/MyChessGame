@@ -1,12 +1,18 @@
 package com.chriskormaris.mychessgame.api.chess_board;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /* A class describing a move in the board
- * Every produced child corresponds to a move
- * and we need to keep the moves as well as the states.
- */
+ * Every produced child corresponds to a move,
+ * and we need to keep the moves as well as the states. */
+@Getter
+@Setter
+@ToString
 public class Move {
 
 	private double value;
@@ -35,13 +41,6 @@ public class Move {
 		this.value = 0;
 	}
 
-	public Move(String startingPosition, String endingPosition, double value) {
-		this.positions = new ArrayList<>();
-		this.positions.add(startingPosition);
-		this.positions.add(endingPosition);
-		this.value = value;
-	}
-
 	public Move(int value) {
 		this.positions = new ArrayList<>();
 		this.positions.add("A1");
@@ -52,27 +51,6 @@ public class Move {
 	public Move(Move otherMove) {
 		this.positions = new ArrayList<>(otherMove.positions);
 		this.value = otherMove.value;
-	}
-
-	public double getValue() {
-		return value;
-	}
-
-	public void setValue(double value) {
-		this.value = value;
-	}
-
-	public List<String> getPositions() {
-		return positions;
-	}
-
-	public void setPositions(List<String> positions) {
-		this.positions = positions;
-	}
-
-	@Override
-	public String toString() {
-		return "startingPosition: " + positions.get(0) + ", endingPosition: " + positions.get(1) + ", value: " + value;
 	}
 
 }

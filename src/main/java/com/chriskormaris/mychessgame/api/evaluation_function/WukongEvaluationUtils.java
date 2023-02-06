@@ -9,12 +9,14 @@ import com.chriskormaris.mychessgame.api.piece.Knight;
 import com.chriskormaris.mychessgame.api.piece.Pawn;
 import com.chriskormaris.mychessgame.api.piece.Queen;
 import com.chriskormaris.mychessgame.api.piece.Rook;
+import lombok.experimental.UtilityClass;
 
 // Wukong Evaluation Function.
 // see: https://github.com/maksimKorzh/wukongJS/blob/main/wukong.js
+@UtilityClass
 public class WukongEvaluationUtils {
 
-	public static int[][] PAWNS_SQUARES_TABLE_OPENING = new int[][]{
+	public int[][] PAWNS_SQUARES_TABLE_OPENING = new int[][]{
 			{0, 0, 0, 0, 0, 0, 0, 0},
 			{-4, 68, 61, 47, 47, 49, 45, -1},
 			{6, 16, 25, 33, 24, 24, 14, -6},
@@ -25,7 +27,7 @@ public class WukongEvaluationUtils {
 			{0, 0, 0, 0, 0, 0, 0, 0}
 	};
 
-	public static int[][] PAWNS_SQUARES_TABLE_ENDGAME = new int[][]{
+	public int[][] PAWNS_SQUARES_TABLE_ENDGAME = new int[][]{
 			{0, 0, 0, 0, 0, 0, 0, 0},
 			{-4, 174, 120, 94, 85, 98, 68, 4},
 			{6, 48, 44, 45, 31, 38, 37, -6},
@@ -36,7 +38,7 @@ public class WukongEvaluationUtils {
 			{0, 0, 0, 0, 0, 0, 0, 0}
 	};
 
-	public static int[][] KNIGHTS_SQUARES_TABLE_OPENING = new int[][]{
+	public int[][] KNIGHTS_SQUARES_TABLE_OPENING = new int[][]{
 			{-55, -40, -30, -28, -26, -30, -40, -50},
 			{-37, -15, 0, -6, 4, 3, -17, -40},
 			{-25, 5, 16, 12, 11, 6, 6, -29},
@@ -47,7 +49,7 @@ public class WukongEvaluationUtils {
 			{-50, -46, -32, -24, -36, -25, -34, -50}
 	};
 
-	public static int[][] KNIGHTS_SQUARES_TABLE_ENDGAME = new int[][]{
+	public int[][] KNIGHTS_SQUARES_TABLE_ENDGAME = new int[][]{
 			{-50, -40, -30, -24, -24, -35, -40, -50},
 			{-38, -17, 6, -5, 5, -4, -15, -40},
 			{-24, 3, 15, 9, 15, 10, -6, -26},
@@ -58,7 +60,7 @@ public class WukongEvaluationUtils {
 			{-50, -40, -32, -27, -30, -25, -35, -50}
 	};
 
-	public static int[][] BISHOPS_SQUARES_TABLE_OPENING = new int[][]{
+	public int[][] BISHOPS_SQUARES_TABLE_OPENING = new int[][]{
 			{-16, -15, -12, -5, -10, -12, -10, -20},
 			{-13, 5, 6, 1, -6, -5, 3, -6},
 			{-16, 6, -1, 16, 7, -1, -6, -5},
@@ -69,7 +71,7 @@ public class WukongEvaluationUtils {
 			{-14, -4, -15, -4, -9, -4, -12, -14}
 	};
 
-	public static int[][] BISHOPS_SQUARES_TABLE_ENDGAME = new int[][]{
+	public int[][] BISHOPS_SQUARES_TABLE_ENDGAME = new int[][]{
 			{-14, -13, -4, -7, -14, -9, -16, -20},
 			{-11, 6, 3, -6, 4, -3, 5, -4},
 			{-11, -3, 5, 15, 4, -1, -5, -10},
@@ -80,7 +82,7 @@ public class WukongEvaluationUtils {
 			{-15, -4, -11, -4, -10, -10, -6, -17}
 	};
 
-	public static int[][] ROOKS_SQUARES_TABLE_OPENING = new int[][]{
+	public int[][] ROOKS_SQUARES_TABLE_OPENING = new int[][]{
 			{5, -2, 6, 2, -2, -6, 4, -2},
 			{8, 13, 11, 15, 11, 15, 16, 4},
 			{-6, 3, 3, 6, 1, -2, 3, -5},
@@ -91,7 +93,7 @@ public class WukongEvaluationUtils {
 			{-1, -2, -6, 9, 9, 5, 4, -5}
 	};
 
-	public static int[][] ROOKS_SQUARES_TABLE_ENDGAME = new int[][]{
+	public int[][] ROOKS_SQUARES_TABLE_ENDGAME = new int[][]{
 			{5, -6, 1, -4, -4, -6, 6, -3},
 			{-6, 4, 2, 5, -1, 3, 4, -15},
 			{-15, 3, 3, 0, -1, -6, 5, -9},
@@ -102,7 +104,7 @@ public class WukongEvaluationUtils {
 			{1, 0, -2, 1, 1, 4, 2, 0}
 	};
 
-	public static int[][] QUEEN_SQUARES_TABLE_OPENING = new int[][]{
+	public int[][] QUEEN_SQUARES_TABLE_OPENING = new int[][]{
 			{-25, -9, -11, -3, -7, -13, -10, -17},
 			{-4, -6, 4, -5, -1, 6, 4, -5},
 			{-8, -5, 2, 0, 7, 6, -4, -5},
@@ -113,7 +115,7 @@ public class WukongEvaluationUtils {
 			{-15, -4, -13, -8, -3, -16, -8, -24}
 	};
 
-	public static int[][] QUEEN_SQUARES_TABLE_ENDGAME = new int[][]{
+	public int[][] QUEEN_SQUARES_TABLE_ENDGAME = new int[][]{
 			{-21, -7, -6, 1, -8, -15, -10, -16},
 			{-4, -5, 3, -4, 2, 6, 3, -10},
 			{-13, -2, 7, 2, 6, 10, -4, -6},
@@ -124,7 +126,7 @@ public class WukongEvaluationUtils {
 			{-20, -6, -7, -7, -4, -12, -9, -20}
 	};
 
-	public static int[][] KING_SQUARES_TABLE_OPENING = new int[][]{
+	public int[][] KING_SQUARES_TABLE_OPENING = new int[][]{
 			{-30, -40, -40, -50, -50, -40, -40, -30},
 			{-30, -37, -43, -49, -50, -39, -40, -30},
 			{-32, -41, -40, -46, -49, -40, -46, -30},
@@ -135,7 +137,7 @@ public class WukongEvaluationUtils {
 			{21, 35, 11, 6, 1, 14, 32, 22}
 	};
 
-	public static int[][] KING_SQUARES_TABLE_ENDGAME = new int[][]{
+	public int[][] KING_SQUARES_TABLE_ENDGAME = new int[][]{
 			{-50, -40, -30, -20, -20, -30, -40, -50},
 			{-30, -18, -15, 6, 3, -6, -24, -30},
 			{-35, -16, 20, 32, 34, 14, -11, -30},
@@ -146,35 +148,35 @@ public class WukongEvaluationUtils {
 			{-48, -26, -26, -26, -28, -25, -30, -51}
 	};
 
-	public static final int WHITE_PAWN_OPENING_CENTIPAWN_VALUE = 89;
-	public static final int WHITE_KNIGHT_OPENING_CENTIPAWN_VALUE = 308;
-	public static final int WHITE_BISHOP_OPENING_CENTIPAWN_VALUE = 319;
-	public static final int WHITE_ROOK_OPENING_CENTIPAWN_VALUE = 488;
-	public static final int WHITE_QUEEN_OPENING_CENTIPAWN_VALUE = 888;
-	public static final int WHITE_KING_OPENING_CENTIPAWN_VALUE = 20001;
+	public final int WHITE_PAWN_OPENING_CENTIPAWN_VALUE = 89;
+	public final int WHITE_KNIGHT_OPENING_CENTIPAWN_VALUE = 308;
+	public final int WHITE_BISHOP_OPENING_CENTIPAWN_VALUE = 319;
+	public final int WHITE_ROOK_OPENING_CENTIPAWN_VALUE = 488;
+	public final int WHITE_QUEEN_OPENING_CENTIPAWN_VALUE = 888;
+	public final int WHITE_KING_OPENING_CENTIPAWN_VALUE = 20001;
 
-	public static final int BLACK_PAWN_OPENING_CENTIPAWN_VALUE = 92;
-	public static final int BLACK_KNIGHT_OPENING_CENTIPAWN_VALUE = 307;
-	public static final int BLACK_BISHOP_OPENING_CENTIPAWN_VALUE = 323;
-	public static final int BLACK_ROOK_OPENING_CENTIPAWN_VALUE = 492;
-	public static final int BLACK_QUEEN_OPENING_CENTIPAWN_VALUE = 888;
-	public static final int BLACK_KING_OPENING_CENTIPAWN_VALUE = 20002;
+	public final int BLACK_PAWN_OPENING_CENTIPAWN_VALUE = 92;
+	public final int BLACK_KNIGHT_OPENING_CENTIPAWN_VALUE = 307;
+	public final int BLACK_BISHOP_OPENING_CENTIPAWN_VALUE = 323;
+	public final int BLACK_ROOK_OPENING_CENTIPAWN_VALUE = 492;
+	public final int BLACK_QUEEN_OPENING_CENTIPAWN_VALUE = 888;
+	public final int BLACK_KING_OPENING_CENTIPAWN_VALUE = 20002;
 
-	public static final int WHITE_PAWN_ENDGAME_CENTIPAWN_VALUE = 96;
-	public static final int WHITE_KNIGHT_ENDGAME_CENTIPAWN_VALUE = 319;
-	public static final int WHITE_BISHOP_ENDGAME_CENTIPAWN_VALUE = 331;
-	public static final int WHITE_ROOK_ENDGAME_CENTIPAWN_VALUE = 497;
-	public static final int WHITE_QUEEN_ENDGAME_CENTIPAWN_VALUE = 853;
-	public static final int WHITE_KING_ENDGAME_CENTIPAWN_VALUE = 19998;
+	public final int WHITE_PAWN_ENDGAME_CENTIPAWN_VALUE = 96;
+	public final int WHITE_KNIGHT_ENDGAME_CENTIPAWN_VALUE = 319;
+	public final int WHITE_BISHOP_ENDGAME_CENTIPAWN_VALUE = 331;
+	public final int WHITE_ROOK_ENDGAME_CENTIPAWN_VALUE = 497;
+	public final int WHITE_QUEEN_ENDGAME_CENTIPAWN_VALUE = 853;
+	public final int WHITE_KING_ENDGAME_CENTIPAWN_VALUE = 19998;
 
-	public static final int BLACK_PAWN_ENDGAME_CENTIPAWN_VALUE = 102;
-	public static final int BLACK_KNIGHT_ENDGAME_CENTIPAWN_VALUE = 318;
-	public static final int BLACK_BISHOP_ENDGAME_CENTIPAWN_VALUE = 334;
-	public static final int BLACK_ROOK_ENDGAME_CENTIPAWN_VALUE = 501;
-	public static final int BLACK_QUEEN_ENDGAME_CENTIPAWN_VALUE = 845;
-	public static final int BLACK_KING_ENDGAME_CENTIPAWN_VALUE = 20000;
+	public final int BLACK_PAWN_ENDGAME_CENTIPAWN_VALUE = 102;
+	public final int BLACK_KNIGHT_ENDGAME_CENTIPAWN_VALUE = 318;
+	public final int BLACK_BISHOP_ENDGAME_CENTIPAWN_VALUE = 334;
+	public final int BLACK_ROOK_ENDGAME_CENTIPAWN_VALUE = 501;
+	public final int BLACK_QUEEN_ENDGAME_CENTIPAWN_VALUE = 845;
+	public final int BLACK_KING_ENDGAME_CENTIPAWN_VALUE = 20000;
 
-	public static int getPieceCentipawnValue(ChessPiece chessPiece, GamePhase gamePhase) {
+	public int getPieceCentipawnValue(ChessPiece chessPiece, GamePhase gamePhase) {
 		if (gamePhase == GamePhase.OPENING) {
 			if (chessPiece.getAllegiance() == Allegiance.WHITE) {
 				if (chessPiece instanceof Pawn) {
@@ -239,7 +241,7 @@ public class WukongEvaluationUtils {
 		return 0;
 	}
 
-	public static int getOpeningGamePieceSquareValue(int row, int column, ChessPiece chessPiece) {
+	public int getOpeningGamePieceSquareValue(int row, int column, ChessPiece chessPiece) {
 		if (chessPiece instanceof Pawn) {
 			return PAWNS_SQUARES_TABLE_OPENING[row][column];
 		} else if (chessPiece instanceof Knight) {
@@ -256,7 +258,7 @@ public class WukongEvaluationUtils {
 		return 0;
 	}
 
-	public static int getEndgamePieceSquareValue(int row, int column, ChessPiece chessPiece) {
+	public int getEndgamePieceSquareValue(int row, int column, ChessPiece chessPiece) {
 		if (chessPiece instanceof Pawn) {
 			return PAWNS_SQUARES_TABLE_ENDGAME[row][column];
 		} else if (chessPiece instanceof Knight) {
@@ -273,7 +275,7 @@ public class WukongEvaluationUtils {
 		return 0;
 	}
 
-	public static int getPieceSquareValue(int row, int column, ChessPiece chessPiece, GamePhase gamePhase) {
+	public int getPieceSquareValue(int row, int column, ChessPiece chessPiece, GamePhase gamePhase) {
 		if (gamePhase == GamePhase.OPENING) {
 			return getOpeningGamePieceSquareValue(row, column, chessPiece);
 		} else {

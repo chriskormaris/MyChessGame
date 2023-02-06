@@ -48,7 +48,7 @@ public class MinimaxAI extends AI {
 	@Override
 	public Move getNextMove(ChessBoard chessBoard) {
 		// If White plays, then it wants to maximize the heuristics value.
-		if (getAiPlayer() == Constants.WHITE) {
+		if (whitePlays()) {
 			return max(new ChessBoard(chessBoard), 0);
 		}
 		// If Black plays, then it wants to minimize the heuristics value.

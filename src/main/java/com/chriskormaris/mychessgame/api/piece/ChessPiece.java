@@ -3,27 +3,26 @@ package com.chriskormaris.mychessgame.api.piece;
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 import com.chriskormaris.mychessgame.api.util.Utilities;
+import lombok.Getter;
 
 import java.util.Set;
 
+@Getter
 public abstract class ChessPiece {
 
 	// 3 enumerations: WHITE, BLACK, EMPTY
-	private Allegiance allegiance;
+	private final Allegiance allegiance;
 
 	// A capital letter if the allegiance is White,
 	// a small letter if the allegiance is Black.
-	private char chessPieceChar;
+	private final char chessPieceChar;
 
 	// True if the piece was initially a Pawn and got promoted.
-	private boolean isPromoted;
-
-	public ChessPiece() {
-
-	}
+	private final boolean isPromoted;
 
 	public ChessPiece(Allegiance allegiance) {
 		this.allegiance = allegiance;
+		this.isPromoted = false;
 		this.chessPieceChar = Utilities.getPieceChar(this);
 	}
 
@@ -31,27 +30,6 @@ public abstract class ChessPiece {
 		this.allegiance = allegiance;
 		this.isPromoted = isPromoted;
 		this.chessPieceChar = Utilities.getPieceChar(this);
-	}
-
-	public Allegiance getAllegiance() {
-		return allegiance;
-	}
-
-	public void setAllegiance(Allegiance allegiance) {
-		this.allegiance = allegiance;
-	}
-
-	// Capital for White, small for Black, '-' for Empty.
-	public char getChessPieceChar() {
-		return chessPieceChar;
-	}
-
-	public boolean isPromoted() {
-		return isPromoted;
-	}
-
-	public void setPromoted(boolean promoted) {
-		isPromoted = promoted;
 	}
 
 	public abstract ChessPiece makeCopy();

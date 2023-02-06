@@ -7,22 +7,24 @@ import com.chriskormaris.mychessgame.api.piece.Knight;
 import com.chriskormaris.mychessgame.api.piece.Pawn;
 import com.chriskormaris.mychessgame.api.piece.Queen;
 import com.chriskormaris.mychessgame.api.piece.Rook;
+import lombok.experimental.UtilityClass;
 
 // Shannon's Evaluation Function.
 // see: https://www.chessprogramming.org/Evaluation
+@UtilityClass
 public class ShannonEvaluationUtils {
 
-	public static final int PAWN_VALUE = 1;
-	public static final int KNIGHT_VALUE = 3;
-	public static final int BISHOP_VALUE = 3;
-	public static final int ROOK_VALUE = 5;
-	public static final int QUEEN_VALUE = 9;
-	public static final int KING_VALUE = 200;
+	public final int PAWN_VALUE = 1;
+	public final int KNIGHT_VALUE = 3;
+	public final int BISHOP_VALUE = 3;
+	public final int ROOK_VALUE = 5;
+	public final int QUEEN_VALUE = 9;
+	public final int KING_VALUE = 200;
 
-	public static final double DOUBLED_BLOCKED_ISOLATED_PAWNS_MULTIPLIER = 0.5;
-	public static final double MOBILITY_MULTIPLIER = 0.1;
+	public final double DOUBLED_BLOCKED_ISOLATED_PAWNS_MULTIPLIER = 0.5;
+	public final double MOBILITY_MULTIPLIER = 0.1;
 
-	public static int getPieceValue(ChessPiece chessPiece) {
+	public int getPieceValue(ChessPiece chessPiece) {
 		if (chessPiece instanceof Pawn) {
 			return PAWN_VALUE;
 		} else if (chessPiece instanceof Knight) {

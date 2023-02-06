@@ -6,18 +6,18 @@ import com.chriskormaris.mychessgame.api.chess_board.Move;
 public abstract class AI {
 
 	// Variable that holds which player plays.
-	private boolean aiPlayer;
+	private final boolean aiPlayer;
 
 	public AI(boolean aiPlayer) {
 		this.aiPlayer = aiPlayer;
 	}
 
-	public boolean getAiPlayer() {
+	public boolean whitePlays() {
 		return aiPlayer;
 	}
 
-	public void setAiPlayer(boolean aiPlayer) {
-		this.aiPlayer = aiPlayer;
+	public boolean blackPlays() {
+		return !aiPlayer;
 	}
 
 	public abstract Move getNextMove(ChessBoard chessBoard);

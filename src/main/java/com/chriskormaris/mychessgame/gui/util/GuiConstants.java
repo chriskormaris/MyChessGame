@@ -1,12 +1,16 @@
 package com.chriskormaris.mychessgame.gui.util;
 
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+
 import java.awt.*;
 
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class GuiConstants {
 
 	public static final String TITLE = "My Chess Game";
 
-	public static final String VERSION = "7.4.1";
+	public static final String VERSION = "7.4.2";
 
 	public static final String FIRST_TURN_TEXT = "Turn: 1. White plays first.";
 	public static final String ZERO_SCORE_TEXT = "Score:  0";
@@ -15,6 +19,7 @@ public class GuiConstants {
 
 	public static final int DEFAULT_HEIGHT = (int) SCREEN_SIZE.getHeight() - 60;
 	public static final int DEFAULT_WIDTH = DEFAULT_HEIGHT + 40;
+
 	public static final int CHESS_SQUARE_PIXEL_SIZE = 48;
 	public static final int CAPTURED_PIECE_PIXEL_SIZE = 16;
 
@@ -67,8 +72,5 @@ public class GuiConstants {
 					+ "     It can also capture an opponent's Pawn, that has just moved 2 steps forward, the previous turn, while being next to it,\n"
 					+ "     by moving diagonally towards its direction (\"en passant\" move).\n"
 					+ "     If a Pawn reaches the final row of the other side of the chess board, the player can promote it to a Bishop, Knight, Rook or even a Queen.";
-
-	private GuiConstants() {
-	}  // Prevents instantiation.
 
 }

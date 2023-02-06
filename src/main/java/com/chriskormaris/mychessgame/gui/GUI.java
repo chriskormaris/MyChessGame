@@ -52,15 +52,13 @@ import static com.chriskormaris.mychessgame.api.util.Constants.NUM_OF_COLUMNS;
 import static com.chriskormaris.mychessgame.gui.util.GuiConstants.FIRST_TURN_TEXT;
 import static com.chriskormaris.mychessgame.gui.util.GuiConstants.TITLE;
 import static com.chriskormaris.mychessgame.gui.util.GuiConstants.ZERO_SCORE_TEXT;
-import static com.chriskormaris.mychessgame.gui.util.SoundUtils.CHECKMATE_SOUND;
-import static com.chriskormaris.mychessgame.gui.util.SoundUtils.PIECE_MOVE_SOUND;
 import static javax.swing.JOptionPane.QUESTION_MESSAGE;
 
 
 public class GUI {
 
-	private static final int HEIGHT = GuiConstants.DEFAULT_HEIGHT;
 	private static final int WIDTH = GuiConstants.DEFAULT_WIDTH;
+	private static final int HEIGHT = GuiConstants.DEFAULT_HEIGHT;
 
 	private static final JPanel gui = new JPanel();
 	private static final JTextPane turnTextPane = new JTextPane();
@@ -1106,7 +1104,7 @@ public class GUI {
 			if (checkForGameOver()) return;
 
 			if (gameParameters.isEnableSounds()) {
-				SoundUtils.playSound(PIECE_MOVE_SOUND);
+				SoundUtils.playMoveSound();
 			}
 
 			// Remove the check from the king of the player who made the last move.
@@ -1294,7 +1292,7 @@ public class GUI {
 				turnTextPane.setText(turnMessage);
 
 				if (gameParameters.isEnableSounds()) {
-					SoundUtils.playSound(CHECKMATE_SOUND);
+					SoundUtils.playCheckmateSound();
 				}
 
 				int dialogResult = JOptionPane.showConfirmDialog(
@@ -1322,7 +1320,7 @@ public class GUI {
 				turnTextPane.setText(turnMessage);
 
 				if (gameParameters.isEnableSounds()) {
-					SoundUtils.playSound(CHECKMATE_SOUND);
+					SoundUtils.playCheckmateSound();
 				}
 
 				int dialogResult = JOptionPane.showConfirmDialog(

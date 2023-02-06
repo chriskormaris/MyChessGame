@@ -11,12 +11,14 @@ import com.chriskormaris.mychessgame.api.piece.Pawn;
 import com.chriskormaris.mychessgame.api.piece.Queen;
 import com.chriskormaris.mychessgame.api.piece.Rook;
 import com.chriskormaris.mychessgame.api.util.Constants;
+import lombok.experimental.UtilityClass;
 
 // Simplified Evaluation Function by Polish chess programmer Tomasz Michniewski.
 // see: https://www.chessprogramming.org/Simplified_Evaluation_Function
+@UtilityClass
 public class SimplifiedEvaluationUtils {
 
-	public static int[][] PAWNS_SQUARES_TABLE = new int[][]{
+	public int[][] PAWNS_SQUARES_TABLE = new int[][]{
 			{0, 0, 0, 0, 0, 0, 0, 0},
 			{50, 50, 50, 50, 50, 50, 50, 50},
 			{10, 10, 20, 30, 30, 20, 10, 10},
@@ -27,7 +29,7 @@ public class SimplifiedEvaluationUtils {
 			{0, 0, 0, 0, 0, 0, 0, 0}
 	};
 
-	public static int[][] KNIGHTS_SQUARES_TABLE = new int[][]{
+	public int[][] KNIGHTS_SQUARES_TABLE = new int[][]{
 			{-50, -40, -30, -30, -30, -30, -40, -50},
 			{-40, -20, 0, 0, 0, 0, -20, -40},
 			{-30, 0, 10, 15, 15, 10, 0, -30},
@@ -38,7 +40,7 @@ public class SimplifiedEvaluationUtils {
 			{-50, -40, -30, -30, -30, -30, -40, -50},
 	};
 
-	public static int[][] BISHOPS_SQUARES_TABLE = new int[][]{
+	public int[][] BISHOPS_SQUARES_TABLE = new int[][]{
 			{-20, -10, -10, -10, -10, -10, -10, -20},
 			{-10, 0, 0, 0, 0, 0, 0, -10},
 			{-10, 0, 5, 10, 10, 5, 0, -10},
@@ -49,7 +51,7 @@ public class SimplifiedEvaluationUtils {
 			{-20, -10, -10, -10, -10, -10, -10, -20},
 	};
 
-	public static int[][] ROOKS_SQUARES_TABLE = new int[][]{
+	public int[][] ROOKS_SQUARES_TABLE = new int[][]{
 			{0, 0, 0, 0, 0, 0, 0, 0},
 			{5, 10, 10, 10, 10, 10, 10, 5},
 			{-5, 0, 0, 0, 0, 0, 0, -5},
@@ -60,7 +62,7 @@ public class SimplifiedEvaluationUtils {
 			{0, 0, 0, 5, 5, 0, 0, 0}
 	};
 
-	public static int[][] QUEEN_SQUARES_TABLE = new int[][]{
+	public int[][] QUEEN_SQUARES_TABLE = new int[][]{
 			{-20, -10, -10, -5, -5, -10, -10, -20},
 			{-10, 0, 0, 0, 0, 0, 0, -10},
 			{-10, 0, 5, 5, 5, 5, 0, -10},
@@ -71,7 +73,7 @@ public class SimplifiedEvaluationUtils {
 			{-20, -10, -10, -5, -5, -10, -10, -20}
 	};
 
-	public static int[][] KING_SQUARES_TABLE_OPENING = new int[][]{
+	public int[][] KING_SQUARES_TABLE_OPENING = new int[][]{
 			{-30, -40, -40, -50, -50, -40, -40, -30},
 			{-30, -40, -40, -50, -50, -40, -40, -30},
 			{-30, -40, -40, -50, -50, -40, -40, -30},
@@ -82,7 +84,7 @@ public class SimplifiedEvaluationUtils {
 			{20, 30, 10, 0, 0, 10, 30, 20}
 	};
 
-	public static int[][] KING_SQUARES_TABLE_ENDGAME = new int[][]{
+	public int[][] KING_SQUARES_TABLE_ENDGAME = new int[][]{
 			{-50, -40, -30, -20, -20, -30, -40, -50},
 			{-30, -20, -10, 0, 0, -10, -20, -30},
 			{-30, -10, 20, 30, 30, 20, -10, -30},
@@ -93,14 +95,14 @@ public class SimplifiedEvaluationUtils {
 			{-50, -30, -30, -30, -30, -30, -30, -50}
 	};
 
-	public static final int PAWN_CENTIPAWN_VALUE = 100;
-	public static final int KNIGHT_CENTIPAWN_VALUE = 320;
-	public static final int BISHOP_CENTIPAWN_VALUE = 330;
-	public static final int ROOK_CENTIPAWN_VALUE = 500;
-	public static final int QUEEN_CENTIPAWN_VALUE = 900;
-	public static final int KING_CENTIPAWN_VALUE = 20000;
+	public final int PAWN_CENTIPAWN_VALUE = 100;
+	public final int KNIGHT_CENTIPAWN_VALUE = 320;
+	public final int BISHOP_CENTIPAWN_VALUE = 330;
+	public final int ROOK_CENTIPAWN_VALUE = 500;
+	public final int QUEEN_CENTIPAWN_VALUE = 900;
+	public final int KING_CENTIPAWN_VALUE = 20000;
 
-	public static GamePhase getGamePhase(ChessBoard chessBoard, int halfMoveNumber) {
+	public GamePhase getGamePhase(ChessBoard chessBoard, int halfMoveNumber) {
 		if (chessBoard.isQueenPlusOneMinorPieceMaximum(Allegiance.WHITE)
 				&& chessBoard.isQueenPlusOneMinorPieceMaximum(Allegiance.BLACK)
 				&& Constants.ENDGAME_HALF_MOVES_THRESHOLD < halfMoveNumber) {
@@ -110,7 +112,7 @@ public class SimplifiedEvaluationUtils {
 		}
 	}
 
-	public static int getPieceCentipawnValue(ChessPiece chessPiece) {
+	public int getPieceCentipawnValue(ChessPiece chessPiece) {
 		if (chessPiece instanceof Pawn) {
 			return PAWN_CENTIPAWN_VALUE;
 		} else if (chessPiece instanceof Knight) {
@@ -127,7 +129,7 @@ public class SimplifiedEvaluationUtils {
 		return 0;
 	}
 
-	public static int getPieceSquareValue(int row, int column, ChessPiece chessPiece, GamePhase gamePhase) {
+	public int getPieceSquareValue(int row, int column, ChessPiece chessPiece, GamePhase gamePhase) {
 		if (chessPiece instanceof Pawn) {
 			return PAWNS_SQUARES_TABLE[row][column];
 		} else if (chessPiece instanceof Knight) {

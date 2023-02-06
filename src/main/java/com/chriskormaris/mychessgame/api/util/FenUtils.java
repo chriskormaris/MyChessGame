@@ -4,11 +4,14 @@ import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.api.exception.InvalidFenPositionException;
 import com.chriskormaris.mychessgame.api.piece.ChessPiece;
 import com.chriskormaris.mychessgame.api.piece.EmptySquare;
+import lombok.experimental.UtilityClass;
 
+
+@UtilityClass
 public class FenUtils {
 
 
-	public static ChessBoard getChessBoardFromFenPosition(String fenPosition) throws InvalidFenPositionException {
+	public ChessBoard getChessBoardFromFenPosition(String fenPosition) throws InvalidFenPositionException {
 		ChessBoard chessBoard = new ChessBoard();
 
 		fenPosition = fenPosition.trim();
@@ -115,7 +118,7 @@ public class FenUtils {
 	}
 
 
-	public static ChessPiece[][] createGameBoard(ChessBoard chessBoard, String startingPieces) {
+	public ChessPiece[][] createGameBoard(ChessBoard chessBoard, String startingPieces) {
 		ChessPiece[][] gameBoard = new ChessPiece[chessBoard.getNumOfRows()][Constants.NUM_OF_COLUMNS];
 		for (int i = 0; i < chessBoard.getNumOfRows(); i++) {
 			for (int j = 0; j < Constants.NUM_OF_COLUMNS; j++) {
@@ -162,7 +165,7 @@ public class FenUtils {
 	}
 
 
-	public static String getFenPositionFromChessBoard(ChessBoard chessBoard) {
+	public String getFenPositionFromChessBoard(ChessBoard chessBoard) {
 		StringBuilder fenPosition = new StringBuilder();
 
 		/* Step 1: Append the chess gameBoard pieces positions */

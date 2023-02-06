@@ -1,19 +1,28 @@
 package com.chriskormaris.mychessgame.gui.util;
 
 import com.chriskormaris.mychessgame.api.util.Utilities;
+import lombok.experimental.UtilityClass;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import java.net.URL;
 
+@UtilityClass
 public class SoundUtils {
 
-	public static final String PIECE_MOVE_SOUND = "piece_move.wav";
-	public static final String CHECKMATE_SOUND = "checkmate.wav";
+	private final String PIECE_MOVE_SOUND = "piece_move.wav";
+	private final String CHECKMATE_SOUND = "checkmate.wav";
 
-	public static synchronized void playSound(final String path) {
+	public void playMoveSound() {
+		playSound(PIECE_MOVE_SOUND);
+	}
 
+	public void playCheckmateSound() {
+		playSound(CHECKMATE_SOUND);
+	}
+
+	private synchronized void playSound(final String path) {
 		try {
 			URL defaultSound = Utilities.class.getResource("/sounds/" + path);
 
@@ -28,7 +37,6 @@ public class SoundUtils {
 			// ex.printStackTrace();
 			System.err.println(ex.getMessage());
 		}
-
 	}
 
 }

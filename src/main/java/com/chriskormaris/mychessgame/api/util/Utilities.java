@@ -9,12 +9,14 @@ import com.chriskormaris.mychessgame.api.piece.Knight;
 import com.chriskormaris.mychessgame.api.piece.Pawn;
 import com.chriskormaris.mychessgame.api.piece.Queen;
 import com.chriskormaris.mychessgame.api.piece.Rook;
+import lombok.experimental.UtilityClass;
 
 
+@UtilityClass
 public class Utilities {
 
 
-	public static ChessPiece getChessPiece(char pieceChar) {
+	public ChessPiece getChessPiece(char pieceChar) {
 		if (pieceChar == Constants.WHITE_PAWN) {
 			return new Pawn(Allegiance.WHITE);
 		} else if (pieceChar == Constants.WHITE_ROOK) {
@@ -47,7 +49,7 @@ public class Utilities {
 	}
 
 
-	public static char getPieceChar(ChessPiece chessPiece) {
+	public char getPieceChar(ChessPiece chessPiece) {
 		if (chessPiece.getAllegiance() == Allegiance.WHITE) {
 			if (chessPiece instanceof Pawn) {
 				return Constants.WHITE_PAWN;
@@ -84,7 +86,7 @@ public class Utilities {
 	}
 
 
-	public static String getPositionByRowCol(int row, int column, int numOfRows) {
+	public String getPositionByRowCol(int row, int column, int numOfRows) {
 		String columnString = (char) (column + 65) + "";
 		String rowString = (numOfRows - row) + "";
 
@@ -93,13 +95,13 @@ public class Utilities {
 
 	// ALTERNATIVE
 	/*
-	public static String getPositionByRowCol(int row, int column) {
+	public String getPositionByRowCol(int row, int column) {
 		return Constants.chessPositions[row][column];
 	}
 	*/
 
 
-	public static int getRowFromPosition(String position, int numOfRows) {
+	public int getRowFromPosition(String position, int numOfRows) {
 		// examples:
 		// A8, column = 0, row = 0
 		// A2, column = 0, row = 6
@@ -108,7 +110,7 @@ public class Utilities {
 	}
 
 
-	public static int getColumnFromPosition(String position) {
+	public int getColumnFromPosition(String position) {
 		// examples:
 		// A1, column = 0, row = 7
 		// B1, column = 1, row = 7
@@ -116,14 +118,14 @@ public class Utilities {
 	}
 
 
-	public static ChessPiece getChessPieceFromPosition(ChessPiece[][] gameBoard, String position) {
+	public ChessPiece getChessPieceFromPosition(ChessPiece[][] gameBoard, String position) {
 		int row = getRowFromPosition(position, gameBoard.length);
 		int column = getColumnFromPosition(position);
 		return gameBoard[row][column];
 	}
 
 
-	public static ChessPiece[][] copyGameBoard(ChessPiece[][] gameBoard) {
+	public ChessPiece[][] copyGameBoard(ChessPiece[][] gameBoard) {
 		int n1 = gameBoard.length;
 		int n2 = gameBoard[0].length;
 
@@ -137,7 +139,7 @@ public class Utilities {
 	}
 
 
-	public static boolean checkEqualGameBoards(ChessPiece[][] gameBoard, ChessPiece[][] otherGameBoard) {
+	public boolean checkEqualGameBoards(ChessPiece[][] gameBoard, ChessPiece[][] otherGameBoard) {
 		int n1 = gameBoard.length;
 		int n2 = gameBoard[0].length;
 
@@ -153,7 +155,7 @@ public class Utilities {
 	}
 
 
-	public static int[][] copyIntBoard(int[][] intBoard) {
+	public int[][] copyIntBoard(int[][] intBoard) {
 		int n1 = intBoard.length;
 		int n2 = intBoard[0].length;
 
@@ -167,7 +169,7 @@ public class Utilities {
 
 	// At the start of the game, the sum of all pieces' "gamePhase" values should be equal to 24.
 	// In case of early promotion, the sum could be more than 24.
-	public static int getPieceGamePhaseValue(ChessPiece chessPiece) {
+	public int getPieceGamePhaseValue(ChessPiece chessPiece) {
 		if (chessPiece instanceof Pawn) {
 			return Constants.PAWN_GAME_PHASE_VALUE;
 		} else if (chessPiece instanceof Knight) {

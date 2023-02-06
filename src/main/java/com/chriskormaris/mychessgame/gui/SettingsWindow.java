@@ -17,8 +17,8 @@ import java.awt.event.ActionListener;
 
 public class SettingsWindow extends JFrame {
 
-	public static int width = 450;
-	public static int height = 585;
+	public static int WIDTH = 450;
+	public static int HEIGHT = 585;
 
 	private final JComboBox<String> gui_style_drop_down;
 	private final JCheckBox enable_sounds_check_box;
@@ -44,7 +44,7 @@ public class SettingsWindow extends JFrame {
 
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setLayout(null);
-		setSize(width, height);
+		setSize(WIDTH, HEIGHT);
 		setLocationRelativeTo(parentComponent);
 		setResizable(false);
 
@@ -274,9 +274,9 @@ public class SettingsWindow extends JFrame {
 		add(cancel);
 
 		int distance = 10;
-		apply.setBounds((width / 2) - 110 - (distance / 2), 485, 100, 30);
+		apply.setBounds((WIDTH / 2) - 110 - (distance / 2), 485, 100, 30);
 		apply.addActionListener(handler);
-		cancel.setBounds((width / 2) - 10 + (distance / 2), 485, 100, 30);
+		cancel.setBounds((WIDTH / 2) - 10 + (distance / 2), 485, 100, 30);
 		cancel.addActionListener(handler);
 	}
 

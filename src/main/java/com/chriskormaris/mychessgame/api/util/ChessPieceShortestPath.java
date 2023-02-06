@@ -5,6 +5,7 @@ import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 import com.chriskormaris.mychessgame.api.piece.ChessPiece;
 import com.chriskormaris.mychessgame.api.piece.EmptySquare;
 import com.chriskormaris.mychessgame.api.piece.King;
+import lombok.experimental.UtilityClass;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,13 +14,14 @@ import java.util.List;
 import java.util.Set;
 
 
+@UtilityClass
 public class ChessPieceShortestPath {
 
 
 	// It runs the simple BFS algorithm.
 	// It returns all the possible paths that match the given starting and ending position,
 	// within the specified "maxDepth".
-	public static List<List<BfsPosition>> getSolutionPaths(
+	public List<List<BfsPosition>> getSolutionPaths(
 			ChessBoard chessBoard,
 			ChessPiece piece,
 			String startingPosition,
@@ -111,7 +113,7 @@ public class ChessPieceShortestPath {
 		}
 
 		for (BfsPosition lastBfsPosition : lastBfsPositions) {
-			List<BfsPosition> solutionPath = ChessPieceShortestPath.backtrack(lastBfsPosition);
+			List<BfsPosition> solutionPath = backtrack(lastBfsPosition);
 			solutionPaths.add(solutionPath);
 		}
 
@@ -123,7 +125,7 @@ public class ChessPieceShortestPath {
 
 	// It runs the BFS algorithm.
 	// It returns the depth of the shortest path, if exists else it returns -1.
-	public static int getMinDepth(
+	public int getMinDepth(
 			ChessBoard chessBoard,
 			ChessPiece piece,
 			String startingPosition,
@@ -215,7 +217,7 @@ public class ChessPieceShortestPath {
 	// It runs the simple BFS algorithm.
 	// It returns true if the given ChessBoard piece can get
 	// from the given starting position to the given ending position, within the specified "maxDepth".
-	public static boolean canGoToPosition(
+	public boolean canGoToPosition(
 			ChessBoard chessBoard,
 			ChessPiece piece,
 			String startingPosition,
@@ -226,7 +228,7 @@ public class ChessPieceShortestPath {
 	}
 
 
-	public static List<BfsPosition> backtrack(BfsPosition lastBfsPosition) {
+	public List<BfsPosition> backtrack(BfsPosition lastBfsPosition) {
 		List<BfsPosition> solutionPath = new ArrayList<>();
 		BfsPosition parentBfsPosition = lastBfsPosition;
 		while (parentBfsPosition != null) {
@@ -240,7 +242,7 @@ public class ChessPieceShortestPath {
 	}
 
 
-	public static void printSolutions(List<List<BfsPosition>> solutionPaths) {
+	public void printSolutions(List<List<BfsPosition>> solutionPaths) {
 		if (solutionPaths.size() > 0) {
 			int pathCounter = 1;
 			for (List<BfsPosition> solutionPath : solutionPaths) {
@@ -260,7 +262,7 @@ public class ChessPieceShortestPath {
 	}
 
 
-	public static String getShortestPath(List<List<BfsPosition>> solutionPaths, String maxDepth) {
+	public String getShortestPath(List<List<BfsPosition>> solutionPaths, String maxDepth) {
 		String pathOutput = "";
 
 		if (solutionPaths.size() > 0) {
@@ -294,7 +296,7 @@ public class ChessPieceShortestPath {
 	}
 
 
-	public static String getPathOutput(List<BfsPosition> path) {
+	public String getPathOutput(List<BfsPosition> path) {
 		String output = "";
 		for (int i = 0; i < path.size(); i++) {
 			if (i < path.size() - 1) {

@@ -48,7 +48,7 @@ public class MinimaxAlphaBetaPruningAI extends AI {
 	@Override
 	public Move getNextMove(ChessBoard chessBoard) {
 		// If White plays, then it wants to maximize the heuristics value.
-		if (getAiPlayer() == Constants.WHITE) {
+		if (whitePlays()) {
 			return maxAlphaBeta(new ChessBoard(chessBoard), 0, Integer.MIN_VALUE, Integer.MAX_VALUE);
 		}
 		// If Black plays, then it wants to minimize the heuristics value.

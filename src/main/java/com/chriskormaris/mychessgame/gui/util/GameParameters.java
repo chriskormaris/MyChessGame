@@ -6,9 +6,15 @@ import com.chriskormaris.mychessgame.api.enumeration.EvaluationFunction;
 import com.chriskormaris.mychessgame.api.enumeration.GameMode;
 import com.chriskormaris.mychessgame.api.util.Constants;
 import com.chriskormaris.mychessgame.gui.enumeration.GuiStyle;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.awt.*;
 
+@Getter
+@Setter
+@AllArgsConstructor
 public class GameParameters {
 
 	private GuiStyle guiStyle;
@@ -86,141 +92,6 @@ public class GameParameters {
 		this.whiteSquareColor = otherGameParameters.getWhiteSquareColor();
 		this.blackSquareColor = otherGameParameters.getBlackSquareColor();
 		this.numOfRows = otherGameParameters.getNumOfRows();
-	}
-
-
-	public GameParameters(
-			GuiStyle guiStyle,
-			boolean enableSounds,
-			Allegiance humanPlayerAllegiance,
-			GameMode gameMode,
-			AiType ai1Type,
-			AiType ai2Type,
-			int maxDepth1,
-			int maxDepth2,
-			EvaluationFunction evaluationFunction1,
-			EvaluationFunction evaluationFunction2,
-			Color whiteSquareColor,
-			Color blackSquareColor,
-			int numOfRows
-	) {
-		this.guiStyle = guiStyle;
-		this.enableSounds = enableSounds;
-		this.humanPlayerAllegiance = humanPlayerAllegiance;
-		this.gameMode = gameMode;
-		this.ai1Type = ai1Type;
-		this.ai2Type = ai2Type;
-		this.ai1MaxDepth = maxDepth1;
-		this.ai2MaxDepth = maxDepth2;
-		this.evaluationFunction1 = evaluationFunction1;
-		this.evaluationFunction2 = evaluationFunction2;
-		this.whiteSquareColor = whiteSquareColor;
-		this.blackSquareColor = blackSquareColor;
-		this.numOfRows = numOfRows;
-	}
-
-	public GuiStyle getGuiStyle() {
-		return guiStyle;
-	}
-
-	public void setGuiStyle(GuiStyle guiStyle) {
-		this.guiStyle = guiStyle;
-	}
-
-	public boolean isEnableSounds() {
-		return enableSounds;
-	}
-
-	public void setEnableSounds(boolean enableSounds) {
-		this.enableSounds = enableSounds;
-	}
-
-	public Allegiance getHumanPlayerAllegiance() {
-		return humanPlayerAllegiance;
-	}
-
-	public void setHumanPlayerAllegiance(Allegiance humanPlayerAllegiance) {
-		this.humanPlayerAllegiance = humanPlayerAllegiance;
-	}
-
-	public GameMode getGameMode() {
-		return gameMode;
-	}
-
-	public void setGameMode(GameMode gameMode) {
-		this.gameMode = gameMode;
-	}
-
-	public AiType getAi1Type() {
-		return ai1Type;
-	}
-
-	public void setAi1Type(AiType ai1Type) {
-		this.ai1Type = ai1Type;
-	}
-
-	public AiType getAi2Type() {
-		return ai2Type;
-	}
-
-	public void setAi2Type(AiType ai2Type) {
-		this.ai2Type = ai2Type;
-	}
-
-	public int getAi1MaxDepth() {
-		return ai1MaxDepth;
-	}
-
-	public void setAi1MaxDepth(int ai1MaxDepth) {
-		this.ai1MaxDepth = ai1MaxDepth;
-	}
-
-	public int getAi2MaxDepth() {
-		return ai2MaxDepth;
-	}
-
-	public void setAi2MaxDepth(int ai2MaxDepth) {
-		this.ai2MaxDepth = ai2MaxDepth;
-	}
-
-	public EvaluationFunction getEvaluationFunction1() {
-		return evaluationFunction1;
-	}
-
-	public void setEvaluationFunction1(EvaluationFunction evaluationFunction1) {
-		this.evaluationFunction1 = evaluationFunction1;
-	}
-
-	public EvaluationFunction getEvaluationFunction2() {
-		return evaluationFunction2;
-	}
-
-	public void setEvaluationFunction2(EvaluationFunction evaluationFunction2) {
-		this.evaluationFunction2 = evaluationFunction2;
-	}
-
-	public Color getWhiteSquareColor() {
-		return whiteSquareColor;
-	}
-
-	public void setWhiteSquareColor(Color whiteSquareColor) {
-		this.whiteSquareColor = whiteSquareColor;
-	}
-
-	public Color getBlackSquareColor() {
-		return blackSquareColor;
-	}
-
-	public void setBlackSquareColor(Color blackSquareColor) {
-		this.blackSquareColor = blackSquareColor;
-	}
-
-	public int getNumOfRows() {
-		return numOfRows;
-	}
-
-	public void setNumOfRows(int numOfRows) {
-		this.numOfRows = numOfRows;
 	}
 
 }
