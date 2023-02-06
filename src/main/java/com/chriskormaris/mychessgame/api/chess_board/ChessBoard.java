@@ -16,7 +16,6 @@ import com.chriskormaris.mychessgame.api.piece.Knight;
 import com.chriskormaris.mychessgame.api.piece.Pawn;
 import com.chriskormaris.mychessgame.api.piece.Queen;
 import com.chriskormaris.mychessgame.api.piece.Rook;
-import com.chriskormaris.mychessgame.api.util.ChessPieceShortestPath;
 import com.chriskormaris.mychessgame.api.util.Constants;
 import com.chriskormaris.mychessgame.api.util.Utilities;
 import lombok.Getter;
@@ -1339,58 +1338,11 @@ public class ChessBoard {
 
 		boolean isInsufficientMaterialDraw = whiteHasInsufficientMaterial && blackHasInsufficientMaterial;
 
-		/*
-		if (checkForDeadGameDraw()) {
-			isInsufficientMaterialDraw = true;
-		}
-		*/
-
 		if (isInsufficientMaterialDraw) {
 			this.gameResult = GameResult.INSUFFICIENT_MATERIAL_DRAW;
 		}
 
 		return isInsufficientMaterialDraw;
-	}
-
-	public boolean checkForDeadGameDraw() {
-		// Check for a special case of draw, the dead game draw.
-		// It occurs when only the kings and at least three pawns from each side are left on the board
-		// and neither king can cross to the other side of the board.
-		boolean isDeadGameDraw = true;
-		if (isLoneKingPlusAtLeastThreePawns(Allegiance.WHITE) && isLoneKingPlusAtLeastThreePawns(Allegiance.BLACK)) {
-
-			// Check if the pawns can make any move.
-			for (int i = 0; i < numOfRows; i++) {
-				for (int j = 0; j < NUM_OF_COLUMNS; j++) {
-					if (gameBoard[i][j] instanceof Pawn) {
-						String position = Utilities.getPositionByRowCol(i, j, numOfRows);
-						Set<String> nextPositions = getNextPositions(position);
-						if (nextPositions.size() > 0) {
-							isDeadGameDraw = false;
-							i = 1000;
-							j = 1000;
-						}
-					}
-				}
-			}
-
-			if (isDeadGameDraw) {
-				// Run algorithm to find if the White king can get to position "A8"
-				// in the given number of moves (max depth).
-				isDeadGameDraw = !ChessPieceShortestPath.canGoToPosition(
-						this,
-						new King(Allegiance.WHITE),
-						whiteKingPosition,
-						"A8",
-						Constants.DEAD_DRAW_MAX_BFS_DEPTH
-				);
-			}
-
-		} else {
-			isDeadGameDraw = false;
-		}
-
-		return isDeadGameDraw;
 	}
 
 	// Checks if only a king has remained on the board, on the given player's side.
