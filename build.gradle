@@ -22,6 +22,5 @@ dependencies {
 }
 
 test {
-    exclude('com/chriskormaris/mychessgame/gui/**')
     useJUnitPlatform()
 }
