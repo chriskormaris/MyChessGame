@@ -207,8 +207,8 @@ public class GUI {
 
 		importStartingFenPositionItem.addActionListener(e -> {
 			String fenPosition = (String) JOptionPane.showInputDialog(frame,
-					"Please insert the starting \"FEN\" position in the text field below:" +
-							"                      ",
+					"Please insert the starting \"FEN\" position in the text field below:"
+							+ "                      ",
 					"Import starting FEN position",
 					QUESTION_MESSAGE, null, null,
 					Constants.DEFAULT_STARTING_FEN_POSITION);
@@ -778,6 +778,9 @@ public class GUI {
 		// }
 
 		restoreDefaultValues();
+
+		initializeAi();
+
 		if (!fenPosition.equals(Constants.DEFAULT_STARTING_FEN_POSITION)) {
 			placePiecesToChessBoard(fenPosition);
 		}
@@ -833,8 +836,6 @@ public class GUI {
 		if (saveCheckpointItem != null) {
 			saveCheckpointItem.setEnabled(true);
 		}
-
-		initializeAi();
 
 		isGameOver = false;
 
