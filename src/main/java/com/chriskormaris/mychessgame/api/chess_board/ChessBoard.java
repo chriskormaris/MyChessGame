@@ -1309,7 +1309,7 @@ public class ChessBoard {
 
 		boolean isInsufficientMaterialDraw = whiteHasInsufficientMaterial && blackHasInsufficientMaterial;
 
-		if (checkForDeadGameDraw()) {
+		if (!isInsufficientMaterialDraw && checkForDeadGameDraw()) {
 			isInsufficientMaterialDraw = true;
 		}
 
