@@ -1382,7 +1382,7 @@ public class ChessBoard {
 			}
 		}
 
-		return numOfPawns > 2;
+		return numOfPawns >= 3;
 	}
 
 	// Checks if only a king and one or two knights have remained on the board, on the given player's side.
