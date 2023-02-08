@@ -388,8 +388,8 @@ public class GUI {
 				startingButtonIsClicked = false;
 				hideHintPositions(hintPositions);
 
-				int startingPositionRow = Utilities.getRowFromPosition(startingPosition, gameParameters.getNumOfRows());
-				int startingPositionColumn = Utilities.getColumnFromPosition(startingPosition);
+				int startingPositionRow = chessBoard.getRowFromPosition(startingPosition);
+				int startingPositionColumn = chessBoard.getColumnFromPosition(startingPosition);
 
 				JButton startingButton;
 				Color startingButtonColor;
@@ -441,10 +441,7 @@ public class GUI {
 			// Display the "undo" chess board.
 			for (int i = 0; i < gameParameters.getNumOfRows(); i++) {
 				for (int j = 0; j < NUM_OF_COLUMNS; j++) {
-					placePieceToPosition(
-							Utilities.getPositionByRowCol(i, j, gameParameters.getNumOfRows()),
-							chessBoard.getGameBoard()[i][j]
-					);
+					placePieceToPosition(chessBoard.getPositionByRowCol(i, j), chessBoard.getGameBoard()[i][j]);
 				}
 			}
 
@@ -476,8 +473,8 @@ public class GUI {
 				startingButtonIsClicked = false;
 				hideHintPositions(hintPositions);
 
-				int startingPositionRow = Utilities.getRowFromPosition(startingPosition, gameParameters.getNumOfRows());
-				int startingPositionColumn = Utilities.getColumnFromPosition(startingPosition);
+				int startingPositionRow = chessBoard.getRowFromPosition(startingPosition);
+				int startingPositionColumn = chessBoard.getColumnFromPosition(startingPosition);
 
 				JButton startingButton;
 				Color startingButtonColor;
@@ -532,7 +529,7 @@ public class GUI {
 			for (int i = 0; i < gameParameters.getNumOfRows(); i++) {
 				for (int j = 0; j < NUM_OF_COLUMNS; j++) {
 					placePieceToPosition(
-							Utilities.getPositionByRowCol(i, j, gameParameters.getNumOfRows()),
+							chessBoard.getPositionByRowCol(i, j),
 							chessBoard.getGameBoard()[i][j]
 					);
 				}
@@ -905,7 +902,7 @@ public class GUI {
 
 		hideHintPositions(hintPositions);
 
-		String position = Utilities.getPositionByRowCol(row, column, gameParameters.getNumOfRows());
+		String position = chessBoard.getPositionByRowCol(row, column);
 		// System.out.println("position: " + position);
 		ChessPiece chessPiece = chessBoard.getGameBoard()[row][column];
 		// System.out.println("chessPiece: " + chessPiece);
@@ -914,8 +911,8 @@ public class GUI {
 		int startingPositionColumn = 0;
 		ChessPiece startingPiece = null;
 		if (!startingPosition.equals("")) {
-			startingPositionRow = Utilities.getRowFromPosition(startingPosition, gameParameters.getNumOfRows());
-			startingPositionColumn = Utilities.getColumnFromPosition(startingPosition);
+			startingPositionRow = chessBoard.getRowFromPosition(startingPosition);
+			startingPositionColumn = chessBoard.getColumnFromPosition(startingPosition);
 			startingPiece = chessBoard.getGameBoard()[startingPositionRow][startingPositionColumn];
 		}
 
@@ -965,8 +962,8 @@ public class GUI {
 					for (String hintPosition : hintPositions) {
 						// System.out.println("hintPosition: " + hintPosition);
 
-						int hintPositionRow = Utilities.getRowFromPosition(hintPosition, gameParameters.getNumOfRows());
-						int hintPositionColumn = Utilities.getColumnFromPosition(hintPosition);
+						int hintPositionRow = chessBoard.getRowFromPosition(hintPosition);
+						int hintPositionColumn = chessBoard.getColumnFromPosition(hintPosition);
 
 						JButton hintPositionButton;
 
@@ -1125,13 +1122,13 @@ public class GUI {
 
 	private static void makeDisplayMove(Move move, boolean isAiMove) {
 		String positionStart = move.getPositions().get(0);
-		int rowStart = Utilities.getRowFromPosition(positionStart, gameParameters.getNumOfRows());
-		int columnStart = Utilities.getColumnFromPosition(positionStart);
+		int rowStart = chessBoard.getRowFromPosition(positionStart);
+		int columnStart = chessBoard.getColumnFromPosition(positionStart);
 		ChessPiece startingPiece = chessBoard.getGameBoard()[rowStart][columnStart];
 
 		String positionEnd = move.getPositions().get(1);
-		int rowEnd = Utilities.getRowFromPosition(positionEnd, gameParameters.getNumOfRows());
-		int columnEnd = Utilities.getColumnFromPosition(positionEnd);
+		int rowEnd = chessBoard.getRowFromPosition(positionEnd);
+		int columnEnd = chessBoard.getColumnFromPosition(positionEnd);
 		ChessPiece endSquare = chessBoard.getGameBoard()[rowEnd][columnEnd];
 
 		chessBoard.makeMove(move, true);
@@ -1642,8 +1639,8 @@ public class GUI {
 		if (positionsToHide != null && positionsToHide.size() != 0) {
 			for (String hintPosition : positionsToHide) {
 				// System.out.println("hide hint position: " + hintPosition);
-				int row = Utilities.getRowFromPosition(hintPosition, gameParameters.getNumOfRows());
-				int column = Utilities.getColumnFromPosition(hintPosition);
+				int row = chessBoard.getRowFromPosition(hintPosition);
+				int column = chessBoard.getColumnFromPosition(hintPosition);
 				// System.out.println("hide hint row: " + row + ", hide hint column: " + column);
 
 				JButton button;
@@ -1687,8 +1684,8 @@ public class GUI {
 		// int column = (int) Character.toUpperCase(position.charAt(0)) - (int) 'A';
 		// int row = N - Character.getNumericValue(position.charAt(1));
 
-		int column = Utilities.getColumnFromPosition(position);
-		int row = Utilities.getRowFromPosition(position, gameParameters.getNumOfRows());
+		int column = chessBoard.getColumnFromPosition(position);
+		int row = chessBoard.getRowFromPosition(position);
 
 		// System.out.println("chessBoardButtons.length: " + chessBoardButtons.length);
 		// System.out.println("chessBoardButtons[0].length: " + chessBoardButtons[0].length);
@@ -1708,8 +1705,8 @@ public class GUI {
 		// int column = (int) Character.toUpperCase(position.charAt(0)) - (int) 'A';
 		// int row = N - Character.getNumericValue(position.charAt(1));
 
-		int column = Utilities.getColumnFromPosition(position);
-		int row = Utilities.getRowFromPosition(position, gameParameters.getNumOfRows());
+		int column = chessBoard.getColumnFromPosition(position);
+		int row = chessBoard.getRowFromPosition(position);
 
 		// Our chess board pieces are 64x64 px in size, so we'll
 		// 'fill this in' using a transparent icon.
@@ -1730,7 +1727,7 @@ public class GUI {
 		for (int i = 0; i < gameParameters.getNumOfRows(); i++) {
 			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
 				ChessPiece chessPiece = chessBoard.getGameBoard()[i][j];
-				String position = Utilities.getPositionByRowCol(i, j, gameParameters.getNumOfRows());
+				String position = chessBoard.getPositionByRowCol(i, j);
 				placePieceToPosition(position, chessPiece);
 			}
 		}
@@ -1758,7 +1755,7 @@ public class GUI {
 
 		for (int i = 0; i < gameParameters.getNumOfRows(); i++) {
 			for (int j = 0; j < Constants.NUM_OF_COLUMNS; j++) {
-				String piecePosition = Utilities.getPositionByRowCol(i, j, gameParameters.getNumOfRows());
+				String piecePosition = chessBoard.getPositionByRowCol(i, j);
 				placePieceToPosition(piecePosition, chessBoard.getGameBoard()[i][j]);
 			}
 		}

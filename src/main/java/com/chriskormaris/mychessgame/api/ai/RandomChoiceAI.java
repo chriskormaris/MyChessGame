@@ -4,7 +4,6 @@ import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.api.chess_board.Move;
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 import com.chriskormaris.mychessgame.api.util.Constants;
-import com.chriskormaris.mychessgame.api.util.Utilities;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,7 +43,7 @@ public class RandomChoiceAI extends AI {
 				for (int j = 0; j < NUM_OF_COLUMNS; j++) {
 					if (whitePlays() && chessBoard.getGameBoard()[i][j].getAllegiance() == Allegiance.WHITE
 							|| blackPlays() && chessBoard.getGameBoard()[i][j].getAllegiance() == Allegiance.BLACK) {
-						String randomStartingPosition = Utilities.getPositionByRowCol(i, j, chessBoard.getNumOfRows());
+						String randomStartingPosition = chessBoard.getPositionByRowCol(i, j);
 						Set<String> randomEndingPositions = chessBoard.getNextPositions(randomStartingPosition);
 
 						if (randomEndingPositions.size() > 0) {

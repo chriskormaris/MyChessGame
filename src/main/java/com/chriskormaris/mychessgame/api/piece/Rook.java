@@ -3,7 +3,6 @@ package com.chriskormaris.mychessgame.api.piece;
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 import com.chriskormaris.mychessgame.api.util.Constants;
-import com.chriskormaris.mychessgame.api.util.Utilities;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -32,8 +31,8 @@ public class Rook extends ChessPiece {
 
 		// First, find the row && the column
 		// that corresponds to the given position String.
-		int row = Utilities.getRowFromPosition(position, chessBoard.getNumOfRows());
-		int column = Utilities.getColumnFromPosition(position);
+		int row = chessBoard.getRowFromPosition(position);
+		int column = chessBoard.getColumnFromPosition(position);
 		ChessPiece chessPiece = chessBoard.getGameBoard()[row][column];
 
 		if (!(chessPiece instanceof Rook)) {
@@ -46,7 +45,7 @@ public class Rook extends ChessPiece {
 
 				int newRow = i;
 				int newColumn = column;
-				String newPosition = Utilities.getPositionByRowCol(newRow, newColumn, chessBoard.getNumOfRows());
+				String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 				ChessPiece endSquare = chessBoard.getGameBoard()[newRow][newColumn];
 				// System.out.println("endSquare: " + endSquare);
 				if (endSquare instanceof EmptySquare || chessPiece.getAllegiance() != endSquare.getAllegiance()
@@ -68,7 +67,7 @@ public class Rook extends ChessPiece {
 
 				int newRow = i;
 				int newColumn = column;
-				String newPosition = Utilities.getPositionByRowCol(newRow, newColumn, chessBoard.getNumOfRows());
+				String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 				ChessPiece endSquare = chessBoard.getGameBoard()[newRow][newColumn];
 				// System.out.println("endSquare: " + endSquare);
 				if (endSquare instanceof EmptySquare || chessPiece.getAllegiance() != endSquare.getAllegiance()
@@ -90,7 +89,7 @@ public class Rook extends ChessPiece {
 
 				int newRow = row;
 				int newColumn = j;
-				String newPosition = Utilities.getPositionByRowCol(newRow, newColumn, chessBoard.getNumOfRows());
+				String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 				ChessPiece endSquare = chessBoard.getGameBoard()[newRow][newColumn];
 				// System.out.println("endSquare: " + endSquare);
 				if (endSquare instanceof EmptySquare || chessPiece.getAllegiance() != endSquare.getAllegiance()
@@ -112,7 +111,7 @@ public class Rook extends ChessPiece {
 
 				int newRow = row;
 				int newColumn = j;
-				String newPosition = Utilities.getPositionByRowCol(newRow, newColumn, chessBoard.getNumOfRows());
+				String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 				ChessPiece endSquare = chessBoard.getGameBoard()[newRow][newColumn];
 				// System.out.println("endSquare: " + endSquare);
 				if (endSquare instanceof EmptySquare || chessPiece.getAllegiance() != endSquare.getAllegiance()

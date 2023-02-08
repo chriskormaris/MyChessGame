@@ -3,7 +3,6 @@ package com.chriskormaris.mychessgame.api.piece;
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 import com.chriskormaris.mychessgame.api.util.Constants;
-import com.chriskormaris.mychessgame.api.util.Utilities;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -24,8 +23,8 @@ public class King extends ChessPiece {
 
 		// First, find the row && the column
 		// that corresponds to the given position String.
-		int row = Utilities.getRowFromPosition(position, chessBoard.getNumOfRows());
-		int column = Utilities.getColumnFromPosition(position);
+		int row = chessBoard.getRowFromPosition(position);
+		int column = chessBoard.getColumnFromPosition(position);
 		ChessPiece chessPiece = chessBoard.getGameBoard()[row][column];
 
 		if (!(chessPiece instanceof King)) {
@@ -54,7 +53,7 @@ public class King extends ChessPiece {
 
 				newRow = row;
 				newColumn = column - 2;
-				newPosition = Utilities.getPositionByRowCol(newRow, newColumn, chessBoard.getNumOfRows());
+				newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 				castlingPositions.add(newPosition);
 			}
 			// White castling short
@@ -71,7 +70,7 @@ public class King extends ChessPiece {
 
 				newRow = row;
 				newColumn = column + 2;
-				newPosition = Utilities.getPositionByRowCol(newRow, newColumn, chessBoard.getNumOfRows());
+				newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 				castlingPositions.add(newPosition);
 			}
 		} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
@@ -90,7 +89,7 @@ public class King extends ChessPiece {
 
 				newRow = row;
 				newColumn = column - 2;
-				newPosition = Utilities.getPositionByRowCol(newRow, newColumn, chessBoard.getNumOfRows());
+				newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 				castlingPositions.add(newPosition);
 			}
 			// Black castling short
@@ -107,7 +106,7 @@ public class King extends ChessPiece {
 
 				newRow = row;
 				newColumn = column + 2;
-				newPosition = Utilities.getPositionByRowCol(newRow, newColumn, chessBoard.getNumOfRows());
+				newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 				castlingPositions.add(newPosition);
 			}
 		}
@@ -123,8 +122,8 @@ public class King extends ChessPiece {
 
 		// First, find the row && the column
 		// that corresponds to the given position String.
-		int row = Utilities.getRowFromPosition(position, chessBoard.getNumOfRows());
-		int column = Utilities.getColumnFromPosition(position);
+		int row = chessBoard.getRowFromPosition(position);
+		int column = chessBoard.getColumnFromPosition(position);
 		ChessPiece chessPiece = chessBoard.getGameBoard()[row][column];
 
 		if (!(chessPiece instanceof King)) {
@@ -135,7 +134,7 @@ public class King extends ChessPiece {
 		if (row - 1 >= 0) {
 			int newRow = row - 1;
 			int newColumn = column;
-			String newPosition = Utilities.getPositionByRowCol(newRow, newColumn, chessBoard.getNumOfRows());
+			String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 			ChessPiece endSquare = chessBoard.getGameBoard()[newRow][newColumn];
 			// System.out.println("endSquare: " + endSquare);
 			if ((endSquare instanceof EmptySquare || chessPiece.getAllegiance() != endSquare.getAllegiance()
@@ -152,7 +151,7 @@ public class King extends ChessPiece {
 		if (row + 1 < chessBoard.getNumOfRows()) {
 			int newRow = row + 1;
 			int newColumn = column;
-			String newPosition = Utilities.getPositionByRowCol(newRow, newColumn, chessBoard.getNumOfRows());
+			String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 			ChessPiece endSquare = chessBoard.getGameBoard()[newRow][newColumn];
 			// System.out.println("endSquare: " + endSquare);
 			if ((endSquare instanceof EmptySquare || chessPiece.getAllegiance() != endSquare.getAllegiance()
@@ -169,7 +168,7 @@ public class King extends ChessPiece {
 		if (column + 1 < Constants.NUM_OF_COLUMNS) {
 			int newRow = row;
 			int newColumn = column + 1;
-			String newPosition = Utilities.getPositionByRowCol(newRow, newColumn, chessBoard.getNumOfRows());
+			String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 			ChessPiece endSquare = chessBoard.getGameBoard()[newRow][newColumn];
 			// System.out.println("endSquare: " + endSquare);
 			if ((endSquare instanceof EmptySquare || chessPiece.getAllegiance() != endSquare.getAllegiance()
@@ -186,7 +185,7 @@ public class King extends ChessPiece {
 		if (column - 1 >= 0) {
 			int newRow = row;
 			int newColumn = column - 1;
-			String newPosition = Utilities.getPositionByRowCol(newRow, newColumn, chessBoard.getNumOfRows());
+			String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 			ChessPiece endSquare = chessBoard.getGameBoard()[newRow][newColumn];
 			// System.out.println("endSquare: " + endSquare);
 			if ((endSquare instanceof EmptySquare || chessPiece.getAllegiance() != endSquare.getAllegiance()
@@ -203,7 +202,7 @@ public class King extends ChessPiece {
 		if (row - 1 >= 0 && column + 1 < 8) {
 			int newRow = row - 1;
 			int newColumn = column + 1;
-			String newPosition = Utilities.getPositionByRowCol(newRow, newColumn, chessBoard.getNumOfRows());
+			String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 			// System.out.println("newPosition: " + newPosition);
 			ChessPiece endSquare = chessBoard.getGameBoard()[newRow][newColumn];
 			// System.out.println("endSquare: " + endSquare);
@@ -221,7 +220,7 @@ public class King extends ChessPiece {
 		if (row + 1 < chessBoard.getNumOfRows() && column - 1 >= 0) {
 			int newRow = row + 1;
 			int newColumn = column - 1;
-			String newPosition = Utilities.getPositionByRowCol(newRow, newColumn, chessBoard.getNumOfRows());
+			String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 			// System.out.println("newPosition: " + newPosition);
 			ChessPiece endSquare = chessBoard.getGameBoard()[newRow][newColumn];
 			// System.out.println("endSquare: " + endSquare);
@@ -239,7 +238,7 @@ public class King extends ChessPiece {
 		if (row - 1 >= 0 && column - 1 >= 0) {
 			int newRow = row - 1;
 			int newColumn = column - 1;
-			String newPosition = Utilities.getPositionByRowCol(newRow, newColumn, chessBoard.getNumOfRows());
+			String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 			// System.out.println("newPosition: " + newPosition);
 			ChessPiece endSquare = chessBoard.getGameBoard()[newRow][newColumn];
 			// System.out.println("endSquare: " + endSquare);
@@ -257,7 +256,7 @@ public class King extends ChessPiece {
 		if (row + 1 < chessBoard.getNumOfRows() && column + 1 < Constants.NUM_OF_COLUMNS) {
 			int newRow = row + 1;
 			int newColumn = column + 1;
-			String newPosition = Utilities.getPositionByRowCol(newRow, newColumn, chessBoard.getNumOfRows());
+			String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 			// System.out.println("newPosition: " + newPosition);
 			ChessPiece endSquare = chessBoard.getGameBoard()[newRow][newColumn];
 			// System.out.println("endSquare: " + endSquare);

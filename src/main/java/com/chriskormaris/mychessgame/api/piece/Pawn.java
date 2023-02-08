@@ -3,7 +3,6 @@ package com.chriskormaris.mychessgame.api.piece;
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 import com.chriskormaris.mychessgame.api.util.Constants;
-import com.chriskormaris.mychessgame.api.util.Utilities;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -28,8 +27,8 @@ public class Pawn extends ChessPiece {
 
 		// First, find the row && the column
 		// that corresponds to the given position String.
-		int row = Utilities.getRowFromPosition(position, chessBoard.getNumOfRows());
-		int column = Utilities.getColumnFromPosition(position);
+		int row = chessBoard.getRowFromPosition(position);
+		int column = chessBoard.getColumnFromPosition(position);
 		ChessPiece chessPiece = chessBoard.getGameBoard()[row][column];
 
 		if (!(chessPiece instanceof Pawn)) {
@@ -49,7 +48,7 @@ public class Pawn extends ChessPiece {
 					newRow = row + 1;
 				}
 				int newColumn = column;
-				String newPosition = Utilities.getPositionByRowCol(newRow, newColumn, chessBoard.getNumOfRows());
+				String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 				ChessPiece endSquare = chessBoard.getGameBoard()[newRow][newColumn];
 				// System.out.println("endSquareCode: " + endSquareCode);
 				if (endSquare instanceof EmptySquare) {
@@ -69,7 +68,7 @@ public class Pawn extends ChessPiece {
 					} else if (chessPiece.getAllegiance() == Allegiance.BLACK && row == 1) {
 						newRow = row + 2;
 					}
-					newPosition = Utilities.getPositionByRowCol(newRow, newColumn, chessBoard.getNumOfRows());
+					newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 					// endSquare = chessBoard.getGameBoard()[newRow][newColumn];
 					// System.out.println("endSquare: " + endSquare);
 					nextPawnPositions.add(newPosition);
@@ -84,7 +83,7 @@ public class Pawn extends ChessPiece {
 					newRow = row + 1;
 				}
 				int newColumn = column - 1;
-				String newPosition = Utilities.getPositionByRowCol(newRow, newColumn, chessBoard.getNumOfRows());
+				String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 				ChessPiece endSquare = chessBoard.getGameBoard()[newRow][newColumn];
 				// System.out.println("endSquare: " + endSquare);
 				if ((!(endSquare instanceof EmptySquare) && chessPiece.getAllegiance() != endSquare.getAllegiance())
@@ -101,7 +100,7 @@ public class Pawn extends ChessPiece {
 					newRow = row + 1;
 				}
 				int newColumn = column + 1;
-				String newPosition = Utilities.getPositionByRowCol(newRow, newColumn, chessBoard.getNumOfRows());
+				String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 				ChessPiece endSquare = chessBoard.getGameBoard()[newRow][newColumn];
 				// System.out.println("endSquare: " + endSquare);
 				if ((!(endSquare instanceof EmptySquare) && chessPiece.getAllegiance() != endSquare.getAllegiance())
@@ -126,8 +125,8 @@ public class Pawn extends ChessPiece {
 
 		// First, find the row && the column
 		// that corresponds to the given position String.
-		int row = Utilities.getRowFromPosition(position, chessBoard.getNumOfRows());
-		int column = Utilities.getColumnFromPosition(position);
+		int row = chessBoard.getRowFromPosition(position);
+		int column = chessBoard.getColumnFromPosition(position);
 		ChessPiece chessPiece = chessBoard.getGameBoard()[row][column];
 
 		if (!(chessPiece instanceof Pawn)) {
@@ -147,7 +146,7 @@ public class Pawn extends ChessPiece {
 					newRow = row + 1;
 				}
 				int newColumn = column - 1;
-				String newPosition = Utilities.getPositionByRowCol(newRow, newColumn, chessBoard.getNumOfRows());
+				String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 				ChessPiece endSquare = chessBoard.getGameBoard()[newRow][newColumn];
 				// System.out.println("endSquare: " + endSquare);
 				if (!(endSquare instanceof King)
@@ -166,7 +165,7 @@ public class Pawn extends ChessPiece {
 					newRow = row + 1;
 				}
 				int newColumn = column + 1;
-				String newPosition = Utilities.getPositionByRowCol(newRow, newColumn, chessBoard.getNumOfRows());
+				String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 				ChessPiece endSquare = chessBoard.getGameBoard()[newRow][newColumn];
 				// System.out.println("endSquare: " + endSquare);
 				if (!(endSquare instanceof King)
@@ -186,8 +185,8 @@ public class Pawn extends ChessPiece {
 	public boolean isDoubledPawn(String position, ChessBoard chessBoard) {
 		// First, find the row && the column
 		// that corresponds to the given position String.
-		int row = Utilities.getRowFromPosition(position, chessBoard.getNumOfRows());
-		int column = Utilities.getColumnFromPosition(position);
+		int row = chessBoard.getRowFromPosition(position);
+		int column = chessBoard.getColumnFromPosition(position);
 		ChessPiece chessPiece = chessBoard.getGameBoard()[row][column];
 
 		if (!(chessPiece instanceof Pawn)) {
@@ -217,8 +216,8 @@ public class Pawn extends ChessPiece {
 	public boolean isBlockedPawn(String position, ChessBoard chessBoard) {
 		// First, find the row && the column
 		// that corresponds to the given position String.
-		int row = Utilities.getRowFromPosition(position, chessBoard.getNumOfRows());
-		int column = Utilities.getColumnFromPosition(position);
+		int row = chessBoard.getRowFromPosition(position);
+		int column = chessBoard.getColumnFromPosition(position);
 		ChessPiece chessPiece = chessBoard.getGameBoard()[row][column];
 
 		if (!(chessPiece instanceof Pawn)) {
@@ -233,8 +232,8 @@ public class Pawn extends ChessPiece {
 	public boolean isIsolatedPawn(String position, ChessBoard chessBoard) {
 		// First, find the row && the column
 		// that corresponds to the given position String.
-		int row = Utilities.getRowFromPosition(position, chessBoard.getNumOfRows());
-		int column = Utilities.getColumnFromPosition(position);
+		int row = chessBoard.getRowFromPosition(position);
+		int column = chessBoard.getColumnFromPosition(position);
 		ChessPiece chessPiece = chessBoard.getGameBoard()[row][column];
 
 		if (!(chessPiece instanceof Pawn)) {

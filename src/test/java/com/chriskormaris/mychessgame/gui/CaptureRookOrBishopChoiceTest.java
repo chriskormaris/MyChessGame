@@ -8,7 +8,6 @@ import com.chriskormaris.mychessgame.api.piece.King;
 import com.chriskormaris.mychessgame.api.piece.Knight;
 import com.chriskormaris.mychessgame.api.piece.Rook;
 import com.chriskormaris.mychessgame.api.util.Constants;
-import com.chriskormaris.mychessgame.api.util.Utilities;
 import org.junit.jupiter.api.Test;
 
 import static com.chriskormaris.mychessgame.gui.GUI.ai;
@@ -41,7 +40,7 @@ public class CaptureRookOrBishopChoiceTest {
 		aiMove(ai);
 
 		assertTrue(
-				Utilities.getChessPieceFromPosition(chessBoard.getGameBoard(), "A1") instanceof Knight,
+				chessBoard.getChessPieceFromPosition("A1") instanceof Knight,
 				"The Black Knight did NOT capture the White Rook."
 		);
 

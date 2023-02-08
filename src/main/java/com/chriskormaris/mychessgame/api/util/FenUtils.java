@@ -150,10 +150,10 @@ public class FenUtils {
 			gameBoard[i][j] = Utilities.getChessPiece(pieceChar);
 
 			if (pieceChar == Constants.WHITE_KING) {
-				chessBoard.setWhiteKingPosition(Utilities.getPositionByRowCol(i, j, chessBoard.getNumOfRows()));
+				chessBoard.setWhiteKingPosition(chessBoard.getPositionByRowCol(i, j));
 				// System.out.println("White king position: " + chessBoard.getWhiteKingPosition());
 			} else if (pieceChar == Constants.BLACK_KING) {
-				chessBoard.setBlackKingPosition(Utilities.getPositionByRowCol(i, j, chessBoard.getNumOfRows()));
+				chessBoard.setBlackKingPosition(chessBoard.getPositionByRowCol(i, j));
 				// System.out.println("Black king position: " + chessBoard.getBlackKingPosition());
 			}
 

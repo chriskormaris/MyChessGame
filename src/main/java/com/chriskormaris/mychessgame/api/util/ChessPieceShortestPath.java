@@ -31,8 +31,8 @@ public class ChessPieceShortestPath {
 
 		int depth = 0;
 
-		int startingRow = Utilities.getRowFromPosition(startingPosition, chessBoard.getNumOfRows());
-		int startingColumn = Utilities.getColumnFromPosition(startingPosition);
+		int startingRow = chessBoard.getRowFromPosition(startingPosition);
+		int startingColumn = chessBoard.getColumnFromPosition(startingPosition);
 		BfsPosition startingBfsPosition = new BfsPosition(startingPosition, startingRow, startingColumn, depth);
 
 		queue.add(startingBfsPosition);
@@ -41,8 +41,8 @@ public class ChessPieceShortestPath {
 		while (queue.size() != 0 && depth <= maxDepth) {
 
 			if (currentPosition != null) {
-				int previousRow = Utilities.getRowFromPosition(currentPosition, chessBoard.getNumOfRows());
-				int previousColumn = Utilities.getColumnFromPosition(currentPosition);
+				int previousRow = chessBoard.getRowFromPosition(currentPosition);
+				int previousColumn = chessBoard.getColumnFromPosition(currentPosition);
 				currentChessBoard.getGameBoard()[previousRow][previousColumn] = new EmptySquare();
 			}
 
@@ -68,8 +68,8 @@ public class ChessPieceShortestPath {
 
 				Set<String> nextPositions;
 				if (currentBfsPosition.getParentBfsPosition() != null) {
-					int currentRow = Utilities.getRowFromPosition(currentPosition, chessBoard.getNumOfRows());
-					int currentColumn = Utilities.getColumnFromPosition(currentPosition);
+					int currentRow = chessBoard.getRowFromPosition(currentPosition);
+					int currentColumn = chessBoard.getColumnFromPosition(currentPosition);
 					currentChessBoard.getGameBoard()[currentRow][currentColumn] = piece;
 					if (piece instanceof King) {
 						if (piece.getAllegiance() == Allegiance.WHITE) {
@@ -85,8 +85,8 @@ public class ChessPieceShortestPath {
 				for (String candidatePosition : nextPositions) {
 					// System.out.println("candidate position: " + candidatePosition + ", depth: " + (depth + 1));
 
-					int candidateRow = Utilities.getRowFromPosition(candidatePosition, chessBoard.getNumOfRows());
-					int candidateColumn = Utilities.getColumnFromPosition(candidatePosition);
+					int candidateRow = chessBoard.getRowFromPosition(candidatePosition);
+					int candidateColumn = chessBoard.getColumnFromPosition(candidatePosition);
 					BfsPosition candidateBfsPosition = new BfsPosition(
 							candidatePosition,
 							candidateRow,

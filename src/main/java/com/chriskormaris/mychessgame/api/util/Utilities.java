@@ -86,45 +86,6 @@ public class Utilities {
 	}
 
 
-	public String getPositionByRowCol(int row, int column, int numOfRows) {
-		String columnString = (char) (column + 65) + "";
-		String rowString = (numOfRows - row) + "";
-
-		return columnString + rowString;
-	}
-
-	// ALTERNATIVE
-	/*
-	public String getPositionByRowCol(int row, int column) {
-		return Constants.chessPositions[row][column];
-	}
-	*/
-
-
-	public int getRowFromPosition(String position, int numOfRows) {
-		// examples:
-		// A8, column = 0, row = 0
-		// A2, column = 0, row = 6
-		// A1, column = 0, row = 7
-		return numOfRows - Integer.parseInt(position.substring(1));
-	}
-
-
-	public int getColumnFromPosition(String position) {
-		// examples:
-		// A1, column = 0, row = 7
-		// B1, column = 1, row = 7
-		return (int) position.charAt(0) - 65;
-	}
-
-
-	public ChessPiece getChessPieceFromPosition(ChessPiece[][] gameBoard, String position) {
-		int row = getRowFromPosition(position, gameBoard.length);
-		int column = getColumnFromPosition(position);
-		return gameBoard[row][column];
-	}
-
-
 	public ChessPiece[][] copyGameBoard(ChessPiece[][] gameBoard) {
 		int n1 = gameBoard.length;
 		int n2 = gameBoard[0].length;
