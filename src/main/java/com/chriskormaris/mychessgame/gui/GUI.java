@@ -310,7 +310,7 @@ public class GUI {
 	}
 
 
-	public static void configureGuiStyle() {
+	private static void configureGuiStyle() {
 		try {
 			// UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 			if (gameParameters.getGuiStyle() == GuiStyle.CROSS_PLATFORM_STYLE) {
@@ -332,6 +332,21 @@ public class GUI {
 				e2.printStackTrace();
 			}
 		}
+	}
+
+
+	private static void initializeGui() {
+		// Set up the main GUI.
+		// gui.setBorder(new EmptyBorder(0,0,0,0));
+		gui.setLayout(new BoxLayout(gui, BoxLayout.Y_AXIS));
+
+		initializeTurnTextPaneBar();
+
+		initializeChessBoardPanel();
+		initializeChessBoardButtons();
+
+		initializeCapturedPiecesPanel();
+		initializeCapturedPiecesImages();
 	}
 
 
@@ -1824,20 +1839,6 @@ public class GUI {
 		placePiecesToStartingPositions();
 
 		System.out.println(chessBoard);
-	}
-
-	public final void initializeGui() {
-		// Set up the main GUI.
-		// gui.setBorder(new EmptyBorder(0,0,0,0));
-		gui.setLayout(new BoxLayout(gui, BoxLayout.Y_AXIS));
-
-		initializeTurnTextPaneBar();
-
-		initializeChessBoardPanel();
-		initializeChessBoardButtons();
-
-		initializeCapturedPiecesPanel();
-		initializeCapturedPiecesImages();
 	}
 
 }
