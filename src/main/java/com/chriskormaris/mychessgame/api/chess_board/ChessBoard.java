@@ -16,6 +16,7 @@ import com.chriskormaris.mychessgame.api.piece.Knight;
 import com.chriskormaris.mychessgame.api.piece.Pawn;
 import com.chriskormaris.mychessgame.api.piece.Queen;
 import com.chriskormaris.mychessgame.api.piece.Rook;
+import com.chriskormaris.mychessgame.api.util.ChessPieceShortestPath;
 import com.chriskormaris.mychessgame.api.util.Constants;
 import com.chriskormaris.mychessgame.api.util.Utilities;
 import lombok.Getter;
@@ -1339,11 +1340,55 @@ public class ChessBoard {
 
 		boolean isInsufficientMaterialDraw = whiteHasInsufficientMaterial && blackHasInsufficientMaterial;
 
+		if (checkForDeadGameDraw()) {
+			isInsufficientMaterialDraw = true;
+		}
+
 		if (isInsufficientMaterialDraw) {
 			this.gameResult = GameResult.INSUFFICIENT_MATERIAL_DRAW;
 		}
 
 		return isInsufficientMaterialDraw;
+	}
+
+	// Check for a special case of draw, the dead game draw.
+	// It occurs when no pieces other than the kings can be moved
+	// and neither king can capture any enemy pieces.
+	public boolean checkForDeadGameDraw() {
+		// Check if any pieces other than the Kings can make any move.
+		for (int i = 0; i < numOfRows; i++) {
+			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
+				if (!(gameBoard[i][j] instanceof King || gameBoard[i][j] instanceof EmptySquare)) {
+					String position = Utilities.getPositionByRowCol(i, j, numOfRows);
+					Set<String> nextPositions = getNextPositions(position);
+					if (nextPositions.size() > 0) {
+						return false;
+					}
+				}
+			}
+		}
+
+		for (int i = 0; i < numOfRows; i++) {
+			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
+				if (!(gameBoard[i][j] instanceof King)) {
+					if (gameBoard[i][j].getAllegiance() == Allegiance.BLACK) {
+						String endingPosition = Utilities.getPositionByRowCol(i, j, numOfRows);
+						boolean canGoToPosition = ChessPieceShortestPath.canGoToPosition(
+								this,
+								new King(Allegiance.WHITE),
+								whiteKingPosition,
+								endingPosition,
+								Constants.DEAD_DRAW_MAX_BFS_DEPTH
+						);
+						if (canGoToPosition) {
+							return false;
+						}
+					}
+				}
+			}
+		}
+
+		return true;
 	}
 
 	// Checks if only a king has remained on the board, on the given player's side.
@@ -1361,29 +1406,6 @@ public class ChessBoard {
 		}
 
 		return true;
-	}
-
-	// Checks if only a king and at least three pawns have remained on the board, on the given player's side.
-	public boolean isLoneKingPlusAtLeastThreePawns(Allegiance playerAllegiance) {
-		int numOfPawns = 0;
-
-		for (int i = 0; i < numOfRows; i++) {
-			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
-				ChessPiece chessPiece = getGameBoard()[i][j];
-				if (!(chessPiece instanceof EmptySquare)
-						&& !(chessPiece instanceof King)
-						&& !(chessPiece instanceof Pawn)
-						&& playerAllegiance == chessPiece.getAllegiance()) {
-					// System.out.println("i: " + i + ", j: " + j + ", chessPiece: " + chessPiece);
-					return false;
-				}
-				if (chessPiece instanceof Pawn) {
-					numOfPawns++;
-				}
-			}
-		}
-
-		return numOfPawns >= 3;
 	}
 
 	// Checks if only a king and one or two knights have remained on the board, on the given player's side.
