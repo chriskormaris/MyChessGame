@@ -1002,9 +1002,11 @@ public class ChessBoard {
 		return nextPositions;
 	}
 
-	public Set<String> removePositionsLeadingToOppositeCheck(String position, ChessPiece chessPiece,
-	                                                         Set<String> nextPositions) {
-
+	public Set<String> removePositionsLeadingToOppositeCheck(
+			String position,
+			ChessPiece chessPiece,
+			Set<String> nextPositions
+	) {
 		ChessBoard initialChessBoard = new ChessBoard(this);
 
 		Set<String> tempNextPositions = new HashSet<>(nextPositions);
@@ -1025,7 +1027,6 @@ public class ChessBoard {
 			}
 
 			initialChessBoard = new ChessBoard(this);
-
 		}
 
 		return nextPositions;
