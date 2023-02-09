@@ -1342,8 +1342,8 @@ public class ChessBoard {
 		for (int i = 0; i < numOfRows; i++) {
 			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
 				if (!(gameBoard[i][j] instanceof King)) {
+					String endingPosition = getPositionByRowCol(i, j);
 					if (gameBoard[i][j].getAllegiance() == Allegiance.BLACK) {
-						String endingPosition = getPositionByRowCol(i, j);
 						boolean canGoToPosition = ChessPieceShortestPath.canGoToPosition(
 								this,
 								whiteKing,
@@ -1355,7 +1355,6 @@ public class ChessBoard {
 							return false;
 						}
 					} else if (gameBoard[i][j].getAllegiance() == Allegiance.WHITE) {
-						String endingPosition = getPositionByRowCol(i, j);
 						boolean canGoToPosition = ChessPieceShortestPath.canGoToPosition(
 								this,
 								blackKing,
