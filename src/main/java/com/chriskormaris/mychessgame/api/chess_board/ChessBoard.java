@@ -1341,7 +1341,7 @@ public class ChessBoard {
 		ChessPiece blackKing = getChessPieceFromPosition(blackKingPosition);
 		for (int i = 0; i < numOfRows; i++) {
 			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
-				if (!(gameBoard[i][j] instanceof King)) {
+				if (!(gameBoard[i][j] instanceof King || gameBoard[i][j] instanceof EmptySquare)) {
 					String endingPosition = getPositionByRowCol(i, j);
 					if (gameBoard[i][j].getAllegiance() == Allegiance.BLACK) {
 						boolean canGoToPosition = BFS.canGoToPosition(

@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import static com.chriskormaris.mychessgame.gui.GUI.checkForGameOver;
 import static com.chriskormaris.mychessgame.gui.GUI.chessBoard;
 import static com.chriskormaris.mychessgame.gui.GUI.placePiecesToChessBoard;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 
 public class DeadGameDrawTest {
@@ -23,7 +23,7 @@ public class DeadGameDrawTest {
 		// These FEN positions are considered a draw!
 		// Each king is stuck on their side.
 		// String fenPosition = "4k3/8/8/p2p2p1/P2P2P1/8/8/4K3 w KQ - 0 1";
-		String fenPosition = "4k3/8/1p2p4/pP1pPp1p/P1pP1PpP/2P3P1/8/4K3 w KQ - 0 1";
+		// String fenPosition = "4k3/8/1p2p4/pP1pPp1p/P1pP1PpP/2P3P1/8/4K3 w KQ - 0 1";
 
 		// These FEN positions are NOT considered a draw!
 		// There is an opening between the pawns, from where the kings can pass to the other side.
@@ -34,7 +34,7 @@ public class DeadGameDrawTest {
 
 		// The following FEN position is not a draw, but it will end up in a draw
 		// if the White pawn is moved!
-		// String fenPosition = "4k3/8/8/p2p2p1/3P2P1/P7/8/4K3 w KQ - 0 1";
+		String fenPosition = "4k3/8/8/p2p2p1/3P2P1/P7/8/4K3 w KQ - 0 1";
 
 		placePiecesToChessBoard(fenPosition);
 
@@ -44,7 +44,7 @@ public class DeadGameDrawTest {
 		checkForGameOver();
 		boolean isDraw = chessBoard.getGameResult() == GameResult.INSUFFICIENT_MATERIAL_DRAW;
 		System.out.println(isDraw ? "The game is a draw!" : "The game is NOT a draw!");
-		assertTrue(isDraw, "The game is a draw.");
+		assertFalse(isDraw, "The game is NOT a draw.");
 		// System.out.println("*****************************");
 		// System.out.println();
 		
