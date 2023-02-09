@@ -136,8 +136,8 @@ public class GUI {
 		// JDialog.setDefaultLookAndFeelDecorated(true);
 
 		configureGuiStyle();
-		initializeGui();
-		initializeAi();
+		initializeGUI();
+		initializeAI();
 
 		frame = new JFrame(title);
 		frame.add(gui);
@@ -335,7 +335,7 @@ public class GUI {
 	}
 
 
-	private static void initializeGui() {
+	private static void initializeGUI() {
 		// Set up the main GUI.
 		// gui.setBorder(new EmptyBorder(0,0,0,0));
 		gui.setLayout(new BoxLayout(gui, BoxLayout.Y_AXIS));
@@ -791,7 +791,7 @@ public class GUI {
 
 		restoreDefaultValues();
 
-		initializeAi();
+		initializeAI();
 
 		if (!fenPosition.equals(Constants.DEFAULT_STARTING_FEN_POSITION)) {
 			placePiecesToChessBoard(fenPosition);
@@ -854,7 +854,7 @@ public class GUI {
 		setTurnMessage();
 	}
 
-	private static void initializeAi() {
+	private static void initializeAI() {
 		if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI) {
 			if (gameParameters.getAi1Type() == AiType.MINIMAX_AI) {
 				if (gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE) {
