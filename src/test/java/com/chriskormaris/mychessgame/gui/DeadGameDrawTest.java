@@ -15,7 +15,7 @@ public class DeadGameDrawTest {
 
 	@Test
 	public void testDeadGameDraw() {
-		String title = "Two Kings And All Pawns Left Test";
+		String title = "Dead Game Draw Test";
 
 		@SuppressWarnings("unused")
 		GUI gui = new GUI(title);

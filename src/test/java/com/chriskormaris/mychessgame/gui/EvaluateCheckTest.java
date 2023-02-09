@@ -12,7 +12,7 @@ public class EvaluateCheckTest {
 
 	@Test
 	public void testEvaluateCheck() {
-		String title = "Evaluate Check";
+		String title = "Evaluate Check Test";
 
 		// GameParameters.gameMode = GameMode.HUMAN_VS_HUMAN;
 
