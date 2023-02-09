@@ -16,7 +16,7 @@ import com.chriskormaris.mychessgame.api.piece.Knight;
 import com.chriskormaris.mychessgame.api.piece.Pawn;
 import com.chriskormaris.mychessgame.api.piece.Queen;
 import com.chriskormaris.mychessgame.api.piece.Rook;
-import com.chriskormaris.mychessgame.api.util.ChessPieceShortestPath;
+import com.chriskormaris.mychessgame.api.util.BFS;
 import com.chriskormaris.mychessgame.api.util.Constants;
 import com.chriskormaris.mychessgame.api.util.Utilities;
 import lombok.Getter;
@@ -1344,7 +1344,7 @@ public class ChessBoard {
 				if (!(gameBoard[i][j] instanceof King)) {
 					String endingPosition = getPositionByRowCol(i, j);
 					if (gameBoard[i][j].getAllegiance() == Allegiance.BLACK) {
-						boolean canGoToPosition = ChessPieceShortestPath.canGoToPosition(
+						boolean canGoToPosition = BFS.canGoToPosition(
 								this,
 								whiteKing,
 								whiteKingPosition,
@@ -1355,7 +1355,7 @@ public class ChessBoard {
 							return false;
 						}
 					} else if (gameBoard[i][j].getAllegiance() == Allegiance.WHITE) {
-						boolean canGoToPosition = ChessPieceShortestPath.canGoToPosition(
+						boolean canGoToPosition = BFS.canGoToPosition(
 								this,
 								blackKing,
 								blackKingPosition,

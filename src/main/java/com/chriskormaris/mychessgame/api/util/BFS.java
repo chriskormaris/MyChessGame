@@ -12,7 +12,7 @@ import java.util.Set;
 
 
 @UtilityClass
-public class ChessPieceShortestPath {
+public class BFS {
 
 
 	// It runs the BFS algorithm.
