@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 public class DeadGameDrawTest {
 
 	@Test
-	public void testTwoKingsAndAllPawnsLeft() {
+	public void testDeadGameDraw() {
 		String title = "Two Kings And All Pawns Left Test";
 
 		@SuppressWarnings("unused")

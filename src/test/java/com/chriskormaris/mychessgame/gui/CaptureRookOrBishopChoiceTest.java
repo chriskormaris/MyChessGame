@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class CaptureRookOrBishopChoiceTest {
 
 	@Test
-	public void testCaptureRookOrBishopChoiceTest() {
+	public void testCaptureRookOrBishopChoice() {
 		String title = "Capture Rook or Bishop?";
 
 		@SuppressWarnings("unused")

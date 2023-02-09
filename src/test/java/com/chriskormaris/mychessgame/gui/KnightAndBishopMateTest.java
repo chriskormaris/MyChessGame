@@ -16,7 +16,7 @@ import static com.chriskormaris.mychessgame.gui.GUI.placePieceToPosition;
 public class KnightAndBishopMateTest {
 
 	@Test
-	public void knightAndBishopMateTest() {
+	public void testKnightAndBishopMate() {
 		String title = "Knight and Bishop Mate Test";
 
 		@SuppressWarnings("unused")
