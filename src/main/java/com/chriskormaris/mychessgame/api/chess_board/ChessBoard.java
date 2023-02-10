@@ -931,7 +931,7 @@ public class ChessBoard {
 	// and the other pieces are all Pawns plus one Knight or Bishop maximum.
 	public boolean isQueenPlusOneMinorPieceMaximum(Allegiance playerAllegiance) {
 		int numOfQueens = countQueens(playerAllegiance);
-		if (numOfQueens == 0) return true;
+		// if (numOfQueens == 0) return true;
 		if (numOfQueens > 1) return false;
 
 		int numOfKnights = countKnights(playerAllegiance);
@@ -939,7 +939,7 @@ public class ChessBoard {
 		if (numOfKnights + numOfBishops > 1) return false;
 
 		int numOfRooks = countRooks(playerAllegiance);
-		return numOfRooks <= 0;
+		return numOfRooks == 0;
 	}
 
 	/*
