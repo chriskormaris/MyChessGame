@@ -1208,13 +1208,7 @@ public class ChessBoard {
 
 	// Checks if there is insufficient mating material left on the chess board.
 	public boolean checkForInsufficientMaterialDraw() {
-		boolean whiteHasInsufficientMaterial = isLoneKingPlusTwoKnightsMax(Allegiance.WHITE)
-				|| isLoneKingPlusOneBishopMax(Allegiance.WHITE);
-
-		boolean blackHasInsufficientMaterial = isLoneKingPlusTwoKnightsMax(Allegiance.BLACK)
-				|| isLoneKingPlusOneBishopMax(Allegiance.BLACK);
-
-		boolean isInsufficientMaterialDraw = whiteHasInsufficientMaterial && blackHasInsufficientMaterial;
+		boolean isInsufficientMaterialDraw = isInsufficientMaterialDraw();
 
 		if (!isInsufficientMaterialDraw && checkForDeadGameDraw()) {
 			isInsufficientMaterialDraw = true;
@@ -1293,62 +1287,52 @@ public class ChessBoard {
 		return numOfPieces;
 	}
 
-	// Checks if only a king and one or two knights have remained on the board, on the given player's side.
-	public boolean isLoneKingPlusTwoKnightsMax(Allegiance playerAllegiance) {
-		int numOfKnights = 0;
+	// Checks if each side has at most one King and two Knights or one Bishop,
+	// left on the board, and no other piece.
+	public boolean isInsufficientMaterialDraw() {
+		int numOfWhiteKnights = 0;
+		int numOfBlackKnights = 0;
+		int numOfWhiteBishops = 0;
+		int numOfBlackBishops = 0;
 
 		for (int i = 0; i < numOfRows; i++) {
 			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
 				ChessPiece chessPiece = getGameBoard()[i][j];
-				if (playerAllegiance == chessPiece.getAllegiance()) {
-					if (chessPiece instanceof Pawn) {
-						return false;
-					} else if (chessPiece instanceof Knight) {
-						numOfKnights++;
-						if (numOfKnights > 2) {
+				if (chessPiece instanceof Pawn) {
+					return false;
+				} else if (chessPiece instanceof Knight) {
+					if (Allegiance.WHITE == chessPiece.getAllegiance()) {
+						numOfWhiteKnights++;
+						if (numOfWhiteKnights > 2) {
 							return false;
 						}
-					} else if (chessPiece instanceof Bishop) {
-						return false;
-					} else if (chessPiece instanceof Rook) {
-						return false;
-					} else if (chessPiece instanceof Queen) {
-						return false;
+					} else if (Allegiance.BLACK == chessPiece.getAllegiance()) {
+						numOfBlackKnights++;
+						if (numOfBlackKnights > 2) {
+							return false;
+						}
 					}
+				} else if (chessPiece instanceof Bishop) {
+					if (Allegiance.WHITE == chessPiece.getAllegiance()) {
+						numOfWhiteBishops++;
+						if (numOfWhiteBishops > 1) {
+							return false;
+						}
+					} else if (Allegiance.BLACK == chessPiece.getAllegiance()) {
+						numOfBlackBishops++;
+						if (numOfBlackBishops > 1) {
+							return false;
+						}
+					}
+				} else if (chessPiece instanceof Rook) {
+					return false;
+				} else if (chessPiece instanceof Queen) {
+					return false;
 				}
 			}
 		}
 
-		return true;
-	}
-
-	// Checks if only a king and one bishop have remained on the board, on the given player's side.
-	public boolean isLoneKingPlusOneBishopMax(Allegiance playerAllegiance) {
-		int numOfBishops = 0;
-
-		for (int i = 0; i < numOfRows; i++) {
-			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
-				ChessPiece chessPiece = getGameBoard()[i][j];
-				if (playerAllegiance == chessPiece.getAllegiance()) {
-					if (chessPiece instanceof Pawn) {
-						return false;
-					} else if (chessPiece instanceof Knight) {
-						return false;
-					} else if (chessPiece instanceof Bishop) {
-						numOfBishops++;
-						if (numOfBishops > 1) {
-							return false;
-						}
-					} else if (chessPiece instanceof Rook) {
-						return false;
-					} else if (chessPiece instanceof Queen) {
-						return false;
-					}
-				}
-			}
-		}
-
-		return true;
+		return (numOfWhiteKnights == 0 || numOfWhiteBishops == 0) && (numOfBlackKnights == 0 || numOfBlackBishops == 0);
 	}
 
 	// A minor piece is considered a Knight or a Bishop.
@@ -1365,33 +1349,33 @@ public class ChessBoard {
 		for (int i = 0; i < numOfRows; i++) {
 			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
 				ChessPiece chessPiece = getGameBoard()[i][j];
-				if (Allegiance.WHITE == chessPiece.getAllegiance()) {
-					if (chessPiece instanceof Pawn) {
+				if (chessPiece instanceof Pawn) {
+					if (Allegiance.WHITE == chessPiece.getAllegiance()) {
 						numOfWhitePawns++;
-					} else if (chessPiece instanceof Knight || chessPiece instanceof Bishop) {
+					} else if (Allegiance.BLACK == chessPiece.getAllegiance()) {
+						numOfBlackPawns++;
+					}
+				} else if (chessPiece instanceof Knight || chessPiece instanceof Bishop) {
+					if (Allegiance.WHITE == chessPiece.getAllegiance()) {
 						numOfWhiteMinorPieces++;
-						if (numOfWhiteMinorPieces > 1 && numOfWhiteQueens + numOfBlackQueens != 0) {
+						if (numOfWhiteMinorPieces > 1 && numOfWhiteQueens + numOfBlackQueens > 0) {
 							return false;
 						}
-					} else if (chessPiece instanceof Rook) {
-						return false;
-					} else if (chessPiece instanceof Queen) {
+					} else if (Allegiance.BLACK == chessPiece.getAllegiance()) {
+						numOfBlackMinorPieces++;
+						if (numOfBlackMinorPieces > 1 && numOfWhiteQueens + numOfBlackQueens > 0) {
+							return false;
+						}
+					}
+				} else if (chessPiece instanceof Rook) {
+					return false;
+				} else if (chessPiece instanceof Queen) {
+					if (Allegiance.WHITE == chessPiece.getAllegiance()) {
 						numOfWhiteQueens++;
 						if (numOfWhiteQueens > 1) {
 							return false;
 						}
-					}
-				} else if (Allegiance.BLACK == chessPiece.getAllegiance()) {
-					if (chessPiece instanceof Pawn) {
-						numOfBlackPawns++;
-					} else if (chessPiece instanceof Knight || chessPiece instanceof Bishop) {
-						numOfBlackMinorPieces++;
-						if (numOfBlackMinorPieces > 1 && numOfWhiteQueens + numOfBlackQueens != 0) {
-							return false;
-						}
-					} else if (chessPiece instanceof Rook) {
-						return false;
-					} else if (chessPiece instanceof Queen) {
+					} else if (Allegiance.BLACK == chessPiece.getAllegiance()) {
 						numOfBlackQueens++;
 						if (numOfBlackQueens > 1) {
 							return false;

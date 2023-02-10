@@ -9,7 +9,6 @@ import com.chriskormaris.mychessgame.api.piece.Knight;
 import com.chriskormaris.mychessgame.api.piece.Pawn;
 import com.chriskormaris.mychessgame.api.piece.Queen;
 import com.chriskormaris.mychessgame.api.piece.Rook;
-import com.chriskormaris.mychessgame.api.util.Constants;
 import lombok.experimental.UtilityClass;
 
 // Simplified Evaluation Function by Polish chess programmer Tomasz Michniewski.
@@ -102,7 +101,8 @@ public class SimplifiedEvaluationUtils {
 	public final int KING_CENTIPAWN_VALUE = 20000;
 
 	public GamePhase getGamePhase(ChessBoard chessBoard, int halfMoveNumber) {
-		if ((chessBoard.isEndGame()) && Constants.ENDGAME_HALF_MOVES_THRESHOLD <= halfMoveNumber) {
+		// if ((chessBoard.isEndGame()) && Constants.ENDGAME_HALF_MOVES_THRESHOLD <= halfMoveNumber) {
+		if ((chessBoard.isEndGame())) {
 			return GamePhase.ENDGAME;
 		} else {
 			return GamePhase.OPENING;
