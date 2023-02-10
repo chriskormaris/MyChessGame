@@ -1221,6 +1221,54 @@ public class ChessBoard {
 		return isInsufficientMaterialDraw;
 	}
 
+	// Checks if each side has at most one King and two Knights or one Bishop,
+	// left on the board, and no other piece.
+	public boolean isInsufficientMaterialDraw() {
+		int numOfWhiteKnights = 0;
+		int numOfBlackKnights = 0;
+		int numOfWhiteBishops = 0;
+		int numOfBlackBishops = 0;
+
+		for (int i = 0; i < numOfRows; i++) {
+			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
+				ChessPiece chessPiece = getGameBoard()[i][j];
+				if (chessPiece instanceof Pawn) {
+					return false;
+				} else if (chessPiece instanceof Knight) {
+					if (Allegiance.WHITE == chessPiece.getAllegiance()) {
+						numOfWhiteKnights++;
+						if (numOfWhiteKnights > 2) {
+							return false;
+						}
+					} else if (Allegiance.BLACK == chessPiece.getAllegiance()) {
+						numOfBlackKnights++;
+						if (numOfBlackKnights > 2) {
+							return false;
+						}
+					}
+				} else if (chessPiece instanceof Bishop) {
+					if (Allegiance.WHITE == chessPiece.getAllegiance()) {
+						numOfWhiteBishops++;
+						if (numOfWhiteBishops > 1) {
+							return false;
+						}
+					} else if (Allegiance.BLACK == chessPiece.getAllegiance()) {
+						numOfBlackBishops++;
+						if (numOfBlackBishops > 1) {
+							return false;
+						}
+					}
+				} else if (chessPiece instanceof Rook) {
+					return false;
+				} else if (chessPiece instanceof Queen) {
+					return false;
+				}
+			}
+		}
+
+		return (numOfWhiteKnights == 0 || numOfWhiteBishops == 0) && (numOfBlackKnights == 0 || numOfBlackBishops == 0);
+	}
+
 	// Check for a special case of draw, the dead game draw.
 	// It occurs when no pieces other than the kings can be moved
 	// and neither king can capture any enemy pieces.
@@ -1272,67 +1320,6 @@ public class ChessBoard {
 		}
 
 		return true;
-	}
-
-	public <T extends ChessPiece> int countPieces(Class<T> c, Allegiance playerAllegiance) {
-		int numOfPieces = 0;
-		for (int i = 0; i < numOfRows; i++) {
-			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
-				if (this.gameBoard[i][j].getClass().getSimpleName().equals(c.getSimpleName())
-						&& playerAllegiance == this.gameBoard[i][j].getAllegiance()) {
-					numOfPieces++;
-				}
-			}
-		}
-		return numOfPieces;
-	}
-
-	// Checks if each side has at most one King and two Knights or one Bishop,
-	// left on the board, and no other piece.
-	public boolean isInsufficientMaterialDraw() {
-		int numOfWhiteKnights = 0;
-		int numOfBlackKnights = 0;
-		int numOfWhiteBishops = 0;
-		int numOfBlackBishops = 0;
-
-		for (int i = 0; i < numOfRows; i++) {
-			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
-				ChessPiece chessPiece = getGameBoard()[i][j];
-				if (chessPiece instanceof Pawn) {
-					return false;
-				} else if (chessPiece instanceof Knight) {
-					if (Allegiance.WHITE == chessPiece.getAllegiance()) {
-						numOfWhiteKnights++;
-						if (numOfWhiteKnights > 2) {
-							return false;
-						}
-					} else if (Allegiance.BLACK == chessPiece.getAllegiance()) {
-						numOfBlackKnights++;
-						if (numOfBlackKnights > 2) {
-							return false;
-						}
-					}
-				} else if (chessPiece instanceof Bishop) {
-					if (Allegiance.WHITE == chessPiece.getAllegiance()) {
-						numOfWhiteBishops++;
-						if (numOfWhiteBishops > 1) {
-							return false;
-						}
-					} else if (Allegiance.BLACK == chessPiece.getAllegiance()) {
-						numOfBlackBishops++;
-						if (numOfBlackBishops > 1) {
-							return false;
-						}
-					}
-				} else if (chessPiece instanceof Rook) {
-					return false;
-				} else if (chessPiece instanceof Queen) {
-					return false;
-				}
-			}
-		}
-
-		return (numOfWhiteKnights == 0 || numOfWhiteBishops == 0) && (numOfBlackKnights == 0 || numOfBlackBishops == 0);
 	}
 
 	// A minor piece is considered a Knight or a Bishop.
