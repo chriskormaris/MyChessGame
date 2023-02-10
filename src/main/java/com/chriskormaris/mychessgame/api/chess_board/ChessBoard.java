@@ -1340,12 +1340,14 @@ public class ChessBoard {
 	// or both side have at most one Queen each,
 	// and the other pieces are all Pawns plus one Knight or Bishop maximum for each side.
 	public boolean isEndGame() {
-		int numOfWhiteQueens = 0;
-		int numOfBlackQueens = 0;
 		int numOfWhitePawns = 0;
 		int numOfBlackPawns = 0;
 		int numOfWhiteMinorPieces = 0;
 		int numOfBlackMinorPieces = 0;
+		int numOfWhiteRooks = 0;
+		int numOfBlackRooks = 0;
+		int numOfWhiteQueens = 0;
+		int numOfBlackQueens = 0;
 		for (int i = 0; i < numOfRows; i++) {
 			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
 				ChessPiece chessPiece = getGameBoard()[i][j];
@@ -1358,17 +1360,15 @@ public class ChessBoard {
 				} else if (chessPiece instanceof Knight || chessPiece instanceof Bishop) {
 					if (Allegiance.WHITE == chessPiece.getAllegiance()) {
 						numOfWhiteMinorPieces++;
-						if (numOfWhiteMinorPieces > 1 && numOfWhiteQueens + numOfBlackQueens > 0) {
-							return false;
-						}
 					} else if (Allegiance.BLACK == chessPiece.getAllegiance()) {
 						numOfBlackMinorPieces++;
-						if (numOfBlackMinorPieces > 1 && numOfWhiteQueens + numOfBlackQueens > 0) {
-							return false;
-						}
 					}
 				} else if (chessPiece instanceof Rook) {
-					return false;
+					if (Allegiance.WHITE == chessPiece.getAllegiance()) {
+						numOfWhiteRooks++;
+					} else if (Allegiance.BLACK == chessPiece.getAllegiance()) {
+						numOfBlackRooks++;
+					}
 				} else if (chessPiece instanceof Queen) {
 					if (Allegiance.WHITE == chessPiece.getAllegiance()) {
 						numOfWhiteQueens++;
@@ -1388,12 +1388,14 @@ public class ChessBoard {
 		if (numOfWhiteQueens + numOfBlackQueens == 0) {
 			return true;
 		}
+		int otherPieces = numOfWhitePawns + numOfBlackPawns + numOfWhiteMinorPieces + numOfBlackMinorPieces
+				+ numOfWhiteRooks + numOfBlackRooks;
 		// If both sides have at most one Queen each and no other pieces left.
-		else if (numOfWhitePawns + numOfBlackPawns == 0 && numOfWhiteMinorPieces + numOfBlackMinorPieces == 0) {
+		if (otherPieces == 0) {
 			return true;
 		}
 		// If both sides have at most one Queen each, only Pawns and at most one minor piece left each.
-		return numOfWhiteMinorPieces <= 1 && numOfBlackMinorPieces <= 1;
+		return numOfWhiteMinorPieces <= 1 && numOfBlackMinorPieces <= 1 && numOfWhiteRooks == 0 && numOfBlackRooks == 0;
 	}
 
 	public boolean isWhiteQueenSideCastlingAvailable() {
