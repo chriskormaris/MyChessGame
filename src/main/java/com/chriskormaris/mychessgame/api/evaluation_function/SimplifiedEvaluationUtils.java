@@ -1,7 +1,6 @@
 package com.chriskormaris.mychessgame.api.evaluation_function;
 
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
-import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 import com.chriskormaris.mychessgame.api.enumeration.GamePhase;
 import com.chriskormaris.mychessgame.api.piece.Bishop;
 import com.chriskormaris.mychessgame.api.piece.ChessPiece;
@@ -103,10 +102,7 @@ public class SimplifiedEvaluationUtils {
 	public final int KING_CENTIPAWN_VALUE = 20000;
 
 	public GamePhase getGamePhase(ChessBoard chessBoard, int halfMoveNumber) {
-		if ((chessBoard.countQueens(Allegiance.WHITE) == 0 && chessBoard.countQueens(Allegiance.BLACK) == 0
-				|| chessBoard.isQueenPlusOneMinorPieceMaximum(Allegiance.WHITE)
-				&& chessBoard.isQueenPlusOneMinorPieceMaximum(Allegiance.BLACK))
-				&& Constants.ENDGAME_HALF_MOVES_THRESHOLD <= halfMoveNumber) {
+		if ((chessBoard.isEndGame()) && Constants.ENDGAME_HALF_MOVES_THRESHOLD <= halfMoveNumber) {
 			return GamePhase.ENDGAME;
 		} else {
 			return GamePhase.OPENING;

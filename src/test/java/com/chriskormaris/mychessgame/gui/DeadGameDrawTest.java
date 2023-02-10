@@ -44,7 +44,7 @@ public class DeadGameDrawTest {
 		checkForGameOver();
 		boolean isDraw = chessBoard.getGameResult() == GameResult.INSUFFICIENT_MATERIAL_DRAW;
 		System.out.println(isDraw ? "The game is a draw!" : "The game is NOT a draw!");
-		assertFalse(isDraw, "The game is NOT a draw.");
+		assertFalse(isDraw, "The game is a draw.");
 		// System.out.println("*****************************");
 		// System.out.println();
 		
