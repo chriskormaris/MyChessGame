@@ -103,9 +103,10 @@ public class SimplifiedEvaluationUtils {
 	public final int KING_CENTIPAWN_VALUE = 20000;
 
 	public GamePhase getGamePhase(ChessBoard chessBoard, int halfMoveNumber) {
-		if (chessBoard.isQueenPlusOneMinorPieceMaximum(Allegiance.WHITE)
-				&& chessBoard.isQueenPlusOneMinorPieceMaximum(Allegiance.BLACK)
-				&& Constants.ENDGAME_HALF_MOVES_THRESHOLD < halfMoveNumber) {
+		if ((chessBoard.countQueens(Allegiance.WHITE) == 0 && chessBoard.countQueens(Allegiance.BLACK) == 0
+				|| chessBoard.isQueenPlusOneMinorPieceMaximum(Allegiance.WHITE)
+				&& chessBoard.isQueenPlusOneMinorPieceMaximum(Allegiance.BLACK))
+				&& Constants.ENDGAME_HALF_MOVES_THRESHOLD <= halfMoveNumber) {
 			return GamePhase.ENDGAME;
 		} else {
 			return GamePhase.OPENING;
