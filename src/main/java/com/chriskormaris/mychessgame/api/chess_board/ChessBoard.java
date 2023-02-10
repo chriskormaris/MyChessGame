@@ -1282,7 +1282,6 @@ public class ChessBoard {
 
 	public <T extends ChessPiece> int countPieces(Class<T> c, Allegiance playerAllegiance) {
 		int numOfPieces = 0;
-
 		for (int i = 0; i < numOfRows; i++) {
 			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
 				if (this.gameBoard[i][j].getClass().getSimpleName().equals(c.getSimpleName())
@@ -1291,7 +1290,6 @@ public class ChessBoard {
 				}
 			}
 		}
-
 		return numOfPieces;
 	}
 
