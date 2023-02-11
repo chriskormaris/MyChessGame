@@ -158,7 +158,6 @@ public class GUI {
 		frame.setLocation((int) (GuiConstants.SCREEN_SIZE.getWidth() - frame.getWidth()) / 2, 5);
 
 		frame.setResizable(false);
-		// frame.setFocusable(true);
 
 		BufferedImage icon;
 		try {
@@ -309,11 +308,11 @@ public class GUI {
 
 		menuBar.add(fileMenu);
 		menuBar.add(helpMenu);
-		menuBar.setFocusable(false);
 
 		frame.setJMenuBar(menuBar);
 
 		frame.setVisible(true);
+		frame.addKeyListener(undoRedoKeyListener);
 	}
 
 
@@ -346,7 +345,6 @@ public class GUI {
 		// Set up the main GUI.
 		// gui.setBorder(new EmptyBorder(0,0,0,0));
 		gui.setLayout(new BoxLayout(gui, BoxLayout.Y_AXIS));
-		gui.setFocusable(false);
 
 		initializeTurnTextPaneBar();
 
@@ -373,17 +371,16 @@ public class GUI {
 
 			turnTextPane.setText(turnMessage);
 		}
-		turnTextPane.setFocusable(false);
 	}
 
 
 	private static void setScoreMessage() {
-		if (chessBoard.getScore() == 0) {
-			capturedPiecesImages[15].setText(ZERO_SCORE_TEXT);
-		} else if (chessBoard.getScore() > 0) {
+		if (chessBoard.getScore() > 0) {
 			capturedPiecesImages[15].setText("White: +" + chessBoard.getScore());
 		} else if (chessBoard.getScore() < 0) {
 			capturedPiecesImages[15].setText("Black: +" + (-chessBoard.getScore()));
+		} else {
+			capturedPiecesImages[15].setText(ZERO_SCORE_TEXT);
 		}
 	}
 
@@ -597,7 +594,7 @@ public class GUI {
 		centerTextPaneAndMakeBold();
 
 		tools.add(turnTextPane);
-		tools.setFocusable(false);
+		turnTextPane.setFocusable(false);
 		gui.add(tools, BorderLayout.NORTH);
 	}
 
@@ -621,7 +618,6 @@ public class GUI {
 		chessBoardPanel = new JPanel(new GridLayout(gameParameters.getNumOfRows() + 2, NUM_OF_COLUMNS + 2));
 		chessBoardPanel.setBorder(new LineBorder(Color.BLACK));
 		chessBoardPanel.setPreferredSize(new Dimension(WIDTH, HEIGHT - 100));
-		chessBoardPanel.addKeyListener(undoRedoKeyListener);
 		gui.add(chessBoardPanel, BorderLayout.CENTER);
 	}
 
@@ -630,7 +626,6 @@ public class GUI {
 			gui.remove(capturedPiecesPanel);
 		}
 		capturedPiecesPanel = new JPanel();
-		capturedPiecesPanel.setFocusable(false);
 		gui.add(capturedPiecesPanel, BorderLayout.SOUTH);
 	}
 
@@ -1265,9 +1260,6 @@ public class GUI {
 		ChessPiece[][] halfMoveGameBoard = Utilities.copyGameBoard(chessBoard.getGameBoard());
 		halfMoveGameBoards.push(halfMoveGameBoard);
 		// System.out.println("size of halfMoveGameBoards: " + halfMoveGameBoards.size());
-
-		// Request focus to enable the "undoRedoKeyListener".
-		chessBoardPanel.requestFocus();
 	}
 
 	private static void addCapturedPieceImage(ChessPiece endSquare) {
