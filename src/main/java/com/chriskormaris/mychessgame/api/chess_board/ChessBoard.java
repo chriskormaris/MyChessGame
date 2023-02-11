@@ -1322,29 +1322,21 @@ public class ChessBoard {
 		return true;
 	}
 
+	// A major piece is considered a Queen or a Rook.
 	// A minor piece is considered a Knight or a Bishop.
 	// The endgame begins when both sides have no Queens
-	// or both side have at most one Queen each,
-	// and the other pieces are all Pawns plus one Knight or Bishop maximum for each side.
+	// or both sides have one major piece maximum and one minor piece maximum each.
 	public boolean isEndGame() {
-		int numOfWhitePawns = 0;
-		int numOfBlackPawns = 0;
-		int numOfWhiteMinorPieces = 0;
-		int numOfBlackMinorPieces = 0;
 		int numOfWhiteRooks = 0;
 		int numOfBlackRooks = 0;
 		int numOfWhiteQueens = 0;
 		int numOfBlackQueens = 0;
+		int numOfWhiteMinorPieces = 0;
+		int numOfBlackMinorPieces = 0;
 		for (int i = 0; i < numOfRows; i++) {
 			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
 				ChessPiece chessPiece = getGameBoard()[i][j];
-				if (chessPiece instanceof Pawn) {
-					if (Allegiance.WHITE == chessPiece.getAllegiance()) {
-						numOfWhitePawns++;
-					} else if (Allegiance.BLACK == chessPiece.getAllegiance()) {
-						numOfBlackPawns++;
-					}
-				} else if (chessPiece instanceof Knight || chessPiece instanceof Bishop) {
+				if (chessPiece instanceof Knight || chessPiece instanceof Bishop) {
 					if (Allegiance.WHITE == chessPiece.getAllegiance()) {
 						numOfWhiteMinorPieces++;
 					} else if (Allegiance.BLACK == chessPiece.getAllegiance()) {
@@ -1371,18 +1363,17 @@ public class ChessBoard {
 				}
 			}
 		}
-		// If both Queens are gone.
+		// If both sides have no Queens.
 		if (numOfWhiteQueens + numOfBlackQueens == 0) {
 			return true;
 		}
-		int otherPieces = numOfWhitePawns + numOfBlackPawns + numOfWhiteMinorPieces + numOfBlackMinorPieces
-				+ numOfWhiteRooks + numOfBlackRooks;
-		// If both sides have at most one Queen each and no other pieces left.
-		if (otherPieces == 0) {
-			return true;
-		}
-		// If both sides have at most one Queen each, only Pawns and at most one minor piece left each.
-		return numOfWhiteMinorPieces <= 1 && numOfBlackMinorPieces <= 1 && numOfWhiteRooks == 0 && numOfBlackRooks == 0;
+		int numOfWhiteMajorPieces = numOfWhiteQueens + numOfWhiteRooks;
+		int numOfBlackMajorPieces = numOfBlackQueens + numOfBlackRooks;
+
+		boolean isWhiteEndGame = numOfWhiteMajorPieces <= 1 && numOfWhiteMinorPieces <= 1;
+		boolean isBlackEndGame = numOfBlackMajorPieces <= 1 && numOfBlackMinorPieces <= 1;
+		// If both sides have one major piece maximum and one minor piece maximum each.
+		return isWhiteEndGame && isBlackEndGame;
 	}
 
 	public boolean isWhiteQueenSideCastlingAvailable() {
