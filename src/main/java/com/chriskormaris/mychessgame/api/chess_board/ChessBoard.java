@@ -1322,10 +1322,10 @@ public class ChessBoard {
 		return true;
 	}
 
-	// A major piece is considered a Queen or a Rook.
-	// A minor piece is considered a Knight or a Bishop.
-	// The endgame begins when both sides have no Queens
-	// or both sides have one major piece maximum and one minor piece maximum each.
+	// The Queen and the Rook are considered as major pieces.
+	// The Knight and the Bishop are considered as minor pieces.
+	// The endgame begins if each player has no Queens
+	// or he has one major piece maximum and one minor piece maximum.
 	public boolean isEndGame() {
 		int numOfWhiteRooks = 0;
 		int numOfBlackRooks = 0;
@@ -1363,15 +1363,10 @@ public class ChessBoard {
 				}
 			}
 		}
-		// If both sides have no Queens.
-		if (numOfWhiteQueens + numOfBlackQueens == 0) {
-			return true;
-		}
 		int numOfWhiteMajorPieces = numOfWhiteQueens + numOfWhiteRooks;
 		int numOfBlackMajorPieces = numOfBlackQueens + numOfBlackRooks;
-		boolean isWhiteEndGame = numOfWhiteMajorPieces <= 1 && numOfWhiteMinorPieces <= 1;
-		boolean isBlackEndGame = numOfBlackMajorPieces <= 1 && numOfBlackMinorPieces <= 1;
-		// If both sides have one major piece maximum and one minor piece maximum each.
+		boolean isWhiteEndGame = numOfWhiteQueens == 0 || numOfWhiteMajorPieces <= 1 && numOfWhiteMinorPieces <= 1;
+		boolean isBlackEndGame = numOfBlackQueens == 0 || numOfBlackMajorPieces <= 1 && numOfBlackMinorPieces <= 1;
 		return isWhiteEndGame && isBlackEndGame;
 	}
 
