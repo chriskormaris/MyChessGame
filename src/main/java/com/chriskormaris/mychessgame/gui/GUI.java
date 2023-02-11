@@ -162,8 +162,8 @@ public class GUI {
 		try {
 			icon = ImageIO.read(ResourceLoader.load(GuiConstants.ICON_PATH));
 			frame.setIconImage(icon);
-		} catch (IOException e1) {
-			e1.printStackTrace();
+		} catch (IOException ex) {
+			ex.printStackTrace();
 		}
 
 		menuBar = new JMenuBar();
@@ -325,11 +325,11 @@ public class GUI {
 					}
 				}
 			}
-		} catch (Exception e1) {
+		} catch (Exception ex1) {
 			try {
 				UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-			} catch (Exception e2) {
-				e2.printStackTrace();
+			} catch (Exception ex2) {
+				ex2.printStackTrace();
 			}
 		}
 	}
