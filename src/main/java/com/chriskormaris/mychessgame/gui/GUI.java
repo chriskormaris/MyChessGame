@@ -206,12 +206,16 @@ public class GUI {
 		});
 
 		importStartingFenPositionItem.addActionListener(e -> {
-			String fenPosition = (String) JOptionPane.showInputDialog(frame,
+			String fenPosition = (String) JOptionPane.showInputDialog(
+					frame,
 					"Please insert the starting \"FEN\" position in the text field below:"
 							+ "                      ",
 					"Import starting FEN position",
-					QUESTION_MESSAGE, null, null,
-					Constants.DEFAULT_STARTING_FEN_POSITION);
+					QUESTION_MESSAGE,
+					null,
+					null,
+					Constants.DEFAULT_STARTING_FEN_POSITION
+			);
 
 			if (fenPosition != null) {
 				// gameParameters.getNumOfRows() = Constants.DEFAULT_NUM_OF_ROWS;
