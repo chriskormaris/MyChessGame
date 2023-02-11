@@ -39,6 +39,8 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -169,8 +171,8 @@ public class GUI {
 		menuBar = new JMenuBar();
 		fileMenu = new JMenu("File");
 		newGameItem = new JMenuItem("New Game");
-		undoItem = new JMenuItem("Undo");
-		redoItem = new JMenuItem("Redo");
+		undoItem = new JMenuItem("Undo    Ctrl+Z");
+		redoItem = new JMenuItem("Redo    Ctrl+Y");
 		exportToGifItem = new JMenuItem("Export to .gif");
 		settingsItem = new JMenuItem("Settings");
 		importStartingFenPositionItem = new JMenuItem("Import starting FEN position");
@@ -307,6 +309,7 @@ public class GUI {
 
 		menuBar.add(fileMenu);
 		menuBar.add(helpMenu);
+		menuBar.setFocusable(false);
 
 		frame.setJMenuBar(menuBar);
 
@@ -343,6 +346,7 @@ public class GUI {
 		// Set up the main GUI.
 		// gui.setBorder(new EmptyBorder(0,0,0,0));
 		gui.setLayout(new BoxLayout(gui, BoxLayout.Y_AXIS));
+		gui.setFocusable(false);
 
 		initializeTurnTextPaneBar();
 
@@ -369,6 +373,7 @@ public class GUI {
 
 			turnTextPane.setText(turnMessage);
 		}
+		turnTextPane.setFocusable(false);
 	}
 
 
@@ -592,7 +597,7 @@ public class GUI {
 		centerTextPaneAndMakeBold();
 
 		tools.add(turnTextPane);
-
+		tools.setFocusable(false);
 		gui.add(tools, BorderLayout.NORTH);
 	}
 
@@ -616,6 +621,7 @@ public class GUI {
 		chessBoardPanel = new JPanel(new GridLayout(gameParameters.getNumOfRows() + 2, NUM_OF_COLUMNS + 2));
 		chessBoardPanel.setBorder(new LineBorder(Color.BLACK));
 		chessBoardPanel.setPreferredSize(new Dimension(WIDTH, HEIGHT - 100));
+		chessBoardPanel.addKeyListener(undoRedoKeyListener);
 		gui.add(chessBoardPanel, BorderLayout.CENTER);
 	}
 
@@ -624,8 +630,33 @@ public class GUI {
 			gui.remove(capturedPiecesPanel);
 		}
 		capturedPiecesPanel = new JPanel();
+		capturedPiecesPanel.setFocusable(false);
 		gui.add(capturedPiecesPanel, BorderLayout.SOUTH);
 	}
+
+	private static final KeyListener undoRedoKeyListener = new KeyListener() {
+		@Override
+		public void keyTyped(KeyEvent e) {
+			// System.out.println("keyTyped = " + KeyEvent.getKeyText(e.getKeyCode()));
+		}
+
+		@Override
+		public void keyPressed(KeyEvent e) {
+			// System.out.println("keyPressed = " + KeyEvent.getKeyText(e.getKeyCode()));
+			if (((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0) &&
+					(e.getKeyCode() == KeyEvent.VK_Z)) {
+				undoLastMove();
+			} else if (((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0) &&
+					(e.getKeyCode() == KeyEvent.VK_Y)) {
+				redoNextMove();
+			}
+		}
+
+		@Override
+		public void keyReleased(KeyEvent e) {
+			// System.out.println("keyReleased = " + KeyEvent.getKeyText(e.getKeyCode()));
+		}
+	};
 
 	public static void initializeChessBoardButtons() {
 		chessBoardButtons = new JButton[gameParameters.getNumOfRows()][NUM_OF_COLUMNS];
@@ -669,6 +700,7 @@ public class GUI {
 				}
 
 				button.addActionListener(e -> chessButtonClick(row, column, button));
+				button.setFocusable(false);
 
 				chessBoardButtons[i][j] = button;
 			}
@@ -1233,6 +1265,9 @@ public class GUI {
 		ChessPiece[][] halfMoveGameBoard = Utilities.copyGameBoard(chessBoard.getGameBoard());
 		halfMoveGameBoards.push(halfMoveGameBoard);
 		// System.out.println("size of halfMoveGameBoards: " + halfMoveGameBoards.size());
+
+		// Request focus to enable the "undoRedoKeyListener".
+		chessBoardPanel.requestFocus();
 	}
 
 	public static void addCapturedPieceImage(ChessPiece endSquare) {
