@@ -1369,7 +1369,6 @@ public class ChessBoard {
 		}
 		int numOfWhiteMajorPieces = numOfWhiteQueens + numOfWhiteRooks;
 		int numOfBlackMajorPieces = numOfBlackQueens + numOfBlackRooks;
-
 		boolean isWhiteEndGame = numOfWhiteMajorPieces <= 1 && numOfWhiteMinorPieces <= 1;
 		boolean isBlackEndGame = numOfBlackMajorPieces <= 1 && numOfBlackMinorPieces <= 1;
 		// If both sides have one major piece maximum and one minor piece maximum each.
