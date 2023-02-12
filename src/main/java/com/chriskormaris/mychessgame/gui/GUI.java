@@ -58,8 +58,8 @@ import static javax.swing.JOptionPane.QUESTION_MESSAGE;
 
 public class GUI {
 
-	private static int WIDTH;
-	private static int HEIGHT;
+	private static int width;
+	private static int height;
 
 	private static JPanel gui;
 	private static JTextPane turnTextPane;
@@ -122,8 +122,8 @@ public class GUI {
 	private static JMenuItem loadCheckpointItem;
 
 	public static void create(String title) {
-		WIDTH = GuiConstants.DEFAULT_WIDTH;
-		HEIGHT = GuiConstants.DEFAULT_HEIGHT;
+		width = GuiConstants.DEFAULT_WIDTH;
+		height = GuiConstants.DEFAULT_HEIGHT;
 
 		gui = new JPanel();
 		turnTextPane = new JTextPane();
@@ -166,7 +166,7 @@ public class GUI {
 		// in order display the components within it
 		frame.pack();
 
-		frame.setSize(new Dimension(WIDTH, HEIGHT));
+		frame.setSize(new Dimension(width, height));
 
 		// ensures the minimum size is enforced.
 		frame.setMinimumSize(frame.getSize());
@@ -653,7 +653,7 @@ public class GUI {
 		}
 		chessBoardPanel = new JPanel(new GridLayout(gameParameters.getNumOfRows() + 2, NUM_OF_COLUMNS + 2));
 		chessBoardPanel.setBorder(new LineBorder(Color.BLACK));
-		chessBoardPanel.setPreferredSize(new Dimension(WIDTH, HEIGHT - 100));
+		chessBoardPanel.setPreferredSize(new Dimension(width, height - 100));
 		gui.add(chessBoardPanel, BorderLayout.CENTER);
 	}
 
