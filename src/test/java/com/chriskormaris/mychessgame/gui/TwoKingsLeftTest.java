@@ -20,8 +20,7 @@ public class TwoKingsLeftTest {
 	public void testTwoKingsLeft() {
 		String title = "Two Kings Left Test";
 
-		@SuppressWarnings("unused")
-		GUI gui = new GUI(title);
+		GUI.create(title);
 
 		makeChessBoardSquaresEmpty();
 

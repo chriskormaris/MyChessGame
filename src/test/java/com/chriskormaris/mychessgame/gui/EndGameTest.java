@@ -22,8 +22,7 @@ public class EndGameTest {
 	public void testEndGame() {
 		String title = "EndGame Test";
 
-		@SuppressWarnings("unused")
-		GUI gui = new GUI(title);
+		GUI.create(title);
 
 		makeChessBoardSquaresEmpty();
 		ChessBoard.printChessBoard(chessBoard.getGameBoard());

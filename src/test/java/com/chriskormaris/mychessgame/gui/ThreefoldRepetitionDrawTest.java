@@ -23,8 +23,7 @@ public class ThreefoldRepetitionDrawTest {
 	public void testThreefoldRepetitionDraw() {
 		String title = "Threefold Repetition Draw Test";
 
-		@SuppressWarnings("unused")
-		GUI gui = new GUI(title);
+		GUI.create(title);
 
 		newGameParameters.setGameMode(GameMode.HUMAN_VS_HUMAN);
 		startNewGame();

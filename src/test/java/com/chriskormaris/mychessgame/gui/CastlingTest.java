@@ -14,8 +14,7 @@ public class CastlingTest {
 	public void testCastling() {
 		String title = "Castling Test";
 
-		@SuppressWarnings("unused")
-		GUI gui = new GUI(title);
+		GUI.create(title);
 
 		/* Play as White. */
 		String fenPosition = "4k3/8/8/8/8/8/8/R3K2R w KQ - 0 1";

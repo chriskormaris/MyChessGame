@@ -17,8 +17,7 @@ public class AiVsAiTest {
 	public void testAiVsAi() {
 		String title = "AI Vs AI Test";
 
-		@SuppressWarnings("unused")
-		GUI gui = new GUI(title);
+		GUI.create(title);
 
 		newGameParameters.setGameMode(GameMode.AI_VS_AI);
 		// newGameParameters.setAiType(AiType.RANDOM_AI);

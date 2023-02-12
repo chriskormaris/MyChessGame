@@ -14,8 +14,7 @@ public class OpeningTest {
 	public void testOpening() {
 		String title = "Chess Opening Test";
 
-		@SuppressWarnings("unused")
-		GUI gui = new GUI(title);
+		GUI.create(title);
 
 		// This is the default Chess starting game state. The moves are taken from Wikipedia:
 		// https://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation

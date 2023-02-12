@@ -19,8 +19,7 @@ public class KnightAndBishopMateTest {
 	public void testKnightAndBishopMate() {
 		String title = "Knight and Bishop Mate Test";
 
-		@SuppressWarnings("unused")
-		GUI gui = new GUI(title);
+		GUI.create(title);
 
 		makeChessBoardSquaresEmpty();
 

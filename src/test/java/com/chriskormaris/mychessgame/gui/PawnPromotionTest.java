@@ -17,8 +17,7 @@ public class PawnPromotionTest {
 	public void testPawnPromotion() {
 		String title = "Pawn Promotion Test";
 
-		@SuppressWarnings("unused")
-		GUI gui = new GUI(title);
+		GUI.create(title);
 
 		// newGameParameters.setGameMode(GameMode.AI_VS_AI);
 		newGameParameters.setGameMode(GameMode.HUMAN_VS_HUMAN);

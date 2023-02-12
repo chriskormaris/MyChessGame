@@ -15,10 +15,9 @@ public class MinimaxAiMaxDepthTest {
 	public void testMinimaxAiMaxDepth() {
 		String title = "Minimax AI Max Depth Test";
 
-		@SuppressWarnings("unused")
-		GUI gui = new GUI(title);
-		placePiecesToStartingPositions();
+		GUI.create(title);
 
+		placePiecesToStartingPositions();
 
 		// newGameParameters.gameMode = GameMode.AI_VS_AI;
 		// newGameParameters.aiType = AiType.MINIMAX_AI;

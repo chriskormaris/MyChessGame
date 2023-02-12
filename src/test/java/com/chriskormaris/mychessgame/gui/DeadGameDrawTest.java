@@ -17,8 +17,7 @@ public class DeadGameDrawTest {
 	public void testDeadGameDraw() {
 		String title = "Dead Game Draw Test";
 
-		@SuppressWarnings("unused")
-		GUI gui = new GUI(title);
+		GUI.create(title);
 
 		// These FEN positions are considered a draw!
 		// Each king is stuck on their side.

@@ -58,22 +58,22 @@ import static javax.swing.JOptionPane.QUESTION_MESSAGE;
 
 public class GUI {
 
-	private static final int WIDTH = GuiConstants.DEFAULT_WIDTH;
-	private static final int HEIGHT = GuiConstants.DEFAULT_HEIGHT;
+	private static int WIDTH;
+	private static int HEIGHT;
 
-	private static final JPanel gui = new JPanel();
-	private static final JTextPane turnTextPane = new JTextPane();
+	private static JPanel gui;
+	private static JTextPane turnTextPane;
 
 	// These stacks of "ChessBoard" objects are used to handle the "undo" and "redo" functionality.
-	private static final Stack<ChessBoard> undoChessBoards = new Stack<>();
-	private static final Stack<ChessBoard> redoChessBoards = new Stack<>();
+	private static Stack<ChessBoard> undoChessBoards;
+	private static Stack<ChessBoard> redoChessBoards;
 
 	// These stacks of "JLabel" arrays are used to handle the "undo" and "redo" functionality.
-	private static final Stack<JLabel[]> undoCapturedPiecesImages = new Stack<>();
-	private static final Stack<JLabel[]> redoCapturedPiecesImages = new Stack<>();
+	private static Stack<JLabel[]> undoCapturedPiecesImages;
+	private static Stack<JLabel[]> redoCapturedPiecesImages;
 
-	public static GameParameters gameParameters = new GameParameters();
-	public static GameParameters newGameParameters = new GameParameters(gameParameters);
+	public static GameParameters gameParameters;
+	public static GameParameters newGameParameters;
 
 	public static JFrame frame;
 
@@ -81,16 +81,16 @@ public class GUI {
 	// of the JButton array "chessBoardButtons".
 	// The position (gameParameters.getNumOfRows()-1, 0) of the "chessBoard.getGameBoard()" is the lower left button
 	// of the JButton array "chessBoardButtons".
-	public static ChessBoard chessBoard = new ChessBoard();
+	public static ChessBoard chessBoard;
 
 	// This variable is used for the implementation of "Human Vs AI".
 	public static AI ai;
 
 	// These stacks of 2d "ChessBoard" objects are used to check for a threefold repetition of a chess board position.
-	public static Stack<ChessBoard> halfMoveChessBoards = new Stack<>();
-	public static Stack<ChessBoard> redoHalfMoveChessBoards = new Stack<>();
+	public static Stack<ChessBoard> halfMoveChessBoards;
+	public static Stack<ChessBoard> redoHalfMoveChessBoards;
 
-	private static JToolBar tools = new JToolBar();
+	private static JToolBar tools;
 	private static JPanel chessBoardPanel;
 	private static JPanel capturedPiecesPanel;
 
@@ -101,38 +101,55 @@ public class GUI {
 	// 30 captured pieces at maximum, plus 1 label for displaying the score = 31 labels size.
 	private static JLabel[] capturedPiecesImages;
 
-	private static String startingPosition = "";
-	private static String endingPosition = "";
+	private static String startingPosition;
+	private static String endingPosition;
 
-	private static boolean startingButtonIsClicked = false;
+	private static boolean startingButtonIsClicked;
 
-	private static Set<String> hintPositions = new HashSet<>();
+	private static Set<String> hintPositions;
 
-	private static boolean buttonsEnabled = true;
+	private static boolean buttonsEnabled;
 
 	// This variable is used for the implementation of "AI Vs AI".
 	private static boolean isGameOver;
 
 	private static String savedFenPosition;
 
-	private static JMenuBar menuBar;
-	private static JMenu fileMenu;
-	private static JMenuItem newGameItem;
 	private static JMenuItem undoItem;
 	private static JMenuItem redoItem;
-	private static JMenuItem exportToGifItem;
-	private static JMenuItem settingsItem;
-	private static JMenuItem importStartingFenPositionItem;
 	private static JMenuItem exportFenPositionItem;
 	private static JMenuItem saveCheckpointItem;
 	private static JMenuItem loadCheckpointItem;
-	private static JMenuItem exitItem;
-	private static JMenu helpMenu;
-	private static JMenuItem howToPlayItem;
-	private static JMenuItem aboutItem;
 
+	public static void create(String title) {
+		WIDTH = GuiConstants.DEFAULT_WIDTH;
+		HEIGHT = GuiConstants.DEFAULT_HEIGHT;
 
-	public GUI(String title) {
+		gui = new JPanel();
+		turnTextPane = new JTextPane();
+
+		undoChessBoards = new Stack<>();
+		redoChessBoards = new Stack<>();
+
+		undoCapturedPiecesImages = new Stack<>();
+		redoCapturedPiecesImages = new Stack<>();
+
+		gameParameters = new GameParameters();
+		newGameParameters = new GameParameters(gameParameters);
+
+		chessBoard = new ChessBoard();
+
+		halfMoveChessBoards = new Stack<>();
+		redoHalfMoveChessBoards = new Stack<>();
+
+		tools = new JToolBar();
+
+		startingPosition = "";
+		endingPosition = "";
+
+		hintPositions = new HashSet<>();
+		buttonsEnabled = true;
+
 		// Change JDialog style.
 		// JDialog.setDefaultLookAndFeelDecorated(true);
 
@@ -166,22 +183,22 @@ public class GUI {
 			ex.printStackTrace();
 		}
 
-		menuBar = new JMenuBar();
-		fileMenu = new JMenu("File");
-		newGameItem = new JMenuItem("New Game");
+		JMenuBar menuBar = new JMenuBar();
+		JMenu fileMenu = new JMenu("File");
+		JMenuItem newGameItem = new JMenuItem("New Game");
 		undoItem = new JMenuItem("Undo    Ctrl+Z");
 		redoItem = new JMenuItem("Redo    Ctrl+Y");
-		exportToGifItem = new JMenuItem("Export to .gif");
-		settingsItem = new JMenuItem("Settings");
-		importStartingFenPositionItem = new JMenuItem("Import starting FEN position");
+		JMenuItem exportToGifItem = new JMenuItem("Export to .gif");
+		JMenuItem settingsItem = new JMenuItem("Settings");
+		JMenuItem importStartingFenPositionItem = new JMenuItem("Import starting FEN position");
 		exportFenPositionItem = new JMenuItem("Export FEN position to file");
 		saveCheckpointItem = new JMenuItem("Save Checkpoint");
 		loadCheckpointItem = new JMenuItem("Load Checkpoint");
-		exitItem = new JMenuItem("Exit");
+		JMenuItem exitItem = new JMenuItem("Exit");
 
-		helpMenu = new JMenu("Help");
-		howToPlayItem = new JMenuItem("How to Play");
-		aboutItem = new JMenuItem("About");
+		JMenu helpMenu = new JMenu("Help");
+		JMenuItem howToPlayItem = new JMenuItem("How to Play");
+		JMenuItem aboutItem = new JMenuItem("About");
 
 		undoItem.setEnabled(false);
 		redoItem.setEnabled(false);
@@ -1858,8 +1875,7 @@ public class GUI {
 	}
 
 	public static void main(String[] args) {
-		@SuppressWarnings("unused")
-		GUI gui = new GUI(TITLE);
+		GUI.create(TITLE);
 		placePiecesToStartingPositions();
 
 		System.out.println(chessBoard);
