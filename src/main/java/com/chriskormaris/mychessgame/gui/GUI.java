@@ -788,19 +788,10 @@ public class GUI {
 						)
 				);
 				capturedPiecesImages[i].setIcon(imageIcon);
-
-				/* This is for TESTING.
-				ImageIcon pieceImage = GuiUtils.preparePieceIcon(
-						GuiConstants.WHITE_PAWN_IMG_PATH,
-						GuiConstants.CAPTURED_PIECE_PIXEL_SIZE
-				);
-				capturedPiecesImages[i].setIcon(pieceImage);
-				*/
 			}
 
 			capturedPiecesPanel.add(capturedPiecesImages[i]);
 		}
-
 	}
 
 	public static void startNewGame() {
