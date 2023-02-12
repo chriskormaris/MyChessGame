@@ -21,7 +21,6 @@ import com.chriskormaris.mychessgame.api.piece.Queen;
 import com.chriskormaris.mychessgame.api.piece.Rook;
 import com.chriskormaris.mychessgame.api.util.Constants;
 import com.chriskormaris.mychessgame.api.util.FenUtils;
-import com.chriskormaris.mychessgame.api.util.Utilities;
 import com.chriskormaris.mychessgame.gui.enumeration.GuiStyle;
 import com.chriskormaris.mychessgame.gui.util.GameParameters;
 import com.chriskormaris.mychessgame.gui.util.GuiConstants;
@@ -87,9 +86,9 @@ public class GUI {
 	// This variable is used for the implementation of "Human Vs AI".
 	public static AI ai;
 
-	// These stacks of 2d "ChessPiece" arrays are used to check for a threefold repetition of a chess board position.
-	public static Stack<ChessPiece[][]> halfMoveGameBoards = new Stack<>();
-	public static Stack<ChessPiece[][]> redoHalfMoveGameBoards = new Stack<>();
+	// These stacks of 2d "ChessBoard" objects are used to check for a threefold repetition of a chess board position.
+	public static Stack<ChessBoard> halfMoveChessBoards = new Stack<>();
+	public static Stack<ChessBoard> redoHalfMoveChessBoards = new Stack<>();
 
 	private static JToolBar tools = new JToolBar();
 	private static JPanel chessBoardPanel;
@@ -448,8 +447,7 @@ public class GUI {
 
 			chessBoard = undoChessBoards.pop();
 
-			ChessPiece[][] halfMoveGameBoard = halfMoveGameBoards.pop();
-			redoHalfMoveGameBoards.push(Utilities.copyGameBoard(halfMoveGameBoard));
+			redoHalfMoveChessBoards.push(halfMoveChessBoards.pop());
 			// System.out.println("size of halfMoveGameBoards: " + halfMoveGameBoards.size());
 
 			// Display the "undo" captured chess board pieces icons.
@@ -524,8 +522,7 @@ public class GUI {
 
 			undoChessBoards.push(new ChessBoard(chessBoard));
 
-			ChessPiece[][] halfMoveGameBoard = redoHalfMoveGameBoards.pop();
-			halfMoveGameBoards.push(Utilities.copyGameBoard(halfMoveGameBoard));
+			halfMoveChessBoards.push(redoHalfMoveChessBoards.pop());
 			// System.out.println("size of halfMoveGameBoards: " + halfMoveGameBoards.size());
 
 			// Push to the "undoCapturedPiecesImages" Stack.
@@ -828,8 +825,7 @@ public class GUI {
 
 		chessBoard.setThreats();
 
-		ChessPiece[][] halfMoveGameBoard = Utilities.copyGameBoard(chessBoard.getGameBoard());
-		halfMoveGameBoards.push(halfMoveGameBoard);
+		halfMoveChessBoards.push(new ChessBoard(chessBoard));
 
 		redrawChessBoard();
 
@@ -858,8 +854,8 @@ public class GUI {
 		redoChessBoards.clear();
 		redoCapturedPiecesImages.clear();
 
-		halfMoveGameBoards.clear();
-		redoHalfMoveGameBoards.clear();
+		halfMoveChessBoards.clear();
+		redoHalfMoveChessBoards.clear();
 
 		startingButtonIsClicked = false;
 
@@ -1255,8 +1251,7 @@ public class GUI {
 		chessBoard.setThreats();
 
 		// Store the chess board of the HalfMove that was just made.
-		ChessPiece[][] halfMoveGameBoard = Utilities.copyGameBoard(chessBoard.getGameBoard());
-		halfMoveGameBoards.push(halfMoveGameBoard);
+		halfMoveChessBoards.push(new ChessBoard(chessBoard));
 		// System.out.println("size of halfMoveGameBoards: " + halfMoveGameBoards.size());
 	}
 
@@ -1422,7 +1417,7 @@ public class GUI {
 		}
 
 
-		// 50 full moves without a chessPiece capture Draw implementation.
+		// 50 full-moves without a chessPiece capture Draw implementation.
 		if (chessBoard.checkForNoPieceCaptureDraw()) {
 			int dialogResult = -1;
 
@@ -1432,7 +1427,7 @@ public class GUI {
 				dialogResult = JOptionPane.showConfirmDialog(
 						gui,
 						Constants.NO_CAPTURE_DRAW_MOVES_LIMIT +
-								" full moves have passed without a piece capture! Do you want to declare a draw?",
+								" full-moves have passed without a piece capture! Do you want to declare a draw?",
 						"Draw",
 						JOptionPane.YES_NO_OPTION
 				);
@@ -1477,22 +1472,27 @@ public class GUI {
 		return false;
 	}
 
+	// We are comparing FEN positions, but without checking the half-move clock and the full-move number.
 	private static boolean checkForThreefoldRepetitionDraw() {
 
-		if (!halfMoveGameBoards.isEmpty()) {
-			int N = halfMoveGameBoards.size();
-			ChessPiece[][] lastHalfMoveGameBoard = halfMoveGameBoards.get(N - 1);
+		if (!halfMoveChessBoards.isEmpty()) {
+			int N = halfMoveChessBoards.size();
+			ChessBoard lastHalfMoveChessBoard = halfMoveChessBoards.get(N - 1);
+			String lastHalfMoveChessBoardFenPosition = FenUtils.getFenPositionFromChessBoard(lastHalfMoveChessBoard);
+			lastHalfMoveChessBoardFenPosition = FenUtils.skipCounters(lastHalfMoveChessBoardFenPosition);
 			int numOfRepeats = 0;
 			for (int i = N - 2; i >= 0; i--) {
 				// Skip the last iteration, if the number of repeats found is less ore equal to 1.
 				// Also, skip the second to last iteration, if the number of repeats found is 0.
 				if (!(numOfRepeats <= 1 && i == 0 || numOfRepeats == 0 && i == 1)) {
 					// System.out.println("i: " + i);
-					ChessPiece[][] otherHalfMoveGameBoard = halfMoveGameBoards.get(i);
-					if (Utilities.checkEqualGameBoards(lastHalfMoveGameBoard, otherHalfMoveGameBoard)) {
+					ChessBoard otherHalfMoveChessBoard = halfMoveChessBoards.get(i);
+					String otherHalfMoveChessBoardFenPosition = FenUtils.getFenPositionFromChessBoard(otherHalfMoveChessBoard);
+					otherHalfMoveChessBoardFenPosition = FenUtils.skipCounters(otherHalfMoveChessBoardFenPosition);
+					if (lastHalfMoveChessBoardFenPosition.equals(otherHalfMoveChessBoardFenPosition)) {
 						// System.out.println("i: " + i + ");
-						// ChessBoard.printChessBoard(lastHalfMoveGameBoard);
-						// ChessBoard.printChessBoard(otherHalfMoveGameBoard);
+						// System.out.println(lastHalfMoveChessBoardFenPosition);
+						// System.out.println(otherHalfMoveChessBoardFenPosition);
 						// System.out.println("numOfRepeats: " + numOfRepeats);
 						numOfRepeats++;
 						if (numOfRepeats == 3) {
@@ -1654,7 +1654,7 @@ public class GUI {
 
 		// System.out.println("white plays: " + chessBoard.whitePlays());
 		aiMove(ai);
-		halfMoveGameBoards.push(Utilities.copyGameBoard(chessBoard.getGameBoard()));
+		halfMoveChessBoards.push(new ChessBoard(chessBoard));
 
 		setTurnMessage();
 		setScoreMessage();
@@ -1768,8 +1768,7 @@ public class GUI {
 
 		chessBoard.setThreats();
 
-		ChessPiece[][] halfMoveGameBoard = Utilities.copyGameBoard(chessBoard.getGameBoard());
-		halfMoveGameBoards.push(halfMoveGameBoard);
+		halfMoveChessBoards.push(new ChessBoard(chessBoard));
 
 		setTurnMessage();
 	}
@@ -1792,8 +1791,7 @@ public class GUI {
 
 		setTurnMessage();
 
-		ChessPiece[][] halfMoveGameBoard = Utilities.copyGameBoard(chessBoard.getGameBoard());
-		halfMoveGameBoards.push(halfMoveGameBoard);
+		halfMoveChessBoards.push(new ChessBoard(chessBoard));
 	}
 
 	public static void makeChessBoardSquaresEmpty() {

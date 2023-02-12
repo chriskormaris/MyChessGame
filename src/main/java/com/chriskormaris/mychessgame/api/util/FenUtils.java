@@ -81,14 +81,14 @@ public class FenUtils {
 		try {
 			halfMoveClock = Integer.parseInt(fenPositionTokens[4]);
 		} catch (NumberFormatException ex) {
-			throw new InvalidFenPositionException("Provided half move clock value is not a number!");
+			throw new InvalidFenPositionException("Provided half-move clock value is not a number!");
 		}
 
 		int fullMoveNumber;
 		try {
 			fullMoveNumber = Integer.parseInt(fenPositionTokens[5]);
 		} catch (NumberFormatException ex) {
-			throw new InvalidFenPositionException("Provided full move counter value is not a number!");
+			throw new InvalidFenPositionException("Provided full-move counter value is not a number!");
 		}
 
 		int halfMoveNumber = fullMoveNumber * 2;
@@ -217,13 +217,28 @@ public class FenUtils {
 		/* Step 4: Append the current "en passant" position. */
 		fenPosition.append(" ").append(chessBoard.getEnPassantPosition());
 
-		/* Step 5: Append the half move clock. */
+		/* Step 5: Append the half-move clock. */
 		fenPosition.append(" ").append(chessBoard.getHalfMoveClock());
 
-		/* Step 6: Append the half move number. */
+		/* Step 6: Append the half-move number. */
 		fenPosition.append(" ").append(chessBoard.getHalfMoveNumber());
 
 		return fenPosition.toString();
+	}
+
+	// Returns the FEN position, but without the half-move clock and the full-move number.
+	public String skipCounters(String fenPosition) {
+		String[] fenPositionParts = fenPosition.split(" ");
+		StringBuilder formattedFenPosition = new StringBuilder();
+		for (int i=0; i<fenPositionParts.length; i++) {
+			if (i > 0) {
+				formattedFenPosition.append(" ");
+			}
+			if (i <= 3) {
+				formattedFenPosition.append(fenPositionParts[i]);
+			}
+		}
+		return formattedFenPosition.toString();
 	}
 
 }

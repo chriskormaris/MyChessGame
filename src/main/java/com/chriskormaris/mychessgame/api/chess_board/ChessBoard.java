@@ -96,10 +96,10 @@ public class ChessBoard {
 	private String enPassantPosition;
 
 	/* This variable is used to determine a draw,
-	 * if no chessPiece has been captured in 50 full moves (100 half moves). */
+	 * if no chessPiece has been captured in 50 full-moves (100 half-moves). */
 	private int halfMoveClock;
 
-	/* 1 full move corresponds to 2 half moves. */
+	/* 1 full-move corresponds to 2 half-moves. */
 	private int halfMoveNumber;
 
 	private boolean whiteKingInCheck;
