@@ -598,7 +598,7 @@ public class GUI {
 			try {
 				ImageIO.write(bi, "gif", new File(gifName));
 				System.out.println("Exported .gif file!");
-			} catch (Exception e) {
+			} catch (Exception ex) {
 				System.err.println("Error exporting .gif file!");
 				System.err.flush();
 			}
@@ -614,10 +614,11 @@ public class GUI {
 		tools.setFloatable(false);
 
 		turnTextPane.setEditable(false);
+		turnTextPane.setFocusable(false);
 		centerTextPaneAndMakeBold();
 
 		tools.add(turnTextPane);
-		turnTextPane.setFocusable(false);
+
 		gui.add(tools, BorderLayout.NORTH);
 	}
 
@@ -679,6 +680,7 @@ public class GUI {
 
 				// button.setBorderPainted(false);
 				button.setFocusPainted(false);
+				button.setFocusable(false);
 				// button.setRolloverEnabled(true);
 				// button.setOpaque(false);
 
@@ -694,7 +696,6 @@ public class GUI {
 				}
 
 				button.addActionListener(e -> chessButtonClick(row, column, button));
-				button.setFocusable(false);
 
 				chessBoardButtons[i][j] = button;
 			}
@@ -1618,8 +1619,8 @@ public class GUI {
 					} else if (gameParameters.getAi1Type() == AiType.RANDOM_AI) {
 						Thread.sleep(Constants.RANDOM_AI_MOVE_MILLISECONDS);
 					}
-				} catch (InterruptedException e) {
-					e.printStackTrace();
+				} catch (InterruptedException ex) {
+					ex.printStackTrace();
 				}
 
 				aiVsAiMove(ai2);
@@ -1632,8 +1633,8 @@ public class GUI {
 					} else if (gameParameters.getAi1Type() == AiType.RANDOM_AI) {
 						Thread.sleep(Constants.RANDOM_AI_MOVE_MILLISECONDS);
 					}
-				} catch (InterruptedException e) {
-					e.printStackTrace();
+				} catch (InterruptedException ex) {
+					ex.printStackTrace();
 				}
 			}
 		}
