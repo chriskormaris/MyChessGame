@@ -155,6 +155,7 @@ public class GUI {
 
 		configureGuiStyle();
 		initializeGUI();
+		redrawChessBoard();
 		initializeAI();
 
 		frame = new JFrame(title);
@@ -834,17 +835,17 @@ public class GUI {
 
 		restoreDefaultValues();
 
-		initializeAI();
-
-		if (!fenPosition.equals(Constants.DEFAULT_STARTING_FEN_POSITION)) {
+		if (fenPosition.equals(Constants.DEFAULT_STARTING_FEN_POSITION)) {
+			redrawChessBoard();
+		} else {
 			placePiecesToChessBoard(fenPosition);
 		}
+
+		initializeAI();
 
 		chessBoard.setThreats();
 
 		halfMoveFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
-
-		redrawChessBoard();
 
 		setTurnMessage();
 
@@ -1875,7 +1876,6 @@ public class GUI {
 
 	public static void main(String[] args) {
 		GUI.create(TITLE);
-		placePiecesToStartingPositions();
 
 		System.out.println(chessBoard);
 	}
