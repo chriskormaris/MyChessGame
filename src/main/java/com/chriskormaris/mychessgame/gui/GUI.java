@@ -315,6 +315,29 @@ public class GUI {
 		frame.addKeyListener(undoRedoKeyListener);
 	}
 
+	private static final KeyListener undoRedoKeyListener = new KeyListener() {
+		@Override
+		public void keyTyped(KeyEvent e) {
+			// System.out.println("keyTyped = " + KeyEvent.getKeyText(e.getKeyCode()));
+		}
+
+		@Override
+		public void keyPressed(KeyEvent e) {
+			// System.out.println("keyPressed = " + KeyEvent.getKeyText(e.getKeyCode()));
+			if (((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0) &&
+					(e.getKeyCode() == KeyEvent.VK_Z)) {
+				undoLastMove();
+			} else if (((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0) &&
+					(e.getKeyCode() == KeyEvent.VK_Y)) {
+				redoNextMove();
+			}
+		}
+
+		@Override
+		public void keyReleased(KeyEvent e) {
+			// System.out.println("keyReleased = " + KeyEvent.getKeyText(e.getKeyCode()));
+		}
+	};
 
 	private static void configureGuiStyle() {
 		try {
@@ -628,30 +651,6 @@ public class GUI {
 		capturedPiecesPanel = new JPanel();
 		gui.add(capturedPiecesPanel, BorderLayout.SOUTH);
 	}
-
-	private static final KeyListener undoRedoKeyListener = new KeyListener() {
-		@Override
-		public void keyTyped(KeyEvent e) {
-			// System.out.println("keyTyped = " + KeyEvent.getKeyText(e.getKeyCode()));
-		}
-
-		@Override
-		public void keyPressed(KeyEvent e) {
-			// System.out.println("keyPressed = " + KeyEvent.getKeyText(e.getKeyCode()));
-			if (((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0) &&
-					(e.getKeyCode() == KeyEvent.VK_Z)) {
-				undoLastMove();
-			} else if (((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0) &&
-					(e.getKeyCode() == KeyEvent.VK_Y)) {
-				redoNextMove();
-			}
-		}
-
-		@Override
-		public void keyReleased(KeyEvent e) {
-			// System.out.println("keyReleased = " + KeyEvent.getKeyText(e.getKeyCode()));
-		}
-	};
 
 	private static void initializeChessBoardButtons() {
 		chessBoardButtons = new JButton[gameParameters.getNumOfRows()][NUM_OF_COLUMNS];
