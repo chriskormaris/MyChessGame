@@ -234,7 +234,7 @@ public class FenUtils {
 			if (i > 0) {
 				formattedFenPosition.append(" ");
 			}
-			if (i <= 3) {
+			if (i < fenPositionParts.length - 2) {
 				formattedFenPosition.append(fenPositionParts[i]);
 			}
 		}
