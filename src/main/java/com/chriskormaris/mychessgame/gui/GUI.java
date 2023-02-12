@@ -678,14 +678,14 @@ public class GUI {
 
 				// Our chess board pieces are 64x64 px in size, so we'll
 				// "fill this in" using a transparent icon...
-				ImageIcon icon = new ImageIcon(
+				ImageIcon imageIcon = new ImageIcon(
 						new BufferedImage(
 								GuiConstants.CHESS_SQUARE_PIXEL_SIZE,
 								GuiConstants.CHESS_SQUARE_PIXEL_SIZE,
 								BufferedImage.TYPE_INT_ARGB
 						)
 				);
-				button.setIcon(icon);
+				button.setIcon(imageIcon);
 
 				Color color = getColorByRowCol(i, j);
 
@@ -780,14 +780,14 @@ public class GUI {
 				capturedPiecesImages[i].setText(ZERO_SCORE_TEXT);
 			} else {
 				// We'll "fill this in" using a transparent icon...
-				ImageIcon icon = new ImageIcon(
+				ImageIcon imageIcon = new ImageIcon(
 						new BufferedImage(
 								GuiConstants.CAPTURED_PIECE_PIXEL_SIZE,
 								GuiConstants.CAPTURED_PIECE_PIXEL_SIZE,
 								BufferedImage.TYPE_INT_ARGB
 						)
 				);
-				capturedPiecesImages[i].setIcon(icon);
+				capturedPiecesImages[i].setIcon(imageIcon);
 
 				/* This is for TESTING.
 				ImageIcon pieceImage = GuiUtils.preparePieceIcon(
@@ -1756,16 +1756,16 @@ public class GUI {
 
 		// Our chess board pieces are 64x64 px in size, so we'll
 		// 'fill this in' using a transparent icon.
-		ImageIcon icon = new ImageIcon(new BufferedImage(GuiConstants.CHESS_SQUARE_PIXEL_SIZE,
+		ImageIcon imageIcon = new ImageIcon(new BufferedImage(GuiConstants.CHESS_SQUARE_PIXEL_SIZE,
 				GuiConstants.CHESS_SQUARE_PIXEL_SIZE, BufferedImage.TYPE_INT_ARGB));
 
 		chessBoard.getGameBoard()[row][column] = new EmptySquare();
 
 		if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
 				&& gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
-			chessBoardButtons[gameParameters.getNumOfRows() - 1 - row][NUM_OF_COLUMNS - 1 - column].setIcon(icon);
+			chessBoardButtons[gameParameters.getNumOfRows() - 1 - row][NUM_OF_COLUMNS - 1 - column].setIcon(imageIcon);
 		} else {
-			chessBoardButtons[row][column].setIcon(icon);
+			chessBoardButtons[row][column].setIcon(imageIcon);
 		}
 	}
 
@@ -1818,14 +1818,14 @@ public class GUI {
 
 				// Our chess board pieces are 64x64 px in size, so we'll
 				// 'fill this in' using a transparent icon.
-				ImageIcon icon = new ImageIcon(
+				ImageIcon imageIcon = new ImageIcon(
 						new BufferedImage(
 								GuiConstants.CHESS_SQUARE_PIXEL_SIZE,
 								GuiConstants.CHESS_SQUARE_PIXEL_SIZE,
 								BufferedImage.TYPE_INT_ARGB
 						)
 				);
-				chessBoardButtons[i][j].setIcon(icon);
+				chessBoardButtons[i][j].setIcon(imageIcon);
 
 				Color color = getColorByRowCol(i, j);
 				chessBoardButtons[i][j].setBackground(color);
