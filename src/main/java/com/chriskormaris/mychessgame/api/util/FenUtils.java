@@ -230,7 +230,7 @@ public class FenUtils {
 	public String skipCounters(String fenPosition) {
 		String[] fenPositionParts = fenPosition.split(" ");
 		StringBuilder formattedFenPosition = new StringBuilder();
-		for (int i=0; i<fenPositionParts.length; i++) {
+		for (int i = 0; i < fenPositionParts.length; i++) {
 			if (i > 0) {
 				formattedFenPosition.append(" ");
 			}
@@ -238,6 +238,7 @@ public class FenUtils {
 				formattedFenPosition.append(fenPositionParts[i]);
 			}
 		}
+		System.out.println(formattedFenPosition);
 		return formattedFenPosition.toString();
 	}
 

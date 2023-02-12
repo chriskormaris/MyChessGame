@@ -7,10 +7,11 @@ import com.chriskormaris.mychessgame.api.enumeration.GameMode;
 import com.chriskormaris.mychessgame.api.piece.Bishop;
 import com.chriskormaris.mychessgame.api.piece.King;
 import com.chriskormaris.mychessgame.api.piece.Knight;
+import com.chriskormaris.mychessgame.api.util.FenUtils;
 import org.junit.jupiter.api.Test;
 
 import static com.chriskormaris.mychessgame.gui.GUI.chessBoard;
-import static com.chriskormaris.mychessgame.gui.GUI.halfMoveChessBoards;
+import static com.chriskormaris.mychessgame.gui.GUI.halfMoveFenPositions;
 import static com.chriskormaris.mychessgame.gui.GUI.makeChessBoardSquaresEmpty;
 import static com.chriskormaris.mychessgame.gui.GUI.newGameParameters;
 import static com.chriskormaris.mychessgame.gui.GUI.placePieceToPosition;
@@ -44,7 +45,7 @@ public class ThreefoldRepetitionDrawTest {
 		ChessBoard.printChessBoard(chessBoard.getGameBoard());
 
 		// halfMoveGameBoards.clear();
-		halfMoveChessBoards.push(new ChessBoard(chessBoard));
+		halfMoveFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
 
 		// Continue playing for 5 minutes.
 		try {

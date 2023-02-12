@@ -2,10 +2,12 @@ package com.chriskormaris.mychessgame.gui;
 
 
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
+import com.chriskormaris.mychessgame.api.enumeration.GameMode;
 import org.junit.jupiter.api.Test;
 
 import static com.chriskormaris.mychessgame.gui.GUI.chessBoard;
-import static com.chriskormaris.mychessgame.gui.GUI.placePiecesToChessBoard;
+import static com.chriskormaris.mychessgame.gui.GUI.newGameParameters;
+import static com.chriskormaris.mychessgame.gui.GUI.startNewGame;
 
 
 public class CastlingTest {
@@ -16,8 +18,10 @@ public class CastlingTest {
 
 		GUI.create(title);
 
+		newGameParameters.setGameMode(GameMode.HUMAN_VS_HUMAN);
+
 		/* Play as White. */
-		String fenPosition = "4k3/8/8/8/8/8/8/R3K2R w KQ - 0 1";
+		String fenPosition = "4k3/8/8/8/8/8/N7/R3K2R w KQ - 0 1";
 		// String fenPosition = "r3k2r/8/8/8/8/8/8/R3K2R w KQ - 0 1";
 		// String fenPosition = "3qk3/8/8/8/8/8/8/R2QK2R w KQ - 0 1";
 		// String fenPosition = "r2qk2r/8/8/8/8/8/8/R2QK2R w KQkq - 0 1";
@@ -29,10 +33,10 @@ public class CastlingTest {
 		// String fenPosition = "r3k2r/8/8/8/8/8/8/4K2R b kq - 0 1";
 
 		// gameParameters.getHumanPlayerAllegiance() = Allegiance.BLACK;
-		// com.chriskormaris.mychessgame.api.ai = new MinimaxAi(gameParameters.maxDepth1, Constants.WHITE);
+		// GUI.ai = new MinimaxAi(gameParameters.maxDepth1, Constants.WHITE);
 		/*----------------*/
 
-		placePiecesToChessBoard(fenPosition);
+		startNewGame(fenPosition);
 
 		ChessBoard.printChessBoard(chessBoard.getGameBoard());
 
