@@ -1261,7 +1261,6 @@ public class GUI {
 
 		// Store the chess board of the HalfMove that was just made.
 		halfMoveFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
-		// System.out.println("size of halfMoveGameBoards: " + halfMoveGameBoards.size());
 	}
 
 	private static void addCapturedPieceImage(ChessPiece endSquare) {
