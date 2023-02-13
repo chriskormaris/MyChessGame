@@ -730,10 +730,10 @@ public class ChessBoard {
 			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
 				ChessPiece chessPiece = this.gameBoard[i][j];
 				if (chessPiece.getAllegiance() == Allegiance.WHITE) {
-					score += SimplifiedEvaluationUtils.getPieceCentipawnValue(chessPiece);
+					score += 2 * SimplifiedEvaluationUtils.getPieceCentipawnValue(chessPiece);
 					score += SimplifiedEvaluationUtils.getPieceSquareValue(i, j, chessPiece, gamePhase);
 				} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
-					score -= SimplifiedEvaluationUtils.getPieceCentipawnValue(chessPiece);
+					score -= 2 * SimplifiedEvaluationUtils.getPieceCentipawnValue(chessPiece);
 
 					int row = numOfRows - 1 - i;
 					score -= SimplifiedEvaluationUtils.getPieceSquareValue(row, j, chessPiece, gamePhase);
@@ -756,14 +756,14 @@ public class ChessBoard {
 				gamePhase += Utilities.getPieceGamePhaseValue(chessPiece);
 
 				if (chessPiece.getAllegiance() == Allegiance.WHITE) {
-					openingScore += PeSTOEvaluationUtils.getPieceCentipawnValue(chessPiece, GamePhase.OPENING);
-					endgameScore += PeSTOEvaluationUtils.getPieceCentipawnValue(chessPiece, GamePhase.ENDGAME);
+					openingScore += 2 * PeSTOEvaluationUtils.getPieceCentipawnValue(chessPiece, GamePhase.OPENING);
+					endgameScore += 2 * PeSTOEvaluationUtils.getPieceCentipawnValue(chessPiece, GamePhase.ENDGAME);
 
 					openingScore += PeSTOEvaluationUtils.getPieceSquareValue(i, j, chessPiece, GamePhase.OPENING);
 					endgameScore += PeSTOEvaluationUtils.getPieceSquareValue(i, j, chessPiece, GamePhase.ENDGAME);
 				} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
-					openingScore -= PeSTOEvaluationUtils.getPieceCentipawnValue(chessPiece, GamePhase.OPENING);
-					endgameScore -= PeSTOEvaluationUtils.getPieceCentipawnValue(chessPiece, GamePhase.ENDGAME);
+					openingScore -= 2 * PeSTOEvaluationUtils.getPieceCentipawnValue(chessPiece, GamePhase.OPENING);
+					endgameScore -= 2 * PeSTOEvaluationUtils.getPieceCentipawnValue(chessPiece, GamePhase.ENDGAME);
 
 					int row = numOfRows - 1 - i;
 					openingScore -= PeSTOEvaluationUtils.getPieceSquareValue(row, j, chessPiece, GamePhase.OPENING);
@@ -790,14 +790,14 @@ public class ChessBoard {
 				gamePhase += Utilities.getPieceGamePhaseValue(chessPiece);
 
 				if (chessPiece.getAllegiance() == Allegiance.WHITE) {
-					openingScore += WukongEvaluationUtils.getPieceCentipawnValue(chessPiece, GamePhase.OPENING);
-					endgameScore += WukongEvaluationUtils.getPieceCentipawnValue(chessPiece, GamePhase.ENDGAME);
+					openingScore += 2 * WukongEvaluationUtils.getPieceCentipawnValue(chessPiece, GamePhase.OPENING);
+					endgameScore += 2 * WukongEvaluationUtils.getPieceCentipawnValue(chessPiece, GamePhase.ENDGAME);
 
 					openingScore += WukongEvaluationUtils.getPieceSquareValue(i, j, chessPiece, GamePhase.OPENING);
 					endgameScore += WukongEvaluationUtils.getPieceSquareValue(i, j, chessPiece, GamePhase.ENDGAME);
 				} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
-					openingScore -= WukongEvaluationUtils.getPieceCentipawnValue(chessPiece, GamePhase.OPENING);
-					endgameScore -= WukongEvaluationUtils.getPieceCentipawnValue(chessPiece, GamePhase.ENDGAME);
+					openingScore -= 2 * WukongEvaluationUtils.getPieceCentipawnValue(chessPiece, GamePhase.OPENING);
+					endgameScore -= 2 * WukongEvaluationUtils.getPieceCentipawnValue(chessPiece, GamePhase.ENDGAME);
 
 					int row = numOfRows - 1 - i;
 					openingScore -= WukongEvaluationUtils.getPieceSquareValue(row, j, chessPiece, GamePhase.OPENING);
@@ -826,10 +826,10 @@ public class ChessBoard {
 				int numberOfLegalMoves = chessPiece.getNextPositions(position, this, false).size();
 
 				if (chessPiece.getAllegiance() == Allegiance.WHITE) {
-					score += ShannonEvaluationUtils.getPieceValue(chessPiece);
+					score += 2 * ShannonEvaluationUtils.getPieceValue(chessPiece);
 					score += ShannonEvaluationUtils.MOBILITY_MULTIPLIER * numberOfLegalMoves;
 				} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
-					score -= ShannonEvaluationUtils.getPieceValue(chessPiece);
+					score -= 2 * ShannonEvaluationUtils.getPieceValue(chessPiece);
 					score -= ShannonEvaluationUtils.MOBILITY_MULTIPLIER * numberOfLegalMoves;
 				}
 
