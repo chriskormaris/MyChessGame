@@ -5,7 +5,7 @@ import lombok.experimental.UtilityClass;
 import java.net.URL;
 
 @UtilityClass
-final public class ResourceLoader {
+public final class ResourceLoader {
 
 	public URL load(String path) {
 		// InputStream input = ResourceLoader.class.getResourceAsStream(path);
