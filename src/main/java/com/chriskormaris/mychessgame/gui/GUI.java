@@ -1866,7 +1866,7 @@ public class GUI {
 		buttonsEnabled = false;
 	}
 
-	public void main(String[] args) {
+	public static void main(String[] args) {
 		GUI.create(TITLE);
 
 		System.out.println(chessBoard);
