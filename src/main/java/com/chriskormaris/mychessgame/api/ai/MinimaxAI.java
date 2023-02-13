@@ -5,11 +5,15 @@ import com.chriskormaris.mychessgame.api.chess_board.Move;
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 import com.chriskormaris.mychessgame.api.enumeration.EvaluationFunction;
 import com.chriskormaris.mychessgame.api.util.Constants;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+@Getter
+@Setter
 public class MinimaxAI extends AI {
 
 	// Variable that holds the maximum depth the MinimaxAi algorithm will reach for this player.
@@ -26,22 +30,6 @@ public class MinimaxAI extends AI {
 	public MinimaxAI(int maxDepth, boolean aiPlayer, EvaluationFunction evaluationFunction) {
 		super(aiPlayer);
 		this.maxDepth = maxDepth;
-		this.evaluationFunction = evaluationFunction;
-	}
-
-	public int getMaxDepth() {
-		return maxDepth;
-	}
-
-	public void setMaxDepth(int maxDepth) {
-		this.maxDepth = maxDepth;
-	}
-
-	public EvaluationFunction getEvaluationFunction() {
-		return evaluationFunction;
-	}
-
-	public void setEvaluationFunction(EvaluationFunction evaluationFunction) {
 		this.evaluationFunction = evaluationFunction;
 	}
 
