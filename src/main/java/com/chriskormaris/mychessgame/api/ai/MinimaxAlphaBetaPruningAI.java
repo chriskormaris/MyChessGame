@@ -5,32 +5,19 @@ import com.chriskormaris.mychessgame.api.chess_board.Move;
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 import com.chriskormaris.mychessgame.api.enumeration.EvaluationFunction;
 import com.chriskormaris.mychessgame.api.util.Constants;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-@Getter
-@Setter
-public class MinimaxAlphaBetaPruningAI extends AI {
-
-	// Variable that holds the maximum depth the MinimaxAi algorithm will reach for this player.
-	private int maxDepth;
-
-	private EvaluationFunction evaluationFunction;
+public class MinimaxAlphaBetaPruningAI extends MinimaxAI {
 
 	public MinimaxAlphaBetaPruningAI() {
-		super(Constants.BLACK);
-		this.maxDepth = 2;
-		this.evaluationFunction = EvaluationFunction.SIMPLIFIED;
+		super(2, Constants.BLACK, EvaluationFunction.SIMPLIFIED);
 	}
 
 	public MinimaxAlphaBetaPruningAI(int maxDepth, boolean aiPlayer, EvaluationFunction evaluationFunction) {
-		super(aiPlayer);
-		this.maxDepth = maxDepth;
-		this.evaluationFunction = evaluationFunction;
+		super(maxDepth, aiPlayer, evaluationFunction);
 	}
 
 	@Override
@@ -51,12 +38,12 @@ public class MinimaxAlphaBetaPruningAI extends AI {
 
 		/* If MAX is called on a state that is terminal or after a maximum depth is reached,
 		 * then a heuristic is calculated on the state and the move returned. */
-		if ((chessBoard.checkForTerminalState()) || (depth == maxDepth)) {
+		if ((chessBoard.checkForTerminalState()) || (depth == super.getMaxDepth())) {
 			// System.out.println("max, depth: " + depth + ", lastMove -> " + chessBoard.getLastMove());
 			return new Move(chessBoard.getLastMove());
 		}
 		// The children-moves of the state are calculated
-		List<ChessBoard> children = new ArrayList<>(chessBoard.getChildren(Allegiance.WHITE, evaluationFunction));
+		List<ChessBoard> children = new ArrayList<>(chessBoard.getChildren(Allegiance.WHITE, this));
 		if (children.size() == 1) {
 			return children.get(0).getLastMove();
 		}
@@ -95,11 +82,11 @@ public class MinimaxAlphaBetaPruningAI extends AI {
 	private Move minAlphaBeta(ChessBoard chessBoard, int depth, double a, double b) {
 		Random r = new Random();
 
-		if ((chessBoard.checkForTerminalState()) || (depth == maxDepth)) {
+		if ((chessBoard.checkForTerminalState()) || (depth == super.getMaxDepth())) {
 			// System.out.println("min, depth: " + depth + ", lastMove -> " + chessBoard.getLastMove());
 			return new Move(chessBoard.getLastMove());
 		}
-		List<ChessBoard> children = new ArrayList<>(chessBoard.getChildren(Allegiance.BLACK, evaluationFunction));
+		List<ChessBoard> children = new ArrayList<>(chessBoard.getChildren(Allegiance.BLACK, this));
 		if (children.size() == 1) {
 			return children.get(0).getLastMove();
 		}

@@ -56,7 +56,7 @@ public class MinimaxAI extends AI {
 			return new Move(chessBoard.getLastMove());
 		}
 		// The children-moves of the state are calculated
-		List<ChessBoard> children = new ArrayList<>(chessBoard.getChildren(Allegiance.WHITE, evaluationFunction));
+		List<ChessBoard> children = new ArrayList<>(chessBoard.getChildren(Allegiance.WHITE, this));
 		if (children.size() == 1) {
 			return children.get(0).getLastMove();
 		}
@@ -91,7 +91,7 @@ public class MinimaxAI extends AI {
 			// System.out.println("min, depth: " + depth + ", lastMove -> " + chessBoard.getLastMove());
 			return new Move(chessBoard.getLastMove());
 		}
-		List<ChessBoard> children = new ArrayList<>(chessBoard.getChildren(Allegiance.BLACK, evaluationFunction));
+		List<ChessBoard> children = new ArrayList<>(chessBoard.getChildren(Allegiance.BLACK, this));
 		if (children.size() == 1) {
 			return children.get(0).getLastMove();
 		}

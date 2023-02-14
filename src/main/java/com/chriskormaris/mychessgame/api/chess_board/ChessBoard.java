@@ -1,5 +1,6 @@
 package com.chriskormaris.mychessgame.api.chess_board;
 
+import com.chriskormaris.mychessgame.api.ai.MinimaxAI;
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 import com.chriskormaris.mychessgame.api.enumeration.EvaluationFunction;
 import com.chriskormaris.mychessgame.api.enumeration.GamePhase;
@@ -633,7 +634,7 @@ public class ChessBoard {
 	 * or is an opponent chessPiece, results to a child.
 	 * Some special cases include "en passant" and castling.
 	 */
-	public List<ChessBoard> getChildren(Allegiance allegiance, EvaluationFunction evaluationFunction) {
+	public List<ChessBoard> getChildren(Allegiance allegiance, MinimaxAI minimaxAI) {
 		List<ChessBoard> children = new ArrayList<>();
 
 		// int childPlayer = (getLastPlayer() == Constants.WHITE) ? Constants.BLACK : Constants.BLACK;
@@ -675,7 +676,7 @@ public class ChessBoard {
 
 							// System.out.println("**********************************************");
 							child.getLastMove().setPositions(moves);
-							child.getLastMove().setValue(child.evaluate(evaluationFunction));
+							child.getLastMove().setValue(child.evaluate(minimaxAI));
 							// System.out.println("**********************************************\n");
 
 							// System.out.println("**********************************************");
@@ -701,7 +702,7 @@ public class ChessBoard {
 	 * 2) PeSTO's
 	 * 3) Wukong
 	 * 4) Shannon's */
-	public double evaluate(EvaluationFunction evaluationFunction) {
+	public double evaluate(MinimaxAI minimaxAI) {
 		if (checkForWhiteCheckmate(false)) return Constants.CHECKMATE_VALUE;
 		if (checkForBlackCheckmate(false)) return -Constants.CHECKMATE_VALUE;
 		if (checkForWhiteStalemateDraw()) return 0;
@@ -709,13 +710,13 @@ public class ChessBoard {
 		if (checkForInsufficientMaterialDraw()) return 0;
 		if (checkForNoPieceCaptureDraw()) return 0;
 
-		if (evaluationFunction == EvaluationFunction.SIMPLIFIED) {
+		if (minimaxAI.getEvaluationFunction() == EvaluationFunction.SIMPLIFIED) {
 			return simplifiedEvaluation();
-		} else if (evaluationFunction == EvaluationFunction.PESTO) {
+		} else if (minimaxAI.getEvaluationFunction() == EvaluationFunction.PESTO) {
 			return pestoEvaluation();
-		} else if (evaluationFunction == EvaluationFunction.WUKONG) {
+		} else if (minimaxAI.getEvaluationFunction() == EvaluationFunction.WUKONG) {
 			return wukongEvaluation();
-		} else if (evaluationFunction == EvaluationFunction.SHANNON) {
+		} else if (minimaxAI.getEvaluationFunction() == EvaluationFunction.SHANNON) {
 			return shannonEvaluation();
 		}
 		return 0;
