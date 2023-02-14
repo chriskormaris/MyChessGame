@@ -1584,7 +1584,6 @@ public class GUI {
 
 	public void playAiVsAi() {
 		AI ai1;
-		AI ai2;
 		if (gameParameters.getAi1Type() == AiType.MINIMAX_AI) {
 			if (gameParameters.getAi1MaxDepth() <= 2) {
 				ai1 = new MinimaxAI(
@@ -1602,6 +1601,8 @@ public class GUI {
 		} else {
 			ai1 = new RandomChoiceAI(Constants.WHITE);
 		}
+
+		AI ai2;
 		if (gameParameters.getAi2Type() == AiType.MINIMAX_AI) {
 			ai2 = new MinimaxAlphaBetaPruningAI(
 					gameParameters.getAi2MaxDepth(),
