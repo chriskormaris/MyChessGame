@@ -1867,7 +1867,7 @@ public class GUI {
 	}
 
 	public static void main(String[] args) {
-		GUI.create(TITLE);
+		create(TITLE);
 
 		System.out.println(chessBoard);
 	}
