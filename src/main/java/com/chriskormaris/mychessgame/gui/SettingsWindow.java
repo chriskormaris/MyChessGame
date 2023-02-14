@@ -53,8 +53,8 @@ public class SettingsWindow extends JFrame {
 		boolean enableSounds = GUI.gameParameters.isEnableSounds();
 		Allegiance humanPlayerAllegiance = GUI.gameParameters.getHumanPlayerAllegiance();
 		GameMode selectedGameMode = GUI.gameParameters.getGameMode();
-		AiType selectedAi1Mode = GUI.gameParameters.getAi1Type();
-		AiType selectedAi2Mode = GUI.gameParameters.getAi2Type();
+		AiType selectedAi1Type = GUI.gameParameters.getAi1Type();
+		AiType selectedAi2Type = GUI.gameParameters.getAi2Type();
 		int maxDepth1 = GUI.gameParameters.getAi1MaxDepth() - 1;
 		int maxDepth2 = GUI.gameParameters.getAi2MaxDepth() - 1;
 		EvaluationFunction evaluationFunction1 = GUI.gameParameters.getEvaluationFunction1();
@@ -133,9 +133,9 @@ public class SettingsWindow extends JFrame {
 		ai1_type_drop_down.addItem("Minimax AI");
 		ai1_type_drop_down.addItem("Random AI");
 
-		if (selectedAi1Mode == AiType.MINIMAX_AI) {
+		if (selectedAi1Type == AiType.MINIMAX_AI) {
 			ai1_type_drop_down.setSelectedIndex(0);
-		} else if (selectedAi1Mode == AiType.RANDOM_AI) {
+		} else if (selectedAi1Type == AiType.RANDOM_AI) {
 			ai1_type_drop_down.setSelectedIndex(1);
 		}
 
@@ -143,9 +143,9 @@ public class SettingsWindow extends JFrame {
 		ai2_type_drop_down.addItem("Minimax AI");
 		ai2_type_drop_down.addItem("Random AI");
 
-		if (selectedAi2Mode == AiType.MINIMAX_AI) {
+		if (selectedAi2Type == AiType.MINIMAX_AI) {
 			ai2_type_drop_down.setSelectedIndex(0);
-		} else if (selectedAi2Mode == AiType.RANDOM_AI) {
+		} else if (selectedAi2Type == AiType.RANDOM_AI) {
 			ai2_type_drop_down.setSelectedIndex(1);
 		}
 
