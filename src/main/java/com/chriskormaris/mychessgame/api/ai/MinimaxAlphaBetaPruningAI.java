@@ -65,7 +65,7 @@ public class MinimaxAlphaBetaPruningAI extends MinimaxAI {
 					maxMove.setValue(move.getValue());
 				}
 			}
-			// Update the a of the current max node.
+			// Update the "a" of the current max node.
 			a = Math.max(a, maxMove.getValue());
 
 			// Beta pruning.
@@ -106,7 +106,7 @@ public class MinimaxAlphaBetaPruningAI extends MinimaxAI {
 				}
 			}
 
-			// Update the b of the current min node.
+			// Update the "b" of the current min node.
 			b = Math.min(b, minMove.getValue());
 
 			// Alpha pruning.
