@@ -33,7 +33,8 @@ import com.chriskormaris.mychessgame.gui.util.GuiConstants;
 import com.chriskormaris.mychessgame.gui.util.GuiUtils;
 import com.chriskormaris.mychessgame.gui.util.ResourceLoader;
 import com.chriskormaris.mychessgame.gui.util.SoundUtils;
-import lombok.experimental.UtilityClass;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -63,73 +64,73 @@ import static com.chriskormaris.mychessgame.gui.util.GuiConstants.ZERO_SCORE_TEX
 import static javax.swing.JOptionPane.QUESTION_MESSAGE;
 
 
-@UtilityClass
-public class GUI {
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+public final class GUI {
 
-	private int width;
-	private int height;
+	private static int width;
+	private static int height;
 
-	private JPanel gui;
-	private JTextPane turnTextPane;
+	private static JPanel gui;
+	private static JTextPane turnTextPane;
 
 	// These stacks of "ChessBoard" objects are used to handle the "undo" and "redo" functionality.
-	private Stack<ChessBoard> undoChessBoards;
-	private Stack<ChessBoard> redoChessBoards;
+	private static Stack<ChessBoard> undoChessBoards;
+	private static Stack<ChessBoard> redoChessBoards;
 
 	// These stacks of "JLabel" arrays are used to handle the "undo" and "redo" functionality.
-	private Stack<JLabel[]> undoCapturedPiecesImages;
-	private Stack<JLabel[]> redoCapturedPiecesImages;
+	private static Stack<JLabel[]> undoCapturedPiecesImages;
+	private static Stack<JLabel[]> redoCapturedPiecesImages;
 
-	public GameParameters gameParameters;
-	public GameParameters newGameParameters;
+	public static GameParameters gameParameters;
+	public static GameParameters newGameParameters;
 
-	public JFrame frame;
+	public static JFrame frame;
 
 	// The position (0, 0) of the "chessBoard.getGameBoard()" is the upper left button
 	// of the JButton array "chessBoardButtons".
 	// The position (gameParameters.getNumOfRows()-1, 0) of the "chessBoard.getGameBoard()" is the lower left button
 	// of the JButton array "chessBoardButtons".
-	public ChessBoard chessBoard;
+	public static ChessBoard chessBoard;
 
 	// This variable is used for the implementation of "Human Vs AI".
-	public AI ai;
+	public static AI ai;
 
 	// These stacks of 2d "String" objects are used to check for a threefold repetition of a chess board position.
-	public Stack<String> halfMoveFenPositions;
-	public Stack<String> redoHalfMoveFenPositions;
+	public static Stack<String> halfMoveFenPositions;
+	public static Stack<String> redoHalfMoveFenPositions;
 
-	private JToolBar tools;
-	private JPanel chessBoardPanel;
-	private JPanel capturedPiecesPanel;
+	private static JToolBar tools;
+	private static JPanel chessBoardPanel;
+	private static JPanel capturedPiecesPanel;
 
 	// The position (0, 0) of the chessBoardButtons,
 	// corresponds to the position (NUM_OF_COLUMNS - 1, 0) of the ChessBoard's gameBoard.
-	private JButton[][] chessBoardButtons;
+	private static JButton[][] chessBoardButtons;
 
 	// 30 captured pieces at maximum, plus 1 label for displaying the score = 31 labels size.
-	private JLabel[] capturedPiecesImages;
+	private static JLabel[] capturedPiecesImages;
 
-	private String startingPosition;
-	private String endingPosition;
+	private static String startingPosition;
+	private static String endingPosition;
 
-	private boolean startingButtonIsClicked;
+	private static boolean startingButtonIsClicked;
 
-	private Set<String> hintPositions;
+	private static Set<String> hintPositions;
 
-	private boolean buttonsEnabled;
+	private static boolean buttonsEnabled;
 
 	// This variable is used for the implementation of "AI Vs AI".
-	private boolean isGameOver;
+	private static boolean isGameOver;
 
-	private String savedFenPosition;
+	private static String savedFenPosition;
 
-	private JMenuItem undoItem;
-	private JMenuItem redoItem;
-	private JMenuItem exportFenPositionItem;
-	private JMenuItem saveCheckpointItem;
-	private JMenuItem loadCheckpointItem;
+	private static JMenuItem undoItem;
+	private static JMenuItem redoItem;
+	private static JMenuItem exportFenPositionItem;
+	private static JMenuItem saveCheckpointItem;
+	private static JMenuItem loadCheckpointItem;
 
-	public void create(String title) {
+	public static void create(String title) {
 		width = GuiConstants.DEFAULT_WIDTH;
 		height = GuiConstants.DEFAULT_HEIGHT;
 
@@ -340,7 +341,7 @@ public class GUI {
 		frame.addKeyListener(undoRedoKeyListener);
 	}
 
-	private final KeyListener undoRedoKeyListener = new KeyListener() {
+	private static final KeyListener undoRedoKeyListener = new KeyListener() {
 		@Override
 		public void keyTyped(KeyEvent e) {
 			// System.out.println("keyTyped = " + KeyEvent.getKeyText(e.getKeyCode()));
@@ -362,7 +363,7 @@ public class GUI {
 		}
 	};
 
-	private void configureGuiStyle() {
+	private static void configureGuiStyle() {
 		try {
 			// UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 			if (gameParameters.getGuiStyle() == GuiStyle.CROSS_PLATFORM_STYLE) {
@@ -387,7 +388,7 @@ public class GUI {
 	}
 
 
-	private void initializeGUI() {
+	private static void initializeGUI() {
 		// Set up the main GUI.
 		// gui.setBorder(new EmptyBorder(0,0,0,0));
 		gui.setLayout(new BoxLayout(gui, BoxLayout.Y_AXIS));
@@ -402,7 +403,7 @@ public class GUI {
 	}
 
 
-	private void setTurnMessage() {
+	private static void setTurnMessage() {
 		if (chessBoard.getHalfMoveNumber() == 1) {
 			turnTextPane.setText(FIRST_TURN_TEXT);
 		} else {
@@ -420,7 +421,7 @@ public class GUI {
 	}
 
 
-	private void setScoreMessage() {
+	private static void setScoreMessage() {
 		if (chessBoard.getScore() > 0) {
 			capturedPiecesImages[15].setText("White: +" + chessBoard.getScore());
 		} else if (chessBoard.getScore() < 0) {
@@ -431,7 +432,7 @@ public class GUI {
 	}
 
 
-	private void undoLastMove() {
+	private static void undoLastMove() {
 		if (!undoChessBoards.isEmpty()) {
 			System.out.println("Undo is pressed!");
 
@@ -515,7 +516,7 @@ public class GUI {
 
 	// NOTE: We are not able to perform a redo,
 	// if we are in a terminal state, because the game has ended.
-	private void redoNextMove() {
+	private static void redoNextMove() {
 		if (!redoChessBoards.isEmpty()) {
 			System.out.println("Redo is pressed!");
 
@@ -600,7 +601,7 @@ public class GUI {
 	}
 
 
-	private void exportToGif() {
+	private static void exportToGif() {
 		String gifName = JOptionPane.showInputDialog(
 				frame,
 				"Please type the exported \".gif\" file name:",
@@ -626,7 +627,7 @@ public class GUI {
 		}
 	}
 
-	private void initializeTurnTextPaneBar() {
+	private static void initializeTurnTextPaneBar() {
 		if (tools != null) {
 			gui.remove(tools);
 		}
@@ -643,7 +644,7 @@ public class GUI {
 		gui.add(tools, BorderLayout.NORTH);
 	}
 
-	private void centerTextPaneAndMakeBold() {
+	private static void centerTextPaneAndMakeBold() {
 		// Center textPane
 		StyledDocument style = turnTextPane.getStyledDocument();
 		SimpleAttributeSet align = new SimpleAttributeSet();
@@ -656,7 +657,7 @@ public class GUI {
 		turnTextPane.getStyledDocument().setCharacterAttributes(0, style.getLength(), attrs, false);
 	}
 
-	private void initializeChessBoardPanel() {
+	private static void initializeChessBoardPanel() {
 		if (chessBoardPanel != null) {
 			gui.remove(chessBoardPanel);
 		}
@@ -666,7 +667,7 @@ public class GUI {
 		gui.add(chessBoardPanel, BorderLayout.CENTER);
 	}
 
-	private void initializeCapturedPiecesPanel() {
+	private static void initializeCapturedPiecesPanel() {
 		if (capturedPiecesPanel != null) {
 			gui.remove(capturedPiecesPanel);
 		}
@@ -674,7 +675,7 @@ public class GUI {
 		gui.add(capturedPiecesPanel, BorderLayout.SOUTH);
 	}
 
-	private void initializeChessBoardButtons() {
+	private static void initializeChessBoardButtons() {
 		chessBoardButtons = new JButton[gameParameters.getNumOfRows()][NUM_OF_COLUMNS];
 
 		// Create the chess board square buttons.
@@ -777,7 +778,7 @@ public class GUI {
 		}
 	}
 
-	private void initializeCapturedPiecesImages() {
+	private static void initializeCapturedPiecesImages() {
 		capturedPiecesImages = new JLabel[31];
 
 		// Create the captured chess board pieces icons.
@@ -802,11 +803,11 @@ public class GUI {
 		}
 	}
 
-	public void startNewGame() {
+	public static void startNewGame() {
 		startNewGame(Constants.DEFAULT_STARTING_FEN_POSITION);
 	}
 
-	public void startNewGame(String fenPosition) {
+	public static void startNewGame(String fenPosition) {
 		System.out.println("Starting new game!");
 
 		gameParameters = new GameParameters(newGameParameters);
@@ -860,7 +861,7 @@ public class GUI {
 	}
 
 	// Restores all the default values.
-	private void restoreDefaultValues() {
+	private static void restoreDefaultValues() {
 		chessBoard = new ChessBoard(gameParameters.getNumOfRows());
 
 		startingPosition = "";
@@ -896,7 +897,7 @@ public class GUI {
 		setTurnMessage();
 	}
 
-	private void initializeAI() {
+	private static void initializeAI() {
 		if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI) {
 			if (gameParameters.getAi1Type() == AiType.MINIMAX_AI) {
 				Evaluation evaluation1 = createEvaluation(gameParameters.getEvaluationFunction1());
@@ -939,7 +940,7 @@ public class GUI {
 		}
 	}
 
-	private Evaluation createEvaluation(EvaluationFunction evaluationFunction) {
+	private static Evaluation createEvaluation(EvaluationFunction evaluationFunction) {
 		if (evaluationFunction == EvaluationFunction.SIMPLIFIED) {
 			return new SimplifiedEvaluation();
 		} else if (evaluationFunction == EvaluationFunction.PESTO) {
@@ -952,7 +953,7 @@ public class GUI {
 	}
 
 	// This method is only called from inside a chess board button listener.
-	private void chessButtonClick(int row, int column, JButton button) {
+	private static void chessButtonClick(int row, int column, JButton button) {
 		// System.out.println("row: " + row + ", column: " + column);
 
 		hideHintPositions(hintPositions);
@@ -1175,7 +1176,7 @@ public class GUI {
 		}
 	}
 
-	private void makeDisplayMove(Move move, boolean isAiMove) {
+	private static void makeDisplayMove(Move move, boolean isAiMove) {
 		String positionStart = move.getPositions().get(0);
 		int rowStart = chessBoard.getRowFromPosition(positionStart);
 		int columnStart = chessBoard.getColumnFromPosition(positionStart);
@@ -1284,7 +1285,7 @@ public class GUI {
 		halfMoveFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
 	}
 
-	private void addCapturedPieceImage(ChessPiece endSquare) {
+	private static void addCapturedPieceImage(ChessPiece endSquare) {
 		String imagePath = "";
 
 		if (endSquare.isPromoted()) {
@@ -1310,7 +1311,7 @@ public class GUI {
 		setScoreMessage();
 	}
 
-	public boolean checkForGameOver() {
+	public static boolean checkForGameOver() {
 
 		/* Check for White checkmate. */
 		if (chessBoard.whitePlays()) {
@@ -1502,7 +1503,7 @@ public class GUI {
 	}
 
 	// We are comparing FEN positions, but without checking the half-move clock and the full-move number.
-	private boolean checkForThreefoldRepetitionDraw() {
+	private static boolean checkForThreefoldRepetitionDraw() {
 
 		if (!halfMoveFenPositions.isEmpty()) {
 			int N = halfMoveFenPositions.size();
@@ -1533,7 +1534,7 @@ public class GUI {
 		return false;
 	}
 
-	private void showDeclareDrawDialog() {
+	private static void showDeclareDrawDialog() {
 		String turnMessage = "Move number: "
 				+ (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2)
 				+ ". It is a draw.";
@@ -1549,7 +1550,7 @@ public class GUI {
 		startNewGameOrNot(dialogResult);
 	}
 
-	private void startNewGameOrNot(int dialogResult) {
+	private static void startNewGameOrNot(int dialogResult) {
 		if (dialogResult == JOptionPane.YES_OPTION) {
 			startNewGame();
 		} else {
@@ -1571,7 +1572,7 @@ public class GUI {
 
 
 	// Gets called after the human player makes a move. It makes a Minimax AI move.
-	public void aiMove(AI ai) {
+	public static void aiMove(AI ai) {
 		Move aiMove = ai.getNextMove(chessBoard);
 		System.out.println("aiMove: " + aiMove);
 		// System.out.println("lastCapturedPieceValue: " + chessBoard.getLastCapturedPieceValue());
@@ -1601,7 +1602,7 @@ public class GUI {
 		System.out.println(chessBoard);
 	}
 
-	public void playAiVsAi() {
+	public static void playAiVsAi() {
 		AI ai1;
 		if (gameParameters.getAi1Type() == AiType.MINIMAX_AI) {
 			Evaluation evaluation1 = createEvaluation(gameParameters.getEvaluationFunction1());
@@ -1672,7 +1673,7 @@ public class GUI {
 		}
 	}
 
-	private void aiVsAiMove(AI ai) {
+	private static void aiVsAiMove(AI ai) {
 		undoChessBoards.push(new ChessBoard(chessBoard));
 
 		// Push to the "undoCapturedPiecesImages" Stack.
@@ -1695,7 +1696,7 @@ public class GUI {
 		frame.paint(frame.getGraphics());
 	}
 
-	private void hideHintPositions(Set<String> positionsToHide) {
+	private static void hideHintPositions(Set<String> positionsToHide) {
 		if (positionsToHide != null && positionsToHide.size() != 0) {
 			for (String hintPosition : positionsToHide) {
 				// System.out.println("hide hint position: " + hintPosition);
@@ -1722,7 +1723,7 @@ public class GUI {
 		}
 	}
 
-	private Color getColorByRowCol(int row, int column) {
+	private static Color getColorByRowCol(int row, int column) {
 		Color color;
 		if ((column % 2 == 1 && row % 2 == 1)
 				//) {
@@ -1736,7 +1737,7 @@ public class GUI {
 
 	// It inserts the given chessPiece to the given position on the board
 	// (both the data structure and the GUI)
-	public void placePieceToPosition(String position, ChessPiece chessPiece) {
+	public static void placePieceToPosition(String position, ChessPiece chessPiece) {
 		String imagePath = GuiUtils.getImagePath(chessPiece);
 
 		ImageIcon pieceImage = GuiUtils.preparePieceIcon(imagePath, GuiConstants.CHESS_SQUARE_PIXEL_SIZE);
@@ -1761,7 +1762,7 @@ public class GUI {
 	}
 
 	// It removes the given chessPiece from the board (both the data structure and the GUI).
-	private void removePieceFromPosition(String position) {
+	private static void removePieceFromPosition(String position) {
 		// int column = (int) Character.toUpperCase(position.charAt(0)) - (int) 'A';
 		// int row = N - Character.getNumericValue(position.charAt(1));
 
@@ -1783,7 +1784,7 @@ public class GUI {
 		}
 	}
 
-	private void redrawChessBoard() {
+	private static void redrawChessBoard() {
 		for (int i = 0; i < gameParameters.getNumOfRows(); i++) {
 			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
 				ChessPiece chessPiece = chessBoard.getGameBoard()[i][j];
@@ -1793,7 +1794,7 @@ public class GUI {
 		}
 	}
 
-	public void placePiecesToStartingPositions() {
+	public static void placePiecesToStartingPositions() {
 		chessBoard.placePiecesToStartingPositions();
 		redrawChessBoard();
 
@@ -1804,7 +1805,7 @@ public class GUI {
 		setTurnMessage();
 	}
 
-	public void placePiecesToChessBoard(String fenPosition) {
+	public static void placePiecesToChessBoard(String fenPosition) {
 		try {
 			chessBoard = FenUtils.getChessBoardFromFenPosition(fenPosition);
 		} catch (InvalidFenPositionException ex) {
@@ -1825,7 +1826,7 @@ public class GUI {
 		halfMoveFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
 	}
 
-	public void makeChessBoardSquaresEmpty() {
+	public static void makeChessBoardSquaresEmpty() {
 		for (int i = 0; i < gameParameters.getNumOfRows(); i++) {
 			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
 				// chessBoardButtons[i][j].setEnabled(true);
@@ -1852,7 +1853,7 @@ public class GUI {
 		}
 	}
 
-	private void enableChessBoardButtons() {
+	private static void enableChessBoardButtons() {
 		for (int i = 0; i < gameParameters.getNumOfRows(); i++) {
 			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
 				JButton button = chessBoardButtons[i][j];
@@ -1875,7 +1876,7 @@ public class GUI {
 		buttonsEnabled = true;
 	}
 
-	private void disableChessBoardSquares() {
+	private static void disableChessBoardSquares() {
 		for (int i = 0; i < gameParameters.getNumOfRows(); i++) {
 			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
 				// chessBoardButtons[i][j].setEnabled(false);

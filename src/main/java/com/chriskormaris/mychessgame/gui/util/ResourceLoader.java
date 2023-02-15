@@ -1,13 +1,14 @@
 package com.chriskormaris.mychessgame.gui.util;
 
-import lombok.experimental.UtilityClass;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
 
 import java.net.URL;
 
-@UtilityClass
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ResourceLoader {
 
-	public URL load(String path) {
+	public static URL load(String path) {
 		// InputStream input = ResourceLoader.class.getResourceAsStream(path);
 		URL input = ResourceLoader.class.getResource(path);
 		if (input == null) {

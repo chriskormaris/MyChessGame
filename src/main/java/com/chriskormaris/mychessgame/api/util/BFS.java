@@ -5,19 +5,20 @@ import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 import com.chriskormaris.mychessgame.api.piece.ChessPiece;
 import com.chriskormaris.mychessgame.api.piece.EmptySquare;
 import com.chriskormaris.mychessgame.api.piece.King;
-import lombok.experimental.UtilityClass;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
 
 import java.util.LinkedList;
 import java.util.Set;
 
 
-@UtilityClass
-public class BFS {
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+public final class BFS {
 
 
 	// It runs the BFS algorithm.
 	// It returns the depth of the shortest path, if it exists, else it returns -1.
-	public int getMinDepth(
+	public static int getMinDepth(
 			ChessBoard chessBoard,
 			ChessPiece piece,
 			String startingPosition,
@@ -109,7 +110,7 @@ public class BFS {
 	// It runs the simple BFS algorithm.
 	// It returns true if the given ChessBoard piece can get
 	// from the given starting position to the given ending position, within the specified "maxDepth".
-	public boolean canGoToPosition(
+	public static boolean canGoToPosition(
 			ChessBoard chessBoard,
 			ChessPiece piece,
 			String startingPosition,

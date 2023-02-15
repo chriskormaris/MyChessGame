@@ -8,15 +8,16 @@ import com.chriskormaris.mychessgame.api.piece.Knight;
 import com.chriskormaris.mychessgame.api.piece.Pawn;
 import com.chriskormaris.mychessgame.api.piece.Queen;
 import com.chriskormaris.mychessgame.api.piece.Rook;
-import lombok.experimental.UtilityClass;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
 
 import javax.swing.*;
 import java.awt.*;
 
-@UtilityClass
-public class GuiUtils {
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+public final class GuiUtils {
 
-	public ImageIcon preparePieceIcon(String imagePath, int size) {
+	public static ImageIcon preparePieceIcon(String imagePath, int size) {
 		ImageIcon pieceIcon = new ImageIcon(ResourceLoader.load(imagePath));
 		Image image = pieceIcon.getImage(); // transform it
 		// scale it the smooth way
@@ -25,7 +26,7 @@ public class GuiUtils {
 		return pieceIcon;
 	}
 
-	public String getImagePath(ChessPiece chessPiece) {
+	public static String getImagePath(ChessPiece chessPiece) {
 		String imagePath = "";
 
 		if (chessPiece.getAllegiance() == Allegiance.WHITE) {
@@ -61,7 +62,7 @@ public class GuiUtils {
 		return imagePath;
 	}
 
-	public void changeSquareColor(JButton button, Color color) {
+	public static void changeSquareColor(JButton button, Color color) {
 		button.setBackground(color);
 	}
 

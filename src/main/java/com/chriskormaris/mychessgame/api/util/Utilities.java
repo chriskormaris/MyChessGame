@@ -9,14 +9,15 @@ import com.chriskormaris.mychessgame.api.piece.Knight;
 import com.chriskormaris.mychessgame.api.piece.Pawn;
 import com.chriskormaris.mychessgame.api.piece.Queen;
 import com.chriskormaris.mychessgame.api.piece.Rook;
-import lombok.experimental.UtilityClass;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
 
 
-@UtilityClass
-public class Utilities {
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+public final class Utilities {
 
 
-	public ChessPiece getChessPiece(char pieceChar) {
+	public static ChessPiece getChessPiece(char pieceChar) {
 		if (pieceChar == Constants.WHITE_PAWN) {
 			return new Pawn(Allegiance.WHITE);
 		} else if (pieceChar == Constants.WHITE_ROOK) {
@@ -49,7 +50,7 @@ public class Utilities {
 	}
 
 
-	public char getPieceChar(ChessPiece chessPiece) {
+	public static char getPieceChar(ChessPiece chessPiece) {
 		if (chessPiece.getAllegiance() == Allegiance.WHITE) {
 			if (chessPiece instanceof Pawn) {
 				return Constants.WHITE_PAWN;
@@ -86,7 +87,7 @@ public class Utilities {
 	}
 
 
-	public ChessPiece[][] copyGameBoard(ChessPiece[][] gameBoard) {
+	public static ChessPiece[][] copyGameBoard(ChessPiece[][] gameBoard) {
 		int n1 = gameBoard.length;
 		int n2 = gameBoard[0].length;
 
@@ -100,7 +101,7 @@ public class Utilities {
 	}
 
 
-	public int[][] copyIntBoard(int[][] intBoard) {
+	public static int[][] copyIntBoard(int[][] intBoard) {
 		int n1 = intBoard.length;
 		int n2 = intBoard[0].length;
 
@@ -114,7 +115,7 @@ public class Utilities {
 
 	// At the start of the game, the sum of all pieces' "gamePhase" values should be equal to 24.
 	// In case of early promotion, the sum could be more than 24.
-	public int getPieceGamePhaseValue(ChessPiece chessPiece) {
+	public static int getPieceGamePhaseValue(ChessPiece chessPiece) {
 		if (chessPiece instanceof Pawn) {
 			return Constants.PAWN_GAME_PHASE_VALUE;
 		} else if (chessPiece instanceof Knight) {
