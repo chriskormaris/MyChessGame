@@ -3,7 +3,8 @@ package com.chriskormaris.mychessgame.api.ai;
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.api.chess_board.Move;
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
-import com.chriskormaris.mychessgame.api.enumeration.EvaluationFunction;
+import com.chriskormaris.mychessgame.api.evaluation.Evaluation;
+import com.chriskormaris.mychessgame.api.evaluation.SimplifiedEvaluation;
 import com.chriskormaris.mychessgame.api.util.Constants;
 
 import java.util.ArrayList;
@@ -13,11 +14,11 @@ import java.util.Random;
 public class MinimaxAlphaBetaPruningAI extends MinimaxAI {
 
 	public MinimaxAlphaBetaPruningAI() {
-		super(2, Constants.BLACK, EvaluationFunction.SIMPLIFIED);
+		super(2, Constants.BLACK, new SimplifiedEvaluation());
 	}
 
-	public MinimaxAlphaBetaPruningAI(int maxDepth, boolean aiPlayer, EvaluationFunction evaluationFunction) {
-		super(maxDepth, aiPlayer, evaluationFunction);
+	public MinimaxAlphaBetaPruningAI(int maxDepth, boolean aiPlayer, Evaluation evaluation) {
+		super(maxDepth, aiPlayer, evaluation);
 	}
 
 	@Override

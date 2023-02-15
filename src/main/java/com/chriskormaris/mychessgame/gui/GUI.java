@@ -9,8 +9,14 @@ import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.api.chess_board.Move;
 import com.chriskormaris.mychessgame.api.enumeration.AiType;
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
+import com.chriskormaris.mychessgame.api.enumeration.EvaluationFunction;
 import com.chriskormaris.mychessgame.api.enumeration.GameMode;
 import com.chriskormaris.mychessgame.api.enumeration.GameResult;
+import com.chriskormaris.mychessgame.api.evaluation.Evaluation;
+import com.chriskormaris.mychessgame.api.evaluation.PeSTOEvaluation;
+import com.chriskormaris.mychessgame.api.evaluation.ShannonEvaluation;
+import com.chriskormaris.mychessgame.api.evaluation.SimplifiedEvaluation;
+import com.chriskormaris.mychessgame.api.evaluation.WukongEvaluation;
 import com.chriskormaris.mychessgame.api.exception.InvalidFenPositionException;
 import com.chriskormaris.mychessgame.api.piece.Bishop;
 import com.chriskormaris.mychessgame.api.piece.ChessPiece;
@@ -894,31 +900,33 @@ public class GUI {
 		if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI) {
 			if (gameParameters.getAi1Type() == AiType.MINIMAX_AI) {
 				if (gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE) {
+					Evaluation evaluation1 = createEvaluation(gameParameters.getEvaluationFunction1());
 					if (gameParameters.getAi1MaxDepth() <= 2) {
 						ai = new MinimaxAI(
 								gameParameters.getAi1MaxDepth(),
 								Constants.BLACK,
-								gameParameters.getEvaluationFunction1()
+								evaluation1
 						);
 					} else {
 						ai = new MinimaxAlphaBetaPruningAI(
 								gameParameters.getAi1MaxDepth(),
 								Constants.BLACK,
-								gameParameters.getEvaluationFunction1()
+								evaluation1
 						);
 					}
 				} else if (gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
+					Evaluation evaluation2 = createEvaluation(gameParameters.getEvaluationFunction2());
 					if (gameParameters.getAi2MaxDepth() <= 2) {
 						ai = new MinimaxAI(
 								gameParameters.getAi2MaxDepth(),
 								Constants.WHITE,
-								gameParameters.getEvaluationFunction2()
+								evaluation2
 						);
 					} else {
 						ai = new MinimaxAlphaBetaPruningAI(
 								gameParameters.getAi2MaxDepth(),
 								Constants.WHITE,
-								gameParameters.getEvaluationFunction2()
+								evaluation2
 						);
 					}
 				}
@@ -929,6 +937,18 @@ public class GUI {
 					ai = new RandomChoiceAI(Constants.WHITE);
 				}
 			}
+		}
+	}
+
+	private Evaluation createEvaluation(EvaluationFunction evaluationFunction) {
+		if (evaluationFunction == EvaluationFunction.SIMPLIFIED) {
+			return new SimplifiedEvaluation();
+		} else if (evaluationFunction == EvaluationFunction.PESTO) {
+			return new PeSTOEvaluation();
+		} else if (evaluationFunction == EvaluationFunction.WUKONG) {
+			return new WukongEvaluation();
+		} else {
+			return new ShannonEvaluation();
 		}
 	}
 
@@ -1585,17 +1605,18 @@ public class GUI {
 	public void playAiVsAi() {
 		AI ai1;
 		if (gameParameters.getAi1Type() == AiType.MINIMAX_AI) {
+			Evaluation evaluation1 = createEvaluation(gameParameters.getEvaluationFunction1());
 			if (gameParameters.getAi1MaxDepth() <= 2) {
 				ai1 = new MinimaxAI(
 						gameParameters.getAi1MaxDepth(),
 						Constants.WHITE,
-						gameParameters.getEvaluationFunction1()
+						evaluation1
 				);
 			} else {
 				ai1 = new MinimaxAlphaBetaPruningAI(
 						gameParameters.getAi1MaxDepth(),
 						Constants.WHITE,
-						gameParameters.getEvaluationFunction1()
+						evaluation1
 				);
 			}
 		} else {
@@ -1604,10 +1625,11 @@ public class GUI {
 
 		AI ai2;
 		if (gameParameters.getAi2Type() == AiType.MINIMAX_AI) {
+			Evaluation evaluation2 = createEvaluation(gameParameters.getEvaluationFunction2());
 			ai2 = new MinimaxAlphaBetaPruningAI(
 					gameParameters.getAi2MaxDepth(),
 					Constants.BLACK,
-					gameParameters.getEvaluationFunction2()
+					evaluation2
 			);
 		} else {
 			ai2 = new RandomChoiceAI(Constants.BLACK);

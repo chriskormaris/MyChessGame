@@ -3,7 +3,8 @@ package com.chriskormaris.mychessgame.api.ai;
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.api.chess_board.Move;
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
-import com.chriskormaris.mychessgame.api.enumeration.EvaluationFunction;
+import com.chriskormaris.mychessgame.api.evaluation.Evaluation;
+import com.chriskormaris.mychessgame.api.evaluation.SimplifiedEvaluation;
 import com.chriskormaris.mychessgame.api.util.Constants;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,18 +20,18 @@ public class MinimaxAI extends AI {
 	// Variable that holds the maximum depth the MinimaxAi algorithm will reach for this player.
 	private int maxDepth;
 
-	private EvaluationFunction evaluationFunction;
+	private Evaluation evaluation;
 
 	public MinimaxAI() {
 		super(Constants.BLACK);
 		this.maxDepth = 2;
-		this.evaluationFunction = EvaluationFunction.SIMPLIFIED;
+		this.evaluation = new SimplifiedEvaluation();
 	}
 
-	public MinimaxAI(int maxDepth, boolean aiPlayer, EvaluationFunction evaluationFunction) {
+	public MinimaxAI(int maxDepth, boolean aiPlayer, Evaluation evaluation) {
 		super(aiPlayer);
 		this.maxDepth = maxDepth;
-		this.evaluationFunction = evaluationFunction;
+		this.evaluation = evaluation;
 	}
 
 	@Override

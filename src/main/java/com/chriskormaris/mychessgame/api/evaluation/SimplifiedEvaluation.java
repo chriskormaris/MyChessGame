@@ -1,6 +1,7 @@
-package com.chriskormaris.mychessgame.api.evaluation_function;
+package com.chriskormaris.mychessgame.api.evaluation;
 
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
+import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 import com.chriskormaris.mychessgame.api.enumeration.GamePhase;
 import com.chriskormaris.mychessgame.api.piece.Bishop;
 import com.chriskormaris.mychessgame.api.piece.ChessPiece;
@@ -9,12 +10,12 @@ import com.chriskormaris.mychessgame.api.piece.Knight;
 import com.chriskormaris.mychessgame.api.piece.Pawn;
 import com.chriskormaris.mychessgame.api.piece.Queen;
 import com.chriskormaris.mychessgame.api.piece.Rook;
-import lombok.experimental.UtilityClass;
+
+import static com.chriskormaris.mychessgame.api.util.Constants.NUM_OF_COLUMNS;
 
 // Simplified Evaluation Function by Polish chess programmer Tomasz Michniewski.
 // see: https://www.chessprogramming.org/Simplified_Evaluation_Function
-@UtilityClass
-public class SimplifiedEvaluationUtils {
+public class SimplifiedEvaluation extends Evaluation {
 
 	public int[][] PAWNS_SQUARES_TABLE = new int[][]{
 			{0, 0, 0, 0, 0, 0, 0, 0},
@@ -100,7 +101,7 @@ public class SimplifiedEvaluationUtils {
 	public final int QUEEN_CENTIPAWN_VALUE = 900;
 	public final int KING_CENTIPAWN_VALUE = 20000;
 
-	public GamePhase getGamePhase(ChessBoard chessBoard, int halfMoveNumber) {
+	private GamePhase getGamePhase(ChessBoard chessBoard, int halfMoveNumber) {
 		// if ((chessBoard.isEndGame()) && Constants.ENDGAME_HALF_MOVES_THRESHOLD <= halfMoveNumber) {
 		if ((chessBoard.isEndGame())) {
 			return GamePhase.ENDGAME;
@@ -109,7 +110,7 @@ public class SimplifiedEvaluationUtils {
 		}
 	}
 
-	public int getPieceCentipawnValue(ChessPiece chessPiece) {
+	private int getPieceCentipawnValue(ChessPiece chessPiece) {
 		if (chessPiece instanceof Pawn) {
 			return PAWN_CENTIPAWN_VALUE;
 		} else if (chessPiece instanceof Knight) {
@@ -126,7 +127,7 @@ public class SimplifiedEvaluationUtils {
 		return 0;
 	}
 
-	public int getPieceSquareValue(int row, int column, ChessPiece chessPiece, GamePhase gamePhase) {
+	private int getPieceSquareValue(int row, int column, ChessPiece chessPiece, GamePhase gamePhase) {
 		if (chessPiece instanceof Pawn) {
 			return PAWNS_SQUARES_TABLE[row][column];
 		} else if (chessPiece instanceof Knight) {
@@ -145,6 +146,30 @@ public class SimplifiedEvaluationUtils {
 			}
 		}
 		return 0;
+	}
+
+	// Simplified Evaluation Function.
+	@Override
+	public double evaluate(ChessBoard chessBoard) {
+		int score = 0;
+		GamePhase gamePhase = getGamePhase(chessBoard, chessBoard.getHalfMoveNumber());
+
+		for (int i = 0; i < chessBoard.getNumOfRows(); i++) {
+			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
+				ChessPiece chessPiece = chessBoard.getGameBoard()[i][j];
+				if (chessPiece.getAllegiance() == Allegiance.WHITE) {
+					score += 2 * getPieceCentipawnValue(chessPiece);
+					score += getPieceSquareValue(i, j, chessPiece, gamePhase);
+				} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
+					score -= 2 * getPieceCentipawnValue(chessPiece);
+
+					int row = chessBoard.getNumOfRows() - 1 - i;
+					score -= getPieceSquareValue(row, j, chessPiece, gamePhase);
+				}
+			}
+		}
+
+		return score;
 	}
 
 }
