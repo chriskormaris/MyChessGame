@@ -899,8 +899,8 @@ public class GUI {
 	private void initializeAI() {
 		if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI) {
 			if (gameParameters.getAi1Type() == AiType.MINIMAX_AI) {
+				Evaluation evaluation1 = createEvaluation(gameParameters.getEvaluationFunction1());
 				if (gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE) {
-					Evaluation evaluation1 = createEvaluation(gameParameters.getEvaluationFunction1());
 					if (gameParameters.getAi1MaxDepth() <= 2) {
 						ai = new MinimaxAI(
 								gameParameters.getAi1MaxDepth(),
@@ -915,18 +915,17 @@ public class GUI {
 						);
 					}
 				} else if (gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
-					Evaluation evaluation2 = createEvaluation(gameParameters.getEvaluationFunction2());
 					if (gameParameters.getAi2MaxDepth() <= 2) {
 						ai = new MinimaxAI(
 								gameParameters.getAi2MaxDepth(),
 								Constants.WHITE,
-								evaluation2
+								evaluation1
 						);
 					} else {
 						ai = new MinimaxAlphaBetaPruningAI(
 								gameParameters.getAi2MaxDepth(),
 								Constants.WHITE,
-								evaluation2
+								evaluation1
 						);
 					}
 				}
