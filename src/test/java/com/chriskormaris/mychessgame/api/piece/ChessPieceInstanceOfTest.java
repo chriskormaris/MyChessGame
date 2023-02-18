@@ -34,7 +34,7 @@ public class ChessPieceInstanceOfTest {
 
 		startTime = System.nanoTime();
 		for (ChessPiece chessPiece : chessPieces) {
-			if (chessPiece.getChessPieceChar() == 'P') {
+			if (chessPiece.getPieceChar() == 'P') {
 				// System.out.println("P");
 			}
 		}

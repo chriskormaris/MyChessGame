@@ -15,7 +15,7 @@ public abstract class ChessPiece {
 
 	// A capital letter if the allegiance is White,
 	// a small letter if the allegiance is Black.
-	private final char chessPieceChar;
+	private final char pieceChar;
 
 	// True if the piece was initially a Pawn and got promoted.
 	private final boolean isPromoted;
@@ -23,13 +23,13 @@ public abstract class ChessPiece {
 	public ChessPiece(Allegiance allegiance) {
 		this.allegiance = allegiance;
 		this.isPromoted = false;
-		this.chessPieceChar = Utilities.getPieceChar(this);
+		this.pieceChar = Utilities.getPieceChar(this);
 	}
 
 	public ChessPiece(Allegiance allegiance, boolean isPromoted) {
 		this.allegiance = allegiance;
 		this.isPromoted = isPromoted;
-		this.chessPieceChar = Utilities.getPieceChar(this);
+		this.pieceChar = Utilities.getPieceChar(this);
 	}
 
 	public abstract ChessPiece makeCopy();

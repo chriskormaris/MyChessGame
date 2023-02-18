@@ -262,7 +262,7 @@ public class ChessBoard {
 		for (int i = 0; i < n1; i++) {
 			output.append(n1 - i).append(" |");
 			for (int j = 0; j < n2; j++) {
-				output.append(" ").append(chessBoard[i][j].getChessPieceChar()).append(" |");
+				output.append(" ").append(chessBoard[i][j].getPieceChar()).append(" |");
 			}
 			output.append(" ").append(n1 - i).append("\n");
 		}

@@ -1289,9 +1289,9 @@ public final class GUI {
 
 	private static void updateCapturedPieces(ChessPiece chessPiece) {
 		if (chessPiece.getAllegiance() == Allegiance.WHITE) {
-			capturedPieces[chessBoard.getWhiteCapturedPiecesCounter()] = chessPiece.getChessPieceChar();
+			capturedPieces[chessBoard.getWhiteCapturedPiecesCounter()] = chessPiece.getPieceChar();
 		} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
-			capturedPieces[30 - chessBoard.getBlackCapturedPiecesCounter() - 1] = chessPiece.getChessPieceChar();
+			capturedPieces[30 - chessBoard.getBlackCapturedPiecesCounter() - 1] = chessPiece.getPieceChar();
 		}
 	}
 
