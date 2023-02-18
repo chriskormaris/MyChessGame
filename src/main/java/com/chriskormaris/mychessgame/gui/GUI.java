@@ -1748,14 +1748,8 @@ public final class GUI {
 
 		ImageIcon pieceImage = GuiUtils.preparePieceIcon(imagePath, GuiConstants.CHESS_SQUARE_PIXEL_SIZE);
 
-		// int column = (int) Character.toUpperCase(position.charAt(0)) - (int) 'A';
-		// int row = N - Character.getNumericValue(position.charAt(1));
-
 		int column = chessBoard.getColumnFromPosition(position);
 		int row = chessBoard.getRowFromPosition(position);
-
-		// System.out.println("chessBoardButtons.length: " + chessBoardButtons.length);
-		// System.out.println("chessBoardButtons[0].length: " + chessBoardButtons[0].length);
 
 		chessBoard.getGameBoard()[row][column] = chessPiece;
 

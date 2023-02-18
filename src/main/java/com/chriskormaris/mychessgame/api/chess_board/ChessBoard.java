@@ -1285,14 +1285,14 @@ public class ChessBoard {
 		// A8, column = 0, row = 0
 		// A2, column = 0, row = 6
 		// A1, column = 0, row = 7
-		return numOfRows - Integer.parseInt(position.substring(1));
+		return numOfRows - Character.getNumericValue(position.charAt(1));
 	}
 
 	public int getColumnFromPosition(String position) {
 		// examples:
 		// A1, column = 0, row = 7
 		// B1, column = 1, row = 7
-		return (int) position.charAt(0) - 65;
+		return (int) position.charAt(0) - (int) 'A';
 	}
 
 	public ChessPiece getChessPieceFromPosition(String position) {
