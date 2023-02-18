@@ -521,7 +521,7 @@ public class ChessBoard {
 
 			// If a chessPiece capture has occurred.
 			if (chessPiece.getAllegiance() != endSquare.getAllegiance() && !(endSquare instanceof EmptySquare)) {
-				updateScoreAfterPieceCapture(endSquare);
+				updateScore(endSquare);
 
 				if (!displayMove) {
 					incrementCapturedPiecesCounter(endSquare);
@@ -530,35 +530,35 @@ public class ChessBoard {
 		}
 	}
 
-	private void updateScoreAfterPieceCapture(ChessPiece endSquare) {
-		if (endSquare.isPromoted()) {
-			if (endSquare.getAllegiance() == Allegiance.WHITE) {
+	public void updateScore(ChessPiece chessPiece) {
+		if (chessPiece.isPromoted()) {
+			if (chessPiece.getAllegiance() == Allegiance.WHITE) {
 				score -= Constants.PAWN_SCORE_VALUE;
-			} else if (endSquare.getAllegiance() == Allegiance.BLACK) {
+			} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
 				score += Constants.PAWN_SCORE_VALUE;
 			}
-		} else if (endSquare.getAllegiance() == Allegiance.WHITE) {
-			if (endSquare instanceof Pawn) {
+		} else if (chessPiece.getAllegiance() == Allegiance.WHITE) {
+			if (chessPiece instanceof Pawn) {
 				score -= Constants.PAWN_SCORE_VALUE;
-			} else if (endSquare instanceof Rook) {
+			} else if (chessPiece instanceof Rook) {
 				score -= Constants.ROOK_SCORE_VALUE;
-			} else if (endSquare instanceof Knight) {
+			} else if (chessPiece instanceof Knight) {
 				score -= Constants.KNIGHT_SCORE_VALUE;
-			} else if (endSquare instanceof Bishop) {
+			} else if (chessPiece instanceof Bishop) {
 				score -= Constants.BISHOP_SCORE_VALUE;
-			} else if (endSquare instanceof Queen) {
+			} else if (chessPiece instanceof Queen) {
 				score -= Constants.QUEEN_SCORE_VALUE;
 			}
-		} else if (endSquare.getAllegiance() == Allegiance.BLACK) {
-			if (endSquare instanceof Pawn) {
+		} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
+			if (chessPiece instanceof Pawn) {
 				score += Constants.PAWN_SCORE_VALUE;
-			} else if (endSquare instanceof Rook) {
+			} else if (chessPiece instanceof Rook) {
 				score += Constants.ROOK_SCORE_VALUE;
-			} else if (endSquare instanceof Knight) {
+			} else if (chessPiece instanceof Knight) {
 				score += Constants.KNIGHT_SCORE_VALUE;
-			} else if (endSquare instanceof Bishop) {
+			} else if (chessPiece instanceof Bishop) {
 				score += Constants.BISHOP_SCORE_VALUE;
-			} else if (endSquare instanceof Queen) {
+			} else if (chessPiece instanceof Queen) {
 				score += Constants.QUEEN_SCORE_VALUE;
 			}
 		}

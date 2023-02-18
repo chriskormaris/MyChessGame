@@ -239,7 +239,6 @@ public final class FenUtils {
 				formattedFenPosition.append(fenPositionParts[i]);
 			}
 		}
-		System.out.println(formattedFenPosition);
 		return formattedFenPosition.toString();
 	}
 

@@ -45,7 +45,10 @@ public final class Utilities {
 		} else if (pieceChar == Constants.BLACK_KING) {
 			return new King(Allegiance.BLACK);
 		}
-		System.err.println("Invalid chessPiece character \"" + pieceChar + "\"!");
+
+		if (pieceChar != '-') {
+			System.err.println("Invalid chessPiece character \"" + pieceChar + "\"!");
+		}
 		return new EmptySquare();
 	}
 
@@ -112,6 +115,12 @@ public final class Utilities {
 		return newIntBoard;
 	}
 
+	public static char[] copyCharArray(char[] charArray) {
+		int n = charArray.length;
+		char[] newCharArray = new char[n];
+		System.arraycopy(charArray, 0, newCharArray, 0, n);
+		return newCharArray;
+	}
 
 	// At the start of the game, the sum of all pieces' "gamePhase" values should be equal to 24.
 	// In case of early promotion, the sum could be more than 24.
