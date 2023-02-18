@@ -226,12 +226,12 @@ public final class GUI {
 		newGameItem.addActionListener(e -> startNewGame());
 
 		undoItem.addActionListener(e -> {
-			undoLastMove();
+			undo();
 			exportFenPositionItem.setEnabled(true);
 			saveCheckpointItem.setEnabled(true);
 		});
 
-		redoItem.addActionListener(e -> redoNextMove());
+		redoItem.addActionListener(e -> redo());
 
 		exportToGifItem.addActionListener(e -> exportToGif());
 
@@ -359,9 +359,9 @@ public final class GUI {
 		public void keyPressed(KeyEvent e) {
 			// System.out.println("keyPressed = " + KeyEvent.getKeyText(e.getKeyCode()));
 			if ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0 && e.getKeyCode() == KeyEvent.VK_Z) {
-				undoLastMove();
+				undo();
 			} else if ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0 && e.getKeyCode() == KeyEvent.VK_Y) {
-				redoNextMove();
+				redo();
 			}
 		}
 
@@ -440,7 +440,7 @@ public final class GUI {
 	}
 
 
-	private static void undoLastMove() {
+	private static void undo() {
 		if (!undoFenPositions.isEmpty()) {
 			System.out.println("Undo is pressed!");
 
@@ -512,7 +512,7 @@ public final class GUI {
 
 	// NOTE: We are not able to perform a redo,
 	// if we are in a terminal state, because the game has ended.
-	private static void redoNextMove() {
+	private static void redo() {
 		if (!redoFenPositions.isEmpty()) {
 			System.out.println("Redo is pressed!");
 
