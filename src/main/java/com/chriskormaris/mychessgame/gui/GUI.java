@@ -98,8 +98,8 @@ public final class GUI {
 	// This variable is used for the implementation of "Human Vs AI".
 	public static AI ai;
 
-	// These stacks of 2d "String" objects are used to check for a threefold repetition of a chess board position.
-	public static Stack<String> halfMoveFenPositions;
+	// These stacks of "String" objects are used to check for a threefold repetition of a chess board position.
+	public static Stack<String> undoHalfMoveFenPositions;
 	public static Stack<String> redoHalfMoveFenPositions;
 
 	private static JToolBar tools;
@@ -156,7 +156,7 @@ public final class GUI {
 
 		chessBoard = new ChessBoard();
 
-		halfMoveFenPositions = new Stack<>();
+		undoHalfMoveFenPositions = new Stack<>();
 		redoHalfMoveFenPositions = new Stack<>();
 
 		tools = new JToolBar();
@@ -479,7 +479,7 @@ public final class GUI {
 			String fenPosition = undoFenPositions.pop();
 			chessBoard = FenUtils.getChessBoardFromFenPosition(fenPosition);
 
-			redoHalfMoveFenPositions.push(halfMoveFenPositions.pop());
+			redoHalfMoveFenPositions.push(undoHalfMoveFenPositions.pop());
 			// System.out.println("size of halfMoveGameBoards: " + halfMoveGameBoards.size());
 
 			// Display the "undo" captured chess board pieces icons.
@@ -545,7 +545,7 @@ public final class GUI {
 
 			undoFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
 
-			halfMoveFenPositions.push(redoHalfMoveFenPositions.pop());
+			undoHalfMoveFenPositions.push(redoHalfMoveFenPositions.pop());
 			// System.out.println("size of halfMoveGameBoards: " + halfMoveGameBoards.size());
 
 			// Push to the "undoCapturedPieces" Stack.
@@ -847,7 +847,7 @@ public final class GUI {
 
 		chessBoard.setThreats();
 
-		halfMoveFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
+		undoHalfMoveFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
 
 		setTurnMessage();
 
@@ -875,7 +875,7 @@ public final class GUI {
 		redoFenPositions.clear();
 		redoCapturedPieces.clear();
 
-		halfMoveFenPositions.clear();
+		undoHalfMoveFenPositions.clear();
 		redoHalfMoveFenPositions.clear();
 
 		startingButtonIsClicked = false;
@@ -1284,7 +1284,7 @@ public final class GUI {
 		chessBoard.setThreats();
 
 		// Store the chess board of the HalfMove that was just made.
-		halfMoveFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
+		undoHalfMoveFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
 	}
 
 	private static void updateCapturedPieces(ChessPiece chessPiece) {
@@ -1515,9 +1515,9 @@ public final class GUI {
 	// We are comparing FEN positions, but without checking the half-move clock and the full-move number.
 	private static boolean checkForThreefoldRepetitionDraw() {
 
-		if (!halfMoveFenPositions.isEmpty()) {
-			int N = halfMoveFenPositions.size();
-			String lastHalfMoveFenPosition = halfMoveFenPositions.get(N - 1);
+		if (!undoHalfMoveFenPositions.isEmpty()) {
+			int N = undoHalfMoveFenPositions.size();
+			String lastHalfMoveFenPosition = undoHalfMoveFenPositions.get(N - 1);
 			lastHalfMoveFenPosition = FenUtils.skipCounters(lastHalfMoveFenPosition);
 			int numOfRepeats = 0;
 			for (int i = N - 2; i >= 0; i--) {
@@ -1525,7 +1525,7 @@ public final class GUI {
 				// Also, skip the second to last iteration, if the number of repeats found is 0.
 				if (!(numOfRepeats <= 1 && i == 0 || numOfRepeats == 0 && i == 1)) {
 					// System.out.println("i: " + i);
-					String otherHalfMoveFenPosition = halfMoveFenPositions.get(i);
+					String otherHalfMoveFenPosition = undoHalfMoveFenPositions.get(i);
 					otherHalfMoveFenPosition = FenUtils.skipCounters(otherHalfMoveFenPosition);
 					if (lastHalfMoveFenPosition.equals(otherHalfMoveFenPosition)) {
 						// System.out.println("i: " + i + ");
@@ -1692,7 +1692,7 @@ public final class GUI {
 
 		aiMove(ai);
 
-		halfMoveFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
+		undoHalfMoveFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
 
 		setTurnMessage();
 		setScoreMessage();
@@ -1806,7 +1806,7 @@ public final class GUI {
 
 		chessBoard.setThreats();
 
-		halfMoveFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
+		undoHalfMoveFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
 
 		setTurnMessage();
 	}
@@ -1829,7 +1829,7 @@ public final class GUI {
 
 		setTurnMessage();
 
-		halfMoveFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
+		undoHalfMoveFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
 	}
 
 	public static void makeChessBoardSquaresEmpty() {
