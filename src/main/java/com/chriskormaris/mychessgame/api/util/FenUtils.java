@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 public final class FenUtils {
 
 
-	public static ChessBoard getChessBoardFromFenPosition(String fenPosition) throws InvalidFenPositionException {
+	public static ChessBoard getChessBoardFromFenPosition(String fenPosition) {
 		ChessBoard chessBoard = new ChessBoard();
 
 		fenPosition = fenPosition.trim();
