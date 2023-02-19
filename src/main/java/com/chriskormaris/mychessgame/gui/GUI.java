@@ -1264,7 +1264,6 @@ public final class GUI {
 		if (startingPiece.getAllegiance() != endSquare.getAllegiance() && !(endSquare instanceof EmptySquare)) {
 			updateCapturedPieces(endSquare);
 			addCapturedPieceImage(endSquare);
-
 		}
 		// True if an en passant captured piece exists.
 		else if (chessBoard.getCapturedEnPassantPiece() != null) {
@@ -1290,9 +1289,11 @@ public final class GUI {
 
 	private static void updateCapturedPieces(ChessPiece chessPiece) {
 		if (chessPiece.getAllegiance() == Allegiance.WHITE) {
-			capturedPieces[chessBoard.getWhiteCapturedPiecesCounter()] = chessPiece.getPieceChar();
+			int index = Math.min(chessBoard.getWhiteCapturedPiecesCounter(), 14);
+			capturedPieces[index] = chessPiece.getPieceChar();
 		} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
-			capturedPieces[30 - chessBoard.getBlackCapturedPiecesCounter() - 1] = chessPiece.getPieceChar();
+			int index = Math.min(chessBoard.getBlackCapturedPiecesCounter(), 14);
+			capturedPieces[30 - index - 1] = chessPiece.getPieceChar();
 		}
 	}
 
@@ -1312,9 +1313,11 @@ public final class GUI {
 		ImageIcon pieceImage = GuiUtils.preparePieceIcon(imagePath, GuiConstants.CAPTURED_PIECE_PIXEL_SIZE);
 
 		if (endSquare.getAllegiance() == Allegiance.WHITE) {
-			capturedPiecesImages[chessBoard.getWhiteCapturedPiecesCounter()].setIcon(pieceImage);
+			int index = Math.min(chessBoard.getWhiteCapturedPiecesCounter(), 14);
+			capturedPiecesImages[index].setIcon(pieceImage);
 		} else if (endSquare.getAllegiance() == Allegiance.BLACK) {
-			capturedPiecesImages[31 - chessBoard.getBlackCapturedPiecesCounter() - 1].setIcon(pieceImage);
+			int index = Math.min(chessBoard.getBlackCapturedPiecesCounter(), 14);
+			capturedPiecesImages[31 - index - 1].setIcon(pieceImage);
 		}
 
 		chessBoard.incrementCapturedPiecesCounter(endSquare);
