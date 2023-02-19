@@ -78,6 +78,10 @@ public final class GUI {
 	private static Stack<String> undoFenPositions;
 	private static Stack<String> redoFenPositions;
 
+	// The length of this array is 30 elements.
+	// The first 15 elements represent White captured pieces and are capital chars.
+	// The last 15 elements represent Black captured pieces and are lowercase chars.
+	// The elements could also be '-', which is a placeholder for future captured pieces.
 	private static char[] capturedPieces;
 
 	// These stacks of "char" arrays are used to handle the "undo" and "redo" functionality.
