@@ -844,8 +844,6 @@ public final class GUI {
 
 		chessBoard.setThreats();
 
-		undoHalfMoveFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
-
 		setTurnMessage();
 
 		System.out.println();
@@ -1702,8 +1700,6 @@ public final class GUI {
 
 		aiMove(ai);
 
-		undoHalfMoveFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
-
 		setTurnMessage();
 		setScoreMessage();
 
@@ -1809,8 +1805,6 @@ public final class GUI {
 
 		chessBoard.setThreats();
 
-		undoHalfMoveFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
-
 		setTurnMessage();
 	}
 
@@ -1826,8 +1820,6 @@ public final class GUI {
 		chessBoard.setThreats();
 
 		setTurnMessage();
-
-		undoHalfMoveFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
 	}
 
 	public static void makeChessBoardSquaresEmpty() {
