@@ -147,10 +147,7 @@ public final class GUI {
 		undoFenPositions = new Stack<>();
 		redoFenPositions = new Stack<>();
 
-		capturedPieces = new char[30];
-		for (int i = 0; i < 30; i++) {
-			capturedPieces[i] = '-';
-		}
+		initializeCapturedPieces();
 
 		undoCapturedPieces = new Stack<>();
 		redoCapturedPieces = new Stack<>();
@@ -871,9 +868,11 @@ public final class GUI {
 		endingPosition = "";
 
 		undoFenPositions.clear();
-		undoCapturedPieces.clear();
-
 		redoFenPositions.clear();
+
+		initializeCapturedPieces();
+
+		undoCapturedPieces.clear();
 		redoCapturedPieces.clear();
 
 		undoHalfMoveFenPositions.clear();
@@ -899,6 +898,13 @@ public final class GUI {
 		isGameOver = false;
 
 		setTurnMessage();
+	}
+
+	private static void initializeCapturedPieces() {
+		capturedPieces = new char[30];
+		for (int i = 0; i < 30; i++) {
+			capturedPieces[i] = '-';
+		}
 	}
 
 	private static void initializeAI() {
