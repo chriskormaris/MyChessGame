@@ -1851,9 +1851,9 @@ public final class GUI {
 				// chessBoardButtons[i][j].setBorderPainted(false);
 
 				chessBoard.getGameBoard()[i][j] = new EmptySquare();
-				chessBoard.setThreats();
 			}
 		}
+		chessBoard.setThreats();
 	}
 
 	private static void enableChessBoardButtons() {
