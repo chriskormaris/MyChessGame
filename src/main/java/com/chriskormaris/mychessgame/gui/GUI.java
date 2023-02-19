@@ -1689,8 +1689,6 @@ public final class GUI {
 
 		undoCapturedPieces.push(Utilities.copyCharArray(capturedPieces));
 
-		// System.out.println("white plays: " + chessBoard.whitePlays());
-
 		aiMove(ai);
 
 		undoHalfMoveFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
@@ -1699,7 +1697,6 @@ public final class GUI {
 		setScoreMessage();
 
 		frame.revalidate();
-		frame.repaint();
 		frame.paint(frame.getGraphics());
 	}
 
