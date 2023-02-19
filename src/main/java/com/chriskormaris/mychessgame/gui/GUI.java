@@ -317,8 +317,8 @@ public final class GUI {
 				ex.printStackTrace();
 			}
 			Image dImg = img.getScaledInstance(
-					GuiConstants.CHESS_SQUARE_PIXEL_SIZE,
-					GuiConstants.CHESS_SQUARE_PIXEL_SIZE,
+					GuiConstants.CHESS_PIECE_SQUARE_PIXEL_SIZE,
+					GuiConstants.CHESS_PIECE_SQUARE_PIXEL_SIZE,
 					Image.SCALE_SMOOTH
 			);
 			ImageIcon imageIcon = new ImageIcon(dImg);
@@ -688,8 +688,8 @@ public final class GUI {
 				// "fill this in" using a transparent icon...
 				ImageIcon imageIcon = new ImageIcon(
 						new BufferedImage(
-								GuiConstants.CHESS_SQUARE_PIXEL_SIZE,
-								GuiConstants.CHESS_SQUARE_PIXEL_SIZE,
+								GuiConstants.CHESS_PIECE_SQUARE_PIXEL_SIZE,
+								GuiConstants.CHESS_PIECE_SQUARE_PIXEL_SIZE,
 								BufferedImage.TYPE_INT_ARGB
 						)
 				);
@@ -790,8 +790,8 @@ public final class GUI {
 				// We'll "fill this in" using a transparent icon...
 				ImageIcon imageIcon = new ImageIcon(
 						new BufferedImage(
-								GuiConstants.CAPTURED_PIECE_PIXEL_SIZE,
-								GuiConstants.CAPTURED_PIECE_PIXEL_SIZE,
+								GuiConstants.CAPTURED_CHESS_PIECE_PIXEL_SIZE,
+								GuiConstants.CAPTURED_CHESS_PIECE_PIXEL_SIZE,
 								BufferedImage.TYPE_INT_ARGB
 						)
 				);
@@ -1315,7 +1315,7 @@ public final class GUI {
 			imagePath = GuiUtils.getImagePath(endSquare);
 		}
 
-		ImageIcon pieceImage = GuiUtils.preparePieceIcon(imagePath, GuiConstants.CAPTURED_PIECE_PIXEL_SIZE);
+		ImageIcon pieceImage = GuiUtils.preparePieceIcon(imagePath, GuiConstants.CAPTURED_CHESS_PIECE_PIXEL_SIZE);
 
 		if (endSquare.getAllegiance() == Allegiance.WHITE) {
 			int index = Math.min(chessBoard.getWhiteCapturedPiecesCounter(), 14);
@@ -1751,7 +1751,7 @@ public final class GUI {
 	public static void placePieceToPosition(String position, ChessPiece chessPiece) {
 		String imagePath = GuiUtils.getImagePath(chessPiece);
 
-		ImageIcon pieceImage = GuiUtils.preparePieceIcon(imagePath, GuiConstants.CHESS_SQUARE_PIXEL_SIZE);
+		ImageIcon pieceImage = GuiUtils.preparePieceIcon(imagePath, GuiConstants.CHESS_PIECE_SQUARE_PIXEL_SIZE);
 
 		int column = chessBoard.getColumnFromPosition(position);
 		int row = chessBoard.getRowFromPosition(position);
@@ -1776,8 +1776,8 @@ public final class GUI {
 
 		// Our chess board pieces are 64x64 px in size, so we'll
 		// 'fill this in' using a transparent icon.
-		ImageIcon imageIcon = new ImageIcon(new BufferedImage(GuiConstants.CHESS_SQUARE_PIXEL_SIZE,
-				GuiConstants.CHESS_SQUARE_PIXEL_SIZE, BufferedImage.TYPE_INT_ARGB));
+		ImageIcon imageIcon = new ImageIcon(new BufferedImage(GuiConstants.CHESS_PIECE_SQUARE_PIXEL_SIZE,
+				GuiConstants.CHESS_PIECE_SQUARE_PIXEL_SIZE, BufferedImage.TYPE_INT_ARGB));
 
 		chessBoard.getGameBoard()[row][column] = new EmptySquare();
 
@@ -1831,8 +1831,8 @@ public final class GUI {
 				// 'fill this in' using a transparent icon.
 				ImageIcon imageIcon = new ImageIcon(
 						new BufferedImage(
-								GuiConstants.CHESS_SQUARE_PIXEL_SIZE,
-								GuiConstants.CHESS_SQUARE_PIXEL_SIZE,
+								GuiConstants.CHESS_PIECE_SQUARE_PIXEL_SIZE,
+								GuiConstants.CHESS_PIECE_SQUARE_PIXEL_SIZE,
 								BufferedImage.TYPE_INT_ARGB
 						)
 				);

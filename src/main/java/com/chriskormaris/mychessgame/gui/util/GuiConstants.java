@@ -19,8 +19,8 @@ public class GuiConstants {
 	public static final int DEFAULT_HEIGHT = (int) SCREEN_SIZE.getHeight() - 60;
 	public static final int DEFAULT_WIDTH = DEFAULT_HEIGHT + 40;
 
-	public static final int CHESS_SQUARE_PIXEL_SIZE = 64;
-	public static final int CAPTURED_PIECE_PIXEL_SIZE = 16;
+	public static final int CHESS_PIECE_SQUARE_PIXEL_SIZE = 64;
+	public static final int CAPTURED_CHESS_PIECE_PIXEL_SIZE = 16;
 
 	public static final Color BRIGHT_PINK = new Color(240, 207, 207);
 	public static final Color DARK_GREEN = new Color(37, 82, 59);
