@@ -1299,7 +1299,8 @@ public final class GUI {
 			capturedPieces[index] = chessPiece.getPieceChar();
 		} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
 			int index = Math.min(chessBoard.getBlackCapturedPiecesCounter(), 14);
-			capturedPieces[30 - index - 1] = chessPiece.getPieceChar();
+			index = 30 - index - 1;
+			capturedPieces[index] = chessPiece.getPieceChar();
 		}
 	}
 
