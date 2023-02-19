@@ -17,7 +17,6 @@ import com.chriskormaris.mychessgame.api.evaluation.PeSTOEvaluation;
 import com.chriskormaris.mychessgame.api.evaluation.ShannonEvaluation;
 import com.chriskormaris.mychessgame.api.evaluation.SimplifiedEvaluation;
 import com.chriskormaris.mychessgame.api.evaluation.WukongEvaluation;
-import com.chriskormaris.mychessgame.api.exception.InvalidFenPositionException;
 import com.chriskormaris.mychessgame.api.piece.Bishop;
 import com.chriskormaris.mychessgame.api.piece.ChessPiece;
 import com.chriskormaris.mychessgame.api.piece.EmptySquare;
@@ -1815,12 +1814,7 @@ public final class GUI {
 	}
 
 	public static void placePiecesToChessBoard(String fenPosition) {
-		try {
-			chessBoard = FenUtils.getChessBoardFromFenPosition(fenPosition);
-		} catch (InvalidFenPositionException ex) {
-			System.err.println(ex.getMessage());
-			System.exit(1);
-		}
+		chessBoard = FenUtils.getChessBoardFromFenPosition(fenPosition);
 
 		for (int i = 0; i < gameParameters.getNumOfRows(); i++) {
 			for (int j = 0; j < Constants.NUM_OF_COLUMNS; j++) {
