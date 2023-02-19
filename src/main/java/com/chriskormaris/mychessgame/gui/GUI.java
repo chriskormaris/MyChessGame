@@ -173,7 +173,7 @@ public final class GUI {
 
 		configureGuiStyle();
 		initializeGUI();
-		redrawChessBoard();
+		redrawChessBoardButtons();
 		initializeAI();
 
 		frame = new JFrame(title);
@@ -836,7 +836,7 @@ public final class GUI {
 		restoreDefaultValues();
 
 		if (fenPosition.equals(Constants.DEFAULT_STARTING_FEN_POSITION)) {
-			redrawChessBoard();
+			redrawChessBoardButtons();
 		} else {
 			placePiecesToChessBoard(fenPosition);
 		}
@@ -1793,7 +1793,7 @@ public final class GUI {
 		}
 	}
 
-	private static void redrawChessBoard() {
+	private static void redrawChessBoardButtons() {
 		for (int i = 0; i < gameParameters.getNumOfRows(); i++) {
 			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
 				ChessPiece chessPiece = chessBoard.getGameBoard()[i][j];
@@ -1805,7 +1805,7 @@ public final class GUI {
 
 	public static void placePiecesToStartingPositions() {
 		chessBoard.placePiecesToStartingPositions();
-		redrawChessBoard();
+		redrawChessBoardButtons();
 
 		chessBoard.setThreats();
 
