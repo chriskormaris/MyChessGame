@@ -1323,7 +1323,8 @@ public final class GUI {
 			capturedPiecesImages[index].setIcon(pieceImage);
 		} else if (endSquare.getAllegiance() == Allegiance.BLACK) {
 			int index = Math.min(chessBoard.getBlackCapturedPiecesCounter(), 14);
-			capturedPiecesImages[31 - index - 1].setIcon(pieceImage);
+			index = 31 - index - 1;
+			capturedPiecesImages[index].setIcon(pieceImage);
 		}
 
 		chessBoard.incrementCapturedPiecesCounter(endSquare);
