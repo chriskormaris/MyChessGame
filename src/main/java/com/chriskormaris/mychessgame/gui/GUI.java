@@ -148,7 +148,7 @@ public final class GUI {
 		redoFenPositions = new Stack<>();
 
 		capturedPieces = new char[30];
-		for (int i=0; i<30; i++) {
+		for (int i = 0; i < 30; i++) {
 			capturedPieces[i] = '-';
 		}
 
