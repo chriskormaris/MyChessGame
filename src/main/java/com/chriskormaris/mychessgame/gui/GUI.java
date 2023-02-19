@@ -1271,7 +1271,7 @@ public final class GUI {
 		}
 		// True if an en passant captured piece exists.
 		else if (chessBoard.getCapturedEnPassantPiece() != null) {
-			updateCapturedPieces(endSquare);
+			updateCapturedPieces(chessBoard.getCapturedEnPassantPiece());
 			addCapturedPieceImage(chessBoard.getCapturedEnPassantPiece());
 		}
 
