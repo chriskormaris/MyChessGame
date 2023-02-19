@@ -1105,6 +1105,7 @@ public final class GUI {
 				undoCapturedPieces.push(Utilities.copyCharArray(capturedPieces));
 
 				redoFenPositions.clear();
+				redoHalfMoveFenPositions.clear();
 				redoCapturedPieces.clear();
 
 				// System.out.println("startingPositionGameBoard: ");
