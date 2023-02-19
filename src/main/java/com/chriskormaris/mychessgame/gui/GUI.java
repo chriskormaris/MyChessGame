@@ -263,7 +263,7 @@ public final class GUI {
 		});
 
 		exportFenPositionItem.addActionListener(e -> {
-			String exportedFenFilename = (String) JOptionPane.showInputDialog(
+			String exportedFenPositionFilename = (String) JOptionPane.showInputDialog(
 					frame,
 					"Please type the name of the export file:",
 					"Export FEN position",
@@ -273,8 +273,8 @@ public final class GUI {
 					"exported_FEN_position.txt"
 			);
 
-			if (exportedFenFilename != null) {
-				try (BufferedWriter bw = new BufferedWriter(new FileWriter(exportedFenFilename))) {
+			if (exportedFenPositionFilename != null) {
+				try (BufferedWriter bw = new BufferedWriter(new FileWriter(exportedFenPositionFilename))) {
 					String fenPosition = FenUtils.getFenPositionFromChessBoard(chessBoard);
 					bw.write(fenPosition + "\n");
 				} catch (IOException ex) {
