@@ -477,19 +477,17 @@ public final class GUI {
 
 			redoFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
 
-			// Push to the "redoCapturedPieces" Stack.
 			redoCapturedPieces.push(Utilities.copyCharArray(capturedPieces));
 
 			String fenPosition = undoFenPositions.pop();
 			chessBoard = FenUtils.getChessBoardFromFenPosition(fenPosition);
 
 			redoHalfMoveFenPositions.push(undoHalfMoveFenPositions.pop());
-			// System.out.println("size of halfMoveGameBoards: " + halfMoveGameBoards.size());
 
-			// Display the "undo" captured chess board pieces icons.
 			capturedPieces = undoCapturedPieces.pop();
 
 			updateCapturedPiecesPanel();
+
 			setTurnMessage();
 
 			// This is true if any terminal state has occurred.
@@ -550,9 +548,7 @@ public final class GUI {
 			undoFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
 
 			undoHalfMoveFenPositions.push(redoHalfMoveFenPositions.pop());
-			// System.out.println("size of halfMoveGameBoards: " + halfMoveGameBoards.size());
 
-			// Push to the "undoCapturedPieces" Stack.
 			undoCapturedPieces.push(Utilities.copyCharArray(capturedPieces));
 
 			String fenPosition = redoFenPositions.pop();
@@ -561,6 +557,7 @@ public final class GUI {
 			capturedPieces = redoCapturedPieces.pop();
 
 			updateCapturedPiecesPanel();
+
 			setTurnMessage();
 
 			for (int i = 0; i < 31; i++) {
