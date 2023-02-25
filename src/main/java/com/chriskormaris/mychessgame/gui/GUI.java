@@ -1406,7 +1406,8 @@ public final class GUI {
 				int dialogResult = JOptionPane.showConfirmDialog(
 						gui,
 						"Stalemate! No legal moves for White exist. Start a new game?",
-						"Draw", JOptionPane.YES_NO_OPTION
+						"Draw",
+						JOptionPane.YES_NO_OPTION
 				);
 
 				// System.out.println("dialogResult:" + dialogResult);
@@ -1431,7 +1432,8 @@ public final class GUI {
 				int dialogResult = JOptionPane.showConfirmDialog(
 						gui,
 						"Stalemate! No legal moves for Black exist. Start a new game?",
-						"Draw", JOptionPane.YES_NO_OPTION
+						"Draw",
+						JOptionPane.YES_NO_OPTION
 				);
 
 				// System.out.println("dialogResult:" + dialogResult);
@@ -1507,7 +1509,9 @@ public final class GUI {
 				dialogResult = JOptionPane.showConfirmDialog(
 						gui,
 						"Threefold repetition of the same chess board position has occurred! "
-								+ "Do you want to declare a draw?", "Draw", JOptionPane.YES_NO_OPTION
+								+ "Do you want to declare a draw?",
+						"Draw",
+						JOptionPane.YES_NO_OPTION
 				);
 			}
 
