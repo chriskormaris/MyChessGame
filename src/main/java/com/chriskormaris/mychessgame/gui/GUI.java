@@ -1768,7 +1768,6 @@ public final class GUI {
 
 	// It removes the given chessPiece from the board (both the data structure and the GUI).
 	private static void removePieceFromPosition(String position) {
-
 		int column = chessBoard.getColumnFromPosition(position);
 		int row = chessBoard.getRowFromPosition(position);
 
