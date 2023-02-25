@@ -1768,16 +1768,17 @@ public final class GUI {
 
 	// It removes the given chessPiece from the board (both the data structure and the GUI).
 	private static void removePieceFromPosition(String position) {
-		// int column = (int) Character.toUpperCase(position.charAt(0)) - (int) 'A';
-		// int row = N - Character.getNumericValue(position.charAt(1));
 
 		int column = chessBoard.getColumnFromPosition(position);
 		int row = chessBoard.getRowFromPosition(position);
 
 		// Our chess board pieces are 64x64 px in size, so we'll
 		// 'fill this in' using a transparent icon.
-		ImageIcon imageIcon = new ImageIcon(new BufferedImage(GuiConstants.CHESS_PIECE_SQUARE_PIXEL_SIZE,
-				GuiConstants.CHESS_PIECE_SQUARE_PIXEL_SIZE, BufferedImage.TYPE_INT_ARGB));
+		ImageIcon imageIcon = new ImageIcon(new BufferedImage(
+				GuiConstants.CHESS_PIECE_SQUARE_PIXEL_SIZE,
+				GuiConstants.CHESS_PIECE_SQUARE_PIXEL_SIZE,
+				BufferedImage.TYPE_INT_ARGB
+		));
 
 		chessBoard.getGameBoard()[row][column] = new EmptySquare();
 
