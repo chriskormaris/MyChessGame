@@ -402,6 +402,7 @@ public final class GUI {
 		gui.setLayout(new BoxLayout(gui, BoxLayout.Y_AXIS));
 
 		initializeTurnTextPaneBar();
+		setTurnMessage();
 
 		initializeChessPanel();
 		initializeChessButtons();
