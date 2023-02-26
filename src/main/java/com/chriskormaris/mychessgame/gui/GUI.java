@@ -722,7 +722,7 @@ public final class GUI {
 			}
 		}
 
-		// fill the chess board panel
+		// fill the chess panel
 		chessPanel.add(new JLabel(""));
 
 		// fill the top row
