@@ -477,7 +477,7 @@ public final class GUI {
 			redoCapturedPieces.push(Utilities.copyCharArray(capturedPieces));
 
 			String fenPosition = undoFenPositions.pop();
-			chessBoard = FenUtils.getChessBoardFromFenPosition(fenPosition);
+			chessBoard = FenUtils.getChessBoardFromFenPosition(fenPosition, gameParameters.getNumOfRows());
 
 			redoHalfMoveFenPositions.push(undoHalfMoveFenPositions.pop());
 
@@ -549,7 +549,7 @@ public final class GUI {
 			undoCapturedPieces.push(Utilities.copyCharArray(capturedPieces));
 
 			String fenPosition = redoFenPositions.pop();
-			chessBoard = FenUtils.getChessBoardFromFenPosition(fenPosition);
+			chessBoard = FenUtils.getChessBoardFromFenPosition(fenPosition, gameParameters.getNumOfRows());
 
 			capturedPieces = redoCapturedPieces.pop();
 
@@ -835,11 +835,8 @@ public final class GUI {
 
 		restoreDefaultValues();
 
-		if (fenPosition.equals(Constants.DEFAULT_STARTING_FEN_POSITION)) {
-			redrawChessButtons();
-		} else {
-			placePiecesToChessBoard(fenPosition);
-		}
+		placePiecesToChessBoard(fenPosition);
+		redrawChessButtons();
 
 		initializeAI();
 
@@ -1814,7 +1811,7 @@ public final class GUI {
 	}
 
 	public static void placePiecesToChessBoard(String fenPosition) {
-		chessBoard = FenUtils.getChessBoardFromFenPosition(fenPosition);
+		chessBoard = FenUtils.getChessBoardFromFenPosition(fenPosition, gameParameters.getNumOfRows());
 
 		for (int i = 0; i < gameParameters.getNumOfRows(); i++) {
 			for (int j = 0; j < Constants.NUM_OF_COLUMNS; j++) {

@@ -11,9 +11,12 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public final class FenUtils {
 
-
 	public static ChessBoard getChessBoardFromFenPosition(String fenPosition) {
-		ChessBoard chessBoard = new ChessBoard();
+		return getChessBoardFromFenPosition(fenPosition, Constants.DEFAULT_NUM_OF_ROWS);
+	}
+
+	public static ChessBoard getChessBoardFromFenPosition(String fenPosition, int numOfRows) {
+		ChessBoard chessBoard = new ChessBoard(numOfRows);
 
 		fenPosition = fenPosition.trim();
 		String[] fenPositionTokens = fenPosition.split(" ");
