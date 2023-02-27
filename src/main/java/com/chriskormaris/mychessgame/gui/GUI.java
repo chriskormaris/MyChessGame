@@ -802,11 +802,7 @@ public final class GUI {
 
 		chessPanel.removeAll();
 
-		initializeChessPanel();
-		initializeCapturedPiecesPanel();
-
-		initializeChessButtons();
-		initializeCapturedPiecesImages();
+		initializeGUI();
 
 		// if (!buttonsEnabled) {
 		// 	enableChessButtons();
@@ -820,8 +816,6 @@ public final class GUI {
 		initializeAI();
 
 		chessBoard.setThreats();
-
-		setTurnMessage();
 
 		System.out.println();
 		System.out.println(chessBoard);
@@ -870,8 +864,6 @@ public final class GUI {
 		}
 
 		isGameOver = false;
-
-		setTurnMessage();
 	}
 
 	private static void initializeCapturedPieces() {
