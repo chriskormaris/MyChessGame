@@ -1697,10 +1697,8 @@ public final class GUI {
 	public static void placePieceToPosition(String position, ChessPiece chessPiece) {
 		String imagePath = GuiUtils.getImagePath(chessPiece);
 
-		ImageIcon pieceImage = GuiUtils.preparePieceIcon(imagePath, GuiConstants.CHESS_PIECE_SQUARE_PIXEL_SIZE);
-
-		int column = chessBoard.getColumnFromPosition(position);
 		int row = chessBoard.getRowFromPosition(position);
+		int column = chessBoard.getColumnFromPosition(position);
 
 		chessBoard.getGameBoard()[row][column] = chessPiece;
 
@@ -1709,21 +1707,14 @@ public final class GUI {
 			row = gameParameters.getNumOfRows() - 1 - row;
 			column = NUM_OF_COLUMNS - 1 - column;
 		}
+		ImageIcon pieceImage = GuiUtils.preparePieceIcon(imagePath, GuiConstants.CHESS_PIECE_SQUARE_PIXEL_SIZE);
 		chessButtons[row][column].setIcon(pieceImage);
 	}
 
 	// It removes the given chessPiece from the board (both the data structure and the GUI).
 	private static void removePieceFromPosition(String position) {
-		int column = chessBoard.getColumnFromPosition(position);
 		int row = chessBoard.getRowFromPosition(position);
-
-		// Our chess board pieces are 64x64 px in size, so we'll
-		// 'fill this in' using a transparent icon.
-		ImageIcon imageIcon = new ImageIcon(new BufferedImage(
-				GuiConstants.CHESS_PIECE_SQUARE_PIXEL_SIZE,
-				GuiConstants.CHESS_PIECE_SQUARE_PIXEL_SIZE,
-				BufferedImage.TYPE_INT_ARGB
-		));
+		int column = chessBoard.getColumnFromPosition(position);
 
 		chessBoard.getGameBoard()[row][column] = new EmptySquare();
 
@@ -1732,6 +1723,14 @@ public final class GUI {
 			row = gameParameters.getNumOfRows() - 1 - row;
 			column = NUM_OF_COLUMNS - 1 - column;
 		}
+
+		// Our chess board pieces are 64x64 px in size, so we'll
+		// 'fill this in' using a transparent icon.
+		ImageIcon imageIcon = new ImageIcon(new BufferedImage(
+				GuiConstants.CHESS_PIECE_SQUARE_PIXEL_SIZE,
+				GuiConstants.CHESS_PIECE_SQUARE_PIXEL_SIZE,
+				BufferedImage.TYPE_INT_ARGB
+		));
 		chessButtons[row][column].setIcon(imageIcon);
 	}
 
