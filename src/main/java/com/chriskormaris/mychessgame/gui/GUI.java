@@ -398,7 +398,7 @@ public final class GUI {
 
 	private static void initializeGUI() {
 		// Set up the main GUI.
-		// gui.setBorder(new EmptyBorder(0,0,0,0));
+		// gui.setBorder(new EmptyBorder(0, 0, 0, 0));
 		gui.setLayout(new BoxLayout(gui, BoxLayout.Y_AXIS));
 
 		initializeTurnTextPaneBar();
@@ -409,6 +409,8 @@ public final class GUI {
 
 		initializeCapturedPiecesPanel();
 		initializeCapturedPiecesImages();
+
+		setScoreMessage();
 	}
 
 
