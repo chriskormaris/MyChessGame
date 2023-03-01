@@ -5,6 +5,7 @@ import com.chriskormaris.mychessgame.api.enumeration.AiType;
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 import com.chriskormaris.mychessgame.api.enumeration.EvaluationFunction;
 import com.chriskormaris.mychessgame.api.enumeration.GameMode;
+import com.chriskormaris.mychessgame.api.enumeration.GuiType;
 import com.chriskormaris.mychessgame.gui.enumeration.GuiStyle;
 import com.chriskormaris.mychessgame.gui.util.GameParameters;
 import com.chriskormaris.mychessgame.gui.util.GuiConstants;
@@ -23,8 +24,8 @@ public class SettingsWindow extends JFrame {
 	private final JComboBox<String> game_mode_drop_down;
 	private final JComboBox<String> ai1_type_drop_down;
 	private final JComboBox<String> ai2_type_drop_down;
-	private final JComboBox<Integer> max_depth1_drop_down;
-	private final JComboBox<Integer> max_depth2_drop_down;
+	private final JComboBox<Integer> ai1_max_depth_drop_down;
+	private final JComboBox<Integer> ai2_max_depth_drop_down;
 	private final JComboBox<String> evaluation_function1_drop_down;
 	private final JComboBox<String> evaluation_function2_drop_down;
 	private final JComboBox<String> white_square_color_drop_down;
@@ -36,8 +37,13 @@ public class SettingsWindow extends JFrame {
 	private final JButton apply;
 	private final JButton cancel;
 
-	public SettingsWindow(Component parentComponent) {
+	private final Component parentComponent;
+	private final GameParameters newGameParameters;
+
+	public SettingsWindow(Component parentComponent, GameParameters gameParameters, GameParameters newGameParameters) {
 		super("Settings");
+		this.parentComponent = parentComponent;
+		this.newGameParameters = newGameParameters;
 
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setLayout(null);
@@ -49,19 +55,21 @@ public class SettingsWindow extends JFrame {
 
 		EventHandler handler = new EventHandler();
 
-		GuiStyle selectedGuiStyle = GUI.gameParameters.getGuiStyle();
-		boolean enableSounds = GUI.gameParameters.isEnableSounds();
-		Allegiance humanPlayerAllegiance = GUI.gameParameters.getHumanPlayerAllegiance();
-		GameMode selectedGameMode = GUI.gameParameters.getGameMode();
-		AiType selectedAi1Type = GUI.gameParameters.getAi1Type();
-		AiType selectedAi2Type = GUI.gameParameters.getAi2Type();
-		int maxDepth1 = GUI.gameParameters.getAi1MaxDepth() - 1;
-		int maxDepth2 = GUI.gameParameters.getAi2MaxDepth() - 1;
-		EvaluationFunction evaluationFunction1 = GUI.gameParameters.getEvaluationFunction1();
-		EvaluationFunction evaluationFunction2 = GUI.gameParameters.getEvaluationFunction2();
-		Color selectedWhiteSquareColor = GUI.gameParameters.getWhiteSquareColor();
-		Color selectedBlackSquareColor = GUI.gameParameters.getBlackSquareColor();
-		int numOfRows = GUI.gameParameters.getNumOfRows();
+		newGameParameters.setGuiType(gameParameters.getGuiType());
+
+		GuiStyle selectedGuiStyle = gameParameters.getGuiStyle();
+		boolean enableSounds = gameParameters.isEnableSounds();
+		Allegiance humanPlayerAllegiance = gameParameters.getHumanPlayerAllegiance();
+		GameMode selectedGameMode = gameParameters.getGameMode();
+		AiType selectedAi1Type = gameParameters.getAi1Type();
+		AiType selectedAi2Type = gameParameters.getAi2Type();
+		int maxDepth1 = gameParameters.getAi1MaxDepth() - 1;
+		int maxDepth2 = gameParameters.getAi2MaxDepth() - 1;
+		EvaluationFunction evaluationFunction1 = gameParameters.getEvaluationFunction1();
+		EvaluationFunction evaluationFunction2 = gameParameters.getEvaluationFunction2();
+		Color selectedWhiteSquareColor = gameParameters.getWhiteSquareColor();
+		Color selectedBlackSquareColor = gameParameters.getBlackSquareColor();
+		int numOfRows = gameParameters.getNumOfRows();
 
 
 		JLabel guiStyleLabel = new JLabel("GUI style");
@@ -79,7 +87,9 @@ public class SettingsWindow extends JFrame {
 		JLabel numOfRowsLabel = new JLabel("Number of rows");
 
 
-		add(guiStyleLabel);
+		if (gameParameters.getGuiType() == GuiType.BUTTONS) {
+			add(guiStyleLabel);
+		}
 		add(enableSoundsLabel);
 		add(humanPlayerAllegianceLabel);
 		add(gameModeLabel);
@@ -91,7 +101,9 @@ public class SettingsWindow extends JFrame {
 		add(evaluationFunction2Label);
 		add(whiteSquareColorLabel);
 		add(blackSquareColorLabel);
-		add(numOfRowsLabel);
+		if (gameParameters.getGuiType() == GuiType.BUTTONS) {
+			add(numOfRowsLabel);
+		}
 
 		gui_style_drop_down = new JComboBox<>();
 		gui_style_drop_down.addItem("Cross-platform style");
@@ -149,21 +161,21 @@ public class SettingsWindow extends JFrame {
 			ai2_type_drop_down.setSelectedIndex(1);
 		}
 
-		max_depth1_drop_down = new JComboBox<>();
-		max_depth1_drop_down.addItem(1);
-		max_depth1_drop_down.addItem(2);
-		max_depth1_drop_down.addItem(3);
-		max_depth1_drop_down.addItem(4);
+		ai1_max_depth_drop_down = new JComboBox<>();
+		ai1_max_depth_drop_down.addItem(1);
+		ai1_max_depth_drop_down.addItem(2);
+		ai1_max_depth_drop_down.addItem(3);
+		ai1_max_depth_drop_down.addItem(4);
 
-		max_depth1_drop_down.setSelectedIndex(maxDepth1);
+		ai1_max_depth_drop_down.setSelectedIndex(maxDepth1);
 
-		max_depth2_drop_down = new JComboBox<>();
-		max_depth2_drop_down.addItem(1);
-		max_depth2_drop_down.addItem(2);
-		max_depth2_drop_down.addItem(3);
-		max_depth2_drop_down.addItem(4);
+		ai2_max_depth_drop_down = new JComboBox<>();
+		ai2_max_depth_drop_down.addItem(1);
+		ai2_max_depth_drop_down.addItem(2);
+		ai2_max_depth_drop_down.addItem(3);
+		ai2_max_depth_drop_down.addItem(4);
 
-		max_depth2_drop_down.setSelectedIndex(maxDepth2);
+		ai2_max_depth_drop_down.setSelectedIndex(maxDepth2);
 
 		evaluation_function1_drop_down = new JComboBox<>();
 		evaluation_function1_drop_down.addItem("Simplified");
@@ -225,19 +237,23 @@ public class SettingsWindow extends JFrame {
 
 		num_of_rows_spinner_model.setValue(numOfRows);
 
-		add(gui_style_drop_down);
+		if (gameParameters.getGuiType() == GuiType.BUTTONS) {
+			add(gui_style_drop_down);
+		}
 		add(enable_sounds_check_box);
 		add(human_player_allegiance_drop_down);
 		add(game_mode_drop_down);
 		add(ai1_type_drop_down);
 		add(ai2_type_drop_down);
-		add(max_depth1_drop_down);
-		add(max_depth2_drop_down);
+		add(ai1_max_depth_drop_down);
+		add(ai2_max_depth_drop_down);
 		add(evaluation_function1_drop_down);
 		add(evaluation_function2_drop_down);
 		add(white_square_color_drop_down);
 		add(black_square_color_drop_down);
-		add(num_of_rows_spinner);
+		if (gameParameters.getGuiType() == GuiType.BUTTONS) {
+			add(num_of_rows_spinner);
+		}
 
 		guiStyleLabel.setBounds(25, 25, 205, 25);
 		enableSoundsLabel.setBounds(25, 60, 205, 25);
@@ -259,8 +275,8 @@ public class SettingsWindow extends JFrame {
 		game_mode_drop_down.setBounds(225, 130, 180, 25);
 		ai1_type_drop_down.setBounds(225, 165, 180, 25);
 		ai2_type_drop_down.setBounds(225, 200, 180, 25);
-		max_depth1_drop_down.setBounds(225, 235, 180, 25);
-		max_depth2_drop_down.setBounds(225, 270, 180, 25);
+		ai1_max_depth_drop_down.setBounds(225, 235, 180, 25);
+		ai2_max_depth_drop_down.setBounds(225, 270, 180, 25);
 		evaluation_function1_drop_down.setBounds(225, 305, 180, 25);
 		evaluation_function2_drop_down.setBounds(225, 340, 180, 25);
 		white_square_color_drop_down.setBounds(225, 375, 180, 25);
@@ -301,8 +317,8 @@ public class SettingsWindow extends JFrame {
 							.replace(" ", "_"));
 					AiType ai2Type = AiType.valueOf(ai2_type_drop_down.getSelectedItem().toString().toUpperCase()
 							.replace(" ", "_"));
-					int maxDepth1 = (int) max_depth1_drop_down.getSelectedItem();
-					int maxDepth2 = (int) max_depth2_drop_down.getSelectedItem();
+					int ai1MaxDepth = (int) ai1_max_depth_drop_down.getSelectedItem();
+					int ai2MaxDepth = (int) ai2_max_depth_drop_down.getSelectedItem();
 					EvaluationFunction evaluationFunction1 = EvaluationFunction.valueOf(evaluation_function1_drop_down
 							.getSelectedItem().toString().toUpperCase());
 					EvaluationFunction evaluationFunction2 = EvaluationFunction.valueOf(evaluation_function2_drop_down
@@ -330,25 +346,22 @@ public class SettingsWindow extends JFrame {
 						blackSquareColor = Color.GRAY;
 					}
 
-					// Change game parameters based on the settings.
-					GUI.newGameParameters = new GameParameters(
-							guiStyle,
-							enableSounds,
-							humanPlayerAllegiance,
-							gameMode,
-							ai1Type,
-							ai2Type,
-							maxDepth1,
-							maxDepth2,
-							evaluationFunction1,
-							evaluationFunction2,
-							whiteSquareColor,
-							blackSquareColor,
-							numOfRows
-					);
+					newGameParameters.setGuiStyle(guiStyle);
+					newGameParameters.setEnableSounds(enableSounds);
+					newGameParameters.setHumanPlayerAllegiance(humanPlayerAllegiance);
+					newGameParameters.setGameMode(gameMode);
+					newGameParameters.setAi1Type(ai1Type);
+					newGameParameters.setAi2Type(ai2Type);
+					newGameParameters.setAi1MaxDepth(ai1MaxDepth);
+					newGameParameters.setAi2MaxDepth(ai2MaxDepth);
+					newGameParameters.setEvaluationFunction1(evaluationFunction1);
+					newGameParameters.setEvaluationFunction2(evaluationFunction2);
+					newGameParameters.setWhiteSquareColor(whiteSquareColor);
+					newGameParameters.setBlackSquareColor(blackSquareColor);
+					newGameParameters.setNumOfRows(numOfRows);
 
 					JOptionPane.showMessageDialog(
-							GUI.frame,
+							parentComponent,
 							"Game settings have been changed.\n" +
 									"The changes will be applied in the next new game.",
 							"",

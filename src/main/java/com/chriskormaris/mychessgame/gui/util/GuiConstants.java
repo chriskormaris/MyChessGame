@@ -14,11 +14,6 @@ public class GuiConstants {
 	public static final String FIRST_TURN_TEXT = "Turn: 1. White plays first.";
 	public static final String ZERO_SCORE_TEXT = "Score:  0";
 
-	public static final Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
-
-	public static final int DEFAULT_HEIGHT = (int) SCREEN_SIZE.getHeight() - 60;
-	public static final int DEFAULT_WIDTH = DEFAULT_HEIGHT + 40;
-
 	public static final int CHESS_PIECE_SQUARE_PIXEL_SIZE = 64;
 	public static final int CAPTURED_CHESS_PIECE_PIXEL_SIZE = 16;
 

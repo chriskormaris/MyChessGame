@@ -137,8 +137,8 @@ public final class GUI {
 	private static JMenuItem loadCheckpointItem;
 
 	public static void create(String title) {
-		width = GuiConstants.DEFAULT_WIDTH;
-		height = GuiConstants.DEFAULT_HEIGHT;
+		height = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 60;
+		width = height + 60;
 
 		gui = new JPanel();
 		turnTextPane = new JTextPane();
@@ -170,7 +170,6 @@ public final class GUI {
 		// Change JDialog style.
 		// JDialog.setDefaultLookAndFeelDecorated(true);
 
-		configureGuiStyle();
 		initializeGUI();
 		redrawChessButtons();
 		initializeAI();
@@ -189,7 +188,7 @@ public final class GUI {
 		// ensures the minimum size is enforced.
 		frame.setMinimumSize(frame.getSize());
 
-		frame.setLocation((int) (GuiConstants.SCREEN_SIZE.getWidth() - frame.getWidth()) / 2, 5);
+		frame.setLocation((int) (Toolkit.getDefaultToolkit().getScreenSize().getWidth() - frame.getWidth()) / 2, 5);
 
 		frame.setResizable(false);
 
@@ -236,7 +235,7 @@ public final class GUI {
 		exportToGifItem.addActionListener(e -> exportToGif());
 
 		settingsItem.addActionListener(e -> {
-			SettingsWindow settings = new SettingsWindow(frame);
+			SettingsWindow settings = new SettingsWindow(frame, gameParameters, newGameParameters);
 			settings.setVisible(true);
 		});
 
@@ -397,6 +396,8 @@ public final class GUI {
 
 
 	private static void initializeGUI() {
+		configureGuiStyle();
+
 		// Set up the main GUI.
 		// gui.setBorder(new EmptyBorder(0, 0, 0, 0));
 		gui.setLayout(new BoxLayout(gui, BoxLayout.Y_AXIS));
@@ -799,8 +800,6 @@ public final class GUI {
 		if (redoItem != null) {
 			redoItem.setEnabled(false);
 		}
-
-		configureGuiStyle();
 
 		chessPanel.removeAll();
 

@@ -4,6 +4,7 @@ import com.chriskormaris.mychessgame.api.enumeration.AiType;
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 import com.chriskormaris.mychessgame.api.enumeration.EvaluationFunction;
 import com.chriskormaris.mychessgame.api.enumeration.GameMode;
+import com.chriskormaris.mychessgame.api.enumeration.GuiType;
 import com.chriskormaris.mychessgame.api.util.Constants;
 import com.chriskormaris.mychessgame.gui.enumeration.GuiStyle;
 import lombok.AllArgsConstructor;
@@ -17,6 +18,7 @@ import java.awt.*;
 @AllArgsConstructor
 public class GameParameters {
 
+	private GuiType guiType;
 	private GuiStyle guiStyle;
 
 	private boolean enableSounds;
@@ -43,6 +45,8 @@ public class GameParameters {
 	// Default constructor
 	public GameParameters() {
 		/* Default values */
+		this.guiType = GuiType.BUTTONS;
+
 		this.guiStyle = GuiStyle.CROSS_PLATFORM_STYLE;
 		// this.guiStyle = GuiStyle.NIMBUS_STYLE;
 
@@ -79,6 +83,7 @@ public class GameParameters {
 
 	// Copy constructor
 	public GameParameters(GameParameters otherGameParameters) {
+		this.guiType = otherGameParameters.getGuiType();
 		this.guiStyle = otherGameParameters.getGuiStyle();
 		this.enableSounds = otherGameParameters.isEnableSounds();
 		this.humanPlayerAllegiance = otherGameParameters.getHumanPlayerAllegiance();
