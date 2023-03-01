@@ -4,11 +4,11 @@ package com.chriskormaris.mychessgame.gui;
 import com.chriskormaris.mychessgame.api.enumeration.GameMode;
 import org.junit.jupiter.api.Test;
 
-import static com.chriskormaris.mychessgame.gui.GUI.chessBoard;
-import static com.chriskormaris.mychessgame.gui.GUI.newGameParameters;
-import static com.chriskormaris.mychessgame.gui.GUI.placePiecesToStartingPositions;
-import static com.chriskormaris.mychessgame.gui.GUI.playAiVsAi;
-import static com.chriskormaris.mychessgame.gui.GUI.startNewGame;
+import static com.chriskormaris.mychessgame.gui.ButtonsGui.chessBoard;
+import static com.chriskormaris.mychessgame.gui.ButtonsGui.newGameParameters;
+import static com.chriskormaris.mychessgame.gui.ButtonsGui.placePiecesToStartingPositions;
+import static com.chriskormaris.mychessgame.gui.ButtonsGui.playAiVsAi;
+import static com.chriskormaris.mychessgame.gui.ButtonsGui.startNewGame;
 
 
 public class AiVsAiTest {
@@ -17,7 +17,7 @@ public class AiVsAiTest {
 	public void testAiVsAi() {
 		String title = "AI Vs AI Test";
 
-		GUI.create(title);
+		ButtonsGui.create(title);
 
 		newGameParameters.setGameMode(GameMode.AI_VS_AI);
 		// newGameParameters.setAiType(AiType.RANDOM_AI);

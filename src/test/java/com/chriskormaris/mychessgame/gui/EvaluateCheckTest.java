@@ -4,8 +4,8 @@ package com.chriskormaris.mychessgame.gui;
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import org.junit.jupiter.api.Test;
 
-import static com.chriskormaris.mychessgame.gui.GUI.chessBoard;
-import static com.chriskormaris.mychessgame.gui.GUI.placePiecesToChessBoard;
+import static com.chriskormaris.mychessgame.gui.ButtonsGui.chessBoard;
+import static com.chriskormaris.mychessgame.gui.ButtonsGui.placePiecesToChessBoard;
 
 
 public class EvaluateCheckTest {
@@ -16,7 +16,7 @@ public class EvaluateCheckTest {
 
 		// GameParameters.gameMode = GameMode.HUMAN_VS_HUMAN;
 
-		GUI.create(title);
+		ButtonsGui.create(title);
 
 		// The Black Queen should capture the White Queen instead of going for a Check.
 		String fenPosition = "4k3/8/3q4/8/5Q2/8/8/R3K2R w KQkq - 0 1";

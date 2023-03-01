@@ -5,9 +5,9 @@ import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.api.enumeration.GameResult;
 import org.junit.jupiter.api.Test;
 
-import static com.chriskormaris.mychessgame.gui.GUI.checkForGameOver;
-import static com.chriskormaris.mychessgame.gui.GUI.chessBoard;
-import static com.chriskormaris.mychessgame.gui.GUI.placePiecesToChessBoard;
+import static com.chriskormaris.mychessgame.gui.ButtonsGui.checkForGameOver;
+import static com.chriskormaris.mychessgame.gui.ButtonsGui.chessBoard;
+import static com.chriskormaris.mychessgame.gui.ButtonsGui.placePiecesToChessBoard;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 
@@ -17,7 +17,7 @@ public class DeadGameDrawTest {
 	public void testDeadGameDraw() {
 		String title = "Dead Game Draw Test";
 
-		GUI.create(title);
+		ButtonsGui.create(title);
 
 		// These FEN positions are considered a draw!
 		// Each king is stuck on their side.

@@ -5,10 +5,10 @@ import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.api.enumeration.GameMode;
 import org.junit.jupiter.api.Test;
 
-import static com.chriskormaris.mychessgame.gui.GUI.chessBoard;
-import static com.chriskormaris.mychessgame.gui.GUI.newGameParameters;
-import static com.chriskormaris.mychessgame.gui.GUI.placePiecesToChessBoard;
-import static com.chriskormaris.mychessgame.gui.GUI.startNewGame;
+import static com.chriskormaris.mychessgame.gui.ButtonsGui.chessBoard;
+import static com.chriskormaris.mychessgame.gui.ButtonsGui.newGameParameters;
+import static com.chriskormaris.mychessgame.gui.ButtonsGui.placePiecesToChessBoard;
+import static com.chriskormaris.mychessgame.gui.ButtonsGui.startNewGame;
 
 
 public class PawnPromotionTest {
@@ -17,7 +17,7 @@ public class PawnPromotionTest {
 	public void testPawnPromotion() {
 		String title = "Pawn Promotion Test";
 
-		GUI.create(title);
+		ButtonsGui.create(title);
 
 		// newGameParameters.setGameMode(GameMode.AI_VS_AI);
 		newGameParameters.setGameMode(GameMode.HUMAN_VS_HUMAN);

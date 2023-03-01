@@ -10,9 +10,9 @@ import com.chriskormaris.mychessgame.api.piece.Pawn;
 import com.chriskormaris.mychessgame.api.piece.Queen;
 import org.junit.jupiter.api.Test;
 
-import static com.chriskormaris.mychessgame.gui.GUI.chessBoard;
-import static com.chriskormaris.mychessgame.gui.GUI.makeChessBoardSquaresEmpty;
-import static com.chriskormaris.mychessgame.gui.GUI.placePieceToPosition;
+import static com.chriskormaris.mychessgame.gui.ButtonsGui.chessBoard;
+import static com.chriskormaris.mychessgame.gui.ButtonsGui.makeChessBoardSquaresEmpty;
+import static com.chriskormaris.mychessgame.gui.ButtonsGui.placePieceToPosition;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
@@ -22,7 +22,7 @@ public class EndGameTest {
 	public void testEndGame() {
 		String title = "EndGame Test";
 
-		GUI.create(title);
+		ButtonsGui.create(title);
 
 		makeChessBoardSquaresEmpty();
 		ChessBoard.printChessBoard(chessBoard.getGameBoard());

@@ -3,10 +3,10 @@ package com.chriskormaris.mychessgame.gui;
 
 import org.junit.jupiter.api.Test;
 
-import static com.chriskormaris.mychessgame.gui.GUI.chessBoard;
-import static com.chriskormaris.mychessgame.gui.GUI.newGameParameters;
-import static com.chriskormaris.mychessgame.gui.GUI.placePiecesToStartingPositions;
-import static com.chriskormaris.mychessgame.gui.GUI.startNewGame;
+import static com.chriskormaris.mychessgame.gui.ButtonsGui.chessBoard;
+import static com.chriskormaris.mychessgame.gui.ButtonsGui.newGameParameters;
+import static com.chriskormaris.mychessgame.gui.ButtonsGui.placePiecesToStartingPositions;
+import static com.chriskormaris.mychessgame.gui.ButtonsGui.startNewGame;
 
 
 public class MinimaxAiMaxDepthTest {
@@ -15,7 +15,7 @@ public class MinimaxAiMaxDepthTest {
 	public void testMinimaxAiMaxDepth() {
 		String title = "Minimax AI Max Depth Test";
 
-		GUI.create(title);
+		ButtonsGui.create(title);
 
 		placePiecesToStartingPositions();
 

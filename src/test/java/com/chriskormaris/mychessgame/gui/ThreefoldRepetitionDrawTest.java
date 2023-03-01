@@ -10,12 +10,12 @@ import com.chriskormaris.mychessgame.api.piece.Knight;
 import com.chriskormaris.mychessgame.api.util.FenUtils;
 import org.junit.jupiter.api.Test;
 
-import static com.chriskormaris.mychessgame.gui.GUI.chessBoard;
-import static com.chriskormaris.mychessgame.gui.GUI.makeChessBoardSquaresEmpty;
-import static com.chriskormaris.mychessgame.gui.GUI.newGameParameters;
-import static com.chriskormaris.mychessgame.gui.GUI.placePieceToPosition;
-import static com.chriskormaris.mychessgame.gui.GUI.startNewGame;
-import static com.chriskormaris.mychessgame.gui.GUI.undoHalfMoveFenPositions;
+import static com.chriskormaris.mychessgame.gui.ButtonsGui.chessBoard;
+import static com.chriskormaris.mychessgame.gui.ButtonsGui.makeChessBoardSquaresEmpty;
+import static com.chriskormaris.mychessgame.gui.ButtonsGui.newGameParameters;
+import static com.chriskormaris.mychessgame.gui.ButtonsGui.placePieceToPosition;
+import static com.chriskormaris.mychessgame.gui.ButtonsGui.startNewGame;
+import static com.chriskormaris.mychessgame.gui.ButtonsGui.undoHalfMoveFenPositions;
 
 
 public class ThreefoldRepetitionDrawTest {
@@ -24,7 +24,7 @@ public class ThreefoldRepetitionDrawTest {
 	public void testThreefoldRepetitionDraw() {
 		String title = "Threefold Repetition Draw Test";
 
-		GUI.create(title);
+		ButtonsGui.create(title);
 
 		newGameParameters.setGameMode(GameMode.HUMAN_VS_HUMAN);
 		startNewGame();

@@ -4,8 +4,8 @@ package com.chriskormaris.mychessgame.gui;
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import org.junit.jupiter.api.Test;
 
-import static com.chriskormaris.mychessgame.gui.GUI.chessBoard;
-import static com.chriskormaris.mychessgame.gui.GUI.placePiecesToChessBoard;
+import static com.chriskormaris.mychessgame.gui.ButtonsGui.chessBoard;
+import static com.chriskormaris.mychessgame.gui.ButtonsGui.placePiecesToChessBoard;
 
 
 public class StalemateCheckmateTest {
@@ -14,7 +14,7 @@ public class StalemateCheckmateTest {
 	public void testStalemateCheckmate() {
 		String title = "Stalemate or Checkmate Test";
 
-		GUI.create(title);
+		ButtonsGui.create(title);
 
 		// newGameParameters.setAi1Type(AiType.RANDOM_AI);
 		// newGameParameters.setAi1MaxDepth(1);

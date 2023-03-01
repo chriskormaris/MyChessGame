@@ -5,9 +5,9 @@ import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.api.enumeration.GameMode;
 import org.junit.jupiter.api.Test;
 
-import static com.chriskormaris.mychessgame.gui.GUI.chessBoard;
-import static com.chriskormaris.mychessgame.gui.GUI.newGameParameters;
-import static com.chriskormaris.mychessgame.gui.GUI.startNewGame;
+import static com.chriskormaris.mychessgame.gui.ButtonsGui.chessBoard;
+import static com.chriskormaris.mychessgame.gui.ButtonsGui.newGameParameters;
+import static com.chriskormaris.mychessgame.gui.ButtonsGui.startNewGame;
 
 
 public class CastlingTest {
@@ -16,7 +16,7 @@ public class CastlingTest {
 	public void testCastling() {
 		String title = "Castling Test";
 
-		GUI.create(title);
+		ButtonsGui.create(title);
 
 		newGameParameters.setGameMode(GameMode.HUMAN_VS_HUMAN);
 

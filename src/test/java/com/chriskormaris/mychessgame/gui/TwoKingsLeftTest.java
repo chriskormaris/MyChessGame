@@ -7,10 +7,10 @@ import com.chriskormaris.mychessgame.api.piece.King;
 import com.chriskormaris.mychessgame.api.piece.Pawn;
 import org.junit.jupiter.api.Test;
 
-import static com.chriskormaris.mychessgame.gui.GUI.checkForGameOver;
-import static com.chriskormaris.mychessgame.gui.GUI.chessBoard;
-import static com.chriskormaris.mychessgame.gui.GUI.makeChessBoardSquaresEmpty;
-import static com.chriskormaris.mychessgame.gui.GUI.placePieceToPosition;
+import static com.chriskormaris.mychessgame.gui.ButtonsGui.checkForGameOver;
+import static com.chriskormaris.mychessgame.gui.ButtonsGui.chessBoard;
+import static com.chriskormaris.mychessgame.gui.ButtonsGui.makeChessBoardSquaresEmpty;
+import static com.chriskormaris.mychessgame.gui.ButtonsGui.placePieceToPosition;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 
@@ -20,7 +20,7 @@ public class TwoKingsLeftTest {
 	public void testTwoKingsLeft() {
 		String title = "Two Kings Left Test";
 
-		GUI.create(title);
+		ButtonsGui.create(title);
 
 		makeChessBoardSquaresEmpty();
 

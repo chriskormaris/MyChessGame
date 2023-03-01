@@ -65,7 +65,7 @@ import static javax.swing.JOptionPane.QUESTION_MESSAGE;
 
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public final class GUI {
+public final class ButtonsGui {
 
 	private static int width;
 	private static int height;
@@ -137,8 +137,8 @@ public final class GUI {
 	private static JMenuItem loadCheckpointItem;
 
 	public static void create(String title) {
-		height = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 60;
-		width = height + 60;
+		height = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 40;
+		width = height + 40;
 
 		gui = new JPanel();
 		turnTextPane = new JTextPane();
@@ -1166,7 +1166,7 @@ public final class GUI {
 				String value = null;
 				if (startingPiece.getAllegiance() == Allegiance.WHITE) {
 					value = (String) JOptionPane.showInputDialog(
-							GUI.gui,
+							ButtonsGui.gui,
 							"Promote White Pawn to:",
 							"White Pawn Promotion",
 							JOptionPane.QUESTION_MESSAGE,
@@ -1176,7 +1176,7 @@ public final class GUI {
 					);
 				} else if (startingPiece.getAllegiance() == Allegiance.BLACK) {
 					value = (String) JOptionPane.showInputDialog(
-							GUI.gui,
+							ButtonsGui.gui,
 							"Promote Black Pawn to:",
 							"Black Pawn Promotion",
 							JOptionPane.QUESTION_MESSAGE,
