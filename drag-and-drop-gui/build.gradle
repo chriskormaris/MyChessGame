@@ -1,0 +1,15 @@
+plugins {
+    id 'java'
+    id 'io.freefair.lombok' version '6.6.1'
+}
+
+group 'com.chriskormaris.mychessgame'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(path: ':api')
+    implementation project(path: ':common')
+}
