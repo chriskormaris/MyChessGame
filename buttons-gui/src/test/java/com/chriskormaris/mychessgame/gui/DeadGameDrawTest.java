@@ -5,9 +5,6 @@ import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.api.enumeration.GameResult;
 import org.junit.jupiter.api.Test;
 
-import static com.chriskormaris.mychessgame.gui.ButtonsGui.checkForGameOver;
-import static com.chriskormaris.mychessgame.gui.ButtonsGui.chessBoard;
-import static com.chriskormaris.mychessgame.gui.ButtonsGui.placePiecesToChessBoard;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 
@@ -17,7 +14,7 @@ public class DeadGameDrawTest {
 	public void testDeadGameDraw() {
 		String title = "Dead Game Draw Test";
 
-		ButtonsGui.create(title);
+		GUI.create(title);
 
 		// These FEN positions are considered a draw!
 		// Each king is stuck on their side.
@@ -35,13 +32,13 @@ public class DeadGameDrawTest {
 		// if the White pawn is moved!
 		String fenPosition = "4k3/8/8/p2p2p1/3P2P1/P7/8/4K3 w KQ - 0 1";
 
-		ButtonsGui.placePiecesToChessBoard(fenPosition);
+		GUI.placePiecesToChessBoard(fenPosition);
 
-		ChessBoard.printChessBoard(ButtonsGui.chessBoard.getGameBoard());
+		ChessBoard.printChessBoard(GUI.chessBoard.getGameBoard());
 
 		System.out.println("Checking if a draw has occurred...");
-		ButtonsGui.checkForGameOver();
-		boolean isDraw = ButtonsGui.chessBoard.getGameResult() == GameResult.INSUFFICIENT_MATERIAL_DRAW;
+		GUI.checkForGameOver();
+		boolean isDraw = GUI.chessBoard.getGameResult() == GameResult.INSUFFICIENT_MATERIAL_DRAW;
 		System.out.println(isDraw ? "The game is a draw!" : "The game is NOT a draw!");
 		assertFalse(isDraw, "The game is a draw.");
 		// System.out.println("*****************************");

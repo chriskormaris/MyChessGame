@@ -4,12 +4,6 @@ package com.chriskormaris.mychessgame.gui;
 import com.chriskormaris.mychessgame.api.enumeration.GameMode;
 import org.junit.jupiter.api.Test;
 
-import static com.chriskormaris.mychessgame.gui.ButtonsGui.chessBoard;
-import static com.chriskormaris.mychessgame.gui.ButtonsGui.newGameParameters;
-import static com.chriskormaris.mychessgame.gui.ButtonsGui.placePiecesToStartingPositions;
-import static com.chriskormaris.mychessgame.gui.ButtonsGui.playAiVsAi;
-import static com.chriskormaris.mychessgame.gui.ButtonsGui.startNewGame;
-
 
 public class AiVsAiTest {
 
@@ -17,12 +11,12 @@ public class AiVsAiTest {
 	public void testAiVsAi() {
 		String title = "AI Vs AI Test";
 
-		ButtonsGui.create(title);
+		GUI.create(title);
 
-		ButtonsGui.newGameParameters.setGameMode(GameMode.AI_VS_AI);
+		GUI.newGameParameters.setGameMode(GameMode.AI_VS_AI);
 		// newGameParameters.setAiType(AiType.RANDOM_AI);
 
-		ButtonsGui.startNewGame();
+		GUI.startNewGame();
 
 		// String fenPosition = "5Knk/1P6/4Q3/8/8/8/8/8 w - - 0 1";
 		// String fenPosition = "1R1qpKnk/8/4Q3/8/8/8/8/8 w - - 0 1";
@@ -47,15 +41,15 @@ public class AiVsAiTest {
 		// chessBoard.checkForWhiteCheckmate(storeKingInCheckMoves);
 		// System.out.println(chessBoard.getWhiteKingInCheckValidPieceMoves());
 
-		ButtonsGui.placePiecesToStartingPositions();
-		ButtonsGui.playAiVsAi();
+		GUI.placePiecesToStartingPositions();
+		GUI.playAiVsAi();
 
 		System.out.println();
 
 		System.out.println("*****************************");
 		System.out.println();
 
-		while (!ButtonsGui.chessBoard.isTerminalState()) ;
+		while (!GUI.chessBoard.isTerminalState()) ;
 	}
 
 }

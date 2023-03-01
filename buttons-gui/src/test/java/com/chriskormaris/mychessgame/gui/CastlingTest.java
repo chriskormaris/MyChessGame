@@ -5,10 +5,6 @@ import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.api.enumeration.GameMode;
 import org.junit.jupiter.api.Test;
 
-import static com.chriskormaris.mychessgame.gui.ButtonsGui.chessBoard;
-import static com.chriskormaris.mychessgame.gui.ButtonsGui.newGameParameters;
-import static com.chriskormaris.mychessgame.gui.ButtonsGui.startNewGame;
-
 
 public class CastlingTest {
 
@@ -16,9 +12,9 @@ public class CastlingTest {
 	public void testCastling() {
 		String title = "Castling Test";
 
-		ButtonsGui.create(title);
+		GUI.create(title);
 
-		ButtonsGui.newGameParameters.setGameMode(GameMode.HUMAN_VS_HUMAN);
+		GUI.newGameParameters.setGameMode(GameMode.HUMAN_VS_HUMAN);
 
 		/* Play as White. */
 		String fenPosition = "4k3/8/8/8/8/8/N7/R3K2R w KQ - 0 1";
@@ -36,9 +32,9 @@ public class CastlingTest {
 		// GUI.ai = new MinimaxAi(gameParameters.maxDepth1, Constants.WHITE);
 		/*----------------*/
 
-		ButtonsGui.startNewGame(fenPosition);
+		GUI.startNewGame(fenPosition);
 
-		ChessBoard.printChessBoard(ButtonsGui.chessBoard.getGameBoard());
+		ChessBoard.printChessBoard(GUI.chessBoard.getGameBoard());
 
 		System.out.println();
 

@@ -8,10 +8,6 @@ import com.chriskormaris.mychessgame.api.piece.King;
 import com.chriskormaris.mychessgame.api.piece.Knight;
 import org.junit.jupiter.api.Test;
 
-import static com.chriskormaris.mychessgame.gui.ButtonsGui.chessBoard;
-import static com.chriskormaris.mychessgame.gui.ButtonsGui.makeChessBoardSquaresEmpty;
-import static com.chriskormaris.mychessgame.gui.ButtonsGui.placePieceToPosition;
-
 
 public class KnightAndBishopMateTest {
 
@@ -19,19 +15,19 @@ public class KnightAndBishopMateTest {
 	public void testKnightAndBishopMate() {
 		String title = "Knight and Bishop Mate Test";
 
-		ButtonsGui.create(title);
+		GUI.create(title);
 
-		ButtonsGui.makeChessBoardSquaresEmpty();
+		GUI.makeChessBoardSquaresEmpty();
 
-		ButtonsGui.placePieceToPosition("A8", new King(Allegiance.BLACK));
-		ButtonsGui.placePieceToPosition("A6", new Knight(Allegiance.WHITE));
-		ButtonsGui.placePieceToPosition("B6", new King(Allegiance.WHITE));
+		GUI.placePieceToPosition("A8", new King(Allegiance.BLACK));
+		GUI.placePieceToPosition("A6", new Knight(Allegiance.WHITE));
+		GUI.placePieceToPosition("B6", new King(Allegiance.WHITE));
 		// If Bishop moves to "C6", it's checkmate.
 		// Any other move of the Bishop ends in a stalemate.
-		ButtonsGui.placePieceToPosition("D7", new Bishop(Allegiance.WHITE));
+		GUI.placePieceToPosition("D7", new Bishop(Allegiance.WHITE));
 
 		System.out.println();
-		ChessBoard.printChessBoard(ButtonsGui.chessBoard.getGameBoard());
+		ChessBoard.printChessBoard(GUI.chessBoard.getGameBoard());
 
 		// Continue playing for a minute.
 		try {

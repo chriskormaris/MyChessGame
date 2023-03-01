@@ -10,10 +10,6 @@ import com.chriskormaris.mychessgame.api.piece.Rook;
 import com.chriskormaris.mychessgame.api.util.Constants;
 import org.junit.jupiter.api.Test;
 
-import static com.chriskormaris.mychessgame.gui.ButtonsGui.ai;
-import static com.chriskormaris.mychessgame.gui.ButtonsGui.aiMove;
-import static com.chriskormaris.mychessgame.gui.ButtonsGui.chessBoard;
-import static com.chriskormaris.mychessgame.gui.ButtonsGui.placePieceToPosition;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
@@ -23,23 +19,23 @@ public class CaptureRookOrBishopChoiceTest {
 	public void testCaptureRookOrBishopChoice() {
 		String title = "Capture Rook or Bishop?";
 
-		ButtonsGui.create(title);
+		GUI.create(title);
 
-		ChessBoard.printChessBoard(ButtonsGui.chessBoard.getGameBoard());
+		ChessBoard.printChessBoard(GUI.chessBoard.getGameBoard());
 
-		ButtonsGui.placePieceToPosition("E1", new King(Allegiance.WHITE));
-		ButtonsGui.placePieceToPosition("C1", new Bishop(Allegiance.WHITE));
-		ButtonsGui.placePieceToPosition("F1", new Bishop(Allegiance.WHITE));
-		ButtonsGui.placePieceToPosition("A1", new Rook(Allegiance.WHITE));
+		GUI.placePieceToPosition("E1", new King(Allegiance.WHITE));
+		GUI.placePieceToPosition("C1", new Bishop(Allegiance.WHITE));
+		GUI.placePieceToPosition("F1", new Bishop(Allegiance.WHITE));
+		GUI.placePieceToPosition("A1", new Rook(Allegiance.WHITE));
 
-		ButtonsGui.placePieceToPosition("E8", new King(Allegiance.BLACK));
-		ButtonsGui.placePieceToPosition("B3", new Knight(Allegiance.BLACK));
+		GUI.placePieceToPosition("E8", new King(Allegiance.BLACK));
+		GUI.placePieceToPosition("B3", new Knight(Allegiance.BLACK));
 
-		ButtonsGui.chessBoard.setPlayer(Constants.BLACK);
-		ButtonsGui.aiMove(ButtonsGui.ai);
+		GUI.chessBoard.setPlayer(Constants.BLACK);
+		GUI.aiMove(GUI.ai);
 
 		assertTrue(
-				ButtonsGui.chessBoard.getChessPieceFromPosition("A1") instanceof Knight,
+				GUI.chessBoard.getChessPieceFromPosition("A1") instanceof Knight,
 				"The Black Knight did NOT capture the White Rook."
 		);
 
