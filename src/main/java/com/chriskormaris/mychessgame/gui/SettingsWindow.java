@@ -5,7 +5,7 @@ import com.chriskormaris.mychessgame.api.enumeration.AiType;
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 import com.chriskormaris.mychessgame.api.enumeration.EvaluationFunction;
 import com.chriskormaris.mychessgame.api.enumeration.GameMode;
-import com.chriskormaris.mychessgame.api.enumeration.GuiType;
+import com.chriskormaris.mychessgame.gui.enumeration.GuiType;
 import com.chriskormaris.mychessgame.gui.enumeration.GuiStyle;
 import com.chriskormaris.mychessgame.gui.util.GameParameters;
 import com.chriskormaris.mychessgame.gui.util.GuiConstants;
