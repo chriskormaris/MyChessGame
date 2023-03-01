@@ -5,6 +5,10 @@ A traditional chess game implementation using Minimax AI, with Alpha-Beta Prunin
 © Created by: Christos Kormaris, Athens 2020
 
 
-### Screenshot
+### Screenshots
 
-![screenshot](/screenshots/MyChessGame.png)
+#### Drag & Drop GUI
+![screenshot](/screenshots/drag-and-drop-gui.png)
+
+#### Buttons GUI
+![screenshot](/screenshots/buttons-gui.png)
