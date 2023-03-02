@@ -1157,14 +1157,14 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 				ChessPiece promotedPiece = chessBoard.getGameBoard()[rowEnd][columnEnd];
 				if (promotedPiece.getAllegiance() == Allegiance.WHITE) {
 					JOptionPane.showMessageDialog(
-							null,
+							this,
 							"Promoting White Pawn to " + promotedPiece + "!",
 							"White Pawn Promotion",
 							JOptionPane.INFORMATION_MESSAGE
 					);
 				} else if (promotedPiece.getAllegiance() == Allegiance.BLACK) {
 					JOptionPane.showMessageDialog(
-							null,
+							this,
 							"Promoting Black Pawn to " + promotedPiece + "!",
 							"Black Pawn Promotion",
 							JOptionPane.INFORMATION_MESSAGE
@@ -1606,8 +1606,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 
 				ChessPiece hintPositionPiece = chessBoard.getChessPieceFromPosition(hintPosition);
 				if (hintPositionPiece.getAllegiance() != Allegiance.EMPTY
-						|| chessBoard.getEnPassantPosition().equals(hintPosition)
-						&& chessPiece instanceof Pawn) {
+						|| chessBoard.getEnPassantPosition().equals(hintPosition) && chessPiece instanceof Pawn) {
 					hintPositionComponent.setBackground(Color.RED);
 				} else if (chessPiece instanceof Pawn &&
 						(chessPiece.getAllegiance() == Allegiance.WHITE && hintPositionRow == 0
