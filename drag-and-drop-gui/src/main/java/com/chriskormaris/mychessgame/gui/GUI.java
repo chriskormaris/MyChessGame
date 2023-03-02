@@ -174,8 +174,8 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 	public GUI() {
 		super(TITLE);
 
-		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-		height = (int) dimension.getHeight() - 120;
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		height = (int) screenSize.getHeight() - 120;
 		width = height + 60;
 
 		gui = new JPanel();
