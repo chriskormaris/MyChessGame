@@ -11,7 +11,6 @@ import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 import com.chriskormaris.mychessgame.api.enumeration.EvaluationFunction;
 import com.chriskormaris.mychessgame.api.enumeration.GameMode;
 import com.chriskormaris.mychessgame.api.enumeration.GameResult;
-import com.chriskormaris.mychessgame.gui.enumeration.GuiType;
 import com.chriskormaris.mychessgame.api.evaluation.Evaluation;
 import com.chriskormaris.mychessgame.api.evaluation.PeSTOEvaluation;
 import com.chriskormaris.mychessgame.api.evaluation.ShannonEvaluation;
@@ -27,6 +26,7 @@ import com.chriskormaris.mychessgame.api.piece.Rook;
 import com.chriskormaris.mychessgame.api.util.Constants;
 import com.chriskormaris.mychessgame.api.util.FenUtils;
 import com.chriskormaris.mychessgame.api.util.Utilities;
+import com.chriskormaris.mychessgame.gui.enumeration.GuiType;
 import com.chriskormaris.mychessgame.gui.util.GameParameters;
 import com.chriskormaris.mychessgame.gui.util.GuiConstants;
 import com.chriskormaris.mychessgame.gui.util.GuiUtils;
@@ -1611,11 +1611,12 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 				Component hintComponent = chessPanel.getComponent(hintIndex);
 
 				ChessPiece hintChessSquare = chessBoard.getChessPieceFromPosition(hintPosition);
-				if (hintChessSquare.getAllegiance() == Allegiance.EMPTY
-						&& !chessBoard.getEnPassantPosition().equals(hintPosition)) {
-					hintComponent.setBackground(Color.BLUE);
-				} else {
+				if (hintChessSquare.getAllegiance() != Allegiance.EMPTY
+						|| chessBoard.getEnPassantPosition().equals(hintPosition)
+						&& startingChessPiece instanceof Pawn) {
 					hintComponent.setBackground(Color.RED);
+				} else {
+					hintComponent.setBackground(Color.BLUE);
 				}
 			}
 		}
