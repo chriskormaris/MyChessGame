@@ -1015,8 +1015,7 @@ public final class GUI {
 
 						ChessPiece hintPositionPiece = chessBoard.getGameBoard()[hintPositionRow][hintPositionColumn];
 
-						if (chessPiece.getAllegiance() != hintPositionPiece.getAllegiance()
-								&& hintPositionPiece.getAllegiance() != Allegiance.EMPTY
+						if (hintPositionPiece.getAllegiance() != Allegiance.EMPTY
 								|| chessBoard.getEnPassantPosition().equals(hintPosition)
 								&& chessPiece instanceof Pawn) {
 							GuiUtils.changeSquareColor(hintPositionButton, Color.RED);
@@ -1163,6 +1162,9 @@ public final class GUI {
 			}
 			// If human player plays, select which promotion piece you want and display it on the GUI.
 			else {
+				removePieceFromPosition(positionStart);
+				placePieceToPosition(positionEnd, startingPiece);
+
 				String[] promotionPieces = {"Queen", "Rook", "Bishop", "Knight"};
 				String initialSelection = "Queen";
 

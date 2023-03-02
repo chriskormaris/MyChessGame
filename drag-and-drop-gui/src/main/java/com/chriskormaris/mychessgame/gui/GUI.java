@@ -1526,20 +1526,17 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 				: gameParameters.getWhiteSquareColor());
 
 		for (String hintPosition : hintPositions) {
-			int hintRow = chessBoard.getRowFromPosition(hintPosition);
-			int hintColumn = chessBoard.getColumnFromPosition(hintPosition);
+			int hintPositionRow = chessBoard.getRowFromPosition(hintPosition);
+			int hintPositionColumn = chessBoard.getColumnFromPosition(hintPosition);
 
 			if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
 					&& gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
-				hintRow = DEFAULT_NUM_OF_ROWS - 1 - hintRow;
+				hintPositionRow = DEFAULT_NUM_OF_ROWS - 1 - hintPositionRow;
 			}
 
-			hintRow += 1;
-			hintColumn += 1;
-
-			int index = getSquareIndex(hintRow, hintColumn);
-			Component hintComponent = chessPanel.getComponent(index);
-			hintComponent.setBackground((hintRow + hintColumn) % 2 == 0
+			int hintPositionIndex = getSquareIndex(hintPositionRow + 1, hintPositionColumn + 1);
+			Component hintPositionComponent = chessPanel.getComponent(hintPositionIndex);
+			hintPositionComponent.setBackground((hintPositionRow + hintPositionColumn) % 2 == 0
 					? gameParameters.getBlackSquareColor()
 					: gameParameters.getWhiteSquareColor());
 		}
@@ -1582,12 +1579,12 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 
 		hintPositions = chessBoard.getNextPositions(startingPosition);
 
-		ChessPiece startingChessPiece = chessBoard.getChessPieceFromPosition(startingPosition);
+		ChessPiece chessPiece = chessBoard.getChessPieceFromPosition(startingPosition);
 
-		if (startingChessPiece.getAllegiance() == Allegiance.WHITE && chessBoard.whitePlays()
+		if (chessPiece.getAllegiance() == Allegiance.WHITE && chessBoard.whitePlays()
 				&& (gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE
 				|| gameParameters.getGameMode() == GameMode.HUMAN_VS_HUMAN)
-				|| startingChessPiece.getAllegiance() == Allegiance.BLACK && chessBoard.blackPlays()
+				|| chessPiece.getAllegiance() == Allegiance.BLACK && chessBoard.blackPlays()
 				&& (gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK
 				|| gameParameters.getGameMode() == GameMode.HUMAN_VS_HUMAN)) {
 
@@ -1596,27 +1593,29 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 			startingComponent.setBackground(Color.CYAN);
 
 			for (String hintPosition : hintPositions) {
-				int hintRow = chessBoard.getRowFromPosition(hintPosition);
-				int hintColumn = chessBoard.getColumnFromPosition(hintPosition);
+				int hintPositionRow = chessBoard.getRowFromPosition(hintPosition);
+				int hintPositionColumn = chessBoard.getColumnFromPosition(hintPosition);
 
 				if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
 						&& gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
-					hintRow = DEFAULT_NUM_OF_ROWS - 1 - hintRow;
+					hintPositionRow = DEFAULT_NUM_OF_ROWS - 1 - hintPositionRow;
 				}
 
-				hintRow += 1;
-				hintColumn += 1;
+				int hintPositionIndex = getSquareIndex(hintPositionRow + 1, hintPositionColumn + 1);
+				Component hintPositionComponent = chessPanel.getComponent(hintPositionIndex);
 
-				int hintIndex = getSquareIndex(hintRow, hintColumn);
-				Component hintComponent = chessPanel.getComponent(hintIndex);
-
-				ChessPiece hintChessSquare = chessBoard.getChessPieceFromPosition(hintPosition);
-				if (hintChessSquare.getAllegiance() != Allegiance.EMPTY
+				ChessPiece hintPositionPiece = chessBoard.getChessPieceFromPosition(hintPosition);
+				if (hintPositionPiece.getAllegiance() != Allegiance.EMPTY
 						|| chessBoard.getEnPassantPosition().equals(hintPosition)
-						&& startingChessPiece instanceof Pawn) {
-					hintComponent.setBackground(Color.RED);
-				} else {
-					hintComponent.setBackground(Color.BLUE);
+						&& chessPiece instanceof Pawn) {
+					hintPositionComponent.setBackground(Color.RED);
+				} else if (chessPiece instanceof Pawn &&
+						(chessPiece.getAllegiance() == Allegiance.WHITE && hintPositionRow == 0
+								|| chessPiece.getAllegiance() == Allegiance.BLACK
+								&& hintPositionRow == gameParameters.getNumOfRows() - 1)) {
+					hintPositionComponent.setBackground(Color.GREEN);
+				} else if (hintPositionPiece instanceof EmptySquare) {
+					hintPositionComponent.setBackground(Color.BLUE);
 				}
 			}
 		}
