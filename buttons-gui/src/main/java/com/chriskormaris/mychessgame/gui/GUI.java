@@ -28,6 +28,7 @@ import com.chriskormaris.mychessgame.api.util.Constants;
 import com.chriskormaris.mychessgame.api.util.FenUtils;
 import com.chriskormaris.mychessgame.api.util.Utilities;
 import com.chriskormaris.mychessgame.gui.enumeration.GuiStyle;
+import com.chriskormaris.mychessgame.gui.enumeration.GuiType;
 import com.chriskormaris.mychessgame.gui.util.GameParameters;
 import com.chriskormaris.mychessgame.gui.util.GuiConstants;
 import com.chriskormaris.mychessgame.gui.util.GuiUtils;
@@ -153,6 +154,7 @@ public final class GUI {
 		redoCapturedPieces = new Stack<>();
 
 		gameParameters = new GameParameters();
+		gameParameters.setGuiType(GuiType.BUTTONS);
 		newGameParameters = new GameParameters(gameParameters);
 
 		chessBoard = new ChessBoard();
