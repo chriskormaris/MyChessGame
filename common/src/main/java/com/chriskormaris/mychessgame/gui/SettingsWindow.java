@@ -18,21 +18,21 @@ import java.awt.event.ActionListener;
 
 public class SettingsWindow extends JFrame {
 
-	private final JComboBox<String> gui_style_drop_down;
-	private final JCheckBox enable_sounds_check_box;
-	private final JComboBox<String> human_player_allegiance_drop_down;
-	private final JComboBox<String> game_mode_drop_down;
-	private final JComboBox<String> ai1_type_drop_down;
-	private final JComboBox<String> ai2_type_drop_down;
-	private final JComboBox<Integer> ai1_max_depth_drop_down;
-	private final JComboBox<Integer> ai2_max_depth_drop_down;
-	private final JComboBox<String> evaluation_function1_drop_down;
-	private final JComboBox<String> evaluation_function2_drop_down;
-	private final JComboBox<String> white_square_color_drop_down;
-	private final JComboBox<String> black_square_color_drop_down;
+	private final JComboBox<String> guiStyleDropDown;
+	private final JCheckBox enableSoundsCheckBox;
+	private final JComboBox<String> humanPlayerAllegianceDropDown;
+	private final JComboBox<String> gameModeDropDown;
+	private final JComboBox<String> ai1TypeDropDown;
+	private final JComboBox<String> ai2TypeDropDown;
+	private final JComboBox<Integer> ai1MaxDepthDropDown;
+	private final JComboBox<Integer> ai2MaxDepthDropDown;
+	private final JComboBox<String> evaluationFunction1DropDown;
+	private final JComboBox<String> evaluationFunction2DropDown;
+	private final JComboBox<String> whiteSquareColorDropDown;
+	private final JComboBox<String> blackSquareColorDropDown;
 
-	private final SpinnerModel num_of_rows_spinner_model = new SpinnerNumberModel(8, 4, 8, 1);
-	private final JSpinner num_of_rows_spinner = new JSpinner(num_of_rows_spinner_model);
+	private final SpinnerModel numOfRowsSpinnerModel = new SpinnerNumberModel(8, 4, 8, 1);
+	private final JSpinner numOfRowsSpinner = new JSpinner(numOfRowsSpinnerModel);
 
 	private final JButton apply;
 	private final JButton cancel;
@@ -64,8 +64,8 @@ public class SettingsWindow extends JFrame {
 		GameMode selectedGameMode = gameParameters.getGameMode();
 		AiType selectedAi1Type = gameParameters.getAi1Type();
 		AiType selectedAi2Type = gameParameters.getAi2Type();
-		int maxDepth1 = gameParameters.getAi1MaxDepth() - 1;
-		int maxDepth2 = gameParameters.getAi2MaxDepth() - 1;
+		int ai1MaxDepth = gameParameters.getAi1MaxDepth() - 1;
+		int ai2MaxDepth = gameParameters.getAi2MaxDepth() - 1;
 		EvaluationFunction evaluationFunction1 = gameParameters.getEvaluationFunction1();
 		EvaluationFunction evaluationFunction2 = gameParameters.getEvaluationFunction2();
 		Color selectedWhiteSquareColor = gameParameters.getWhiteSquareColor();
@@ -79,8 +79,8 @@ public class SettingsWindow extends JFrame {
 		JLabel gameModeLabel = new JLabel("Game mode");
 		JLabel ai1TypeLabel = new JLabel("AI 1 type");
 		JLabel ai2TypeLabel = new JLabel("AI 2 type (AIvsAI)");
-		JLabel maxDepth1Label = new JLabel("Minimax AI 1 depth");
-		JLabel maxDepth2Label = new JLabel("Minimax AI 2 depth (AIvsAI)");
+		JLabel ai1MaxDepthLabel = new JLabel("Minimax AI 1 depth");
+		JLabel ai2MaxDepthLabel = new JLabel("Minimax AI 2 depth (AIvsAI)");
 		JLabel evaluationFunction1Label = new JLabel("AI 1 Evaluation Function");
 		JLabel evaluationFunction2Label = new JLabel("AI 2 Evaluation Function (AIvsAI)");
 		JLabel whiteSquareColorLabel = new JLabel("White square color");
@@ -96,8 +96,8 @@ public class SettingsWindow extends JFrame {
 		add(gameModeLabel);
 		add(ai1TypeLabel);
 		add(ai2TypeLabel);
-		add(maxDepth1Label);
-		add(maxDepth2Label);
+		add(ai1MaxDepthLabel);
+		add(ai2MaxDepthLabel);
 		add(evaluationFunction1Label);
 		add(evaluationFunction2Label);
 		add(whiteSquareColorLabel);
@@ -106,154 +106,154 @@ public class SettingsWindow extends JFrame {
 			add(numOfRowsLabel);
 		}
 
-		gui_style_drop_down = new JComboBox<>();
-		gui_style_drop_down.addItem("Cross-platform style");
-		gui_style_drop_down.addItem("Nimbus style");
+		guiStyleDropDown = new JComboBox<>();
+		guiStyleDropDown.addItem("Cross-platform style");
+		guiStyleDropDown.addItem("Nimbus style");
 
 		if (selectedGuiStyle == GuiStyle.CROSS_PLATFORM_STYLE) {
-			gui_style_drop_down.setSelectedIndex(0);
+			guiStyleDropDown.setSelectedIndex(0);
 		} else if (selectedGuiStyle == GuiStyle.NIMBUS_STYLE) {
-			gui_style_drop_down.setSelectedIndex(1);
+			guiStyleDropDown.setSelectedIndex(1);
 		}
 
-		enable_sounds_check_box = new JCheckBox();
-		enable_sounds_check_box.setSelected(enableSounds);
+		enableSoundsCheckBox = new JCheckBox();
+		enableSoundsCheckBox.setSelected(enableSounds);
 
-		human_player_allegiance_drop_down = new JComboBox<>();
-		human_player_allegiance_drop_down.addItem("White");
-		human_player_allegiance_drop_down.addItem("Black");
+		humanPlayerAllegianceDropDown = new JComboBox<>();
+		humanPlayerAllegianceDropDown.addItem("White");
+		humanPlayerAllegianceDropDown.addItem("Black");
 
 		if (humanPlayerAllegiance == Allegiance.WHITE) {
-			human_player_allegiance_drop_down.setSelectedIndex(0);
+			humanPlayerAllegianceDropDown.setSelectedIndex(0);
 		} else if (humanPlayerAllegiance == Allegiance.BLACK) {
-			human_player_allegiance_drop_down.setSelectedIndex(1);
+			humanPlayerAllegianceDropDown.setSelectedIndex(1);
 		}
 
-		game_mode_drop_down = new JComboBox<>();
-		game_mode_drop_down.addItem("Human Vs AI");
-		game_mode_drop_down.addItem("Human Vs Human");
-		game_mode_drop_down.addItem("AI Vs AI");
+		gameModeDropDown = new JComboBox<>();
+		gameModeDropDown.addItem("Human Vs AI");
+		gameModeDropDown.addItem("Human Vs Human");
+		gameModeDropDown.addItem("AI Vs AI");
 
 		if (selectedGameMode == GameMode.HUMAN_VS_AI) {
-			game_mode_drop_down.setSelectedIndex(0);
+			gameModeDropDown.setSelectedIndex(0);
 		} else if (selectedGameMode == GameMode.HUMAN_VS_HUMAN) {
-			game_mode_drop_down.setSelectedIndex(1);
+			gameModeDropDown.setSelectedIndex(1);
 		} else if (selectedGameMode == GameMode.AI_VS_AI) {
-			game_mode_drop_down.setSelectedIndex(2);
+			gameModeDropDown.setSelectedIndex(2);
 		}
 
-		ai1_type_drop_down = new JComboBox<>();
-		ai1_type_drop_down.addItem("Minimax AI");
-		ai1_type_drop_down.addItem("Random AI");
+		ai1TypeDropDown = new JComboBox<>();
+		ai1TypeDropDown.addItem("Minimax AI");
+		ai1TypeDropDown.addItem("Random AI");
 
 		if (selectedAi1Type == AiType.MINIMAX_AI) {
-			ai1_type_drop_down.setSelectedIndex(0);
+			ai1TypeDropDown.setSelectedIndex(0);
 		} else if (selectedAi1Type == AiType.RANDOM_AI) {
-			ai1_type_drop_down.setSelectedIndex(1);
+			ai1TypeDropDown.setSelectedIndex(1);
 		}
 
-		ai2_type_drop_down = new JComboBox<>();
-		ai2_type_drop_down.addItem("Minimax AI");
-		ai2_type_drop_down.addItem("Random AI");
+		ai2TypeDropDown = new JComboBox<>();
+		ai2TypeDropDown.addItem("Minimax AI");
+		ai2TypeDropDown.addItem("Random AI");
 
 		if (selectedAi2Type == AiType.MINIMAX_AI) {
-			ai2_type_drop_down.setSelectedIndex(0);
+			ai2TypeDropDown.setSelectedIndex(0);
 		} else if (selectedAi2Type == AiType.RANDOM_AI) {
-			ai2_type_drop_down.setSelectedIndex(1);
+			ai2TypeDropDown.setSelectedIndex(1);
 		}
 
-		ai1_max_depth_drop_down = new JComboBox<>();
-		ai1_max_depth_drop_down.addItem(1);
-		ai1_max_depth_drop_down.addItem(2);
-		ai1_max_depth_drop_down.addItem(3);
-		ai1_max_depth_drop_down.addItem(4);
+		ai1MaxDepthDropDown = new JComboBox<>();
+		ai1MaxDepthDropDown.addItem(1);
+		ai1MaxDepthDropDown.addItem(2);
+		ai1MaxDepthDropDown.addItem(3);
+		ai1MaxDepthDropDown.addItem(4);
 
-		ai1_max_depth_drop_down.setSelectedIndex(maxDepth1);
+		ai1MaxDepthDropDown.setSelectedIndex(ai1MaxDepth);
 
-		ai2_max_depth_drop_down = new JComboBox<>();
-		ai2_max_depth_drop_down.addItem(1);
-		ai2_max_depth_drop_down.addItem(2);
-		ai2_max_depth_drop_down.addItem(3);
-		ai2_max_depth_drop_down.addItem(4);
+		ai2MaxDepthDropDown = new JComboBox<>();
+		ai2MaxDepthDropDown.addItem(1);
+		ai2MaxDepthDropDown.addItem(2);
+		ai2MaxDepthDropDown.addItem(3);
+		ai2MaxDepthDropDown.addItem(4);
 
-		ai2_max_depth_drop_down.setSelectedIndex(maxDepth2);
+		ai2MaxDepthDropDown.setSelectedIndex(ai2MaxDepth);
 
-		evaluation_function1_drop_down = new JComboBox<>();
-		evaluation_function1_drop_down.addItem("Simplified");
-		evaluation_function1_drop_down.addItem("PeSTO");
-		evaluation_function1_drop_down.addItem("Wukong");
-		evaluation_function1_drop_down.addItem("Shannon");
+		evaluationFunction1DropDown = new JComboBox<>();
+		evaluationFunction1DropDown.addItem("Simplified");
+		evaluationFunction1DropDown.addItem("PeSTO");
+		evaluationFunction1DropDown.addItem("Wukong");
+		evaluationFunction1DropDown.addItem("Shannon");
 
 		if (evaluationFunction1 == EvaluationFunction.SIMPLIFIED) {
-			evaluation_function1_drop_down.setSelectedIndex(0);
+			evaluationFunction1DropDown.setSelectedIndex(0);
 		} else if (evaluationFunction1 == EvaluationFunction.PESTO) {
-			evaluation_function1_drop_down.setSelectedIndex(1);
+			evaluationFunction1DropDown.setSelectedIndex(1);
 		} else if (evaluationFunction1 == EvaluationFunction.WUKONG) {
-			evaluation_function1_drop_down.setSelectedIndex(2);
+			evaluationFunction1DropDown.setSelectedIndex(2);
 		} else if (evaluationFunction1 == EvaluationFunction.SHANNON) {
-			evaluation_function1_drop_down.setSelectedIndex(3);
+			evaluationFunction1DropDown.setSelectedIndex(3);
 		}
 
-		evaluation_function2_drop_down = new JComboBox<>();
-		evaluation_function2_drop_down.addItem("Simplified");
-		evaluation_function2_drop_down.addItem("PeSTO");
-		evaluation_function2_drop_down.addItem("Wukong");
-		evaluation_function2_drop_down.addItem("Shannon");
+		evaluationFunction2DropDown = new JComboBox<>();
+		evaluationFunction2DropDown.addItem("Simplified");
+		evaluationFunction2DropDown.addItem("PeSTO");
+		evaluationFunction2DropDown.addItem("Wukong");
+		evaluationFunction2DropDown.addItem("Shannon");
 
 		if (evaluationFunction2 == EvaluationFunction.SIMPLIFIED) {
-			evaluation_function2_drop_down.setSelectedIndex(0);
+			evaluationFunction2DropDown.setSelectedIndex(0);
 		} else if (evaluationFunction2 == EvaluationFunction.PESTO) {
-			evaluation_function2_drop_down.setSelectedIndex(1);
+			evaluationFunction2DropDown.setSelectedIndex(1);
 		} else if (evaluationFunction2 == EvaluationFunction.WUKONG) {
-			evaluation_function2_drop_down.setSelectedIndex(2);
+			evaluationFunction2DropDown.setSelectedIndex(2);
 		} else if (evaluationFunction2 == EvaluationFunction.SHANNON) {
-			evaluation_function2_drop_down.setSelectedIndex(3);
+			evaluationFunction2DropDown.setSelectedIndex(3);
 		}
 
-		white_square_color_drop_down = new JComboBox<>();
-		white_square_color_drop_down.addItem("White");
-		white_square_color_drop_down.addItem("Pink");
+		whiteSquareColorDropDown = new JComboBox<>();
+		whiteSquareColorDropDown.addItem("White");
+		whiteSquareColorDropDown.addItem("Pink");
 
 		if (selectedWhiteSquareColor == Color.WHITE) {
-			white_square_color_drop_down.setSelectedIndex(0);
+			whiteSquareColorDropDown.setSelectedIndex(0);
 		} else if (selectedWhiteSquareColor == GuiConstants.BRIGHT_PINK) {
-			white_square_color_drop_down.setSelectedIndex(1);
+			whiteSquareColorDropDown.setSelectedIndex(1);
 		}
 
-		black_square_color_drop_down = new JComboBox<>();
-		black_square_color_drop_down.addItem("Dark Green");
-		black_square_color_drop_down.addItem("Black");
-		black_square_color_drop_down.addItem("Dark Gray");
-		black_square_color_drop_down.addItem("Gray");
+		blackSquareColorDropDown = new JComboBox<>();
+		blackSquareColorDropDown.addItem("Dark Green");
+		blackSquareColorDropDown.addItem("Black");
+		blackSquareColorDropDown.addItem("Dark Gray");
+		blackSquareColorDropDown.addItem("Gray");
 
 		if (selectedBlackSquareColor == GuiConstants.DARK_GREEN) {
-			black_square_color_drop_down.setSelectedIndex(0);
+			blackSquareColorDropDown.setSelectedIndex(0);
 		} else if (selectedBlackSquareColor == Color.BLACK) {
-			black_square_color_drop_down.setSelectedIndex(1);
+			blackSquareColorDropDown.setSelectedIndex(1);
 		} else if (selectedBlackSquareColor == Color.DARK_GRAY) {
-			black_square_color_drop_down.setSelectedIndex(2);
+			blackSquareColorDropDown.setSelectedIndex(2);
 		} else if (selectedBlackSquareColor == Color.GRAY) {
-			black_square_color_drop_down.setSelectedIndex(3);
+			blackSquareColorDropDown.setSelectedIndex(3);
 		}
 
-		num_of_rows_spinner_model.setValue(numOfRows);
+		numOfRowsSpinnerModel.setValue(numOfRows);
 
 		if (gameParameters.getGuiType() == GuiType.BUTTONS) {
-			add(gui_style_drop_down);
+			add(guiStyleDropDown);
 		}
-		add(enable_sounds_check_box);
-		add(human_player_allegiance_drop_down);
-		add(game_mode_drop_down);
-		add(ai1_type_drop_down);
-		add(ai2_type_drop_down);
-		add(ai1_max_depth_drop_down);
-		add(ai2_max_depth_drop_down);
-		add(evaluation_function1_drop_down);
-		add(evaluation_function2_drop_down);
-		add(white_square_color_drop_down);
-		add(black_square_color_drop_down);
+		add(enableSoundsCheckBox);
+		add(humanPlayerAllegianceDropDown);
+		add(gameModeDropDown);
+		add(ai1TypeDropDown);
+		add(ai2TypeDropDown);
+		add(ai1MaxDepthDropDown);
+		add(ai2MaxDepthDropDown);
+		add(evaluationFunction1DropDown);
+		add(evaluationFunction2DropDown);
+		add(whiteSquareColorDropDown);
+		add(blackSquareColorDropDown);
 		if (gameParameters.getGuiType() == GuiType.BUTTONS) {
-			add(num_of_rows_spinner);
+			add(numOfRowsSpinner);
 		}
 
 		guiStyleLabel.setBounds(25, 25, 205, 25);
@@ -262,27 +262,27 @@ public class SettingsWindow extends JFrame {
 		gameModeLabel.setBounds(25, 130, 205, 25);
 		ai1TypeLabel.setBounds(25, 165, 205, 25);
 		ai2TypeLabel.setBounds(25, 200, 205, 25);
-		maxDepth1Label.setBounds(25, 235, 205, 25);
-		maxDepth2Label.setBounds(25, 270, 205, 25);
+		ai1MaxDepthLabel.setBounds(25, 235, 205, 25);
+		ai2MaxDepthLabel.setBounds(25, 270, 205, 25);
 		evaluationFunction1Label.setBounds(25, 305, 205, 25);
 		evaluationFunction2Label.setBounds(25, 340, 205, 25);
 		whiteSquareColorLabel.setBounds(25, 375, 205, 25);
 		blackSquareColorLabel.setBounds(25, 405, 205, 25);
 		numOfRowsLabel.setBounds(25, 440, 205, 25);
 
-		gui_style_drop_down.setBounds(225, 25, 180, 25);
-		enable_sounds_check_box.setBounds(225, 60, 180, 25);
-		human_player_allegiance_drop_down.setBounds(225, 95, 180, 25);
-		game_mode_drop_down.setBounds(225, 130, 180, 25);
-		ai1_type_drop_down.setBounds(225, 165, 180, 25);
-		ai2_type_drop_down.setBounds(225, 200, 180, 25);
-		ai1_max_depth_drop_down.setBounds(225, 235, 180, 25);
-		ai2_max_depth_drop_down.setBounds(225, 270, 180, 25);
-		evaluation_function1_drop_down.setBounds(225, 305, 180, 25);
-		evaluation_function2_drop_down.setBounds(225, 340, 180, 25);
-		white_square_color_drop_down.setBounds(225, 375, 180, 25);
-		black_square_color_drop_down.setBounds(225, 405, 180, 25);
-		num_of_rows_spinner.setBounds(225, 440, 180, 25);
+		guiStyleDropDown.setBounds(225, 25, 180, 25);
+		enableSoundsCheckBox.setBounds(225, 60, 180, 25);
+		humanPlayerAllegianceDropDown.setBounds(225, 95, 180, 25);
+		gameModeDropDown.setBounds(225, 130, 180, 25);
+		ai1TypeDropDown.setBounds(225, 165, 180, 25);
+		ai2TypeDropDown.setBounds(225, 200, 180, 25);
+		ai1MaxDepthDropDown.setBounds(225, 235, 180, 25);
+		ai2MaxDepthDropDown.setBounds(225, 270, 180, 25);
+		evaluationFunction1DropDown.setBounds(225, 305, 180, 25);
+		evaluationFunction2DropDown.setBounds(225, 340, 180, 25);
+		whiteSquareColorDropDown.setBounds(225, 375, 180, 25);
+		blackSquareColorDropDown.setBounds(225, 405, 180, 25);
+		numOfRowsSpinner.setBounds(225, 440, 180, 25);
 
 		apply = new JButton("Apply");
 		cancel = new JButton("Cancel");
@@ -307,26 +307,26 @@ public class SettingsWindow extends JFrame {
 			} else if (ev.getSource() == apply) {
 				try {
 
-					GuiStyle guiStyle = GuiStyle.valueOf(gui_style_drop_down.getSelectedItem().toString().toUpperCase()
+					GuiStyle guiStyle = GuiStyle.valueOf(guiStyleDropDown.getSelectedItem().toString().toUpperCase()
 							.replace("-", "_").replace(" ", "_"));
-					boolean enableSounds = enable_sounds_check_box.isSelected();
-					Allegiance humanPlayerAllegiance = Allegiance.valueOf(human_player_allegiance_drop_down
+					boolean enableSounds = enableSoundsCheckBox.isSelected();
+					Allegiance humanPlayerAllegiance = Allegiance.valueOf(humanPlayerAllegianceDropDown
 							.getSelectedItem().toString().toUpperCase());
-					GameMode gameMode = GameMode.valueOf(game_mode_drop_down.getSelectedItem().toString().toUpperCase()
+					GameMode gameMode = GameMode.valueOf(gameModeDropDown.getSelectedItem().toString().toUpperCase()
 							.replace(" ", "_"));
-					AiType ai1Type = AiType.valueOf(ai1_type_drop_down.getSelectedItem().toString().toUpperCase()
+					AiType ai1Type = AiType.valueOf(ai1TypeDropDown.getSelectedItem().toString().toUpperCase()
 							.replace(" ", "_"));
-					AiType ai2Type = AiType.valueOf(ai2_type_drop_down.getSelectedItem().toString().toUpperCase()
+					AiType ai2Type = AiType.valueOf(ai2TypeDropDown.getSelectedItem().toString().toUpperCase()
 							.replace(" ", "_"));
-					int ai1MaxDepth = (int) ai1_max_depth_drop_down.getSelectedItem();
-					int ai2MaxDepth = (int) ai2_max_depth_drop_down.getSelectedItem();
-					EvaluationFunction evaluationFunction1 = EvaluationFunction.valueOf(evaluation_function1_drop_down
+					int ai1MaxDepth = (int) ai1MaxDepthDropDown.getSelectedItem();
+					int ai2MaxDepth = (int) ai2MaxDepthDropDown.getSelectedItem();
+					EvaluationFunction evaluationFunction1 = EvaluationFunction.valueOf(evaluationFunction1DropDown
 							.getSelectedItem().toString().toUpperCase());
-					EvaluationFunction evaluationFunction2 = EvaluationFunction.valueOf(evaluation_function2_drop_down
+					EvaluationFunction evaluationFunction2 = EvaluationFunction.valueOf(evaluationFunction2DropDown
 							.getSelectedItem().toString().toUpperCase());
-					int whiteSquareColorDropdownIndex = white_square_color_drop_down.getSelectedIndex();
-					int blackSquareColorDropdownIndex = black_square_color_drop_down.getSelectedIndex();
-					int numOfRows = (int) num_of_rows_spinner.getValue();
+					int whiteSquareColorDropdownIndex = whiteSquareColorDropDown.getSelectedIndex();
+					int blackSquareColorDropdownIndex = blackSquareColorDropDown.getSelectedIndex();
+					int numOfRows = (int) numOfRowsSpinner.getValue();
 					// numOfRows = Math.max(numOfRows, 8);
 
 					Color whiteSquareColor = null;
