@@ -137,7 +137,8 @@ public final class GUI {
 	private static JMenuItem loadCheckpointItem;
 
 	public static void create(String title) {
-		height = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 40;
+		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+		height = (int) dimension.getHeight() - 40;
 		width = height + 40;
 
 		gui = new JPanel();
@@ -188,7 +189,7 @@ public final class GUI {
 		// ensures the minimum size is enforced.
 		frame.setMinimumSize(frame.getSize());
 
-		frame.setLocation((int) (Toolkit.getDefaultToolkit().getScreenSize().getWidth() - frame.getWidth()) / 2, 5);
+		frame.setLocation((int) (dimension.getWidth() - frame.getWidth()) / 2, 5);
 
 		frame.setResizable(false);
 
