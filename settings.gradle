@@ -1,4 +1,4 @@
-rootProject.name = 'mychessgame'
+rootProject.name = 'MyChessGame'
 
 include 'api'
 include 'common'
