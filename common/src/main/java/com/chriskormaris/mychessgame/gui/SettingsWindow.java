@@ -42,6 +42,7 @@ public class SettingsWindow extends JFrame {
 
 	public SettingsWindow(Component parentComponent, GameParameters gameParameters, GameParameters newGameParameters) {
 		super("Settings");
+
 		this.parentComponent = parentComponent;
 		this.newGameParameters = newGameParameters;
 
