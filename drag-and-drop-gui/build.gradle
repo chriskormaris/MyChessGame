@@ -1,9 +1,7 @@
 plugins {
     id 'java'
-    id 'io.freefair.lombok' version '6.6.1'
+    id 'io.freefair.lombok' version "$lombokPluginVersion"
 }
-
-group 'com.chriskormaris.mychessgame'
 
 repositories {
     mavenCentral()

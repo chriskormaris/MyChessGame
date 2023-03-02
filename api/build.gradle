@@ -1,26 +1,15 @@
 plugins {
     id 'java'
-    id 'io.freefair.lombok' version '6.6.1'
-}
-
-group 'com.chriskormaris.mychessgame'
-
-java {
-    sourceCompatibility JavaVersion.VERSION_1_8
-    targetCompatibility JavaVersion.VERSION_1_8
+    id 'io.freefair.lombok' version "$lombokPluginVersion"
 }
 
 repositories {
     mavenCentral()
 }
 
-ext {
-    junit_version = '5.8.1'
-}
-
 dependencies {
-    testImplementation "org.junit.jupiter:junit-jupiter-api:${junit_version}"
-    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junit_version}"
+    testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
 }
 
 test {
