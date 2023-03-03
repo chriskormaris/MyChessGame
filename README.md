@@ -4,6 +4,10 @@ A traditional chess game implementation using Minimax AI, with Alpha-Beta Prunin
 
 © Created by: Christos Kormaris, Athens 2020
 
+Video for this project:
+- https://www.youtube.com/watch?v=rgYDlqQ_WSI
+
+Programming Language: `Java`
 
 ### Screenshots
 
