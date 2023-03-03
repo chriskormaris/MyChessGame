@@ -24,6 +24,7 @@ For the purpose of this task, I designed a GUI.
 After I was hired in the company, I continued the implementation of the GUI, adding more and more components every time.
 Eventually, I implemented the movement of all the Chess pieces, the checkmate, the stalemate, 
 the rest of the draw conditions and most of the other Chess functionalities.
+
 The GUI is very customizable.
 You can enable/disable sound, change square colors, GUI style, or even the number of the Chess board rows!!
 In addition, you can use FEN (Forsyth–Edwards Notation) positions and start playing the game from there.
