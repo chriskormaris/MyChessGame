@@ -426,9 +426,9 @@ public final class GUI {
 			turnMessage += (chessBoard.whitePlays()) ? "White plays." : "Black plays.";
 
 			if (chessBoard.whitePlays() && chessBoard.isWhiteKingInCheck()) {
-				turnMessage += " White king is in check!";
+				turnMessage += " White King is in check!";
 			} else if (chessBoard.blackPlays() && chessBoard.isBlackKingInCheck()) {
-				turnMessage += " Black king is in check!";
+				turnMessage += " Black King is in check!";
 			}
 
 			turnTextPane.setText(turnMessage);
