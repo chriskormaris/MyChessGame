@@ -1217,7 +1217,6 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 				} else if (value.equals("Knight")) {
 					chessBoard.getPiecesToPlace().put(positionEnd, knight);
 				}
-
 			}
 		}
 
@@ -1245,8 +1244,8 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 
 		chessBoard.setThreats();
 
-		// Store the chess board of the HalfMove that was just made.
 		undoHalfMoveFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
+		redoHalfMoveFenPositions.clear();
 	}
 
 	public boolean checkForGameOver() {
@@ -1758,11 +1757,9 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 			}
 
 			undoFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
-
 			undoCapturedPieces.push(Utilities.copyCharArray(capturedPieces));
 
 			redoFenPositions.clear();
-			redoHalfMoveFenPositions.clear();
 			redoCapturedPieces.clear();
 
 			Move move = new Move(startingPosition, endingPosition);
