@@ -8,11 +8,11 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 
-public class DeadGameDrawTest {
+public class BlockedKingAndPawnsDrawTest {
 
 	@Test
-	public void testDeadGameDraw() {
-		String title = "Dead Game Draw Test";
+	public void testBlockedKingAndPawnsDraw() {
+		String title = "Blocked King and Pawns Draw Test";
 
 		GUI.create(title);
 

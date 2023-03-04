@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 public class BishopVsBishopMateTest {
 
 	@Test
-	public void testKnightAndBishopMate() {
+	public void testBishopVsBishopMate() {
 		String title = "Bishop Vs Bishop Mate Test";
 
 		GUI.create(title);
