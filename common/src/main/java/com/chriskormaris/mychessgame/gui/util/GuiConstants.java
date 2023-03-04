@@ -47,7 +47,7 @@ public class GuiConstants {
 			+ "\nThe following scenarios are considered a draw:\n"
 			+ "  1) If a player makes a move, that puts the opponent player in a place that he has not any legal move to make, and it is not a \"checkmate\",\n"
 			+ "     that move is called a \"stalemate\" and the game ends in a draw.\n"
-			+ "  2) If the only Chess pieces standing on the board are King Vs King, King & Bishop Vs King, King & Knight Vs King,\n"
+			+ "  2) If the only Chess pieces standing on the board are King Vs King, King & Bishop Vs King, King & Knight Vs King, or\n"
 			+ "     King & Bishop Vs King & Bishop with the Bishops on the same color, then the game ends in a draw due to insufficient mating material.\n"
 			+ "     In addition, if we have only Kings and Pawns left on the Chess board and the Kings are not able to capture the Pawns,\n"
 			+ "     then this condition is also a draw due to insufficient mating material.\n"
