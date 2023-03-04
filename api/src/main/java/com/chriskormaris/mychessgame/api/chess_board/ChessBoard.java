@@ -1066,7 +1066,7 @@ public class ChessBoard {
 	public boolean checkForInsufficientMaterialDraw() {
 		boolean isInsufficientMaterialDraw = isInsufficientMaterialDraw();
 
-		if (!isInsufficientMaterialDraw && checkForDeadGameDraw()) {
+		if (!isInsufficientMaterialDraw && checkForBlockedKingAndPawnsDraw()) {
 			isInsufficientMaterialDraw = true;
 		}
 
@@ -1149,10 +1149,11 @@ public class ChessBoard {
 		return kingVsKing || kingAndBishopVsKing || kingAndKnightVsKing || kingAndBishopVsKingAndBishopSameColor;
 	}
 
-	// Check for a special case of draw, the dead game draw.
+	// Check for a special case of draw.
 	// It occurs when no pieces other than the kings can be moved
 	// and neither king can capture any enemy pieces.
-	public boolean checkForDeadGameDraw() {
+	// It usually happens when only Kings and Pawns are left on the Chess board.
+	public boolean checkForBlockedKingAndPawnsDraw() {
 		// Check if any pieces other than the Kings can make any move.
 		for (int i = 0; i < numOfRows; i++) {
 			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
@@ -1172,28 +1173,24 @@ public class ChessBoard {
 			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
 				if (!(gameBoard[i][j] instanceof King || gameBoard[i][j] instanceof EmptySquare)) {
 					String endingPosition = getPositionByRowCol(i, j);
+					ChessPiece opposingKing;
+					String opposingKingPosition;
 					if (gameBoard[i][j].getAllegiance() == Allegiance.BLACK) {
-						boolean canGoToPosition = BFS.canGoToPosition(
-								this,
-								whiteKing,
-								whiteKingPosition,
-								endingPosition,
-								Constants.DEAD_DRAW_MAX_BFS_DEPTH
-						);
-						if (canGoToPosition) {
-							return false;
-						}
-					} else if (gameBoard[i][j].getAllegiance() == Allegiance.WHITE) {
-						boolean canGoToPosition = BFS.canGoToPosition(
-								this,
-								blackKing,
-								blackKingPosition,
-								endingPosition,
-								Constants.DEAD_DRAW_MAX_BFS_DEPTH
-						);
-						if (canGoToPosition) {
-							return false;
-						}
+						opposingKing = whiteKing;
+						opposingKingPosition = whiteKingPosition;
+					} else {
+						opposingKing = blackKing;
+						opposingKingPosition = blackKingPosition;
+					}
+					boolean canGoToPosition = BFS.canGoToPosition(
+							this,
+							opposingKing,
+							opposingKingPosition,
+							endingPosition,
+							Constants.BLOCKED_KING_AND_PAWNS_DRAW_MAX_BFS_DEPTH
+					);
+					if (canGoToPosition) {
+						return false;
 					}
 				}
 			}

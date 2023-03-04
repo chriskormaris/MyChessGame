@@ -18,7 +18,7 @@ public class Constants {
 	public static final int NO_CAPTURE_DRAW_MOVES_LIMIT = 50;
 	public static final int NO_CAPTURE_DRAW_HALF_MOVES_LIMIT = NO_CAPTURE_DRAW_MOVES_LIMIT * 2;
 
-	public static final int DEAD_DRAW_MAX_BFS_DEPTH = 21;
+	public static final int BLOCKED_KING_AND_PAWNS_DRAW_MAX_BFS_DEPTH = 21;
 
 	// public static final int ENDGAME_HALF_MOVES_THRESHOLD = 48;
 
