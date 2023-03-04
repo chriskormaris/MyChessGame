@@ -8,8 +8,8 @@ Video for this project:
 - https://www.youtube.com/watch?v=rgYDlqQ_WSI
 
 A traditional Chess game implementation using Minimax AI, with Alpha-Beta Pruning.
-The Minimax AI algorithm was based on code from the labs of the Artificial Intelligence academic course,
-of Athens University of Economics & Business.
+The Minimax AI is based on code from the laboratories of the `Artificial Intelligence` course,
+of the `Department of Informatics`, of the `Athens University of Economics and Business`.
 I created this project from scratch, line by line.
 I started this project as a hobby, on March 2020, during the COVID-19 quarantine.
 This project was a test for my skills as a programmer, and I'm very happy with the result. 
