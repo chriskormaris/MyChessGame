@@ -1605,7 +1605,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 				Component hintPositionComponent = chessPanel.getComponent(hintPositionIndex);
 
 				ChessPiece hintPositionPiece = chessBoard.getChessPieceFromPosition(hintPosition);
-				if (hintPositionPiece.getAllegiance() != Allegiance.EMPTY
+				if (hintPositionPiece.getAllegiance() != Allegiance.NONE
 						|| chessBoard.getEnPassantPosition().equals(hintPosition) && chessPiece instanceof Pawn) {
 					hintPositionComponent.setBackground(Color.RED);
 				} else if (chessPiece instanceof Pawn &&

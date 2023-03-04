@@ -10,7 +10,7 @@ import java.util.Set;
 @Getter
 public abstract class ChessPiece {
 
-	// 3 enumerations: WHITE, BLACK, EMPTY
+	// 3 enumerations: WHITE, BLACK, NONE
 	private final Allegiance allegiance;
 
 	// A capital letter if the allegiance is White,

@@ -10,7 +10,7 @@ import java.util.Set;
 public class EmptySquare extends ChessPiece {
 
 	public EmptySquare() {
-		super(Allegiance.EMPTY);
+		super(Allegiance.NONE);
 	}
 
 	@Override

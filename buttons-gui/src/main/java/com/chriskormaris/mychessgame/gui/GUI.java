@@ -1015,7 +1015,7 @@ public final class GUI {
 
 						ChessPiece hintPositionPiece = chessBoard.getGameBoard()[hintPositionRow][hintPositionColumn];
 
-						if (hintPositionPiece.getAllegiance() != Allegiance.EMPTY
+						if (hintPositionPiece.getAllegiance() != Allegiance.NONE
 								|| chessBoard.getEnPassantPosition().equals(hintPosition)
 								&& chessPiece instanceof Pawn) {
 							GuiUtils.changeSquareColor(hintPositionButton, Color.RED);
