@@ -1386,7 +1386,7 @@ public final class GUI {
 		}
 
 		/* Insufficient checkmate material draw implementation. */
-		if (chessBoard.checkForInsufficientMaterialDraw()) {
+		if (chessBoard.checkForInsufficientMatingMaterialDraw()) {
 			String turnMessage = "Move number: "
 					+ (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2)
 					+ ". It is a draw.";

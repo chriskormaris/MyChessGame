@@ -27,7 +27,7 @@ public class TwoKingsLeftTest {
 		System.out.println();
 		ChessBoard.printChessBoard(GUI.chessBoard.getGameBoard());
 
-		boolean isDraw = GUI.chessBoard.checkForInsufficientMaterialDraw();
+		boolean isDraw = GUI.chessBoard.checkForInsufficientMatingMaterialDraw();
 		assertFalse(isDraw, "The game is not a draw.");
 		System.out.println("*****************************");
 		System.out.println();

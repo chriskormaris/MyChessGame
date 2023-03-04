@@ -701,7 +701,7 @@ public class ChessBoard {
 		if (checkForBlackCheckmate(false)) return -Constants.CHECKMATE_VALUE;
 		if (checkForWhiteStalemateDraw()) return 0;
 		if (checkForBlackStalemateDraw()) return 0;
-		if (checkForInsufficientMaterialDraw()) return 0;
+		if (checkForInsufficientMatingMaterialDraw()) return 0;
 		if (checkForNoCaptureDraw(50)) return 0;
 
 		return minimaxAI.getEvaluation().evaluate(this);
@@ -723,7 +723,7 @@ public class ChessBoard {
 		// meaning that the next player should be Black.
 		if (blackPlays() && checkForBlackStalemateDraw()) return true;
 
-		if (checkForInsufficientMaterialDraw()) return true;
+		if (checkForInsufficientMatingMaterialDraw()) return true;
 
 		return checkForNoCaptureDraw(50);
 	}
@@ -1063,18 +1063,18 @@ public class ChessBoard {
 	}
 
 	// Checks if there is insufficient mating material left on the chess board.
-	public boolean checkForInsufficientMaterialDraw() {
-		boolean isInsufficientMaterialDraw = isInsufficientMaterialDraw();
+	public boolean checkForInsufficientMatingMaterialDraw() {
+		boolean isInsufficientMatingMaterialDraw = isInsufficientMatingMaterialDraw();
 
-		if (!isInsufficientMaterialDraw && checkForBlockedKingAndPawnsDraw()) {
-			isInsufficientMaterialDraw = true;
+		if (!isInsufficientMatingMaterialDraw && checkForBlockedKingAndPawnsDraw()) {
+			isInsufficientMatingMaterialDraw = true;
 		}
 
-		if (isInsufficientMaterialDraw) {
+		if (isInsufficientMatingMaterialDraw) {
 			this.gameResult = GameResult.INSUFFICIENT_MATERIAL_DRAW;
 		}
 
-		return isInsufficientMaterialDraw;
+		return isInsufficientMatingMaterialDraw;
 	}
 
 	/* Checks if the only pieces left on the Chess board are:
@@ -1082,7 +1082,7 @@ public class ChessBoard {
 	 * King & Bishop Vs King
 	 * King & Knight Vs King
 	 * King & Bishop Vs King & Bishop with the Bishops on the same color. */
-	public boolean isInsufficientMaterialDraw() {
+	public boolean isInsufficientMatingMaterialDraw() {
 		int numOfWhiteKnights = 0;
 		int numOfBlackKnights = 0;
 		int numOfWhiteBishops = 0;

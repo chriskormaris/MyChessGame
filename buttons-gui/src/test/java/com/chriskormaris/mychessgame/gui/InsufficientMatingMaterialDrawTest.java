@@ -10,10 +10,10 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
-public class InsufficientMaterialDrawTest {
+public class InsufficientMatingMaterialDrawTest {
 
 	@Test
-	public void testInsufficientMaterialDraw() {
+	public void testInsufficientMatingMaterialDraw() {
 		String title = "Insufficient Material Draw Test";
 
 		GUI.create(title);
@@ -45,7 +45,7 @@ public class InsufficientMaterialDrawTest {
 		System.out.println();
 		ChessBoard.printChessBoard(GUI.chessBoard.getGameBoard());
 
-		boolean isDraw = GUI.chessBoard.checkForInsufficientMaterialDraw();
+		boolean isDraw = GUI.chessBoard.checkForInsufficientMatingMaterialDraw();
 		assertTrue(isDraw, "The game is NOT a draw.");
 		System.out.println("*****************************");
 		System.out.println();
