@@ -1077,7 +1077,11 @@ public class ChessBoard {
 		return isInsufficientMaterialDraw;
 	}
 
-	// Checks if each side has at most one King and two Knights left on the board, and no other piece.
+	/* Checks if the only pieces left on the Chess board are:
+	 * King Vs King
+	 * King & Bishop Vs King
+	 * King & Knight Vs King
+	 * King & Bishop Vs King & Bishop with the Bishops on the same color. */
 	public boolean isInsufficientMaterialDraw() {
 		int numOfWhiteKnights = 0;
 		int numOfBlackKnights = 0;
