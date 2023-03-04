@@ -5,7 +5,6 @@ import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 import com.chriskormaris.mychessgame.api.piece.Bishop;
 import com.chriskormaris.mychessgame.api.piece.King;
-import com.chriskormaris.mychessgame.api.piece.Knight;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -22,15 +21,26 @@ public class InsufficientMaterialDrawTest {
 		GUI.makeChessBoardSquaresEmpty();
 		ChessBoard.printChessBoard(GUI.chessBoard.getGameBoard());
 
+		// King Vs King draw.
+		// GUI.placePieceToPosition("A1", new King(Allegiance.WHITE));
+		// GUI.placePieceToPosition("A2", new Knight(Allegiance.WHITE));
+		// GUI.placePieceToPosition("H8", new King(Allegiance.BLACK));
+
+		// King and Bishop Vs King draw.
+		// GUI.placePieceToPosition("A1", new King(Allegiance.WHITE));
+		// GUI.placePieceToPosition("A2", new Bishop(Allegiance.WHITE));
+		// GUI.placePieceToPosition("H8", new King(Allegiance.BLACK));
+
+		// King and Knight Vs King draw.
+		// GUI.placePieceToPosition("A1", new King(Allegiance.WHITE));
+		// GUI.placePieceToPosition("A2", new Knight(Allegiance.WHITE));
+		// GUI.placePieceToPosition("H8", new King(Allegiance.BLACK));
+
+		// King and Bishop Vs King and Bishop on the same color draw.
 		GUI.placePieceToPosition("A1", new King(Allegiance.WHITE));
 		GUI.placePieceToPosition("A2", new Bishop(Allegiance.WHITE));
-		// placePieceToPosition("A3", new Knight(Allegiance.WHITE));
-		// placePieceToPosition("A4", new Knight(Allegiance.WHITE));
-
 		GUI.placePieceToPosition("H8", new King(Allegiance.BLACK));
-		// placePieceToPosition("H7", new Bishop(Allegiance.BLACK));
-		GUI.placePieceToPosition("H6", new Knight(Allegiance.BLACK));
-		GUI.placePieceToPosition("H5", new Knight(Allegiance.BLACK));
+		GUI.placePieceToPosition("H7", new Bishop(Allegiance.BLACK));
 
 		System.out.println();
 		ChessBoard.printChessBoard(GUI.chessBoard.getGameBoard());

@@ -1077,13 +1077,16 @@ public class ChessBoard {
 		return isInsufficientMaterialDraw;
 	}
 
-	// Checks if each side has at most one King and two Knights or one Bishop,
-	// left on the board, and no other piece.
+	// Checks if each side has at most one King and two Knights left on the board, and no other piece.
 	public boolean isInsufficientMaterialDraw() {
 		int numOfWhiteKnights = 0;
 		int numOfBlackKnights = 0;
 		int numOfWhiteBishops = 0;
 		int numOfBlackBishops = 0;
+		int numOfWhiteBishopsInWhiteSquare = 0;
+		int numOfWhiteBishopsInBlackSquare = 0;
+		int numOfBlackBishopsInWhiteSquare = 0;
+		int numOfBlackBishopsInBlackSquare = 0;
 
 		for (int i = 0; i < numOfRows; i++) {
 			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
@@ -1093,12 +1096,12 @@ public class ChessBoard {
 				} else if (chessPiece instanceof Knight) {
 					if (Allegiance.WHITE == chessPiece.getAllegiance()) {
 						numOfWhiteKnights++;
-						if (numOfWhiteKnights > 2) {
+						if (numOfWhiteKnights > 1) {
 							return false;
 						}
 					} else if (Allegiance.BLACK == chessPiece.getAllegiance()) {
 						numOfBlackKnights++;
-						if (numOfBlackKnights > 2) {
+						if (numOfBlackKnights > 1) {
 							return false;
 						}
 					}
@@ -1108,10 +1111,20 @@ public class ChessBoard {
 						if (numOfWhiteBishops > 1) {
 							return false;
 						}
+						if ((i + j) % 2 == 0) {
+							numOfWhiteBishopsInWhiteSquare++;
+						} else {
+							numOfWhiteBishopsInBlackSquare++;
+						}
 					} else if (Allegiance.BLACK == chessPiece.getAllegiance()) {
 						numOfBlackBishops++;
 						if (numOfBlackBishops > 1) {
 							return false;
+						}
+						if ((i + j) % 2 == 0) {
+							numOfBlackBishopsInWhiteSquare++;
+						} else {
+							numOfBlackBishopsInBlackSquare++;
 						}
 					}
 				} else if (chessPiece instanceof Rook) {
@@ -1122,7 +1135,18 @@ public class ChessBoard {
 			}
 		}
 
-		return (numOfWhiteKnights == 0 || numOfWhiteBishops == 0) && (numOfBlackKnights == 0 || numOfBlackBishops == 0);
+		// Note, that if we have reached this far, all the helper variables are going to have a value of at most 1.
+
+		boolean kingVsKing = numOfWhiteKnights + numOfBlackKnights + numOfWhiteBishops + numOfBlackBishops == 0;
+		boolean kingAndBishopVsKing = numOfWhiteKnights + numOfBlackKnights == 0
+				&& numOfWhiteBishops + numOfBlackBishops == 1;
+		boolean kingAndKnightVsKing = numOfWhiteBishops + numOfBlackBishops == 0
+				&& numOfWhiteKnights + numOfBlackKnights == 1;
+		boolean kingAndBishopVsKingAndBishopSameColor = numOfWhiteKnights + numOfBlackKnights == 0 &&
+				(numOfWhiteBishopsInWhiteSquare + numOfBlackBishopsInWhiteSquare == 2
+						|| numOfWhiteBishopsInBlackSquare + numOfBlackBishopsInBlackSquare == 2);
+
+		return kingVsKing || kingAndBishopVsKing || kingAndKnightVsKing || kingAndBishopVsKingAndBishopSameColor;
 	}
 
 	// Check for a special case of draw, the dead game draw.
