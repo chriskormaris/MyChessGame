@@ -43,8 +43,8 @@ public class ThreefoldRepetitionDrawTest {
 		// Continue playing for 5 minutes.
 		try {
 			Thread.sleep(5 * 60 * 1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+		} catch (InterruptedException ex) {
+			ex.printStackTrace();
 		}
 	}
 
