@@ -702,7 +702,7 @@ public class ChessBoard {
 		if (checkForWhiteStalemateDraw()) return 0;
 		if (checkForBlackStalemateDraw()) return 0;
 		if (checkForInsufficientMaterialDraw()) return 0;
-		if (checkForNoPieceCaptureDraw()) return 0;
+		if (checkForNoCaptureDraw(50)) return 0;
 
 		return minimaxAI.getEvaluation().evaluate(this);
 	}
@@ -725,7 +725,7 @@ public class ChessBoard {
 
 		if (checkForInsufficientMaterialDraw()) return true;
 
-		return checkForNoPieceCaptureDraw();
+		return checkForNoCaptureDraw(50);
 	}
 
 	public boolean isTerminalState() {
@@ -1271,8 +1271,8 @@ public class ChessBoard {
 		return !player;
 	}
 
-	public boolean checkForNoPieceCaptureDraw() {
-		return this.halfMoveClock >= Constants.NO_CAPTURE_DRAW_HALF_MOVES_LIMIT;
+	public boolean checkForNoCaptureDraw(int numOfFullMoves) {
+		return this.halfMoveClock >= numOfFullMoves * 2;
 	}
 
 	public void incrementCapturedPiecesCounter(ChessPiece chessPiece) {

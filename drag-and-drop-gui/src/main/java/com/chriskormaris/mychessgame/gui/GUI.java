@@ -1255,7 +1255,6 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 		if (chessBoard.whitePlays()) {
 			chessBoard.checkForWhiteCheckmate(true);
 			if (chessBoard.getGameResult() == GameResult.WHITE_CHECKMATE) {
-
 				String turnMessage = "Move number: "
 						+ (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2) + ". Checkmate! White wins!";
 				turnTextPane.setText(turnMessage);
@@ -1271,7 +1270,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 						JOptionPane.YES_NO_OPTION
 				);
 
-				// System.out.println("dialogResult:" + dialogResult);
+				// System.out.println("dialogResult: " + dialogResult);
 
 				startNewGameOrNot(dialogResult);
 
@@ -1283,7 +1282,6 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 		else {
 			chessBoard.checkForBlackCheckmate(true);
 			if (chessBoard.getGameResult() == GameResult.BLACK_CHECKMATE) {
-
 				String turnMessage = "Move number: "
 						+ (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2) + ". Checkmate! Black wins!";
 				turnTextPane.setText(turnMessage);
@@ -1299,14 +1297,13 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 						JOptionPane.YES_NO_OPTION
 				);
 
-				// System.out.println("dialogResult:" + dialogResult);
+				// System.out.println("dialogResult: " + dialogResult);
 
 				startNewGameOrNot(dialogResult);
 
 				return true;
 			}
 		}
-
 
 		/* Stalemate draw implementation. */
 
@@ -1315,7 +1312,6 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 			// System.out.println("Checking for white stalemate!");
 			chessBoard.checkForWhiteStalemateDraw();
 			if (chessBoard.getGameResult() == GameResult.WHITE_STALEMATE_DRAW) {
-
 				String turnMessage = "Move number: "
 						+ (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2)
 						+ ". Stalemate! No legal moves for White exist.";
@@ -1328,7 +1324,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 						JOptionPane.YES_NO_OPTION
 				);
 
-				// System.out.println("dialogResult:" + dialogResult);
+				// System.out.println("dialogResult: " + dialogResult);
 
 				startNewGameOrNot(dialogResult);
 
@@ -1341,7 +1337,6 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 			// System.out.println("Checking for black stalemate!");
 			chessBoard.checkForBlackStalemateDraw();
 			if (chessBoard.getGameResult() == GameResult.BLACK_STALEMATE_DRAW) {
-
 				String turnMessage = "Move number: "
 						+ (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2)
 						+ ". Stalemate! No legal moves for Black exist.";
@@ -1354,7 +1349,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 						JOptionPane.YES_NO_OPTION
 				);
 
-				// System.out.println("dialogResult:" + dialogResult);
+				// System.out.println("dialogResult: " + dialogResult);
 
 				startNewGameOrNot(dialogResult);
 
@@ -1362,11 +1357,8 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 			}
 		}
 
-
 		/* Insufficient checkmate material draw implementation. */
-		chessBoard.checkForInsufficientMaterialDraw();
-		if (chessBoard.getGameResult() == GameResult.INSUFFICIENT_MATERIAL_DRAW) {
-
+		if (chessBoard.checkForInsufficientMaterialDraw()) {
 			String turnMessage = "Move number: "
 					+ (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2)
 					+ ". It is a draw.";
@@ -1379,31 +1371,51 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 					JOptionPane.YES_NO_OPTION
 			);
 
-			// System.out.println("dialogResult:" + dialogResult);
+			// System.out.println("dialogResult: " + dialogResult);
 
 			startNewGameOrNot(dialogResult);
 
 			return true;
 		}
 
+		// 75 full-moves without a Chess piece capture Draw implementation.
+		if (chessBoard.checkForNoCaptureDraw(75)) {
+			String turnMessage = "Move number: "
+					+ (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2)
+					+ ". It is a draw.";
+			turnTextPane.setText(turnMessage);
 
-		// 50 full-moves without a chessPiece capture Draw implementation.
-		if (chessBoard.checkForNoPieceCaptureDraw()) {
+			int dialogResult = JOptionPane.showConfirmDialog(
+					this,
+					"It is a draw! 75 full-moves have passed without a piece capture! Start a new game?",
+					"Draw",
+					JOptionPane.YES_NO_OPTION
+			);
+
+			// System.out.println("dialogResult: " + dialogResult);
+
+			startNewGameOrNot(dialogResult);
+
+			return true;
+		}
+
+		// 50 full-moves without a Chess piece capture Draw implementation.
+		if (chessBoard.checkForNoCaptureDraw(50)) {
 			int dialogResult = -1;
 
-			if (!chessBoard.whitePlays() && gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE
-					|| !chessBoard.blackPlays() && gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK
-					|| gameParameters.getGameMode() == GameMode.AI_VS_AI) {
+			// In the HUMAN_VS_AI mode, show the draw dialog, only if the AI has just made a move.
+			if (gameParameters.getGameMode() != GameMode.HUMAN_VS_AI
+					|| (chessBoard.blackPlays() && gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE
+					|| chessBoard.whitePlays() && gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK)) {
 				dialogResult = JOptionPane.showConfirmDialog(
 						this,
-						Constants.NO_CAPTURE_DRAW_MOVES_LIMIT +
-								" full-moves have passed without a piece capture! Do you want to declare a draw?",
+						"50 full-moves have passed without a piece capture! Do you want to declare a draw?",
 						"Draw",
 						JOptionPane.YES_NO_OPTION
 				);
 			}
 
-			// System.out.println("dialogResult:" + dialogResult);
+			// System.out.println("dialogResult: " + dialogResult);
 			if (dialogResult == JOptionPane.YES_OPTION) {
 				chessBoard.setGameResult(GameResult.NO_CAPTURE_DRAW);
 				showDeclareDrawDialog();
@@ -1411,22 +1423,40 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 			}
 		}
 
-
 		// Three-fold repetition draw rule implementation.
 		// This situation occurs when we end up with the same chess board position 3 different times
 		// at any time in the game, not necessarily successively.
 		if (checkForThreefoldRepetitionDraw()) {
+			if (chessBoard.getGameResult() == GameResult.FIVEFOLD_REPETITION_DRAW) {
+				String turnMessage = "Move number: "
+						+ (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2)
+						+ ". It is a draw.";
+				turnTextPane.setText(turnMessage);
+
+				int dialogResult = JOptionPane.showConfirmDialog(
+						this,
+						"It is a draw! Fivefold repetition of the same Chess board position has occurred! " +
+								"Start a new game?",
+						"Draw",
+						JOptionPane.YES_NO_OPTION
+				);
+
+				// System.out.println("dialogResult: " + dialogResult);
+
+				startNewGameOrNot(dialogResult);
+
+				return true;
+			}
+
 			int dialogResult = -1;
 
-			if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI &&
-					(!chessBoard.whitePlays() && gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE
-							|| !chessBoard.blackPlays()
-							&& gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK)
-					|| gameParameters.getGameMode() == GameMode.HUMAN_VS_HUMAN
-					|| gameParameters.getGameMode() == GameMode.AI_VS_AI) {
+			// In the HUMAN_VS_AI mode, show the draw dialog, only if the AI has just made a move.
+			if (gameParameters.getGameMode() != GameMode.HUMAN_VS_AI
+					|| (chessBoard.blackPlays() && gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE
+					|| chessBoard.whitePlays() && gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK)) {
 				dialogResult = JOptionPane.showConfirmDialog(
 						this,
-						"Threefold repetition of the same chess board position has occurred! "
+						"Threefold repetition of the same Chess board position has occurred! "
 								+ "Do you want to declare a draw?",
 						"Draw",
 						JOptionPane.YES_NO_OPTION
@@ -1446,20 +1476,21 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 
 	// We are comparing FEN positions, but without checking the half-move clock and the full-move number.
 	private boolean checkForThreefoldRepetitionDraw() {
+		int numOfRepeats = 0;
 		if (!undoHalfMoveFenPositions.isEmpty()) {
 			int N = undoHalfMoveFenPositions.size();
 			String lastHalfMoveFenPosition = undoHalfMoveFenPositions.get(N - 1);
 			lastHalfMoveFenPosition = FenUtils.skipCounters(lastHalfMoveFenPosition);
-			int numOfRepeats = 0;
 			for (int i = N - 2; i >= 0; i--) {
-				// Skip the last iteration, if the number of repeats found is less ore equal to 1.
-				// Also, skip the second to last iteration, if the number of repeats found is 0.
-				if (!(numOfRepeats <= 1 && i == 0 || numOfRepeats == 0 && i == 1)) {
+				// Skip the last 3 iterations, if the number of repeats is 0.
+				// and there are less than 3 iterations left.
+				if (!(numOfRepeats == 0 && i < 2)) {
 					String otherHalfMoveFenPosition = undoHalfMoveFenPositions.get(i);
 					otherHalfMoveFenPosition = FenUtils.skipCounters(otherHalfMoveFenPosition);
 					if (lastHalfMoveFenPosition.equals(otherHalfMoveFenPosition)) {
 						numOfRepeats++;
-						if (numOfRepeats == 3) {
+						if (numOfRepeats == 5) {
+							chessBoard.setGameResult(GameResult.FIVEFOLD_REPETITION_DRAW);
 							return true;
 						}
 					}
@@ -1467,7 +1498,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 			}
 		}
 
-		return false;
+		return numOfRepeats >= 3;
 	}
 
 	private void showDeclareDrawDialog() {
