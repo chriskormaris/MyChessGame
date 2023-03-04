@@ -224,8 +224,8 @@ public final class FenUtils {
 		/* Step 5: Append the half-move clock. */
 		fenPosition.append(" ").append(chessBoard.getHalfMoveClock());
 
-		/* Step 6: Append the half-move number. */
-		fenPosition.append(" ").append(chessBoard.getHalfMoveNumber());
+		/* Step 6: Append the full-move number. */
+		fenPosition.append(" ").append((int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2));
 
 		return fenPosition.toString();
 	}
