@@ -71,11 +71,11 @@ public class RandomChoiceAI extends AI {
 			int randomStartingPositionIndex = 0;
 
 			if (chessBoard.whitePlays()) {
-				keys = new ArrayList<>(chessBoard.getWhiteKingInCheckValidPieceMoves().keySet());
-				randomStartingPositionIndex = r.nextInt(chessBoard.getWhiteKingInCheckValidPieceMoves().size());
+				keys = new ArrayList<>(chessBoard.getWhiteKingInCheckValidMoves().keySet());
+				randomStartingPositionIndex = r.nextInt(chessBoard.getWhiteKingInCheckValidMoves().size());
 			} else if (chessBoard.blackPlays()) {
-				keys = new ArrayList<>(chessBoard.getBlackKingInCheckValidPieceMoves().keySet());
-				randomStartingPositionIndex = r.nextInt(chessBoard.getBlackKingInCheckValidPieceMoves().size());
+				keys = new ArrayList<>(chessBoard.getBlackKingInCheckValidMoves().keySet());
+				randomStartingPositionIndex = r.nextInt(chessBoard.getBlackKingInCheckValidMoves().size());
 			}
 
 			randomAiStartingPosition = keys.get(randomStartingPositionIndex);
@@ -89,9 +89,9 @@ public class RandomChoiceAI extends AI {
 			possibleEndingPositions = randomStartingEndingPositions.get(randomAiStartingPosition);
 		} else {
 			if (chessBoard.whitePlays()) {
-				possibleEndingPositions = chessBoard.getWhiteKingInCheckValidPieceMoves().get(randomAiStartingPosition);
+				possibleEndingPositions = chessBoard.getWhiteKingInCheckValidMoves().get(randomAiStartingPosition);
 			} else if (chessBoard.blackPlays()) {
-				possibleEndingPositions = chessBoard.getBlackKingInCheckValidPieceMoves().get(randomAiStartingPosition);
+				possibleEndingPositions = chessBoard.getBlackKingInCheckValidMoves().get(randomAiStartingPosition);
 			}
 		}
 

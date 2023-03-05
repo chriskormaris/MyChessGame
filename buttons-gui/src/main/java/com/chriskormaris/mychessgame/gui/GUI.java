@@ -981,11 +981,11 @@ public final class GUI {
 					hintPositions = new HashSet<>();
 
 					if (chessBoard.whitePlays()
-							&& chessBoard.getWhiteKingInCheckValidPieceMoves().containsKey(startingPosition)) {
-						hintPositions = chessBoard.getWhiteKingInCheckValidPieceMoves().get(startingPosition);
+							&& chessBoard.getWhiteKingInCheckValidMoves().containsKey(startingPosition)) {
+						hintPositions = chessBoard.getWhiteKingInCheckValidMoves().get(startingPosition);
 					} else if (chessBoard.blackPlays()
-							&& chessBoard.getBlackKingInCheckValidPieceMoves().containsKey(startingPosition)) {
-						hintPositions = chessBoard.getBlackKingInCheckValidPieceMoves().get(startingPosition);
+							&& chessBoard.getBlackKingInCheckValidMoves().containsKey(startingPosition)) {
+						hintPositions = chessBoard.getBlackKingInCheckValidMoves().get(startingPosition);
 					}
 
 				}

@@ -99,8 +99,9 @@ public class ChessBoard {
 
 	private boolean whiteKingInCheck;
 	private boolean blackKingInCheck;
-	private Map<String, Set<String>> whiteKingInCheckValidPieceMoves;
-	private Map<String, Set<String>> blackKingInCheckValidPieceMoves;
+
+	private Map<String, Set<String>> whiteKingInCheckValidMoves;
+	private Map<String, Set<String>> blackKingInCheckValidMoves;
 
 	private GameResult gameResult;
 
@@ -146,8 +147,8 @@ public class ChessBoard {
 
 		this.score = 0;
 
-		this.whiteKingInCheckValidPieceMoves = new HashMap<>();
-		this.blackKingInCheckValidPieceMoves = new HashMap<>();
+		this.whiteKingInCheckValidMoves = new HashMap<>();
+		this.blackKingInCheckValidMoves = new HashMap<>();
 
 		this.positionsToRemove = new HashSet<>();
 		this.piecesToPlace = new HashMap<>();
@@ -190,8 +191,8 @@ public class ChessBoard {
 		this.whiteKingInCheck = otherBoard.isWhiteKingInCheck();
 		this.blackKingInCheck = otherBoard.isBlackKingInCheck();
 
-		this.whiteKingInCheckValidPieceMoves = new HashMap<>(otherBoard.getWhiteKingInCheckValidPieceMoves());
-		this.blackKingInCheckValidPieceMoves = new HashMap<>(otherBoard.getBlackKingInCheckValidPieceMoves());
+		this.whiteKingInCheckValidMoves = new HashMap<>(otherBoard.getWhiteKingInCheckValidMoves());
+		this.blackKingInCheckValidMoves = new HashMap<>(otherBoard.getBlackKingInCheckValidMoves());
 
 		this.gameResult = otherBoard.getGameResult();
 
@@ -644,9 +645,9 @@ public class ChessBoard {
 					if (!this.whiteKingInCheck && whitePlays() || !this.blackKingInCheck && blackPlays()) {
 						nextPositions = getNextPositions(initialPosition);
 					} else if (this.whiteKingInCheck && this.player) {
-						nextPositions = this.whiteKingInCheckValidPieceMoves.get(initialPosition);
+						nextPositions = this.whiteKingInCheckValidMoves.get(initialPosition);
 					} else if (this.blackKingInCheck && !this.player) {
-						nextPositions = this.blackKingInCheckValidPieceMoves.get(initialPosition);
+						nextPositions = this.blackKingInCheckValidMoves.get(initialPosition);
 					}
 
 					// System.out.println("nextPositions: " + nextPositions);
@@ -831,7 +832,7 @@ public class ChessBoard {
 		int blackKingThreatened = getSquaresThreatenedByWhite()[blackKingRow][blackKingColumn];
 
 		if (storeKingInCheckMoves) {
-			this.blackKingInCheckValidPieceMoves = new HashMap<>();
+			this.blackKingInCheckValidMoves = new HashMap<>();
 		}
 
 		if (blackKingThreatened == 1) {
@@ -866,7 +867,7 @@ public class ChessBoard {
 							initialChessBoard = new ChessBoard(this);
 						}
 						if (storeKingInCheckMoves && validBlackKingInCheckTempNextPosition.size() > 0) {
-							this.blackKingInCheckValidPieceMoves.put(
+							this.blackKingInCheckValidMoves.put(
 									currentPosition,
 									validBlackKingInCheckTempNextPosition
 							);
@@ -882,7 +883,7 @@ public class ChessBoard {
 		} else {
 			if (storeKingInCheckMoves) {
 				this.blackKingInCheck = false;
-				this.blackKingInCheckValidPieceMoves = new HashMap<>();
+				this.blackKingInCheckValidMoves = new HashMap<>();
 			}
 		}
 
@@ -900,7 +901,7 @@ public class ChessBoard {
 		int whiteKingThreatened = getSquaresThreatenedByBlack()[whiteKingRow][whiteKingColumn];
 
 		if (storeKingInCheckMoves) {
-			this.whiteKingInCheckValidPieceMoves = new HashMap<>();
+			this.whiteKingInCheckValidMoves = new HashMap<>();
 		}
 
 		if (whiteKingThreatened == 1) {
@@ -935,7 +936,7 @@ public class ChessBoard {
 							initialChessBoard = new ChessBoard(this);
 						}
 						if (storeKingInCheckMoves && validWhiteKingInCheckTempNextPositions.size() > 0) {
-							this.whiteKingInCheckValidPieceMoves.put(
+							this.whiteKingInCheckValidMoves.put(
 									currentPosition,
 									validWhiteKingInCheckTempNextPositions
 							);
@@ -951,7 +952,7 @@ public class ChessBoard {
 		} else {
 			if (storeKingInCheckMoves) {
 				this.whiteKingInCheck = false;
-				this.whiteKingInCheckValidPieceMoves = new HashMap<>();
+				this.whiteKingInCheckValidMoves = new HashMap<>();
 			}
 		}
 
