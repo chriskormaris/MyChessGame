@@ -551,12 +551,11 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 			}
 
 			redoFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
+			redoHalfMoveFenPositions.push(undoHalfMoveFenPositions.pop());
 			redoCapturedPieces.push(Utilities.copyCharArray(capturedPieces));
 
 			String fenPosition = undoFenPositions.pop();
 			chessBoard = FenUtils.getChessBoardFromFenPosition(fenPosition);
-
-			redoHalfMoveFenPositions.push(undoHalfMoveFenPositions.pop());
 
 			capturedPieces = undoCapturedPieces.pop();
 
@@ -793,8 +792,6 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 		revalidate();
 
 		initializeAI();
-
-		chessBoard.setThreats();
 
 		setTurnMessage();
 
@@ -1064,6 +1061,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 				placePieceToPosition(piecePosition, chessBoard.getGameBoard()[i][j]);
 			}
 		}
+		chessBoard.setThreats();
 	}
 
 	public void makeChessBoardSquaresEmpty() {
@@ -1736,13 +1734,6 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 				&& (gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK
 				|| gameParameters.getGameMode() == GameMode.HUMAN_VS_HUMAN))
 				&& hintPositions.contains(endingPosition)) {
-			if (undoItem != null) {
-				undoItem.setEnabled(true);
-			}
-			if (redoItem != null) {
-				redoItem.setEnabled(false);
-			}
-
 			Component component = chessPanel.findComponentAt(x, y);
 			Container parent;
 			if (component instanceof JLabel) {
@@ -1753,6 +1744,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 			}
 
 			undoFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
+			System.out.println(FenUtils.getFenPositionFromChessBoard(chessBoard));
 			undoCapturedPieces.push(Utilities.copyCharArray(capturedPieces));
 
 			redoFenPositions.clear();
@@ -1784,6 +1776,13 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 			System.out.println(chessBoard);
 
 			parent.validate();
+
+			if (undoItem != null) {
+				undoItem.setEnabled(true);
+			}
+			if (redoItem != null) {
+				redoItem.setEnabled(false);
+			}
 
 			// Change chessBoard turn.
 			chessBoard.setHalfMoveNumber(chessBoard.getHalfMoveNumber() + 1);

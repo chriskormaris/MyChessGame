@@ -458,12 +458,11 @@ public final class GUI {
 			}
 
 			redoFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
+			redoHalfMoveFenPositions.push(undoHalfMoveFenPositions.pop());
 			redoCapturedPieces.push(Utilities.copyCharArray(capturedPieces));
 
 			String fenPosition = undoFenPositions.pop();
 			chessBoard = FenUtils.getChessBoardFromFenPosition(fenPosition, gameParameters.getNumOfRows());
-
-			redoHalfMoveFenPositions.push(undoHalfMoveFenPositions.pop());
 
 			capturedPieces = undoCapturedPieces.pop();
 
@@ -506,9 +505,7 @@ public final class GUI {
 			}
 
 			undoFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
-
 			undoHalfMoveFenPositions.push(redoHalfMoveFenPositions.pop());
-
 			undoCapturedPieces.push(Utilities.copyCharArray(capturedPieces));
 
 			String fenPosition = redoFenPositions.pop();
@@ -789,10 +786,11 @@ public final class GUI {
 
 		placePiecesToChessBoard(fenPosition);
 		redrawChessButtons();
+		frame.revalidate();
 
 		initializeAI();
 
-		chessBoard.setThreats();
+		setTurnMessage();
 
 		System.out.println();
 		System.out.println(chessBoard);
@@ -916,8 +914,8 @@ public final class GUI {
 		ChessPiece chessPiece = chessBoard.getGameBoard()[row][column];
 		// System.out.println("chessPiece: " + chessPiece);
 
-		int startingPositionRow = 0;
-		int startingPositionColumn = 0;
+		int startingPositionRow;
+		int startingPositionColumn;
 		ChessPiece startingPiece = null;
 		if (!startingPosition.equals("")) {
 			startingPositionRow = chessBoard.getRowFromPosition(startingPosition);
@@ -999,7 +997,6 @@ public final class GUI {
 				undoCapturedPieces.push(Utilities.copyCharArray(capturedPieces));
 
 				redoFenPositions.clear();
-				redoHalfMoveFenPositions.clear();
 				redoCapturedPieces.clear();
 
 				// System.out.println("startingPositionGameBoard: ");
@@ -1031,27 +1028,27 @@ public final class GUI {
 				}
 			}
 
-			if (hintPositions.contains(endingPosition)) {
-				System.out.println();
-				System.out.println(chessBoard);
+			hintPositions.clear();
 
-				// System.out.println("en passant position: " + chessBoard.getEnPassantPosition());
+			System.out.println();
+			System.out.println(chessBoard);
 
-				if (undoItem != null) {
-					undoItem.setEnabled(true);
-				}
-				if (redoItem != null) {
-					redoItem.setEnabled(false);
-				}
+			// System.out.println("en passant position: " + chessBoard.getEnPassantPosition());
 
-				// Change chessBoard turn.
-				chessBoard.setHalfMoveNumber(chessBoard.getHalfMoveNumber() + 1);
-				chessBoard.setPlayer(chessBoard.getNextPlayer());
-				if (gameParameters.getGameMode() == GameMode.HUMAN_VS_HUMAN) {
-					setTurnMessage();
-				} else if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI) {
-					aiMove(ai);
-				}
+			if (undoItem != null) {
+				undoItem.setEnabled(true);
+			}
+			if (redoItem != null) {
+				redoItem.setEnabled(false);
+			}
+
+			// Change chessBoard turn.
+			chessBoard.setHalfMoveNumber(chessBoard.getHalfMoveNumber() + 1);
+			chessBoard.setPlayer(chessBoard.getNextPlayer());
+			if (gameParameters.getGameMode() == GameMode.HUMAN_VS_HUMAN) {
+				setTurnMessage();
+			} else if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI) {
+				aiMove(ai);
 			}
 		}
 	}
@@ -1167,8 +1164,8 @@ public final class GUI {
 
 		chessBoard.setThreats();
 
-		// Store the chess board of the HalfMove that was just made.
 		undoHalfMoveFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
+		redoHalfMoveFenPositions.clear();
 	}
 
 	private static void updateCapturedPieces(ChessPiece chessPiece) {
@@ -1730,8 +1727,6 @@ public final class GUI {
 			}
 		}
 		chessBoard.setThreats();
-
-		setTurnMessage();
 	}
 
 	public static void makeChessBoardSquaresEmpty() {
