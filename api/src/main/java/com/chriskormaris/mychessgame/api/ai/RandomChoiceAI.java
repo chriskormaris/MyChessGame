@@ -25,7 +25,6 @@ public class RandomChoiceAI extends AI {
 	// Initiates the random move.
 	@Override
 	public Move getNextMove(ChessBoard chessBoard) {
-
 		String randomAiStartingPosition = "";
 		String randomAiEndingPosition = "";
 
@@ -42,8 +41,6 @@ public class RandomChoiceAI extends AI {
 
 					if (randomEndingPositions.size() > 0) {
 						randomStartingEndingPositions.put(randomStartingPosition, randomEndingPositions);
-						// System.out.print("randomStartingPosition: " + randomStartingPosition);
-						// System.out.println(" -> " + randomEndingPositions);
 					}
 				}
 			}
@@ -53,17 +50,14 @@ public class RandomChoiceAI extends AI {
 		List<String> keys = new ArrayList<>(randomStartingEndingPositions.keySet());
 		if (randomStartingEndingPositions.size() > 0) {
 			int randomStartingPositionIndex = r.nextInt(randomStartingEndingPositions.size());
-			// System.out.println("randomStartingPositionIndex: " + randomStartingPositionIndex);
 			randomAiStartingPosition = keys.get(randomStartingPositionIndex);
 		}
-		// System.out.println("random starting position: " + randomAiStartingPosition);
 
 		/* STEP 2. Random ending position. */
 		Set<String> possibleEndingPositions = randomStartingEndingPositions.get(randomAiStartingPosition);
 
 		// Get a random element from the set.
 		int randomEndingPositionIndex = r.nextInt(possibleEndingPositions.size());
-		// System.out.println("randomEndingPositionIndex: " + randomEndingPositionIndex);
 		int i = 0;
 		for (String possibleEndingPosition : possibleEndingPositions) {
 			if (i == randomEndingPositionIndex) {
@@ -72,10 +66,6 @@ public class RandomChoiceAI extends AI {
 			}
 			i++;
 		}
-		// System.out.println("random ending position: " + randomAiEndingPosition);
-
-		// chessBoard.movePieceFromAPositionToAnother(randomAiStartingPosition, randomAiEndingPosition, true);
-		// hideHintPositions(possibleEndingPositions);
 
 		return new Move(randomAiStartingPosition, randomAiEndingPosition);
 	}

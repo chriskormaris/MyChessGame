@@ -283,24 +283,13 @@ public class ChessBoard {
 	// If the method is called while running the minimax AI algorithm,
 	// then the parameter "displayMove" should be set to false.
 	public void movePieceFromAPositionToAnother(String positionStart, String positionEnd, boolean displayMove) {
-		// System.out.println("startPosition: " + startPosition);
-		// System.out.println("endPosition: " + endPosition);
-
 		int rowStart = getRowFromPosition(positionStart);
 		int columnStart = getColumnFromPosition(positionStart);
 		ChessPiece chessPiece = this.gameBoard[rowStart][columnStart];
-		// if (displayMove) {
-		// 	System.out.println("rowStart: " + rowStart + ", columnStart: " + columnStart);
-		// 	System.out.println("chessPiece:" + chessPiece);
-		// }
 
 		int rowEnd = getRowFromPosition(positionEnd);
 		int columnEnd = getColumnFromPosition(positionEnd);
 		ChessPiece endSquare = this.gameBoard[rowEnd][columnEnd];
-		// if (displayMove) {
-		// 	System.out.println("rowEnd: " + rowEnd + ", columnEnd: " + columnEnd);
-		// 	System.out.println("endSquare:" + endSquare);
-		// }
 
 		if (positionsToRemove.size() > 0) {
 			positionsToRemove.clear();
@@ -334,11 +323,9 @@ public class ChessBoard {
 
 				if (chessPiece.getAllegiance() == Allegiance.WHITE) {
 					setWhiteKingPosition(positionEnd);
-					// System.out.println("white king new position: " + whiteKingPosition);
 					setWhiteKingMoved(true);
 				} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
 					setBlackKingPosition(positionEnd);
-					// System.out.println("black king new position: " + blackKingPosition);
 					setBlackKingMoved(true);
 				}
 
@@ -430,19 +417,16 @@ public class ChessBoard {
 
 				// Remove the captured en passant pieces.
 				if (chessPiece.getAllegiance() == Allegiance.WHITE && rowEnd + 1 < numOfRows) {
-
 					String twoStepsForwardBlackPawnPosition = getPositionByRowCol(rowEnd + 1, columnEnd);
-					// if (displayMove)
-					// System.out.println("twoStepsForwardBlackPawnPosition: " + twoStepsForwardBlackPawnPosition);
 					int twoStepsForwardBlackPawnPositionRow = getRowFromPosition(twoStepsForwardBlackPawnPosition);
 					int twoStepsForwardBlackPawnPositionColumn = getColumnFromPosition(twoStepsForwardBlackPawnPosition);
 
-					// White pawn captures black pawn.
 					ChessPiece possibleBlackEnPassantCapturedPawn = this.gameBoard[rowEnd + 1][columnEnd];
+
+					// White pawn captures black pawn.
 					if (possibleBlackEnPassantCapturedPawn instanceof Pawn
 							&& possibleBlackEnPassantCapturedPawn.getAllegiance() == Allegiance.BLACK
-							&& this.enPassantPosition.equals(
-							getPositionByRowCol(rowEnd, columnEnd))) {
+							&& this.enPassantPosition.equals(getPositionByRowCol(rowEnd, columnEnd))) {
 
 						if (displayMove) {
 							positionsToRemove.add(twoStepsForwardBlackPawnPosition);
@@ -455,15 +439,15 @@ public class ChessBoard {
 						this.enPassantPosition = "-";
 					}
 
-					// Black pawn captures white pawn.
-				} else if (chessPiece.getAllegiance() == Allegiance.BLACK && rowEnd - 1 >= 0) {
 
+				} else if (chessPiece.getAllegiance() == Allegiance.BLACK && rowEnd - 1 >= 0) {
 					String twoStepsForwardWhitePawnPosition = getPositionByRowCol(rowEnd - 1, columnEnd);
 					int twoStepsForwardWhitePawnPositionRow = getRowFromPosition(twoStepsForwardWhitePawnPosition);
 					int twoStepsForwardWhitePawnPositionColumn = getColumnFromPosition(twoStepsForwardWhitePawnPosition);
 
-					// Black pawn captures white pawn.
 					ChessPiece possibleWhiteEnPassantCapturedPawn = this.gameBoard[rowEnd - 1][columnEnd];
+
+					// Black pawn captures white pawn.
 					if (possibleWhiteEnPassantCapturedPawn instanceof Pawn
 							&& possibleWhiteEnPassantCapturedPawn.getAllegiance() == Allegiance.WHITE
 							&& this.enPassantPosition.equals(getPositionByRowCol(rowEnd, columnEnd))) {
@@ -507,7 +491,9 @@ public class ChessBoard {
 			// Increase the halfMoveClock if no capture has occurred.
 			if (endSquare.getAllegiance() == Allegiance.NONE) {
 				halfMoveClock++;
-			} else {  // a capture has occurred
+			}
+			// If a capture has occurred.
+			else {
 				halfMoveClock = 0;
 			}
 
@@ -566,25 +552,16 @@ public class ChessBoard {
 
 		ChessBoard chessBoard = new ChessBoard(this);
 
-		// System.out.println("Printing Knight promotion board (before)...");
-		// System.out.println(chessBoard);
-
 		int rowEnd = getRowFromPosition(positionEnd);
 		int columnEnd = chessBoard.getColumnFromPosition(positionEnd);
 
 		chessBoard.getGameBoard()[rowEnd][columnEnd] = knight;
 		chessBoard.setThreats();
 
-		// System.out.println("Printing Knight promotion board (after)...");
-		// System.out.println(chessBoard);
-
-		// System.out.println("Checking for Knight checkmate...");
 		if (chessPiece.getAllegiance() == Allegiance.WHITE) {
 			chessBoard.checkForWhiteCheckmate();
-			// System.out.println("chessBoard.isWhiteCheckmate: " + chessBoard.isWhiteCheckmate);
 		} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
 			chessBoard.checkForBlackCheckmate();
-			// System.out.println("chessBoard.isBlackCheckmate: " + chessBoard.isBlackCheckmate);
 		}
 
 		ChessPiece promotedPiece = knight;
@@ -623,10 +600,6 @@ public class ChessBoard {
 	public List<ChessBoard> getChildren(Allegiance allegiance, MinimaxAI minimaxAI) {
 		List<ChessBoard> children = new ArrayList<>();
 
-		// int childPlayer = (getLastPlayer() == Constants.WHITE) ? Constants.BLACK : Constants.BLACK;
-
-		// int i = 0;
-		// System.out.println("**********************************************");
 		for (int row = 0; row < numOfRows; row++) {
 			for (int column = 0; column < NUM_OF_COLUMNS; column++) {
 				ChessPiece chessPiece = this.gameBoard[row][column];
@@ -634,44 +607,27 @@ public class ChessBoard {
 					String initialPosition = getPositionByRowCol(row, column);
 					Set<String> nextPositions = getNextPositions(initialPosition);
 
-					// System.out.println("nextPositions: " + nextPositions);
-
 					if (nextPositions != null) {
 						for (String nextPosition : nextPositions) {
-							// System.out.println(initialPosition + ": " + nextPositions);
 							ChessBoard child = new ChessBoard(this);
 
 							List<String> moves = new ArrayList<>();
 							moves.add(initialPosition);
 							moves.add(nextPosition);
 
-							// Move move = new Move(moves, evaluate(evaluationFunction));
 							Move move = new Move(moves);
-
-							// move.setValue(this.evaluate(evaluationFunction));
 
 							child.makeMove(move, false);
 							this.player = !this.player;
 
-							// System.out.println("**********************************************");
 							child.getLastMove().setPositions(moves);
 							child.getLastMove().setValue(child.evaluate(minimaxAI));
-							// System.out.println("**********************************************\n");
-
-							// System.out.println("**********************************************");
-							// System.out.print("player " + player + ", child " + i);
-							// System.out.println(", last move -> " + child.getLastMove());
-							// System.out.println("**********************************************\n");
-
 							children.add(child);
-
-							// i++;
 						}
 					}
 				}
 			}
 		}
-		// System.out.println("**********************************************\n");
 
 		return children;
 	}
@@ -786,8 +742,6 @@ public class ChessBoard {
 				Set<String> threatPositions;
 
 				threatPositions = chessPiece.getNextPositions(position, this, true);
-
-				// System.out.println("position: " + position + ", threatPositions: " + threatPositions);
 
 				if (threatPositions != null && threatPositions.size() != 0) {
 					for (String threatPosition : threatPositions) {
@@ -921,11 +875,9 @@ public class ChessBoard {
 
 		ChessBoard initialChessBoard = new ChessBoard(this);
 
-		// System.out.println("Checking for White stalemate...");
 		for (int i = 0; i < numOfRows; i++) {
 			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
 				ChessPiece currentPiece = initialChessBoard.getGameBoard()[i][j];
-				// System.out.println("i: " + i + ", j: " + j + ", tempChessPiece: " + tempChessPiece);
 				if (currentPiece.getAllegiance() == Allegiance.WHITE) {
 					String currentPosition = getPositionByRowCol(i, j);
 					Set<String> nextPositions = initialChessBoard.getNextPositions(currentPosition);
@@ -973,11 +925,9 @@ public class ChessBoard {
 
 		ChessBoard initialChessBoard = new ChessBoard(this);
 
-		// System.out.println("Checking for Black stalemate...");
 		for (int i = 0; i < numOfRows; i++) {
 			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
 				ChessPiece currentPiece = initialChessBoard.getGameBoard()[i][j];
-				// System.out.println("i: " + i + ", j: " + j + ", tempChessPiece: " + tempChessPiece);
 				if (currentPiece.getAllegiance() == Allegiance.BLACK) {
 					String currentPosition = getPositionByRowCol(i, j);
 					Set<String> nextPositions = initialChessBoard.getNextPositions(currentPosition);
@@ -1033,10 +983,10 @@ public class ChessBoard {
 	}
 
 	/* Checks if the only pieces left on the Chess board are:
-	 * King Vs King
-	 * King & Bishop Vs King
-	 * King & Knight Vs King
-	 * King & Bishop Vs King & Bishop with the Bishops on the same color. */
+	 * - King Vs King
+	 * - King & Bishop Vs King
+	 * - King & Knight Vs King
+	 * - King & Bishop Vs King & Bishop with the Bishops on the same color. */
 	public boolean isInsufficientMatingMaterialDraw() {
 		int numOfWhiteKnights = 0;
 		int numOfBlackKnights = 0;

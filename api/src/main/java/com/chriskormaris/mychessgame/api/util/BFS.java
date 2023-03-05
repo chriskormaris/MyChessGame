@@ -56,11 +56,7 @@ public final class BFS {
 			int row = currentBfsPosition.getRow();
 			int column = currentBfsPosition.getColumn();
 
-			// System.out.println("current position: " + currentBfsPosition);
-
 			if (currentPosition.equals(endingPosition)) {
-				// System.out.println("position reached: " + currentPosition + ", depth: " + depth);
-				// System.out.println("The minimum depth is: " + depth);
 				return depth;
 			}
 
@@ -81,11 +77,8 @@ public final class BFS {
 					}
 				}
 				nextPositions = piece.getNextPositions(currentPosition, currentChessBoard, false);
-				// System.out.println("nextPositions: " + nextPositions);
 
 				for (String candidatePosition : nextPositions) {
-					// System.out.println("candidate position: " + candidatePosition + ", depth: " + (depth + 1));
-
 					int candidateRow = chessBoard.getRowFromPosition(candidatePosition);
 					int candidateColumn = chessBoard.getColumnFromPosition(candidatePosition);
 					BfsPosition candidateBfsPosition = new BfsPosition(
@@ -100,8 +93,6 @@ public final class BFS {
 				}
 
 			}
-			// System.out.println("depth: " + depth);
-			// System.out.println("*********************");
 		}
 		return -1;
 	}

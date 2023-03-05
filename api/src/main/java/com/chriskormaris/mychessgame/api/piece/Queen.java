@@ -25,8 +25,6 @@ public class Queen extends ChessPiece {
 
 	@Override
 	public Set<String> getNextPositions(String position, ChessBoard chessBoard, boolean returnThreats) {
-		// System.out.println("current position: " + position);
-
 		Set<String> nextQueenPositions = new HashSet<>();
 
 		// First, find the row && the column
@@ -42,12 +40,11 @@ public class Queen extends ChessPiece {
 		// Find all the up positions.
 		for (int i = row - 1; i >= 0; i--) {
 			if (row > 0) {
-
 				int newRow = i;
 				int newColumn = column;
 				String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 				ChessPiece endSquare = chessBoard.getGameBoard()[newRow][newColumn];
-				// System.out.println("endSquare: " + endSquare);
+
 				if (endSquare instanceof EmptySquare || chessPiece.getAllegiance() != endSquare.getAllegiance()
 						&& !(endSquare instanceof King) || returnThreats) {
 					nextQueenPositions.add(newPosition);
@@ -64,12 +61,12 @@ public class Queen extends ChessPiece {
 		// Find all the down positions.
 		for (int i = row + 1; i < chessBoard.getNumOfRows(); i++) {
 			if (row < chessBoard.getNumOfRows()) {
-
 				int newRow = i;
 				int newColumn = column;
+
 				String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 				ChessPiece endSquare = chessBoard.getGameBoard()[newRow][newColumn];
-				// System.out.println("endSquare: " + endSquare);
+
 				if (endSquare instanceof EmptySquare || chessPiece.getAllegiance() != endSquare.getAllegiance()
 						&& !(endSquare instanceof King) || returnThreats) {
 					nextQueenPositions.add(newPosition);
@@ -86,12 +83,12 @@ public class Queen extends ChessPiece {
 		// Find all the right positions.
 		for (int j = column + 1; j < Constants.NUM_OF_COLUMNS; j++) {
 			if (column < Constants.NUM_OF_COLUMNS) {
-
 				int newRow = row;
 				int newColumn = j;
+
 				String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 				ChessPiece endSquare = chessBoard.getGameBoard()[newRow][newColumn];
-				// System.out.println("endSquare: " + endSquare);
+
 				if (endSquare instanceof EmptySquare || chessPiece.getAllegiance() != endSquare.getAllegiance()
 						&& !(endSquare instanceof King) || returnThreats) {
 					nextQueenPositions.add(newPosition);
@@ -108,12 +105,12 @@ public class Queen extends ChessPiece {
 		// Find all the left positions.
 		for (int j = column - 1; j >= 0; j--) {
 			if (column > 0) {
-
 				int newRow = row;
 				int newColumn = j;
+
 				String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 				ChessPiece endSquare = chessBoard.getGameBoard()[newRow][newColumn];
-				// System.out.println("endSquare: " + endSquare);
+
 				if (endSquare instanceof EmptySquare || chessPiece.getAllegiance() != endSquare.getAllegiance()
 						&& !(endSquare instanceof King) || returnThreats) {
 					nextQueenPositions.add(newPosition);
@@ -127,20 +124,18 @@ public class Queen extends ChessPiece {
 			}
 		}
 
-
 		int counter;
 
 		// Find all the upper right diagonal positions.
 		counter = 1;
 		for (int i = row - 1; i >= 0; i--) {
 			if (row >= 0 && column + counter < Constants.NUM_OF_COLUMNS) {
-
 				int newRow = i;
 				int newColumn = column + counter;
+
 				String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
-				// System.out.println("newPosition: " + newPosition);
 				ChessPiece endSquare = chessBoard.getGameBoard()[newRow][newColumn];
-				// System.out.println("endSquare: " + endSquare);
+
 				if (endSquare instanceof EmptySquare || chessPiece.getAllegiance() != endSquare.getAllegiance()
 						&& !(endSquare instanceof King) || returnThreats) {
 					nextQueenPositions.add(newPosition);
@@ -159,13 +154,12 @@ public class Queen extends ChessPiece {
 		counter = 1;
 		for (int i = row + 1; i < chessBoard.getNumOfRows(); i++) {
 			if (row < chessBoard.getNumOfRows() && column - counter >= 0) {
-
 				int newRow = i;
 				int newColumn = column - counter;
+
 				String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
-				// System.out.println("newPosition: " + newPosition);
 				ChessPiece endSquare = chessBoard.getGameBoard()[newRow][newColumn];
-				// System.out.println("endSquare: " + endSquare);
+
 				if (endSquare instanceof EmptySquare || chessPiece.getAllegiance() != endSquare.getAllegiance()
 						&& !(endSquare instanceof King) || returnThreats) {
 					nextQueenPositions.add(newPosition);
@@ -184,13 +178,12 @@ public class Queen extends ChessPiece {
 		counter = 1;
 		for (int i = row - 1; i >= 0; i--) {
 			if (row >= 0 && column - counter >= 0) {
-
 				int newRow = i;
 				int newColumn = column - counter;
+
 				String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
-				// System.out.println("newPosition: " + newPosition);
 				ChessPiece endSquare = chessBoard.getGameBoard()[newRow][newColumn];
-				// System.out.println("endSquare: " + endSquare);
+
 				if (endSquare instanceof EmptySquare || chessPiece.getAllegiance() != endSquare.getAllegiance()
 						&& !(endSquare instanceof King) || returnThreats) {
 					nextQueenPositions.add(newPosition);
@@ -209,13 +202,12 @@ public class Queen extends ChessPiece {
 		counter = 1;
 		for (int i = row + 1; i < chessBoard.getNumOfRows(); i++) {
 			if (row < chessBoard.getNumOfRows() && column + counter < Constants.NUM_OF_COLUMNS) {
-
 				int newRow = i;
 				int newColumn = column + counter;
+
 				String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
-				// System.out.println("newPosition: " + newPosition);
 				ChessPiece endSquare = chessBoard.getGameBoard()[newRow][newColumn];
-				// System.out.println("endSquare: " + endSquare);
+
 				if (endSquare instanceof EmptySquare || chessPiece.getAllegiance() != endSquare.getAllegiance()
 						&& !(endSquare instanceof King) || returnThreats) {
 					nextQueenPositions.add(newPosition);

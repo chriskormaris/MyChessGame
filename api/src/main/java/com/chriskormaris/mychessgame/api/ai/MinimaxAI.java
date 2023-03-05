@@ -53,7 +53,6 @@ public class MinimaxAI extends AI {
 		/* If MAX is called on a state that is terminal or after a maximum depth is reached,
 		 * then a heuristic is calculated on the state and the move returned. */
 		if ((chessBoard.checkForTerminalState()) || (depth == maxDepth)) {
-			// System.out.println("max, depth: " + depth + ", lastMove -> " + chessBoard.getLastMove());
 			return new Move(chessBoard.getLastMove());
 		}
 		// The children-moves of the state are calculated
@@ -89,7 +88,6 @@ public class MinimaxAI extends AI {
 		Random r = new Random();
 
 		if ((chessBoard.checkForTerminalState()) || (depth == maxDepth)) {
-			// System.out.println("min, depth: " + depth + ", lastMove -> " + chessBoard.getLastMove());
 			return new Move(chessBoard.getLastMove());
 		}
 		List<ChessBoard> children = new ArrayList<>(chessBoard.getChildren(Allegiance.BLACK, this));
@@ -112,7 +110,6 @@ public class MinimaxAI extends AI {
 				}
 			}
 		}
-		// System.out.println("min, depth: " + depth + ", minMove -> " + minMove);
 		return minMove;
 	}
 

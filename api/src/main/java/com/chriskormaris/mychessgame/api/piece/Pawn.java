@@ -21,8 +21,6 @@ public class Pawn extends ChessPiece {
 
 	@Override
 	public Set<String> getNextPositions(String position, ChessBoard chessBoard, boolean returnThreats) {
-		// System.out.println("current position: " + position);
-
 		Set<String> nextPawnPositions = new HashSet<>();
 
 		// First, find the row && the column
@@ -47,10 +45,11 @@ public class Pawn extends ChessPiece {
 				} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
 					newRow = row + 1;
 				}
+
 				int newColumn = column;
 				String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 				ChessPiece endSquare = chessBoard.getGameBoard()[newRow][newColumn];
-				// System.out.println("endSquareCode: " + endSquareCode);
+
 				if (endSquare instanceof EmptySquare) {
 					nextPawnPositions.add(newPosition);
 				}
@@ -69,8 +68,6 @@ public class Pawn extends ChessPiece {
 						newRow = row + 2;
 					}
 					newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
-					// endSquare = chessBoard.getGameBoard()[newRow][newColumn];
-					// System.out.println("endSquare: " + endSquare);
 					nextPawnPositions.add(newPosition);
 				}
 			}
@@ -85,7 +82,7 @@ public class Pawn extends ChessPiece {
 				int newColumn = column - 1;
 				String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 				ChessPiece endSquare = chessBoard.getGameBoard()[newRow][newColumn];
-				// System.out.println("endSquare: " + endSquare);
+
 				if ((!(endSquare instanceof EmptySquare) && chessPiece.getAllegiance() != endSquare.getAllegiance())
 						&& !(endSquare instanceof King) || returnThreats) {
 					nextPawnPositions.add(newPosition);
@@ -102,7 +99,7 @@ public class Pawn extends ChessPiece {
 				int newColumn = column + 1;
 				String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 				ChessPiece endSquare = chessBoard.getGameBoard()[newRow][newColumn];
-				// System.out.println("endSquare: " + endSquare);
+
 				if ((!(endSquare instanceof EmptySquare) && chessPiece.getAllegiance() != endSquare.getAllegiance())
 						&& !(endSquare instanceof King) || returnThreats) {
 					nextPawnPositions.add(newPosition);
@@ -110,7 +107,6 @@ public class Pawn extends ChessPiece {
 			}
 
 			Set<String> enPassantPositions = getEnPassantPositions(position, chessBoard, returnThreats);
-			// System.out.println("enPassantPositions: " + enPassantPositions);
 			nextPawnPositions.addAll(enPassantPositions);
 		}
 
@@ -119,8 +115,6 @@ public class Pawn extends ChessPiece {
 
 	// Implementation of the "en passant" moves.
 	public Set<String> getEnPassantPositions(String position, ChessBoard chessBoard, boolean returnThreats) {
-		// System.out.println("current position: " + position);
-
 		Set<String> enPassantPositions = new HashSet<>();
 
 		// First, find the row && the column
@@ -148,7 +142,7 @@ public class Pawn extends ChessPiece {
 				int newColumn = column - 1;
 				String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 				ChessPiece endSquare = chessBoard.getGameBoard()[newRow][newColumn];
-				// System.out.println("endSquare: " + endSquare);
+
 				if (!(endSquare instanceof King)
 						&& chessPiece.getAllegiance() != endSquare.getAllegiance() && !(endSquare instanceof EmptySquare)
 						|| endSquare instanceof EmptySquare && newPosition.equals(chessBoard.getEnPassantPosition())
@@ -167,7 +161,7 @@ public class Pawn extends ChessPiece {
 				int newColumn = column + 1;
 				String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 				ChessPiece endSquare = chessBoard.getGameBoard()[newRow][newColumn];
-				// System.out.println("endSquare: " + endSquare);
+
 				if (!(endSquare instanceof King)
 						&& chessPiece.getAllegiance() != endSquare.getAllegiance() && !(endSquare instanceof EmptySquare)
 						|| endSquare instanceof EmptySquare && newPosition.equals(chessBoard.getEnPassantPosition())

@@ -134,7 +134,6 @@ public final class FenUtils {
 		int i = 0, j = 0;
 		while (counter < startingPieces.length()) {
 			char pieceChar = startingPieces.charAt(counter);
-			// System.out.println("counter: " + counter + ", pieceChar: " + pieceChar);
 
 			j = j % Constants.NUM_OF_COLUMNS;
 
@@ -149,16 +148,12 @@ public final class FenUtils {
 				continue;
 			}
 
-			// System.out.println("i: " + i + ", j: " + j);
-			// System.out.println("chessPiece: " + getChessPieceByChar(pieceChar));
 			gameBoard[i][j] = Utilities.getChessPiece(pieceChar);
 
 			if (pieceChar == Constants.WHITE_KING) {
 				chessBoard.setWhiteKingPosition(chessBoard.getPositionByRowCol(i, j));
-				// System.out.println("White king position: " + chessBoard.getWhiteKingPosition());
 			} else if (pieceChar == Constants.BLACK_KING) {
 				chessBoard.setBlackKingPosition(chessBoard.getPositionByRowCol(i, j));
-				// System.out.println("Black king position: " + chessBoard.getBlackKingPosition());
 			}
 
 			j++;

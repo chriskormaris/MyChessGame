@@ -2,10 +2,10 @@ package com.chriskormaris.mychessgame.api.ai;
 
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.api.chess_board.Move;
+import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 import com.chriskormaris.mychessgame.api.evaluation.Evaluation;
 import com.chriskormaris.mychessgame.api.evaluation.SimplifiedEvaluation;
 import com.chriskormaris.mychessgame.api.util.Constants;
-import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +40,6 @@ public class MinimaxAlphaBetaPruningAI extends MinimaxAI {
 		/* If MAX is called on a state that is terminal or after a maximum depth is reached,
 		 * then a heuristic is calculated on the state and the move returned. */
 		if ((chessBoard.checkForTerminalState()) || (depth == super.getMaxDepth())) {
-			// System.out.println("max, depth: " + depth + ", lastMove -> " + chessBoard.getLastMove());
 			return new Move(chessBoard.getLastMove());
 		}
 		// The children-moves of the state are calculated
@@ -71,11 +70,9 @@ public class MinimaxAlphaBetaPruningAI extends MinimaxAI {
 
 			// Beta pruning.
 			if (a >= b) {
-				// System.out.println("max, depth: " + depth + ", beta pruning move -> " + maxMove);
 				return maxMove;
 			}
 		}
-		// System.out.println("max, depth: " + depth + ", maxMove -> " + maxMove);
 		return maxMove;
 	}
 
@@ -84,7 +81,6 @@ public class MinimaxAlphaBetaPruningAI extends MinimaxAI {
 		Random r = new Random();
 
 		if ((chessBoard.checkForTerminalState()) || (depth == super.getMaxDepth())) {
-			// System.out.println("min, depth: " + depth + ", lastMove -> " + chessBoard.getLastMove());
 			return new Move(chessBoard.getLastMove());
 		}
 		List<ChessBoard> children = new ArrayList<>(chessBoard.getChildren(Allegiance.BLACK, this));
@@ -112,11 +108,9 @@ public class MinimaxAlphaBetaPruningAI extends MinimaxAI {
 
 			// Alpha pruning.
 			if (b <= a) {
-				// System.out.println("min, depth: " + depth + ", alpha pruning move -> " + minMove);
 				return minMove;
 			}
 		}
-		// System.out.println("min, depth: " + depth + ", minMove -> " + minMove);
 		return minMove;
 	}
 

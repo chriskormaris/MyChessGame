@@ -25,8 +25,6 @@ public class Bishop extends ChessPiece {
 
 	@Override
 	public Set<String> getNextPositions(String position, ChessBoard chessBoard, boolean returnThreats) {
-		// System.out.println("current position: " + position);
-
 		Set<String> nextBishopPositions = new HashSet<>();
 
 		// First, find the row && the column
@@ -74,9 +72,7 @@ public class Bishop extends ChessPiece {
 				int newRow = i;
 				int newColumn = column - counter;
 				String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
-				// System.out.println("newPosition: " + newPosition);
 				ChessPiece endSquare = chessBoard.getGameBoard()[newRow][newColumn];
-				// System.out.println("endSquare: " + endSquare);
 				if (endSquare instanceof EmptySquare || chessPiece.getAllegiance() != endSquare.getAllegiance()
 						&& !(endSquare instanceof King) || returnThreats) {
 					nextBishopPositions.add(newPosition);
@@ -99,9 +95,7 @@ public class Bishop extends ChessPiece {
 				int newRow = i;
 				int newColumn = column - counter;
 				String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
-				// System.out.println("newPosition: " + newPosition);
 				ChessPiece endSquare = chessBoard.getGameBoard()[newRow][newColumn];
-				// System.out.println("endSquare: " + endSquare);
 				if (endSquare instanceof EmptySquare || chessPiece.getAllegiance() != endSquare.getAllegiance()
 						&& !(endSquare instanceof King) || returnThreats) {
 					nextBishopPositions.add(newPosition);
@@ -124,9 +118,7 @@ public class Bishop extends ChessPiece {
 				int newRow = i;
 				int newColumn = column + counter;
 				String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
-				// System.out.println("newPosition: " + newPosition);
 				ChessPiece endSquare = chessBoard.getGameBoard()[newRow][newColumn];
-				// System.out.println("endSquare: " + endSquare);
 				if (endSquare instanceof EmptySquare || chessPiece.getAllegiance() != endSquare.getAllegiance()
 						&& !(endSquare instanceof King) || returnThreats) {
 					nextBishopPositions.add(newPosition);

@@ -25,8 +25,6 @@ public class Rook extends ChessPiece {
 
 	@Override
 	public Set<String> getNextPositions(String position, ChessBoard chessBoard, boolean returnThreats) {
-		// System.out.println("current position: " + position);
-
 		Set<String> nextRookPositions = new HashSet<>();
 
 		// First, find the row && the column
@@ -42,12 +40,12 @@ public class Rook extends ChessPiece {
 		// Find all the up positions.
 		for (int i = row - 1; i >= 0; i--) {
 			if (row > 0) {
-
 				int newRow = i;
 				int newColumn = column;
+
 				String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 				ChessPiece endSquare = chessBoard.getGameBoard()[newRow][newColumn];
-				// System.out.println("endSquare: " + endSquare);
+
 				if (endSquare instanceof EmptySquare || chessPiece.getAllegiance() != endSquare.getAllegiance()
 						&& !(endSquare instanceof King) || returnThreats) {
 					nextRookPositions.add(newPosition);
@@ -64,12 +62,12 @@ public class Rook extends ChessPiece {
 		// Find all the down positions.
 		for (int i = row + 1; i < chessBoard.getNumOfRows(); i++) {
 			if (row < chessBoard.getNumOfRows()) {
-
 				int newRow = i;
 				int newColumn = column;
+
 				String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 				ChessPiece endSquare = chessBoard.getGameBoard()[newRow][newColumn];
-				// System.out.println("endSquare: " + endSquare);
+
 				if (endSquare instanceof EmptySquare || chessPiece.getAllegiance() != endSquare.getAllegiance()
 						&& !(endSquare instanceof King) || returnThreats) {
 					nextRookPositions.add(newPosition);
@@ -86,12 +84,12 @@ public class Rook extends ChessPiece {
 		// Find all the right positions.
 		for (int j = column + 1; j < Constants.NUM_OF_COLUMNS; j++) {
 			if (column < Constants.NUM_OF_COLUMNS) {
-
 				int newRow = row;
 				int newColumn = j;
+
 				String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 				ChessPiece endSquare = chessBoard.getGameBoard()[newRow][newColumn];
-				// System.out.println("endSquare: " + endSquare);
+
 				if (endSquare instanceof EmptySquare || chessPiece.getAllegiance() != endSquare.getAllegiance()
 						&& !(endSquare instanceof King) || returnThreats) {
 					nextRookPositions.add(newPosition);
@@ -108,12 +106,12 @@ public class Rook extends ChessPiece {
 		// Find all the left positions.
 		for (int j = column - 1; j >= 0; j--) {
 			if (column > 0) {
-
 				int newRow = row;
 				int newColumn = j;
+
 				String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 				ChessPiece endSquare = chessBoard.getGameBoard()[newRow][newColumn];
-				// System.out.println("endSquare: " + endSquare);
+
 				if (endSquare instanceof EmptySquare || chessPiece.getAllegiance() != endSquare.getAllegiance()
 						&& !(endSquare instanceof King) || returnThreats) {
 					nextRookPositions.add(newPosition);

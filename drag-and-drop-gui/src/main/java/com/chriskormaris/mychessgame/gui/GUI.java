@@ -152,12 +152,10 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 	KeyListener undoRedoKeyListener = new KeyListener() {
 		@Override
 		public void keyTyped(KeyEvent e) {
-			// System.out.println("keyTyped = " + KeyEvent.getKeyText(e.getKeyCode()));
 		}
 
 		@Override
 		public void keyPressed(KeyEvent e) {
-			// System.out.println("keyPressed = " + KeyEvent.getKeyText(e.getKeyCode()));
 			if ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0 && e.getKeyCode() == KeyEvent.VK_Z) {
 				undo();
 			} else if ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0 && e.getKeyCode() == KeyEvent.VK_Y) {
@@ -167,7 +165,6 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 
 		@Override
 		public void keyReleased(KeyEvent e) {
-			// System.out.println("keyReleased = " + KeyEvent.getKeyText(e.getKeyCode()));
 		}
 	};
 
@@ -222,15 +219,11 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 		setVisible(true);
 		setResizable(false);
 
-		int cornerPosition = getSquareIndex(8, 8);
-		// System.out.println("chessPanel.getComponentCount(): " + chessPanel.getComponentCount());
+		int cornerPosition = getSquareIndex(DEFAULT_NUM_OF_ROWS, NUM_OF_COLUMNS);
 		JPanel piecePanel = (JPanel) chessPanel.getComponent(cornerPosition);
-		// System.out.println("piecePanel.getLocation(): " + piecePanel.getLocation());
 
 		squareHeight = (int) piecePanel.getLocation().getY() / DEFAULT_NUM_OF_ROWS;
 		squareWidth = (int) piecePanel.getLocation().getX() / NUM_OF_COLUMNS;
-		// System.out.println("squareHeight: " + squareHeight);
-		// System.out.println("squareWidth: " + squareWidth);
 
 		JMenuBar menuBar = new JMenuBar();
 		JMenu fileMenu = new JMenu("File");
@@ -401,17 +394,9 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 		layeredPane.addMouseListener(this);
 		layeredPane.addMouseMotionListener(this);
 
-		// getContentPane().add(layeredPane);
-
-		// debug
-		// LayoutManager lm = layeredPane.getLayout();
-		// System.out.println("Layered pane layout name is " + (lm == null ? "<null>" : lm.getClass().getName()));
-
 		//  Add a chess board to the Layered Pane on the DEFAULT layer
 		chessPanel = new JPanel();
-		// chessPanel.setLayout(new GridLayout(DEFAULT_NUM_OF_ROWS, NUM_OF_COLUMNS));
 		chessPanel.setLayout(new GridLayout(DEFAULT_NUM_OF_ROWS + 2, NUM_OF_COLUMNS + 2));
-		// chessPanel.setBorder(new LineBorder(Color.BLACK));
 		chessPanel.setPreferredSize(new Dimension(width, height));
 		chessPanel.setBounds(0, 0, width, height);
 		chessPanel.setFocusable(false);
@@ -441,7 +426,6 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 		//  Build the Chess Board squares
 		// We use a 8x8 grid, and put a JPanel with BorderLayout on each square.
 		for (int i = 0; i < DEFAULT_NUM_OF_ROWS; i++) {
-			// for (int j = 0; j < NUM_OF_COLUMNS; j++) {
 			for (int j = 0; j < NUM_OF_COLUMNS + 1; j++) {
 				JPanel square = new JPanel(new BorderLayout());
 				square.setBackground((i + j) % 2 == 0
@@ -810,10 +794,8 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 	public void aiMove(AI ai) {
 		Move aiMove = ai.getNextMove(chessBoard);
 		System.out.println("aiMove: " + aiMove);
-		// System.out.println("lastCapturedPieceValue: " + chessBoard.getLastCapturedPieceValue());
 
 		makeDisplayMove(aiMove, true);
-		// System.out.println("board value after aiMove -> " + chessBoard.evaluate());
 
 		if (checkForGameOver()) return;
 
@@ -870,12 +852,9 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 		}
 
 		while (!isGameOver) {
-			// System.out.println(turnTextPane.getText());
 			aiVsAiMove(ai1);
 
 			if (!isGameOver) {
-				// System.out.println(turnTextPane.getText());
-
 				try {
 					if (gameParameters.getAi1Type() == AiType.MINIMAX_AI) {
 						Thread.sleep(Constants.MINIMAX_AI_MOVE_MILLISECONDS);
@@ -1034,7 +1013,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 		}
 
 		int squareIndex = getSquareIndex(row, column);
-		squareIndex += 11; // skip the first row (10 JLabels) + 1 column
+		squareIndex += 11;  // skip the first row (10 JLabels) + 1 column
 
 		try {
 			JPanel piecePanel = (JPanel) chessPanel.getComponent(squareIndex);
@@ -1195,7 +1174,6 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 							initialSelection
 					);
 				}
-				// System.out.println("value: " + value);
 
 				ChessPiece queen = new Queen(startingPiece.getAllegiance(), true);
 				ChessPiece rook = new Rook(startingPiece.getAllegiance(), true);
@@ -1263,8 +1241,6 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 						JOptionPane.YES_NO_OPTION
 				);
 
-				// System.out.println("dialogResult: " + dialogResult);
-
 				startNewGameOrNot(dialogResult);
 
 				return true;
@@ -1290,8 +1266,6 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 						JOptionPane.YES_NO_OPTION
 				);
 
-				// System.out.println("dialogResult: " + dialogResult);
-
 				startNewGameOrNot(dialogResult);
 
 				return true;
@@ -1302,7 +1276,6 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 
 		// Check for White stalemate.
 		if (chessBoard.blackPlays() && !chessBoard.isWhiteKingInCheck()) {
-			// System.out.println("Checking for white stalemate!");
 			chessBoard.checkForWhiteStalemateDraw();
 			if (chessBoard.getGameResult() == GameResult.WHITE_STALEMATE_DRAW) {
 				String turnMessage = "Turn: "
@@ -1317,8 +1290,6 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 						JOptionPane.YES_NO_OPTION
 				);
 
-				// System.out.println("dialogResult: " + dialogResult);
-
 				startNewGameOrNot(dialogResult);
 
 				return true;
@@ -1327,7 +1298,6 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 
 		// Check for Black stalemate.
 		else if (chessBoard.whitePlays() && !chessBoard.isBlackKingInCheck()) {
-			// System.out.println("Checking for black stalemate!");
 			chessBoard.checkForBlackStalemateDraw();
 			if (chessBoard.getGameResult() == GameResult.BLACK_STALEMATE_DRAW) {
 				String turnMessage = "Turn: "
@@ -1341,8 +1311,6 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 						"Draw",
 						JOptionPane.YES_NO_OPTION
 				);
-
-				// System.out.println("dialogResult: " + dialogResult);
 
 				startNewGameOrNot(dialogResult);
 
@@ -1364,8 +1332,6 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 					JOptionPane.YES_NO_OPTION
 			);
 
-			// System.out.println("dialogResult: " + dialogResult);
-
 			startNewGameOrNot(dialogResult);
 
 			return true;
@@ -1384,8 +1350,6 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 					"Draw",
 					JOptionPane.YES_NO_OPTION
 			);
-
-			// System.out.println("dialogResult: " + dialogResult);
 
 			startNewGameOrNot(dialogResult);
 
@@ -1408,7 +1372,6 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 				);
 			}
 
-			// System.out.println("dialogResult: " + dialogResult);
 			if (dialogResult == JOptionPane.YES_OPTION) {
 				chessBoard.setGameResult(GameResult.NO_CAPTURE_DRAW);
 				showDeclareDrawDialog();
@@ -1434,8 +1397,6 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 						JOptionPane.YES_NO_OPTION
 				);
 
-				// System.out.println("dialogResult: " + dialogResult);
-
 				startNewGameOrNot(dialogResult);
 
 				return true;
@@ -1456,7 +1417,6 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 				);
 			}
 
-			// System.out.println("dialogResult: " + dialogResult);
 			if (JOptionPane.YES_OPTION == dialogResult) {
 				chessBoard.setGameResult(GameResult.THREEFOLD_REPETITION_DRAW);
 				showDeclareDrawDialog();
@@ -1580,13 +1540,8 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 			return;
 		}
 
-		// System.out.println("e.getY(): " + e.getY());
-		// System.out.println("e.getX(): " + e.getX());
-
 		int row = getSquareRow(e);
 		int column = getSquareColumn(e);
-		// System.out.println("row: " + row);
-		// System.out.println("column: " + column);
 
 		// If the rank and file JLabels are pressed, then return.
 		if (row == 0 || row == DEFAULT_NUM_OF_ROWS + 1 || column == 0 || column == NUM_OF_COLUMNS + 1) return;
@@ -1599,7 +1554,6 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 
 		mouseIsPressed = true;
 		startingPosition = chessBoard.getPositionByRowCol(startingRow - 1, column - 1);
-		// System.out.println("starting position: " + startingPosition);
 
 		hintPositions = chessBoard.getNextPositions(startingPosition);
 
@@ -1627,8 +1581,8 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 
 				int hintPositionIndex = getSquareIndex(hintPositionRow + 1, hintPositionColumn + 1);
 				Component hintPositionComponent = chessPanel.getComponent(hintPositionIndex);
-
 				ChessPiece hintPositionPiece = chessBoard.getChessPieceFromPosition(hintPosition);
+
 				if (hintPositionPiece.getAllegiance() != Allegiance.NONE
 						|| chessBoard.getEnPassantPosition().equals(hintPosition) && chessPiece instanceof Pawn) {
 					hintPositionComponent.setBackground(Color.RED);
@@ -1650,10 +1604,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 
 		Point componentLocation = component.getLocation();
 		xAdjustment = componentLocation.x - GuiConstants.CHESS_PIECE_SQUARE_PIXEL_SIZE;
-		// xAdjustment = parentLocation.x - e.getX();
 		yAdjustment = componentLocation.y - GuiConstants.CHESS_PIECE_SQUARE_PIXEL_SIZE;
-		// yAdjustment = parentLocation.y - e.getY();
-		//chessPiece = (JLabel) c;  // change2 - comment out
 		pieceLabel.setLocation(e.getX() + xAdjustment, e.getY() + yAdjustment);
 
 		// Evidently, this removes it from the default layer also.
@@ -1668,7 +1619,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 
 		removeKeyListener(undoRedoKeyListener);
 
-		//  The drag location should be within the bounds of the chess board
+		// The drag location should be within the bounds of the chess board.
 
 		int x = me.getX() + xAdjustment;
 		int xMax = layeredPane.getWidth() - pieceLabel.getWidth();
@@ -1680,8 +1631,9 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 		y = Math.min(y, yMax);
 		y = Math.max(y, 0);
 
-		pieceLabel.setLocation(x, y);   // evidently this works for whatever layer contains the piece.
-		// also, the layout manager of its new home is evidently not the same as lower layers.
+		// Evidently this works for whatever layer contains the piece.
+		// Also, the layout manager of its new home is evidently not the same as lower layers.
+		pieceLabel.setLocation(x, y);
 	}
 
 	//  Drop the chess piece back onto the chess board
@@ -1704,7 +1656,6 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 		}
 
 		endingPosition = chessBoard.getPositionByRowCol(row - 1, column - 1);
-		// System.out.println("ending position: " + endingPosition);
 
 		//  Make sure the chess piece is no longer painted on the layered pane
 		pieceLabel.setVisible(false);
@@ -1723,8 +1674,6 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 		int columnStart = chessBoard.getColumnFromPosition(startingPosition);
 		ChessPiece startingChessPiece = chessBoard.getGameBoard()[rowStart][columnStart];
 
-		// System.out.println(hintPositions);
-
 		hideHintPositions();
 
 		if ((startingChessPiece.getAllegiance() == Allegiance.WHITE && chessBoard.whitePlays()
@@ -1737,14 +1686,14 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 			Component component = chessPanel.findComponentAt(x, y);
 			Container parent;
 			if (component instanceof JLabel) {
-				parent = component.getParent();  // there's a piece on the square already; remove it from the panel.
+				// If there's a piece on the square already; remove it from the panel.
+				parent = component.getParent();
 				parent.remove(0);
 			} else {
 				parent = (Container) component;
 			}
 
 			undoFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
-			System.out.println(FenUtils.getFenPositionFromChessBoard(chessBoard));
 			undoCapturedPieces.push(Utilities.copyCharArray(capturedPieces));
 
 			redoFenPositions.clear();
