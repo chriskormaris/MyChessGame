@@ -79,7 +79,6 @@ public class MinimaxAI extends AI {
 				}
 			}
 		}
-		// System.out.println("max, depth: " + depth + ", maxMove -> " + maxMove);
 		return maxMove;
 	}
 

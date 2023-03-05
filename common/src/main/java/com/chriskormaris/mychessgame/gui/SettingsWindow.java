@@ -46,10 +46,11 @@ public class SettingsWindow extends JFrame {
 		this.parentComponent = parentComponent;
 		this.newGameParameters = newGameParameters;
 
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setLayout(null);
 		int width = 450;
 		int height = 585;
+
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setLayout(null);
 		setSize(width, height);
 		setLocationRelativeTo(parentComponent);
 		setResizable(false);
