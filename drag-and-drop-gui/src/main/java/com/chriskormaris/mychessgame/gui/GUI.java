@@ -1252,9 +1252,9 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 
 		/* Check for White checkmate. */
 		if (chessBoard.whitePlays()) {
-			chessBoard.checkForWhiteCheckmate(true);
+			chessBoard.checkForWhiteCheckmate();
 			if (chessBoard.getGameResult() == GameResult.WHITE_CHECKMATE) {
-				String turnMessage = "Move number: "
+				String turnMessage = "Turn: "
 						+ (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2) + ". Checkmate! White wins!";
 				turnTextPane.setText(turnMessage);
 
@@ -1279,9 +1279,9 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 
 		/* Check for Black checkmate. */
 		else {
-			chessBoard.checkForBlackCheckmate(true);
+			chessBoard.checkForBlackCheckmate();
 			if (chessBoard.getGameResult() == GameResult.BLACK_CHECKMATE) {
-				String turnMessage = "Move number: "
+				String turnMessage = "Turn: "
 						+ (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2) + ". Checkmate! Black wins!";
 				turnTextPane.setText(turnMessage);
 
@@ -1311,7 +1311,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 			// System.out.println("Checking for white stalemate!");
 			chessBoard.checkForWhiteStalemateDraw();
 			if (chessBoard.getGameResult() == GameResult.WHITE_STALEMATE_DRAW) {
-				String turnMessage = "Move number: "
+				String turnMessage = "Turn: "
 						+ (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2)
 						+ ". Stalemate! No legal moves for White exist.";
 				turnTextPane.setText(turnMessage);
@@ -1336,7 +1336,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 			// System.out.println("Checking for black stalemate!");
 			chessBoard.checkForBlackStalemateDraw();
 			if (chessBoard.getGameResult() == GameResult.BLACK_STALEMATE_DRAW) {
-				String turnMessage = "Move number: "
+				String turnMessage = "Turn: "
 						+ (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2)
 						+ ". Stalemate! No legal moves for Black exist.";
 				turnTextPane.setText(turnMessage);
@@ -1358,7 +1358,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 
 		/* Insufficient checkmate material draw implementation. */
 		if (chessBoard.checkForInsufficientMatingMaterialDraw()) {
-			String turnMessage = "Move number: "
+			String turnMessage = "Turn: "
 					+ (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2)
 					+ ". It is a draw.";
 			turnTextPane.setText(turnMessage);
@@ -1379,7 +1379,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 
 		// 75 full-moves without a Chess piece capture Draw implementation.
 		if (chessBoard.checkForNoCaptureDraw(75)) {
-			String turnMessage = "Move number: "
+			String turnMessage = "Turn: "
 					+ (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2)
 					+ ". It is a draw.";
 			turnTextPane.setText(turnMessage);
@@ -1427,7 +1427,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 		// at any time in the game, not necessarily successively.
 		if (checkForThreefoldRepetitionDraw()) {
 			if (chessBoard.getGameResult() == GameResult.FIVEFOLD_REPETITION_DRAW) {
-				String turnMessage = "Move number: "
+				String turnMessage = "Turn: "
 						+ (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2)
 						+ ". It is a draw.";
 				turnTextPane.setText(turnMessage);
@@ -1501,7 +1501,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 	}
 
 	private void showDeclareDrawDialog() {
-		String turnMessage = "Move number: "
+		String turnMessage = "Turn: "
 				+ (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2)
 				+ ". It is a draw.";
 		turnTextPane.setText(turnMessage);

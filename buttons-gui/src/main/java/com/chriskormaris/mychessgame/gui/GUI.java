@@ -962,33 +962,7 @@ public final class GUI {
 			// System.out.println(chessBoard);
 
 			if (!(chessPiece instanceof EmptySquare)) {
-
-				// Get the hint positions.
-				if (chessBoard.whitePlays() && !chessBoard.isWhiteKingInCheck()
-						|| chessBoard.blackPlays() && !chessBoard.isBlackKingInCheck()) {
-					hintPositions = chessBoard.getNextPositions(position);
-
-					// if (chessPiece instanceof King) {
-					// 	System.out.println("hint positions: " + hintPositions);
-					// }
-
-					// System.out.println("chessBoard: ");
-					// System.out.println(chessBoard);
-				}
-				// If the White or Black King is in check, then get one of the following valid moves.
-				else if (chessBoard.whitePlays() && chessBoard.isWhiteKingInCheck() || chessBoard.blackPlays()
-						&& chessBoard.isBlackKingInCheck()) {
-					hintPositions = new HashSet<>();
-
-					if (chessBoard.whitePlays()
-							&& chessBoard.getWhiteKingInCheckValidMoves().containsKey(startingPosition)) {
-						hintPositions = chessBoard.getWhiteKingInCheckValidMoves().get(startingPosition);
-					} else if (chessBoard.blackPlays()
-							&& chessBoard.getBlackKingInCheckValidMoves().containsKey(startingPosition)) {
-						hintPositions = chessBoard.getBlackKingInCheckValidMoves().get(startingPosition);
-					}
-
-				}
+				hintPositions = chessBoard.getNextPositions(position);
 
 				GuiUtils.changeSquareColor(button, Color.CYAN);
 
@@ -1281,9 +1255,9 @@ public final class GUI {
 
 		/* Check for White checkmate. */
 		if (chessBoard.whitePlays()) {
-			chessBoard.checkForWhiteCheckmate(true);
+			chessBoard.checkForWhiteCheckmate();
 			if (chessBoard.getGameResult() == GameResult.WHITE_CHECKMATE) {
-				String turnMessage = "Move number: "
+				String turnMessage = "Turn: "
 						+ (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2) + ". Checkmate! White wins!";
 				turnTextPane.setText(turnMessage);
 
@@ -1308,9 +1282,9 @@ public final class GUI {
 
 		/* Check for Black checkmate. */
 		else {
-			chessBoard.checkForBlackCheckmate(true);
+			chessBoard.checkForBlackCheckmate();
 			if (chessBoard.getGameResult() == GameResult.BLACK_CHECKMATE) {
-				String turnMessage = "Move number: "
+				String turnMessage = "Turn: "
 						+ (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2) + ". Checkmate! Black wins!";
 				turnTextPane.setText(turnMessage);
 
@@ -1340,7 +1314,7 @@ public final class GUI {
 			// System.out.println("Checking for white stalemate!");
 			chessBoard.checkForWhiteStalemateDraw();
 			if (chessBoard.getGameResult() == GameResult.WHITE_STALEMATE_DRAW) {
-				String turnMessage = "Move number: "
+				String turnMessage = "Turn: "
 						+ (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2)
 						+ ". Stalemate! No legal moves for White exist.";
 				turnTextPane.setText(turnMessage);
@@ -1365,7 +1339,7 @@ public final class GUI {
 			// System.out.println("Checking for black stalemate!");
 			chessBoard.checkForBlackStalemateDraw();
 			if (chessBoard.getGameResult() == GameResult.BLACK_STALEMATE_DRAW) {
-				String turnMessage = "Move number: "
+				String turnMessage = "Turn: "
 						+ (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2)
 						+ ". Stalemate! No legal moves for Black exist.";
 				turnTextPane.setText(turnMessage);
@@ -1387,7 +1361,7 @@ public final class GUI {
 
 		/* Insufficient checkmate material draw implementation. */
 		if (chessBoard.checkForInsufficientMatingMaterialDraw()) {
-			String turnMessage = "Move number: "
+			String turnMessage = "Turn: "
 					+ (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2)
 					+ ". It is a draw.";
 			turnTextPane.setText(turnMessage);
@@ -1408,7 +1382,7 @@ public final class GUI {
 
 		// 75 full-moves without a Chess piece capture Draw implementation.
 		if (chessBoard.checkForNoCaptureDraw(75)) {
-			String turnMessage = "Move number: "
+			String turnMessage = "Turn: "
 					+ (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2)
 					+ ". It is a draw.";
 			turnTextPane.setText(turnMessage);
@@ -1456,7 +1430,7 @@ public final class GUI {
 		// at any time in the game, not necessarily successively.
 		if (checkForThreefoldRepetitionDraw()) {
 			if (chessBoard.getGameResult() == GameResult.FIVEFOLD_REPETITION_DRAW) {
-				String turnMessage = "Move number: "
+				String turnMessage = "Turn: "
 						+ (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2)
 						+ ". It is a draw.";
 				turnTextPane.setText(turnMessage);
@@ -1530,7 +1504,7 @@ public final class GUI {
 	}
 
 	private static void showDeclareDrawDialog() {
-		String turnMessage = "Move number: "
+		String turnMessage = "Turn: "
 				+ (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2)
 				+ ". It is a draw.";
 		turnTextPane.setText(turnMessage);
