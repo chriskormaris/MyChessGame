@@ -551,7 +551,6 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 			}
 
 			redoFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
-
 			redoCapturedPieces.push(Utilities.copyCharArray(capturedPieces));
 
 			String fenPosition = undoFenPositions.pop();
@@ -600,9 +599,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 			}
 
 			undoFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
-
 			undoHalfMoveFenPositions.push(redoHalfMoveFenPositions.pop());
-
 			undoCapturedPieces.push(Utilities.copyCharArray(capturedPieces));
 
 			String fenPosition = redoFenPositions.pop();
@@ -1537,20 +1534,20 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 	}
 
 	private void hideHintPositions() {
-		int startingRow = chessBoard.getRowFromPosition(startingPosition);
-		int startingColumn = chessBoard.getColumnFromPosition(startingPosition);
+		int startingPositionRow = chessBoard.getRowFromPosition(startingPosition);
+		int startingPositionColumn = chessBoard.getColumnFromPosition(startingPosition);
 
 		if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
 				&& gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
-			startingRow = DEFAULT_NUM_OF_ROWS - 1 - startingRow;
+			startingPositionRow = DEFAULT_NUM_OF_ROWS - 1 - startingPositionRow;
 		}
 
-		startingRow += 1;
-		startingColumn += 1;
+		startingPositionRow += 1;
+		startingPositionColumn += 1;
 
-		int startingIndex = getSquareIndex(startingRow, startingColumn);
+		int startingIndex = getSquareIndex(startingPositionRow, startingPositionColumn);
 		Component startingComponent = chessPanel.getComponent(startingIndex);
-		startingComponent.setBackground((startingRow + startingColumn) % 2 == 0
+		startingComponent.setBackground((startingPositionRow + startingPositionColumn) % 2 == 0
 				? gameParameters.getBlackSquareColor()
 				: gameParameters.getWhiteSquareColor());
 
