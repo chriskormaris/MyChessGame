@@ -821,8 +821,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 		makeDisplayMove(aiMove, true);
 		// System.out.println("board value after aiMove -> " + chessBoard.evaluate());
 
-		isGameOver = checkForGameOver();
-		if (isGameOver) return;
+		if (checkForGameOver()) return;
 
 		// Remove the check from the king of the player who made the last move.
 		// The thing that the player managed to make a move,
@@ -1782,12 +1781,6 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 				}
 			}
 
-			chessBoard.setHalfMoveNumber(chessBoard.getHalfMoveNumber() + 1);
-			chessBoard.setPlayer(chessBoard.getNextPlayer());
-
-			setTurnMessage();
-			setScoreMessage();
-
 			hintPositions.clear();
 
 			System.out.println();
@@ -1795,19 +1788,13 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 
 			parent.validate();
 
-			if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI) {
-				makeDisplayMove(ai.getNextMove(chessBoard), true);
-
-				if (checkForGameOver()) return;
-
-				chessBoard.setHalfMoveNumber(chessBoard.getHalfMoveNumber() + 1);
-				chessBoard.setPlayer(chessBoard.getNextPlayer());
-
+			// Change chessBoard turn.
+			chessBoard.setHalfMoveNumber(chessBoard.getHalfMoveNumber() + 1);
+			chessBoard.setPlayer(chessBoard.getNextPlayer());
+			if (gameParameters.getGameMode() == GameMode.HUMAN_VS_HUMAN) {
 				setTurnMessage();
-				setScoreMessage();
-
-				System.out.println();
-				System.out.println(chessBoard);
+			} else if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI) {
+				aiMove(ai);
 			}
 		} else {
 			placePieceToPosition(startingPosition, startingChessPiece);

@@ -1549,8 +1549,7 @@ public final class GUI {
 		makeDisplayMove(aiMove, true);
 		// System.out.println("board value after aiMove -> " + chessBoard.evaluate());
 
-		isGameOver = checkForGameOver();
-		if (isGameOver) return;
+		if (checkForGameOver()) return;
 
 		// Remove the check from the king of the player who made the last move.
 		// The thing that the player managed to make a move,
