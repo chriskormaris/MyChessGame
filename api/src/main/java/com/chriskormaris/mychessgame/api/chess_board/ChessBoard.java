@@ -203,7 +203,7 @@ public class ChessBoard {
 		this.whiteCapturedPiecesCounter = otherBoard.getWhiteCapturedPiecesCounter();
 		this.blackCapturedPiecesCounter = otherBoard.getBlackCapturedPiecesCounter();
 
-		this.previousHalfMoveFenPositions = otherBoard.getPreviousHalfMoveFenPositions();
+		this.previousHalfMoveFenPositions = (Stack<String>) otherBoard.getPreviousHalfMoveFenPositions().clone();
 	}
 
 	public void placePiecesToStartingPositions() {
