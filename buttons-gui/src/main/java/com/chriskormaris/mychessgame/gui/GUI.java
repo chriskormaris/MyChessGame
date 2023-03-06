@@ -995,12 +995,10 @@ public final class GUI {
 			// Remove the check from the king of the player who made the last move.
 			// The thing that the player managed to make a move,
 			// means that his king has escaped from the check.
-			if (gameParameters.getGameMode() == GameMode.HUMAN_VS_HUMAN) {
-				if (chessBoard.whitePlays()) {
-					chessBoard.setWhiteKingInCheck(false);
-				} else {
-					chessBoard.setBlackKingInCheck(false);
-				}
+			if (chessBoard.whitePlays()) {
+				chessBoard.setWhiteKingInCheck(false);
+			} else {
+				chessBoard.setBlackKingInCheck(false);
 			}
 
 			hintPositions.clear();
@@ -1018,6 +1016,7 @@ public final class GUI {
 			// Change chessBoard turn.
 			chessBoard.setHalfMoveNumber(chessBoard.getHalfMoveNumber() + 1);
 			chessBoard.setPlayer(chessBoard.getNextPlayer());
+
 			if (gameParameters.getGameMode() == GameMode.HUMAN_VS_HUMAN) {
 				setTurnMessage();
 			} else if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI) {
@@ -1136,8 +1135,7 @@ public final class GUI {
 
 		chessBoard.setThreats();
 
-		undoHalfMoveFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
-		chessBoard.setPreviousHalfMoveFenPositions(undoHalfMoveFenPositions);
+		undoHalfMoveFenPositions = chessBoard.getPreviousHalfMoveFenPositions();
 		redoHalfMoveFenPositions.clear();
 	}
 
@@ -1433,15 +1431,6 @@ public final class GUI {
 		makeDisplayMove(aiMove, true);
 
 		if (checkForGameOver()) return;
-
-		// Remove the check from the king of the player who made the last move.
-		// The thing that the player managed to make a move,
-		// means that his king has escaped from the check.
-		if (chessBoard.whitePlays()) {
-			chessBoard.setWhiteKingInCheck(false);
-		} else if (chessBoard.blackPlays()) {
-			chessBoard.setBlackKingInCheck(false);
-		}
 
 		chessBoard.setHalfMoveNumber(chessBoard.getHalfMoveNumber() + 1);
 		chessBoard.setPlayer(chessBoard.getNextPlayer());

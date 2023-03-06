@@ -490,6 +490,8 @@ public class ChessBoard {
 					incrementCapturedPiecesCounter(endSquare);
 				}
 			}
+
+			previousHalfMoveFenPositions.push(FenUtils.getFenPositionFromChessBoard(this));
 		}
 	}
 

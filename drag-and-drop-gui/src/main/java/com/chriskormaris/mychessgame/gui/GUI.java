@@ -801,15 +801,6 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 
 		if (checkForGameOver()) return;
 
-		// Remove the check from the king of the player who made the last move.
-		// The thing that the player managed to make a move,
-		// means that his king has escaped from the check.
-		if (chessBoard.whitePlays()) {
-			chessBoard.setWhiteKingInCheck(false);
-		} else if (chessBoard.blackPlays()) {
-			chessBoard.setBlackKingInCheck(false);
-		}
-
 		chessBoard.setHalfMoveNumber(chessBoard.getHalfMoveNumber() + 1);
 		chessBoard.setPlayer(chessBoard.getNextPlayer());
 
@@ -1218,8 +1209,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 
 		chessBoard.setThreats();
 
-		undoHalfMoveFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
-		chessBoard.setPreviousHalfMoveFenPositions(undoHalfMoveFenPositions);
+		undoHalfMoveFenPositions = chessBoard.getPreviousHalfMoveFenPositions();
 		redoHalfMoveFenPositions.clear();
 	}
 
@@ -1684,17 +1674,6 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 				SoundUtils.playMoveSound();
 			}
 
-			// Remove the check from the king of the player who made the last move.
-			// The thing that the player managed to make a move,
-			// means that his king has escaped from the check.
-			if (gameParameters.getGameMode() == GameMode.HUMAN_VS_HUMAN) {
-				if (chessBoard.whitePlays()) {
-					chessBoard.setWhiteKingInCheck(false);
-				} else {
-					chessBoard.setBlackKingInCheck(false);
-				}
-			}
-
 			hintPositions.clear();
 
 			System.out.println();
@@ -1712,6 +1691,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 			// Change chessBoard turn.
 			chessBoard.setHalfMoveNumber(chessBoard.getHalfMoveNumber() + 1);
 			chessBoard.setPlayer(chessBoard.getNextPlayer());
+
 			if (gameParameters.getGameMode() == GameMode.HUMAN_VS_HUMAN) {
 				setTurnMessage();
 			} else if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI) {
