@@ -1,7 +1,6 @@
 package com.chriskormaris.mychessgame.gui;
 
 
-import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 import com.chriskormaris.mychessgame.api.piece.Bishop;
 import com.chriskormaris.mychessgame.api.piece.King;
@@ -22,7 +21,7 @@ public class EndGameTest {
 		GUI.create(title);
 
 		GUI.makeChessBoardSquaresEmpty();
-		ChessBoard.printChessBoard(GUI.chessBoard.getGameBoard());
+		System.out.println(GUI.chessBoard);
 
 		GUI.placePieceToPosition("A1", new King(Allegiance.WHITE));
 		GUI.placePieceToPosition("A2", new Bishop(Allegiance.WHITE));
@@ -42,7 +41,7 @@ public class EndGameTest {
 		GUI.placePieceToPosition("H5", new Queen(Allegiance.BLACK));
 
 		System.out.println();
-		ChessBoard.printChessBoard(GUI.chessBoard.getGameBoard());
+		System.out.println(GUI.chessBoard);
 
 		boolean isEndGame = GUI.chessBoard.isEndGame();
 		assertTrue(isEndGame, "It is NOT endgame.");

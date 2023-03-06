@@ -1,7 +1,6 @@
 package com.chriskormaris.mychessgame.gui;
 
 
-import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 import com.chriskormaris.mychessgame.api.piece.Bishop;
 import com.chriskormaris.mychessgame.api.piece.King;
@@ -19,7 +18,7 @@ public class InsufficientMatingMaterialDrawTest {
 		GUI.create(title);
 
 		GUI.makeChessBoardSquaresEmpty();
-		ChessBoard.printChessBoard(GUI.chessBoard.getGameBoard());
+		System.out.println(GUI.chessBoard);
 
 		// King Vs King draw.
 		// GUI.placePieceToPosition("A1", new King(Allegiance.WHITE));
@@ -43,7 +42,7 @@ public class InsufficientMatingMaterialDrawTest {
 		GUI.placePieceToPosition("H7", new Bishop(Allegiance.BLACK));
 
 		System.out.println();
-		ChessBoard.printChessBoard(GUI.chessBoard.getGameBoard());
+		System.out.println(GUI.chessBoard);
 
 		boolean isDraw = GUI.chessBoard.checkForInsufficientMatingMaterialDraw();
 		assertTrue(isDraw, "The game is NOT a draw.");

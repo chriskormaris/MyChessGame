@@ -1,7 +1,6 @@
 package com.chriskormaris.mychessgame.gui;
 
 
-import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.api.enumeration.GameMode;
 import org.junit.jupiter.api.Test;
 
@@ -34,7 +33,7 @@ public class CastlingTest {
 
 		GUI.startNewGame(fenPosition);
 
-		ChessBoard.printChessBoard(GUI.chessBoard.getGameBoard());
+		System.out.println(GUI.chessBoard);
 
 		System.out.println();
 

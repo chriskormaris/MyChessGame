@@ -1,7 +1,6 @@
 package com.chriskormaris.mychessgame.gui;
 
 
-import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 import com.chriskormaris.mychessgame.api.piece.Bishop;
 import com.chriskormaris.mychessgame.api.piece.King;
@@ -21,7 +20,7 @@ public class CaptureRookOrBishopChoiceTest {
 
 		GUI.create(title);
 
-		ChessBoard.printChessBoard(GUI.chessBoard.getGameBoard());
+		System.out.println(GUI.chessBoard);
 
 		GUI.placePieceToPosition("E1", new King(Allegiance.WHITE));
 		GUI.placePieceToPosition("C1", new Bishop(Allegiance.WHITE));

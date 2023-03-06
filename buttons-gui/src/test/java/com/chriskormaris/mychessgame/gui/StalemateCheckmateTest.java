@@ -1,7 +1,6 @@
 package com.chriskormaris.mychessgame.gui;
 
 
-import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import org.junit.jupiter.api.Test;
 
 
@@ -24,7 +23,7 @@ public class StalemateCheckmateTest {
 
 		GUI.placePiecesToChessBoard(fenPosition);
 
-		ChessBoard.printChessBoard(GUI.chessBoard.getGameBoard());
+		System.out.println(GUI.chessBoard);
 
 		System.out.println();
 

@@ -1,7 +1,6 @@
 package com.chriskormaris.mychessgame.gui;
 
 
-import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 import com.chriskormaris.mychessgame.api.piece.King;
 import com.chriskormaris.mychessgame.api.piece.Pawn;
@@ -25,7 +24,7 @@ public class TwoKingsLeftTest {
 		GUI.placePieceToPosition("B2", new Pawn(Allegiance.WHITE));
 
 		System.out.println();
-		ChessBoard.printChessBoard(GUI.chessBoard.getGameBoard());
+		System.out.println(GUI.chessBoard);
 
 		boolean isDraw = GUI.chessBoard.checkForInsufficientMatingMaterialDraw();
 		assertFalse(isDraw, "The game is not a draw.");

@@ -1,7 +1,6 @@
 package com.chriskormaris.mychessgame.gui;
 
 
-import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.api.enumeration.GameMode;
 import org.junit.jupiter.api.Test;
 
@@ -31,7 +30,7 @@ public class EnPassantTest {
 		// String fenPosition = "4k3/7p/8/8/1Pp3P1/8/8/4K3 b - B3 0 1";
 
 		GUI.placePiecesToChessBoard(fenPosition);
-		ChessBoard.printChessBoard(GUI.chessBoard.getGameBoard());
+		System.out.println(GUI.chessBoard);
 
 		// disableChessBoardSquares();
 		// playAiVsAi();

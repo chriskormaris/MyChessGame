@@ -1,7 +1,6 @@
 package com.chriskormaris.mychessgame.gui;
 
 
-import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.api.enumeration.GameMode;
 import org.junit.jupiter.api.Test;
 
@@ -24,7 +23,7 @@ public class KnightVsBishopMateTest {
 		GUI.startNewGame(fenPosition);
 
 		System.out.println();
-		ChessBoard.printChessBoard(GUI.chessBoard.getGameBoard());
+		System.out.println(GUI.chessBoard);
 
 		// Continue playing for a minute.
 		try {

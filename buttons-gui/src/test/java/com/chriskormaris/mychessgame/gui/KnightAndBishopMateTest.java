@@ -1,7 +1,6 @@
 package com.chriskormaris.mychessgame.gui;
 
 
-import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 import com.chriskormaris.mychessgame.api.piece.Bishop;
 import com.chriskormaris.mychessgame.api.piece.King;
@@ -27,7 +26,7 @@ public class KnightAndBishopMateTest {
 		GUI.placePieceToPosition("D7", new Bishop(Allegiance.WHITE));
 
 		System.out.println();
-		ChessBoard.printChessBoard(GUI.chessBoard.getGameBoard());
+		System.out.println(GUI.chessBoard);
 
 		// Continue playing for a minute.
 		try {

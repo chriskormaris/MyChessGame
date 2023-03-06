@@ -249,30 +249,6 @@ public class ChessBoard {
 		this.gameBoard[numOfRows - 1][7] = new Rook(Allegiance.WHITE);  // H1
 	}
 
-	// It prints the chess board on the console.
-	public static void printChessBoard(ChessPiece[][] chessBoard) {
-		System.out.println(getChessBoardString(chessBoard));
-	}
-
-	public static String getChessBoardString(ChessPiece[][] chessBoard) {
-		StringBuilder output = new StringBuilder();
-		output.append("    A   B   C   D   E   F   G   H\n");
-		output.append("  ---------------------------------\n");
-		int n1 = chessBoard.length;
-		int n2 = chessBoard[0].length;
-		for (int i = 0; i < n1; i++) {
-			output.append(n1 - i).append(" |");
-			for (int j = 0; j < n2; j++) {
-				output.append(" ").append(chessBoard[i][j].getPieceChar()).append(" |");
-			}
-			output.append(" ").append(n1 - i).append("\n");
-		}
-		output.append("  ---------------------------------\n");
-		output.append("    A   B   C   D   E   F   G   H\n");
-
-		return output.toString();
-	}
-
 	// Make a move; it places a letter in the board
 	public void makeMove(Move move, boolean displayMove) {
 		List<String> positionsList = move.getPositions();
@@ -1268,7 +1244,20 @@ public class ChessBoard {
 
 	@Override
 	public String toString() {
-		return getChessBoardString(this.gameBoard);
+		StringBuilder output = new StringBuilder();
+		output.append("    A   B   C   D   E   F   G   H\n");
+		output.append("  ---------------------------------\n");
+		for (int i = 0; i < numOfRows; i++) {
+			output.append(numOfRows - i).append(" |");
+			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
+				output.append(" ").append(gameBoard[i][j].getPieceChar()).append(" |");
+			}
+			output.append(" ").append(numOfRows - i).append("\n");
+		}
+		output.append("  ---------------------------------\n");
+		output.append("    A   B   C   D   E   F   G   H\n");
+
+		return output.toString();
 	}
 
 }
