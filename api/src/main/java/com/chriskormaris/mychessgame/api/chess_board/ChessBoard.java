@@ -13,6 +13,7 @@ import com.chriskormaris.mychessgame.api.piece.Queen;
 import com.chriskormaris.mychessgame.api.piece.Rook;
 import com.chriskormaris.mychessgame.api.util.BFS;
 import com.chriskormaris.mychessgame.api.util.Constants;
+import com.chriskormaris.mychessgame.api.util.FenUtils;
 import com.chriskormaris.mychessgame.api.util.Utilities;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,6 +24,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
 
 import static com.chriskormaris.mychessgame.api.util.Constants.NUM_OF_COLUMNS;
 
@@ -113,6 +115,8 @@ public class ChessBoard {
 	private int whiteCapturedPiecesCounter;
 	private int blackCapturedPiecesCounter;
 
+	private Stack<String> previousHalfMoveFenPositions;
+
 	public ChessBoard() {
 		this(Constants.DEFAULT_NUM_OF_ROWS);
 	}
@@ -146,6 +150,8 @@ public class ChessBoard {
 
 		this.positionsToRemove = new HashSet<>();
 		this.piecesToPlace = new HashMap<>();
+
+		this.previousHalfMoveFenPositions = new Stack<>();
 
 		setThreats();
 	}
@@ -195,6 +201,8 @@ public class ChessBoard {
 
 		this.whiteCapturedPiecesCounter = otherBoard.getWhiteCapturedPiecesCounter();
 		this.blackCapturedPiecesCounter = otherBoard.getBlackCapturedPiecesCounter();
+
+		this.previousHalfMoveFenPositions = otherBoard.getPreviousHalfMoveFenPositions();
 	}
 
 	public void placePiecesToStartingPositions() {
@@ -644,6 +652,7 @@ public class ChessBoard {
 		if (checkForBlackStalemateDraw()) return 0;
 		if (checkForInsufficientMatingMaterialDraw()) return 0;
 		if (checkForNoCaptureDraw(50)) return 0;
+		if (checkForThreefoldRepetitionDraw()) return 0;
 
 		return minimaxAI.getEvaluation().evaluate(this);
 	}
@@ -666,7 +675,9 @@ public class ChessBoard {
 
 		if (checkForInsufficientMatingMaterialDraw()) return true;
 
-		return checkForNoCaptureDraw(50);
+		if (checkForNoCaptureDraw(50)) return true;
+
+		return checkForThreefoldRepetitionDraw();
 	}
 
 	public boolean isTerminalState() {
@@ -1150,6 +1161,33 @@ public class ChessBoard {
 		boolean isWhiteEndGame = numOfWhiteQueens == 0 || numOfWhiteMajorPieces <= 1 && numOfWhiteMinorPieces <= 1;
 		boolean isBlackEndGame = numOfBlackQueens == 0 || numOfBlackMajorPieces <= 1 && numOfBlackMinorPieces <= 1;
 		return isWhiteEndGame && isBlackEndGame;
+	}
+
+	// We are comparing FEN positions, but without checking the half-move clock and the full-move number.
+	public boolean checkForThreefoldRepetitionDraw() {
+		int numOfRepeats = 0;
+		if (!previousHalfMoveFenPositions.isEmpty()) {
+			int N = previousHalfMoveFenPositions.size();
+			String lastHalfMoveFenPosition = previousHalfMoveFenPositions.get(N - 1);
+			lastHalfMoveFenPosition = FenUtils.skipCounters(lastHalfMoveFenPosition);
+			for (int i = N - 2; i >= 0; i--) {
+				// Skip the last 3 iterations, if the number of repeats is 0.
+				// and there are less than 3 iterations left.
+				if (!(numOfRepeats == 0 && i < 2)) {
+					String otherHalfMoveFenPosition = previousHalfMoveFenPositions.get(i);
+					otherHalfMoveFenPosition = FenUtils.skipCounters(otherHalfMoveFenPosition);
+					if (lastHalfMoveFenPosition.equals(otherHalfMoveFenPosition)) {
+						numOfRepeats++;
+						if (numOfRepeats == 5) {
+							setGameResult(GameResult.FIVEFOLD_REPETITION_DRAW);
+							return true;
+						}
+					}
+				}
+			}
+		}
+
+		return numOfRepeats >= 3;
 	}
 
 	public boolean isWhiteQueenSideCastlingAvailable() {

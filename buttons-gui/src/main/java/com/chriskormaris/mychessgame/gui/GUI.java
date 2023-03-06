@@ -460,6 +460,7 @@ public final class GUI {
 
 			String fenPosition = undoFenPositions.pop();
 			chessBoard = FenUtils.getChessBoardFromFenPosition(fenPosition, gameParameters.getNumOfRows());
+			chessBoard.setPreviousHalfMoveFenPositions(undoHalfMoveFenPositions);
 
 			capturedPieces = undoCapturedPieces.pop();
 
@@ -507,6 +508,7 @@ public final class GUI {
 
 			String fenPosition = redoFenPositions.pop();
 			chessBoard = FenUtils.getChessBoardFromFenPosition(fenPosition, gameParameters.getNumOfRows());
+			chessBoard.setPreviousHalfMoveFenPositions(undoHalfMoveFenPositions);
 
 			capturedPieces = redoCapturedPieces.pop();
 
@@ -1135,6 +1137,7 @@ public final class GUI {
 		chessBoard.setThreats();
 
 		undoHalfMoveFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
+		chessBoard.setPreviousHalfMoveFenPositions(undoHalfMoveFenPositions);
 		redoHalfMoveFenPositions.clear();
 	}
 
@@ -1340,7 +1343,7 @@ public final class GUI {
 		// Three-fold repetition draw rule implementation.
 		// This situation occurs when we end up with the same chess board position 3 different times
 		// at any time in the game, not necessarily successively.
-		if (checkForThreefoldRepetitionDraw()) {
+		if (chessBoard.checkForThreefoldRepetitionDraw()) {
 			if (chessBoard.getGameResult() == GameResult.FIVEFOLD_REPETITION_DRAW) {
 				String turnMessage = "Turn: "
 						+ (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2)
@@ -1383,33 +1386,6 @@ public final class GUI {
 		}
 
 		return false;
-	}
-
-	// We are comparing FEN positions, but without checking the half-move clock and the full-move number.
-	private static boolean checkForThreefoldRepetitionDraw() {
-		int numOfRepeats = 0;
-		if (!undoHalfMoveFenPositions.isEmpty()) {
-			int N = undoHalfMoveFenPositions.size();
-			String lastHalfMoveFenPosition = undoHalfMoveFenPositions.get(N - 1);
-			lastHalfMoveFenPosition = FenUtils.skipCounters(lastHalfMoveFenPosition);
-			for (int i = N - 2; i >= 0; i--) {
-				// Skip the last 3 iterations, if the number of repeats is 0.
-				// and there are less than 3 iterations left.
-				if (!(numOfRepeats == 0 && i < 2)) {
-					String otherHalfMoveFenPosition = undoHalfMoveFenPositions.get(i);
-					otherHalfMoveFenPosition = FenUtils.skipCounters(otherHalfMoveFenPosition);
-					if (lastHalfMoveFenPosition.equals(otherHalfMoveFenPosition)) {
-						numOfRepeats++;
-						if (numOfRepeats == 5) {
-							chessBoard.setGameResult(GameResult.FIVEFOLD_REPETITION_DRAW);
-							return true;
-						}
-					}
-				}
-			}
-		}
-
-		return numOfRepeats >= 3;
 	}
 
 	private static void showDeclareDrawDialog() {
