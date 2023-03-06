@@ -111,7 +111,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 	// This variable is used for the implementation of "Human Vs AI".
 	AI ai;
 
-	// These stacks of "String" objects are used to check for a threefold repetition of a chess board position.
+	// These stacks of "String" objects are used to check for a threefold repetition of a Chess board position.
 	Stack<String> undoHalfMoveFenPositions;
 	Stack<String> redoHalfMoveFenPositions;
 
@@ -540,7 +540,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 
 			String fenPosition = undoFenPositions.pop();
 			chessBoard = FenUtils.getChessBoardFromFenPosition(fenPosition);
-			chessBoard.setPreviousHalfMoveFenPositions(undoHalfMoveFenPositions);
+			chessBoard.setPreviousFenPositions(undoHalfMoveFenPositions);
 
 			capturedPieces = undoCapturedPieces.pop();
 
@@ -588,7 +588,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 
 			String fenPosition = redoFenPositions.pop();
 			chessBoard = FenUtils.getChessBoardFromFenPosition(fenPosition);
-			chessBoard.setPreviousHalfMoveFenPositions(undoHalfMoveFenPositions);
+			chessBoard.setPreviousFenPositions(undoHalfMoveFenPositions);
 
 			capturedPieces = redoCapturedPieces.pop();
 
@@ -1219,7 +1219,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 		chessBoard.setThreats();
 
 		undoHalfMoveFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
-		chessBoard.setPreviousHalfMoveFenPositions(undoHalfMoveFenPositions);
+		chessBoard.setPreviousFenPositions(undoHalfMoveFenPositions);
 		redoHalfMoveFenPositions.clear();
 	}
 

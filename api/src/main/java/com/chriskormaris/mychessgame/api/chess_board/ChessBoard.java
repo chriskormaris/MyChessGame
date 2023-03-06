@@ -115,7 +115,8 @@ public class ChessBoard {
 	private int whiteCapturedPiecesCounter;
 	private int blackCapturedPiecesCounter;
 
-	private Stack<String> previousHalfMoveFenPositions;
+	// This stack of "String" objects is used to check for a threefold repetition of the current Chess board position.
+	private Stack<String> previousFenPositions;
 
 	public ChessBoard() {
 		this(Constants.DEFAULT_NUM_OF_ROWS);
@@ -151,7 +152,7 @@ public class ChessBoard {
 		this.positionsToRemove = new HashSet<>();
 		this.piecesToPlace = new HashMap<>();
 
-		this.previousHalfMoveFenPositions = new Stack<>();
+		this.previousFenPositions = new Stack<>();
 
 		setThreats();
 	}
@@ -202,7 +203,7 @@ public class ChessBoard {
 		this.whiteCapturedPiecesCounter = otherBoard.getWhiteCapturedPiecesCounter();
 		this.blackCapturedPiecesCounter = otherBoard.getBlackCapturedPiecesCounter();
 
-		this.previousHalfMoveFenPositions = otherBoard.getPreviousHalfMoveFenPositions();
+		this.previousFenPositions = otherBoard.getPreviousFenPositions();
 	}
 
 	public void placePiecesToStartingPositions() {
@@ -1166,15 +1167,15 @@ public class ChessBoard {
 	// We are comparing FEN positions, but without checking the half-move clock and the full-move number.
 	public boolean checkForThreefoldRepetitionDraw() {
 		int numOfRepeats = 0;
-		if (!previousHalfMoveFenPositions.isEmpty()) {
-			int N = previousHalfMoveFenPositions.size();
-			String lastHalfMoveFenPosition = previousHalfMoveFenPositions.get(N - 1);
+		if (!previousFenPositions.isEmpty()) {
+			int N = previousFenPositions.size();
+			String lastHalfMoveFenPosition = previousFenPositions.get(N - 1);
 			lastHalfMoveFenPosition = FenUtils.skipCounters(lastHalfMoveFenPosition);
 			for (int i = N - 2; i >= 0; i--) {
 				// Skip the last 3 iterations, if the number of repeats is 0.
 				// and there are less than 3 iterations left.
 				if (!(numOfRepeats == 0 && i < 2)) {
-					String otherHalfMoveFenPosition = previousHalfMoveFenPositions.get(i);
+					String otherHalfMoveFenPosition = previousFenPositions.get(i);
 					otherHalfMoveFenPosition = FenUtils.skipCounters(otherHalfMoveFenPosition);
 					if (lastHalfMoveFenPosition.equals(otherHalfMoveFenPosition)) {
 						numOfRepeats++;

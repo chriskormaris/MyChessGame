@@ -102,7 +102,7 @@ public final class GUI {
 	// This variable is used for the implementation of "Human Vs AI".
 	public static AI ai;
 
-	// These stacks of "String" objects are used to check for a threefold repetition of a chess board position.
+	// These stacks of "String" objects are used to check for a threefold repetition of a Chess board position.
 	public static Stack<String> undoHalfMoveFenPositions;
 	public static Stack<String> redoHalfMoveFenPositions;
 
@@ -460,7 +460,7 @@ public final class GUI {
 
 			String fenPosition = undoFenPositions.pop();
 			chessBoard = FenUtils.getChessBoardFromFenPosition(fenPosition, gameParameters.getNumOfRows());
-			chessBoard.setPreviousHalfMoveFenPositions(undoHalfMoveFenPositions);
+			chessBoard.setPreviousFenPositions(undoHalfMoveFenPositions);
 
 			capturedPieces = undoCapturedPieces.pop();
 
@@ -508,7 +508,7 @@ public final class GUI {
 
 			String fenPosition = redoFenPositions.pop();
 			chessBoard = FenUtils.getChessBoardFromFenPosition(fenPosition, gameParameters.getNumOfRows());
-			chessBoard.setPreviousHalfMoveFenPositions(undoHalfMoveFenPositions);
+			chessBoard.setPreviousFenPositions(undoHalfMoveFenPositions);
 
 			capturedPieces = redoCapturedPieces.pop();
 
@@ -1137,7 +1137,7 @@ public final class GUI {
 		chessBoard.setThreats();
 
 		undoHalfMoveFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
-		chessBoard.setPreviousHalfMoveFenPositions(undoHalfMoveFenPositions);
+		chessBoard.setPreviousFenPositions(undoHalfMoveFenPositions);
 		redoHalfMoveFenPositions.clear();
 	}
 
