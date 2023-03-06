@@ -540,7 +540,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 
 			String fenPosition = undoFenPositions.pop();
 			chessBoard = FenUtils.getChessBoardFromFenPosition(fenPosition);
-			chessBoard.setPreviousFenPositions(undoHalfMoveFenPositions);
+			chessBoard.setPreviousHalfMoveFenPositions(undoHalfMoveFenPositions);
 
 			capturedPieces = undoCapturedPieces.pop();
 
@@ -588,7 +588,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 
 			String fenPosition = redoFenPositions.pop();
 			chessBoard = FenUtils.getChessBoardFromFenPosition(fenPosition);
-			chessBoard.setPreviousFenPositions(undoHalfMoveFenPositions);
+			chessBoard.setPreviousHalfMoveFenPositions(undoHalfMoveFenPositions);
 
 			capturedPieces = redoCapturedPieces.pop();
 
@@ -1219,7 +1219,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 		chessBoard.setThreats();
 
 		undoHalfMoveFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
-		chessBoard.setPreviousFenPositions(undoHalfMoveFenPositions);
+		chessBoard.setPreviousHalfMoveFenPositions(undoHalfMoveFenPositions);
 		redoHalfMoveFenPositions.clear();
 	}
 

@@ -460,7 +460,7 @@ public final class GUI {
 
 			String fenPosition = undoFenPositions.pop();
 			chessBoard = FenUtils.getChessBoardFromFenPosition(fenPosition, gameParameters.getNumOfRows());
-			chessBoard.setPreviousFenPositions(undoHalfMoveFenPositions);
+			chessBoard.setPreviousHalfMoveFenPositions(undoHalfMoveFenPositions);
 
 			capturedPieces = undoCapturedPieces.pop();
 
@@ -508,7 +508,7 @@ public final class GUI {
 
 			String fenPosition = redoFenPositions.pop();
 			chessBoard = FenUtils.getChessBoardFromFenPosition(fenPosition, gameParameters.getNumOfRows());
-			chessBoard.setPreviousFenPositions(undoHalfMoveFenPositions);
+			chessBoard.setPreviousHalfMoveFenPositions(undoHalfMoveFenPositions);
 
 			capturedPieces = redoCapturedPieces.pop();
 
@@ -1137,7 +1137,7 @@ public final class GUI {
 		chessBoard.setThreats();
 
 		undoHalfMoveFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
-		chessBoard.setPreviousFenPositions(undoHalfMoveFenPositions);
+		chessBoard.setPreviousHalfMoveFenPositions(undoHalfMoveFenPositions);
 		redoHalfMoveFenPositions.clear();
 	}
 
