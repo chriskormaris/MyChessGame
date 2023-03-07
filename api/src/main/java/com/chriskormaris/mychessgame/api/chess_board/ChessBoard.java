@@ -294,9 +294,7 @@ public class ChessBoard {
 		// Move only if the square is empty or the square contains an opponent chessPiece.
 		// Also allow castling, en passant and promotion moves.
 		if (endSquare instanceof EmptySquare || chessPiece.getAllegiance() != endSquare.getAllegiance()) {
-			if (displayMove) {
-				previousHalfMoveFenPositions.push(FenUtils.getFenPositionFromChessBoard(this));
-			}
+			previousHalfMoveFenPositions.push(FenUtils.getFenPositionFromChessBoard(this));
 
 			Set<String> castlingPositions = null;
 			if (chessPiece instanceof King) {
