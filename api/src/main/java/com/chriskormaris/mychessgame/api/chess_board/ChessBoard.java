@@ -323,7 +323,6 @@ public class ChessBoard {
 
 				/* Castling implementation */
 
-				// System.out.println("castlingPositions: " + castlingPositions);
 				if (castlingPositions.contains(positionEnd)) {
 					// White queen side castling
 					if (positionEnd.equals("C1")) {
