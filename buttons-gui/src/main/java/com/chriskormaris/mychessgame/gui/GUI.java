@@ -74,9 +74,8 @@ public final class GUI {
 	private static JPanel gui;
 	private static JTextPane turnTextPane;
 
-	// These stacks of "String" objects are used to handle the "undo" and "redo" functionality.
-	private static Stack<String> undoFenPositions;
-	private static Stack<String> redoFenPositions;
+	// This stack of "String" objects is used to handle the "undo" and "redo" functionality.
+	private static Stack<String> nextHalfMoveFenPositions;
 
 	// The length of this array is 30 elements.
 	// The first 15 elements represent White captured pieces and are capital chars.
@@ -101,10 +100,6 @@ public final class GUI {
 
 	// This variable is used for the implementation of "Human Vs AI".
 	public static AI ai;
-
-	// These stacks of "String" objects are used to check for a threefold repetition of a Chess board position.
-	public static Stack<String> undoHalfMoveFenPositions;
-	public static Stack<String> redoHalfMoveFenPositions;
 
 	private static JToolBar tools;
 	private static JPanel chessPanel;
@@ -145,8 +140,7 @@ public final class GUI {
 		gui = new JPanel();
 		turnTextPane = new JTextPane();
 
-		undoFenPositions = new Stack<>();
-		redoFenPositions = new Stack<>();
+		nextHalfMoveFenPositions = new Stack<>();
 
 		initializeCapturedPieces();
 
@@ -158,9 +152,6 @@ public final class GUI {
 		newGameParameters = new GameParameters(gameParameters);
 
 		chessBoard = new ChessBoard();
-
-		undoHalfMoveFenPositions = new Stack<>();
-		redoHalfMoveFenPositions = new Stack<>();
 
 		tools = new JToolBar();
 
@@ -445,7 +436,10 @@ public final class GUI {
 
 
 	private static void undo() {
-		if (!undoFenPositions.isEmpty()) {
+		if (gameParameters.getGameMode() != GameMode.HUMAN_VS_AI
+				&& !chessBoard.getPreviousHalfMoveFenPositions().isEmpty()
+				|| gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
+				&& chessBoard.getPreviousHalfMoveFenPositions().size() > 1) {
 			System.out.println("Undo is pressed!");
 
 			if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
@@ -454,14 +448,17 @@ public final class GUI {
 				hideHintPositions();
 			}
 
-			redoFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
-			redoHalfMoveFenPositions.push(undoHalfMoveFenPositions.pop());
+			nextHalfMoveFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
 			redoCapturedPieces.push(Utilities.copyCharArray(capturedPieces));
+			if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI) {
+				nextHalfMoveFenPositions.push(chessBoard.getPreviousHalfMoveFenPositions().pop());
+				redoCapturedPieces.push(undoCapturedPieces.pop());
+			}
 
-			String fenPosition = undoFenPositions.pop();
-			chessBoard = FenUtils.getChessBoardFromFenPosition(fenPosition, gameParameters.getNumOfRows());
-			chessBoard.setPreviousHalfMoveFenPositions(undoHalfMoveFenPositions);
-
+			String fenPosition = chessBoard.getPreviousHalfMoveFenPositions().pop();
+			Stack<String> previousHalfMoveFenPositions = chessBoard.getPreviousHalfMoveFenPositions();
+			placePiecesToChessBoard(fenPosition);
+			chessBoard.setPreviousHalfMoveFenPositions(previousHalfMoveFenPositions);
 			capturedPieces = undoCapturedPieces.pop();
 
 			updateCapturedPiecesPanel();
@@ -474,12 +471,10 @@ public final class GUI {
 				enableChessButtons();
 			}
 
-			placePiecesToChessBoard(fenPosition);
-
 			System.out.println();
 			System.out.println(chessBoard);
 
-			if (undoFenPositions.isEmpty()) {
+			if (chessBoard.getPreviousHalfMoveFenPositions().isEmpty()) {
 				undoItem.setEnabled(false);
 			}
 
@@ -493,7 +488,7 @@ public final class GUI {
 	// NOTE: We are not able to perform a redo,
 	// if we are in a terminal state, because the game has ended.
 	private static void redo() {
-		if (!redoFenPositions.isEmpty()) {
+		if (!nextHalfMoveFenPositions.isEmpty()) {
 			System.out.println("Redo is pressed!");
 
 			if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
@@ -502,14 +497,16 @@ public final class GUI {
 				hideHintPositions();
 			}
 
-			undoFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
-			undoHalfMoveFenPositions.push(redoHalfMoveFenPositions.pop());
+			chessBoard.getPreviousHalfMoveFenPositions().push(FenUtils.getFenPositionFromChessBoard(chessBoard));
 			undoCapturedPieces.push(Utilities.copyCharArray(capturedPieces));
+			if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI) {
+				chessBoard.getPreviousHalfMoveFenPositions().push(nextHalfMoveFenPositions.pop());
+				undoCapturedPieces.push(redoCapturedPieces.pop());
+			}
+			Stack<String> previousHalfMoveFenPositions = chessBoard.getPreviousHalfMoveFenPositions();
 
-			String fenPosition = redoFenPositions.pop();
-			chessBoard = FenUtils.getChessBoardFromFenPosition(fenPosition, gameParameters.getNumOfRows());
-			chessBoard.setPreviousHalfMoveFenPositions(undoHalfMoveFenPositions);
-
+			placePiecesToChessBoard(nextHalfMoveFenPositions.pop());
+			chessBoard.setPreviousHalfMoveFenPositions(previousHalfMoveFenPositions);
 			capturedPieces = redoCapturedPieces.pop();
 
 			updateCapturedPiecesPanel();
@@ -524,11 +521,9 @@ public final class GUI {
 				enableChessButtons();
 			}
 
-			if (redoFenPositions.isEmpty()) {
+			if (nextHalfMoveFenPositions.isEmpty()) {
 				redoItem.setEnabled(false);
 			}
-
-			placePiecesToChessBoard(fenPosition);
 
 			System.out.println();
 			System.out.println(chessBoard);
@@ -809,16 +804,12 @@ public final class GUI {
 		startingPosition = "";
 		endingPosition = "";
 
-		undoFenPositions.clear();
-		redoFenPositions.clear();
+		nextHalfMoveFenPositions.clear();
 
 		initializeCapturedPieces();
 
 		undoCapturedPieces.clear();
 		redoCapturedPieces.clear();
-
-		undoHalfMoveFenPositions.clear();
-		redoHalfMoveFenPositions.clear();
 
 		startingButtonIsClicked = false;
 
@@ -974,10 +965,9 @@ public final class GUI {
 			if (!hintPositions.contains(endingPosition)) {
 				return;
 			} else {
-				undoFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
 				undoCapturedPieces.push(Utilities.copyCharArray(capturedPieces));
 
-				redoFenPositions.clear();
+				nextHalfMoveFenPositions.clear();
 				redoCapturedPieces.clear();
 
 				Move move = new Move(startingPosition, endingPosition);
@@ -992,15 +982,6 @@ public final class GUI {
 				SoundUtils.playMoveSound();
 			}
 
-			// Remove the check from the king of the player who made the last move.
-			// The thing that the player managed to make a move,
-			// means that his king has escaped from the check.
-			if (chessBoard.whitePlays()) {
-				chessBoard.setWhiteKingInCheck(false);
-			} else {
-				chessBoard.setBlackKingInCheck(false);
-			}
-
 			hintPositions.clear();
 
 			System.out.println();
@@ -1012,10 +993,6 @@ public final class GUI {
 			if (redoItem != null) {
 				redoItem.setEnabled(false);
 			}
-
-			// Change chessBoard turn.
-			chessBoard.setHalfMoveNumber(chessBoard.getHalfMoveNumber() + 1);
-			chessBoard.setPlayer(chessBoard.getNextPlayer());
 
 			if (gameParameters.getGameMode() == GameMode.HUMAN_VS_HUMAN) {
 				setTurnMessage();
@@ -1134,9 +1111,6 @@ public final class GUI {
 		chessBoard.getPiecesToPlace().clear();
 
 		chessBoard.setThreats();
-
-		undoHalfMoveFenPositions = chessBoard.getPreviousHalfMoveFenPositions();
-		redoHalfMoveFenPositions.clear();
 	}
 
 	private static void updateCapturedPieces(ChessPiece chessPiece) {
@@ -1182,7 +1156,7 @@ public final class GUI {
 	public static boolean checkForGameOver() {
 
 		/* Check for White checkmate. */
-		if (chessBoard.whitePlays()) {
+		if (chessBoard.blackPlays()) {
 			chessBoard.checkForWhiteCheckmate();
 			if (chessBoard.getGameResult() == GameResult.WHITE_CHECKMATE) {
 				String turnMessage = "Turn: "
@@ -1234,7 +1208,7 @@ public final class GUI {
 		/* Stalemate draw implementation. */
 
 		// Check for White stalemate.
-		if (chessBoard.blackPlays() && !chessBoard.isWhiteKingInCheck()) {
+		if (chessBoard.whitePlays() && !chessBoard.isWhiteKingInCheck()) {
 			chessBoard.checkForWhiteStalemateDraw();
 			if (chessBoard.getGameResult() == GameResult.WHITE_STALEMATE_DRAW) {
 				String turnMessage = "Turn: "
@@ -1256,7 +1230,7 @@ public final class GUI {
 		}
 
 		// Check for Black stalemate.
-		else if (chessBoard.whitePlays() && !chessBoard.isBlackKingInCheck()) {
+		else if (chessBoard.blackPlays() && !chessBoard.isBlackKingInCheck()) {
 			chessBoard.checkForBlackStalemateDraw();
 			if (chessBoard.getGameResult() == GameResult.BLACK_STALEMATE_DRAW) {
 				String turnMessage = "Turn: "
@@ -1432,9 +1406,6 @@ public final class GUI {
 
 		if (checkForGameOver()) return;
 
-		chessBoard.setHalfMoveNumber(chessBoard.getHalfMoveNumber() + 1);
-		chessBoard.setPlayer(chessBoard.getNextPlayer());
-
 		setTurnMessage();
 		setScoreMessage();
 
@@ -1514,9 +1485,6 @@ public final class GUI {
 	}
 
 	private static void aiVsAiMove(AI ai) {
-		undoFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
-		undoCapturedPieces.push(Utilities.copyCharArray(capturedPieces));
-
 		aiMove(ai);
 
 		setTurnMessage();

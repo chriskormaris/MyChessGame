@@ -88,9 +88,8 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 
 	JTextPane turnTextPane;
 
-	// These stacks of "String" objects are used to handle the "undo" and "redo" functionality.
-	Stack<String> undoFenPositions;
-	Stack<String> redoFenPositions;
+	// This stack of "String" objects is used to handle the "undo" and "redo" functionality.
+	Stack<String> nextHalfMoveFenPositions;
 
 	// The length of this array is 30 elements.
 	// The first 15 elements represent White captured pieces and are capital chars.
@@ -110,10 +109,6 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 
 	// This variable is used for the implementation of "Human Vs AI".
 	AI ai;
-
-	// These stacks of "String" objects are used to check for a threefold repetition of a Chess board position.
-	Stack<String> undoHalfMoveFenPositions;
-	Stack<String> redoHalfMoveFenPositions;
 
 	JPanel gui;
 
@@ -182,8 +177,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 		gameParameters.setGuiType(GuiType.DRAG_AND_DROP);
 		newGameParameters = new GameParameters(gameParameters);
 
-		undoFenPositions = new Stack<>();
-		redoFenPositions = new Stack<>();
+		nextHalfMoveFenPositions = new Stack<>();
 
 		chessBoard = new ChessBoard();
 
@@ -191,9 +185,6 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 
 		undoCapturedPieces = new Stack<>();
 		redoCapturedPieces = new Stack<>();
-
-		undoHalfMoveFenPositions = new Stack<>();
-		redoHalfMoveFenPositions = new Stack<>();
 
 		tools = new JToolBar();
 
@@ -524,7 +515,10 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 	}
 
 	private void undo() {
-		if (!undoFenPositions.isEmpty()) {
+		if (gameParameters.getGameMode() != GameMode.HUMAN_VS_AI
+				&& !chessBoard.getPreviousHalfMoveFenPositions().isEmpty()
+				|| gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
+				&& chessBoard.getPreviousHalfMoveFenPositions().size() > 1) {
 			System.out.println("Undo is pressed!");
 
 			chessPanelEnabled = true;
@@ -534,14 +528,18 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 				mouseIsPressed = false;
 			}
 
-			redoFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
-			redoHalfMoveFenPositions.push(undoHalfMoveFenPositions.pop());
+			nextHalfMoveFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
 			redoCapturedPieces.push(Utilities.copyCharArray(capturedPieces));
+			if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI) {
+				nextHalfMoveFenPositions.push(chessBoard.getPreviousHalfMoveFenPositions().pop());
+				redoCapturedPieces.push(undoCapturedPieces.pop());
+			}
 
-			String fenPosition = undoFenPositions.pop();
-			chessBoard = FenUtils.getChessBoardFromFenPosition(fenPosition);
-			chessBoard.setPreviousHalfMoveFenPositions(undoHalfMoveFenPositions);
-
+			String fenPosition = chessBoard.getPreviousHalfMoveFenPositions().pop();
+			Stack<String> previousHalfMoveFenPositions = chessBoard.getPreviousHalfMoveFenPositions();
+			placePiecesToChessBoard(fenPosition);
+			redrawChessPanel();
+			chessBoard.setPreviousHalfMoveFenPositions(previousHalfMoveFenPositions);
 			capturedPieces = undoCapturedPieces.pop();
 
 			updateCapturedPiecesPanel();
@@ -554,13 +552,10 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 				chessPanelEnabled = true;
 			}
 
-			placePiecesToChessBoard(fenPosition);
-			redrawChessPanel();
-
 			System.out.println();
 			System.out.println(chessBoard);
 
-			if (undoFenPositions.isEmpty()) {
+			if (chessBoard.getPreviousHalfMoveFenPositions().isEmpty()) {
 				undoItem.setEnabled(false);
 			}
 
@@ -574,7 +569,8 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 	// NOTE: We are not able to perform a redo,
 	// if we are in a terminal state, because the game has ended.
 	private void redo() {
-		if (!redoFenPositions.isEmpty()) {
+		if (gameParameters.getGameMode() != GameMode.HUMAN_VS_AI && !nextHalfMoveFenPositions.isEmpty()
+				|| gameParameters.getGameMode() == GameMode.HUMAN_VS_AI && nextHalfMoveFenPositions.size() > 1) {
 			System.out.println("Redo is pressed!");
 
 			if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
@@ -582,14 +578,17 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 				mouseIsPressed = false;
 			}
 
-			undoFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
-			undoHalfMoveFenPositions.push(redoHalfMoveFenPositions.pop());
+			chessBoard.getPreviousHalfMoveFenPositions().push(FenUtils.getFenPositionFromChessBoard(chessBoard));
 			undoCapturedPieces.push(Utilities.copyCharArray(capturedPieces));
+			if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI) {
+				chessBoard.getPreviousHalfMoveFenPositions().push(nextHalfMoveFenPositions.pop());
+				undoCapturedPieces.push(redoCapturedPieces.pop());
+			}
+			Stack<String> previousHalfMoveFenPositions = chessBoard.getPreviousHalfMoveFenPositions();
 
-			String fenPosition = redoFenPositions.pop();
-			chessBoard = FenUtils.getChessBoardFromFenPosition(fenPosition);
-			chessBoard.setPreviousHalfMoveFenPositions(undoHalfMoveFenPositions);
-
+			placePiecesToChessBoard(nextHalfMoveFenPositions.pop());
+			redrawChessPanel();
+			chessBoard.setPreviousHalfMoveFenPositions(previousHalfMoveFenPositions);
 			capturedPieces = redoCapturedPieces.pop();
 
 			updateCapturedPiecesPanel();
@@ -604,12 +603,9 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 				chessPanelEnabled = true;
 			}
 
-			if (redoFenPositions.isEmpty()) {
+			if (nextHalfMoveFenPositions.isEmpty()) {
 				redoItem.setEnabled(false);
 			}
-
-			placePiecesToChessBoard(fenPosition);
-			redrawChessPanel();
 
 			System.out.println();
 			System.out.println(chessBoard);
@@ -801,9 +797,6 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 
 		if (checkForGameOver()) return;
 
-		chessBoard.setHalfMoveNumber(chessBoard.getHalfMoveNumber() + 1);
-		chessBoard.setPlayer(chessBoard.getNextPlayer());
-
 		setTurnMessage();
 		setScoreMessage();
 
@@ -880,9 +873,6 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 	}
 
 	private void aiVsAiMove(AI ai) {
-		undoFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
-		undoCapturedPieces.push(Utilities.copyCharArray(capturedPieces));
-
 		aiMove(ai);
 
 		setTurnMessage();
@@ -965,16 +955,12 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 		startingPosition = "";
 		endingPosition = "";
 
-		undoFenPositions.clear();
-		redoFenPositions.clear();
+		nextHalfMoveFenPositions.clear();
 
 		initializeCapturedPieces();
 
 		undoCapturedPieces.clear();
 		redoCapturedPieces.clear();
-
-		undoHalfMoveFenPositions.clear();
-		redoHalfMoveFenPositions.clear();
 
 		mouseIsPressed = false;
 
@@ -1110,6 +1096,11 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 		int columnEnd = chessBoard.getColumnFromPosition(positionEnd);
 		ChessPiece endSquare = chessBoard.getGameBoard()[rowEnd][columnEnd];
 
+		undoCapturedPieces.push(Utilities.copyCharArray(capturedPieces));
+
+		nextHalfMoveFenPositions.clear();
+		redoCapturedPieces.clear();
+
 		chessBoard.makeMove(move, true);
 
 		// Pawn promotion implementation.
@@ -1208,15 +1199,12 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 		chessBoard.getPiecesToPlace().clear();
 
 		chessBoard.setThreats();
-
-		undoHalfMoveFenPositions = chessBoard.getPreviousHalfMoveFenPositions();
-		redoHalfMoveFenPositions.clear();
 	}
 
 	public boolean checkForGameOver() {
 
 		/* Check for White checkmate. */
-		if (chessBoard.whitePlays()) {
+		if (chessBoard.blackPlays()) {
 			chessBoard.checkForWhiteCheckmate();
 			if (chessBoard.getGameResult() == GameResult.WHITE_CHECKMATE) {
 				String turnMessage = "Turn: "
@@ -1268,7 +1256,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 		/* Stalemate draw implementation. */
 
 		// Check for White stalemate.
-		if (chessBoard.blackPlays() && !chessBoard.isWhiteKingInCheck()) {
+		if (chessBoard.whitePlays() && !chessBoard.isWhiteKingInCheck()) {
 			chessBoard.checkForWhiteStalemateDraw();
 			if (chessBoard.getGameResult() == GameResult.WHITE_STALEMATE_DRAW) {
 				String turnMessage = "Turn: "
@@ -1290,7 +1278,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 		}
 
 		// Check for Black stalemate.
-		else if (chessBoard.whitePlays() && !chessBoard.isBlackKingInCheck()) {
+		else if (chessBoard.blackPlays() && !chessBoard.isBlackKingInCheck()) {
 			chessBoard.checkForBlackStalemateDraw();
 			if (chessBoard.getGameResult() == GameResult.BLACK_STALEMATE_DRAW) {
 				String turnMessage = "Turn: "
@@ -1659,12 +1647,6 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 				parent = (Container) component;
 			}
 
-			undoFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
-			undoCapturedPieces.push(Utilities.copyCharArray(capturedPieces));
-
-			redoFenPositions.clear();
-			redoCapturedPieces.clear();
-
 			Move move = new Move(startingPosition, endingPosition);
 			makeDisplayMove(move, false);
 
@@ -1687,10 +1669,6 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 			if (redoItem != null) {
 				redoItem.setEnabled(false);
 			}
-
-			// Change chessBoard turn.
-			chessBoard.setHalfMoveNumber(chessBoard.getHalfMoveNumber() + 1);
-			chessBoard.setPlayer(chessBoard.getNextPlayer());
 
 			if (gameParameters.getGameMode() == GameMode.HUMAN_VS_HUMAN) {
 				setTurnMessage();

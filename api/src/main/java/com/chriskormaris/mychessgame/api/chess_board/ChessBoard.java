@@ -207,16 +207,7 @@ public class ChessBoard {
 	}
 
 	public void placePiecesToStartingPositions() {
-		for (int i = 0; i < numOfRows; i++) {
-			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
-				this.gameBoard[i][j] = new EmptySquare();
-			}
-		}
-
-		for (int j = 0; j < NUM_OF_COLUMNS; j++) {
-			this.gameBoard[1][j] = new Pawn(Allegiance.BLACK);  // 2nd row
-		}
-
+		// 1st row
 		this.gameBoard[0][0] = new Rook(Allegiance.BLACK);  // A8
 		this.gameBoard[0][1] = new Knight(Allegiance.BLACK);  // B8
 		this.gameBoard[0][2] = new Bishop(Allegiance.BLACK);  // C8
@@ -230,11 +221,24 @@ public class ChessBoard {
 		this.gameBoard[0][6] = new Knight(Allegiance.BLACK);  // G8
 		this.gameBoard[0][7] = new Rook(Allegiance.BLACK);  // H8
 
-
+		// 2nd row
 		for (int j = 0; j < NUM_OF_COLUMNS; j++) {
-			this.gameBoard[numOfRows - 2][j] = new Pawn(Allegiance.WHITE);  // (n-th - 1) row
+			this.gameBoard[1][j] = new Pawn(Allegiance.BLACK);
 		}
 
+		// From 3nd row to (n-th - 2) row.
+		for (int i = 2; i < numOfRows - 2; i++) {
+			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
+				this.gameBoard[i][j] = new EmptySquare();
+			}
+		}
+
+		// (n-th - 1) row
+		for (int j = 0; j < NUM_OF_COLUMNS; j++) {
+			this.gameBoard[numOfRows - 2][j] = new Pawn(Allegiance.WHITE);
+		}
+
+		// n-th row
 		this.gameBoard[numOfRows - 1][0] = new Rook(Allegiance.WHITE);  // A1
 		this.gameBoard[numOfRows - 1][1] = new Knight(Allegiance.WHITE);  // B1
 		this.gameBoard[numOfRows - 1][2] = new Bishop(Allegiance.WHITE);  // C1
@@ -251,15 +255,15 @@ public class ChessBoard {
 
 	// Make a move; it places a letter in the board
 	public void makeMove(Move move, boolean displayMove) {
-		List<String> positionsList = move.getPositions();
+		List<String> positions = move.getPositions();
 
-		// previous position
-		String previousPosition = positionsList.get(0);
+		// current position
+		String currentPosition = positions.get(0);
 
 		// next position
-		String nextPosition = positionsList.get(1);
+		String nextPosition = positions.get(1);
 
-		movePieceFromAPositionToAnother(previousPosition, nextPosition, displayMove);
+		moveChessPiece(currentPosition, nextPosition, displayMove);
 
 		this.lastMove = new Move(move);
 	}
@@ -267,7 +271,7 @@ public class ChessBoard {
 	// The parameter "displayMove" should be set to true when we make the move on the actual board.
 	// If the method is called while running the minimax AI algorithm,
 	// then the parameter "displayMove" should be set to false.
-	public void movePieceFromAPositionToAnother(String positionStart, String positionEnd, boolean displayMove) {
+	public void moveChessPiece(String positionStart, String positionEnd, boolean displayMove) {
 		int rowStart = getRowFromPosition(positionStart);
 		int columnStart = getColumnFromPosition(positionStart);
 		ChessPiece chessPiece = this.gameBoard[rowStart][columnStart];
@@ -290,6 +294,9 @@ public class ChessBoard {
 		// Move only if the square is empty or the square contains an opponent chessPiece.
 		// Also allow castling, en passant and promotion moves.
 		if (endSquare instanceof EmptySquare || chessPiece.getAllegiance() != endSquare.getAllegiance()) {
+			if (displayMove) {
+				previousHalfMoveFenPositions.push(FenUtils.getFenPositionFromChessBoard(this));
+			}
 
 			Set<String> castlingPositions = null;
 			if (chessPiece instanceof King) {
@@ -482,6 +489,10 @@ public class ChessBoard {
 				halfMoveClock = 0;
 			}
 
+			// Change turn.
+			halfMoveNumber++;
+			player = getNextPlayer();
+
 			// If a chessPiece capture has occurred.
 			if (chessPiece.getAllegiance() != endSquare.getAllegiance() && !(endSquare instanceof EmptySquare)) {
 				updateScore(endSquare);
@@ -490,8 +501,6 @@ public class ChessBoard {
 					incrementCapturedPiecesCounter(endSquare);
 				}
 			}
-
-			previousHalfMoveFenPositions.push(FenUtils.getFenPositionFromChessBoard(this));
 		}
 	}
 
@@ -605,7 +614,6 @@ public class ChessBoard {
 							Move move = new Move(moves);
 
 							child.makeMove(move, false);
-							this.player = !this.player;
 
 							child.getLastMove().setPositions(moves);
 							child.getLastMove().setValue(child.evaluate(minimaxAI));
@@ -689,7 +697,7 @@ public class ChessBoard {
 
 		Set<String> tempNextPositions = new HashSet<>(nextPositions);
 		for (String tempNextPosition : tempNextPositions) {
-			initialChessBoard.movePieceFromAPositionToAnother(position, tempNextPosition, false);
+			initialChessBoard.moveChessPiece(position, tempNextPosition, false);
 
 			int whiteKingRow = getRowFromPosition(initialChessBoard.getWhiteKingPosition());
 			int whiteKingColumn = getColumnFromPosition(initialChessBoard.getWhiteKingPosition());
@@ -710,11 +718,10 @@ public class ChessBoard {
 		return nextPositions;
 	}
 
-	// It should be called after we move any chessPiece in the this.
-	// For many chessPiece moves at once we only need to call this method once in the end
+	// It should be called after we move any ChessPiece in the ChessBoard.
+	// For many ChessPiece moves at once we only need to call this method once in the end
 	// (for example when calling the initial state of the chessBoard).
 	public void setThreats() {
-
 		// First, remove all the threatened areas.
 		for (int i = 0; i < numOfRows; i++) {
 			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
@@ -746,7 +753,6 @@ public class ChessBoard {
 
 			}
 		}
-
 	}
 
 	// Check for White checkmate (if White wins!)
@@ -773,7 +779,7 @@ public class ChessBoard {
 						Set<String> nextPositions = initialChessBoard.getNextPositions(currentPosition);
 
 						for (String nextPosition : nextPositions) {
-							initialChessBoard.movePieceFromAPositionToAnother(
+							initialChessBoard.moveChessPiece(
 									currentPosition,
 									nextPosition,
 									false
@@ -827,7 +833,7 @@ public class ChessBoard {
 						Set<String> nextPositions = initialChessBoard.getNextPositions(currentPosition);
 
 						for (String nextPosition : nextPositions) {
-							initialChessBoard.movePieceFromAPositionToAnother(
+							initialChessBoard.moveChessPiece(
 									currentPosition,
 									nextPosition,
 									false
@@ -873,7 +879,7 @@ public class ChessBoard {
 					Set<String> nextPositions = initialChessBoard.getNextPositions(currentPosition);
 
 					for (String nextPosition : nextPositions) {
-						initialChessBoard.movePieceFromAPositionToAnother(
+						initialChessBoard.moveChessPiece(
 								currentPosition,
 								nextPosition,
 								false
@@ -923,7 +929,7 @@ public class ChessBoard {
 					Set<String> nextPositions = initialChessBoard.getNextPositions(currentPosition);
 
 					for (String nextPosition : nextPositions) {
-						initialChessBoard.movePieceFromAPositionToAnother(
+						initialChessBoard.moveChessPiece(
 								currentPosition,
 								nextPosition,
 								false
@@ -1144,18 +1150,18 @@ public class ChessBoard {
 
 	// We are comparing FEN positions, but without checking the half-move clock and the full-move number.
 	public boolean checkForThreefoldRepetitionDraw() {
-		int numOfRepeats = 0;
+		int numOfRepeats = 1;
 		if (!previousHalfMoveFenPositions.isEmpty()) {
+			String currentHalfMoveFenPosition = FenUtils.getFenPositionFromChessBoard(this);
+			currentHalfMoveFenPosition = FenUtils.skipCounters(currentHalfMoveFenPosition);
 			int N = previousHalfMoveFenPositions.size();
-			String lastHalfMoveFenPosition = previousHalfMoveFenPositions.get(N - 1);
-			lastHalfMoveFenPosition = FenUtils.skipCounters(lastHalfMoveFenPosition);
-			for (int i = N - 2; i >= 0; i--) {
-				// Skip the last 3 iterations, if the number of repeats is 0.
-				// and there are less than 3 iterations left.
-				if (!(numOfRepeats == 0 && i < 2)) {
+			for (int i = N - 1; i >= 0; i--) {
+				// Skip the last 2 iterations, if the number of repeats is 1.
+				// and there are less 2 or fewer iterations left.
+				if (!(numOfRepeats == 1 && i < 2)) {
 					String otherHalfMoveFenPosition = previousHalfMoveFenPositions.get(i);
 					otherHalfMoveFenPosition = FenUtils.skipCounters(otherHalfMoveFenPosition);
-					if (lastHalfMoveFenPosition.equals(otherHalfMoveFenPosition)) {
+					if (currentHalfMoveFenPosition.equals(otherHalfMoveFenPosition)) {
 						numOfRepeats++;
 						if (numOfRepeats == 5) {
 							setGameResult(GameResult.FIVEFOLD_REPETITION_DRAW);
