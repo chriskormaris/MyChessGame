@@ -13,11 +13,6 @@ public class King extends ChessPiece {
 		super(allegiance);
 	}
 
-	@Override
-	public ChessPiece makeCopy() {
-		return new King(super.getAllegiance());
-	}
-
 	public static Set<String> getCastlingPositions(String position, ChessBoard chessBoard) {
 		Set<String> castlingPositions = new HashSet<>();
 

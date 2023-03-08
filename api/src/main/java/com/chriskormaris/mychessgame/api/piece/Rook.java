@@ -19,11 +19,6 @@ public class Rook extends ChessPiece {
 	}
 
 	@Override
-	public ChessPiece makeCopy() {
-		return new Rook(super.getAllegiance(), super.isPromoted());
-	}
-
-	@Override
 	public Set<String> getNextPositions(String position, ChessBoard chessBoard, boolean returnThreats) {
 		Set<String> nextRookPositions = new HashSet<>();
 

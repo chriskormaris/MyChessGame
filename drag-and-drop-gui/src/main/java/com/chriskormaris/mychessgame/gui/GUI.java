@@ -529,7 +529,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 			}
 
 			nextHalfMoveFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
-			redoCapturedPieces.push(Utilities.copyCharArray(capturedPieces));
+			redoCapturedPieces.push(capturedPieces.clone());
 			if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI) {
 				nextHalfMoveFenPositions.push(chessBoard.getPreviousHalfMoveFenPositions().pop());
 				redoCapturedPieces.push(undoCapturedPieces.pop());
@@ -579,7 +579,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 			}
 
 			chessBoard.getPreviousHalfMoveFenPositions().push(FenUtils.getFenPositionFromChessBoard(chessBoard));
-			undoCapturedPieces.push(Utilities.copyCharArray(capturedPieces));
+			undoCapturedPieces.push(capturedPieces.clone());
 			if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI) {
 				chessBoard.getPreviousHalfMoveFenPositions().push(nextHalfMoveFenPositions.pop());
 				undoCapturedPieces.push(redoCapturedPieces.pop());
@@ -821,11 +821,19 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 		AI ai2;
 		if (gameParameters.getAi2Type() == AiType.MINIMAX_AI) {
 			Evaluation evaluation2 = createEvaluation(gameParameters.getEvaluationFunction2());
-			ai2 = new MinimaxAlphaBetaPruningAI(
-					gameParameters.getAi2MaxDepth(),
-					Constants.BLACK,
-					evaluation2
-			);
+			if (gameParameters.getAi1MaxDepth() <= 2) {
+				ai2 = new MinimaxAI(
+						gameParameters.getAi2MaxDepth(),
+						Constants.BLACK,
+						evaluation2
+				);
+			} else {
+				ai2 = new MinimaxAlphaBetaPruningAI(
+						gameParameters.getAi2MaxDepth(),
+						Constants.BLACK,
+						evaluation2
+				);
+			}
 		} else {
 			ai2 = new RandomChoiceAI(Constants.BLACK);
 		}
@@ -1086,7 +1094,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 		int columnEnd = chessBoard.getColumnFromPosition(positionEnd);
 		ChessPiece endSquare = chessBoard.getGameBoard()[rowEnd][columnEnd];
 
-		undoCapturedPieces.push(Utilities.copyCharArray(capturedPieces));
+		undoCapturedPieces.push(capturedPieces.clone());
 
 		nextHalfMoveFenPositions.clear();
 		redoCapturedPieces.clear();

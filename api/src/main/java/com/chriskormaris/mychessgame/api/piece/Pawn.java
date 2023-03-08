@@ -15,11 +15,6 @@ public class Pawn extends ChessPiece {
 	}
 
 	@Override
-	public ChessPiece makeCopy() {
-		return new Pawn(super.getAllegiance());
-	}
-
-	@Override
 	public Set<String> getNextPositions(String position, ChessBoard chessBoard, boolean returnThreats) {
 		Set<String> nextPawnPositions = new HashSet<>();
 

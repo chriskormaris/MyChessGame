@@ -96,31 +96,11 @@ public final class Utilities {
 
 		ChessPiece[][] newGameBoard = new ChessPiece[n1][n2];
 		for (int i = 0; i < n1; i++) {
-			for (int j = 0; j < n2; j++) {
-				newGameBoard[i][j] = gameBoard[i][j].makeCopy();
-			}
+			System.arraycopy(gameBoard[i], 0, newGameBoard[i], 0, n2);
 		}
 		return newGameBoard;
 	}
 
-
-	public static int[][] copyIntBoard(int[][] intBoard) {
-		int n1 = intBoard.length;
-		int n2 = intBoard[0].length;
-
-		int[][] newIntBoard = new int[n1][n2];
-		for (int i = 0; i < n1; i++) {
-			System.arraycopy(intBoard[i], 0, newIntBoard[i], 0, n2);
-		}
-		return newIntBoard;
-	}
-
-	public static char[] copyCharArray(char[] charArray) {
-		int n = charArray.length;
-		char[] newCharArray = new char[n];
-		System.arraycopy(charArray, 0, newCharArray, 0, n);
-		return newCharArray;
-	}
 
 	// At the start of the game, the sum of all pieces' "gamePhase" values should be equal to 24.
 	// In case of early promotion, the sum could be more than 24.

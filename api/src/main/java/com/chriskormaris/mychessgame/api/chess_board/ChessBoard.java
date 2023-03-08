@@ -166,8 +166,8 @@ public class ChessBoard {
 		this.lastMove = new Move(otherBoard.getLastMove());
 
 		this.gameBoard = Utilities.copyGameBoard(otherBoard.getGameBoard());
-		this.squaresThreatenedByWhite = Utilities.copyIntBoard(otherBoard.getSquaresThreatenedByWhite());
-		this.squaresThreatenedByBlack = Utilities.copyIntBoard(otherBoard.getSquaresThreatenedByBlack());
+		this.squaresThreatenedByWhite = otherBoard.getSquaresThreatenedByWhite().clone();
+		this.squaresThreatenedByBlack = otherBoard.getSquaresThreatenedByBlack().clone();
 
 		this.whiteKingPosition = otherBoard.getWhiteKingPosition();
 		this.blackKingPosition = otherBoard.getBlackKingPosition();

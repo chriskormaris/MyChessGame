@@ -32,8 +32,6 @@ public abstract class ChessPiece {
 		this.pieceChar = Utilities.getPieceChar(this);
 	}
 
-	public abstract ChessPiece makeCopy();
-
 	public abstract Set<String> getNextPositions(String position, ChessBoard chessBoard, boolean returnThreats);
 
 	@Override
@@ -64,7 +62,6 @@ public abstract class ChessPiece {
 
 			return returnString;
 		}
-
 	}
 
 }
