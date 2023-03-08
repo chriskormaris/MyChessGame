@@ -26,14 +26,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
-import static com.chriskormaris.mychessgame.api.util.Constants.NUM_OF_COLUMNS;
-
 
 @Getter
 @Setter
 public class ChessBoard {
 
 	private final int numOfRows;
+	private final int numOfColumns;
 
 	/* Immediate move that led to this board. */
 	private Move lastMove;
@@ -124,16 +123,17 @@ public class ChessBoard {
 
 	public ChessBoard(int numOfRows) {
 		this.numOfRows = numOfRows;
+		this.numOfColumns = Constants.NUM_OF_COLUMNS;
 
 		this.lastMove = new Move();
 
-		this.gameBoard = new ChessPiece[numOfRows][NUM_OF_COLUMNS];
+		this.gameBoard = new ChessPiece[numOfRows][numOfColumns];
 		placePiecesToStartingPositions();
 
 		// this.gameBoard = FenUtils.createGameBoard(this, Constants.DEFAULT_STARTING_PIECES);
 
-		this.squaresThreatenedByWhite = new int[numOfRows][NUM_OF_COLUMNS];
-		this.squaresThreatenedByBlack = new int[numOfRows][NUM_OF_COLUMNS];
+		this.squaresThreatenedByWhite = new int[numOfRows][numOfColumns];
+		this.squaresThreatenedByBlack = new int[numOfRows][numOfColumns];
 
 		this.whiteKingPosition = "E1";
 		this.blackKingPosition = "E" + numOfRows;
@@ -160,9 +160,10 @@ public class ChessBoard {
 
 	// Copy constructor
 	public ChessBoard(ChessBoard otherBoard) {
-		this.numOfRows = otherBoard.numOfRows;
+		this.numOfRows = otherBoard.getNumOfRows();
+		this.numOfColumns = otherBoard.getNumOfColumns();
 
-		this.lastMove = new Move(otherBoard.lastMove);
+		this.lastMove = new Move(otherBoard.getLastMove());
 
 		this.gameBoard = Utilities.copyGameBoard(otherBoard.getGameBoard());
 		this.squaresThreatenedByWhite = Utilities.copyIntBoard(otherBoard.getSquaresThreatenedByWhite());
@@ -222,19 +223,19 @@ public class ChessBoard {
 		this.gameBoard[0][7] = new Rook(Allegiance.BLACK);  // H8
 
 		// 2nd row
-		for (int j = 0; j < NUM_OF_COLUMNS; j++) {
+		for (int j = 0; j < numOfColumns; j++) {
 			this.gameBoard[1][j] = new Pawn(Allegiance.BLACK);
 		}
 
 		// From 3nd row to (n-th - 2) row.
 		for (int i = 2; i < numOfRows - 2; i++) {
-			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
+			for (int j = 0; j < numOfColumns; j++) {
 				this.gameBoard[i][j] = new EmptySquare();
 			}
 		}
 
 		// (n-th - 1) row
-		for (int j = 0; j < NUM_OF_COLUMNS; j++) {
+		for (int j = 0; j < numOfColumns; j++) {
 			this.gameBoard[numOfRows - 2][j] = new Pawn(Allegiance.WHITE);
 		}
 
@@ -594,7 +595,7 @@ public class ChessBoard {
 		List<ChessBoard> children = new ArrayList<>();
 
 		for (int row = 0; row < numOfRows; row++) {
-			for (int column = 0; column < NUM_OF_COLUMNS; column++) {
+			for (int column = 0; column < numOfColumns; column++) {
 				ChessPiece chessPiece = this.gameBoard[row][column];
 				if (allegiance == chessPiece.getAllegiance()) {
 					String initialPosition = getPositionByRowCol(row, column);
@@ -721,33 +722,30 @@ public class ChessBoard {
 	public void setThreats() {
 		// First, remove all the threatened areas.
 		for (int i = 0; i < numOfRows; i++) {
-			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
+			for (int j = 0; j < numOfColumns; j++) {
 				this.squaresThreatenedByWhite[i][j] = 0;
 				this.squaresThreatenedByBlack[i][j] = 0;
 			}
 		}
 
 		for (int i = 0; i < numOfRows; i++) {
-			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
-
+			for (int j = 0; j < numOfColumns; j++) {
 				ChessPiece chessPiece = this.gameBoard[i][j];
 				String position = getPositionByRowCol(i, j);
 
-				Set<String> threatPositions;
-
-				threatPositions = chessPiece.getNextPositions(position, this, true);
+				Set<String> threatPositions = chessPiece.getNextPositions(position, this, true);
 
 				if (threatPositions != null && threatPositions.size() != 0) {
 					for (String threatPosition : threatPositions) {
 						int row = getRowFromPosition(threatPosition);
 						int column = getColumnFromPosition(threatPosition);
-						if (chessPiece.getAllegiance() == Allegiance.WHITE)
+						if (chessPiece.getAllegiance() == Allegiance.WHITE) {
 							this.squaresThreatenedByWhite[row][column] = 1;
-						else if (chessPiece.getAllegiance() == Allegiance.BLACK)
+						} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
 							this.squaresThreatenedByBlack[row][column] = 1;
+						}
 					}
 				}
-
 			}
 		}
 	}
@@ -769,7 +767,7 @@ public class ChessBoard {
 			// that can get the Black king out of a possible check
 			// and store them in a variable called "blackKingInCheckValidPieceMoves".
 			for (int i = 0; i < numOfRows; i++) {
-				for (int j = 0; j < NUM_OF_COLUMNS; j++) {
+				for (int j = 0; j < numOfColumns; j++) {
 					ChessPiece currentPiece = initialChessBoard.getGameBoard()[i][j];
 					if (currentPiece.getAllegiance() == Allegiance.BLACK) {
 						String currentPosition = getPositionByRowCol(i, j);
@@ -823,7 +821,7 @@ public class ChessBoard {
 			// that can get the White king out of a possible check
 			// and store them in a variable called "whiteKingInCheckValidPieceMoves".
 			for (int i = 0; i < numOfRows; i++) {
-				for (int j = 0; j < NUM_OF_COLUMNS; j++) {
+				for (int j = 0; j < numOfColumns; j++) {
 					ChessPiece currentPiece = initialChessBoard.getGameBoard()[i][j];
 					if (currentPiece.getAllegiance() == Allegiance.WHITE) {
 						String currentPosition = getPositionByRowCol(i, j);
@@ -869,7 +867,7 @@ public class ChessBoard {
 		ChessBoard initialChessBoard = new ChessBoard(this);
 
 		for (int i = 0; i < numOfRows; i++) {
-			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
+			for (int j = 0; j < numOfColumns; j++) {
 				ChessPiece currentPiece = initialChessBoard.getGameBoard()[i][j];
 				if (currentPiece.getAllegiance() == Allegiance.WHITE) {
 					String currentPosition = getPositionByRowCol(i, j);
@@ -919,7 +917,7 @@ public class ChessBoard {
 		ChessBoard initialChessBoard = new ChessBoard(this);
 
 		for (int i = 0; i < numOfRows; i++) {
-			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
+			for (int j = 0; j < numOfColumns; j++) {
 				ChessPiece currentPiece = initialChessBoard.getGameBoard()[i][j];
 				if (currentPiece.getAllegiance() == Allegiance.BLACK) {
 					String currentPosition = getPositionByRowCol(i, j);
@@ -991,7 +989,7 @@ public class ChessBoard {
 		int numOfBlackBishopsInBlackSquare = 0;
 
 		for (int i = 0; i < numOfRows; i++) {
-			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
+			for (int j = 0; j < numOfColumns; j++) {
 				ChessPiece chessPiece = getGameBoard()[i][j];
 				if (chessPiece instanceof Pawn) {
 					return false;
@@ -1058,7 +1056,7 @@ public class ChessBoard {
 	public boolean checkForBlockedKingAndPawnsDraw() {
 		// Check if any pieces other than the Kings can make any move.
 		for (int i = 0; i < numOfRows; i++) {
-			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
+			for (int j = 0; j < numOfColumns; j++) {
 				if (!(gameBoard[i][j] instanceof King || gameBoard[i][j] instanceof EmptySquare)) {
 					String position = getPositionByRowCol(i, j);
 					Set<String> nextPositions = getNextPositions(position);
@@ -1070,7 +1068,7 @@ public class ChessBoard {
 		}
 
 		for (int i = 0; i < numOfRows; i++) {
-			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
+			for (int j = 0; j < numOfColumns; j++) {
 				if (!(gameBoard[i][j] instanceof King || gameBoard[i][j] instanceof EmptySquare)) {
 					String endingPosition = getPositionByRowCol(i, j);
 					String opposingKingPosition;
@@ -1109,7 +1107,7 @@ public class ChessBoard {
 		int numOfWhiteMinorPieces = 0;
 		int numOfBlackMinorPieces = 0;
 		for (int i = 0; i < numOfRows; i++) {
-			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
+			for (int j = 0; j < numOfColumns; j++) {
 				ChessPiece chessPiece = getGameBoard()[i][j];
 				if (chessPiece instanceof Knight || chessPiece instanceof Bishop) {
 					if (Allegiance.WHITE == chessPiece.getAllegiance()) {
@@ -1254,7 +1252,7 @@ public class ChessBoard {
 		output.append("  ---------------------------------\n");
 		for (int i = 0; i < numOfRows; i++) {
 			output.append(numOfRows - i).append(" |");
-			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
+			for (int j = 0; j < numOfColumns; j++) {
 				output.append(" ").append(gameBoard[i][j].getPieceChar()).append(" |");
 			}
 			output.append(" ").append(numOfRows - i).append("\n");

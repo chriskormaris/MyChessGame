@@ -246,7 +246,6 @@ public final class GUI {
 			);
 
 			if (fenPosition != null) {
-				// gameParameters.getNumOfRows() = Constants.DEFAULT_NUM_OF_ROWS;
 				startNewGame(fenPosition);
 			}
 		});

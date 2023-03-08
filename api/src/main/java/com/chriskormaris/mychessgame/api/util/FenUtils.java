@@ -16,8 +16,6 @@ public final class FenUtils {
 	}
 
 	public static ChessBoard getChessBoardFromFenPosition(String fenPosition, int numOfRows) {
-		ChessBoard chessBoard = new ChessBoard(numOfRows);
-
 		fenPosition = fenPosition.trim();
 		String[] fenPositionTokens = fenPosition.split(" ");
 		if (fenPositionTokens.length != 6) {
@@ -28,7 +26,6 @@ public final class FenUtils {
 		}
 
 		String startingPieces = fenPositionTokens[0];
-		ChessPiece[][] gameBoard = createGameBoard(chessBoard, startingPieces);
 
 		String nextPlayerChar = fenPositionTokens[1];
 		boolean whitePlays;
@@ -100,8 +97,10 @@ public final class FenUtils {
 			halfMoveNumber -= 1;
 		}
 
+		ChessBoard chessBoard = new ChessBoard(numOfRows);
+
 		// set the ChessBoard parameters, according to the given FEN position
-		chessBoard.setGameBoard(gameBoard);
+		populateGameBoard(chessBoard, startingPieces);
 
 		chessBoard.setPlayer(whitePlays);
 
@@ -122,11 +121,10 @@ public final class FenUtils {
 	}
 
 
-	public static ChessPiece[][] createGameBoard(ChessBoard chessBoard, String startingPieces) {
-		ChessPiece[][] gameBoard = new ChessPiece[chessBoard.getNumOfRows()][Constants.NUM_OF_COLUMNS];
+	public static void populateGameBoard(ChessBoard chessBoard, String startingPieces) {
 		for (int i = 0; i < chessBoard.getNumOfRows(); i++) {
-			for (int j = 0; j < Constants.NUM_OF_COLUMNS; j++) {
-				gameBoard[i][j] = new EmptySquare();
+			for (int j = 0; j < chessBoard.getNumOfColumns(); j++) {
+				chessBoard.getGameBoard()[i][j] = new EmptySquare();
 			}
 		}
 
@@ -135,7 +133,7 @@ public final class FenUtils {
 		while (counter < startingPieces.length()) {
 			char pieceChar = startingPieces.charAt(counter);
 
-			j = j % Constants.NUM_OF_COLUMNS;
+			j = j % chessBoard.getNumOfColumns();
 
 			if (Character.isDigit(pieceChar)) {
 				j = j + Character.getNumericValue(pieceChar);
@@ -148,7 +146,7 @@ public final class FenUtils {
 				continue;
 			}
 
-			gameBoard[i][j] = Utilities.getChessPiece(pieceChar);
+			chessBoard.getGameBoard()[i][j] = Utilities.getChessPiece(pieceChar);
 
 			if (pieceChar == Constants.WHITE_KING) {
 				chessBoard.setWhiteKingPosition(chessBoard.getPositionByRowCol(i, j));
@@ -159,8 +157,6 @@ public final class FenUtils {
 			j++;
 			counter++;
 		}
-
-		return gameBoard;
 	}
 
 
