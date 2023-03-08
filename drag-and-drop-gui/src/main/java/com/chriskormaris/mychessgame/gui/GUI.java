@@ -801,19 +801,11 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 		AI ai1;
 		if (gameParameters.getAi1Type() == AiType.MINIMAX_AI) {
 			Evaluation evaluation1 = createEvaluation(gameParameters.getEvaluationFunction1());
-			if (gameParameters.getAi1MaxDepth() <= 2) {
-				ai1 = new MinimaxAI(
-						gameParameters.getAi1MaxDepth(),
-						Constants.WHITE,
-						evaluation1
-				);
-			} else {
-				ai1 = new MinimaxAlphaBetaPruningAI(
-						gameParameters.getAi1MaxDepth(),
-						Constants.WHITE,
-						evaluation1
-				);
-			}
+			ai1 = new MinimaxAlphaBetaPruningAI(
+					gameParameters.getAi1MaxDepth(),
+					Constants.WHITE,
+					evaluation1
+			);
 		} else {
 			ai1 = new RandomChoiceAI(Constants.WHITE);
 		}
@@ -821,19 +813,11 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 		AI ai2;
 		if (gameParameters.getAi2Type() == AiType.MINIMAX_AI) {
 			Evaluation evaluation2 = createEvaluation(gameParameters.getEvaluationFunction2());
-			if (gameParameters.getAi1MaxDepth() <= 2) {
-				ai2 = new MinimaxAI(
-						gameParameters.getAi2MaxDepth(),
-						Constants.BLACK,
-						evaluation2
-				);
-			} else {
-				ai2 = new MinimaxAlphaBetaPruningAI(
-						gameParameters.getAi2MaxDepth(),
-						Constants.BLACK,
-						evaluation2
-				);
-			}
+			ai2 = new MinimaxAlphaBetaPruningAI(
+					gameParameters.getAi2MaxDepth(),
+					Constants.BLACK,
+					evaluation2
+			);
 		} else {
 			ai2 = new RandomChoiceAI(Constants.BLACK);
 		}
