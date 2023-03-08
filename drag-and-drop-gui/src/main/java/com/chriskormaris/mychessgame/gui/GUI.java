@@ -788,20 +788,13 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 		}
 	}
 
-	// Gets called after the human player makes a move. It makes a Minimax AI move.
 	public void aiMove(AI ai) {
 		Move aiMove = ai.getNextMove(chessBoard);
 		System.out.println("aiMove: " + aiMove);
 
 		makeDisplayMove(aiMove, true);
 
-		if (checkForGameOver()) return;
-
-		setTurnMessage();
-		setScoreMessage();
-
-		System.out.println();
-		System.out.println(chessBoard);
+		checkForGameOver();
 	}
 
 	public void playAiVsAi() {
@@ -874,9 +867,6 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 
 	private void aiVsAiMove(AI ai) {
 		aiMove(ai);
-
-		setTurnMessage();
-		setScoreMessage();
 
 		this.revalidate();
 		this.paint(getGraphics());
@@ -1199,6 +1189,12 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 		chessBoard.getPiecesToPlace().clear();
 
 		chessBoard.setThreats();
+
+		setTurnMessage();
+		setScoreMessage();
+
+		System.out.println();
+		System.out.println(chessBoard);
 	}
 
 	public boolean checkForGameOver() {
@@ -1660,9 +1656,6 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 
 			hintPositions.clear();
 
-			System.out.println();
-			System.out.println(chessBoard);
-
 			parent.validate();
 
 			if (undoItem != null) {
@@ -1672,9 +1665,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 				redoItem.setEnabled(false);
 			}
 
-			if (gameParameters.getGameMode() == GameMode.HUMAN_VS_HUMAN) {
-				setTurnMessage();
-			} else if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI) {
+			if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI) {
 				aiMove(ai);
 			}
 		} else {

@@ -913,17 +913,16 @@ public final class GUI {
 		if (!startingButtonIsClicked
 				&& (chessPiece.getAllegiance() == Allegiance.WHITE && chessBoard.whitePlays()
 				|| chessPiece.getAllegiance() == Allegiance.BLACK && chessBoard.blackPlays())) {
+
 			startingPosition = position;
 
 			if (!(chessPiece instanceof EmptySquare)) {
 				hintPositions = chessBoard.getNextPositions(position);
-
 				GuiUtils.changeSquareColor(button, Color.CYAN);
 
 				// Display the hint positions.
-				if (hintPositions != null && hintPositions.size() != 0) {
+				if (hintPositions != null && hintPositions.size() > 0) {
 					for (String hintPosition : hintPositions) {
-
 						int hintPositionRow = chessBoard.getRowFromPosition(hintPosition);
 						int hintPositionColumn = chessBoard.getColumnFromPosition(hintPosition);
 
@@ -949,7 +948,6 @@ public final class GUI {
 						} else if (hintPositionPiece instanceof EmptySquare) {
 							GuiUtils.changeSquareColor(hintPositionButton, Color.BLUE);
 						}
-
 					}
 				}
 
@@ -959,13 +957,11 @@ public final class GUI {
 		} else if (startingButtonIsClicked && startingPiece != null
 				&& (startingPiece.getAllegiance() == Allegiance.WHITE && chessBoard.whitePlays()
 				|| startingPiece.getAllegiance() == Allegiance.BLACK && chessBoard.blackPlays())) {
-			startingButtonIsClicked = false;
 
+			startingButtonIsClicked = false;
 			endingPosition = position;
 
-			if (!hintPositions.contains(endingPosition)) {
-				return;
-			} else {
+			if (hintPositions.contains(endingPosition)) {
 				undoCapturedPieces.push(Utilities.copyCharArray(capturedPieces));
 
 				nextHalfMoveFenPositions.clear();
@@ -974,31 +970,24 @@ public final class GUI {
 				Move move = new Move(startingPosition, endingPosition);
 				makeDisplayMove(move, false);
 
-				hideHintPositions();
-			}
+				if (checkForGameOver()) return;
 
-			if (checkForGameOver()) return;
+				if (gameParameters.isEnableSounds()) {
+					SoundUtils.playMoveSound();
+				}
 
-			if (gameParameters.isEnableSounds()) {
-				SoundUtils.playMoveSound();
-			}
+				hintPositions.clear();
 
-			hintPositions.clear();
+				if (undoItem != null) {
+					undoItem.setEnabled(true);
+				}
+				if (redoItem != null) {
+					redoItem.setEnabled(false);
+				}
 
-			System.out.println();
-			System.out.println(chessBoard);
-
-			if (undoItem != null) {
-				undoItem.setEnabled(true);
-			}
-			if (redoItem != null) {
-				redoItem.setEnabled(false);
-			}
-
-			if (gameParameters.getGameMode() == GameMode.HUMAN_VS_HUMAN) {
-				setTurnMessage();
-			} else if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI) {
-				aiMove(ai);
+				if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI) {
+					aiMove(ai);
+				}
 			}
 		}
 	}
@@ -1112,6 +1101,12 @@ public final class GUI {
 		chessBoard.getPiecesToPlace().clear();
 
 		chessBoard.setThreats();
+
+		setTurnMessage();
+		setScoreMessage();
+
+		System.out.println();
+		System.out.println(chessBoard);
 	}
 
 	private static void updateCapturedPieces(ChessPiece chessPiece) {
@@ -1400,20 +1395,13 @@ public final class GUI {
 	}
 
 
-	// Gets called after the human player makes a move. It makes a Minimax AI move.
 	public static void aiMove(AI ai) {
 		Move aiMove = ai.getNextMove(chessBoard);
 		System.out.println("aiMove: " + aiMove);
 
 		makeDisplayMove(aiMove, true);
 
-		if (checkForGameOver()) return;
-
-		setTurnMessage();
-		setScoreMessage();
-
-		System.out.println();
-		System.out.println(chessBoard);
+		checkForGameOver();
 	}
 
 	public static void playAiVsAi() {
@@ -1489,9 +1477,6 @@ public final class GUI {
 
 	private static void aiVsAiMove(AI ai) {
 		aiMove(ai);
-
-		setTurnMessage();
-		setScoreMessage();
 
 		frame.revalidate();
 		frame.paint(frame.getGraphics());
