@@ -962,11 +962,6 @@ public final class GUI {
 			endingPosition = position;
 
 			if (hintPositions.contains(endingPosition)) {
-				undoCapturedPieces.push(Utilities.copyCharArray(capturedPieces));
-
-				nextHalfMoveFenPositions.clear();
-				redoCapturedPieces.clear();
-
 				Move move = new Move(startingPosition, endingPosition);
 				makeDisplayMove(move, false);
 
@@ -1002,6 +997,11 @@ public final class GUI {
 		int rowEnd = chessBoard.getRowFromPosition(positionEnd);
 		int columnEnd = chessBoard.getColumnFromPosition(positionEnd);
 		ChessPiece endSquare = chessBoard.getGameBoard()[rowEnd][columnEnd];
+
+		undoCapturedPieces.push(Utilities.copyCharArray(capturedPieces));
+
+		nextHalfMoveFenPositions.clear();
+		redoCapturedPieces.clear();
 
 		chessBoard.makeMove(move, true);
 
