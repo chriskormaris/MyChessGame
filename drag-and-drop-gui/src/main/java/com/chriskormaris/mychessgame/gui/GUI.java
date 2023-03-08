@@ -1039,12 +1039,6 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 		return e.getX() / squareWidth;
 	}
 
-	private String getSquarePosition(MouseEvent e) {
-		int row = getSquareRow(e) - 1;
-		int column = getSquareColumn(e) - 1;
-		return chessBoard.getPositionByRowCol(row, column);
-	}
-
 	// It removes the given chessPiece from the board (both the data structure and the JFrame).
 	private void removePieceFromPosition(String position) {
 		int row = chessBoard.getRowFromPosition(position);
@@ -1057,7 +1051,11 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 			row = DEFAULT_NUM_OF_ROWS - 1 - row;
 		}
 
-		Component component = chessPanel.findComponentAt(squareWidth * (column + 1), squareHeight * (row + 1));
+		int threshold = 2;
+		Component component = chessPanel.findComponentAt(
+				(squareWidth + threshold) * (column + 1),
+				(squareHeight + threshold) * (row + 1)
+		);
 
 		try {
 			pieceLabel = (JLabel) component;
