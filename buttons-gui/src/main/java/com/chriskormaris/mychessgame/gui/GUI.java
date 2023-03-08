@@ -1378,6 +1378,8 @@ public final class GUI {
 	}
 
 	private static void startNewGameOrNot(int dialogResult) {
+		isGameOver = true;
+
 		if (dialogResult == JOptionPane.YES_OPTION) {
 			startNewGame();
 		} else {

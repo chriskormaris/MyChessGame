@@ -1425,6 +1425,8 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 	}
 
 	private void startNewGameOrNot(int dialogResult) {
+		isGameOver = true;
+
 		if (dialogResult == JOptionPane.YES_OPTION) {
 			startNewGame();
 		} else {
