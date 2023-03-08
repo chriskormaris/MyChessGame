@@ -1494,12 +1494,13 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 			startingRow = (DEFAULT_NUM_OF_ROWS + 2) - 1 - row;
 		}
 
-		mouseIsPressed = true;
 		startingPosition = chessBoard.getPositionByRowCol(startingRow - 1, column - 1);
-
-		hintPositions = chessBoard.getNextPositions(startingPosition);
-
 		ChessPiece chessPiece = chessBoard.getChessPieceFromPosition(startingPosition);
+
+		if (chessPiece instanceof EmptySquare) return;
+
+		mouseIsPressed = true;
+		hintPositions = chessBoard.getNextPositions(startingPosition);
 
 		if (chessPiece.getAllegiance() == Allegiance.WHITE && chessBoard.whitePlays()
 				&& (gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE
