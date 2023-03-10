@@ -540,6 +540,7 @@ public class ChessBoard {
 	public List<ChessBoard> getChildren(Allegiance allegiance, MinimaxAI minimaxAI) {
 		List<ChessBoard> children = new ArrayList<>();
 
+		setThreats();
 		for (int row = 0; row < numOfRows; row++) {
 			for (int column = 0; column < numOfColumns; column++) {
 				ChessPiece chessPiece = this.gameBoard[row][column];
@@ -588,10 +589,11 @@ public class ChessBoard {
 		return minimaxAI.getEvaluation().evaluate(this);
 	}
 
-	/*
-	 * A state is terminal if there is a win or draw condition.
-	 */
+	/* A state is terminal if there is a win or draw condition.
+	 * A state is terminal if it's unconditional, without for example having to claim a draw. */
 	public boolean checkForTerminalState() {
+		setThreats();
+
 		if (checkForWhiteCheckmate()) return true;
 
 		if (checkForBlackCheckmate()) return true;
@@ -606,9 +608,10 @@ public class ChessBoard {
 
 		if (checkForInsufficientMatingMaterialDraw()) return true;
 
-		if (checkForNoCaptureDraw(50)) return true;
+		if (checkForNoCaptureDraw(75)) return true;
 
-		return checkForThreefoldRepetitionDraw();
+		checkForThreefoldRepetitionDraw();
+		return isTerminalState();
 	}
 
 	public boolean isTerminalState() {
@@ -808,6 +811,8 @@ public class ChessBoard {
 	// A stalemate occurs when a player has no legal moves to make. Then, the game ends in a draw.
 	// If the Black player makes a move, then we check for a White player stalemate and vice-versa.
 	public boolean checkForWhiteStalemateDraw() {
+		if (whiteKingInCheck) return false;
+
 		boolean isWhiteStalemateDraw = true;
 
 		ChessBoard initialChessBoard = new ChessBoard(this);
@@ -858,6 +863,8 @@ public class ChessBoard {
 	// A stalemate occurs when a player has no legal moves to make. Then, the game ends in a draw.
 	// If the White player makes a move, then we check for a Black player stalemate and vice-versa.
 	public boolean checkForBlackStalemateDraw() {
+		if (blackKingInCheck) return false;
+
 		boolean isBlackStalemateDraw = true;
 
 		ChessBoard initialChessBoard = new ChessBoard(this);

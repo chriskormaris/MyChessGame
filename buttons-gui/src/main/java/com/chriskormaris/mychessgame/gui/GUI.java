@@ -926,6 +926,7 @@ public final class GUI {
 			startingPosition = position;
 
 			if (!(chessPiece instanceof EmptySquare)) {
+				chessBoard.setThreats();
 				hintPositions = chessBoard.getNextPositions(position);
 				GuiUtils.changeSquareColor(button, Color.CYAN);
 
@@ -1089,7 +1090,9 @@ public final class GUI {
 		}
 
 		// If a chessPiece capture has occurred.
-		if (startingPiece.getAllegiance() != endSquare.getAllegiance() && !(endSquare instanceof EmptySquare)) {
+		if (startingPiece.getAllegiance() != endSquare.getAllegiance()
+				&& !(startingPiece instanceof EmptySquare)
+				&& !(endSquare instanceof EmptySquare)) {
 			score += Utilities.getScoreValue(endSquare);
 
 			updateCapturedPieces(endSquare);
@@ -1225,7 +1228,7 @@ public final class GUI {
 		/* Stalemate draw implementation. */
 
 		// Check for White stalemate.
-		if (chessBoard.whitePlays() && !chessBoard.isWhiteKingInCheck()) {
+		if (chessBoard.whitePlays()) {
 			chessBoard.checkForWhiteStalemateDraw();
 			if (chessBoard.getGameResult() == GameResult.WHITE_STALEMATE_DRAW) {
 				String turnMessage = "Turn: "
@@ -1247,7 +1250,7 @@ public final class GUI {
 		}
 
 		// Check for Black stalemate.
-		else if (chessBoard.blackPlays() && !chessBoard.isBlackKingInCheck()) {
+		else {
 			chessBoard.checkForBlackStalemateDraw();
 			if (chessBoard.getGameResult() == GameResult.BLACK_STALEMATE_DRAW) {
 				String turnMessage = "Turn: "

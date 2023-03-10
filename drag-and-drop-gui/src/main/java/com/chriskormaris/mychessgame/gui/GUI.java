@@ -1266,7 +1266,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 		/* Stalemate draw implementation. */
 
 		// Check for White stalemate.
-		if (chessBoard.whitePlays() && !chessBoard.isWhiteKingInCheck()) {
+		if (chessBoard.whitePlays()) {
 			chessBoard.checkForWhiteStalemateDraw();
 			if (chessBoard.getGameResult() == GameResult.WHITE_STALEMATE_DRAW) {
 				String turnMessage = "Turn: "
@@ -1288,7 +1288,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 		}
 
 		// Check for Black stalemate.
-		else if (chessBoard.blackPlays() && !chessBoard.isBlackKingInCheck()) {
+		else {
 			chessBoard.checkForBlackStalemateDraw();
 			if (chessBoard.getGameResult() == GameResult.BLACK_STALEMATE_DRAW) {
 				String turnMessage = "Turn: "
@@ -1524,6 +1524,8 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 		if (chessPiece instanceof EmptySquare) return;
 
 		mouseIsPressed = true;
+
+		chessBoard.setThreats();
 		hintPositions = chessBoard.getNextPositions(startingPosition);
 
 		if (chessPiece.getAllegiance() == Allegiance.WHITE && chessBoard.whitePlays()
