@@ -1090,9 +1090,7 @@ public final class GUI {
 		}
 
 		// If a chessPiece capture has occurred.
-		if (startingPiece.getAllegiance() != endSquare.getAllegiance()
-				&& !(startingPiece instanceof EmptySquare)
-				&& !(endSquare instanceof EmptySquare)) {
+		if (startingPiece.getAllegiance() != endSquare.getAllegiance() && !(endSquare instanceof EmptySquare)) {
 			score += Utilities.getScoreValue(endSquare);
 
 			updateCapturedPieces(endSquare);
