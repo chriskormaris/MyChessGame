@@ -528,10 +528,6 @@ public final class GUI {
 				capturedPiecesPanel.add(capturedPiecesImages[i]);
 			}
 
-			if (!buttonsEnabled && gameParameters.getGameMode() != GameMode.AI_VS_AI) {
-				enableChessButtons();
-			}
-
 			if (nextHalfMoveFenPositions.isEmpty()) {
 				redoItem.setEnabled(false);
 			}

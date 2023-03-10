@@ -610,10 +610,6 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 				capturedPiecesPanel.add(capturedPiecesImages[i]);
 			}
 
-			if (!chessPanelEnabled && gameParameters.getGameMode() != GameMode.AI_VS_AI) {
-				chessPanelEnabled = true;
-			}
-
 			if (nextHalfMoveFenPositions.isEmpty()) {
 				redoItem.setEnabled(false);
 			}
