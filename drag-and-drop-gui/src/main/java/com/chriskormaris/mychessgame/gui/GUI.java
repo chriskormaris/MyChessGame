@@ -520,6 +520,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 	}
 
 	private void undo() {
+		if (mouseIsPressed) return;
 		if (gameParameters.getGameMode() != GameMode.HUMAN_VS_AI
 				&& !chessBoard.getPreviousHalfMoveFenPositions().isEmpty()
 				|| gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
@@ -579,6 +580,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 	// NOTE: We are not able to perform a redo,
 	// if we are in a terminal state, because the game has ended.
 	private void redo() {
+		if (mouseIsPressed) return;
 		if (gameParameters.getGameMode() != GameMode.HUMAN_VS_AI && !nextHalfMoveFenPositions.isEmpty()
 				|| gameParameters.getGameMode() == GameMode.HUMAN_VS_AI && nextHalfMoveFenPositions.size() >= 2) {
 			System.out.println("Redo is pressed!");
