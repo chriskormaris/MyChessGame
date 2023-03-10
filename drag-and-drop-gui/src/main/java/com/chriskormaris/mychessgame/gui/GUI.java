@@ -712,15 +712,15 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 			capturedPiecesImages[index].setIcon(pieceImage);
 		}
 
-		incrementCapturedPiecesCounter(endSquare);
+		incrementCapturedPiecesCounter(endSquare.getAllegiance());
 
 		setScoreMessage();
 	}
 
-	private void incrementCapturedPiecesCounter(ChessPiece chessPiece) {
-		if (chessPiece.getAllegiance() == Allegiance.WHITE) {
+	private void incrementCapturedPiecesCounter(Allegiance allegiance) {
+		if (allegiance == Allegiance.WHITE) {
 			whiteCapturedPiecesCounter++;
-		} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
+		} else if (allegiance == Allegiance.BLACK) {
 			blackCapturedPiecesCounter++;
 		}
 	}
