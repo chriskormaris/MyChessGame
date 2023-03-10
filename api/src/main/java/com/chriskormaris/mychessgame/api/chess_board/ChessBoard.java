@@ -105,7 +105,7 @@ public class ChessBoard {
 
 	private int score;
 
-	// These variables are used for "castling" and "en passant".
+	// These variables should be used on the GUI implementation.
 	private Set<String> positionsToRemove;
 	private Map<String, ChessPiece> piecesToPlace;
 
@@ -115,6 +115,7 @@ public class ChessBoard {
 	private int blackCapturedPiecesCounter;
 
 	// This stack of "String" objects is used to check for a threefold repetition of the current Chess board position.
+	// It can also be used to handle the "undo" and "redo" functionality, if used on a GUI implementation.
 	private Stack<String> previousHalfMoveFenPositions;
 
 	public ChessBoard() {
