@@ -103,16 +103,11 @@ public class ChessBoard {
 
 	private GameResult gameResult;
 
-	private int score;
-
 	// These variables should be used on the GUI implementation.
 	private Set<String> positionsToRemove;
 	private Map<String, ChessPiece> piecesToPlace;
 
 	private ChessPiece capturedEnPassantPiece;
-
-	private int whiteCapturedPiecesCounter;
-	private int blackCapturedPiecesCounter;
 
 	// This stack of "String" objects is used to check for a threefold repetition of the current Chess board position.
 	// It can also be used to handle the "undo" and "redo" functionality, if used on a GUI implementation.
@@ -147,8 +142,6 @@ public class ChessBoard {
 		this.halfMoveNumber = 1;
 
 		this.gameResult = GameResult.NONE;
-
-		this.score = 0;
 
 		this.positionsToRemove = new HashSet<>();
 		this.piecesToPlace = new HashMap<>();
@@ -196,14 +189,9 @@ public class ChessBoard {
 
 		this.gameResult = otherBoard.getGameResult();
 
-		this.score = otherBoard.getScore();
-
 		this.positionsToRemove = new HashSet<>(otherBoard.getPositionsToRemove());
 		this.piecesToPlace = new HashMap<>(otherBoard.getPiecesToPlace());
 		this.capturedEnPassantPiece = otherBoard.getCapturedEnPassantPiece();
-
-		this.whiteCapturedPiecesCounter = otherBoard.getWhiteCapturedPiecesCounter();
-		this.blackCapturedPiecesCounter = otherBoard.getBlackCapturedPiecesCounter();
 
 		this.previousHalfMoveFenPositions = (Stack<String>) otherBoard.getPreviousHalfMoveFenPositions().clone();
 	}
@@ -491,49 +479,6 @@ public class ChessBoard {
 			// Change turn.
 			halfMoveNumber++;
 			player = getNextPlayer();
-
-			// If a chessPiece capture has occurred.
-			if (chessPiece.getAllegiance() != endSquare.getAllegiance() && !(endSquare instanceof EmptySquare)) {
-				updateScore(endSquare);
-
-				if (!displayMove) {
-					incrementCapturedPiecesCounter(endSquare);
-				}
-			}
-		}
-	}
-
-	public void updateScore(ChessPiece chessPiece) {
-		if (chessPiece.isPromoted()) {
-			if (chessPiece.getAllegiance() == Allegiance.WHITE) {
-				score -= Constants.PAWN_SCORE_VALUE;
-			} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
-				score += Constants.PAWN_SCORE_VALUE;
-			}
-		} else if (chessPiece.getAllegiance() == Allegiance.WHITE) {
-			if (chessPiece instanceof Pawn) {
-				score -= Constants.PAWN_SCORE_VALUE;
-			} else if (chessPiece instanceof Rook) {
-				score -= Constants.ROOK_SCORE_VALUE;
-			} else if (chessPiece instanceof Knight) {
-				score -= Constants.KNIGHT_SCORE_VALUE;
-			} else if (chessPiece instanceof Bishop) {
-				score -= Constants.BISHOP_SCORE_VALUE;
-			} else if (chessPiece instanceof Queen) {
-				score -= Constants.QUEEN_SCORE_VALUE;
-			}
-		} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
-			if (chessPiece instanceof Pawn) {
-				score += Constants.PAWN_SCORE_VALUE;
-			} else if (chessPiece instanceof Rook) {
-				score += Constants.ROOK_SCORE_VALUE;
-			} else if (chessPiece instanceof Knight) {
-				score += Constants.KNIGHT_SCORE_VALUE;
-			} else if (chessPiece instanceof Bishop) {
-				score += Constants.BISHOP_SCORE_VALUE;
-			} else if (chessPiece instanceof Queen) {
-				score += Constants.QUEEN_SCORE_VALUE;
-			}
 		}
 	}
 
@@ -1201,14 +1146,6 @@ public class ChessBoard {
 
 	public boolean checkForNoCaptureDraw(int numOfFullMoves) {
 		return this.halfMoveClock >= numOfFullMoves * 2;
-	}
-
-	public void incrementCapturedPiecesCounter(ChessPiece chessPiece) {
-		if (chessPiece.getAllegiance() == Allegiance.WHITE) {
-			whiteCapturedPiecesCounter++;
-		} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
-			blackCapturedPiecesCounter++;
-		}
 	}
 
 	public String getPositionByRowCol(int row, int column) {

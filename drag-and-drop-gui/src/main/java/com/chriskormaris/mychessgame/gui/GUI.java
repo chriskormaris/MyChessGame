@@ -118,6 +118,11 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 	// 30 captured pieces at maximum, plus 1 label for displaying the score = 31 labels size.
 	JLabel[] capturedPiecesImages;
 
+	int score;
+
+	int whiteCapturedPiecesCounter;
+	int blackCapturedPiecesCounter;
+
 	JLayeredPane layeredPane;
 	JPanel chessPanel;
 
@@ -625,15 +630,15 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 	private void updateCapturedPiecesPanel() {
 		initializeCapturedPiecesPanel();
 		initializeCapturedPiecesImages();
-		chessBoard.setScore(0);
-		chessBoard.setWhiteCapturedPiecesCounter(0);
-		chessBoard.setBlackCapturedPiecesCounter(0);
+		score = 0;
+		whiteCapturedPiecesCounter = 0;
+		blackCapturedPiecesCounter = 0;
 		for (int i = 0; i < 30; i++) {
 			char pieceChar = capturedPieces[i];
 			if (pieceChar != '-') {
 				ChessPiece chessPiece = Utilities.getChessPiece(pieceChar);
 				addCapturedPieceImage(chessPiece);
-				chessBoard.updateScore(chessPiece);
+				score += Utilities.getScoreValue(chessPiece);
 			}
 		}
 		setScoreMessage();
@@ -674,10 +679,10 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 
 	private void updateCapturedPieces(ChessPiece chessPiece) {
 		if (chessPiece.getAllegiance() == Allegiance.WHITE) {
-			int index = Math.min(chessBoard.getWhiteCapturedPiecesCounter(), 14);
+			int index = Math.min(whiteCapturedPiecesCounter, 14);
 			capturedPieces[index] = chessPiece.getPieceChar();
 		} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
-			int index = Math.min(chessBoard.getBlackCapturedPiecesCounter(), 14);
+			int index = Math.min(blackCapturedPiecesCounter, 14);
 			index = 30 - index - 1;
 			capturedPieces[index] = chessPiece.getPieceChar();
 		}
@@ -699,17 +704,25 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 		ImageIcon pieceImage = GuiUtils.preparePieceIcon(imagePath, GuiConstants.CAPTURED_CHESS_PIECE_PIXEL_SIZE);
 
 		if (endSquare.getAllegiance() == Allegiance.WHITE) {
-			int index = Math.min(chessBoard.getWhiteCapturedPiecesCounter(), 14);
+			int index = Math.min(whiteCapturedPiecesCounter, 14);
 			capturedPiecesImages[index].setIcon(pieceImage);
 		} else if (endSquare.getAllegiance() == Allegiance.BLACK) {
-			int index = Math.min(chessBoard.getBlackCapturedPiecesCounter(), 14);
+			int index = Math.min(blackCapturedPiecesCounter, 14);
 			index = 31 - index - 1;
 			capturedPiecesImages[index].setIcon(pieceImage);
 		}
 
-		chessBoard.incrementCapturedPiecesCounter(endSquare);
+		incrementCapturedPiecesCounter(endSquare);
 
 		setScoreMessage();
+	}
+
+	private void incrementCapturedPiecesCounter(ChessPiece chessPiece) {
+		if (chessPiece.getAllegiance() == Allegiance.WHITE) {
+			whiteCapturedPiecesCounter++;
+		} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
+			blackCapturedPiecesCounter++;
+		}
 	}
 
 	private void setTurnMessage() {
@@ -730,10 +743,10 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 	}
 
 	private void setScoreMessage() {
-		if (chessBoard.getScore() > 0) {
-			capturedPiecesImages[15].setText("White: +" + chessBoard.getScore());
-		} else if (chessBoard.getScore() < 0) {
-			capturedPiecesImages[15].setText("Black: +" + (-chessBoard.getScore()));
+		if (score > 0) {
+			capturedPiecesImages[15].setText("White: +" + score);
+		} else if (score < 0) {
+			capturedPiecesImages[15].setText("Black: +" + (-score));
 		} else {
 			capturedPiecesImages[15].setText(ZERO_SCORE_TEXT);
 		}
@@ -947,6 +960,11 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 
 		undoCapturedPieces.clear();
 		redoCapturedPieces.clear();
+
+		score = 0;
+
+		whiteCapturedPiecesCounter = 0;
+		blackCapturedPiecesCounter = 0;
 
 		mouseIsPressed = false;
 
@@ -1162,11 +1180,15 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 
 		// If a chessPiece capture has occurred.
 		if (startingPiece.getAllegiance() != endSquare.getAllegiance() && !(endSquare instanceof EmptySquare)) {
+			score += Utilities.getScoreValue(endSquare);
+
 			updateCapturedPieces(endSquare);
 			addCapturedPieceImage(endSquare);
 		}
 		// True if an en passant captured piece exists.
 		else if (chessBoard.getCapturedEnPassantPiece() != null) {
+			score += Utilities.getScoreValue(chessBoard.getCapturedEnPassantPiece());
+
 			updateCapturedPieces(chessBoard.getCapturedEnPassantPiece());
 			addCapturedPieceImage(chessBoard.getCapturedEnPassantPiece());
 		}
