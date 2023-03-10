@@ -781,13 +781,9 @@ public final class GUI {
 
 		chessPanel.removeAll();
 
-		initializeGUI();
-
-		// if (!buttonsEnabled) {
-		// 	enableChessButtons();
-		// }
-
 		restoreDefaultValues();
+
+		initializeGUI();
 
 		placePiecesToChessBoard(fenPosition);
 		redrawChessButtons();
@@ -830,6 +826,8 @@ public final class GUI {
 		startingButtonIsClicked = false;
 
 		hintPositions = new HashSet<>();
+
+		buttonsEnabled = true;
 
 		if (undoItem != null) {
 			undoItem.setEnabled(false);

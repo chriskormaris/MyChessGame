@@ -777,14 +777,14 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 
 		gui.removeAll();
 
+		restoreDefaultValues();
+
 		initializeGUI();
 
 		gui.revalidate();
 		gui.repaint();
 		paint(getGraphics());
 		repaint();
-
-		restoreDefaultValues();
 
 		placePiecesToChessBoard(fenPosition);
 		redrawChessPanel();
