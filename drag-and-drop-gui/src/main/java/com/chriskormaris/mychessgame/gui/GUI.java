@@ -521,7 +521,9 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 				&& chessBoard.getPreviousHalfMoveFenPositions().size() >= 2) {
 			System.out.println("Undo is pressed!");
 
-			chessPanelEnabled = true;
+			if (!chessPanelEnabled) {
+				chessPanelEnabled = true;
+			}
 
 			if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
 					|| gameParameters.getGameMode() == GameMode.HUMAN_VS_HUMAN) {
@@ -530,7 +532,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 
 			nextHalfMoveFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
 			redoCapturedPieces.push(capturedPieces.clone());
-			if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI) {
+			if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI && !(chessBoard.blackPlays() && isGameOver)) {
 				nextHalfMoveFenPositions.push(chessBoard.getPreviousHalfMoveFenPositions().pop());
 				redoCapturedPieces.push(undoCapturedPieces.pop());
 			}
@@ -546,12 +548,6 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 
 			setTurnMessage();
 
-			// This is true if any terminal state has occurred.
-			// The terminal states are: "draw", "stalemate draw" & "checkmate"
-			if (!chessPanelEnabled && gameParameters.getGameMode() != GameMode.AI_VS_AI) {
-				chessPanelEnabled = true;
-			}
-
 			System.out.println();
 			System.out.println(chessBoard);
 
@@ -562,6 +558,16 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 			if (redoItem != null) {
 				redoItem.setEnabled(true);
 			}
+
+			if (exportFenPositionItem != null) {
+				exportFenPositionItem.setEnabled(true);
+			}
+
+			if (saveCheckpointItem != null) {
+				saveCheckpointItem.setEnabled(true);
+			}
+
+			isGameOver = false;
 		}
 	}
 

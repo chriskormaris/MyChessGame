@@ -441,6 +441,10 @@ public final class GUI {
 				&& chessBoard.getPreviousHalfMoveFenPositions().size() >= 2) {
 			System.out.println("Undo is pressed!");
 
+			if (!buttonsEnabled) {
+				enableChessButtons();
+			}
+
 			if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
 					|| gameParameters.getGameMode() == GameMode.HUMAN_VS_HUMAN) {
 				startingButtonIsClicked = false;
@@ -449,7 +453,7 @@ public final class GUI {
 
 			nextHalfMoveFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
 			redoCapturedPieces.push(capturedPieces.clone());
-			if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI) {
+			if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI && !(chessBoard.blackPlays() && isGameOver)) {
 				nextHalfMoveFenPositions.push(chessBoard.getPreviousHalfMoveFenPositions().pop());
 				redoCapturedPieces.push(undoCapturedPieces.pop());
 			}
@@ -464,12 +468,6 @@ public final class GUI {
 
 			setTurnMessage();
 
-			// This is true if any terminal state has occurred.
-			// The terminal states are: "draw", "stalemate draw" & "checkmate"
-			if (!buttonsEnabled && gameParameters.getGameMode() != GameMode.AI_VS_AI) {
-				enableChessButtons();
-			}
-
 			System.out.println();
 			System.out.println(chessBoard);
 
@@ -480,6 +478,16 @@ public final class GUI {
 			if (redoItem != null) {
 				redoItem.setEnabled(true);
 			}
+
+			if (exportFenPositionItem != null) {
+				exportFenPositionItem.setEnabled(true);
+			}
+
+			if (saveCheckpointItem != null) {
+				saveCheckpointItem.setEnabled(true);
+			}
+
+			isGameOver = false;
 		}
 	}
 
