@@ -525,8 +525,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 				chessPanelEnabled = true;
 			}
 
-			if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
-					|| gameParameters.getGameMode() == GameMode.HUMAN_VS_HUMAN) {
+			if (gameParameters.getGameMode() != GameMode.AI_VS_AI) {
 				mouseIsPressed = false;
 			}
 
@@ -579,8 +578,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 				|| gameParameters.getGameMode() == GameMode.HUMAN_VS_AI && nextHalfMoveFenPositions.size() >= 2) {
 			System.out.println("Redo is pressed!");
 
-			if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
-					|| gameParameters.getGameMode() == GameMode.HUMAN_VS_HUMAN) {
+			if (gameParameters.getGameMode() != GameMode.AI_VS_AI) {
 				mouseIsPressed = false;
 			}
 

@@ -445,8 +445,7 @@ public final class GUI {
 				enableChessButtons();
 			}
 
-			if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
-					|| gameParameters.getGameMode() == GameMode.HUMAN_VS_HUMAN) {
+			if (gameParameters.getGameMode() != GameMode.AI_VS_AI) {
 				startingButtonIsClicked = false;
 				hideHintPositions();
 			}
@@ -499,8 +498,7 @@ public final class GUI {
 				|| gameParameters.getGameMode() == GameMode.HUMAN_VS_AI && nextHalfMoveFenPositions.size() >= 2) {
 			System.out.println("Redo is pressed!");
 
-			if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
-					|| gameParameters.getGameMode() == GameMode.HUMAN_VS_HUMAN) {
+			if (gameParameters.getGameMode() != GameMode.AI_VS_AI) {
 				startingButtonIsClicked = false;
 				hideHintPositions();
 			}
