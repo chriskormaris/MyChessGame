@@ -151,7 +151,7 @@ public class King extends ChessPiece {
 		}
 
 		// Right position
-		if (column + 1 < Constants.NUM_OF_COLUMNS) {
+		if (column + 1 < chessBoard.getNumOfColumns()) {
 			int newRow = row;
 			int newColumn = column + 1;
 			String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
@@ -231,7 +231,7 @@ public class King extends ChessPiece {
 		}
 
 		// Lower right diagonal position
-		if (row + 1 < chessBoard.getNumOfRows() && column + 1 < Constants.NUM_OF_COLUMNS) {
+		if (row + 1 < chessBoard.getNumOfRows() && column + 1 < chessBoard.getNumOfColumns()) {
 			int newRow = row + 1;
 			int newColumn = column + 1;
 			String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);

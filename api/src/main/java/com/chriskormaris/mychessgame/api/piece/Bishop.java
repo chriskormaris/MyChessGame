@@ -108,7 +108,7 @@ public class Bishop extends ChessPiece {
 		// Find all the lower right diagonal positions.
 		counter = 1;
 		for (int i = row + 1; i < chessBoard.getNumOfRows(); i++) {
-			if (row < chessBoard.getNumOfRows() && column + counter < Constants.NUM_OF_COLUMNS) {
+			if (row < chessBoard.getNumOfRows() && column + counter < chessBoard.getNumOfColumns()) {
 
 				int newRow = i;
 				int newColumn = column + counter;

@@ -85,7 +85,7 @@ public class Pawn extends ChessPiece {
 			}
 
 			// One step diagonally forward right.
-			if (column < Constants.NUM_OF_COLUMNS - 1) {
+			if (column < chessBoard.getNumOfColumns() - 1) {
 				if (chessPiece.getAllegiance() == Allegiance.WHITE && row > 0) {
 					newRow = row - 1;
 				} else if (chessPiece.getAllegiance() == Allegiance.BLACK && row < chessBoard.getNumOfRows() - 1) {
@@ -147,7 +147,7 @@ public class Pawn extends ChessPiece {
 			}
 
 			// One step diagonally forward right.
-			if (column < Constants.NUM_OF_COLUMNS - 1) {
+			if (column < chessBoard.getNumOfColumns() - 1) {
 				if (chessPiece.getAllegiance() == Allegiance.WHITE) {
 					newRow = row - 1;
 				} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
@@ -237,21 +237,21 @@ public class Pawn extends ChessPiece {
 			}
 		}
 		// bottom and right direction
-		if (row < chessBoard.getNumOfRows() - 1 && column < Constants.NUM_OF_COLUMNS - 1) {
+		if (row < chessBoard.getNumOfRows() - 1 && column < chessBoard.getNumOfColumns() - 1) {
 			ChessPiece neighbour = chessBoard.getGameBoard()[row + 1][column + 1];
 			if (neighbour instanceof Pawn && chessPiece.getAllegiance() == neighbour.getAllegiance()) {
 				return false;
 			}
 		}
 		// right direction
-		if (column < Constants.NUM_OF_COLUMNS - 1) {
+		if (column < chessBoard.getNumOfColumns() - 1) {
 			ChessPiece neighbour = chessBoard.getGameBoard()[row][column + 1];
 			if (neighbour instanceof Pawn && chessPiece.getAllegiance() == neighbour.getAllegiance()) {
 				return false;
 			}
 		}
 		// right and top direction
-		if (row > 0 && column < Constants.NUM_OF_COLUMNS - 1) {
+		if (row > 0 && column < chessBoard.getNumOfColumns() - 1) {
 			ChessPiece neighbour = chessBoard.getGameBoard()[row - 1][column + 1];
 			if (neighbour instanceof Pawn && chessPiece.getAllegiance() == neighbour.getAllegiance()) {
 				return false;

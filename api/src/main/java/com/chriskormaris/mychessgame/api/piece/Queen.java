@@ -76,8 +76,8 @@ public class Queen extends ChessPiece {
 		}
 
 		// Find all the right positions.
-		for (int j = column + 1; j < Constants.NUM_OF_COLUMNS; j++) {
-			if (column < Constants.NUM_OF_COLUMNS) {
+		for (int j = column + 1; j < chessBoard.getNumOfColumns(); j++) {
+			if (column < chessBoard.getNumOfColumns()) {
 				int newRow = row;
 				int newColumn = j;
 
@@ -124,7 +124,7 @@ public class Queen extends ChessPiece {
 		// Find all the upper right diagonal positions.
 		counter = 1;
 		for (int i = row - 1; i >= 0; i--) {
-			if (row >= 0 && column + counter < Constants.NUM_OF_COLUMNS) {
+			if (row >= 0 && column + counter < chessBoard.getNumOfColumns()) {
 				int newRow = i;
 				int newColumn = column + counter;
 
@@ -196,7 +196,7 @@ public class Queen extends ChessPiece {
 		// Find all the lower right diagonal positions.
 		counter = 1;
 		for (int i = row + 1; i < chessBoard.getNumOfRows(); i++) {
-			if (row < chessBoard.getNumOfRows() && column + counter < Constants.NUM_OF_COLUMNS) {
+			if (row < chessBoard.getNumOfRows() && column + counter < chessBoard.getNumOfColumns()) {
 				int newRow = i;
 				int newColumn = column + counter;
 

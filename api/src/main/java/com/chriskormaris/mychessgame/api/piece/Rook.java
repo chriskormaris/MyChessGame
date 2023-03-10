@@ -77,8 +77,8 @@ public class Rook extends ChessPiece {
 		}
 
 		// Find all the right positions.
-		for (int j = column + 1; j < Constants.NUM_OF_COLUMNS; j++) {
-			if (column < Constants.NUM_OF_COLUMNS) {
+		for (int j = column + 1; j < chessBoard.getNumOfColumns(); j++) {
+			if (column < chessBoard.getNumOfColumns()) {
 				int newRow = row;
 				int newColumn = j;
 
