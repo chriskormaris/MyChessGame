@@ -307,9 +307,8 @@ public final class GUI {
 							+ "Version " + GuiConstants.VERSION + "</html>"
 			);
 
-			BufferedImage img = null;
 			try {
-				img = ImageIO.read(ResourceLoader.load(GuiConstants.ICON_PATH));
+				BufferedImage img = ImageIO.read(ResourceLoader.load(GuiConstants.ICON_PATH));
 
 				Image dImg = img.getScaledInstance(
 						GuiConstants.CHESS_PIECE_SQUARE_PIXEL_SIZE,
