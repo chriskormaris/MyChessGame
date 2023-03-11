@@ -101,7 +101,7 @@ public class SimplifiedEvaluation extends Evaluation {
 	public final int KING_CENTIPAWN_VALUE = 20000;
 
 	private GamePhase getGamePhase(ChessBoard chessBoard, int halfMoveNumber) {
-		// if ((chessBoard.isEndGame()) && Constants.ENDGAME_HALF_MOVES_THRESHOLD <= halfMoveNumber) {
+		// if ((chessBoard.isEndGame()) && Constants.ENDGAME_MOVES_THRESHOLD * 2 <= halfMoveNumber) {
 		if ((chessBoard.isEndGame())) {
 			return GamePhase.ENDGAME;
 		} else {

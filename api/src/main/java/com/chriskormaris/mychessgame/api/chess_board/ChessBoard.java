@@ -583,7 +583,7 @@ public class ChessBoard {
 		if (checkForWhiteStalemateDraw()) return 0;
 		if (checkForBlackStalemateDraw()) return 0;
 		if (checkForInsufficientMatingMaterialDraw()) return 0;
-		if (checkForNoCaptureDraw(50)) return 0;
+		if (checkForConditionalNoCaptureDraw()) return 0;
 		if (checkForThreefoldRepetitionDraw()) return 0;
 
 		return minimaxAI.getEvaluation().evaluate(this);
@@ -608,7 +608,7 @@ public class ChessBoard {
 
 		if (checkForInsufficientMatingMaterialDraw()) return true;
 
-		if (checkForNoCaptureDraw(75)) return true;
+		if (checkForUnconditionalNoCaptureDraw()) return true;
 
 		checkForThreefoldRepetitionDraw();
 		return isTerminalState();
@@ -1151,8 +1151,12 @@ public class ChessBoard {
 		return !player;
 	}
 
-	public boolean checkForNoCaptureDraw(int numOfFullMoves) {
-		return this.halfMoveClock >= numOfFullMoves * 2;
+	public boolean checkForConditionalNoCaptureDraw() {
+		return this.halfMoveClock >= Constants.CONDITIONAL_NO_CAPTURE_DRAW_MOVES_LIMIT * 2;
+	}
+
+	public boolean checkForUnconditionalNoCaptureDraw() {
+		return this.halfMoveClock >= Constants.UNCONDITIONAL_NO_CAPTURE_DRAW_MOVES_LIMIT * 2;
 	}
 
 	public String getPositionByRowCol(int row, int column) {

@@ -126,31 +126,40 @@ public final class Utilities {
 		if (chessPiece.isPromoted()) {
 			if (chessPiece.getAllegiance() == Allegiance.WHITE) {
 				return -Constants.PAWN_SCORE_VALUE;
-			} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
+			}
+			if (chessPiece.getAllegiance() == Allegiance.BLACK) {
 				return Constants.PAWN_SCORE_VALUE;
 			}
 		} else if (chessPiece.getAllegiance() == Allegiance.WHITE) {
 			if (chessPiece instanceof Pawn) {
 				return -Constants.PAWN_SCORE_VALUE;
-			} else if (chessPiece instanceof Knight) {
+			}
+			if (chessPiece instanceof Knight) {
 				return -Constants.KNIGHT_SCORE_VALUE;
-			} else if (chessPiece instanceof Bishop) {
+			}
+			if (chessPiece instanceof Bishop) {
 				return -Constants.BISHOP_SCORE_VALUE;
-			} else if (chessPiece instanceof Rook) {
+			}
+			if (chessPiece instanceof Rook) {
 				return -Constants.ROOK_SCORE_VALUE;
-			} else if (chessPiece instanceof Queen) {
+			}
+			if (chessPiece instanceof Queen) {
 				return -Constants.QUEEN_SCORE_VALUE;
 			}
 		} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
 			if (chessPiece instanceof Pawn) {
 				return Constants.PAWN_SCORE_VALUE;
-			} else if (chessPiece instanceof Knight) {
+			}
+			if (chessPiece instanceof Knight) {
 				return Constants.KNIGHT_SCORE_VALUE;
-			} else if (chessPiece instanceof Bishop) {
+			}
+			if (chessPiece instanceof Bishop) {
 				return Constants.BISHOP_SCORE_VALUE;
-			} else if (chessPiece instanceof Rook) {
+			}
+			if (chessPiece instanceof Rook) {
 				return Constants.ROOK_SCORE_VALUE;
-			} else if (chessPiece instanceof Queen) {
+			}
+			if (chessPiece instanceof Queen) {
 				return Constants.QUEEN_SCORE_VALUE;
 			}
 		}

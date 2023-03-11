@@ -1289,7 +1289,7 @@ public final class GUI {
 		}
 
 		// 75 full-moves without a Chess piece capture Draw implementation.
-		if (chessBoard.checkForNoCaptureDraw(75)) {
+		if (chessBoard.checkForUnconditionalNoCaptureDraw()) {
 			String turnMessage = "Turn: "
 					+ (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2)
 					+ ". It is a draw.";
@@ -1308,7 +1308,7 @@ public final class GUI {
 		}
 
 		// 50 full-moves without a Chess piece capture Draw implementation.
-		if (chessBoard.checkForNoCaptureDraw(50)) {
+		if (chessBoard.checkForConditionalNoCaptureDraw()) {
 			int dialogResult = -1;
 
 			// In the HUMAN_VS_AI mode, show the draw dialog, only if the AI has just made a move.
