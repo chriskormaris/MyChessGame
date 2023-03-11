@@ -310,17 +310,18 @@ public final class GUI {
 			BufferedImage img = null;
 			try {
 				img = ImageIO.read(ResourceLoader.load(GuiConstants.ICON_PATH));
+
+				Image dImg = img.getScaledInstance(
+						GuiConstants.CHESS_PIECE_SQUARE_PIXEL_SIZE,
+						GuiConstants.CHESS_PIECE_SQUARE_PIXEL_SIZE,
+						Image.SCALE_SMOOTH
+				);
+				ImageIcon imageIcon = new ImageIcon(dImg);
+
+				JOptionPane.showMessageDialog(frame, label, "About", JOptionPane.PLAIN_MESSAGE, imageIcon);
 			} catch (IOException ex) {
 				ex.printStackTrace();
 			}
-			Image dImg = img.getScaledInstance(
-					GuiConstants.CHESS_PIECE_SQUARE_PIXEL_SIZE,
-					GuiConstants.CHESS_PIECE_SQUARE_PIXEL_SIZE,
-					Image.SCALE_SMOOTH
-			);
-			ImageIcon imageIcon = new ImageIcon(dImg);
-
-			JOptionPane.showMessageDialog(frame, label, "About", JOptionPane.PLAIN_MESSAGE, imageIcon);
 		});
 
 		fileMenu.add(newGameItem);
