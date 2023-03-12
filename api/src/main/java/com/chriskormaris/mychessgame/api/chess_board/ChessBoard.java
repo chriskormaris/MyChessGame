@@ -1156,7 +1156,10 @@ public class ChessBoard {
 	}
 
 	public boolean checkForUnconditionalNoCaptureDraw() {
-		return this.halfMoveClock >= Constants.UNCONDITIONAL_NO_CAPTURE_DRAW_MOVES_LIMIT * 2;
+		if (this.halfMoveClock >= Constants.UNCONDITIONAL_NO_CAPTURE_DRAW_MOVES_LIMIT * 2) {
+			setGameResult(GameResult.NO_CAPTURE_DRAW);
+		}
+		return this.gameResult == GameResult.NO_CAPTURE_DRAW;
 	}
 
 	public String getPositionByRowCol(int row, int column) {
