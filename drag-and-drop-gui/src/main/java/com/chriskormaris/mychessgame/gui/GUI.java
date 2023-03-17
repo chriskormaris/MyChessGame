@@ -54,8 +54,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Stack;
 
-import static com.chriskormaris.mychessgame.api.util.Constants.DEFAULT_NUM_OF_ROWS;
-import static com.chriskormaris.mychessgame.api.util.Constants.NUM_OF_COLUMNS;
 import static com.chriskormaris.mychessgame.gui.util.GuiConstants.FIRST_TURN_TEXT;
 import static com.chriskormaris.mychessgame.gui.util.GuiConstants.TITLE;
 import static com.chriskormaris.mychessgame.gui.util.GuiConstants.ZERO_SCORE_TEXT;
@@ -215,11 +213,11 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 		setVisible(true);
 		setResizable(false);
 
-		int cornerPosition = getSquareIndex(DEFAULT_NUM_OF_ROWS, NUM_OF_COLUMNS);
+		int cornerPosition = getSquareIndex(chessBoard.getNumOfRows(), chessBoard.getNumOfColumns());
 		JPanel piecePanel = (JPanel) chessPanel.getComponent(cornerPosition);
 
-		squareHeight = (int) piecePanel.getLocation().getY() / DEFAULT_NUM_OF_ROWS;
-		squareWidth = (int) piecePanel.getLocation().getX() / NUM_OF_COLUMNS;
+		squareHeight = (int) piecePanel.getLocation().getY() / chessBoard.getNumOfRows();
+		squareWidth = (int) piecePanel.getLocation().getX() / chessBoard.getNumOfColumns();
 
 		JMenuBar menuBar = new JMenuBar();
 		JMenu fileMenu = new JMenu("File");
@@ -392,7 +390,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 
 		//  Add a chess board to the Layered Pane on the DEFAULT layer
 		chessPanel = new JPanel();
-		chessPanel.setLayout(new GridLayout(DEFAULT_NUM_OF_ROWS + 2, NUM_OF_COLUMNS + 2));
+		chessPanel.setLayout(new GridLayout(chessBoard.getNumOfRows() + 2, chessBoard.getNumOfColumns() + 2));
 		chessPanel.setPreferredSize(new Dimension(width, height));
 		chessPanel.setBounds(0, 0, width, height);
 		chessPanel.setFocusable(false);
@@ -408,11 +406,11 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 		// Remember: ASCII decimal character code for the character 'A' is 65
 		if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
 				&& gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
-			for (int j = NUM_OF_COLUMNS - 1; j >= 0; j--) {
+			for (int j = chessBoard.getNumOfColumns() - 1; j >= 0; j--) {
 				chessPanel.add(new JLabel(String.valueOf((char) ((int) 'A' + j)), SwingConstants.CENTER));
 			}
 		} else {
-			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
+			for (int j = 0; j < chessBoard.getNumOfColumns(); j++) {
 				chessPanel.add(new JLabel(String.valueOf((char) ((int) 'A' + j)), SwingConstants.CENTER));
 			}
 		}
@@ -421,15 +419,15 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 
 		// Build the Chess Board squares
 		// We use a 8x8 grid, and put a JPanel with BorderLayout on each square.
-		for (int i = 0; i < DEFAULT_NUM_OF_ROWS; i++) {
-			for (int j = 0; j < NUM_OF_COLUMNS + 1; j++) {
+		for (int i = 0; i < chessBoard.getNumOfRows(); i++) {
+			for (int j = 0; j < chessBoard.getNumOfColumns() + 1; j++) {
 				JPanel square = new JPanel(new BorderLayout());
 				square.setBackground((i + j) % 2 == 0
 						? gameParameters.getBlackSquareColor()
 						: gameParameters.getWhiteSquareColor());
 				square.setFocusable(false);
 
-				if (j == 0 || j == NUM_OF_COLUMNS) {
+				if (j == 0 || j == chessBoard.getNumOfColumns()) {
 					int rankNumber = gameParameters.getNumOfRows() - i;
 					if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
 							&& gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
@@ -450,11 +448,11 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 
 		if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
 				&& gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
-			for (int j = NUM_OF_COLUMNS - 1; j >= 0; j--) {
+			for (int j = chessBoard.getNumOfColumns() - 1; j >= 0; j--) {
 				chessPanel.add(new JLabel(String.valueOf((char) ((int) 'A' + j)), SwingConstants.CENTER));
 			}
 		} else {
-			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
+			for (int j = 0; j < chessBoard.getNumOfColumns(); j++) {
 				chessPanel.add(new JLabel(String.valueOf((char) ((int) 'A' + j)), SwingConstants.CENTER));
 			}
 		}
@@ -932,7 +930,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 
 	private void redrawChessPanel() {
 		for (int i = 0; i < chessBoard.getNumOfRows(); i++) {
-			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
+			for (int j = 0; j < chessBoard.getNumOfColumns(); j++) {
 				ChessPiece chessPiece = chessBoard.getGameBoard()[i][j];
 				String position = chessBoard.getPositionByRowCol(i, j);
 				removePieceFromPosition(position);
@@ -943,7 +941,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 
 	// Restores all the default values.
 	private void restoreDefaultValues() {
-		chessBoard = new ChessBoard(DEFAULT_NUM_OF_ROWS);
+		chessBoard = new ChessBoard(chessBoard.getNumOfRows());
 
 		startingPosition = "";
 		endingPosition = "";
@@ -986,7 +984,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 	public void addChessPiece(ImageIcon chessPiece, int row, int column) {
 		if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
 				&& gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
-			row = DEFAULT_NUM_OF_ROWS - 1 - row;
+			row = chessBoard.getNumOfRows() - 1 - row;
 		}
 
 		int squareIndex = getSquareIndex(row, column);
@@ -1022,7 +1020,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 
 	public void makeChessBoardSquaresEmpty() {
 		for (int i = 0; i < gameParameters.getNumOfRows(); i++) {
-			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
+			for (int j = 0; j < chessBoard.getNumOfColumns(); j++) {
 				String position = chessBoard.getPositionByRowCol(i, j);
 				removePieceFromPosition(position);
 				chessBoard.getGameBoard()[i][j] = new EmptySquare();
@@ -1043,7 +1041,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 	}
 
 	private int getSquareIndex(int row, int column) {
-		return row * (DEFAULT_NUM_OF_ROWS + 2) + column;
+		return row * (chessBoard.getNumOfRows() + 2) + column;
 	}
 
 	private int getSquareRow(MouseEvent e) {
@@ -1063,7 +1061,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 
 		if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
 				&& gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
-			row = DEFAULT_NUM_OF_ROWS - 1 - row;
+			row = chessBoard.getNumOfRows() - 1 - row;
 		}
 
 		int threshold = 2;
@@ -1457,7 +1455,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 
 		if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
 				&& gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
-			startingPositionRow = DEFAULT_NUM_OF_ROWS - 1 - startingPositionRow;
+			startingPositionRow = chessBoard.getNumOfRows() - 1 - startingPositionRow;
 		}
 
 		startingPositionRow += 1;
@@ -1475,7 +1473,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 
 			if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
 					&& gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
-				hintPositionRow = DEFAULT_NUM_OF_ROWS - 1 - hintPositionRow;
+				hintPositionRow = chessBoard.getNumOfRows() - 1 - hintPositionRow;
 			}
 
 			int hintPositionIndex = getSquareIndex(hintPositionRow + 1, hintPositionColumn + 1);
@@ -1504,12 +1502,12 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 		int column = getSquareColumn(e);
 
 		// If the rank and file JLabels are pressed, then return.
-		if (row == 0 || row == DEFAULT_NUM_OF_ROWS + 1 || column == 0 || column == NUM_OF_COLUMNS + 1) return;
+		if (row == 0 || row == chessBoard.getNumOfRows() + 1 || column == 0 || column == chessBoard.getNumOfColumns() + 1) return;
 
 		int startingRow = row;
 		if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
 				&& gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
-			startingRow = (DEFAULT_NUM_OF_ROWS + 2) - 1 - row;
+			startingRow = (chessBoard.getNumOfRows() + 2) - 1 - row;
 		}
 
 		startingPosition = chessBoard.getPositionByRowCol(startingRow - 1, column - 1);
@@ -1540,7 +1538,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 
 				if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
 						&& gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
-					hintPositionRow = DEFAULT_NUM_OF_ROWS - 1 - hintPositionRow;
+					hintPositionRow = chessBoard.getNumOfRows() - 1 - hintPositionRow;
 				}
 
 				int hintPositionIndex = getSquareIndex(hintPositionRow + 1, hintPositionColumn + 1);
@@ -1616,7 +1614,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 
 		if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
 				&& gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
-			row = (DEFAULT_NUM_OF_ROWS + 2) - 1 - row;
+			row = (chessBoard.getNumOfRows() + 2) - 1 - row;
 		}
 
 		endingPosition = chessBoard.getPositionByRowCol(row - 1, column - 1);

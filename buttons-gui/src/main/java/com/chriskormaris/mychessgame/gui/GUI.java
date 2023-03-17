@@ -58,7 +58,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Stack;
 
-import static com.chriskormaris.mychessgame.api.util.Constants.NUM_OF_COLUMNS;
 import static com.chriskormaris.mychessgame.gui.util.GuiConstants.FIRST_TURN_TEXT;
 import static com.chriskormaris.mychessgame.gui.util.GuiConstants.TITLE;
 import static com.chriskormaris.mychessgame.gui.util.GuiConstants.ZERO_SCORE_TEXT;
@@ -94,7 +93,7 @@ public final class GUI {
 
 	// The position (0, 0) of the "chessBoard.getGameBoard()" is the upper left button
 	// of the JButton array "chessButtons".
-	// The position (gameParameters.getNumOfRows()-1, 0) of the "chessBoard.getGameBoard()" is the lower left button
+	// The position (chessBoard.getNumOfRows()-1, 0) of the "chessBoard.getGameBoard()" is the lower left button
 	// of the JButton array "chessButtons".
 	public static ChessBoard chessBoard;
 
@@ -106,7 +105,7 @@ public final class GUI {
 	private static JPanel capturedPiecesPanel;
 
 	// The position (0, 0) of the chessButtons,
-	// corresponds to the position (NUM_OF_COLUMNS - 1, 0) of the ChessBoard's gameBoard.
+	// corresponds to the position (chessBoard.getNumOfColumns() - 1, 0) of the ChessBoard's gameBoard.
 	private static JButton[][] chessButtons;
 
 	// 30 captured pieces at maximum, plus 1 label for displaying the score = 31 labels size.
@@ -622,7 +621,7 @@ public final class GUI {
 		if (chessPanel != null) {
 			gui.remove(chessPanel);
 		}
-		chessPanel = new JPanel(new GridLayout(gameParameters.getNumOfRows() + 2, NUM_OF_COLUMNS + 2));
+		chessPanel = new JPanel(new GridLayout(chessBoard.getNumOfRows() + 2, chessBoard.getNumOfColumns() + 2));
 		chessPanel.setBorder(new LineBorder(Color.BLACK));
 		chessPanel.setPreferredSize(new Dimension(width, height - 100));
 		gui.add(chessPanel, BorderLayout.CENTER);
@@ -637,12 +636,12 @@ public final class GUI {
 	}
 
 	private static void initializeChessButtons() {
-		chessButtons = new JButton[gameParameters.getNumOfRows()][NUM_OF_COLUMNS];
+		chessButtons = new JButton[chessBoard.getNumOfRows()][chessBoard.getNumOfColumns()];
 
 		// Create the chess board square buttons.
 		Insets buttonMargin = new Insets(0, 0, 0, 0);
-		for (int i = 0; i < gameParameters.getNumOfRows(); i++) {
-			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
+		for (int i = 0; i < chessBoard.getNumOfRows(); i++) {
+			for (int j = 0; j < chessBoard.getNumOfColumns(); j++) {
 				JButton button = new JButton();
 				button.setMargin(buttonMargin);
 
@@ -671,8 +670,8 @@ public final class GUI {
 				int column;
 				if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
 						&& gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
-					row = gameParameters.getNumOfRows() - 1 - i;
-					column = Constants.NUM_OF_COLUMNS - 1 - j;
+					row = chessBoard.getNumOfRows() - 1 - i;
+					column = chessBoard.getNumOfColumns() - 1 - j;
 				} else {
 					row = i;
 					column = j;
@@ -691,21 +690,21 @@ public final class GUI {
 		// Remember: ASCII decimal character code for the character 'A' is 65
 		if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
 				&& gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
-			for (int j = NUM_OF_COLUMNS - 1; j >= 0; j--) {
+			for (int j = chessBoard.getNumOfColumns() - 1; j >= 0; j--) {
 				chessPanel.add(new JLabel(String.valueOf((char) ((int) 'A' + j)), SwingConstants.CENTER));
 			}
 		} else {
-			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
+			for (int j = 0; j < chessBoard.getNumOfColumns(); j++) {
 				chessPanel.add(new JLabel(String.valueOf((char) ((int) 'A' + j)), SwingConstants.CENTER));
 			}
 		}
 
 		chessPanel.add(new JLabel(""));
 		// fill the black non-pawn chessPiece row
-		for (int i = 0; i < gameParameters.getNumOfRows(); i++) {
-			for (int j = 0; j < NUM_OF_COLUMNS + 1; j++) {
-				if (j == 0 || j == NUM_OF_COLUMNS) {
-					int rankNumber = gameParameters.getNumOfRows() - i;
+		for (int i = 0; i < chessBoard.getNumOfRows(); i++) {
+			for (int j = 0; j < chessBoard.getNumOfColumns() + 1; j++) {
+				if (j == 0 || j == chessBoard.getNumOfColumns()) {
+					int rankNumber = chessBoard.getNumOfRows() - i;
 					if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
 							&& gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
 						rankNumber = i + 1;
@@ -724,11 +723,11 @@ public final class GUI {
 		chessPanel.add(new JLabel(""));
 		if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
 				&& gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
-			for (int j = NUM_OF_COLUMNS - 1; j >= 0; j--) {
+			for (int j = chessBoard.getNumOfColumns() - 1; j >= 0; j--) {
 				chessPanel.add(new JLabel(String.valueOf((char) ((int) 'A' + j)), SwingConstants.CENTER));
 			}
 		} else {
-			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
+			for (int j = 0; j < chessBoard.getNumOfColumns(); j++) {
 				chessPanel.add(new JLabel(String.valueOf((char) ((int) 'A' + j)), SwingConstants.CENTER));
 			}
 		}
@@ -802,7 +801,7 @@ public final class GUI {
 
 	// Restores all the default values.
 	private static void restoreDefaultValues() {
-		chessBoard = new ChessBoard(gameParameters.getNumOfRows());
+		chessBoard = new ChessBoard(chessBoard.getNumOfRows());
 
 		startingPosition = "";
 		endingPosition = "";
@@ -939,8 +938,8 @@ public final class GUI {
 					int hintPositionButtonColumn = hintPositionColumn;
 					if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
 							&& gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
-						hintPositionButtonRow = gameParameters.getNumOfRows() - 1 - hintPositionRow;
-						hintPositionButtonColumn = NUM_OF_COLUMNS - 1 - hintPositionColumn;
+						hintPositionButtonRow = chessBoard.getNumOfRows() - 1 - hintPositionRow;
+						hintPositionButtonColumn = chessBoard.getNumOfColumns() - 1 - hintPositionColumn;
 					}
 					JButton hintPositionButton = chessButtons[hintPositionButtonRow][hintPositionButtonColumn];
 					ChessPiece hintPositionPiece = chessBoard.getGameBoard()[hintPositionRow][hintPositionColumn];
@@ -952,7 +951,7 @@ public final class GUI {
 					} else if (chessPiece instanceof Pawn &&
 							(chessPiece.getAllegiance() == Allegiance.WHITE && hintPositionRow == 0
 									|| chessPiece.getAllegiance() == Allegiance.BLACK
-									&& hintPositionRow == gameParameters.getNumOfRows() - 1)) {
+									&& hintPositionRow == chessBoard.getNumOfRows() - 1)) {
 						GuiUtils.changeSquareColor(hintPositionButton, Color.GREEN);
 					} else if (hintPositionPiece instanceof EmptySquare) {
 						GuiUtils.changeSquareColor(hintPositionButton, Color.BLUE);
@@ -1017,7 +1016,7 @@ public final class GUI {
 		// If AI plays, automatically choose the best promotion piece, based on the best outcome.
 		if (startingPiece instanceof Pawn
 				&& (startingPiece.getAllegiance() == Allegiance.WHITE && rowEnd == 0
-				|| startingPiece.getAllegiance() == Allegiance.BLACK && rowEnd == gameParameters.getNumOfRows() - 1)) {
+				|| startingPiece.getAllegiance() == Allegiance.BLACK && rowEnd == chessBoard.getNumOfRows() - 1)) {
 			if (isAiMove) {
 				chessBoard.automaticPawnPromotion(startingPiece, positionEnd, true);
 
@@ -1500,8 +1499,8 @@ public final class GUI {
 
 			if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
 					&& gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
-				startingPositionRow = gameParameters.getNumOfRows() - 1 - startingPositionRow;
-				startingPositionColumn = NUM_OF_COLUMNS - 1 - startingPositionColumn;
+				startingPositionRow = chessBoard.getNumOfRows() - 1 - startingPositionRow;
+				startingPositionColumn = chessBoard.getNumOfColumns() - 1 - startingPositionColumn;
 			}
 			JButton startingButton = chessButtons[startingPositionRow][startingPositionColumn];
 			Color startingButtonColor = getColorByRowCol(startingPositionRow, startingPositionColumn);
@@ -1514,8 +1513,8 @@ public final class GUI {
 
 			if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
 					&& gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
-				row = gameParameters.getNumOfRows() - 1 - row;
-				column = NUM_OF_COLUMNS - 1 - column;
+				row = chessBoard.getNumOfRows() - 1 - row;
+				column = chessBoard.getNumOfColumns() - 1 - column;
 			}
 			JButton button = chessButtons[row][column];
 			Color buttonColor = getColorByRowCol(row, column);
@@ -1546,8 +1545,8 @@ public final class GUI {
 
 		if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
 				&& gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
-			row = gameParameters.getNumOfRows() - 1 - row;
-			column = NUM_OF_COLUMNS - 1 - column;
+			row = chessBoard.getNumOfRows() - 1 - row;
+			column = chessBoard.getNumOfColumns() - 1 - column;
 		}
 		chessButtons[row][column].setIcon(pieceImage);
 	}
@@ -1561,8 +1560,8 @@ public final class GUI {
 
 		if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
 				&& gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
-			row = gameParameters.getNumOfRows() - 1 - row;
-			column = NUM_OF_COLUMNS - 1 - column;
+			row = chessBoard.getNumOfRows() - 1 - row;
+			column = chessBoard.getNumOfColumns() - 1 - column;
 		}
 
 		// Our chess board pieces are 64x64 px in size, so we'll
@@ -1576,8 +1575,8 @@ public final class GUI {
 	}
 
 	private static void redrawChessButtons() {
-		for (int i = 0; i < gameParameters.getNumOfRows(); i++) {
-			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
+		for (int i = 0; i < chessBoard.getNumOfRows(); i++) {
+			for (int j = 0; j < chessBoard.getNumOfColumns(); j++) {
 				ChessPiece chessPiece = chessBoard.getGameBoard()[i][j];
 				String position = chessBoard.getPositionByRowCol(i, j);
 				placePieceToPosition(position, chessPiece);
@@ -1595,10 +1594,10 @@ public final class GUI {
 	}
 
 	public static void placePiecesToChessBoard(String fenPosition) {
-		chessBoard = FenUtils.getChessBoardFromFenPosition(fenPosition, gameParameters.getNumOfRows());
+		chessBoard = FenUtils.getChessBoardFromFenPosition(fenPosition, chessBoard.getNumOfRows());
 
-		for (int i = 0; i < gameParameters.getNumOfRows(); i++) {
-			for (int j = 0; j < Constants.NUM_OF_COLUMNS; j++) {
+		for (int i = 0; i < chessBoard.getNumOfRows(); i++) {
+			for (int j = 0; j < chessBoard.getNumOfColumns(); j++) {
 				String piecePosition = chessBoard.getPositionByRowCol(i, j);
 				placePieceToPosition(piecePosition, chessBoard.getGameBoard()[i][j]);
 			}
@@ -1607,8 +1606,8 @@ public final class GUI {
 	}
 
 	public static void makeChessBoardSquaresEmpty() {
-		for (int i = 0; i < gameParameters.getNumOfRows(); i++) {
-			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
+		for (int i = 0; i < chessBoard.getNumOfRows(); i++) {
+			for (int j = 0; j < chessBoard.getNumOfColumns(); j++) {
 				// Our chess board pieces are 64x64 px in size, so we'll
 				// 'fill this in' using a transparent icon.
 				ImageIcon imageIcon = new ImageIcon(
@@ -1631,8 +1630,8 @@ public final class GUI {
 	}
 
 	private static void enableChessButtons() {
-		for (int i = 0; i < gameParameters.getNumOfRows(); i++) {
-			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
+		for (int i = 0; i < chessBoard.getNumOfRows(); i++) {
+			for (int j = 0; j < chessBoard.getNumOfColumns(); j++) {
 				JButton button = chessButtons[i][j];
 				button.setEnabled(true);
 
@@ -1640,8 +1639,8 @@ public final class GUI {
 				int column;
 				if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
 						&& gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
-					row = gameParameters.getNumOfRows() - 1 - i;
-					column = NUM_OF_COLUMNS - 1 - j;
+					row = chessBoard.getNumOfRows() - 1 - i;
+					column = chessBoard.getNumOfColumns() - 1 - j;
 				} else {
 					row = i;
 					column = j;
@@ -1654,8 +1653,8 @@ public final class GUI {
 	}
 
 	private static void disableChessBoardSquares() {
-		for (int i = 0; i < gameParameters.getNumOfRows(); i++) {
-			for (int j = 0; j < NUM_OF_COLUMNS; j++) {
+		for (int i = 0; i < chessBoard.getNumOfRows(); i++) {
+			for (int j = 0; j < chessBoard.getNumOfColumns(); j++) {
 				ActionListener[] actionListeners = chessButtons[i][j].getActionListeners();
 				if (actionListeners.length > 0) {
 					chessButtons[i][j].removeActionListener(actionListeners[0]);
