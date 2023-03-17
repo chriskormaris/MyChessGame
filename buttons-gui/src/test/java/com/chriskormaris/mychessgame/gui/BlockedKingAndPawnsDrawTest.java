@@ -31,9 +31,7 @@ public class BlockedKingAndPawnsDrawTest {
 		// if the White pawn is moved!
 		String fenPosition = "4k3/8/8/p2p2p1/3P2P1/P7/8/4K3 w KQ - 0 1";
 
-		GUI.placePiecesToChessBoard(fenPosition);
-
-		System.out.println(GUI.chessBoard);
+		GUI.startNewGame(fenPosition);
 
 		System.out.println("Checking if a draw has occurred...");
 		GUI.checkForGameOver();

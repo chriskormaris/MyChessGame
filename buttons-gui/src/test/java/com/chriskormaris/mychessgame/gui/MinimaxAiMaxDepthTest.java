@@ -12,8 +12,6 @@ public class MinimaxAiMaxDepthTest {
 
 		GUI.create(title);
 
-		GUI.placePiecesToStartingPositions();
-
 		// newGameParameters.gameMode = GameMode.AI_VS_AI;
 		// newGameParameters.aiType = AiType.MINIMAX_AI;
 

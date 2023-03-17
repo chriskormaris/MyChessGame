@@ -1584,15 +1584,6 @@ public final class GUI {
 		}
 	}
 
-	public static void placePiecesToStartingPositions() {
-		chessBoard.placePiecesToStartingPositions();
-		redrawChessButtons();
-
-		chessBoard.setThreats();
-
-		setTurnMessage();
-	}
-
 	public static void placePiecesToChessBoard(String fenPosition) {
 		chessBoard = FenUtils.getChessBoardFromFenPosition(fenPosition, chessBoard.getNumOfRows());
 

@@ -21,14 +21,7 @@ public class StalemateCheckmateTest {
 		// String fenPosition = "3R1Knk/8/8/5Q2/8/8/8/8 w - - 3 5";
 		String fenPosition = "5Kbk/5R2/8/5Q2/8/8/8/8 w - - 3 5";
 
-		GUI.placePiecesToChessBoard(fenPosition);
-
-		System.out.println(GUI.chessBoard);
-
-		System.out.println();
-
-		System.out.println("*****************************");
-		System.out.println();
+		GUI.startNewGame(fenPosition);
 
 		while (true) ;
 	}

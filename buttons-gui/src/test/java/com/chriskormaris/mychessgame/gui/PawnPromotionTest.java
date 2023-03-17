@@ -42,15 +42,7 @@ public class PawnPromotionTest {
 		// If you use this FEN position, you will lose if the White player promotes the Pawn to Knight.
 		// String fenPosition = "7R/2Ppkp2/3bpn2/8/8/1p6/2p5/4K3 b - - 0 1";
 
-		GUI.placePiecesToChessBoard(fenPosition);
-		System.out.println(GUI.chessBoard);
-
-		// playAiVsAi();
-
-		System.out.println();
-
-		System.out.println("*****************************");
-		System.out.println();
+		GUI.startNewGame(fenPosition);
 
 		while (true) ;
 	}

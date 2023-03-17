@@ -29,16 +29,7 @@ public class EnPassantTest {
 
 		// String fenPosition = "4k3/7p/8/8/1Pp3P1/8/8/4K3 b - B3 0 1";
 
-		GUI.placePiecesToChessBoard(fenPosition);
-		System.out.println(GUI.chessBoard);
-
-		// disableChessBoardSquares();
-		// playAiVsAi();
-
-		System.out.println();
-
-		System.out.println("*****************************");
-		System.out.println();
+		GUI.startNewGame(fenPosition);
 
 		while (true) ;
 	}

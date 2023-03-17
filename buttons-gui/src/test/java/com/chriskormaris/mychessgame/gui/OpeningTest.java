@@ -24,13 +24,7 @@ public class OpeningTest {
 		// String fenPosition = "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1";
 		String fenPosition = "rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2";
 
-		GUI.placePiecesToChessBoard(fenPosition);
-		System.out.println(GUI.chessBoard);
-
-		System.out.println();
-
-		System.out.println("*****************************");
-		System.out.println();
+		GUI.startNewGame(fenPosition);
 
 		while (true) ;
 	}

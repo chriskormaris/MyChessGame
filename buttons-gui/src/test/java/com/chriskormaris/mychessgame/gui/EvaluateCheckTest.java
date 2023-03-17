@@ -16,14 +16,7 @@ public class EvaluateCheckTest {
 
 		// The Black Queen should capture the White Queen instead of going for a Check.
 		String fenPosition = "4k3/8/3q4/8/5Q2/8/8/R3K2R w KQkq - 0 1";
-		GUI.placePiecesToChessBoard(fenPosition);
-
-		System.out.println(GUI.chessBoard);
-
-		System.out.println();
-
-		System.out.println("*****************************");
-		System.out.println();
+		GUI.startNewGame(fenPosition);
 
 		while (true) ;
 	}
