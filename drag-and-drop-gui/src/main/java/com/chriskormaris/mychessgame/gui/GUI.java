@@ -1502,7 +1502,10 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 		int column = getSquareColumn(e);
 
 		// If the rank and file JLabels are pressed, then return.
-		if (row == 0 || row == chessBoard.getNumOfRows() + 1 || column == 0 || column == chessBoard.getNumOfColumns() + 1) return;
+		if (row == 0 || row == chessBoard.getNumOfRows() + 1
+				|| column == 0 || column == chessBoard.getNumOfColumns() + 1) {
+			return;
+		}
 
 		int startingRow = row;
 		if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
