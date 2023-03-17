@@ -93,7 +93,7 @@ public final class GUI {
 
 	// The position (0, 0) of the "chessBoard.getGameBoard()" is the upper left button
 	// of the JButton array "chessButtons".
-	// The position (chessBoard.getNumOfRows()-1, 0) of the "chessBoard.getGameBoard()" is the lower left button
+	// The position (chessBoard.getNumOfRows() - 1, 0) of the "chessBoard.getGameBoard()" is the lower left button
 	// of the JButton array "chessButtons".
 	public static ChessBoard chessBoard;
 

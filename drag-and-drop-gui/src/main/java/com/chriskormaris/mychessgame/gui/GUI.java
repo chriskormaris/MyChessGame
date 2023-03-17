@@ -101,7 +101,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 
 	// The position (0, 0) of the "chessBoard.getGameBoard()" is the upper left square
 	// of the JPanel "chessPanel".
-	// The position (gameParameters.getNumOfRows()-1, 0) of the "chessBoard.getGameBoard()" is the lower left square
+	// The position (chessBoard.getNumOfRows() - 1, 0) of the "chessBoard.getGameBoard()" is the lower left square
 	// of the JPanel "chessPanel".
 	ChessBoard chessBoard;
 
@@ -428,7 +428,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 				square.setFocusable(false);
 
 				if (j == 0 || j == chessBoard.getNumOfColumns()) {
-					int rankNumber = gameParameters.getNumOfRows() - i;
+					int rankNumber = chessBoard.getNumOfRows() - i;
 					if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
 							&& gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
 						rankNumber = i + 1;
@@ -1019,7 +1019,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 	}
 
 	public void makeChessBoardSquaresEmpty() {
-		for (int i = 0; i < gameParameters.getNumOfRows(); i++) {
+		for (int i = 0; i < chessBoard.getNumOfRows(); i++) {
 			for (int j = 0; j < chessBoard.getNumOfColumns(); j++) {
 				String position = chessBoard.getPositionByRowCol(i, j);
 				removePieceFromPosition(position);
@@ -1554,7 +1554,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 				} else if (chessPiece instanceof Pawn &&
 						(chessPiece.getAllegiance() == Allegiance.WHITE && hintPositionRow == 0
 								|| chessPiece.getAllegiance() == Allegiance.BLACK
-								&& hintPositionRow == gameParameters.getNumOfRows() - 1)) {
+								&& hintPositionRow == chessBoard.getNumOfRows() - 1)) {
 					hintPositionComponent.setBackground(Color.GREEN);
 				} else if (hintPositionPiece instanceof EmptySquare) {
 					hintPositionComponent.setBackground(Color.BLUE);
