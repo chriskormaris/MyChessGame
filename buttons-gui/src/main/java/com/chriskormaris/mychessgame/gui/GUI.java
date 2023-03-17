@@ -931,33 +931,31 @@ public final class GUI {
 				GuiUtils.changeSquareColor(button, Color.CYAN);
 
 				// Display the hint positions.
-				if (hintPositions != null && hintPositions.size() > 0) {
-					for (String hintPosition : hintPositions) {
-						int hintPositionRow = chessBoard.getRowFromPosition(hintPosition);
-						int hintPositionColumn = chessBoard.getColumnFromPosition(hintPosition);
+				for (String hintPosition : hintPositions) {
+					int hintPositionRow = chessBoard.getRowFromPosition(hintPosition);
+					int hintPositionColumn = chessBoard.getColumnFromPosition(hintPosition);
 
-						int hintPositionButtonRow = hintPositionRow;
-						int hintPositionButtonColumn = hintPositionColumn;
-						if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
-								&& gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
-							hintPositionButtonRow = gameParameters.getNumOfRows() - 1 - hintPositionRow;
-							hintPositionButtonColumn = NUM_OF_COLUMNS - 1 - hintPositionColumn;
-						}
-						JButton hintPositionButton = chessButtons[hintPositionButtonRow][hintPositionButtonColumn];
-						ChessPiece hintPositionPiece = chessBoard.getGameBoard()[hintPositionRow][hintPositionColumn];
+					int hintPositionButtonRow = hintPositionRow;
+					int hintPositionButtonColumn = hintPositionColumn;
+					if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
+							&& gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
+						hintPositionButtonRow = gameParameters.getNumOfRows() - 1 - hintPositionRow;
+						hintPositionButtonColumn = NUM_OF_COLUMNS - 1 - hintPositionColumn;
+					}
+					JButton hintPositionButton = chessButtons[hintPositionButtonRow][hintPositionButtonColumn];
+					ChessPiece hintPositionPiece = chessBoard.getGameBoard()[hintPositionRow][hintPositionColumn];
 
-						if (hintPositionPiece.getAllegiance() != Allegiance.NONE
-								|| chessBoard.getEnPassantPosition().equals(hintPosition)
-								&& chessPiece instanceof Pawn) {
-							GuiUtils.changeSquareColor(hintPositionButton, Color.RED);
-						} else if (chessPiece instanceof Pawn &&
-								(chessPiece.getAllegiance() == Allegiance.WHITE && hintPositionRow == 0
-										|| chessPiece.getAllegiance() == Allegiance.BLACK
-										&& hintPositionRow == gameParameters.getNumOfRows() - 1)) {
-							GuiUtils.changeSquareColor(hintPositionButton, Color.GREEN);
-						} else if (hintPositionPiece instanceof EmptySquare) {
-							GuiUtils.changeSquareColor(hintPositionButton, Color.BLUE);
-						}
+					if (hintPositionPiece.getAllegiance() != Allegiance.NONE
+							|| chessBoard.getEnPassantPosition().equals(hintPosition)
+							&& chessPiece instanceof Pawn) {
+						GuiUtils.changeSquareColor(hintPositionButton, Color.RED);
+					} else if (chessPiece instanceof Pawn &&
+							(chessPiece.getAllegiance() == Allegiance.WHITE && hintPositionRow == 0
+									|| chessPiece.getAllegiance() == Allegiance.BLACK
+									&& hintPositionRow == gameParameters.getNumOfRows() - 1)) {
+						GuiUtils.changeSquareColor(hintPositionButton, Color.GREEN);
+					} else if (hintPositionPiece instanceof EmptySquare) {
+						GuiUtils.changeSquareColor(hintPositionButton, Color.BLUE);
 					}
 				}
 
@@ -1026,14 +1024,14 @@ public final class GUI {
 				ChessPiece promotedPiece = chessBoard.getGameBoard()[rowEnd][columnEnd];
 				if (promotedPiece.getAllegiance() == Allegiance.WHITE) {
 					JOptionPane.showMessageDialog(
-							null,
+							frame,
 							"Promoting White Pawn to " + promotedPiece + "!",
 							"White Pawn Promotion",
 							JOptionPane.INFORMATION_MESSAGE
 					);
 				} else if (promotedPiece.getAllegiance() == Allegiance.BLACK) {
 					JOptionPane.showMessageDialog(
-							null,
+							frame,
 							"Promoting Black Pawn to " + promotedPiece + "!",
 							"Black Pawn Promotion",
 							JOptionPane.INFORMATION_MESSAGE
@@ -1172,7 +1170,6 @@ public final class GUI {
 	}
 
 	public static boolean checkForGameOver() {
-
 		/* Check for White checkmate. */
 		if (chessBoard.blackPlays()) {
 			chessBoard.checkForWhiteCheckmate();
@@ -1538,21 +1535,20 @@ public final class GUI {
 	}
 
 	// It inserts the given chessPiece to the given position on the board
-	// (both the data structure and the GUI)
+	// (both the data structure and the GUI).
 	public static void placePieceToPosition(String position, ChessPiece chessPiece) {
-		String imagePath = GuiUtils.getImagePath(chessPiece);
-
 		int row = chessBoard.getRowFromPosition(position);
 		int column = chessBoard.getColumnFromPosition(position);
-
 		chessBoard.getGameBoard()[row][column] = chessPiece;
+
+		String imagePath = GuiUtils.getImagePath(chessPiece);
+		ImageIcon pieceImage = GuiUtils.preparePieceIcon(imagePath, GuiConstants.CHESS_PIECE_SQUARE_PIXEL_SIZE);
 
 		if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
 				&& gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
 			row = gameParameters.getNumOfRows() - 1 - row;
 			column = NUM_OF_COLUMNS - 1 - column;
 		}
-		ImageIcon pieceImage = GuiUtils.preparePieceIcon(imagePath, GuiConstants.CHESS_PIECE_SQUARE_PIXEL_SIZE);
 		chessButtons[row][column].setIcon(pieceImage);
 	}
 

@@ -101,10 +101,10 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 	Stack<char[]> undoCapturedPieces;
 	Stack<char[]> redoCapturedPieces;
 
-	// The position (0, 0) of the "chessBoard.getGameBoard()" is the upper left button
-	// of the JButton array "chessBoardButtons".
-	// The position (gameParameters.getNumOfRows()-1, 0) of the "chessBoard.getGameBoard()" is the lower left button
-	// of the JButton array "chessBoardButtons".
+	// The position (0, 0) of the "chessBoard.getGameBoard()" is the upper left square
+	// of the JPanel "chessPanel".
+	// The position (gameParameters.getNumOfRows()-1, 0) of the "chessBoard.getGameBoard()" is the lower left square
+	// of the JPanel "chessPanel".
 	ChessBoard chessBoard;
 
 	// This variable is used for the implementation of "Human Vs AI".
@@ -419,7 +419,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 
 		chessPanel.add(new JLabel(""));
 
-		//  Build the Chess Board squares
+		// Build the Chess Board squares
 		// We use a 8x8 grid, and put a JPanel with BorderLayout on each square.
 		for (int i = 0; i < DEFAULT_NUM_OF_ROWS; i++) {
 			for (int j = 0; j < NUM_OF_COLUMNS + 1; j++) {
@@ -605,10 +605,6 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 			updateCapturedPiecesPanel();
 
 			setTurnMessage();
-
-			for (int i = 0; i < 31; i++) {
-				capturedPiecesPanel.add(capturedPiecesImages[i]);
-			}
 
 			if (nextHalfMoveFenPositions.isEmpty()) {
 				redoItem.setEnabled(false);
@@ -1034,17 +1030,16 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 		}
 	}
 
+	// It inserts the given chessPiece to the given position on the board
+	// (both the data structure and the GUI).
 	public void placePieceToPosition(String position, ChessPiece chessPiece) {
-		String imagePath = GuiUtils.getImagePath(chessPiece);
-
-		ImageIcon pieceImage = GuiUtils.preparePieceIcon(imagePath, GuiConstants.CHESS_PIECE_SQUARE_PIXEL_SIZE);
-
 		int column = chessBoard.getColumnFromPosition(position);
 		int row = chessBoard.getRowFromPosition(position);
-
-		addChessPiece(pieceImage, row, column);
-
 		chessBoard.getGameBoard()[row][column] = chessPiece;
+
+		String imagePath = GuiUtils.getImagePath(chessPiece);
+		ImageIcon pieceImage = GuiUtils.preparePieceIcon(imagePath, GuiConstants.CHESS_PIECE_SQUARE_PIXEL_SIZE);
+		addChessPiece(pieceImage, row, column);
 	}
 
 	private int getSquareIndex(int row, int column) {
@@ -1212,7 +1207,6 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 	}
 
 	public boolean checkForGameOver() {
-
 		/* Check for White checkmate. */
 		if (chessBoard.blackPlays()) {
 			chessBoard.checkForWhiteCheckmate();
@@ -1539,6 +1533,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 			Component startingComponent = chessPanel.getComponent(startingIndex);
 			startingComponent.setBackground(Color.CYAN);
 
+			// Display the hint positions.
 			for (String hintPosition : hintPositions) {
 				int hintPositionRow = chessBoard.getRowFromPosition(hintPosition);
 				int hintPositionColumn = chessBoard.getColumnFromPosition(hintPosition);
@@ -1581,14 +1576,14 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 		layeredPane.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 	}
 
-	//  Move the chess piece around
+	//  Move the chess piece around.
 	@Override
 	public void mouseDragged(MouseEvent me) {
 		if (pieceLabel == null || startingPosition.equals("")) return;
 
 		removeKeyListener(undoRedoKeyListener);
 
-		// The drag location should be within the bounds of the chess board.
+		// The drag location should be within the bounds of the Chess board.
 
 		int x = me.getX() + xAdjustment;
 		int xMax = layeredPane.getWidth() - pieceLabel.getWidth();
@@ -1605,7 +1600,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 		pieceLabel.setLocation(x, y);
 	}
 
-	//  Drop the chess piece back onto the chess board
+	//  Drop the chess piece back onto the Chess board.
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		layeredPane.setCursor(null);
@@ -1626,11 +1621,11 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 
 		endingPosition = chessBoard.getPositionByRowCol(row - 1, column - 1);
 
-		//  Make sure the chess piece is no longer painted on the layered pane
+		// Make sure the Chess piece is no longer painted on the layered pane.
 		pieceLabel.setVisible(false);
 		layeredPane.remove(pieceLabel);
 
-		//  The drop location should be within the bounds of the chess board
+		// The drop location should be within the bounds of the Chess board.
 		int xMax = layeredPane.getWidth() - pieceLabel.getWidth();
 		int x = Math.min(e.getX(), xMax);
 		x = Math.max(x, 0);
