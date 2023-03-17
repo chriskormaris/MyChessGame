@@ -33,7 +33,7 @@ public class RandomChoiceAI extends AI {
 
 		/* STEP 1. Random starting position. */
 		for (int i = 0; i < chessBoard.getNumOfRows(); i++) {
-			for (int j = 0; j < Constants.NUM_OF_COLUMNS; j++) {
+			for (int j = 0; j < chessBoard.getNumOfColumns(); j++) {
 				if (whitePlays() && chessBoard.getGameBoard()[i][j].getAllegiance() == Allegiance.WHITE
 						|| blackPlays() && chessBoard.getGameBoard()[i][j].getAllegiance() == Allegiance.BLACK) {
 					String randomStartingPosition = chessBoard.getPositionByRowCol(i, j);

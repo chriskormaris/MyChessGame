@@ -154,7 +154,7 @@ public class SimplifiedEvaluation extends Evaluation {
 		GamePhase gamePhase = getGamePhase(chessBoard, chessBoard.getHalfMoveNumber());
 
 		for (int i = 0; i < chessBoard.getNumOfRows(); i++) {
-			for (int j = 0; j < Constants.NUM_OF_COLUMNS; j++) {
+			for (int j = 0; j < chessBoard.getNumOfColumns(); j++) {
 				ChessPiece chessPiece = chessBoard.getGameBoard()[i][j];
 				if (chessPiece.getAllegiance() == Allegiance.WHITE) {
 					score += 2 * getPieceCentipawnValue(chessPiece);

@@ -119,7 +119,7 @@ public class ChessBoard {
 
 	public ChessBoard(int numOfRows) {
 		this.numOfRows = numOfRows;
-		this.numOfColumns = Constants.NUM_OF_COLUMNS;
+		this.numOfColumns = Constants.DEFAULT_NUM_OF_COLUMNS;
 
 		this.lastMove = new Move();
 

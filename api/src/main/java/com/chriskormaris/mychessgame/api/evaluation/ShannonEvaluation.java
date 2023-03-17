@@ -48,7 +48,7 @@ public class ShannonEvaluation extends Evaluation {
 		int score = 0;
 
 		for (int i = 0; i < chessBoard.getNumOfRows(); i++) {
-			for (int j = 0; j < Constants.NUM_OF_COLUMNS; j++) {
+			for (int j = 0; j < chessBoard.getNumOfColumns(); j++) {
 				ChessPiece chessPiece = chessBoard.getGameBoard()[i][j];
 
 				String position = chessBoard.getPositionByRowCol(i, j);

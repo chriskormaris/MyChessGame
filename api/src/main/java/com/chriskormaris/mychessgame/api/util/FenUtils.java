@@ -166,7 +166,7 @@ public final class FenUtils {
 		/* Step 1: Append the chess gameBoard pieces positions */
 		for (int i = 0; i < chessBoard.getNumOfRows(); i++) {
 			int emptySquaresCounter = 0;
-			for (int j = 0; j < Constants.NUM_OF_COLUMNS; j++) {
+			for (int j = 0; j < chessBoard.getNumOfColumns(); j++) {
 				// Get the chessPiece in the indices [i][j], from the gameBoard.
 				ChessPiece chessPiece = chessBoard.getGameBoard()[i][j];
 				// Convert chessPiece value to chessPiece character.

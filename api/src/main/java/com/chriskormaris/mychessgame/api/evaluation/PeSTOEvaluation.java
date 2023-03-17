@@ -247,7 +247,7 @@ public class PeSTOEvaluation extends Evaluation {
 		int endgameScore = 0;
 
 		for (int i = 0; i < chessBoard.getNumOfRows(); i++) {
-			for (int j = 0; j < Constants.NUM_OF_COLUMNS; j++) {
+			for (int j = 0; j < chessBoard.getNumOfColumns(); j++) {
 				ChessPiece chessPiece = chessBoard.getGameBoard()[i][j];
 				gamePhase += Utilities.getPieceGamePhaseValue(chessPiece);
 
