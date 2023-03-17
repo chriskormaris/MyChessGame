@@ -1018,16 +1018,6 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 		chessBoard.setThreats();
 	}
 
-	public void makeChessBoardSquaresEmpty() {
-		for (int i = 0; i < chessBoard.getNumOfRows(); i++) {
-			for (int j = 0; j < chessBoard.getNumOfColumns(); j++) {
-				String position = chessBoard.getPositionByRowCol(i, j);
-				removePieceFromPosition(position);
-				chessBoard.getGameBoard()[i][j] = new EmptySquare();
-			}
-		}
-	}
-
 	// It inserts the given chessPiece to the given position on the board
 	// (both the data structure and the GUI).
 	public void placePieceToPosition(String position, ChessPiece chessPiece) {
