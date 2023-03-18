@@ -15,25 +15,22 @@ public class ThreefoldRepetitionDrawTest {
 	public void testThreefoldRepetitionDraw() {
 		String title = "Threefold Repetition Draw Test";
 
-		GUI.create(title);
+		GUI gui = new GUI(title);
 
-		GUI.newGameParameters.setGameMode(GameMode.HUMAN_VS_HUMAN);
-		GUI.startNewGame();
+		gui.newGameParameters.setGameMode(GameMode.HUMAN_VS_HUMAN);
+		gui.startNewGame();
 
-		GUI.makeChessBoardSquaresEmpty();
+		gui.makeChessBoardSquaresEmpty();
 
-		GUI.placePieceToPosition("A1", new King(Allegiance.WHITE));
-		GUI.placePieceToPosition("A2", new Bishop(Allegiance.WHITE));
-		GUI.placePieceToPosition("A3", new Knight(Allegiance.WHITE));
-		GUI.placePieceToPosition("A4", new Knight(Allegiance.WHITE));
+		gui.placePieceToPosition("A1", new King(Allegiance.WHITE));
+		gui.placePieceToPosition("A2", new Bishop(Allegiance.WHITE));
+		gui.placePieceToPosition("A3", new Knight(Allegiance.WHITE));
+		gui.placePieceToPosition("A4", new Knight(Allegiance.WHITE));
 
-		GUI.placePieceToPosition("H8", new King(Allegiance.BLACK));
-		GUI.placePieceToPosition("H7", new Bishop(Allegiance.BLACK));
-		GUI.placePieceToPosition("H6", new Knight(Allegiance.BLACK));
-		GUI.placePieceToPosition("H5", new Knight(Allegiance.BLACK));
-
-		System.out.println();
-		System.out.println(GUI.chessBoard);
+		gui.placePieceToPosition("H8", new King(Allegiance.BLACK));
+		gui.placePieceToPosition("H7", new Bishop(Allegiance.BLACK));
+		gui.placePieceToPosition("H6", new Knight(Allegiance.BLACK));
+		gui.placePieceToPosition("H5", new Knight(Allegiance.BLACK));
 
 		// Continue playing for 5 minutes.
 		try {

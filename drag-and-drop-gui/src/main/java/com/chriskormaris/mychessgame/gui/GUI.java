@@ -54,9 +54,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Stack;
 
-import static com.chriskormaris.mychessgame.gui.util.GuiConstants.FIRST_TURN_TEXT;
-import static com.chriskormaris.mychessgame.gui.util.GuiConstants.TITLE;
-import static com.chriskormaris.mychessgame.gui.util.GuiConstants.ZERO_SCORE_TEXT;
 import static javax.swing.JOptionPane.QUESTION_MESSAGE;
 
 /**
@@ -167,7 +164,11 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 	};
 
 	public GUI() {
-		super(TITLE);
+		this(GuiConstants.TITLE);
+	}
+
+	public GUI(String title) {
+		super(title);
 
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		height = (int) screenSize.getHeight() - 120;
@@ -652,7 +653,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 			capturedPiecesImages[i] = new JLabel();
 
 			if (i == 15) {
-				capturedPiecesImages[i].setText(ZERO_SCORE_TEXT);
+				capturedPiecesImages[i].setText(GuiConstants.ZERO_SCORE_TEXT);
 			} else {
 				// We'll "fill this in" using a transparent icon...
 				ImageIcon imageIcon = new ImageIcon(
@@ -719,7 +720,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 
 	private void setTurnMessage() {
 		if (chessBoard.getHalfMoveNumber() == 1) {
-			turnTextPane.setText(FIRST_TURN_TEXT);
+			turnTextPane.setText(GuiConstants.FIRST_TURN_TEXT);
 		} else {
 			String turnMessage = "Turn: " + (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2) + ". ";
 			turnMessage += (chessBoard.whitePlays()) ? "White plays." : "Black plays.";
@@ -740,7 +741,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 		} else if (score < 0) {
 			capturedPiecesImages[15].setText("Black: +" + (-score));
 		} else {
-			capturedPiecesImages[15].setText(ZERO_SCORE_TEXT);
+			capturedPiecesImages[15].setText(GuiConstants.ZERO_SCORE_TEXT);
 		}
 	}
 

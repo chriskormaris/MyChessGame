@@ -18,23 +18,21 @@ public class CaptureRookOrBishopChoiceTest {
 	public void testCaptureRookOrBishopChoice() {
 		String title = "Capture Rook or Bishop?";
 
-		GUI.create(title);
+		GUI gui = new GUI(title);
 
-		System.out.println(GUI.chessBoard);
+		gui.placePieceToPosition("E1", new King(Allegiance.WHITE));
+		gui.placePieceToPosition("C1", new Bishop(Allegiance.WHITE));
+		gui.placePieceToPosition("F1", new Bishop(Allegiance.WHITE));
+		gui.placePieceToPosition("A1", new Rook(Allegiance.WHITE));
 
-		GUI.placePieceToPosition("E1", new King(Allegiance.WHITE));
-		GUI.placePieceToPosition("C1", new Bishop(Allegiance.WHITE));
-		GUI.placePieceToPosition("F1", new Bishop(Allegiance.WHITE));
-		GUI.placePieceToPosition("A1", new Rook(Allegiance.WHITE));
+		gui.placePieceToPosition("E8", new King(Allegiance.BLACK));
+		gui.placePieceToPosition("B3", new Knight(Allegiance.BLACK));
 
-		GUI.placePieceToPosition("E8", new King(Allegiance.BLACK));
-		GUI.placePieceToPosition("B3", new Knight(Allegiance.BLACK));
-
-		GUI.chessBoard.setPlayer(Constants.BLACK);
-		GUI.aiMove(GUI.ai);
+		gui.chessBoard.setPlayer(Constants.BLACK);
+		gui.aiMove(gui.ai);
 
 		assertTrue(
-				GUI.chessBoard.getChessPieceFromPosition("A1") instanceof Knight,
+				gui.chessBoard.getChessPieceFromPosition("A1") instanceof Knight,
 				"The Black Knight did NOT capture the White Rook."
 		);
 

@@ -18,36 +18,34 @@ public class EndGameTest {
 	public void testEndGame() {
 		String title = "EndGame Test";
 
-		GUI.create(title);
+		GUI gui = new GUI(title);
 
-		GUI.makeChessBoardSquaresEmpty();
-		System.out.println(GUI.chessBoard);
+		gui.makeChessBoardSquaresEmpty();
+		System.out.println(gui.chessBoard);
 
-		GUI.placePieceToPosition("A1", new King(Allegiance.WHITE));
-		GUI.placePieceToPosition("A2", new Bishop(Allegiance.WHITE));
-		GUI.placePieceToPosition("A3", new Queen(Allegiance.WHITE));
+		gui.placePieceToPosition("A1", new King(Allegiance.WHITE));
+		gui.placePieceToPosition("A2", new Bishop(Allegiance.WHITE));
+		gui.placePieceToPosition("A3", new Queen(Allegiance.WHITE));
 		// placePieceToPosition("A4", new Queen(Allegiance.WHITE));
 		// placePieceToPosition("A3", new Knight(Allegiance.WHITE));
 		// placePieceToPosition("A4", new Knight(Allegiance.WHITE));
 		// placePieceToPosition("A4", new Rook(Allegiance.WHITE));
-		GUI.placePieceToPosition("A4", new Pawn(Allegiance.WHITE));
+		gui.placePieceToPosition("A4", new Pawn(Allegiance.WHITE));
 
-		GUI.placePieceToPosition("H8", new King(Allegiance.BLACK));
+		gui.placePieceToPosition("H8", new King(Allegiance.BLACK));
 		// placePieceToPosition("H7", new Bishop(Allegiance.BLACK));
 		// placePieceToPosition("H7", new Rook(Allegiance.BLACK));
-		GUI.placePieceToPosition("H7", new Pawn(Allegiance.BLACK));
-		GUI.placePieceToPosition("H6", new Knight(Allegiance.BLACK));
+		gui.placePieceToPosition("H7", new Pawn(Allegiance.BLACK));
+		gui.placePieceToPosition("H6", new Knight(Allegiance.BLACK));
 		// placePieceToPosition("H5", new Knight(Allegiance.BLACK));
-		GUI.placePieceToPosition("H5", new Queen(Allegiance.BLACK));
+		gui.placePieceToPosition("H5", new Queen(Allegiance.BLACK));
 
 		System.out.println();
-		System.out.println(GUI.chessBoard);
+		System.out.println(gui.chessBoard);
 
-		boolean isEndGame = GUI.chessBoard.isEndGame();
+		boolean isEndGame = gui.chessBoard.isEndGame();
 		assertTrue(isEndGame, "It is NOT endgame.");
 		// assertFalse(isEndGame, "It is endgame.");
-		System.out.println("*****************************");
-		System.out.println();
 
 		// Continue playing for a minute.
 		try {

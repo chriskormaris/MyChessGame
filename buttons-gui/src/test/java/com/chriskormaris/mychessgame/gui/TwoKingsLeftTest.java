@@ -15,23 +15,21 @@ public class TwoKingsLeftTest {
 	public void testTwoKingsLeft() {
 		String title = "Two Kings Left Test";
 
-		GUI.create(title);
+		GUI gui = new GUI(title);
 
-		GUI.makeChessBoardSquaresEmpty();
+		gui.makeChessBoardSquaresEmpty();
 
-		GUI.placePieceToPosition("A1", new King(Allegiance.WHITE));
-		GUI.placePieceToPosition("H8", new King(Allegiance.BLACK));
-		GUI.placePieceToPosition("B2", new Pawn(Allegiance.WHITE));
+		gui.placePieceToPosition("A1", new King(Allegiance.WHITE));
+		gui.placePieceToPosition("H8", new King(Allegiance.BLACK));
+		gui.placePieceToPosition("B2", new Pawn(Allegiance.WHITE));
 
 		System.out.println();
-		System.out.println(GUI.chessBoard);
+		System.out.println(gui.chessBoard);
 
-		boolean isDraw = GUI.chessBoard.checkForInsufficientMatingMaterialDraw();
+		boolean isDraw = gui.chessBoard.checkForInsufficientMatingMaterialDraw();
 		assertFalse(isDraw, "The game is not a draw.");
-		System.out.println("*****************************");
-		System.out.println();
 
-		GUI.checkForGameOver();
+		gui.checkForGameOver();
 
 		// Continue playing for a minute.
 		try {

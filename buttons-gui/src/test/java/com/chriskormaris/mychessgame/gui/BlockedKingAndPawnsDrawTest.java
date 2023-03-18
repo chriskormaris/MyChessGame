@@ -13,7 +13,7 @@ public class BlockedKingAndPawnsDrawTest {
 	public void testBlockedKingAndPawnsDraw() {
 		String title = "Blocked King and Pawns Draw Test";
 
-		GUI.create(title);
+		GUI gui = new GUI(title);
 
 		// These FEN positions are considered a draw!
 		// Each king is stuck on their side.
@@ -31,16 +31,14 @@ public class BlockedKingAndPawnsDrawTest {
 		// if the White pawn is moved!
 		String fenPosition = "4k3/8/8/p2p2p1/3P2P1/P7/8/4K3 w KQ - 0 1";
 
-		GUI.startNewGame(fenPosition);
+		gui.startNewGame(fenPosition);
 
 		System.out.println("Checking if a draw has occurred...");
-		GUI.checkForGameOver();
-		boolean isDraw = GUI.chessBoard.getGameResult() == GameResult.INSUFFICIENT_MATERIAL_DRAW;
+		gui.checkForGameOver();
+		boolean isDraw = gui.chessBoard.getGameResult() == GameResult.INSUFFICIENT_MATERIAL_DRAW;
 		System.out.println(isDraw ? "The game is a draw!" : "The game is NOT a draw!");
 		assertFalse(isDraw, "The game is a draw.");
-		// System.out.println("*****************************");
-		// System.out.println();
-		
+
 		/*
 		removePieceFromPosition("A3");
 		placePieceToPosition("A4", new Pawn(Allegiance.WHITE));

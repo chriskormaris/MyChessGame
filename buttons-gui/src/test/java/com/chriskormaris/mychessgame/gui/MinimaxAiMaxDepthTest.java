@@ -10,19 +10,17 @@ public class MinimaxAiMaxDepthTest {
 	public void testMinimaxAiMaxDepth() {
 		String title = "Minimax AI Max Depth Test";
 
-		GUI.create(title);
+		GUI gui = new GUI(title);
 
 		// newGameParameters.gameMode = GameMode.AI_VS_AI;
 		// newGameParameters.aiType = AiType.MINIMAX_AI;
 
-		GUI.newGameParameters.setAi1MaxDepth(2);
+		gui.newGameParameters.setAi1MaxDepth(2);
 		// newGameParameters.setAi1MaxDepth(3);
 
 		// newGameParameters.setAi2MaxDepth(2);
 
-		GUI.startNewGame();
-
-		System.out.println(GUI.chessBoard);
+		gui.startNewGame();
 
 		while (true) ;
 	}

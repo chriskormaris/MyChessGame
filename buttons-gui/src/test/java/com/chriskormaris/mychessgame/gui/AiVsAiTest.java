@@ -11,12 +11,10 @@ public class AiVsAiTest {
 	public void testAiVsAi() {
 		String title = "AI Vs AI Test";
 
-		GUI.create(title);
+		GUI gui = new GUI(title);
 
-		GUI.newGameParameters.setGameMode(GameMode.AI_VS_AI);
+		gui.newGameParameters.setGameMode(GameMode.AI_VS_AI);
 		// newGameParameters.setAiType(AiType.RANDOM_AI);
-
-		GUI.startNewGame();
 
 		// String fenPosition = "5Knk/1P6/4Q3/8/8/8/8/8 w - - 0 1";
 		// String fenPosition = "1R1qpKnk/8/4Q3/8/8/8/8/8 w - - 0 1";
@@ -25,18 +23,12 @@ public class AiVsAiTest {
 		// If White King is in check position.
 		// String fenPosition = "1R1q1Knk/8/4Q3/8/8/8/8/8 w - - 0 1";
 
-		// GUI.startNewGame(fenPosition);
+		gui.startNewGame();
+
 		// System.out.println("White king position: " + chessBoard.getWhiteKingPosition());
 		// System.out.println("Black king position: " + chessBoard.getBlackKingPosition());
 
-		// System.out.println(GUI.chessBoard);
-
-		System.out.println();
-
-		System.out.println("*****************************");
-		System.out.println();
-
-		while (!GUI.chessBoard.isTerminalState()) ;
+		while (!gui.chessBoard.isTerminalState()) ;
 	}
 
 }

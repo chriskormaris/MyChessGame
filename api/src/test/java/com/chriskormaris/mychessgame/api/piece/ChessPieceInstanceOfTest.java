@@ -15,7 +15,7 @@ public class ChessPieceInstanceOfTest {
 			chessPieces[i] = new Pawn(Allegiance.WHITE);
 		}
 
-		/**********************************************************/
+		/*--------------------------------------------------------*/
 
 		long startTime = System.nanoTime();
 		for (ChessPiece chessPiece : chessPieces) {
@@ -28,7 +28,7 @@ public class ChessPieceInstanceOfTest {
 
 		System.out.println("instanceof elapsedTime: " + elapsedTime + " ns");
 
-		/**********************************************************/
+		/*--------------------------------------------------------*/
 
 		System.out.println();
 

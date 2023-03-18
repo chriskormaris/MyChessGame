@@ -14,19 +14,16 @@ public class KnightAndBishopMateTest {
 	public void testKnightAndBishopMate() {
 		String title = "Knight and Bishop Mate Test";
 
-		GUI.create(title);
+		GUI gui = new GUI(title);
 
-		GUI.makeChessBoardSquaresEmpty();
+		gui.makeChessBoardSquaresEmpty();
 
-		GUI.placePieceToPosition("A8", new King(Allegiance.BLACK));
-		GUI.placePieceToPosition("A6", new Knight(Allegiance.WHITE));
-		GUI.placePieceToPosition("B6", new King(Allegiance.WHITE));
+		gui.placePieceToPosition("A8", new King(Allegiance.BLACK));
+		gui.placePieceToPosition("A6", new Knight(Allegiance.WHITE));
+		gui.placePieceToPosition("B6", new King(Allegiance.WHITE));
 		// If Bishop moves to "C6", it's checkmate.
 		// Any other move of the Bishop ends in a stalemate.
-		GUI.placePieceToPosition("D7", new Bishop(Allegiance.WHITE));
-
-		System.out.println();
-		System.out.println(GUI.chessBoard);
+		gui.placePieceToPosition("D7", new Bishop(Allegiance.WHITE));
 
 		// Continue playing for a minute.
 		try {

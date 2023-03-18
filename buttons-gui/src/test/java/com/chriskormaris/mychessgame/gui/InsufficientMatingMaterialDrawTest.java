@@ -15,41 +15,39 @@ public class InsufficientMatingMaterialDrawTest {
 	public void testInsufficientMatingMaterialDraw() {
 		String title = "Insufficient Material Draw Test";
 
-		GUI.create(title);
+		GUI gui = new GUI(title);
 
-		GUI.makeChessBoardSquaresEmpty();
-		System.out.println(GUI.chessBoard);
+		gui.makeChessBoardSquaresEmpty();
+		System.out.println(gui.chessBoard);
 
 		// King Vs King draw.
-		// GUI.placePieceToPosition("A1", new King(Allegiance.WHITE));
-		// GUI.placePieceToPosition("A2", new Knight(Allegiance.WHITE));
-		// GUI.placePieceToPosition("H8", new King(Allegiance.BLACK));
+		// gui.placePieceToPosition("A1", new King(Allegiance.WHITE));
+		// gui.placePieceToPosition("A2", new Knight(Allegiance.WHITE));
+		// gui.placePieceToPosition("H8", new King(Allegiance.BLACK));
 
 		// King and Bishop Vs King draw.
-		// GUI.placePieceToPosition("A1", new King(Allegiance.WHITE));
-		// GUI.placePieceToPosition("A2", new Bishop(Allegiance.WHITE));
-		// GUI.placePieceToPosition("H8", new King(Allegiance.BLACK));
+		// gui.placePieceToPosition("A1", new King(Allegiance.WHITE));
+		// gui.placePieceToPosition("A2", new Bishop(Allegiance.WHITE));
+		// gui.placePieceToPosition("H8", new King(Allegiance.BLACK));
 
 		// King and Knight Vs King draw.
-		// GUI.placePieceToPosition("A1", new King(Allegiance.WHITE));
-		// GUI.placePieceToPosition("A2", new Knight(Allegiance.WHITE));
-		// GUI.placePieceToPosition("H8", new King(Allegiance.BLACK));
+		// gui.placePieceToPosition("A1", new King(Allegiance.WHITE));
+		// gui.placePieceToPosition("A2", new Knight(Allegiance.WHITE));
+		// gui.placePieceToPosition("H8", new King(Allegiance.BLACK));
 
 		// King and Bishop Vs King and Bishop on the same color draw.
-		GUI.placePieceToPosition("A1", new King(Allegiance.WHITE));
-		GUI.placePieceToPosition("A2", new Bishop(Allegiance.WHITE));
-		GUI.placePieceToPosition("H8", new King(Allegiance.BLACK));
-		GUI.placePieceToPosition("H7", new Bishop(Allegiance.BLACK));
+		gui.placePieceToPosition("A1", new King(Allegiance.WHITE));
+		gui.placePieceToPosition("A2", new Bishop(Allegiance.WHITE));
+		gui.placePieceToPosition("H8", new King(Allegiance.BLACK));
+		gui.placePieceToPosition("H7", new Bishop(Allegiance.BLACK));
 
 		System.out.println();
-		System.out.println(GUI.chessBoard);
+		System.out.println(gui.chessBoard);
 
-		boolean isDraw = GUI.chessBoard.checkForInsufficientMatingMaterialDraw();
+		boolean isDraw = gui.chessBoard.checkForInsufficientMatingMaterialDraw();
 		assertTrue(isDraw, "The game is NOT a draw.");
-		System.out.println("*****************************");
-		System.out.println();
 
-		GUI.checkForGameOver();
+		gui.checkForGameOver();
 
 		// Continue playing for a minute.
 		try {

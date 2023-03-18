@@ -11,12 +11,12 @@ public class EnPassantTest {
 	public void testPawnPromotion() {
 		String title = "Pawn Promotion Test";
 
-		GUI.create(title);
+		GUI gui = new GUI(title);
 
 		// newGameParameters.setGameMode(GameMode.AI_VS_AI);
-		GUI.newGameParameters.setGameMode(GameMode.HUMAN_VS_HUMAN);
+		gui.newGameParameters.setGameMode(GameMode.HUMAN_VS_HUMAN);
 
-		GUI.startNewGame();
+		gui.startNewGame();
 
 		/* Use these FEN positions, if playing as White. */
 
@@ -29,7 +29,7 @@ public class EnPassantTest {
 
 		// String fenPosition = "4k3/7p/8/8/1Pp3P1/8/8/4K3 b - B3 0 1";
 
-		GUI.startNewGame(fenPosition);
+		gui.startNewGame(fenPosition);
 
 		while (true) ;
 	}

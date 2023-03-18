@@ -11,9 +11,9 @@ public class CastlingTest {
 	public void testCastling() {
 		String title = "Castling Test";
 
-		GUI.create(title);
+		GUI gui = new GUI(title);
 
-		GUI.newGameParameters.setGameMode(GameMode.HUMAN_VS_HUMAN);
+		gui.newGameParameters.setGameMode(GameMode.HUMAN_VS_HUMAN);
 
 		/* Play as White. */
 		String fenPosition = "4k3/8/8/8/8/8/N7/R3K2R w KQ - 0 1";
@@ -28,17 +28,10 @@ public class CastlingTest {
 		// String fenPosition = "r3k2r/8/8/8/8/8/8/4K2R b kq - 0 1";
 
 		// gameParameters.getHumanPlayerAllegiance() = Allegiance.BLACK;
-		// GUI.ai = new MinimaxAi(gameParameters.maxDepth1, Constants.WHITE);
+		// gui.ai = new MinimaxAi(gameParameters.maxDepth1, Constants.WHITE);
 		/*----------------*/
 
-		GUI.startNewGame(fenPosition);
-
-		System.out.println(GUI.chessBoard);
-
-		System.out.println();
-
-		System.out.println("*****************************");
-		System.out.println();
+		gui.startNewGame(fenPosition);
 
 		while (true) ;
 	}

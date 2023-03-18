@@ -11,12 +11,12 @@ public class PawnPromotionTest {
 	public void testPawnPromotion() {
 		String title = "Pawn Promotion Test";
 
-		GUI.create(title);
+		GUI gui = new GUI(title);
 
 		// newGameParameters.setGameMode(GameMode.AI_VS_AI);
-		GUI.newGameParameters.setGameMode(GameMode.HUMAN_VS_HUMAN);
+		gui.newGameParameters.setGameMode(GameMode.HUMAN_VS_HUMAN);
 
-		GUI.startNewGame();
+		gui.startNewGame();
 
 		/* Use these FEN positions, if playing as White. */
 
@@ -42,7 +42,7 @@ public class PawnPromotionTest {
 		// If you use this FEN position, you will lose if the White player promotes the Pawn to Knight.
 		// String fenPosition = "7R/2Ppkp2/3bpn2/8/8/1p6/2p5/4K3 b - - 0 1";
 
-		GUI.startNewGame(fenPosition);
+		gui.startNewGame(fenPosition);
 
 		while (true) ;
 	}
