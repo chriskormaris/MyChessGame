@@ -213,11 +213,11 @@ public class DragAndDropGui extends JFrame implements MouseListener, MouseMotion
 			ex.printStackTrace();
 		}
 
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		pack();
-		setLocationRelativeTo(null);
-		setVisible(true);
-		setResizable(false);
+		super.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		super.pack();
+		super.setLocationRelativeTo(null);
+		super.setVisible(true);
+		super.setResizable(false);
 
 		int cornerPosition = getSquareIndex(chessBoard.getNumOfRows(), chessBoard.getNumOfColumns());
 		JPanel piecePanel = (JPanel) chessPanel.getComponent(cornerPosition);
@@ -366,9 +366,9 @@ public class DragAndDropGui extends JFrame implements MouseListener, MouseMotion
 		menuBar.add(fileMenu);
 		menuBar.add(helpMenu);
 
-		setJMenuBar(menuBar);
+		super.setJMenuBar(menuBar);
 
-		addKeyListener(undoRedoKeyListener);
+		super.addKeyListener(undoRedoKeyListener);
 	}
 
 	private void initializeGUI() {
@@ -464,7 +464,7 @@ public class DragAndDropGui extends JFrame implements MouseListener, MouseMotion
 		}
 
 		gui.add(layeredPane, BorderLayout.CENTER);
-		getContentPane().add(gui);
+		super.getContentPane().add(gui);
 	}
 
 	private void initializeTurnTextPaneBar() {
@@ -505,16 +505,16 @@ public class DragAndDropGui extends JFrame implements MouseListener, MouseMotion
 		);
 
 		if (gifName != null) {
-			BufferedImage bi = new BufferedImage(
+			BufferedImage bufferedImage = new BufferedImage(
 					chessPanel.getSize().width,
 					chessPanel.getSize().height,
 					BufferedImage.TYPE_INT_ARGB
 			);
-			Graphics g = bi.createGraphics();
-			chessPanel.paint(g);
-			g.dispose();
+			Graphics graphics = bufferedImage.createGraphics();
+			chessPanel.paint(graphics);
+			graphics.dispose();
 			try {
-				ImageIO.write(bi, "gif", new File(gifName));
+				ImageIO.write(bufferedImage, "gif", new File(gifName));
 				System.out.println("Exported .gif file!");
 			} catch (Exception ex) {
 				System.err.println("Error exporting .gif file!");
@@ -767,7 +767,7 @@ public class DragAndDropGui extends JFrame implements MouseListener, MouseMotion
 		gameParameters = new GameParameters(newGameParameters);
 
 		if (gameParameters.getGuiType() == GuiType.BUTTONS) {
-			this.dispose();
+			super.dispose();
 			ButtonsGui buttonsGui = new ButtonsGui();
 			buttonsGui.startNewGame();
 			return;
@@ -788,8 +788,8 @@ public class DragAndDropGui extends JFrame implements MouseListener, MouseMotion
 
 		gui.revalidate();
 		gui.repaint();
-		paint(getGraphics());
-		repaint();
+		super.paint(getGraphics());
+		super.repaint();
 
 		placePiecesToChessBoard(fenPosition);
 		redrawChessPanel();
@@ -882,8 +882,8 @@ public class DragAndDropGui extends JFrame implements MouseListener, MouseMotion
 	private void aiVsAiMove(AI ai) {
 		aiMove(ai);
 
-		this.revalidate();
-		this.paint(getGraphics());
+		super.revalidate();
+		super.paint(getGraphics());
 	}
 
 	private void initializeAI() {

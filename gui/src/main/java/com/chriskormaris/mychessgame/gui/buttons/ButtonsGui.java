@@ -172,27 +172,27 @@ public class ButtonsGui extends JFrame {
 		redrawChessButtons();
 		initializeAI();
 
-		this.add(gui);
-		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		this.setLocationByPlatform(true);
+		super.add(gui);
+		super.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		super.setLocationByPlatform(true);
 
 		// ensures the frame is the minimum size it needs to be
 		// in order display the components within it
-		this.pack();
+		super.pack();
 
-		this.setSize(new Dimension(width, height));
+		super.setSize(new Dimension(width, height));
 
 		// ensures the minimum size is enforced.
-		this.setMinimumSize(this.getSize());
+		super.setMinimumSize(super.getSize());
 
-		this.setLocation((int) (screenSize.getWidth() - this.getWidth()) / 2, 5);
+		super.setLocation((int) (screenSize.getWidth() - super.getWidth()) / 2, 5);
 
-		this.setResizable(false);
+		super.setResizable(false);
 
 		BufferedImage icon;
 		try {
 			icon = ImageIO.read(ResourceLoader.load(GuiConstants.ICON_PATH));
-			this.setIconImage(icon);
+			super.setIconImage(icon);
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
@@ -338,10 +338,10 @@ public class ButtonsGui extends JFrame {
 		menuBar.add(fileMenu);
 		menuBar.add(helpMenu);
 
-		this.setJMenuBar(menuBar);
+		super.setJMenuBar(menuBar);
 
-		this.setVisible(true);
-		this.addKeyListener(undoRedoKeyListener);
+		super.setVisible(true);
+		super.addKeyListener(undoRedoKeyListener);
 	}
 
 	KeyListener undoRedoKeyListener = new KeyListener() {
@@ -568,16 +568,16 @@ public class ButtonsGui extends JFrame {
 		);
 
 		if (gifName != null) {
-			BufferedImage bi = new BufferedImage(
+			BufferedImage bufferedImage = new BufferedImage(
 					gui.getSize().width,
 					gui.getSize().height,
 					BufferedImage.TYPE_INT_ARGB
 			);
-			Graphics g = bi.createGraphics();
-			gui.paint(g);
-			g.dispose();
+			Graphics graphics = bufferedImage.createGraphics();
+			gui.paint(graphics);
+			graphics.dispose();
 			try {
-				ImageIO.write(bi, "gif", new File(gifName));
+				ImageIO.write(bufferedImage, "gif", new File(gifName));
 				System.out.println("Exported .gif file!");
 			} catch (Exception ex) {
 				System.err.println("Error exporting .gif file!");
@@ -767,7 +767,7 @@ public class ButtonsGui extends JFrame {
 		gameParameters = new GameParameters(newGameParameters);
 
 		if (gameParameters.getGuiType() == GuiType.DRAG_AND_DROP) {
-			this.dispose();
+			super.dispose();
 			DragAndDropGui dragAndDropGui = new DragAndDropGui();
 			dragAndDropGui.startNewGame();
 			return;
@@ -788,7 +788,7 @@ public class ButtonsGui extends JFrame {
 
 		placePiecesToChessBoard(fenPosition);
 		redrawChessButtons();
-		this.revalidate();
+		super.revalidate();
 
 		initializeAI();
 
@@ -1494,8 +1494,8 @@ public class ButtonsGui extends JFrame {
 	private void aiVsAiMove(AI ai) {
 		aiMove(ai);
 
-		this.revalidate();
-		this.paint(this.getGraphics());
+		super.revalidate();
+		super.paint(super.getGraphics());
 	}
 
 	private void hideHintPositions() {
