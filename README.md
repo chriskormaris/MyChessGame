@@ -36,15 +36,12 @@ You need Gradle and Java 1.8 or above to compile and run this project.
 
 #### Java Modules
 There are 2 Java modules inside this project:
-1. `api`
-2. `gui`
-
-- The `api` module contains all the logic for the Chess game. It can be used for the implementation of any Chess GUI.
-- The `gui` module contains common constants, libraries and utilities for the GUIs. It includes the `api` module.
-It contains a GUI implementation using JButtons, in the class `ButtonsGui`.
-It also contains a GUI implementation using a JLayeredPane and the drag and drop method,
-for moving the pieces, in the class `DragAndDropGui`.
-The `GUI` class instantiates the Buttons GUI. The user can later switch to the Drag & Drop GUI, using the settings.
+1. The `api` module contains all the logic for the Chess game. It can be used for the implementation of any Chess GUI.
+2. The `gui` module contains common constants, libraries and utilities for the GUIs. It includes the `api` module.
+   It contains a GUI implementation using JButtons, in the class `ButtonsGui`.
+   It also contains a GUI implementation using a JLayeredPane and the drag and drop method,
+   for moving the pieces, in the class `DragAndDropGui`.
+   The `GUI` class instantiates the Buttons GUI. The user can later switch to the Drag & Drop GUI, using the settings.
 
 #### AI
 
