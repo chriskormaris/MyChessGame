@@ -30,7 +30,7 @@ You can enable/disable sound, change square colors, GUI style, or even the numbe
 In addition, you can use FEN (Forsyth–Edwards Notation) positions and start playing the game from there.
 
 ### Developer Notes
-You need Gradle and Java 1.11 or above to compile and run this project.
+You need Gradle and Java 1.8 or above to compile and run this project.
 
 **Recommended IDE:** `IntelliJ IDEA`
 
