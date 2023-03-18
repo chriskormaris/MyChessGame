@@ -108,7 +108,7 @@ public class DragAndDropGui extends JFrame implements MouseListener, MouseMotion
 	// This variable is used for the implementation of "Human Vs AI".
 	AI ai;
 
-	JPanel gui;
+	JPanel guiPanel;
 
 	JToolBar tools;
 	JPanel capturedPiecesPanel;
@@ -177,7 +177,7 @@ public class DragAndDropGui extends JFrame implements MouseListener, MouseMotion
 		height = (int) screenSize.getHeight() - 120;
 		width = height + 60;
 
-		gui = new JPanel();
+		guiPanel = new JPanel();
 		turnTextPane = new JTextPane();
 
 		gameParameters = new GameParameters();
@@ -373,7 +373,7 @@ public class DragAndDropGui extends JFrame implements MouseListener, MouseMotion
 
 	private void initializeGUI() {
 		// Set up the main GUI.
-		gui.setLayout(new BoxLayout(gui, BoxLayout.Y_AXIS));
+		guiPanel.setLayout(new BoxLayout(guiPanel, BoxLayout.Y_AXIS));
 
 		initializeTurnTextPaneBar();
 		setTurnMessage();
@@ -463,13 +463,13 @@ public class DragAndDropGui extends JFrame implements MouseListener, MouseMotion
 			}
 		}
 
-		gui.add(layeredPane, BorderLayout.CENTER);
-		super.getContentPane().add(gui);
+		guiPanel.add(layeredPane, BorderLayout.CENTER);
+		super.getContentPane().add(guiPanel);
 	}
 
 	private void initializeTurnTextPaneBar() {
 		if (tools != null) {
-			gui.remove(tools);
+			guiPanel.remove(tools);
 		}
 
 		tools = new JToolBar();
@@ -481,7 +481,7 @@ public class DragAndDropGui extends JFrame implements MouseListener, MouseMotion
 
 		tools.add(turnTextPane);
 
-		gui.add(tools, BorderLayout.NORTH);
+		guiPanel.add(tools, BorderLayout.NORTH);
 	}
 
 	private void centerTextPaneAndMakeBold() {
@@ -644,10 +644,10 @@ public class DragAndDropGui extends JFrame implements MouseListener, MouseMotion
 
 	private void initializeCapturedPiecesPanel() {
 		if (capturedPiecesPanel != null) {
-			gui.remove(capturedPiecesPanel);
+			guiPanel.remove(capturedPiecesPanel);
 		}
 		capturedPiecesPanel = new JPanel();
-		gui.add(capturedPiecesPanel, BorderLayout.SOUTH);
+		guiPanel.add(capturedPiecesPanel, BorderLayout.SOUTH);
 	}
 
 	private void initializeCapturedPiecesImages() {
@@ -780,14 +780,14 @@ public class DragAndDropGui extends JFrame implements MouseListener, MouseMotion
 			redoItem.setEnabled(false);
 		}
 
-		gui.removeAll();
+		guiPanel.removeAll();
 
 		restoreDefaultValues();
 
 		initializeGUI();
 
-		gui.revalidate();
-		gui.repaint();
+		guiPanel.revalidate();
+		guiPanel.repaint();
 		super.paint(getGraphics());
 		super.repaint();
 

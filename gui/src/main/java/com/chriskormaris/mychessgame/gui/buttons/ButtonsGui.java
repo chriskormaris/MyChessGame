@@ -66,7 +66,7 @@ public class ButtonsGui extends JFrame {
 	int width;
 	int height;
 
-	JPanel gui;
+	JPanel guiPanel;
 	JTextPane turnTextPane;
 
 	// This stack of "String" objects is used to handle the "undo" and "redo" functionality.
@@ -141,7 +141,7 @@ public class ButtonsGui extends JFrame {
 		height = (int) screenSize.getHeight() - 40;
 		width = height + 40;
 
-		gui = new JPanel();
+		guiPanel = new JPanel();
 		turnTextPane = new JTextPane();
 
 		nextHalfMoveFenPositions = new Stack<>();
@@ -172,7 +172,7 @@ public class ButtonsGui extends JFrame {
 		redrawChessButtons();
 		initializeAI();
 
-		super.add(gui);
+		super.add(guiPanel);
 		super.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		super.setLocationByPlatform(true);
 
@@ -393,7 +393,7 @@ public class ButtonsGui extends JFrame {
 
 		// Set up the main GUI.
 		// gui.setBorder(new EmptyBorder(0, 0, 0, 0));
-		gui.setLayout(new BoxLayout(gui, BoxLayout.Y_AXIS));
+		guiPanel.setLayout(new BoxLayout(guiPanel, BoxLayout.Y_AXIS));
 
 		initializeTurnTextPaneBar();
 		setTurnMessage();
@@ -569,12 +569,12 @@ public class ButtonsGui extends JFrame {
 
 		if (gifName != null) {
 			BufferedImage bufferedImage = new BufferedImage(
-					gui.getSize().width,
-					gui.getSize().height,
+					guiPanel.getSize().width,
+					guiPanel.getSize().height,
 					BufferedImage.TYPE_INT_ARGB
 			);
 			Graphics graphics = bufferedImage.createGraphics();
-			gui.paint(graphics);
+			guiPanel.paint(graphics);
 			graphics.dispose();
 			try {
 				ImageIO.write(bufferedImage, "gif", new File(gifName));
@@ -588,7 +588,7 @@ public class ButtonsGui extends JFrame {
 
 	private void initializeTurnTextPaneBar() {
 		if (tools != null) {
-			gui.remove(tools);
+			guiPanel.remove(tools);
 		}
 
 		tools = new JToolBar();
@@ -600,7 +600,7 @@ public class ButtonsGui extends JFrame {
 
 		tools.add(turnTextPane);
 
-		gui.add(tools, BorderLayout.NORTH);
+		guiPanel.add(tools, BorderLayout.NORTH);
 	}
 
 	private void centerTextPaneAndMakeBold() {
@@ -618,20 +618,20 @@ public class ButtonsGui extends JFrame {
 
 	private void initializeChessPanel() {
 		if (chessPanel != null) {
-			gui.remove(chessPanel);
+			guiPanel.remove(chessPanel);
 		}
 		chessPanel = new JPanel(new GridLayout(chessBoard.getNumOfRows() + 2, chessBoard.getNumOfColumns() + 2));
 		chessPanel.setBorder(new LineBorder(Color.BLACK));
 		chessPanel.setPreferredSize(new Dimension(width, height - 100));
-		gui.add(chessPanel, BorderLayout.CENTER);
+		guiPanel.add(chessPanel, BorderLayout.CENTER);
 	}
 
 	private void initializeCapturedPiecesPanel() {
 		if (capturedPiecesPanel != null) {
-			gui.remove(capturedPiecesPanel);
+			guiPanel.remove(capturedPiecesPanel);
 		}
 		capturedPiecesPanel = new JPanel();
-		gui.add(capturedPiecesPanel, BorderLayout.SOUTH);
+		guiPanel.add(capturedPiecesPanel, BorderLayout.SOUTH);
 	}
 
 	private void initializeChessButtons() {
