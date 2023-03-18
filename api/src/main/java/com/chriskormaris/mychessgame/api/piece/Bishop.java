@@ -25,9 +25,9 @@ public class Bishop extends ChessPiece {
 		// that corresponds to the given position String.
 		int row = chessBoard.getRowFromPosition(position);
 		int column = chessBoard.getColumnFromPosition(position);
-		ChessPiece chessPiece = chessBoard.getGameBoard()[row][column];
+		ChessPiece bishop = chessBoard.getGameBoard()[row][column];
 
-		if (!(chessPiece instanceof Bishop)) {
+		if (!(bishop instanceof Bishop)) {
 			return nextBishopPositions;
 		}
 
@@ -44,14 +44,14 @@ public class Bishop extends ChessPiece {
 				// System.out.println("newPosition: " + newPosition);
 				ChessPiece endSquare = chessBoard.getGameBoard()[newRow][newColumn];
 				// System.out.println("endSquare: " + endSquare);
-				if (endSquare instanceof EmptySquare || chessPiece.getAllegiance() != endSquare.getAllegiance()
+				if (endSquare instanceof EmptySquare || bishop.getAllegiance() != endSquare.getAllegiance()
 						&& !(endSquare instanceof King) || returnThreats) {
 					nextBishopPositions.add(newPosition);
 				}
 
 				// Stop searching for other positions, if another chessPiece is reached.
-				if (chessPiece.getAllegiance() != endSquare.getAllegiance() && !(endSquare instanceof EmptySquare)
-						|| chessPiece.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
+				if (bishop.getAllegiance() != endSquare.getAllegiance() && !(endSquare instanceof EmptySquare)
+						|| bishop.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
 					break;
 				}
 			}
@@ -67,14 +67,14 @@ public class Bishop extends ChessPiece {
 				int newColumn = column - counter;
 				String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 				ChessPiece endSquare = chessBoard.getGameBoard()[newRow][newColumn];
-				if (endSquare instanceof EmptySquare || chessPiece.getAllegiance() != endSquare.getAllegiance()
+				if (endSquare instanceof EmptySquare || bishop.getAllegiance() != endSquare.getAllegiance()
 						&& !(endSquare instanceof King) || returnThreats) {
 					nextBishopPositions.add(newPosition);
 				}
 
 				// Stop searching for other positions, if another chessPiece is reached.
-				if (chessPiece.getAllegiance() != endSquare.getAllegiance() && !(endSquare instanceof EmptySquare)
-						|| chessPiece.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
+				if (bishop.getAllegiance() != endSquare.getAllegiance() && !(endSquare instanceof EmptySquare)
+						|| bishop.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
 					break;
 				}
 			}
@@ -90,14 +90,14 @@ public class Bishop extends ChessPiece {
 				int newColumn = column - counter;
 				String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 				ChessPiece endSquare = chessBoard.getGameBoard()[newRow][newColumn];
-				if (endSquare instanceof EmptySquare || chessPiece.getAllegiance() != endSquare.getAllegiance()
+				if (endSquare instanceof EmptySquare || bishop.getAllegiance() != endSquare.getAllegiance()
 						&& !(endSquare instanceof King) || returnThreats) {
 					nextBishopPositions.add(newPosition);
 				}
 
 				// Stop searching for other positions, if another chessPiece is reached.
-				if (chessPiece.getAllegiance() != endSquare.getAllegiance() && !(endSquare instanceof EmptySquare)
-						|| chessPiece.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
+				if (bishop.getAllegiance() != endSquare.getAllegiance() && !(endSquare instanceof EmptySquare)
+						|| bishop.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
 					break;
 				}
 			}
@@ -113,14 +113,14 @@ public class Bishop extends ChessPiece {
 				int newColumn = column + counter;
 				String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 				ChessPiece endSquare = chessBoard.getGameBoard()[newRow][newColumn];
-				if (endSquare instanceof EmptySquare || chessPiece.getAllegiance() != endSquare.getAllegiance()
+				if (endSquare instanceof EmptySquare || bishop.getAllegiance() != endSquare.getAllegiance()
 						&& !(endSquare instanceof King) || returnThreats) {
 					nextBishopPositions.add(newPosition);
 				}
 
 				// Stop searching for other positions, if another chessPiece is reached.
-				if (chessPiece.getAllegiance() != endSquare.getAllegiance() && !(endSquare instanceof EmptySquare)
-						|| chessPiece.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
+				if (bishop.getAllegiance() != endSquare.getAllegiance() && !(endSquare instanceof EmptySquare)
+						|| bishop.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
 					break;
 				}
 			}

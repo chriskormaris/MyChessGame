@@ -25,9 +25,9 @@ public class Knight extends ChessPiece {
 		// that corresponds to the given position String.
 		int row = chessBoard.getRowFromPosition(position);
 		int column = chessBoard.getColumnFromPosition(position);
-		ChessPiece chessPiece = chessBoard.getGameBoard()[row][column];
+		ChessPiece knight = chessBoard.getGameBoard()[row][column];
 
-		if (!(chessPiece instanceof Knight)) {
+		if (!(knight instanceof Knight)) {
 			return nextKnightPositions;
 		}
 
@@ -47,7 +47,7 @@ public class Knight extends ChessPiece {
 			int newColumn = column - 1;
 			String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 			ChessPiece endSquare = chessBoard.getGameBoard()[newRow][newColumn];
-			if (endSquare instanceof EmptySquare || chessPiece.getAllegiance() != endSquare.getAllegiance()
+			if (endSquare instanceof EmptySquare || knight.getAllegiance() != endSquare.getAllegiance()
 					&& !(endSquare instanceof King) || returnThreats) {
 				nextKnightPositions.add(newPosition);
 			}
@@ -65,7 +65,7 @@ public class Knight extends ChessPiece {
 			int newColumn = column + 1;
 			String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 			ChessPiece endSquare = chessBoard.getGameBoard()[newRow][newColumn];
-			if (endSquare instanceof EmptySquare || chessPiece.getAllegiance() != endSquare.getAllegiance()
+			if (endSquare instanceof EmptySquare || knight.getAllegiance() != endSquare.getAllegiance()
 					&& !(endSquare instanceof King) || returnThreats) {
 				nextKnightPositions.add(newPosition);
 			}
@@ -83,7 +83,7 @@ public class Knight extends ChessPiece {
 			int newColumn = column - 1;
 			String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 			ChessPiece endSquare = chessBoard.getGameBoard()[newRow][newColumn];
-			if (endSquare instanceof EmptySquare || chessPiece.getAllegiance() != endSquare.getAllegiance()
+			if (endSquare instanceof EmptySquare || knight.getAllegiance() != endSquare.getAllegiance()
 					&& !(endSquare instanceof King) || returnThreats) {
 				nextKnightPositions.add(newPosition);
 			}
@@ -101,7 +101,7 @@ public class Knight extends ChessPiece {
 			int newColumn = column + 1;
 			String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 			ChessPiece endSquare = chessBoard.getGameBoard()[newRow][newColumn];
-			if (endSquare instanceof EmptySquare || chessPiece.getAllegiance() != endSquare.getAllegiance()
+			if (endSquare instanceof EmptySquare || knight.getAllegiance() != endSquare.getAllegiance()
 					&& !(endSquare instanceof King) || returnThreats) {
 				nextKnightPositions.add(newPosition);
 			}
@@ -116,7 +116,7 @@ public class Knight extends ChessPiece {
 			int newColumn = column - 2;
 			String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 			ChessPiece endSquare = chessBoard.getGameBoard()[newRow][newColumn];
-			if (endSquare instanceof EmptySquare || chessPiece.getAllegiance() != endSquare.getAllegiance()
+			if (endSquare instanceof EmptySquare || knight.getAllegiance() != endSquare.getAllegiance()
 					&& !(endSquare instanceof King) || returnThreats) {
 				nextKnightPositions.add(newPosition);
 			}
@@ -131,7 +131,7 @@ public class Knight extends ChessPiece {
 			int newColumn = column + 2;
 			String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 			ChessPiece endSquare = chessBoard.getGameBoard()[newRow][newColumn];
-			if (endSquare instanceof EmptySquare || chessPiece.getAllegiance() != endSquare.getAllegiance()
+			if (endSquare instanceof EmptySquare || knight.getAllegiance() != endSquare.getAllegiance()
 					&& !(endSquare instanceof King) || returnThreats) {
 				nextKnightPositions.add(newPosition);
 			}
@@ -147,7 +147,7 @@ public class Knight extends ChessPiece {
 			int newColumn = column - 2;
 			String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 			ChessPiece endSquare = chessBoard.getGameBoard()[newRow][newColumn];
-			if (endSquare instanceof EmptySquare || chessPiece.getAllegiance() != endSquare.getAllegiance()
+			if (endSquare instanceof EmptySquare || knight.getAllegiance() != endSquare.getAllegiance()
 					&& !(endSquare instanceof King) || returnThreats) {
 				nextKnightPositions.add(newPosition);
 			}
@@ -163,7 +163,7 @@ public class Knight extends ChessPiece {
 			int newColumn = column + 2;
 			String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 			ChessPiece endSquare = chessBoard.getGameBoard()[newRow][newColumn];
-			if (endSquare instanceof EmptySquare || chessPiece.getAllegiance() != endSquare.getAllegiance()
+			if (endSquare instanceof EmptySquare || knight.getAllegiance() != endSquare.getAllegiance()
 					&& !(endSquare instanceof King) || returnThreats) {
 				nextKnightPositions.add(newPosition);
 			}
