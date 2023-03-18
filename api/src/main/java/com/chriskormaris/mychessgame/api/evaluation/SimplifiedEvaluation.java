@@ -10,7 +10,6 @@ import com.chriskormaris.mychessgame.api.piece.Knight;
 import com.chriskormaris.mychessgame.api.piece.Pawn;
 import com.chriskormaris.mychessgame.api.piece.Queen;
 import com.chriskormaris.mychessgame.api.piece.Rook;
-import com.chriskormaris.mychessgame.api.util.Constants;
 
 // Simplified Evaluation Function by Polish chess programmer Tomasz Michniewski.
 // see: https://www.chessprogramming.org/Simplified_Evaluation_Function

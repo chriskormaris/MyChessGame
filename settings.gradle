@@ -1,7 +1,5 @@
 rootProject.name = 'MyChessGame'
 
 include 'api'
-include 'common'
-include 'drag-and-drop-gui'
-include 'buttons-gui'
+include 'gui'
 

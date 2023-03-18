@@ -30,23 +30,21 @@ You can enable/disable sound, change square colors, GUI style, or even the numbe
 In addition, you can use FEN (Forsyth–Edwards Notation) positions and start playing the game from there.
 
 ### Developer Notes
-You need Gradle and Java 1.8 or above to compile and run this project.
+You need Gradle and Java 1.11 or above to compile and run this project.
 
 **Recommended IDE:** `IntelliJ IDEA`
 
 #### Java Modules
-There are 4 Java modules inside this project:
+There are 2 Java modules inside this project:
 1. `api`
-2. `common`
-3. `drag-and-drop-gui`
-4. `buttons-gui`
+2. `gui`
 
 - The `api` module contains all the logic for the Chess game. It can be used for the implementation of any Chess GUI.
-- The `common` module contains common constants, libraries and utilities for the GUIs. It includes the `api` module.
-- The `buttons-gui` module contains a GUI implementation using JButtons.
-It includes the `api` and `common` modules.
-- The `drag-and-drop-gui` module contains a GUI implementation using a JLayeredPane and the drag and drop method,
-for moving the pieces. It includes the `api` and `common` modules.
+- The `gui` module contains common constants, libraries and utilities for the GUIs. It includes the `api` module.
+It contains a GUI implementation using JButtons, in the class `ButtonsGui`.
+It also contains a GUI implementation using a JLayeredPane and the drag and drop method,
+for moving the pieces, in the class `DragAndDropGui`.
+The `GUI` class instantiates the Buttons GUI. The user can later switch to the Drag & Drop GUI, using the settings.
 
 #### AI
 

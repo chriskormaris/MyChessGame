@@ -9,7 +9,6 @@ import com.chriskormaris.mychessgame.api.piece.Knight;
 import com.chriskormaris.mychessgame.api.piece.Pawn;
 import com.chriskormaris.mychessgame.api.piece.Queen;
 import com.chriskormaris.mychessgame.api.piece.Rook;
-import com.chriskormaris.mychessgame.api.util.Constants;
 
 // Shannon's Evaluation Function.
 // see: https://www.chessprogramming.org/Evaluation
