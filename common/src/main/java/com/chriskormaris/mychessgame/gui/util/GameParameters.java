@@ -45,7 +45,7 @@ public class GameParameters {
 	// Default constructor
 	public GameParameters() {
 		/* Default values */
-		this.guiType = GuiType.BUTTONS;
+		this.guiType = GuiType.DRAG_AND_DROP;
 
 		this.guiStyle = GuiStyle.CROSS_PLATFORM_STYLE;
 		// this.guiStyle = GuiStyle.NIMBUS_STYLE;

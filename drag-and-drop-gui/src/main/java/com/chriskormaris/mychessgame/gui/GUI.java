@@ -179,6 +179,7 @@ public class GUI extends JFrame implements MouseListener, MouseMotionListener {
 
 		gameParameters = new GameParameters();
 		gameParameters.setGuiType(GuiType.DRAG_AND_DROP);
+		gameParameters.setNumOfRows(Constants.DEFAULT_NUM_OF_ROWS);
 		newGameParameters = new GameParameters(gameParameters);
 
 		nextHalfMoveFenPositions = new Stack<>();
