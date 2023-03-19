@@ -272,45 +272,56 @@ public class SettingsWindow extends JFrame {
 			add(numOfRowsSpinner);
 		}
 
-		guiStyleLabel.setBounds(25, 25, 205, 25);
-		guiTypeLabel.setBounds(25, 60, 205, 25);
-		enableSoundsLabel.setBounds(25, 95, 205, 25);
-		humanPlayerAllegianceLabel.setBounds(25, 130, 205, 25);
-		gameModeLabel.setBounds(25, 165, 205, 25);
-		ai1TypeLabel.setBounds(25, 200, 205, 25);
-		ai2TypeLabel.setBounds(25, 235, 205, 25);
-		ai1MaxDepthLabel.setBounds(25, 270, 205, 25);
-		ai2MaxDepthLabel.setBounds(25, 305, 205, 25);
-		evaluationFunction1Label.setBounds(25, 340, 205, 25);
-		evaluationFunction2Label.setBounds(25, 375, 205, 25);
-		whiteSquareColorLabel.setBounds(25, 405, 205, 25);
-		blackSquareColorLabel.setBounds(25, 440, 205, 25);
-		numOfRowsLabel.setBounds(25, 475, 205, 25);
+		int x = 25;
+		int y = 25;
+		int distance = 35;
+		int w = 205;
+		int h = 25;
+		guiStyleLabel.setBounds(x, y, w, h);
+		guiTypeLabel.setBounds(x, y = y + distance, w, h);
+		enableSoundsLabel.setBounds(x, y = y + distance, w, h);
+		humanPlayerAllegianceLabel.setBounds(25, y = y + distance, w, h);
+		gameModeLabel.setBounds(x, y = y + distance, w, h);
+		ai1TypeLabel.setBounds(x, y = y + distance, w, h);
+		ai2TypeLabel.setBounds(x, y = y + distance, w, h);
+		ai1MaxDepthLabel.setBounds(x, y = y + distance, w, h);
+		ai2MaxDepthLabel.setBounds(x, y = y + distance, w, h);
+		evaluationFunction1Label.setBounds(x, y = y + distance, w, h);
+		evaluationFunction2Label.setBounds(x, y = y + distance, w, h);
+		whiteSquareColorLabel.setBounds(x, y = y + distance, w, h);
+		blackSquareColorLabel.setBounds(x, y = y + distance, w, h);
+		numOfRowsLabel.setBounds(x, y + distance, w, h);
 
-		guiStyleDropDown.setBounds(225, 25, 180, 25);
-		guiTypeDropDown.setBounds(225, 60, 180, 25);
-		enableSoundsCheckBox.setBounds(225, 95, 180, 25);
-		humanPlayerAllegianceDropDown.setBounds(225, 130, 180, 25);
-		gameModeDropDown.setBounds(225, 165, 180, 25);
-		ai1TypeDropDown.setBounds(225, 200, 180, 25);
-		ai2TypeDropDown.setBounds(225, 235, 180, 25);
-		ai1MaxDepthDropDown.setBounds(225, 270, 180, 25);
-		ai2MaxDepthDropDown.setBounds(225, 305, 180, 25);
-		evaluationFunction1DropDown.setBounds(225, 340, 180, 25);
-		evaluationFunction2DropDown.setBounds(225, 375, 180, 25);
-		whiteSquareColorDropDown.setBounds(225, 405, 180, 25);
-		blackSquareColorDropDown.setBounds(225, 440, 180, 25);
-		numOfRowsSpinner.setBounds(225, 475, 180, 25);
+		x = 225;
+		y = 25;
+		w = 180;
+		guiStyleDropDown.setBounds(x, y, w, h);
+		guiTypeDropDown.setBounds(x, y = y + distance, w, h);
+		enableSoundsCheckBox.setBounds(x, y = y + distance, w, h);
+		humanPlayerAllegianceDropDown.setBounds(x, y = y + distance, w, h);
+		gameModeDropDown.setBounds(x, y = y + distance, w, h);
+		ai1TypeDropDown.setBounds(x, y = y + distance, w, h);
+		ai2TypeDropDown.setBounds(x, y = y + distance, w, h);
+		ai1MaxDepthDropDown.setBounds(x, y = y + distance, w, h);
+		ai2MaxDepthDropDown.setBounds(x, y = y + distance, w, h);
+		evaluationFunction1DropDown.setBounds(x, y = y + distance, w, h);
+		evaluationFunction2DropDown.setBounds(x, y = y + distance, w, h);
+		whiteSquareColorDropDown.setBounds(x, y = y + distance, w, h);
+		blackSquareColorDropDown.setBounds(x, y = y + distance, w, h);
+		numOfRowsSpinner.setBounds(x, y + distance, w, h);
 
 		apply = new JButton("Apply");
 		cancel = new JButton("Cancel");
 		add(apply);
 		add(cancel);
 
-		int distance = 10;
-		apply.setBounds((width / 2) - 110 - (distance / 2), 520, 100, 30);
+		distance = 10;
+		y = 520;
+		w = 100;
+		h = 30;
+		apply.setBounds((width / 2) - 110 - (distance / 2), y, w, h);
 		apply.addActionListener(handler);
-		cancel.setBounds((width / 2) - 10 + (distance / 2), 520, 100, 30);
+		cancel.setBounds((width / 2) - 10 + (distance / 2), y, w, h);
 		cancel.addActionListener(handler);
 	}
 
