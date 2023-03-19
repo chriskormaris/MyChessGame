@@ -18,8 +18,8 @@ import java.awt.event.ActionListener;
 
 public class SettingsWindow extends JFrame {
 
-	private final JComboBox<String> guiStyleDropDown;
 	private final JComboBox<String> guiTypeDropDown;
+	private final JComboBox<String> guiStyleDropDown;
 	private final JCheckBox enableSoundsCheckBox;
 	private final JComboBox<String> humanPlayerAllegianceDropDown;
 	private final JComboBox<String> gameModeDropDown;
@@ -60,8 +60,8 @@ public class SettingsWindow extends JFrame {
 
 		newGameParameters.setGuiType(gameParameters.getGuiType());
 
-		GuiStyle selectedGuiStyle = gameParameters.getGuiStyle();
 		GuiType selectedGuiType = gameParameters.getGuiType();
+		GuiStyle selectedGuiStyle = gameParameters.getGuiStyle();
 		boolean enableSounds = gameParameters.isEnableSounds();
 		Allegiance humanPlayerAllegiance = gameParameters.getHumanPlayerAllegiance();
 		GameMode selectedGameMode = gameParameters.getGameMode();
@@ -76,8 +76,8 @@ public class SettingsWindow extends JFrame {
 		int numOfRows = gameParameters.getNumOfRows();
 
 
-		JLabel guiStyleLabel = new JLabel("GUI style");
 		JLabel guiTypeLabel = new JLabel("GUI type");
+		JLabel guiStyleLabel = new JLabel("GUI style");
 		JLabel enableSoundsLabel = new JLabel("Sounds");
 		JLabel humanPlayerAllegianceLabel = new JLabel("Human Player Allegiance");
 		JLabel gameModeLabel = new JLabel("Game mode");
@@ -92,10 +92,8 @@ public class SettingsWindow extends JFrame {
 		JLabel numOfRowsLabel = new JLabel("Number of rows");
 
 
-		if (gameParameters.getGuiType() == GuiType.BUTTONS) {
-			add(guiStyleLabel);
-		}
 		add(guiTypeLabel);
+		add(guiStyleLabel);
 		add(enableSoundsLabel);
 		add(humanPlayerAllegianceLabel);
 		add(gameModeLabel);
@@ -111,16 +109,6 @@ public class SettingsWindow extends JFrame {
 			add(numOfRowsLabel);
 		}
 
-		guiStyleDropDown = new JComboBox<>();
-		guiStyleDropDown.addItem("Cross-platform style");
-		guiStyleDropDown.addItem("Nimbus style");
-
-		if (selectedGuiStyle == GuiStyle.CROSS_PLATFORM_STYLE) {
-			guiStyleDropDown.setSelectedIndex(0);
-		} else if (selectedGuiStyle == GuiStyle.NIMBUS_STYLE) {
-			guiStyleDropDown.setSelectedIndex(1);
-		}
-
 		guiTypeDropDown = new JComboBox<>();
 		guiTypeDropDown.addItem("Drag and Drop");
 		guiTypeDropDown.addItem("Buttons");
@@ -129,6 +117,19 @@ public class SettingsWindow extends JFrame {
 			guiTypeDropDown.setSelectedIndex(0);
 		} else if (selectedGuiType == GuiType.BUTTONS) {
 			guiTypeDropDown.setSelectedIndex(1);
+		}
+
+		guiStyleDropDown = new JComboBox<>();
+		guiStyleDropDown.addItem("Cross-platform style");
+		guiStyleDropDown.addItem("System style");
+		guiStyleDropDown.addItem("Nimbus style");
+
+		if (selectedGuiStyle == GuiStyle.CROSS_PLATFORM_STYLE) {
+			guiStyleDropDown.setSelectedIndex(0);
+		} else if (selectedGuiStyle == GuiStyle.SYSTEM_STYLE) {
+			guiStyleDropDown.setSelectedIndex(1);
+		} else if (selectedGuiStyle == GuiStyle.NIMBUS_STYLE) {
+			guiStyleDropDown.setSelectedIndex(2);
 		}
 
 		enableSoundsCheckBox = new JCheckBox();
@@ -253,10 +254,8 @@ public class SettingsWindow extends JFrame {
 
 		numOfRowsSpinnerModel.setValue(numOfRows);
 
-		if (gameParameters.getGuiType() == GuiType.BUTTONS) {
-			add(guiStyleDropDown);
-		}
 		add(guiTypeDropDown);
+		add(guiStyleDropDown);
 		add(enableSoundsCheckBox);
 		add(humanPlayerAllegianceDropDown);
 		add(gameModeDropDown);
@@ -277,8 +276,8 @@ public class SettingsWindow extends JFrame {
 		int distance = 35;
 		int w = 205;
 		int h = 25;
-		guiStyleLabel.setBounds(x, y, w, h);
-		guiTypeLabel.setBounds(x, y = y + distance, w, h);
+		guiTypeLabel.setBounds(x, y, w, h);
+		guiStyleLabel.setBounds(x, y = y + distance, w, h);
 		enableSoundsLabel.setBounds(x, y = y + distance, w, h);
 		humanPlayerAllegianceLabel.setBounds(25, y = y + distance, w, h);
 		gameModeLabel.setBounds(x, y = y + distance, w, h);
@@ -295,8 +294,8 @@ public class SettingsWindow extends JFrame {
 		x = 225;
 		y = 25;
 		w = 180;
-		guiStyleDropDown.setBounds(x, y, w, h);
-		guiTypeDropDown.setBounds(x, y = y + distance, w, h);
+		guiTypeDropDown.setBounds(x, y, w, h);
+		guiStyleDropDown.setBounds(x, y = y + distance, w, h);
 		enableSoundsCheckBox.setBounds(x, y = y + distance, w, h);
 		humanPlayerAllegianceDropDown.setBounds(x, y = y + distance, w, h);
 		gameModeDropDown.setBounds(x, y = y + distance, w, h);
@@ -330,15 +329,13 @@ public class SettingsWindow extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent ev) {
-
 			if (ev.getSource() == cancel) {
 				dispose();
 			} else if (ev.getSource() == apply) {
 				try {
-
-					GuiStyle guiStyle = GuiStyle.valueOf(guiStyleDropDown.getSelectedItem().toString().toUpperCase()
-							.replace("-", "_").replace(" ", "_"));
 					GuiType guiType = GuiType.valueOf(guiTypeDropDown.getSelectedItem().toString().toUpperCase()
+							.replace(" ", "_"));
+					GuiStyle guiStyle = GuiStyle.valueOf(guiStyleDropDown.getSelectedItem().toString().toUpperCase()
 							.replace("-", "_").replace(" ", "_"));
 					boolean enableSounds = enableSoundsCheckBox.isSelected();
 					Allegiance humanPlayerAllegiance = Allegiance.valueOf(humanPlayerAllegianceDropDown
@@ -378,8 +375,8 @@ public class SettingsWindow extends JFrame {
 						blackSquareColor = Color.GRAY;
 					}
 
-					newGameParameters.setGuiStyle(guiStyle);
 					newGameParameters.setGuiType(guiType);
+					newGameParameters.setGuiStyle(guiStyle);
 					newGameParameters.setEnableSounds(enableSounds);
 					newGameParameters.setHumanPlayerAllegiance(humanPlayerAllegiance);
 					newGameParameters.setGameMode(gameMode);

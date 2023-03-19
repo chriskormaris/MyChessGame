@@ -41,6 +41,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.border.LineBorder;
+import javax.swing.plaf.metal.MetalButtonUI;
 import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
@@ -63,6 +64,10 @@ import static javax.swing.JOptionPane.QUESTION_MESSAGE;
 
 public class ButtonsGui extends JFrame {
 
+
+	public GameParameters gameParameters;
+	public GameParameters newGameParameters;
+
 	int width;
 	int height;
 
@@ -81,9 +86,6 @@ public class ButtonsGui extends JFrame {
 	// These stacks of "char" arrays are used to handle the "undo" and "redo" functionality.
 	Stack<char[]> undoCapturedPieces;
 	Stack<char[]> redoCapturedPieces;
-
-	GameParameters gameParameters;
-	GameParameters newGameParameters;
 
 	// The position (0, 0) of the "chessBoard.getGameBoard()" is the upper left button
 	// of the JButton array "chessButtons".
@@ -129,6 +131,25 @@ public class ButtonsGui extends JFrame {
 	JMenuItem exportFenPositionItem;
 	JMenuItem saveCheckpointItem;
 	JMenuItem loadCheckpointItem;
+
+	KeyListener undoRedoKeyListener = new KeyListener() {
+		@Override
+		public void keyTyped(KeyEvent e) {
+		}
+
+		@Override
+		public void keyPressed(KeyEvent e) {
+			if ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0 && e.getKeyCode() == KeyEvent.VK_Z) {
+				undo();
+			} else if ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0 && e.getKeyCode() == KeyEvent.VK_Y) {
+				redo();
+			}
+		}
+
+		@Override
+		public void keyReleased(KeyEvent e) {
+		}
+	};
 
 	public ButtonsGui() {
 		this(GuiConstants.TITLE);
@@ -344,33 +365,16 @@ public class ButtonsGui extends JFrame {
 		super.addKeyListener(undoRedoKeyListener);
 	}
 
-	KeyListener undoRedoKeyListener = new KeyListener() {
-		@Override
-		public void keyTyped(KeyEvent e) {
-		}
-
-		@Override
-		public void keyPressed(KeyEvent e) {
-			if ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0 && e.getKeyCode() == KeyEvent.VK_Z) {
-				undo();
-			} else if ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0 && e.getKeyCode() == KeyEvent.VK_Y) {
-				redo();
-			}
-		}
-
-		@Override
-		public void keyReleased(KeyEvent e) {
-		}
-	};
-
 	private void configureGuiStyle() {
 		try {
-			// UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 			if (gameParameters.getGuiStyle() == GuiStyle.CROSS_PLATFORM_STYLE) {
 				// Option 1
 				UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-			} else if (gameParameters.getGuiStyle() == GuiStyle.NIMBUS_STYLE) {
+			} else if (gameParameters.getGuiStyle() == GuiStyle.SYSTEM_STYLE) {
 				// Option 2
+				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			} else if (gameParameters.getGuiStyle() == GuiStyle.NIMBUS_STYLE) {
+				// Option 3
 				for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
 					if ("Nimbus".equals(info.getName())) {
 						UIManager.setLookAndFeel(info.getClassName());
@@ -665,6 +669,10 @@ public class ButtonsGui extends JFrame {
 				// button.setRolloverEnabled(true);
 				// button.setOpaque(false);
 
+				if (gameParameters.getGuiStyle() == GuiStyle.SYSTEM_STYLE) {
+					button.setUI(new MetalButtonUI());
+				}
+
 				int row;
 				int column;
 				if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
@@ -764,14 +772,15 @@ public class ButtonsGui extends JFrame {
 	public void startNewGame(String fenPosition) {
 		System.out.println("Starting new game!");
 
-		gameParameters = new GameParameters(newGameParameters);
-
-		if (gameParameters.getGuiType() == GuiType.DRAG_AND_DROP) {
+		if (newGameParameters.getGuiType() == GuiType.DRAG_AND_DROP) {
 			super.dispose();
 			DragAndDropGui dragAndDropGui = new DragAndDropGui();
+			dragAndDropGui.newGameParameters = newGameParameters;
 			dragAndDropGui.startNewGame();
 			return;
 		}
+
+		gameParameters = new GameParameters(newGameParameters);
 
 		if (undoItem != null) {
 			undoItem.setEnabled(false);

@@ -74,8 +74,8 @@ import static javax.swing.JOptionPane.QUESTION_MESSAGE;
 public class DragAndDropGui extends JFrame implements MouseListener, MouseMotionListener {
 
 
-	GameParameters gameParameters;
-	GameParameters newGameParameters;
+	public GameParameters gameParameters;
+	public GameParameters newGameParameters;
 
 	int width;
 	int height;
@@ -182,7 +182,6 @@ public class DragAndDropGui extends JFrame implements MouseListener, MouseMotion
 
 		gameParameters = new GameParameters();
 		gameParameters.setGuiType(GuiType.DRAG_AND_DROP);
-		gameParameters.setGuiStyle(GuiStyle.CROSS_PLATFORM_STYLE);
 		gameParameters.setNumOfRows(Constants.DEFAULT_NUM_OF_ROWS);
 		newGameParameters = new GameParameters(gameParameters);
 
@@ -371,7 +370,35 @@ public class DragAndDropGui extends JFrame implements MouseListener, MouseMotion
 		super.addKeyListener(undoRedoKeyListener);
 	}
 
+	private void configureGuiStyle() {
+		try {
+			if (gameParameters.getGuiStyle() == GuiStyle.CROSS_PLATFORM_STYLE) {
+				// Option 1
+				UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+			} else if (gameParameters.getGuiStyle() == GuiStyle.SYSTEM_STYLE) {
+				// Option 2
+				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			} else if (gameParameters.getGuiStyle() == GuiStyle.NIMBUS_STYLE) {
+				// Option 3
+				for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+					if ("Nimbus".equals(info.getName())) {
+						UIManager.setLookAndFeel(info.getClassName());
+						break;
+					}
+				}
+			}
+		} catch (Exception ex1) {
+			try {
+				UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+			} catch (Exception ex2) {
+				ex2.printStackTrace();
+			}
+		}
+	}
+
 	private void initializeGUI() {
+		configureGuiStyle();
+
 		// Set up the main GUI.
 		guiPanel.setLayout(new BoxLayout(guiPanel, BoxLayout.Y_AXIS));
 
@@ -764,14 +791,15 @@ public class DragAndDropGui extends JFrame implements MouseListener, MouseMotion
 	public void startNewGame(String fenPosition) {
 		System.out.println("Starting new game!");
 
-		gameParameters = new GameParameters(newGameParameters);
-
-		if (gameParameters.getGuiType() == GuiType.BUTTONS) {
+		if (newGameParameters.getGuiType() == GuiType.BUTTONS) {
 			super.dispose();
 			ButtonsGui buttonsGui = new ButtonsGui();
+			buttonsGui.newGameParameters = newGameParameters;
 			buttonsGui.startNewGame();
 			return;
 		}
+
+		gameParameters = new GameParameters(newGameParameters);
 
 		if (undoItem != null) {
 			undoItem.setEnabled(false);
