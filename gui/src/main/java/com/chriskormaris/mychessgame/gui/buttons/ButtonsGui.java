@@ -1662,7 +1662,8 @@ public class ButtonsGui extends JFrame {
 	}
 
 	public static void main(String[] args) {
-		new ButtonsGui();
+		ButtonsGui buttonsGui = new ButtonsGui();
+		buttonsGui.startNewGame();
 	}
 
 }
