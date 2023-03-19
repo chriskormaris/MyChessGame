@@ -26,7 +26,8 @@ Eventually, I implemented the movement of all the Chess pieces, the checkmate, t
 the rest of the draw conditions and most of the other Chess functionalities.
 
 The GUI is very customizable.
-You can enable/disable sound, change square colors, GUI style, or even the number of the Chess board rows!!
+You can enable/disable sound, change square colors, GUI style, or even the number of the Chess board rows!
+Also, there 2 GUI types you can choose from. The first one uses Buttons and the second one uses Drag & Drop.
 In addition, you can use FEN (Forsyth–Edwards Notation) positions and start playing the game from there.
 
 ### Developer Notes
@@ -39,7 +40,7 @@ There are 2 Java modules inside this project:
 1. The `api` module contains all the logic for the Chess game. It can be used for the implementation of any Chess GUI.
 2. The `gui` module contains common constants, libraries and utilities for the GUIs. It includes the `api` module.
    It contains a GUI implementation using JButtons, in the class `ButtonsGui`.
-   It also contains a GUI implementation using a JLayeredPane and the drag and drop method,
+   It also contains a GUI implementation using a JLayeredPane and the Drag & Drop method,
    for moving the pieces, in the class `DragAndDropGui`.
    The `GUI` class instantiates the Buttons GUI. The user can later switch to the Drag & Drop GUI, using the settings.
 
