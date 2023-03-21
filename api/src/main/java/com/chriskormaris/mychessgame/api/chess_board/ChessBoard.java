@@ -1197,11 +1197,10 @@ public class ChessBoard {
 		return gameBoard[row][column];
 	}
 
-	@Override
-	public String toString() {
+	private String getGameBoardAsString() {
 		StringBuilder output = new StringBuilder();
 		output.append("    A   B   C   D   E   F   G   H\n");
-		output.append("  ---------------------------------\n");
+		output.append("   -------------------------------\n");
 		for (int i = 0; i < numOfRows; i++) {
 			output.append(numOfRows - i).append(" |");
 			for (int j = 0; j < numOfColumns; j++) {
@@ -1209,10 +1208,15 @@ public class ChessBoard {
 			}
 			output.append(" ").append(numOfRows - i).append("\n");
 		}
-		output.append("  ---------------------------------\n");
+		output.append("   -------------------------------\n");
 		output.append("    A   B   C   D   E   F   G   H\n");
 
 		return output.toString();
+	}
+
+	@Override
+	public String toString() {
+		return getGameBoardAsString();
 	}
 
 }

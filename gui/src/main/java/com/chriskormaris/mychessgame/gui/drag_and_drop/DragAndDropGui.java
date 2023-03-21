@@ -1075,12 +1075,12 @@ public class DragAndDropGui extends JFrame implements MouseListener, MouseMotion
 		return row * (chessBoard.getNumOfRows() + 2) + column;
 	}
 
-	private int getSquareRow(MouseEvent e) {
-		return e.getY() / squareHeight;
+	private int getSquareRow(MouseEvent event) {
+		return event.getY() / squareHeight;
 	}
 
-	private int getSquareColumn(MouseEvent e) {
-		return e.getX() / squareWidth;
+	private int getSquareColumn(MouseEvent event) {
+		return event.getX() / squareWidth;
 	}
 
 	// It removes the given chessPiece from the board (both the data structure and the JFrame).
@@ -1517,20 +1517,20 @@ public class DragAndDropGui extends JFrame implements MouseListener, MouseMotion
 
 	// Add the selected chess piece to the dragging layer, so it can be moved.
 	@Override
-	public void mousePressed(MouseEvent e) {
-		if (!chessPanelEnabled) return;
+	public void mousePressed(MouseEvent event) {
+		if (mouseIsPressed || !chessPanelEnabled) return;
 
 		// get the component where the user pressed; iff that's not a panel,
 		// we'll put it on the dragging layer.
-		Component component = chessPanel.findComponentAt(e.getX(), e.getY());
+		Component component = chessPanel.findComponentAt(event.getX(), event.getY());
 		try {
 			pieceLabel = (JLabel) component;
 		} catch (ClassCastException ex) {
 			return;
 		}
 
-		int row = getSquareRow(e);
-		int column = getSquareColumn(e);
+		int row = getSquareRow(event);
+		int column = getSquareColumn(event);
 
 		// If the rank and file JLabels are pressed, then return.
 		if (row == 0 || row == chessBoard.getNumOfRows() + 1
@@ -1601,7 +1601,7 @@ public class DragAndDropGui extends JFrame implements MouseListener, MouseMotion
 		Point componentLocation = component.getLocation();
 		xAdjustment = componentLocation.x - GuiConstants.CHESS_PIECE_SQUARE_PIXEL_SIZE;
 		yAdjustment = componentLocation.y - GuiConstants.CHESS_PIECE_SQUARE_PIXEL_SIZE;
-		pieceLabel.setLocation(e.getX() + xAdjustment, e.getY() + yAdjustment);
+		pieceLabel.setLocation(event.getX() + xAdjustment, event.getY() + yAdjustment);
 
 		// Evidently, this removes it from the default layer also.
 		layeredPane.add(pieceLabel, JLayeredPane.DRAG_LAYER);
@@ -1610,19 +1610,18 @@ public class DragAndDropGui extends JFrame implements MouseListener, MouseMotion
 
 	//  Move the chess piece around.
 	@Override
-	public void mouseDragged(MouseEvent me) {
-		if (pieceLabel == null || startingPosition.equals("")) return;
-
+	public void mouseDragged(MouseEvent event) {
 		removeKeyListener(undoRedoKeyListener);
+		if (!mouseIsPressed || pieceLabel == null || startingPosition.equals("")) return;
 
 		// The drag location should be within the bounds of the Chess board.
 
-		int x = me.getX() + xAdjustment;
+		int x = event.getX() + xAdjustment;
 		int xMax = layeredPane.getWidth() - pieceLabel.getWidth();
 		x = Math.min(x, xMax);
 		x = Math.max(x, 0);
 
-		int y = me.getY() + yAdjustment;
+		int y = event.getY() + yAdjustment;
 		int yMax = layeredPane.getHeight() - pieceLabel.getHeight();
 		y = Math.min(y, yMax);
 		y = Math.max(y, 0);
@@ -1634,17 +1633,17 @@ public class DragAndDropGui extends JFrame implements MouseListener, MouseMotion
 
 	//  Drop the chess piece back onto the Chess board.
 	@Override
-	public void mouseReleased(MouseEvent e) {
+	public void mouseReleased(MouseEvent event) {
 		layeredPane.setCursor(null);
 
 		addKeyListener(undoRedoKeyListener);
 
-		if (pieceLabel == null || startingPosition.equals("")) return;
+		if (!mouseIsPressed || pieceLabel == null || startingPosition.equals("")) return;
 
 		mouseIsPressed = false;
 
-		int row = getSquareRow(e);
-		int column = getSquareColumn(e);
+		int row = getSquareRow(event);
+		int column = getSquareColumn(event);
 
 		if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
 				&& gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
@@ -1659,11 +1658,11 @@ public class DragAndDropGui extends JFrame implements MouseListener, MouseMotion
 
 		// The drop location should be within the bounds of the Chess board.
 		int xMax = layeredPane.getWidth() - pieceLabel.getWidth();
-		int x = Math.min(e.getX(), xMax);
+		int x = Math.min(event.getX(), xMax);
 		x = Math.max(x, 0);
 
 		int yMax = layeredPane.getHeight() - pieceLabel.getHeight();
-		int y = Math.min(e.getY(), yMax);
+		int y = Math.min(event.getY(), yMax);
 		y = Math.max(y, 0);
 
 		int rowStart = chessBoard.getRowFromPosition(startingPosition);
@@ -1721,19 +1720,19 @@ public class DragAndDropGui extends JFrame implements MouseListener, MouseMotion
 	}
 
 	@Override
-	public void mouseClicked(MouseEvent e) {
+	public void mouseClicked(MouseEvent event) {
 	}
 
 	@Override
-	public void mouseMoved(MouseEvent e) {
+	public void mouseMoved(MouseEvent event) {
 	}
 
 	@Override
-	public void mouseEntered(MouseEvent e) {
+	public void mouseEntered(MouseEvent event) {
 	}
 
 	@Override
-	public void mouseExited(MouseEvent e) {
+	public void mouseExited(MouseEvent event) {
 	}
 
 	public static void main(String[] args) {
