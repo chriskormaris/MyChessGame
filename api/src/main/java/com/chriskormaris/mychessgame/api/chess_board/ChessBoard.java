@@ -1199,8 +1199,8 @@ public class ChessBoard {
 
 	private String getGameBoardAsString() {
 		StringBuilder output = new StringBuilder();
-		output.append("    A   B   C   D   E   F   G   H\n");
-		output.append("   -------------------------------\n");
+		output.append("    A   B   C   D   E   F   G   H").append("\n");
+		output.append("   -------------------------------").append("\n");
 		for (int i = 0; i < numOfRows; i++) {
 			output.append(numOfRows - i).append(" |");
 			for (int j = 0; j < numOfColumns; j++) {
@@ -1208,8 +1208,8 @@ public class ChessBoard {
 			}
 			output.append(" ").append(numOfRows - i).append("\n");
 		}
-		output.append("   -------------------------------\n");
-		output.append("    A   B   C   D   E   F   G   H\n");
+		output.append("   -------------------------------").append("\n");
+		output.append("    A   B   C   D   E   F   G   H").append("\n");
 
 		return output.toString();
 	}

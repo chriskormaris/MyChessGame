@@ -207,7 +207,7 @@ public class DragAndDropGui extends JFrame implements MouseListener, MouseMotion
 		BufferedImage icon;
 		try {
 			icon = ImageIO.read(ResourceLoader.load(GuiConstants.ICON_PATH));
-			setIconImage(icon);
+			super.setIconImage(icon);
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
