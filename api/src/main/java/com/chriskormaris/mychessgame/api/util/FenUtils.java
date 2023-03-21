@@ -99,8 +99,12 @@ public final class FenUtils {
 
 		ChessBoard chessBoard = new ChessBoard(numOfRows);
 
-		// set the ChessBoard parameters, according to the given FEN position
-		populateGameBoard(chessBoard, startingPieces);
+		// Set the ChessBoard parameters, according to the given FEN position.
+		if (numOfRows == 8) {
+			populateGameBoard(chessBoard, startingPieces);
+		} else if (fenPosition.equals(Constants.DEFAULT_STARTING_FEN_POSITION)) {
+			chessBoard.placePiecesToStartingPositions();
+		}
 
 		chessBoard.setPlayer(whitePlays);
 
@@ -146,7 +150,11 @@ public final class FenUtils {
 				continue;
 			}
 
-			chessBoard.getGameBoard()[i][j] = Utilities.getChessPiece(pieceChar);
+			try {
+				chessBoard.getGameBoard()[i][j] = Utilities.getChessPiece(pieceChar);
+			} catch (ArrayIndexOutOfBoundsException ex) {
+				ex.printStackTrace();
+			}
 
 			if (pieceChar == Constants.WHITE_KING) {
 				chessBoard.setWhiteKingPosition(chessBoard.getPositionByRowCol(i, j));

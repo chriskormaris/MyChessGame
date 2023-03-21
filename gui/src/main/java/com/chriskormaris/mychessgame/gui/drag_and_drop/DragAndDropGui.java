@@ -212,7 +212,7 @@ public class DragAndDropGui extends JFrame implements MouseListener, MouseMotion
 			ex.printStackTrace();
 		}
 
-		super.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		super.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		super.pack();
 		super.setLocationRelativeTo(null);
 		super.setVisible(true);
@@ -982,7 +982,7 @@ public class DragAndDropGui extends JFrame implements MouseListener, MouseMotion
 
 	// Restores all the default values.
 	private void restoreDefaultValues() {
-		chessBoard = new ChessBoard(chessBoard.getNumOfRows());
+		chessBoard = new ChessBoard();
 
 		startingPosition = "";
 		endingPosition = "";

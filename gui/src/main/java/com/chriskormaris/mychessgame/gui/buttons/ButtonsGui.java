@@ -194,7 +194,7 @@ public class ButtonsGui extends JFrame {
 		initializeAI();
 
 		super.add(guiPanel);
-		super.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		super.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		super.setLocationByPlatform(true);
 
 		// ensures the frame is the minimum size it needs to be
@@ -816,7 +816,7 @@ public class ButtonsGui extends JFrame {
 
 	// Restores all the default values.
 	private void restoreDefaultValues() {
-		chessBoard = new ChessBoard(chessBoard.getNumOfRows());
+		chessBoard = new ChessBoard(gameParameters.getNumOfRows());
 
 		startingPosition = "";
 		endingPosition = "";
@@ -1600,7 +1600,7 @@ public class ButtonsGui extends JFrame {
 	}
 
 	public void placePiecesToChessBoard(String fenPosition) {
-		chessBoard = FenUtils.getChessBoardFromFenPosition(fenPosition, chessBoard.getNumOfRows());
+		chessBoard = FenUtils.getChessBoardFromFenPosition(fenPosition, gameParameters.getNumOfRows());
 
 		for (int i = 0; i < chessBoard.getNumOfRows(); i++) {
 			for (int j = 0; j < chessBoard.getNumOfColumns(); j++) {
