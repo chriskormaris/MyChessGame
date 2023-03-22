@@ -51,8 +51,6 @@ public class ShannonEvaluation extends Evaluation {
 				ChessPiece chessPiece = chessBoard.getGameBoard()[i][j];
 
 				String position = chessBoard.getPositionByRowCol(i, j);
-				// System.out.print("chessPiece: " + chessPiece + ", i: " + i + ", j: " + j);
-				// System.out.println(", position: " + position);
 				int numberOfLegalMoves = chessPiece.getNextPositions(position, chessBoard, false).size();
 
 				if (chessPiece.getAllegiance() == Allegiance.WHITE) {

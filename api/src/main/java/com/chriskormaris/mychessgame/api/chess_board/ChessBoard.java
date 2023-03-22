@@ -126,7 +126,7 @@ public class ChessBoard {
 		this.gameBoard = new ChessPiece[numOfRows][numOfColumns];
 		placePiecesToStartingPositions();
 
-		// this.gameBoard = FenUtils.createGameBoard(this, Constants.DEFAULT_STARTING_PIECES);
+		// FenUtils.populateGameBoard(this, Constants.DEFAULT_STARTING_PIECES);
 
 		this.squaresThreatenedByWhite = new int[numOfRows][numOfColumns];
 		this.squaresThreatenedByBlack = new int[numOfRows][numOfColumns];
@@ -216,7 +216,7 @@ public class ChessBoard {
 			this.gameBoard[1][j] = new Pawn(Allegiance.BLACK);
 		}
 
-		// From 3nd row to (n-th - 2) row.
+		// From 3rd row to (n-th - 2) row.
 		for (int i = 2; i < numOfRows - 2; i++) {
 			for (int j = 0; j < numOfColumns; j++) {
 				this.gameBoard[i][j] = new EmptySquare();

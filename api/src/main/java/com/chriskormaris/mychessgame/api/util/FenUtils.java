@@ -102,8 +102,6 @@ public final class FenUtils {
 		// Set the ChessBoard parameters, according to the given FEN position.
 		if (numOfRows == Constants.DEFAULT_NUM_OF_ROWS) {
 			populateGameBoard(chessBoard, startingPieces);
-		} else if (fenPosition.equals(Constants.DEFAULT_STARTING_FEN_POSITION)) {
-			chessBoard.placePiecesToStartingPositions();
 		}
 
 		chessBoard.setPlayer(whitePlays);
