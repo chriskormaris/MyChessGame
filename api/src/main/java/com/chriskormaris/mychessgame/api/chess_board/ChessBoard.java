@@ -540,7 +540,6 @@ public class ChessBoard {
 	public List<ChessBoard> getChildren(Allegiance allegiance, MinimaxAI minimaxAI) {
 		List<ChessBoard> children = new ArrayList<>();
 
-		setThreats();
 		for (int row = 0; row < numOfRows; row++) {
 			for (int column = 0; column < numOfColumns; column++) {
 				ChessPiece chessPiece = this.gameBoard[row][column];
@@ -627,6 +626,8 @@ public class ChessBoard {
 		int column = getColumnFromPosition(position);
 		ChessPiece chessPiece = this.getGameBoard()[row][column];
 
+		setThreats();
+
 		nextPositions = gameBoard[row][column].getNextPositions(position, this, false);
 
 		/* Remove positions that lead to the king being in check. */
@@ -640,10 +641,10 @@ public class ChessBoard {
 			ChessPiece chessPiece,
 			Set<String> nextPositions
 	) {
-		ChessBoard initialChessBoard = new ChessBoard(this);
-
 		Set<String> tempNextPositions = new HashSet<>(nextPositions);
 		for (String tempNextPosition : tempNextPositions) {
+			ChessBoard initialChessBoard = new ChessBoard(this);
+
 			initialChessBoard.moveChessPiece(position, tempNextPosition, false);
 
 			int whiteKingRow = getRowFromPosition(initialChessBoard.getWhiteKingPosition());
@@ -658,8 +659,6 @@ public class ChessBoard {
 					&& initialChessBoard.getSquaresThreatenedByWhite()[blackKingRow][blackKingColumn] == 1) {
 				nextPositions.remove(tempNextPosition);
 			}
-
-			initialChessBoard = new ChessBoard(this);
 		}
 
 		return nextPositions;

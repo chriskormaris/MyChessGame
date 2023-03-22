@@ -1551,7 +1551,6 @@ public class DragAndDropGui extends JFrame implements MouseListener, MouseMotion
 
 		mouseIsPressed = true;
 
-		chessBoard.setThreats();
 		hintPositions = chessBoard.getNextPositions(startingPosition);
 
 		if (chessPiece.getAllegiance() == Allegiance.WHITE && chessBoard.whitePlays()

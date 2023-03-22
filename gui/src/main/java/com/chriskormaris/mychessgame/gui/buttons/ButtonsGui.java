@@ -940,7 +940,6 @@ public class ButtonsGui extends JFrame {
 			startingPosition = position;
 
 			if (!(chessPiece instanceof EmptySquare)) {
-				chessBoard.setThreats();
 				hintPositions = chessBoard.getNextPositions(position);
 				GuiUtils.changeSquareColor(button, Color.CYAN);
 
