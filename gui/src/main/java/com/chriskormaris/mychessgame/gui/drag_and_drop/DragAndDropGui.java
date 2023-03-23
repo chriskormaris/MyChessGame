@@ -799,7 +799,8 @@ public class DragAndDropGui extends JFrame implements MouseListener, MouseMotion
 			return;
 		}
 
-		gameParameters = new GameParameters(newGameParameters);
+    	newGameParameters.setNumOfRows(Constants.DEFAULT_NUM_OF_ROWS);
+    	gameParameters = new GameParameters(newGameParameters);
 
 		if (undoItem != null) {
 			undoItem.setEnabled(false);
