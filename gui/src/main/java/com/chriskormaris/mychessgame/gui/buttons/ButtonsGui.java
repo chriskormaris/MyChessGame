@@ -448,11 +448,11 @@ public class ButtonsGui extends JFrame {
 				&& chessBoard.getPreviousHalfMoveFenPositions().size() >= 2) {
 			System.out.println("Undo is pressed!");
 
-			if (!buttonsEnabled) {
-				enableChessButtons();
-			}
-
 			if (gameParameters.getGameMode() != GameMode.AI_VS_AI) {
+				if (!buttonsEnabled) {
+					enableChessButtons();
+				}
+
 				startingButtonIsClicked = false;
 				hideHintPositions();
 			}

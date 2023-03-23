@@ -558,11 +558,11 @@ public class DragAndDropGui extends JFrame implements MouseListener, MouseMotion
 				&& chessBoard.getPreviousHalfMoveFenPositions().size() >= 2) {
 			System.out.println("Undo is pressed!");
 
-			if (!chessPanelEnabled) {
-				chessPanelEnabled = true;
-			}
-
 			if (gameParameters.getGameMode() != GameMode.AI_VS_AI) {
+				if (!chessPanelEnabled) {
+					chessPanelEnabled = true;
+				}
+
 				mouseIsPressed = false;
 			}
 
