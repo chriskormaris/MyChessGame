@@ -789,8 +789,6 @@ public class DragAndDropGui extends JFrame implements MouseListener, MouseMotion
 	}
 
 	public void startNewGame(String fenPosition) {
-		System.out.println("Starting new game!");
-
 		if (newGameParameters.getGuiType() == GuiType.BUTTONS) {
 			super.dispose();
 			ButtonsGui buttonsGui = new ButtonsGui();
@@ -798,6 +796,8 @@ public class DragAndDropGui extends JFrame implements MouseListener, MouseMotion
 			buttonsGui.startNewGame();
 			return;
 		}
+
+		System.out.println("Starting new game!");
 
     	newGameParameters.setNumOfRows(Constants.DEFAULT_NUM_OF_ROWS);
     	gameParameters = new GameParameters(newGameParameters);

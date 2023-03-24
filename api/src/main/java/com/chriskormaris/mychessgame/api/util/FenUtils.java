@@ -100,7 +100,7 @@ public final class FenUtils {
 		ChessBoard chessBoard = new ChessBoard(numOfRows);
 
 		// Set the ChessBoard parameters, according to the given FEN position.
-		if (numOfRows == Constants.DEFAULT_NUM_OF_ROWS) {
+		if (numOfRows == Constants.DEFAULT_NUM_OF_ROWS || !fenPosition.equals(Constants.DEFAULT_STARTING_FEN_POSITION)) {
 			populateGameBoard(chessBoard, startingPieces);
 		}
 

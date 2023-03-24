@@ -770,8 +770,6 @@ public class ButtonsGui extends JFrame {
 	}
 
 	public void startNewGame(String fenPosition) {
-		System.out.println("Starting new game!");
-
 		if (newGameParameters.getGuiType() == GuiType.DRAG_AND_DROP) {
 			super.dispose();
 			DragAndDropGui dragAndDropGui = new DragAndDropGui();
@@ -779,6 +777,8 @@ public class ButtonsGui extends JFrame {
 			dragAndDropGui.startNewGame();
 			return;
 		}
+
+		System.out.println("Starting new game!");
 
 		if (newGameParameters.getNumOfRows() != Constants.DEFAULT_NUM_OF_ROWS) {
 			newGameParameters.setEvaluationFunction1(EvaluationFunction.SHANNON);
