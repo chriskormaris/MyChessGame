@@ -105,7 +105,7 @@ public class DragAndDropGui extends JFrame implements MouseListener, MouseMotion
 	// of the JPanel "chessPanel".
 	ChessBoard chessBoard;
 
-	// This variable is used for the implementation of "Human Vs AI".
+	// This variable is used for the implementation of "Human vs AI".
 	AI ai;
 
 	JPanel guiPanel;

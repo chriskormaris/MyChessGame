@@ -926,10 +926,10 @@ public class ChessBoard {
 	}
 
 	/* Checks if the only pieces left on the Chess board are:
-	 * - King Vs King
-	 * - King & Bishop Vs King
-	 * - King & Knight Vs King
-	 * - King & Bishop Vs King & Bishop with the Bishops on the same color. */
+	 * - King vs King
+	 * - King & Bishop vs King
+	 * - King & Knight vs King
+	 * - King & Bishop vs King & Bishop with the Bishops on the same color. */
 	public boolean isInsufficientMatingMaterialDraw() {
 		int numOfWhiteKnights = 0;
 		int numOfBlackKnights = 0;

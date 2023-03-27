@@ -20,22 +20,22 @@ public class InsufficientMatingMaterialDrawTest {
 		buttonsGui.makeChessBoardSquaresEmpty();
 		System.out.println(buttonsGui.chessBoard);
 
-		// King Vs King draw.
+		// King vs King draw.
 		// gui.placePieceToPosition("A1", new King(Allegiance.WHITE));
 		// gui.placePieceToPosition("A2", new Knight(Allegiance.WHITE));
 		// gui.placePieceToPosition("H8", new King(Allegiance.BLACK));
 
-		// King and Bishop Vs King draw.
+		// King and Bishop vs King draw.
 		// gui.placePieceToPosition("A1", new King(Allegiance.WHITE));
 		// gui.placePieceToPosition("A2", new Bishop(Allegiance.WHITE));
 		// gui.placePieceToPosition("H8", new King(Allegiance.BLACK));
 
-		// King and Knight Vs King draw.
+		// King and Knight vs King draw.
 		// gui.placePieceToPosition("A1", new King(Allegiance.WHITE));
 		// gui.placePieceToPosition("A2", new Knight(Allegiance.WHITE));
 		// gui.placePieceToPosition("H8", new King(Allegiance.BLACK));
 
-		// King and Bishop Vs King and Bishop on the same color draw.
+		// King and Bishop vs King and Bishop on the same color draw.
 		buttonsGui.placePieceToPosition("A1", new King(Allegiance.WHITE));
 		buttonsGui.placePieceToPosition("A2", new Bishop(Allegiance.WHITE));
 		buttonsGui.placePieceToPosition("H8", new King(Allegiance.BLACK));

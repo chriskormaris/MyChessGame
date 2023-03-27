@@ -93,7 +93,7 @@ public class ButtonsGui extends JFrame {
 	// of the JButton array "chessButtons".
 	public ChessBoard chessBoard;
 
-	// This variable is used for the implementation of "Human Vs AI".
+	// This variable is used for the implementation of "Human vs AI".
 	public AI ai;
 
 	JToolBar tools;
@@ -121,7 +121,7 @@ public class ButtonsGui extends JFrame {
 
 	boolean buttonsEnabled;
 
-	// This variable is used for the implementation of "AI Vs AI".
+	// This variable is used for the implementation of "AI vs AI".
 	boolean isGameOver;
 
 	String savedFenPosition;

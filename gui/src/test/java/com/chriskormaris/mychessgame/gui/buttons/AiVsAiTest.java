@@ -9,7 +9,7 @@ public class AiVsAiTest {
 
 	@Test
 	public void testAiVsAi() {
-		String title = "AI Vs AI Test";
+		String title = "AI vs AI Test";
 
 		ButtonsGui buttonsGui = new ButtonsGui(title);
 

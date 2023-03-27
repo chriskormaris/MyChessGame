@@ -9,7 +9,7 @@ import java.awt.*;
 public class GuiConstants {
 
 	public static final String TITLE = "My Chess Game";
-	public static final String VERSION = "8.5.9";
+	public static final String VERSION = "8.6.0";
 
 	public static final String FIRST_TURN_TEXT = "Turn: 1. White plays first.";
 	public static final String ZERO_SCORE_TEXT = "Score:  0";
@@ -47,8 +47,8 @@ public class GuiConstants {
 			+ "\nThe following scenarios are considered a draw:\n"
 			+ "  1) If a player makes a move, that puts the opponent player in a place that he has not any legal move to make, and it is not a \"checkmate\",\n"
 			+ "     that move is called a \"stalemate\" and the game ends in a draw.\n"
-			+ "  2) If the only Chess pieces standing on the board are King Vs King, King & Bishop Vs King, King & Knight Vs King, or\n"
-			+ "     King & Bishop Vs King & Bishop with the Bishops on the same color, then the game ends in a draw due to insufficient mating material.\n"
+			+ "  2) If the only Chess pieces standing on the board are King vs King, King & Bishop vs King, King & Knight vs King, or\n"
+			+ "     King & Bishop vs King & Bishop with the Bishops on the same color, then the game ends in a draw due to insufficient mating material.\n"
 			+ "     In addition, if we have only Kings and Pawns left on the Chess board and the Kings are not able to capture the Pawns,\n"
 			+ "     then this condition is also a draw due to insufficient mating material.\n"
 			+ "  3) If 50 turns have passed and neither player has captured any opponent's Chess piece, then the player that plays next can declare a draw.\n"

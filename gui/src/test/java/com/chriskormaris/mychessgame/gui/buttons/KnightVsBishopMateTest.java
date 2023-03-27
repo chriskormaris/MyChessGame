@@ -9,7 +9,7 @@ public class KnightVsBishopMateTest {
 
 	@Test
 	public void testKnightVsBishopMate() {
-		String title = "Knight Vs Bishop Mate Test";
+		String title = "Knight vs Bishop Mate Test";
 
 		ButtonsGui buttonsGui = new ButtonsGui(title);
 
