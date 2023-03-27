@@ -32,7 +32,7 @@ public abstract class ChessPiece {
 		this.pieceChar = Utilities.getPieceChar(this);
 	}
 
-	public abstract Set<String> getNextPositions(String position, ChessBoard chessBoard, boolean returnThreats);
+	public abstract Set<String> getNextPositions(String startingPosition, ChessBoard chessBoard, boolean returnThreats);
 
 	@Override
 	public String toString() {

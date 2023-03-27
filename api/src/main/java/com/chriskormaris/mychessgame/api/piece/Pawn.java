@@ -14,13 +14,13 @@ public class Pawn extends ChessPiece {
 	}
 
 	@Override
-	public Set<String> getNextPositions(String position, ChessBoard chessBoard, boolean returnThreats) {
+	public Set<String> getNextPositions(String startingPosition, ChessBoard chessBoard, boolean returnThreats) {
 		Set<String> nextPawnPositions = new HashSet<>();
 
 		// First, find the row && the column
 		// that corresponds to the given position String.
-		int row = chessBoard.getRowFromPosition(position);
-		int column = chessBoard.getColumnFromPosition(position);
+		int row = chessBoard.getRowFromPosition(startingPosition);
+		int column = chessBoard.getColumnFromPosition(startingPosition);
 		ChessPiece pawn = chessBoard.getGameBoard()[row][column];
 
 		if (!(pawn instanceof Pawn)) {
@@ -100,7 +100,7 @@ public class Pawn extends ChessPiece {
 				}
 			}
 
-			Set<String> enPassantPositions = getEnPassantPositions(position, chessBoard, returnThreats);
+			Set<String> enPassantPositions = getEnPassantPositions(startingPosition, chessBoard, returnThreats);
 			nextPawnPositions.addAll(enPassantPositions);
 		}
 

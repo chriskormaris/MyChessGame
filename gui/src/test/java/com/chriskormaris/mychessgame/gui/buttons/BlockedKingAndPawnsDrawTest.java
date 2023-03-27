@@ -46,7 +46,7 @@ public class BlockedKingAndPawnsDrawTest {
 		// After the White player has moved the White pawn, it should be a draw!
 		System.out.println("Checking if a draw has occurred...");
 		checkForGameOver();
-		isDraw = chessBoard.isInsufficientMaterialDraw();
+		isDraw = chessBoard.checkForInsufficientMatingMaterialDraw();
 		assertTrue("The game is a draw.", isDraw == true);
 		*/
 

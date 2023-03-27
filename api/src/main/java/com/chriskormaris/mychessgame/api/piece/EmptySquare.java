@@ -14,7 +14,7 @@ public class EmptySquare extends ChessPiece {
 	}
 
 	@Override
-	public Set<String> getNextPositions(String position, ChessBoard chessBoard, boolean returnThreats) {
+	public Set<String> getNextPositions(String startingPosition, ChessBoard chessBoard, boolean returnThreats) {
 		return new HashSet<>();
 	}
 
