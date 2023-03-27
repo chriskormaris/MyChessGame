@@ -544,25 +544,23 @@ public class ChessBoard {
 			for (int column = 0; column < numOfColumns; column++) {
 				ChessPiece chessPiece = this.gameBoard[row][column];
 				if (allegiance == chessPiece.getAllegiance()) {
-					String initialPosition = getPositionByRowCol(row, column);
-					Set<String> nextPositions = getNextPositions(initialPosition);
+					String startingPosition = getPositionByRowCol(row, column);
+					Set<String> nextPositions = getNextPositions(startingPosition);
 
-					if (nextPositions != null) {
-						for (String nextPosition : nextPositions) {
-							ChessBoard child = new ChessBoard(this);
+					for (String nextPosition : nextPositions) {
+						ChessBoard child = new ChessBoard(this);
 
-							List<String> moves = new ArrayList<>();
-							moves.add(initialPosition);
-							moves.add(nextPosition);
+						List<String> moves = new ArrayList<>();
+						moves.add(startingPosition);
+						moves.add(nextPosition);
 
-							Move move = new Move(moves);
+						Move move = new Move(moves);
 
-							child.makeMove(move, false);
+						child.makeMove(move, false);
 
-							child.getLastMove().setPositions(moves);
-							child.getLastMove().setValue(child.evaluate(minimaxAI));
-							children.add(child);
-						}
+						child.getLastMove().setPositions(moves);
+						child.getLastMove().setValue(child.evaluate(minimaxAI));
+						children.add(child);
 					}
 				}
 			}
@@ -617,35 +615,33 @@ public class ChessBoard {
 		return this.gameResult != GameResult.NONE;
 	}
 
-	public Set<String> getNextPositions(String position) {
-		Set<String> nextPositions;
-
+	public Set<String> getNextPositions(String startingPosition) {
 		// First, find the row && the column
 		// that corresponds to the given position String.
-		int row = getRowFromPosition(position);
-		int column = getColumnFromPosition(position);
+		int row = getRowFromPosition(startingPosition);
+		int column = getColumnFromPosition(startingPosition);
 		ChessPiece chessPiece = this.getGameBoard()[row][column];
 
 		setThreats();
 
-		nextPositions = gameBoard[row][column].getNextPositions(position, this, false);
+		Set<String> nextPositions = gameBoard[row][column].getNextPositions(startingPosition, this, false);
 
-		/* Remove positions that lead to the king being in check. */
-		nextPositions = removePositionsLeadingToOppositeCheck(position, chessPiece, nextPositions);
+		removePositionsLeadingToOppositeCheck(startingPosition, chessPiece, nextPositions);
 
 		return nextPositions;
 	}
 
-	public Set<String> removePositionsLeadingToOppositeCheck(
-			String position,
+	/* Remove positions that lead to the King being in check. */
+	public void removePositionsLeadingToOppositeCheck(
+			String startingPosition,
 			ChessPiece chessPiece,
 			Set<String> nextPositions
 	) {
-		Set<String> tempNextPositions = new HashSet<>(nextPositions);
-		for (String tempNextPosition : tempNextPositions) {
+		Set<String> positionsToRemove = new HashSet<>();
+		for (String nextPosition : nextPositions) {
 			ChessBoard initialChessBoard = new ChessBoard(this);
 
-			initialChessBoard.moveChessPiece(position, tempNextPosition, false);
+			initialChessBoard.moveChessPiece(startingPosition, nextPosition, false);
 
 			int whiteKingRow = getRowFromPosition(initialChessBoard.getWhiteKingPosition());
 			int whiteKingColumn = getColumnFromPosition(initialChessBoard.getWhiteKingPosition());
@@ -657,11 +653,10 @@ public class ChessBoard {
 					&& initialChessBoard.getSquaresThreatenedByBlack()[whiteKingRow][whiteKingColumn] == 1
 					|| chessPiece.getAllegiance() == Allegiance.BLACK
 					&& initialChessBoard.getSquaresThreatenedByWhite()[blackKingRow][blackKingColumn] == 1) {
-				nextPositions.remove(tempNextPosition);
+				positionsToRemove.add(nextPosition);
 			}
 		}
-
-		return nextPositions;
+		nextPositions.removeAll(positionsToRemove);
 	}
 
 	// It should be called after we move any ChessPiece in the ChessBoard.
@@ -683,15 +678,13 @@ public class ChessBoard {
 
 				Set<String> threatPositions = chessPiece.getNextPositions(position, this, true);
 
-				if (threatPositions != null && threatPositions.size() != 0) {
-					for (String threatPosition : threatPositions) {
-						int row = getRowFromPosition(threatPosition);
-						int column = getColumnFromPosition(threatPosition);
-						if (chessPiece.getAllegiance() == Allegiance.WHITE) {
-							this.squaresThreatenedByWhite[row][column] = 1;
-						} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
-							this.squaresThreatenedByBlack[row][column] = 1;
-						}
+				for (String threatPosition : threatPositions) {
+					int row = getRowFromPosition(threatPosition);
+					int column = getColumnFromPosition(threatPosition);
+					if (chessPiece.getAllegiance() == Allegiance.WHITE) {
+						this.squaresThreatenedByWhite[row][column] = 1;
+					} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
+						this.squaresThreatenedByBlack[row][column] = 1;
 					}
 				}
 			}
