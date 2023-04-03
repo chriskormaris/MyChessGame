@@ -41,7 +41,7 @@ public class SettingsWindow extends JFrame {
 	private final Component parentComponent;
 	private final GameParameters newGameParameters;
 
-	public SettingsWindow(Component parentComponent, GameParameters gameParameters, GameParameters newGameParameters) {
+	public SettingsWindow(Component parentComponent, GameParameters newGameParameters) {
 		super("Settings");
 
 		this.parentComponent = parentComponent;
@@ -58,22 +58,22 @@ public class SettingsWindow extends JFrame {
 
 		EventHandler handler = new EventHandler();
 
-		newGameParameters.setGuiType(gameParameters.getGuiType());
+		newGameParameters.setGuiType(newGameParameters.getGuiType());
 
-		GuiType selectedGuiType = gameParameters.getGuiType();
-		GuiStyle selectedGuiStyle = gameParameters.getGuiStyle();
-		boolean enableSounds = gameParameters.isEnableSounds();
-		Allegiance humanPlayerAllegiance = gameParameters.getHumanPlayerAllegiance();
-		GameMode selectedGameMode = gameParameters.getGameMode();
-		AiType selectedAi1Type = gameParameters.getAi1Type();
-		AiType selectedAi2Type = gameParameters.getAi2Type();
-		int ai1MaxDepth = gameParameters.getAi1MaxDepth() - 1;
-		int ai2MaxDepth = gameParameters.getAi2MaxDepth() - 1;
-		EvaluationFunction evaluationFunction1 = gameParameters.getEvaluationFunction1();
-		EvaluationFunction evaluationFunction2 = gameParameters.getEvaluationFunction2();
-		Color selectedWhiteSquareColor = gameParameters.getWhiteSquareColor();
-		Color selectedBlackSquareColor = gameParameters.getBlackSquareColor();
-		int numOfRows = gameParameters.getNumOfRows();
+		GuiType selectedGuiType = newGameParameters.getGuiType();
+		GuiStyle selectedGuiStyle = newGameParameters.getGuiStyle();
+		boolean enableSounds = newGameParameters.isEnableSounds();
+		Allegiance humanPlayerAllegiance = newGameParameters.getHumanPlayerAllegiance();
+		GameMode selectedGameMode = newGameParameters.getGameMode();
+		AiType selectedAi1Type = newGameParameters.getAi1Type();
+		AiType selectedAi2Type = newGameParameters.getAi2Type();
+		int ai1MaxDepth = newGameParameters.getAi1MaxDepth() - 1;
+		int ai2MaxDepth = newGameParameters.getAi2MaxDepth() - 1;
+		EvaluationFunction evaluationFunction1 = newGameParameters.getEvaluationFunction1();
+		EvaluationFunction evaluationFunction2 = newGameParameters.getEvaluationFunction2();
+		Color selectedWhiteSquareColor = newGameParameters.getWhiteSquareColor();
+		Color selectedBlackSquareColor = newGameParameters.getBlackSquareColor();
+		int numOfRows = newGameParameters.getNumOfRows();
 
 
 		JLabel guiTypeLabel = new JLabel("GUI type");
@@ -105,7 +105,7 @@ public class SettingsWindow extends JFrame {
 		add(evaluationFunction2Label);
 		add(whiteSquareColorLabel);
 		add(blackSquareColorLabel);
-		if (gameParameters.getGuiType() == GuiType.BUTTONS) {
+		if (newGameParameters.getGuiType() == GuiType.BUTTONS) {
 			add(numOfRowsLabel);
 		}
 
@@ -267,7 +267,7 @@ public class SettingsWindow extends JFrame {
 		add(evaluationFunction2DropDown);
 		add(whiteSquareColorDropDown);
 		add(blackSquareColorDropDown);
-		if (gameParameters.getGuiType() == GuiType.BUTTONS) {
+		if (newGameParameters.getGuiType() == GuiType.BUTTONS) {
 			add(numOfRowsSpinner);
 		}
 
