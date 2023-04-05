@@ -14,6 +14,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class SettingsWindow extends JFrame {
@@ -50,15 +52,11 @@ public class SettingsWindow extends JFrame {
 		int width = 450;
 		int height = 620;
 
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setLayout(null);
-		setSize(width, height);
-		setLocationRelativeTo(parentComponent);
-		setResizable(false);
-
-		EventHandler handler = new EventHandler();
-
-		newGameParameters.setGuiType(newGameParameters.getGuiType());
+		super.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		super.setLayout(null);
+		super.setSize(width, height);
+		super.setLocationRelativeTo(parentComponent);
+		super.setResizable(false);
 
 		GuiType selectedGuiType = newGameParameters.getGuiType();
 		GuiStyle selectedGuiStyle = newGameParameters.getGuiStyle();
@@ -75,6 +73,8 @@ public class SettingsWindow extends JFrame {
 		Color selectedBlackSquareColor = newGameParameters.getBlackSquareColor();
 		int numOfRows = newGameParameters.getNumOfRows();
 
+		List<JLabel> labels = new ArrayList<>();
+		List<JComponent> components = new ArrayList<>();
 
 		JLabel guiTypeLabel = new JLabel("GUI type");
 		JLabel guiStyleLabel = new JLabel("GUI style");
@@ -91,22 +91,21 @@ public class SettingsWindow extends JFrame {
 		JLabel blackSquareColorLabel = new JLabel("Black square color");
 		JLabel numOfRowsLabel = new JLabel("Number of rows");
 
-
-		add(guiTypeLabel);
-		add(guiStyleLabel);
-		add(enableSoundsLabel);
-		add(humanPlayerAllegianceLabel);
-		add(gameModeLabel);
-		add(ai1TypeLabel);
-		add(ai2TypeLabel);
-		add(ai1MaxDepthLabel);
-		add(ai2MaxDepthLabel);
-		add(evaluationFunction1Label);
-		add(evaluationFunction2Label);
-		add(whiteSquareColorLabel);
-		add(blackSquareColorLabel);
+		labels.add(guiTypeLabel);
+		labels.add(guiStyleLabel);
+		labels.add(enableSoundsLabel);
+		labels.add(humanPlayerAllegianceLabel);
+		labels.add(gameModeLabel);
+		labels.add(ai1TypeLabel);
+		labels.add(ai2TypeLabel);
+		labels.add(ai1MaxDepthLabel);
+		labels.add(ai2MaxDepthLabel);
+		labels.add(evaluationFunction1Label);
+		labels.add(evaluationFunction2Label);
+		labels.add(whiteSquareColorLabel);
+		labels.add(blackSquareColorLabel);
 		if (newGameParameters.getGuiType() == GuiType.BUTTONS) {
-			add(numOfRowsLabel);
+			labels.add(numOfRowsLabel);
 		}
 
 		guiTypeDropDown = new JComboBox<>();
@@ -254,21 +253,21 @@ public class SettingsWindow extends JFrame {
 
 		numOfRowsSpinnerModel.setValue(numOfRows);
 
-		add(guiTypeDropDown);
-		add(guiStyleDropDown);
-		add(enableSoundsCheckBox);
-		add(humanPlayerAllegianceDropDown);
-		add(gameModeDropDown);
-		add(ai1TypeDropDown);
-		add(ai2TypeDropDown);
-		add(ai1MaxDepthDropDown);
-		add(ai2MaxDepthDropDown);
-		add(evaluationFunction1DropDown);
-		add(evaluationFunction2DropDown);
-		add(whiteSquareColorDropDown);
-		add(blackSquareColorDropDown);
+		components.add(guiTypeDropDown);
+		components.add(guiStyleDropDown);
+		components.add(enableSoundsCheckBox);
+		components.add(humanPlayerAllegianceDropDown);
+		components.add(gameModeDropDown);
+		components.add(ai1TypeDropDown);
+		components.add(ai2TypeDropDown);
+		components.add(ai1MaxDepthDropDown);
+		components.add(ai2MaxDepthDropDown);
+		components.add(evaluationFunction1DropDown);
+		components.add(evaluationFunction2DropDown);
+		components.add(whiteSquareColorDropDown);
+		components.add(blackSquareColorDropDown);
 		if (newGameParameters.getGuiType() == GuiType.BUTTONS) {
-			add(numOfRowsSpinner);
+			components.add(numOfRowsSpinner);
 		}
 
 		int x = 25;
@@ -276,62 +275,46 @@ public class SettingsWindow extends JFrame {
 		int distance = 35;
 		int w = 205;
 		int h = 25;
-		guiTypeLabel.setBounds(x, y, w, h);
-		guiStyleLabel.setBounds(x, y = y + distance, w, h);
-		enableSoundsLabel.setBounds(x, y = y + distance, w, h);
-		humanPlayerAllegianceLabel.setBounds(25, y = y + distance, w, h);
-		gameModeLabel.setBounds(x, y = y + distance, w, h);
-		ai1TypeLabel.setBounds(x, y = y + distance, w, h);
-		ai2TypeLabel.setBounds(x, y = y + distance, w, h);
-		ai1MaxDepthLabel.setBounds(x, y = y + distance, w, h);
-		ai2MaxDepthLabel.setBounds(x, y = y + distance, w, h);
-		evaluationFunction1Label.setBounds(x, y = y + distance, w, h);
-		evaluationFunction2Label.setBounds(x, y = y + distance, w, h);
-		whiteSquareColorLabel.setBounds(x, y = y + distance, w, h);
-		blackSquareColorLabel.setBounds(x, y = y + distance, w, h);
-		numOfRowsLabel.setBounds(x, y + distance, w, h);
+		for (JLabel label : labels) {
+			label.setBounds(x, y, w, h);
+			y = y + distance;
+			super.add(label);
+		}
 
 		x = 225;
 		y = 25;
 		w = 180;
-		guiTypeDropDown.setBounds(x, y, w, h);
-		guiStyleDropDown.setBounds(x, y = y + distance, w, h);
-		enableSoundsCheckBox.setBounds(x, y = y + distance, w, h);
-		humanPlayerAllegianceDropDown.setBounds(x, y = y + distance, w, h);
-		gameModeDropDown.setBounds(x, y = y + distance, w, h);
-		ai1TypeDropDown.setBounds(x, y = y + distance, w, h);
-		ai2TypeDropDown.setBounds(x, y = y + distance, w, h);
-		ai1MaxDepthDropDown.setBounds(x, y = y + distance, w, h);
-		ai2MaxDepthDropDown.setBounds(x, y = y + distance, w, h);
-		evaluationFunction1DropDown.setBounds(x, y = y + distance, w, h);
-		evaluationFunction2DropDown.setBounds(x, y = y + distance, w, h);
-		whiteSquareColorDropDown.setBounds(x, y = y + distance, w, h);
-		blackSquareColorDropDown.setBounds(x, y = y + distance, w, h);
-		numOfRowsSpinner.setBounds(x, y + distance, w, h);
+		for (JComponent component : components) {
+			component.setBounds(x, y, w, h);
+			y = y + distance;
+			super.add(component);
+		}
 
 		apply = new JButton("Apply");
 		cancel = new JButton("Cancel");
-		add(apply);
-		add(cancel);
 
 		distance = 10;
 		y = 520;
 		w = 100;
 		h = 30;
+		EventHandler handler = new EventHandler();
 		apply.setBounds((width / 2) - 110 - (distance / 2), y, w, h);
 		apply.addActionListener(handler);
 		cancel.setBounds((width / 2) - 10 + (distance / 2), y, w, h);
 		cancel.addActionListener(handler);
+
+		super.add(apply);
+		super.add(cancel);
 	}
 
 
 	private class EventHandler implements ActionListener {
 
 		@Override
-		public void actionPerformed(ActionEvent ev) {
-			if (ev.getSource() == cancel) {
+		public void actionPerformed(ActionEvent event) {
+			if (event.getSource() == cancel) {
 				dispose();
-			} else if (ev.getSource() == apply) {
+			} else if (event.getSource() == apply) {
 				try {
 					GuiType guiType = GuiType.valueOf(guiTypeDropDown.getSelectedItem().toString().toUpperCase()
 							.replace(" ", "_"));
@@ -398,8 +381,8 @@ public class SettingsWindow extends JFrame {
 							JOptionPane.INFORMATION_MESSAGE
 					);
 					dispose();
-				} catch (Exception e) {
-					System.err.println("ERROR: " + e.getMessage());
+				} catch (Exception ex) {
+					System.err.println("ERROR: " + ex.getMessage());
 				}
 
 			}  // else if.
