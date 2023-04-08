@@ -54,10 +54,10 @@ public class ShannonEvaluation extends Evaluation {
 				int numberOfLegalMoves = chessPiece.getNextPositions(position, chessBoard, false).size();
 
 				if (chessPiece.getAllegiance() == Allegiance.WHITE) {
-					score += 2 * getPieceValue(chessPiece);
+					score += PIECE_VALUE_MULTIPLIER * getPieceValue(chessPiece);
 					score += MOBILITY_MULTIPLIER * numberOfLegalMoves;
 				} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
-					score -= 2 * getPieceValue(chessPiece);
+					score -= PIECE_VALUE_MULTIPLIER * getPieceValue(chessPiece);
 					score -= MOBILITY_MULTIPLIER * numberOfLegalMoves;
 				}
 

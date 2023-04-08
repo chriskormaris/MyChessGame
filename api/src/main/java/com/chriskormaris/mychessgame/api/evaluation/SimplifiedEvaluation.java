@@ -156,10 +156,10 @@ public class SimplifiedEvaluation extends Evaluation {
 			for (int j = 0; j < chessBoard.getNumOfColumns(); j++) {
 				ChessPiece chessPiece = chessBoard.getGameBoard()[i][j];
 				if (chessPiece.getAllegiance() == Allegiance.WHITE) {
-					score += 2 * getPieceCentipawnValue(chessPiece);
+					score += PIECE_VALUE_MULTIPLIER * getPieceCentipawnValue(chessPiece);
 					score += getPieceSquareValue(i, j, chessPiece, gamePhase);
 				} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
-					score -= 2 * getPieceCentipawnValue(chessPiece);
+					score -= PIECE_VALUE_MULTIPLIER * getPieceCentipawnValue(chessPiece);
 
 					int row = chessBoard.getNumOfRows() - 1 - i;
 					score -= getPieceSquareValue(row, j, chessPiece, gamePhase);

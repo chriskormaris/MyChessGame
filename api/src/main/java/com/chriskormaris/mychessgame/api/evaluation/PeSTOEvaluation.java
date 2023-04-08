@@ -251,14 +251,14 @@ public class PeSTOEvaluation extends Evaluation {
 				gamePhase += Utilities.getPieceGamePhaseValue(chessPiece);
 
 				if (chessPiece.getAllegiance() == Allegiance.WHITE) {
-					openingScore += 2 * getPieceCentipawnValue(chessPiece, GamePhase.OPENING);
-					endgameScore += 2 * getPieceCentipawnValue(chessPiece, GamePhase.ENDGAME);
+					openingScore += PIECE_VALUE_MULTIPLIER * getPieceCentipawnValue(chessPiece, GamePhase.OPENING);
+					endgameScore += PIECE_VALUE_MULTIPLIER * getPieceCentipawnValue(chessPiece, GamePhase.ENDGAME);
 
 					openingScore += getPieceSquareValue(i, j, chessPiece, GamePhase.OPENING);
 					endgameScore += getPieceSquareValue(i, j, chessPiece, GamePhase.ENDGAME);
 				} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
-					openingScore -= 2 * getPieceCentipawnValue(chessPiece, GamePhase.OPENING);
-					endgameScore -= 2 * getPieceCentipawnValue(chessPiece, GamePhase.ENDGAME);
+					openingScore -= PIECE_VALUE_MULTIPLIER * getPieceCentipawnValue(chessPiece, GamePhase.OPENING);
+					endgameScore -= PIECE_VALUE_MULTIPLIER * getPieceCentipawnValue(chessPiece, GamePhase.ENDGAME);
 
 					int row = chessBoard.getNumOfRows() - 1 - i;
 					openingScore -= getPieceSquareValue(row, j, chessPiece, GamePhase.OPENING);
