@@ -145,6 +145,7 @@ public class ChessBoard {
 
 		this.positionsToRemove = new HashSet<>();
 		this.piecesToPlace = new HashMap<>();
+		this.capturedEnPassantPiece = new EmptySquare();
 
 		this.previousHalfMoveFenPositions = new Stack<>();
 
@@ -243,25 +244,26 @@ public class ChessBoard {
 		this.gameBoard[numOfRows - 1][7] = new Rook(Allegiance.WHITE);  // H1
 	}
 
-	// Make a move; it places a letter in the board
+	// Make a move; it moves a Chess piece on the board.
 	public void makeMove(Move move, boolean displayMove) {
 		List<String> positions = move.getPositions();
 
 		// current position
-		String currentPosition = positions.get(0);
+		String positionStart = positions.get(0);
 
 		// next position
-		String nextPosition = positions.get(1);
+		String positionEnd = positions.get(1);
 
-		moveChessPiece(currentPosition, nextPosition, displayMove);
+		makeMove(positionStart, positionEnd, displayMove);
 
 		this.lastMove = new Move(move);
 	}
 
-	// The parameter "displayMove" should be set to true when we make the move on the actual board.
-	// If the method is called while running the minimax AI algorithm,
+	// The parameter "displayMove" should be set to true,
+	// when we make a move on the actual GUI board.
+	// If the method is called while running the Minimax AI algorithm,
 	// then the parameter "displayMove" should be set to false.
-	public void moveChessPiece(String positionStart, String positionEnd, boolean displayMove) {
+	public void makeMove(String positionStart, String positionEnd, boolean displayMove) {
 		int rowStart = getRowFromPosition(positionStart);
 		int columnStart = getColumnFromPosition(positionStart);
 		ChessPiece chessPiece = this.gameBoard[rowStart][columnStart];
@@ -276,8 +278,8 @@ public class ChessBoard {
 		if (piecesToPlace.size() > 0) {
 			piecesToPlace.clear();
 		}
-		if (capturedEnPassantPiece != null) {
-			capturedEnPassantPiece = null;
+		if (!(capturedEnPassantPiece instanceof EmptySquare)) {
+			capturedEnPassantPiece = new EmptySquare();
 		}
 
 		// Allow only valid moves, for all the chess board pieces.
@@ -641,7 +643,7 @@ public class ChessBoard {
 		for (String nextPosition : nextPositions) {
 			ChessBoard initialChessBoard = new ChessBoard(this);
 
-			initialChessBoard.moveChessPiece(startingPosition, nextPosition, false);
+			initialChessBoard.makeMove(startingPosition, nextPosition, false);
 
 			int whiteKingRow = getRowFromPosition(initialChessBoard.getWhiteKingPosition());
 			int whiteKingColumn = getColumnFromPosition(initialChessBoard.getWhiteKingPosition());
@@ -715,7 +717,7 @@ public class ChessBoard {
 						Set<String> nextPositions = initialChessBoard.getNextPositions(currentPosition);
 
 						for (String nextPosition : nextPositions) {
-							initialChessBoard.moveChessPiece(
+							initialChessBoard.makeMove(
 									currentPosition,
 									nextPosition,
 									false
@@ -769,7 +771,7 @@ public class ChessBoard {
 						Set<String> nextPositions = initialChessBoard.getNextPositions(currentPosition);
 
 						for (String nextPosition : nextPositions) {
-							initialChessBoard.moveChessPiece(
+							initialChessBoard.makeMove(
 									currentPosition,
 									nextPosition,
 									false
@@ -817,7 +819,7 @@ public class ChessBoard {
 					Set<String> nextPositions = initialChessBoard.getNextPositions(currentPosition);
 
 					for (String nextPosition : nextPositions) {
-						initialChessBoard.moveChessPiece(
+						initialChessBoard.makeMove(
 								currentPosition,
 								nextPosition,
 								false
@@ -869,7 +871,7 @@ public class ChessBoard {
 					Set<String> nextPositions = initialChessBoard.getNextPositions(currentPosition);
 
 					for (String nextPosition : nextPositions) {
-						initialChessBoard.moveChessPiece(
+						initialChessBoard.makeMove(
 								currentPosition,
 								nextPosition,
 								false

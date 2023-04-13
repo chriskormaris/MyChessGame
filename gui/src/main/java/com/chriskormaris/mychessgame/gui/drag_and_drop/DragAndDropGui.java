@@ -1209,7 +1209,7 @@ public class DragAndDropGui extends JFrame implements MouseListener, MouseMotion
 			addCapturedPieceImage(endSquare);
 		}
 		// True if an en passant captured piece exists.
-		else if (chessBoard.getCapturedEnPassantPiece() != null) {
+		else if (!(chessBoard.getCapturedEnPassantPiece() instanceof EmptySquare)) {
 			score += Utilities.getScoreValue(chessBoard.getCapturedEnPassantPiece());
 
 			updateCapturedPieces(chessBoard.getCapturedEnPassantPiece());
