@@ -49,7 +49,7 @@ public class SettingsWindow extends JFrame {
 		this.parentComponent = parentComponent;
 		this.newGameParameters = newGameParameters;
 
-		int width = 450;
+		int width = 500;
 		int height = 620;
 
 		super.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -119,15 +119,15 @@ public class SettingsWindow extends JFrame {
 		}
 
 		guiStyleDropDown = new JComboBox<>();
-		guiStyleDropDown.addItem("Cross-platform style");
-		guiStyleDropDown.addItem("System style");
-		guiStyleDropDown.addItem("Nimbus style");
+		guiStyleDropDown.addItem("Cross-platform");
+		guiStyleDropDown.addItem("System");
+		guiStyleDropDown.addItem("Nimbus");
 
-		if (selectedGuiStyle == GuiStyle.CROSS_PLATFORM_STYLE) {
+		if (selectedGuiStyle == GuiStyle.CROSS_PLATFORM) {
 			guiStyleDropDown.setSelectedIndex(0);
-		} else if (selectedGuiStyle == GuiStyle.SYSTEM_STYLE) {
+		} else if (selectedGuiStyle == GuiStyle.SYSTEM) {
 			guiStyleDropDown.setSelectedIndex(1);
-		} else if (selectedGuiStyle == GuiStyle.NIMBUS_STYLE) {
+		} else if (selectedGuiStyle == GuiStyle.NIMBUS) {
 			guiStyleDropDown.setSelectedIndex(2);
 		}
 
@@ -273,7 +273,7 @@ public class SettingsWindow extends JFrame {
 		int x = 25;
 		int y = 25;
 		int distance = 35;
-		int w = 205;
+		int w = 240;
 		int h = 25;
 		for (JLabel label : labels) {
 			label.setBounds(x, y, w, h);
@@ -281,9 +281,9 @@ public class SettingsWindow extends JFrame {
 			super.add(label);
 		}
 
-		x = 225;
+		x = 265;
 		y = 25;
-		w = 180;
+		w = 200;
 		for (JComponent component : components) {
 			component.setBounds(x, y, w, h);
 			y = y + distance;
@@ -319,7 +319,7 @@ public class SettingsWindow extends JFrame {
 					GuiType guiType = GuiType.valueOf(guiTypeDropDown.getSelectedItem().toString().toUpperCase()
 							.replace(" ", "_"));
 					GuiStyle guiStyle = GuiStyle.valueOf(guiStyleDropDown.getSelectedItem().toString().toUpperCase()
-							.replace("-", "_").replace(" ", "_"));
+							.replace("-", "_"));
 					boolean enableSounds = enableSoundsCheckBox.isSelected();
 					Allegiance humanPlayerAllegiance = Allegiance.valueOf(humanPlayerAllegianceDropDown
 							.getSelectedItem().toString().toUpperCase());

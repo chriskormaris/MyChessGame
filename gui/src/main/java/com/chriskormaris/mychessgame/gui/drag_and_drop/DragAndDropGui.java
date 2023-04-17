@@ -6,23 +6,9 @@ import com.chriskormaris.mychessgame.api.ai.MinimaxAlphaBetaPruningAI;
 import com.chriskormaris.mychessgame.api.ai.RandomChoiceAI;
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.api.chess_board.Move;
-import com.chriskormaris.mychessgame.api.enumeration.AiType;
-import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
-import com.chriskormaris.mychessgame.api.enumeration.EvaluationFunction;
-import com.chriskormaris.mychessgame.api.enumeration.GameMode;
-import com.chriskormaris.mychessgame.api.enumeration.GameResult;
-import com.chriskormaris.mychessgame.api.evaluation.Evaluation;
-import com.chriskormaris.mychessgame.api.evaluation.PeSTOEvaluation;
-import com.chriskormaris.mychessgame.api.evaluation.ShannonEvaluation;
-import com.chriskormaris.mychessgame.api.evaluation.SimplifiedEvaluation;
-import com.chriskormaris.mychessgame.api.evaluation.WukongEvaluation;
-import com.chriskormaris.mychessgame.api.piece.Bishop;
-import com.chriskormaris.mychessgame.api.piece.ChessPiece;
-import com.chriskormaris.mychessgame.api.piece.EmptySquare;
-import com.chriskormaris.mychessgame.api.piece.Knight;
-import com.chriskormaris.mychessgame.api.piece.Pawn;
-import com.chriskormaris.mychessgame.api.piece.Queen;
-import com.chriskormaris.mychessgame.api.piece.Rook;
+import com.chriskormaris.mychessgame.api.enumeration.*;
+import com.chriskormaris.mychessgame.api.evaluation.*;
+import com.chriskormaris.mychessgame.api.piece.*;
 import com.chriskormaris.mychessgame.api.util.Constants;
 import com.chriskormaris.mychessgame.api.util.FenUtils;
 import com.chriskormaris.mychessgame.api.util.Utilities;
@@ -30,11 +16,7 @@ import com.chriskormaris.mychessgame.gui.buttons.ButtonsGui;
 import com.chriskormaris.mychessgame.gui.enumeration.GuiStyle;
 import com.chriskormaris.mychessgame.gui.enumeration.GuiType;
 import com.chriskormaris.mychessgame.gui.settings.SettingsWindow;
-import com.chriskormaris.mychessgame.gui.util.GameParameters;
-import com.chriskormaris.mychessgame.gui.util.GuiConstants;
-import com.chriskormaris.mychessgame.gui.util.GuiUtils;
-import com.chriskormaris.mychessgame.gui.util.ResourceLoader;
-import com.chriskormaris.mychessgame.gui.util.SoundUtils;
+import com.chriskormaris.mychessgame.gui.util.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -43,11 +25,7 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -372,13 +350,13 @@ public class DragAndDropGui extends JFrame implements MouseListener, MouseMotion
 
 	private void configureGuiStyle() {
 		try {
-			if (gameParameters.getGuiStyle() == GuiStyle.CROSS_PLATFORM_STYLE) {
+			if (gameParameters.getGuiStyle() == GuiStyle.CROSS_PLATFORM) {
 				// Option 1
 				UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-			} else if (gameParameters.getGuiStyle() == GuiStyle.SYSTEM_STYLE) {
+			} else if (gameParameters.getGuiStyle() == GuiStyle.SYSTEM) {
 				// Option 2
 				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			} else if (gameParameters.getGuiStyle() == GuiStyle.NIMBUS_STYLE) {
+			} else if (gameParameters.getGuiStyle() == GuiStyle.NIMBUS) {
 				// Option 3
 				for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
 					if ("Nimbus".equals(info.getName())) {

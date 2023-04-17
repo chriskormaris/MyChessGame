@@ -45,24 +45,23 @@ public class GameParameters {
 	// Default constructor
 	public GameParameters() {
 		/* Default values */
+
+		// Other values: GuiType.BUTTONS
 		this.guiType = GuiType.DRAG_AND_DROP;
 
-		this.guiStyle = GuiStyle.CROSS_PLATFORM_STYLE;
-		// this.guiStyle = GuiStyle.NIMBUS_STYLE;
+		// Other values: GuiStyle.SYSTEM, GuiStyle.NIMBUS
+		this.guiStyle = GuiStyle.CROSS_PLATFORM;
 
 		this.enableSounds = true;
 
 		this.humanPlayerAllegiance = Allegiance.WHITE;
 
+		// Other values: GameMode.HUMAN_VS_HUMAN, GameMode.AI_VS_AI
 		this.gameMode = GameMode.HUMAN_VS_AI;
-		// this.gameMode = GameMode.HUMAN_VS_HUMAN;
-		// this.gameMode = GameMode.AI_VS_AI;
 
+		// Other values: AiType.RANDOM_AI
 		this.ai1Type = AiType.MINIMAX_AI;
-		// this.aiType = AiType.RANDOM_AI;
-
 		this.ai2Type = AiType.MINIMAX_AI;
-		// this.ai2Type = AiType.RANDOM_AI;
 
 		this.ai1MaxDepth = Constants.DEFAULT_MAX_DEPTH;
 		this.ai2MaxDepth = Constants.DEFAULT_MAX_DEPTH;
@@ -70,13 +69,14 @@ public class GameParameters {
 		this.evaluationFunction1 = EvaluationFunction.SIMPLIFIED;
 		this.evaluationFunction2 = EvaluationFunction.SIMPLIFIED;
 
+		// Other values: GuiConstants.BRIGHT_PINK
 		this.whiteSquareColor = Color.WHITE;
-		// this.whiteSquareColor = GuiConstants.BRIGHT_PINK;
 
+		/* Other values:
+		 * Color.BLACK
+		 * Color.DARK_GRAY
+		 * Color.GRAY */
 		this.blackSquareColor = GuiConstants.DARK_GREEN;
-		// this.blackSquareColor = Color.BLACK;
-		// this.blackSquareColor = Color.DARK_GRAY;
-		// this.blackSquareColor = Color.GRAY;
 
 		this.numOfRows = Constants.DEFAULT_NUM_OF_ROWS;
 	}
