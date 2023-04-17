@@ -9,12 +9,12 @@ import java.awt.*;
 public class GuiConstants {
 
 	public static final String TITLE = "My Chess Game";
-	public static final String VERSION = "8.6.3";
+	public static final String VERSION = "8.6.4";
 
 	public static final String FIRST_TURN_TEXT = "Turn: 1. White plays first.";
 	public static final String ZERO_SCORE_TEXT = "Score:  0";
 
-	public static final int CHESS_PIECE_SQUARE_PIXEL_SIZE = 64;
+	public static final int CHESS_PIECE_SQUARE_PIXEL_SIZE = 56;
 	public static final int CAPTURED_CHESS_PIECE_PIXEL_SIZE = 16;
 
 	public static final Color BRIGHT_PINK = new Color(240, 207, 207);

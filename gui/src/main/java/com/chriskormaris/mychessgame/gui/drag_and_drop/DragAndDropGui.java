@@ -1096,7 +1096,7 @@ public class DragAndDropGui extends JFrame implements MouseListener, MouseMotion
 			row = chessBoard.getNumOfRows() - 1 - row;
 		}
 
-		int threshold = 2;
+		int threshold = 4;
 		Component component = chessPanel.findComponentAt(
 				(squareWidth + threshold) * (column + 1),
 				(squareHeight + threshold) * (row + 1)
@@ -1599,8 +1599,8 @@ public class DragAndDropGui extends JFrame implements MouseListener, MouseMotion
 		// Point parentLocation = component.getParent().getLocation();
 
 		Point componentLocation = component.getLocation();
-		xAdjustment = componentLocation.x - GuiConstants.CHESS_PIECE_SQUARE_PIXEL_SIZE;
-		yAdjustment = componentLocation.y - GuiConstants.CHESS_PIECE_SQUARE_PIXEL_SIZE;
+		xAdjustment = componentLocation.x - GuiConstants.CHESS_PIECE_SQUARE_PIXEL_SIZE * 2/3;
+		yAdjustment = componentLocation.y - GuiConstants.CHESS_PIECE_SQUARE_PIXEL_SIZE * 2/3;
 		pieceLabel.setLocation(event.getX() + xAdjustment, event.getY() + yAdjustment);
 
 		// Evidently, this removes it from the default layer also.
