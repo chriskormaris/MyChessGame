@@ -989,12 +989,12 @@ public class ButtonsGui extends JFrame {
 	}
 
 	private void makeDisplayMove(Move move, boolean isAiMove) {
-		String positionStart = move.getPositions().get(0);
+		String positionStart = move.getPositionStart();
 		int rowStart = chessBoard.getRowFromPosition(positionStart);
 		int columnStart = chessBoard.getColumnFromPosition(positionStart);
 		ChessPiece startingPiece = chessBoard.getGameBoard()[rowStart][columnStart];
 
-		String positionEnd = move.getPositions().get(1);
+		String positionEnd = move.getPositionEnd();
 		int rowEnd = chessBoard.getRowFromPosition(positionEnd);
 		int columnEnd = chessBoard.getColumnFromPosition(positionEnd);
 		ChessPiece endSquare = chessBoard.getGameBoard()[rowEnd][columnEnd];

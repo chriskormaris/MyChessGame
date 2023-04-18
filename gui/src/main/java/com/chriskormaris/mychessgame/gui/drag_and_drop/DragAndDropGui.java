@@ -830,11 +830,7 @@ public class DragAndDropGui extends JFrame implements MouseListener, MouseMotion
 		AI ai1;
 		if (gameParameters.getAi1Type() == AiType.MINIMAX_AI) {
 			Evaluation evaluation1 = createEvaluation(gameParameters.getEvaluationFunction1());
-			ai1 = new MinimaxAlphaBetaPruningAI(
-					gameParameters.getAi1MaxDepth(),
-					Constants.WHITE,
-					evaluation1
-			);
+			ai1 = new MinimaxAlphaBetaPruningAI(gameParameters.getAi1MaxDepth(), Constants.WHITE, evaluation1);
 		} else {
 			ai1 = new RandomChoiceAI(Constants.WHITE);
 		}
@@ -842,11 +838,7 @@ public class DragAndDropGui extends JFrame implements MouseListener, MouseMotion
 		AI ai2;
 		if (gameParameters.getAi2Type() == AiType.MINIMAX_AI) {
 			Evaluation evaluation2 = createEvaluation(gameParameters.getEvaluationFunction2());
-			ai2 = new MinimaxAlphaBetaPruningAI(
-					gameParameters.getAi2MaxDepth(),
-					Constants.BLACK,
-					evaluation2
-			);
+			ai2 = new MinimaxAlphaBetaPruningAI(gameParameters.getAi2MaxDepth(), Constants.BLACK, evaluation2);
 		} else {
 			ai2 = new RandomChoiceAI(Constants.BLACK);
 		}
@@ -899,11 +891,7 @@ public class DragAndDropGui extends JFrame implements MouseListener, MouseMotion
 				Evaluation evaluation1 = createEvaluation(gameParameters.getEvaluationFunction1());
 				if (gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE) {
 					if (gameParameters.getAi1MaxDepth() <= 2) {
-						ai = new MinimaxAI(
-								gameParameters.getAi1MaxDepth(),
-								Constants.BLACK,
-								evaluation1
-						);
+						ai = new MinimaxAI(gameParameters.getAi1MaxDepth(), Constants.BLACK, evaluation1);
 					} else {
 						ai = new MinimaxAlphaBetaPruningAI(
 								gameParameters.getAi1MaxDepth(),
@@ -913,11 +901,7 @@ public class DragAndDropGui extends JFrame implements MouseListener, MouseMotion
 					}
 				} else if (gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
 					if (gameParameters.getAi2MaxDepth() <= 2) {
-						ai = new MinimaxAI(
-								gameParameters.getAi2MaxDepth(),
-								Constants.WHITE,
-								evaluation1
-						);
+						ai = new MinimaxAI(gameParameters.getAi2MaxDepth(), Constants.WHITE, evaluation1);
 					} else {
 						ai = new MinimaxAlphaBetaPruningAI(
 								gameParameters.getAi2MaxDepth(),
@@ -1089,12 +1073,12 @@ public class DragAndDropGui extends JFrame implements MouseListener, MouseMotion
 	}
 
 	private void makeDisplayMove(Move move, boolean isAiMove) {
-		String positionStart = move.getPositions().get(0);
+		String positionStart = move.getPositionStart();
 		int rowStart = chessBoard.getRowFromPosition(positionStart);
 		int columnStart = chessBoard.getColumnFromPosition(positionStart);
 		ChessPiece startingPiece = chessBoard.getGameBoard()[rowStart][columnStart];
 
-		String positionEnd = move.getPositions().get(1);
+		String positionEnd = move.getPositionEnd();
 		int rowEnd = chessBoard.getRowFromPosition(positionEnd);
 		int columnEnd = chessBoard.getColumnFromPosition(positionEnd);
 		ChessPiece endSquare = chessBoard.getGameBoard()[rowEnd][columnEnd];

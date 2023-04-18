@@ -67,15 +67,13 @@ public class MinimaxAI extends AI {
 			Move move = min(child, depth + 1);
 			// The child-move with the greatest value is selected and returned by max
 			if (move.getValue() >= maxMove.getValue()) {
-				if ((move.getValue() == maxMove.getValue())) {
-					// If the heuristic has the same value then we randomly choose one of the two moves
-					if (r.nextInt(2) == 0 || move.getValue() == Integer.MIN_VALUE) {
-						maxMove.setPositions(child.getLastMove().getPositions());
-						maxMove.setValue(move.getValue());
-					}
-				} else {
-					maxMove.setPositions(child.getLastMove().getPositions());
-					maxMove.setValue(move.getValue());
+				if (move.getValue() > maxMove.getValue()
+                        // If the heuristic has the same value, then we randomly choose one of the two moves
+                        || r.nextInt(2) == 0
+						|| move.getValue() == Integer.MIN_VALUE) {
+                    maxMove.setPositionStart(child.getLastMove().getPositionStart());
+                    maxMove.setPositionEnd(child.getLastMove().getPositionEnd());
+                    maxMove.setValue(move.getValue());
 				}
 			}
 		}
@@ -98,13 +96,11 @@ public class MinimaxAI extends AI {
 		for (ChessBoard child : children) {
 			Move move = max(child, depth + 1);
 			if (move.getValue() <= minMove.getValue()) {
-				if ((move.getValue() == minMove.getValue())) {
-					if (r.nextInt(2) == 0 || move.getValue() == Integer.MAX_VALUE) {
-						minMove.setPositions(child.getLastMove().getPositions());
-						minMove.setValue(move.getValue());
-					}
-				} else {
-					minMove.setPositions(child.getLastMove().getPositions());
+				if (move.getValue() < minMove.getValue()
+						|| r.nextInt(2) == 0
+						|| move.getValue() == Integer.MAX_VALUE) {
+					minMove.setPositionStart(child.getLastMove().getPositionStart());
+					minMove.setPositionEnd(child.getLastMove().getPositionEnd());
 					minMove.setValue(move.getValue());
 				}
 			}

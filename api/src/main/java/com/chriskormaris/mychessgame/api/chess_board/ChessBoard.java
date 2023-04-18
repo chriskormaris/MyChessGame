@@ -3,14 +3,7 @@ package com.chriskormaris.mychessgame.api.chess_board;
 import com.chriskormaris.mychessgame.api.ai.MinimaxAI;
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 import com.chriskormaris.mychessgame.api.enumeration.GameResult;
-import com.chriskormaris.mychessgame.api.piece.Bishop;
-import com.chriskormaris.mychessgame.api.piece.ChessPiece;
-import com.chriskormaris.mychessgame.api.piece.EmptySquare;
-import com.chriskormaris.mychessgame.api.piece.King;
-import com.chriskormaris.mychessgame.api.piece.Knight;
-import com.chriskormaris.mychessgame.api.piece.Pawn;
-import com.chriskormaris.mychessgame.api.piece.Queen;
-import com.chriskormaris.mychessgame.api.piece.Rook;
+import com.chriskormaris.mychessgame.api.piece.*;
 import com.chriskormaris.mychessgame.api.util.BFS;
 import com.chriskormaris.mychessgame.api.util.Constants;
 import com.chriskormaris.mychessgame.api.util.FenUtils;
@@ -18,13 +11,7 @@ import com.chriskormaris.mychessgame.api.util.Utilities;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.Stack;
+import java.util.*;
 
 
 @Getter
@@ -246,13 +233,8 @@ public class ChessBoard {
 
 	// Make a move; it moves a Chess piece on the board.
 	public void makeMove(Move move, boolean displayMove) {
-		List<String> positions = move.getPositions();
-
-		// current position
-		String positionStart = positions.get(0);
-
-		// next position
-		String positionEnd = positions.get(1);
+		String positionStart = move.getPositionStart();
+		String positionEnd = move.getPositionEnd();
 
 		makeMove(positionStart, positionEnd, displayMove);
 
@@ -552,15 +534,10 @@ public class ChessBoard {
 					for (String nextPosition : nextPositions) {
 						ChessBoard child = new ChessBoard(this);
 
-						List<String> moves = new ArrayList<>();
-						moves.add(startingPosition);
-						moves.add(nextPosition);
-
-						Move move = new Move(moves);
+						Move move = new Move(startingPosition, nextPosition);
 
 						child.makeMove(move, false);
 
-						child.getLastMove().setPositions(moves);
 						child.getLastMove().setValue(child.evaluate(minimaxAI));
 						children.add(child);
 					}
