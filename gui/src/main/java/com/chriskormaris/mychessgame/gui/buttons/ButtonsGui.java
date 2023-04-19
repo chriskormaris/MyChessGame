@@ -303,8 +303,9 @@ public class ButtonsGui extends JFrame {
 
 		aboutItem.addActionListener(e -> {
 			JLabel label = new JLabel(
-					"<html>A traditional chess game implementation using Minimax AI,<br>"
-							+ "with Alpha-Beta Pruning.<br>© Created by: Christos Kormaris, Athens 2020<br>"
+					"<html>A traditional Chess game implementation using Minimax AI,<br>"
+							+ "with Alpha-Beta Pruning.<br>"
+							+ "&copy; Created by: Christos Kormaris, Athens 2020<br>"
 							+ "Version " + GuiConstants.VERSION + "</html>"
 			);
 
