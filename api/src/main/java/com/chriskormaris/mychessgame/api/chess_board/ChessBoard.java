@@ -451,8 +451,8 @@ public class ChessBoard {
 
 			setThreats();
 
-			// Increase the halfMoveClock if no capture has occurred.
-			if (endSquare.getAllegiance() == Allegiance.NONE) {
+			// Increase the halfMoveClock if no capture has occurred and no Pawn has been moved.
+			if (!(chessPiece instanceof Pawn) && endSquare.getAllegiance() == Allegiance.NONE) {
 				halfMoveClock++;
 			}
 			// If a capture has occurred.
