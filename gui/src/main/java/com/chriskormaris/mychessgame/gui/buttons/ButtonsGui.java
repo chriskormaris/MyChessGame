@@ -7,9 +7,23 @@ import com.chriskormaris.mychessgame.api.ai.MinimaxAlphaBetaPruningAI;
 import com.chriskormaris.mychessgame.api.ai.RandomChoiceAI;
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.api.chess_board.Move;
-import com.chriskormaris.mychessgame.api.enumeration.*;
-import com.chriskormaris.mychessgame.api.evaluation.*;
-import com.chriskormaris.mychessgame.api.piece.*;
+import com.chriskormaris.mychessgame.api.enumeration.AiType;
+import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
+import com.chriskormaris.mychessgame.api.enumeration.EvaluationFunction;
+import com.chriskormaris.mychessgame.api.enumeration.GameMode;
+import com.chriskormaris.mychessgame.api.enumeration.GameResult;
+import com.chriskormaris.mychessgame.api.evaluation.Evaluation;
+import com.chriskormaris.mychessgame.api.evaluation.PeSTOEvaluation;
+import com.chriskormaris.mychessgame.api.evaluation.ShannonEvaluation;
+import com.chriskormaris.mychessgame.api.evaluation.SimplifiedEvaluation;
+import com.chriskormaris.mychessgame.api.evaluation.WukongEvaluation;
+import com.chriskormaris.mychessgame.api.piece.Bishop;
+import com.chriskormaris.mychessgame.api.piece.ChessPiece;
+import com.chriskormaris.mychessgame.api.piece.EmptySquare;
+import com.chriskormaris.mychessgame.api.piece.Knight;
+import com.chriskormaris.mychessgame.api.piece.Pawn;
+import com.chriskormaris.mychessgame.api.piece.Queen;
+import com.chriskormaris.mychessgame.api.piece.Rook;
 import com.chriskormaris.mychessgame.api.util.Constants;
 import com.chriskormaris.mychessgame.api.util.FenUtils;
 import com.chriskormaris.mychessgame.api.util.Utilities;
@@ -17,7 +31,11 @@ import com.chriskormaris.mychessgame.gui.drag_and_drop.DragAndDropGui;
 import com.chriskormaris.mychessgame.gui.enumeration.GuiStyle;
 import com.chriskormaris.mychessgame.gui.enumeration.GuiType;
 import com.chriskormaris.mychessgame.gui.settings.SettingsWindow;
-import com.chriskormaris.mychessgame.gui.util.*;
+import com.chriskormaris.mychessgame.gui.util.GameParameters;
+import com.chriskormaris.mychessgame.gui.util.GuiConstants;
+import com.chriskormaris.mychessgame.gui.util.GuiUtils;
+import com.chriskormaris.mychessgame.gui.util.ResourceLoader;
+import com.chriskormaris.mychessgame.gui.util.SoundUtils;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -86,7 +104,7 @@ public class ButtonsGui extends JFrame {
 	// corresponds to the position (chessBoard.getNumOfColumns() - 1, 0) of the ChessBoard's gameBoard.
 	JButton[][] chessButtons;
 
-	// 30 captured pieces at maximum, plus 1 label for displaying the score = 31 labels size.
+	// 30 captured pieces at maximum + 1 label for displaying the score = 31 labels size
 	JLabel[] capturedPiecesImages;
 
 	int score;
@@ -453,7 +471,10 @@ public class ButtonsGui extends JFrame {
 			chessBoard.setPreviousHalfMoveFenPositions(previousHalfMoveFenPositions);
 			capturedPieces = undoCapturedPieces.pop();
 
-			updateCapturedPiecesPanel();
+			resetCapturedPiecesPanel();
+
+			resetScore();
+			setScoreMessage();
 
 			setTurnMessage();
 
@@ -505,7 +526,10 @@ public class ButtonsGui extends JFrame {
 			chessBoard.setPreviousHalfMoveFenPositions(previousHalfMoveFenPositions);
 			capturedPieces = redoCapturedPieces.pop();
 
-			updateCapturedPiecesPanel();
+			resetCapturedPiecesPanel();
+
+			resetScore();
+			setScoreMessage();
 
 			setTurnMessage();
 
@@ -529,10 +553,9 @@ public class ButtonsGui extends JFrame {
 	}
 
 
-	private void updateCapturedPiecesPanel() {
+	private void resetCapturedPiecesPanel() {
 		initializeCapturedPiecesPanel();
 		initializeCapturedPiecesImages();
-		score = 0;
 		whiteCapturedPiecesCounter = 0;
 		blackCapturedPiecesCounter = 0;
 		for (int i = 0; i < 30; i++) {
@@ -540,12 +563,20 @@ public class ButtonsGui extends JFrame {
 			if (pieceChar != '-') {
 				ChessPiece chessPiece = Utilities.getChessPiece(pieceChar);
 				addCapturedPieceImage(chessPiece);
+			}
+		}
+	}
+
+	private void resetScore() {
+		score = 0;
+		for (int i = 0; i < chessBoard.getNumOfRows(); i++) {
+			for (int j = 0; j < chessBoard.getNumOfColumns(); j++) {
+				String position = chessBoard.getPositionByRowCol(i, j);
+				ChessPiece chessPiece = chessBoard.getChessPieceFromPosition(position);
 				score += Utilities.getScoreValue(chessPiece);
 			}
 		}
-		setScoreMessage();
 	}
-
 
 	private void exportToGif() {
 		String gifName = JOptionPane.showInputDialog(
@@ -749,18 +780,17 @@ public class ButtonsGui extends JFrame {
 	}
 
 	public void startNewGame() {
-		startNewGame(Constants.DEFAULT_STARTING_FEN_POSITION);
-	}
-
-	public void startNewGame(String fenPosition) {
-		if (newGameParameters.getGuiType() == GuiType.DRAG_AND_DROP) {
+		if (newGameParameters.getGuiType() == GuiType.BUTTONS) {
+			startNewGame(Constants.DEFAULT_STARTING_FEN_POSITION);
+		} if (newGameParameters.getGuiType() == GuiType.DRAG_AND_DROP) {
 			super.dispose();
 			DragAndDropGui dragAndDropGui = new DragAndDropGui();
 			dragAndDropGui.newGameParameters = newGameParameters;
 			dragAndDropGui.startNewGame();
-			return;
 		}
+	}
 
+	public void startNewGame(String fenPosition) {
 		System.out.println("Starting new game!");
 
 		if (newGameParameters.getNumOfRows() != Constants.DEFAULT_NUM_OF_ROWS) {
@@ -780,11 +810,10 @@ public class ButtonsGui extends JFrame {
 
 		chessPanel.removeAll();
 
-		restoreDefaultValues();
+		restoreDefaultValues(fenPosition);
 
 		initializeGUI();
 
-		placePiecesToChessBoard(fenPosition);
 		redrawChessButtons();
 		super.revalidate();
 
@@ -804,8 +833,12 @@ public class ButtonsGui extends JFrame {
 	}
 
 	// Restores all the default values.
-	private void restoreDefaultValues() {
-		chessBoard = new ChessBoard(gameParameters.getNumOfRows());
+	private void restoreDefaultValues(String fenPosition) {
+		if (fenPosition.equals(Constants.DEFAULT_STARTING_FEN_POSITION)) {
+			chessBoard = new ChessBoard(gameParameters.getNumOfRows());
+		} else {
+			chessBoard = FenUtils.getChessBoardFromFenPosition(fenPosition, gameParameters.getNumOfRows());
+		}
 
 		startingPosition = "";
 		endingPosition = "";
@@ -817,7 +850,11 @@ public class ButtonsGui extends JFrame {
 		undoCapturedPieces.clear();
 		redoCapturedPieces.clear();
 
-		score = 0;
+		if (fenPosition.equals(Constants.DEFAULT_STARTING_FEN_POSITION)) {
+			score = 0;
+		} else {
+			resetScore();
+		}
 
 		whiteCapturedPiecesCounter = 0;
 		blackCapturedPiecesCounter = 0;
@@ -1012,10 +1049,11 @@ public class ButtonsGui extends JFrame {
 		if (startingPiece instanceof Pawn
 				&& (startingPiece.getAllegiance() == Allegiance.WHITE && rowEnd == 0
 				|| startingPiece.getAllegiance() == Allegiance.BLACK && rowEnd == chessBoard.getNumOfRows() - 1)) {
+			ChessPiece promotedPiece = new Queen(startingPiece.getAllegiance(), true);
 			if (isAiMove) {
 				chessBoard.automaticPawnPromotion(startingPiece, positionEnd, true);
 
-				ChessPiece promotedPiece = chessBoard.getGameBoard()[rowEnd][columnEnd];
+				promotedPiece = chessBoard.getGameBoard()[rowEnd][columnEnd];
 				if (promotedPiece.getAllegiance() == Allegiance.WHITE) {
 					JOptionPane.showMessageDialog(
 							this,
@@ -1046,7 +1084,7 @@ public class ButtonsGui extends JFrame {
 							this,
 							"Promote White Pawn to:",
 							"White Pawn Promotion",
-							QUESTION_MESSAGE,
+							JOptionPane.QUESTION_MESSAGE,
 							null,
 							promotionPieces,
 							initialSelection
@@ -1056,41 +1094,43 @@ public class ButtonsGui extends JFrame {
 							this,
 							"Promote Black Pawn to:",
 							"Black Pawn Promotion",
-							QUESTION_MESSAGE,
+							JOptionPane.QUESTION_MESSAGE,
 							null,
 							promotionPieces,
 							initialSelection
 					);
 				}
 
-				ChessPiece queen = new Queen(startingPiece.getAllegiance(), true);
-				ChessPiece rook = new Rook(startingPiece.getAllegiance(), true);
-				ChessPiece bishop = new Bishop(startingPiece.getAllegiance(), true);
-				ChessPiece knight = new Knight(startingPiece.getAllegiance(), true);
-
 				if (value == null || value.equals("Queen")) {
-					chessBoard.getPiecesToPlace().put(positionEnd, queen);
+					promotedPiece = new Queen(startingPiece.getAllegiance(), true);
 				} else if (value.equals("Rook")) {
-					chessBoard.getPiecesToPlace().put(positionEnd, rook);
+					promotedPiece = new Rook(startingPiece.getAllegiance(), true);
 				} else if (value.equals("Bishop")) {
-					chessBoard.getPiecesToPlace().put(positionEnd, bishop);
+					promotedPiece = new Bishop(startingPiece.getAllegiance(), true);
 				} else if (value.equals("Knight")) {
-					chessBoard.getPiecesToPlace().put(positionEnd, knight);
+					promotedPiece = new Knight(startingPiece.getAllegiance(), true);
 				}
+				chessBoard.getPiecesToPlace().put(positionEnd, promotedPiece);
+			}
 
+			score += Utilities.getScoreValue(promotedPiece);
+			if (startingPiece.getAllegiance() == Allegiance.WHITE) {
+				score -= Constants.PAWN_SCORE_VALUE;
+			} else if (startingPiece.getAllegiance() == Allegiance.BLACK) {
+				score += Constants.PAWN_SCORE_VALUE;
 			}
 		}
 
 		// If a chessPiece capture has occurred.
 		if (startingPiece.getAllegiance() != endSquare.getAllegiance() && !(endSquare instanceof EmptySquare)) {
-			score += Utilities.getScoreValue(endSquare);
+			score -= Utilities.getScoreValue(endSquare);
 
 			updateCapturedPieces(endSquare);
 			addCapturedPieceImage(endSquare);
 		}
 		// True if an en passant captured piece exists.
 		else if (!(chessBoard.getCapturedEnPassantPiece() instanceof EmptySquare)) {
-			score += Utilities.getScoreValue(chessBoard.getCapturedEnPassantPiece());
+			score -= Utilities.getScoreValue(chessBoard.getCapturedEnPassantPiece());
 
 			updateCapturedPieces(chessBoard.getCapturedEnPassantPiece());
 			addCapturedPieceImage(chessBoard.getCapturedEnPassantPiece());
@@ -1127,17 +1167,7 @@ public class ButtonsGui extends JFrame {
 	}
 
 	private void addCapturedPieceImage(ChessPiece endSquare) {
-		String imagePath = "";
-
-		if (endSquare.isPromoted()) {
-			if (endSquare.getAllegiance() == Allegiance.WHITE) {
-				imagePath = GuiConstants.WHITE_PAWN_IMG_PATH;
-			} else if (endSquare.getAllegiance() == Allegiance.BLACK) {
-				imagePath = GuiConstants.BLACK_PAWN_IMG_PATH;
-			}
-		} else {
-			imagePath = GuiUtils.getImagePath(endSquare);
-		}
+		String imagePath = GuiUtils.getImagePath(endSquare);
 
 		ImageIcon pieceImage = GuiUtils.preparePieceIcon(imagePath, GuiConstants.CAPTURED_CHESS_PIECE_PIXEL_SIZE);
 
