@@ -855,7 +855,7 @@ public class DragAndDropGui extends JFrame implements MouseListener, MouseMotion
 		AI ai1;
 		if (gameParameters.getAi1Type() == AiType.MINIMAX_AI) {
 			Evaluation evaluation1 = createEvaluation(gameParameters.getEvaluationFunction1());
-			ai1 = new MinimaxAlphaBetaPruningAI(gameParameters.getAi1MaxDepth(), Constants.WHITE, evaluation1);
+			ai1 = new MinimaxAI(gameParameters.getAi1MaxDepth(), Constants.WHITE, evaluation1);
 		} else {
 			ai1 = new RandomChoiceAI(Constants.WHITE);
 		}
