@@ -3,7 +3,14 @@ package com.chriskormaris.mychessgame.api.chess_board;
 import com.chriskormaris.mychessgame.api.ai.MinimaxAI;
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 import com.chriskormaris.mychessgame.api.enumeration.GameResult;
-import com.chriskormaris.mychessgame.api.piece.*;
+import com.chriskormaris.mychessgame.api.piece.Bishop;
+import com.chriskormaris.mychessgame.api.piece.ChessPiece;
+import com.chriskormaris.mychessgame.api.piece.EmptySquare;
+import com.chriskormaris.mychessgame.api.piece.King;
+import com.chriskormaris.mychessgame.api.piece.Knight;
+import com.chriskormaris.mychessgame.api.piece.Pawn;
+import com.chriskormaris.mychessgame.api.piece.Queen;
+import com.chriskormaris.mychessgame.api.piece.Rook;
 import com.chriskormaris.mychessgame.api.util.BFS;
 import com.chriskormaris.mychessgame.api.util.Constants;
 import com.chriskormaris.mychessgame.api.util.FenUtils;
@@ -11,7 +18,13 @@ import com.chriskormaris.mychessgame.api.util.Utilities;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.Stack;
 
 
 @Getter
@@ -886,7 +899,7 @@ public class ChessBoard {
 	public boolean checkForInsufficientMatingMaterialDraw() {
 		boolean isInsufficientMatingMaterialDraw = isInsufficientMatingMaterialDraw();
 
-		if (!isInsufficientMatingMaterialDraw && checkForBlockedKingAndPawnsDraw()) {
+		if (!isInsufficientMatingMaterialDraw && checkForBlockedKingsDraw()) {
 			isInsufficientMatingMaterialDraw = true;
 		}
 
@@ -977,7 +990,7 @@ public class ChessBoard {
 	// It occurs when no pieces other than the kings can be moved
 	// and neither king can capture any enemy pieces.
 	// It usually happens when only Kings and Pawns are left on the Chess board.
-	public boolean checkForBlockedKingAndPawnsDraw() {
+	public boolean checkForBlockedKingsDraw() {
 		// Check if any pieces other than the Kings can make any move.
 		for (int i = 0; i < numOfRows; i++) {
 			for (int j = 0; j < numOfColumns; j++) {
@@ -991,6 +1004,8 @@ public class ChessBoard {
 			}
 		}
 
+		// Check if any King can capture any opponent's pieces, in any number of moves.
+		// If they can, then it's not a draw.
 		for (int i = 0; i < numOfRows; i++) {
 			for (int j = 0; j < numOfColumns; j++) {
 				if (!(gameBoard[i][j] instanceof King || gameBoard[i][j] instanceof EmptySquare)) {

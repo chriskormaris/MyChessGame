@@ -7,11 +7,11 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 
-public class BlockedKingAndPawnsDrawTest {
+public class BlockedKingsAndPawnsDrawTest {
 
 	@Test
-	public void testBlockedKingAndPawnsDraw() {
-		String title = "Blocked King and Pawns Draw Test";
+	public void testBlockedKingsAndPawnsDraw() {
+		String title = "Blocked Kings and Pawns Draw Test";
 
 		ButtonsGui buttonsGui = new ButtonsGui(title);
 
