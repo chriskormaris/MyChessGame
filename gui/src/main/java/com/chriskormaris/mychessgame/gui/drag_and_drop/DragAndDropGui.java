@@ -457,8 +457,8 @@ public class DragAndDropGui extends JFrame implements MouseListener, MouseMotion
 			for (int j = 0; j < chessBoard.getNumOfColumns() + 1; j++) {
 				JPanel square = new JPanel(new BorderLayout());
 				square.setBackground((i + j) % 2 == 0
-						? gameParameters.getBlackSquareColor()
-						: gameParameters.getWhiteSquareColor());
+						? gameParameters.getWhiteSquareColor()
+						: gameParameters.getBlackSquareColor());
 				square.setFocusable(false);
 
 				if (j == 0 || j == chessBoard.getNumOfColumns()) {
@@ -1022,6 +1022,7 @@ public class DragAndDropGui extends JFrame implements MouseListener, MouseMotion
 		if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
 				&& gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
 			row = chessBoard.getNumOfRows() - 1 - row;
+			column = chessBoard.getNumOfColumns() - 1 - column;
 		}
 
 		int squareIndex = getSquareIndex(row, column);
@@ -1033,8 +1034,8 @@ public class DragAndDropGui extends JFrame implements MouseListener, MouseMotion
 			piecePanel.add(pieceLabel);
 
 			piecePanel.setBackground((row + column) % 2 == 0
-					? gameParameters.getBlackSquareColor()
-					: gameParameters.getWhiteSquareColor());
+					? gameParameters.getWhiteSquareColor()
+					: gameParameters.getBlackSquareColor());
 		} catch (ClassCastException ignored) {
 		}
 	}
@@ -1089,6 +1090,7 @@ public class DragAndDropGui extends JFrame implements MouseListener, MouseMotion
 		if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
 				&& gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
 			row = chessBoard.getNumOfRows() - 1 - row;
+			column = chessBoard.getNumOfColumns() - 1 - column;
 		}
 
 		int threshold = 4;
@@ -1487,6 +1489,7 @@ public class DragAndDropGui extends JFrame implements MouseListener, MouseMotion
 		if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
 				&& gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
 			startingPositionRow = chessBoard.getNumOfRows() - 1 - startingPositionRow;
+			startingPositionColumn = chessBoard.getNumOfColumns() - 1 - startingPositionColumn;
 		}
 
 		startingPositionRow += 1;
@@ -1495,8 +1498,8 @@ public class DragAndDropGui extends JFrame implements MouseListener, MouseMotion
 		int startingIndex = getSquareIndex(startingPositionRow, startingPositionColumn);
 		Component startingComponent = chessPanel.getComponent(startingIndex);
 		startingComponent.setBackground((startingPositionRow + startingPositionColumn) % 2 == 0
-				? gameParameters.getBlackSquareColor()
-				: gameParameters.getWhiteSquareColor());
+				? gameParameters.getWhiteSquareColor()
+				: gameParameters.getBlackSquareColor());
 
 		for (String hintPosition : hintPositions) {
 			int hintPositionRow = chessBoard.getRowFromPosition(hintPosition);
@@ -1505,13 +1508,14 @@ public class DragAndDropGui extends JFrame implements MouseListener, MouseMotion
 			if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
 					&& gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
 				hintPositionRow = chessBoard.getNumOfRows() - 1 - hintPositionRow;
+				hintPositionColumn = chessBoard.getNumOfColumns() - 1 - hintPositionColumn;
 			}
 
 			int hintPositionIndex = getSquareIndex(hintPositionRow + 1, hintPositionColumn + 1);
 			Component hintPositionComponent = chessPanel.getComponent(hintPositionIndex);
 			hintPositionComponent.setBackground((hintPositionRow + hintPositionColumn) % 2 == 0
-					? gameParameters.getBlackSquareColor()
-					: gameParameters.getWhiteSquareColor());
+					? gameParameters.getWhiteSquareColor()
+					: gameParameters.getBlackSquareColor());
 		}
 	}
 
@@ -1539,12 +1543,14 @@ public class DragAndDropGui extends JFrame implements MouseListener, MouseMotion
 		}
 
 		int startingRow = row;
+		int startingColumn = column;
 		if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
 				&& gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
 			startingRow = (chessBoard.getNumOfRows() + 2) - 1 - row;
+			startingColumn = (chessBoard.getNumOfColumns() + 2) - 1 - column;
 		}
 
-		startingPosition = chessBoard.getPositionByRowCol(startingRow - 1, column - 1);
+		startingPosition = chessBoard.getPositionByRowCol(startingRow - 1, startingColumn - 1);
 		ChessPiece chessPiece = chessBoard.getChessPieceFromPosition(startingPosition);
 
 		if (chessPiece instanceof EmptySquare) return;
@@ -1572,6 +1578,7 @@ public class DragAndDropGui extends JFrame implements MouseListener, MouseMotion
 				if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
 						&& gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
 					hintPositionRow = chessBoard.getNumOfRows() - 1 - hintPositionRow;
+					hintPositionColumn = chessBoard.getNumOfColumns() - 1 - hintPositionColumn;
 				}
 
 				int hintPositionIndex = getSquareIndex(hintPositionRow + 1, hintPositionColumn + 1);
@@ -1647,6 +1654,7 @@ public class DragAndDropGui extends JFrame implements MouseListener, MouseMotion
 		if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
 				&& gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
 			row = (chessBoard.getNumOfRows() + 2) - 1 - row;
+			column = (chessBoard.getNumOfColumns() + 2) - 1 - column;
 		}
 
 		endingPosition = chessBoard.getPositionByRowCol(row - 1, column - 1);
