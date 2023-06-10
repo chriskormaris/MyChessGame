@@ -20,14 +20,14 @@ public class EnPassantTest {
 
 		/* Use these FEN positions, if playing as White. */
 
-		String fenPosition = "4k3/8/8/1pP3p1/8/8/7P/4K3 w - B6 0 1";
+		String fenPosition = "4k3/8/8/1pP3p1/8/8/7P/4K3 w - b6 0 1";
 
 		/* Use these FEN positions, if playing as Black. */
 
 		// newGameParameters.setHumanPlayerAllegiance(Allegiance.BLACK);
 		// startNewGame();
 
-		// String fenPosition = "4k3/7p/8/8/1Pp3P1/8/8/4K3 b - B3 0 1";
+		// String fenPosition = "4k3/7p/8/8/1Pp3P1/8/8/4K3 b - b3 0 1";
 
 		buttonsGui.startNewGame(fenPosition);
 

@@ -3,6 +3,7 @@ package com.chriskormaris.mychessgame.gui.drag_and_drop;
 import com.chriskormaris.mychessgame.api.ai.AI;
 import com.chriskormaris.mychessgame.api.ai.MinimaxAI;
 import com.chriskormaris.mychessgame.api.ai.MinimaxAlphaBetaPruningAI;
+import com.chriskormaris.mychessgame.api.ai.OpeningMoves;
 import com.chriskormaris.mychessgame.api.ai.RandomChoiceAI;
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.api.chess_board.Move;
@@ -1743,6 +1744,7 @@ public class DragAndDropGui extends JFrame implements MouseListener, MouseMotion
 	}
 
 	public static void main(String[] args) {
+		OpeningMoves.initializeOpeningMoves();
 		DragAndDropGui dragAndDropGui = new DragAndDropGui();
 		dragAndDropGui.startNewGame();
 	}

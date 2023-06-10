@@ -216,7 +216,7 @@ public final class FenUtils {
 		}
 
 		/* Step 4: Append the current "en passant" position. */
-		fenPosition.append(" ").append(chessBoard.getEnPassantPosition());
+		fenPosition.append(" ").append(chessBoard.getEnPassantPosition().toLowerCase());
 
 		/* Step 5: Append the half-move clock. */
 		fenPosition.append(" ").append(chessBoard.getHalfMoveClock());

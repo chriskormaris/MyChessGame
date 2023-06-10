@@ -36,6 +36,9 @@ public class MinimaxAI extends AI {
 
 	@Override
 	public Move getNextMove(ChessBoard chessBoard) {
+		Move openingMove = OpeningMoves.getNextMove(chessBoard);
+		if (openingMove != null) return openingMove;
+
 		// If White plays, then it wants to maximize the heuristics value.
 		if (whitePlays()) {
 			return max(new ChessBoard(chessBoard), 0);
