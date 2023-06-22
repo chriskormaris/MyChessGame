@@ -60,6 +60,9 @@ You can also change the Minimax AI max depth.
 The AI plays well for a depth of 2 or above.
 For a depth of 3 or above, the AI starts to play slowly.
 
+Some openings have also been included in the implementation of this Chess game.
+They can easily be extended.
+
 ### Minimax Chess on Google Play
 
 I am using the `api` module for the implementation of the following Android game, which I've also created:
