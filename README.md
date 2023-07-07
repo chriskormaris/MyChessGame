@@ -7,6 +7,9 @@ Programming Language: `Java`
 Video for this project:
 - https://www.youtube.com/watch?v=jJh70AHoesM
 
+Download `.jar` executable:
+- https://drive.google.com/file/d/1FCr1Jyu5zGblsB1dgMzvBgsXTsQb5HRX
+
 A traditional Chess game implementation using Minimax AI, with Alpha-Beta Pruning.
 The Minimax AI is based on code from the laboratories of the `Artificial Intelligence` course,
 of the `Department of Informatics`, of the `Athens University of Economics and Business`.

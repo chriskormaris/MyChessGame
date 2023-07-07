@@ -4,7 +4,6 @@ package com.chriskormaris.mychessgame.gui.buttons;
 import com.chriskormaris.mychessgame.api.ai.AI;
 import com.chriskormaris.mychessgame.api.ai.MinimaxAI;
 import com.chriskormaris.mychessgame.api.ai.MinimaxAlphaBetaPruningAI;
-import com.chriskormaris.mychessgame.api.ai.OpeningMoves;
 import com.chriskormaris.mychessgame.api.ai.RandomChoiceAI;
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.api.chess_board.Move;
@@ -1674,7 +1673,6 @@ public class ButtonsGui extends JFrame {
 	}
 
 	public static void main(String[] args) {
-		OpeningMoves.initializeOpeningMoves();
 		ButtonsGui buttonsGui = new ButtonsGui();
 		buttonsGui.startNewGame();
 	}

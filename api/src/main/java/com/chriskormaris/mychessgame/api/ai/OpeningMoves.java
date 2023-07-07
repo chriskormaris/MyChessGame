@@ -18,12 +18,8 @@ public class OpeningMoves {
 	private static final Map<String, List<Move>> WHITE_OPENING_MOVES = new HashMap<>();
 	private static final Map<String, List<Move>> BLACK_OPENING_MOVES = new HashMap<>();
 
-	public static void initializeOpeningMoves() {
-		initializeWhiteOpeningMoves();
-		initializeBlackOpeningMoves();
-	}
-
-	private static void initializeWhiteOpeningMoves() {
+	// Initialize White opening moves.
+	static {
 		List<Move> movesList = new ArrayList<>();
 
 		movesList.add(new Move("G2", "G3"));  // A00 Benko's opening
@@ -40,6 +36,10 @@ public class OpeningMoves {
 		movesList = new ArrayList<>();
 		movesList.add(new Move("B1", "C3"));  // B07 Pirc defence
 		WHITE_OPENING_MOVES.put("rnbqkb1r/ppp1pppp/3p1n2/8/3PP3/8/PPP2PPP/RNBQKBNR w KQkq - 1 3", movesList);
+
+		movesList = new ArrayList<>();
+		movesList.add(new Move("F1", "C4"));  // B20 Sicilian defence
+		WHITE_OPENING_MOVES.put("rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2", movesList);
 
 		movesList = new ArrayList<>();
 		movesList.add(new Move("D2", "D4"));  // C20 King's pawn game
@@ -80,7 +80,8 @@ public class OpeningMoves {
 		WHITE_OPENING_MOVES.put("rnbqkbnr/ppp1pppp/8/8/2pP4/8/PP2PPPP/RNBQKBNR w KQkq - 0 3", movesList);
 	}
 
-	private static void initializeBlackOpeningMoves() {
+	// Initialize Black opening moves.
+	static {
 		List<Move> movesList = new ArrayList<>();
 
 		movesList.add(new Move("E7", "E5"));  // A04 Reti opening
