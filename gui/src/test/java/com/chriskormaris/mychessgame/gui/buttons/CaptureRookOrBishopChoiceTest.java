@@ -7,6 +7,7 @@ import com.chriskormaris.mychessgame.api.piece.King;
 import com.chriskormaris.mychessgame.api.piece.Knight;
 import com.chriskormaris.mychessgame.api.piece.Rook;
 import com.chriskormaris.mychessgame.api.util.Constants;
+import com.chriskormaris.mychessgame.gui.frame.ButtonsFrame;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -18,21 +19,21 @@ public class CaptureRookOrBishopChoiceTest {
 	public void testCaptureRookOrBishopChoice() {
 		String title = "Capture Rook or Bishop?";
 
-		ButtonsGui buttonsGui = new ButtonsGui(title);
+		ButtonsFrame buttonsFrame = new ButtonsFrame(title);
 
-		buttonsGui.placePieceToPosition("E1", new King(Allegiance.WHITE));
-		buttonsGui.placePieceToPosition("C1", new Bishop(Allegiance.WHITE));
-		buttonsGui.placePieceToPosition("F1", new Bishop(Allegiance.WHITE));
-		buttonsGui.placePieceToPosition("A1", new Rook(Allegiance.WHITE));
+		buttonsFrame.placePieceToPosition("E1", new King(Allegiance.WHITE));
+		buttonsFrame.placePieceToPosition("C1", new Bishop(Allegiance.WHITE));
+		buttonsFrame.placePieceToPosition("F1", new Bishop(Allegiance.WHITE));
+		buttonsFrame.placePieceToPosition("A1", new Rook(Allegiance.WHITE));
 
-		buttonsGui.placePieceToPosition("E8", new King(Allegiance.BLACK));
-		buttonsGui.placePieceToPosition("B3", new Knight(Allegiance.BLACK));
+		buttonsFrame.placePieceToPosition("E8", new King(Allegiance.BLACK));
+		buttonsFrame.placePieceToPosition("B3", new Knight(Allegiance.BLACK));
 
-		buttonsGui.chessBoard.setPlayer(Constants.BLACK);
-		buttonsGui.aiMove(buttonsGui.ai);
+		buttonsFrame.chessBoard.setPlayer(Constants.BLACK);
+		buttonsFrame.aiMove(buttonsFrame.ai);
 
 		assertTrue(
-				buttonsGui.chessBoard.getChessPieceFromPosition("A1") instanceof Knight,
+				buttonsFrame.chessBoard.getChessPieceFromPosition("A1") instanceof Knight,
 				"The Black Knight did NOT capture the White Rook."
 		);
 

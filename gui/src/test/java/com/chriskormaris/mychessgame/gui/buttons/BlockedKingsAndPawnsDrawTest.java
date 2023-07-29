@@ -2,6 +2,7 @@ package com.chriskormaris.mychessgame.gui.buttons;
 
 
 import com.chriskormaris.mychessgame.api.enumeration.GameResult;
+import com.chriskormaris.mychessgame.gui.frame.ButtonsFrame;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -13,7 +14,7 @@ public class BlockedKingsAndPawnsDrawTest {
 	public void testBlockedKingsAndPawnsDraw() {
 		String title = "Blocked Kings and Pawns Draw Test";
 
-		ButtonsGui buttonsGui = new ButtonsGui(title);
+		ButtonsFrame buttonsFrame = new ButtonsFrame(title);
 
 		// These FEN positions are considered a draw!
 		// Each king is stuck on their side.
@@ -31,11 +32,11 @@ public class BlockedKingsAndPawnsDrawTest {
 		// if the White pawn is moved!
 		String fenPosition = "4k3/8/8/p2p2p1/3P2P1/P7/8/4K3 w KQ - 0 1";
 
-		buttonsGui.startNewGame(fenPosition);
+		buttonsFrame.startNewGame(fenPosition);
 
 		System.out.println("Checking if a draw has occurred...");
-		buttonsGui.checkForGameOver();
-		boolean isDraw = buttonsGui.chessBoard.getGameResult() == GameResult.INSUFFICIENT_MATERIAL_DRAW;
+		buttonsFrame.checkForGameOver();
+		boolean isDraw = buttonsFrame.chessBoard.getGameResult() == GameResult.INSUFFICIENT_MATERIAL_DRAW;
 		System.out.println(isDraw ? "The game is a draw!" : "The game is NOT a draw!");
 		assertFalse(isDraw, "The game is a draw.");
 

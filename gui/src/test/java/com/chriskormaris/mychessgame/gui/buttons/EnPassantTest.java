@@ -2,6 +2,7 @@ package com.chriskormaris.mychessgame.gui.buttons;
 
 
 import com.chriskormaris.mychessgame.api.enumeration.GameMode;
+import com.chriskormaris.mychessgame.gui.frame.ButtonsFrame;
 import org.junit.jupiter.api.Test;
 
 
@@ -11,12 +12,12 @@ public class EnPassantTest {
 	public void testPawnPromotion() {
 		String title = "Pawn Promotion Test";
 
-		ButtonsGui buttonsGui = new ButtonsGui(title);
+		ButtonsFrame buttonsFrame = new ButtonsFrame(title);
 
 		// newGameParameters.setGameMode(GameMode.AI_VS_AI);
-		buttonsGui.newGameParameters.setGameMode(GameMode.HUMAN_VS_HUMAN);
+		buttonsFrame.newGameParameters.setGameMode(GameMode.HUMAN_VS_HUMAN);
 
-		buttonsGui.startNewGame();
+		buttonsFrame.startNewGame();
 
 		/* Use these FEN positions, if playing as White. */
 
@@ -29,7 +30,7 @@ public class EnPassantTest {
 
 		// String fenPosition = "4k3/7p/8/8/1Pp3P1/8/8/4K3 b - b3 0 1";
 
-		buttonsGui.startNewGame(fenPosition);
+		buttonsFrame.startNewGame(fenPosition);
 
 		while (true) ;
 	}

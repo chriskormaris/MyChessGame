@@ -1,6 +1,7 @@
 package com.chriskormaris.mychessgame.gui.buttons;
 
 
+import com.chriskormaris.mychessgame.gui.frame.ButtonsFrame;
 import org.junit.jupiter.api.Test;
 
 
@@ -10,7 +11,7 @@ public class OpeningTest {
 	public void testOpening() {
 		String title = "Chess Opening Test";
 
-		ButtonsGui buttonsGui = new ButtonsGui(title);
+		ButtonsFrame buttonsFrame = new ButtonsFrame(title);
 
 		// This is the default Chess starting game state. The moves are taken from Wikipedia:
 		// https://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation
@@ -24,7 +25,7 @@ public class OpeningTest {
 		// String fenPosition = "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1";
 		String fenPosition = "rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2";
 
-		buttonsGui.startNewGame(fenPosition);
+		buttonsFrame.startNewGame(fenPosition);
 
 		while (true) ;
 	}

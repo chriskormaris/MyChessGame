@@ -6,6 +6,7 @@ import com.chriskormaris.mychessgame.api.enumeration.GameMode;
 import com.chriskormaris.mychessgame.api.piece.Bishop;
 import com.chriskormaris.mychessgame.api.piece.King;
 import com.chriskormaris.mychessgame.api.piece.Knight;
+import com.chriskormaris.mychessgame.gui.frame.ButtonsFrame;
 import org.junit.jupiter.api.Test;
 
 
@@ -15,22 +16,22 @@ public class ThreefoldRepetitionDrawTest {
 	public void testThreefoldRepetitionDraw() {
 		String title = "Threefold Repetition Draw Test";
 
-		ButtonsGui buttonsGui = new ButtonsGui(title);
+		ButtonsFrame buttonsFrame = new ButtonsFrame(title);
 
-		buttonsGui.newGameParameters.setGameMode(GameMode.HUMAN_VS_HUMAN);
-		buttonsGui.startNewGame();
+		buttonsFrame.newGameParameters.setGameMode(GameMode.HUMAN_VS_HUMAN);
+		buttonsFrame.startNewGame();
 
-		buttonsGui.makeChessBoardSquaresEmpty();
+		buttonsFrame.makeChessBoardSquaresEmpty();
 
-		buttonsGui.placePieceToPosition("A1", new King(Allegiance.WHITE));
-		buttonsGui.placePieceToPosition("A2", new Bishop(Allegiance.WHITE));
-		buttonsGui.placePieceToPosition("A3", new Knight(Allegiance.WHITE));
-		buttonsGui.placePieceToPosition("A4", new Knight(Allegiance.WHITE));
+		buttonsFrame.placePieceToPosition("A1", new King(Allegiance.WHITE));
+		buttonsFrame.placePieceToPosition("A2", new Bishop(Allegiance.WHITE));
+		buttonsFrame.placePieceToPosition("A3", new Knight(Allegiance.WHITE));
+		buttonsFrame.placePieceToPosition("A4", new Knight(Allegiance.WHITE));
 
-		buttonsGui.placePieceToPosition("H8", new King(Allegiance.BLACK));
-		buttonsGui.placePieceToPosition("H7", new Bishop(Allegiance.BLACK));
-		buttonsGui.placePieceToPosition("H6", new Knight(Allegiance.BLACK));
-		buttonsGui.placePieceToPosition("H5", new Knight(Allegiance.BLACK));
+		buttonsFrame.placePieceToPosition("H8", new King(Allegiance.BLACK));
+		buttonsFrame.placePieceToPosition("H7", new Bishop(Allegiance.BLACK));
+		buttonsFrame.placePieceToPosition("H6", new Knight(Allegiance.BLACK));
+		buttonsFrame.placePieceToPosition("H5", new Knight(Allegiance.BLACK));
 
 		// Continue playing for 5 minutes.
 		try {

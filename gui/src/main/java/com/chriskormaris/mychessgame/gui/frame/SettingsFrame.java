@@ -1,4 +1,4 @@
-package com.chriskormaris.mychessgame.gui.settings;
+package com.chriskormaris.mychessgame.gui.frame;
 
 
 import com.chriskormaris.mychessgame.api.enumeration.AiType;
@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class SettingsWindow extends JFrame {
+public class SettingsFrame extends JFrame {
 
 	private final JComboBox<String> guiTypeDropDown;
 	private final JComboBox<String> guiStyleDropDown;
@@ -43,7 +43,7 @@ public class SettingsWindow extends JFrame {
 	private final Component parentComponent;
 	private final GameParameters newGameParameters;
 
-	public SettingsWindow(Component parentComponent, GameParameters newGameParameters) {
+	public SettingsFrame(Component parentComponent, GameParameters newGameParameters) {
 		super("Settings");
 
 		this.parentComponent = parentComponent;

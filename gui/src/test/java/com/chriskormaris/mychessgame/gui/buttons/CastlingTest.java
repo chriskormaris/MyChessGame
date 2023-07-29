@@ -2,6 +2,7 @@ package com.chriskormaris.mychessgame.gui.buttons;
 
 
 import com.chriskormaris.mychessgame.api.enumeration.GameMode;
+import com.chriskormaris.mychessgame.gui.frame.ButtonsFrame;
 import org.junit.jupiter.api.Test;
 
 
@@ -11,9 +12,9 @@ public class CastlingTest {
 	public void testCastling() {
 		String title = "Castling Test";
 
-		ButtonsGui buttonsGui = new ButtonsGui(title);
+		ButtonsFrame buttonsFrame = new ButtonsFrame(title);
 
-		buttonsGui.newGameParameters.setGameMode(GameMode.HUMAN_VS_HUMAN);
+		buttonsFrame.newGameParameters.setGameMode(GameMode.HUMAN_VS_HUMAN);
 
 		/* Play as White. */
 		String fenPosition = "4k3/8/8/8/8/8/N7/R3K2R w KQ - 0 1";
@@ -31,7 +32,7 @@ public class CastlingTest {
 		// gui.ai = new MinimaxAi(gameParameters.maxDepth1, Constants.WHITE);
 		/*----------------*/
 
-		buttonsGui.startNewGame(fenPosition);
+		buttonsFrame.startNewGame(fenPosition);
 
 		while (true) ;
 	}

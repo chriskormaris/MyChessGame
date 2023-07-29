@@ -12,6 +12,10 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 
 import javax.swing.*;
+import javax.swing.text.MutableAttributeSet;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 import java.awt.*;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
@@ -62,8 +66,17 @@ public final class GuiUtils {
 		return imagePath;
 	}
 
-	public static void changeSquareColor(JButton button, Color color) {
-		button.setBackground(color);
+	public static void centerTextPaneAndMakeBold(JTextPane textPane) {
+		// Center textPane
+		StyledDocument style = textPane.getStyledDocument();
+		SimpleAttributeSet align = new SimpleAttributeSet();
+		StyleConstants.setAlignment(align, StyleConstants.ALIGN_CENTER);
+		style.setParagraphAttributes(0, style.getLength(), align, false);
+
+		// Make textPane bold
+		MutableAttributeSet attrs = textPane.getInputAttributes();
+		StyleConstants.setBold(attrs, true);
+		textPane.getStyledDocument().setCharacterAttributes(0, style.getLength(), attrs, false);
 	}
 
 }
