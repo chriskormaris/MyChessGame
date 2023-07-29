@@ -439,13 +439,11 @@ public abstract class ChessFrame extends JFrame {
     }
 
     Color getColorByRowCol(int row, int column) {
-        Color color;
         if ((row + column) % 2 == 0) {
-            color = gameParameters.getWhiteSquareColor();
+            return gameParameters.getWhiteSquareColor();
         } else {
-            color = gameParameters.getBlackSquareColor();
+            return gameParameters.getBlackSquareColor();
         }
-        return color;
     }
 
     public boolean checkForGameOver() {
