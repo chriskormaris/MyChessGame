@@ -76,29 +76,11 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 		height = (int) screenSize.getHeight() - 120;
 		width = height + 60;
 
-		guiPanel = new JPanel();
-		turnTextPane = new JTextPane();
-
 		gameParameters = new GameParameters();
 		gameParameters.setGuiType(GuiType.DRAG_AND_DROP);
 		gameParameters.setNumOfRows(Constants.DEFAULT_NUM_OF_ROWS);
 		newGameParameters = new GameParameters(gameParameters);
 
-		nextHalfMoveFenPositions = new Stack<>();
-
-		chessBoard = new ChessBoard();
-
-		initializeCapturedPieces();
-
-		undoCapturedPieces = new Stack<>();
-		redoCapturedPieces = new Stack<>();
-
-		tools = new JToolBar();
-
-		startingPosition = "";
-		endingPosition = "";
-
-		hintPositions = new HashSet<>();
 		chessPanelEnabled = true;
 
 		initializeGUI();
@@ -122,152 +104,6 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 
 		squareHeight = (int) piecePanel.getLocation().getY() / chessBoard.getNumOfRows();
 		squareWidth = (int) piecePanel.getLocation().getX() / chessBoard.getNumOfColumns();
-
-		JMenuBar menuBar = new JMenuBar();
-		JMenu fileMenu = new JMenu("File");
-		JMenuItem newGameItem = new JMenuItem("New Game");
-		undoItem = new JMenuItem("Undo    Ctrl+Z");
-		redoItem = new JMenuItem("Redo    Ctrl+Y");
-		JMenuItem exportToGifItem = new JMenuItem("Export to .gif");
-		JMenuItem settingsItem = new JMenuItem("Settings");
-		JMenuItem importStartingFenPositionItem = new JMenuItem("Import starting FEN position");
-		exportFenPositionItem = new JMenuItem("Export FEN position to file");
-		saveCheckpointItem = new JMenuItem("Save Checkpoint");
-		loadCheckpointItem = new JMenuItem("Load Checkpoint");
-		JMenuItem exitItem = new JMenuItem("Exit");
-
-		JMenu helpMenu = new JMenu("Help");
-		JMenuItem howToPlayItem = new JMenuItem("How to Play");
-		JMenuItem aboutItem = new JMenuItem("About");
-
-		undoItem.setEnabled(false);
-		redoItem.setEnabled(false);
-
-		loadCheckpointItem.setEnabled(false);
-
-		newGameItem.addActionListener(e -> startNewGame());
-
-		undoItem.addActionListener(e -> {
-			undo();
-			exportFenPositionItem.setEnabled(true);
-			saveCheckpointItem.setEnabled(true);
-		});
-
-		redoItem.addActionListener(e -> redo());
-
-		exportToGifItem.addActionListener(e -> exportToGif());
-
-		settingsItem.addActionListener(e -> {
-			SettingsFrame settings = new SettingsFrame(this, newGameParameters);
-			settings.setVisible(true);
-		});
-
-		importStartingFenPositionItem.addActionListener(e -> {
-			String fenPosition = (String) JOptionPane.showInputDialog(
-					this,
-					"Please insert the starting \"FEN\" position in the text field below:"
-							+ "                      ",
-					"Import starting FEN position",
-					QUESTION_MESSAGE,
-					null,
-					null,
-					Constants.DEFAULT_STARTING_FEN_POSITION
-			);
-
-			if (fenPosition != null) {
-				startNewGame(fenPosition);
-			}
-		});
-
-		exportFenPositionItem.addActionListener(e -> {
-			String exportedFenPositionFilename = (String) JOptionPane.showInputDialog(
-					this,
-					"Please type the name of the export file:",
-					"Export FEN position",
-					QUESTION_MESSAGE,
-					null,
-					null,
-					"exported_FEN_position.txt"
-			);
-
-			if (exportedFenPositionFilename != null) {
-				try (BufferedWriter bw = new BufferedWriter(new FileWriter(exportedFenPositionFilename))) {
-					String fenPosition = FenUtils.getFenPositionFromChessBoard(chessBoard);
-					bw.write(fenPosition + "\n");
-				} catch (IOException ex) {
-					ex.printStackTrace();
-				}
-			}
-		});
-
-		saveCheckpointItem.addActionListener(e -> {
-			if (!chessBoard.isTerminalState()) {
-				savedFenPosition = FenUtils.getFenPositionFromChessBoard(chessBoard);
-				loadCheckpointItem.setEnabled(true);
-			}
-		});
-
-		loadCheckpointItem.addActionListener(e -> {
-			if (savedFenPosition != null) {
-				startNewGame(savedFenPosition);
-			}
-		});
-
-		exitItem.addActionListener(e -> System.exit(0));
-
-		howToPlayItem.addActionListener(
-				e -> JOptionPane.showMessageDialog(
-						this,
-						GuiConstants.RULES,
-						"How to Play",
-						JOptionPane.INFORMATION_MESSAGE
-				)
-		);
-
-		aboutItem.addActionListener(e -> {
-			JLabel label = new JLabel(
-					"<html>A traditional Chess game implementation using Minimax AI,<br>"
-							+ "with Alpha-Beta Pruning.<br>"
-							+ "&copy; Created by: Christos Kormaris, Athens 2020<br>"
-							+ "Version " + GuiConstants.VERSION + "</html>"
-			);
-
-			try {
-				BufferedImage img = ImageIO.read(ResourceLoader.load(GuiConstants.ICON_PATH));
-
-				Image dImg = img.getScaledInstance(
-						GuiConstants.CHESS_PIECE_SQUARE_PIXEL_SIZE,
-						GuiConstants.CHESS_PIECE_SQUARE_PIXEL_SIZE,
-						Image.SCALE_SMOOTH
-				);
-				ImageIcon imageIcon = new ImageIcon(dImg);
-
-				JOptionPane.showMessageDialog(this, label, "About", JOptionPane.PLAIN_MESSAGE, imageIcon);
-			} catch (IOException ex) {
-				ex.printStackTrace();
-			}
-		});
-
-		fileMenu.add(newGameItem);
-		fileMenu.add(undoItem);
-		fileMenu.add(redoItem);
-		fileMenu.add(exportToGifItem);
-		fileMenu.add(settingsItem);
-		fileMenu.add(importStartingFenPositionItem);
-		fileMenu.add(exportFenPositionItem);
-		fileMenu.add(saveCheckpointItem);
-		fileMenu.add(loadCheckpointItem);
-		fileMenu.add(exitItem);
-
-		helpMenu.add(howToPlayItem);
-		helpMenu.add(aboutItem);
-
-		menuBar.add(fileMenu);
-		menuBar.add(helpMenu);
-
-		super.setJMenuBar(menuBar);
-
-		super.addKeyListener(undoRedoKeyListener);
 	}
 
 	@Override
