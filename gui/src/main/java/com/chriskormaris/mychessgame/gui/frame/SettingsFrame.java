@@ -37,6 +37,8 @@ public class SettingsFrame extends JFrame {
 	private final SpinnerModel numOfRowsSpinnerModel = new SpinnerNumberModel(8, 4, 8, 1);
 	private final JSpinner numOfRowsSpinner = new JSpinner(numOfRowsSpinnerModel);
 
+	private final JCheckBox showHintPositionsCheckBox;
+
 	private final JButton apply;
 	private final JButton cancel;
 
@@ -50,7 +52,7 @@ public class SettingsFrame extends JFrame {
 		this.newGameParameters = newGameParameters;
 
 		int width = 500;
-		int height = 620;
+		int height = 650;
 
 		super.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		super.setLayout(null);
@@ -72,6 +74,7 @@ public class SettingsFrame extends JFrame {
 		Color selectedWhiteSquareColor = newGameParameters.getWhiteSquareColor();
 		Color selectedBlackSquareColor = newGameParameters.getBlackSquareColor();
 		int numOfRows = newGameParameters.getNumOfRows();
+		boolean showHintPositions = newGameParameters.isShowHintPositions();
 
 		List<JLabel> labels = new ArrayList<>();
 		List<JComponent> components = new ArrayList<>();
@@ -79,17 +82,18 @@ public class SettingsFrame extends JFrame {
 		JLabel guiTypeLabel = new JLabel("GUI type");
 		JLabel guiStyleLabel = new JLabel("GUI style");
 		JLabel enableSoundsLabel = new JLabel("Sounds");
-		JLabel humanPlayerAllegianceLabel = new JLabel("Human Player Allegiance");
+		JLabel humanPlayerAllegianceLabel = new JLabel("Human player allegiance");
 		JLabel gameModeLabel = new JLabel("Game mode");
 		JLabel ai1TypeLabel = new JLabel("AI 1 type");
 		JLabel ai2TypeLabel = new JLabel("AI 2 type (AI vs AI)");
 		JLabel ai1MaxDepthLabel = new JLabel("Minimax AI 1 depth");
 		JLabel ai2MaxDepthLabel = new JLabel("Minimax AI 2 depth (AI vs AI)");
-		JLabel evaluationFunction1Label = new JLabel("AI 1 Evaluation Function");
-		JLabel evaluationFunction2Label = new JLabel("AI 2 Evaluation Function (AI vs AI)");
+		JLabel evaluationFunction1Label = new JLabel("AI 1 evaluation function");
+		JLabel evaluationFunction2Label = new JLabel("AI 2 evaluation function (AI vs AI)");
 		JLabel whiteSquareColorLabel = new JLabel("White square color");
 		JLabel blackSquareColorLabel = new JLabel("Black square color");
 		JLabel numOfRowsLabel = new JLabel("Number of rows");
+		JLabel showHintPositionsLabel = new JLabel("Show hint positions");
 
 		labels.add(guiTypeLabel);
 		labels.add(guiStyleLabel);
@@ -107,6 +111,7 @@ public class SettingsFrame extends JFrame {
 		if (newGameParameters.getGuiType() == GuiType.BUTTONS) {
 			labels.add(numOfRowsLabel);
 		}
+		labels.add(showHintPositionsLabel);
 
 		guiTypeDropDown = new JComboBox<>();
 		guiTypeDropDown.addItem("Drag and Drop");
@@ -253,6 +258,9 @@ public class SettingsFrame extends JFrame {
 
 		numOfRowsSpinnerModel.setValue(numOfRows);
 
+		showHintPositionsCheckBox = new JCheckBox();
+		showHintPositionsCheckBox.setSelected(showHintPositions);
+
 		components.add(guiTypeDropDown);
 		components.add(guiStyleDropDown);
 		components.add(enableSoundsCheckBox);
@@ -269,6 +277,7 @@ public class SettingsFrame extends JFrame {
 		if (newGameParameters.getGuiType() == GuiType.BUTTONS) {
 			components.add(numOfRowsSpinner);
 		}
+		components.add(showHintPositionsCheckBox);
 
 		int x = 25;
 		int y = 25;
@@ -294,7 +303,7 @@ public class SettingsFrame extends JFrame {
 		cancel = new JButton("Cancel");
 
 		distance = 10;
-		y = 520;
+		y = 550;
 		w = 100;
 		h = 30;
 		EventHandler handler = new EventHandler();
@@ -339,6 +348,7 @@ public class SettingsFrame extends JFrame {
 					int blackSquareColorDropdownIndex = blackSquareColorDropDown.getSelectedIndex();
 					int numOfRows = (int) numOfRowsSpinner.getValue();
 					// numOfRows = Math.max(numOfRows, 8);
+					boolean showHintPositions = showHintPositionsCheckBox.isSelected();
 
 					Color whiteSquareColor = null;
 					if (whiteSquareColorDropdownIndex == 0) {
@@ -372,6 +382,7 @@ public class SettingsFrame extends JFrame {
 					newGameParameters.setWhiteSquareColor(whiteSquareColor);
 					newGameParameters.setBlackSquareColor(blackSquareColor);
 					newGameParameters.setNumOfRows(numOfRows);
+					newGameParameters.setShowHintPositions(showHintPositions);
 
 					JOptionPane.showMessageDialog(
 							parentComponent,

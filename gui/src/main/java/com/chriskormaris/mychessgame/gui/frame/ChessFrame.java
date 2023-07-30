@@ -156,8 +156,8 @@ public abstract class ChessFrame extends JFrame {
         JMenuItem settingsItem = new JMenuItem("Settings");
         JMenuItem importStartingFenPositionItem = new JMenuItem("Import starting FEN position");
         exportFenPositionItem = new JMenuItem("Export FEN position to file");
-        saveCheckpointItem = new JMenuItem("Save Checkpoint");
-        loadCheckpointItem = new JMenuItem("Load Checkpoint");
+        saveCheckpointItem = new JMenuItem("Save checkpoint");
+        loadCheckpointItem = new JMenuItem("Load checkpoint");
         JMenuItem exitItem = new JMenuItem("Exit");
 
         JMenu helpMenu = new JMenu("Help");

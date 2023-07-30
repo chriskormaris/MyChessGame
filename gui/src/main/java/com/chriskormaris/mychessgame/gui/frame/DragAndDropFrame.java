@@ -28,13 +28,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Stack;
-
-import static javax.swing.JOptionPane.QUESTION_MESSAGE;
 
 /**
  * Example showing the use of a JLayeredPane to implement dragging an object
@@ -580,19 +576,21 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 			Component startingComponent = chessPanel.getComponent(startingIndex);
 			startingComponent.setBackground(getColorByRowCol(startingPositionRow, startingPositionColumn));
 		}
-		for (String hintPosition : hintPositions) {
-			int hintPositionRow = chessBoard.getRowFromPosition(hintPosition);
-			int hintPositionColumn = chessBoard.getColumnFromPosition(hintPosition);
+		if (gameParameters.isShowHintPositions()) {
+			for (String hintPosition : hintPositions) {
+				int hintPositionRow = chessBoard.getRowFromPosition(hintPosition);
+				int hintPositionColumn = chessBoard.getColumnFromPosition(hintPosition);
 
-			if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
-					&& gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
-				hintPositionRow = chessBoard.getNumOfRows() - 1 - hintPositionRow;
-				hintPositionColumn = chessBoard.getNumOfColumns() - 1 - hintPositionColumn;
+				if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
+						&& gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
+					hintPositionRow = chessBoard.getNumOfRows() - 1 - hintPositionRow;
+					hintPositionColumn = chessBoard.getNumOfColumns() - 1 - hintPositionColumn;
+				}
+
+				int hintPositionIndex = getSquareIndex(hintPositionRow + 1, hintPositionColumn + 1);
+				Component hintPositionComponent = chessPanel.getComponent(hintPositionIndex);
+				hintPositionComponent.setBackground(getColorByRowCol(hintPositionRow, hintPositionColumn));
 			}
-
-			int hintPositionIndex = getSquareIndex(hintPositionRow + 1, hintPositionColumn + 1);
-			Component hintPositionComponent = chessPanel.getComponent(hintPositionIndex);
-			hintPositionComponent.setBackground(getColorByRowCol(hintPositionRow, hintPositionColumn));
 		}
 	}
 
@@ -734,30 +732,32 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 			startingComponent.setBackground(Color.CYAN);
 
 			// Display the hint positions.
-			for (String hintPosition : hintPositions) {
-				int hintPositionRow = chessBoard.getRowFromPosition(hintPosition);
-				int hintPositionColumn = chessBoard.getColumnFromPosition(hintPosition);
+			if (gameParameters.isShowHintPositions()) {
+				for (String hintPosition : hintPositions) {
+					int hintPositionRow = chessBoard.getRowFromPosition(hintPosition);
+					int hintPositionColumn = chessBoard.getColumnFromPosition(hintPosition);
 
-				if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
-						&& gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
-					hintPositionRow = chessBoard.getNumOfRows() - 1 - hintPositionRow;
-					hintPositionColumn = chessBoard.getNumOfColumns() - 1 - hintPositionColumn;
-				}
+					if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
+							&& gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
+						hintPositionRow = chessBoard.getNumOfRows() - 1 - hintPositionRow;
+						hintPositionColumn = chessBoard.getNumOfColumns() - 1 - hintPositionColumn;
+					}
 
-				int hintPositionIndex = getSquareIndex(hintPositionRow + 1, hintPositionColumn + 1);
-				Component hintPositionComponent = chessPanel.getComponent(hintPositionIndex);
-				ChessPiece hintPositionPiece = chessBoard.getChessPieceFromPosition(hintPosition);
+					int hintPositionIndex = getSquareIndex(hintPositionRow + 1, hintPositionColumn + 1);
+					Component hintPositionComponent = chessPanel.getComponent(hintPositionIndex);
+					ChessPiece hintPositionPiece = chessBoard.getChessPieceFromPosition(hintPosition);
 
-				if (hintPositionPiece.getAllegiance() != Allegiance.NONE
-						|| chessBoard.getEnPassantPosition().equals(hintPosition) && chessPiece instanceof Pawn) {
-					hintPositionComponent.setBackground(Color.RED);
-				} else if (chessPiece instanceof Pawn &&
-						(chessPiece.getAllegiance() == Allegiance.WHITE && hintPositionRow == 0
-								|| chessPiece.getAllegiance() == Allegiance.BLACK
-								&& hintPositionRow == chessBoard.getNumOfRows() - 1)) {
-					hintPositionComponent.setBackground(Color.GREEN);
-				} else if (hintPositionPiece instanceof EmptySquare) {
-					hintPositionComponent.setBackground(Color.BLUE);
+					if (hintPositionPiece.getAllegiance() != Allegiance.NONE
+							|| chessBoard.getEnPassantPosition().equals(hintPosition) && chessPiece instanceof Pawn) {
+						hintPositionComponent.setBackground(Color.RED);
+					} else if (chessPiece instanceof Pawn &&
+							(chessPiece.getAllegiance() == Allegiance.WHITE && hintPositionRow == 0
+									|| chessPiece.getAllegiance() == Allegiance.BLACK
+									&& hintPositionRow == chessBoard.getNumOfRows() - 1)) {
+						hintPositionComponent.setBackground(Color.GREEN);
+					} else if (hintPositionPiece instanceof EmptySquare) {
+						hintPositionComponent.setBackground(Color.BLUE);
+					}
 				}
 			}
 		}

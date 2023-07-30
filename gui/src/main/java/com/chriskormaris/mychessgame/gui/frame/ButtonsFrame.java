@@ -31,13 +31,9 @@ import javax.swing.plaf.metal.MetalButtonUI;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Stack;
-
-import static javax.swing.JOptionPane.QUESTION_MESSAGE;
 
 
 public class ButtonsFrame extends ChessFrame {
@@ -466,31 +462,33 @@ public class ButtonsFrame extends ChessFrame {
 				button.setBackground(Color.CYAN);
 
 				// Display the hint positions.
-				for (String hintPosition : hintPositions) {
-					int hintPositionRow = chessBoard.getRowFromPosition(hintPosition);
-					int hintPositionColumn = chessBoard.getColumnFromPosition(hintPosition);
+				if (gameParameters.isShowHintPositions()) {
+					for (String hintPosition : hintPositions) {
+						int hintPositionRow = chessBoard.getRowFromPosition(hintPosition);
+						int hintPositionColumn = chessBoard.getColumnFromPosition(hintPosition);
 
-					int hintPositionButtonRow = hintPositionRow;
-					int hintPositionButtonColumn = hintPositionColumn;
-					if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
-							&& gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
-						hintPositionButtonRow = chessBoard.getNumOfRows() - 1 - hintPositionRow;
-						hintPositionButtonColumn = chessBoard.getNumOfColumns() - 1 - hintPositionColumn;
-					}
-					JButton hintPositionButton = chessButtons[hintPositionButtonRow][hintPositionButtonColumn];
-					ChessPiece hintPositionPiece = chessBoard.getGameBoard()[hintPositionRow][hintPositionColumn];
+						int hintPositionButtonRow = hintPositionRow;
+						int hintPositionButtonColumn = hintPositionColumn;
+						if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
+								&& gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
+							hintPositionButtonRow = chessBoard.getNumOfRows() - 1 - hintPositionRow;
+							hintPositionButtonColumn = chessBoard.getNumOfColumns() - 1 - hintPositionColumn;
+						}
+						JButton hintPositionButton = chessButtons[hintPositionButtonRow][hintPositionButtonColumn];
+						ChessPiece hintPositionPiece = chessBoard.getGameBoard()[hintPositionRow][hintPositionColumn];
 
-					if (hintPositionPiece.getAllegiance() != Allegiance.NONE
-							|| chessBoard.getEnPassantPosition().equals(hintPosition)
-							&& chessPiece instanceof Pawn) {
-						hintPositionButton.setBackground(Color.RED);
-					} else if (chessPiece instanceof Pawn &&
-							(chessPiece.getAllegiance() == Allegiance.WHITE && hintPositionRow == 0
-									|| chessPiece.getAllegiance() == Allegiance.BLACK
-									&& hintPositionRow == chessBoard.getNumOfRows() - 1)) {
-						hintPositionButton.setBackground(Color.GREEN);
-					} else if (hintPositionPiece instanceof EmptySquare) {
-						hintPositionButton.setBackground(Color.BLUE);
+						if (hintPositionPiece.getAllegiance() != Allegiance.NONE
+								|| chessBoard.getEnPassantPosition().equals(hintPosition)
+								&& chessPiece instanceof Pawn) {
+							hintPositionButton.setBackground(Color.RED);
+						} else if (chessPiece instanceof Pawn &&
+								(chessPiece.getAllegiance() == Allegiance.WHITE && hintPositionRow == 0
+										|| chessPiece.getAllegiance() == Allegiance.BLACK
+										&& hintPositionRow == chessBoard.getNumOfRows() - 1)) {
+							hintPositionButton.setBackground(Color.GREEN);
+						} else if (hintPositionPiece instanceof EmptySquare) {
+							hintPositionButton.setBackground(Color.BLUE);
+						}
 					}
 				}
 
@@ -675,18 +673,20 @@ public class ButtonsFrame extends ChessFrame {
 
 			startingButton.setBackground(getColorByRowCol(startingPositionRow, startingPositionColumn));
 		}
-		for (String hintPosition : hintPositions) {
-			int row = chessBoard.getRowFromPosition(hintPosition);
-			int column = chessBoard.getColumnFromPosition(hintPosition);
+		if (gameParameters.isShowHintPositions()) {
+			for (String hintPosition : hintPositions) {
+				int row = chessBoard.getRowFromPosition(hintPosition);
+				int column = chessBoard.getColumnFromPosition(hintPosition);
 
-			if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
-					&& gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
-				row = chessBoard.getNumOfRows() - 1 - row;
-				column = chessBoard.getNumOfColumns() - 1 - column;
+				if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
+						&& gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
+					row = chessBoard.getNumOfRows() - 1 - row;
+					column = chessBoard.getNumOfColumns() - 1 - column;
+				}
+				JButton button = chessButtons[row][column];
+
+				button.setBackground(getColorByRowCol(row, column));
 			}
-			JButton button = chessButtons[row][column];
-
-			button.setBackground(getColorByRowCol(row, column));
 		}
 	}
 
