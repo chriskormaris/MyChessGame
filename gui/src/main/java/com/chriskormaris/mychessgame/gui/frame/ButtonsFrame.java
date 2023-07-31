@@ -802,7 +802,7 @@ public class ButtonsFrame extends ChessFrame {
 		buttonsEnabled = true;
 	}
 
-	void disableChessBoardSquares() {
+	private void disableChessButtons() {
 		for (int i = 0; i < chessBoard.getNumOfRows(); i++) {
 			for (int j = 0; j < chessBoard.getNumOfColumns(); j++) {
 				ActionListener[] actionListeners = chessButtons[i][j].getActionListeners();
@@ -812,6 +812,11 @@ public class ButtonsFrame extends ChessFrame {
 			}
 		}
 		buttonsEnabled = false;
+	}
+
+	@Override
+	void disableChessPanelClicks() {
+		disableChessButtons();
 	}
 
 	public static void main(String[] args) {

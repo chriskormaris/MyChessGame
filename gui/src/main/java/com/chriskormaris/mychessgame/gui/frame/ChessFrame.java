@@ -861,11 +861,7 @@ public abstract class ChessFrame extends JFrame {
                 saveCheckpointItem.setEnabled(false);
             }
 
-            if (this instanceof ButtonsFrame) {
-                ((ButtonsFrame) this).disableChessBoardSquares();
-            } else if (this instanceof DragAndDropFrame) {
-                ((DragAndDropFrame) this).chessPanelEnabled = false;
-            }
+            disableChessPanelClicks();
         }
     }
 
@@ -892,5 +888,7 @@ public abstract class ChessFrame extends JFrame {
     abstract void removePieceFromPosition(String position);
 
     abstract void placePiecesToChessBoard(String fenPosition);
+
+    abstract void disableChessPanelClicks();
 
 }

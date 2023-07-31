@@ -668,6 +668,11 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 		chessBoard.setThreats();
 	}
 
+	@Override
+	void disableChessPanelClicks() {
+		chessPanelEnabled = false;
+	}
+
 	private int getSquareIndex(int row, int column) {
 		return row * (chessBoard.getNumOfRows() + 2) + column;
 	}

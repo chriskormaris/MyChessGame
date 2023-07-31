@@ -93,7 +93,7 @@ public class SettingsFrame extends JFrame {
 		JLabel whiteSquareColorLabel = new JLabel("White square color");
 		JLabel blackSquareColorLabel = new JLabel("Black square color");
 		JLabel numOfRowsLabel = new JLabel("Number of rows");
-		JLabel showHintPositionsLabel = new JLabel("Show hint positions");
+		JLabel showHintPositionsLabel = new JLabel("Hint positions");
 
 		labels.add(guiTypeLabel);
 		labels.add(guiStyleLabel);
