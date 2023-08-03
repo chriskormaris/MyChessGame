@@ -37,7 +37,7 @@ public class SettingsFrame extends JFrame {
 	private final SpinnerModel numOfRowsSpinnerModel = new SpinnerNumberModel(8, 4, 8, 1);
 	private final JSpinner numOfRowsSpinner = new JSpinner(numOfRowsSpinnerModel);
 
-	private final JCheckBox showHintPositionsCheckBox;
+	private final JCheckBox showHintsCheckBox;
 
 	private final JButton apply;
 	private final JButton cancel;
@@ -74,7 +74,7 @@ public class SettingsFrame extends JFrame {
 		Color selectedWhiteSquareColor = newGameParameters.getWhiteSquareColor();
 		Color selectedBlackSquareColor = newGameParameters.getBlackSquareColor();
 		int numOfRows = newGameParameters.getNumOfRows();
-		boolean showHintPositions = newGameParameters.isShowHintPositions();
+		boolean showHintPositions = newGameParameters.isShowHints();
 
 		List<JLabel> labels = new ArrayList<>();
 		List<JComponent> components = new ArrayList<>();
@@ -93,7 +93,7 @@ public class SettingsFrame extends JFrame {
 		JLabel whiteSquareColorLabel = new JLabel("White square color");
 		JLabel blackSquareColorLabel = new JLabel("Black square color");
 		JLabel numOfRowsLabel = new JLabel("Number of rows");
-		JLabel showHintPositionsLabel = new JLabel("Hint positions");
+		JLabel showHintsLabel = new JLabel("Hints");
 
 		labels.add(guiTypeLabel);
 		labels.add(guiStyleLabel);
@@ -111,7 +111,7 @@ public class SettingsFrame extends JFrame {
 		if (newGameParameters.getGuiType() == GuiType.BUTTONS) {
 			labels.add(numOfRowsLabel);
 		}
-		labels.add(showHintPositionsLabel);
+		labels.add(showHintsLabel);
 
 		guiTypeDropDown = new JComboBox<>();
 		guiTypeDropDown.addItem("Drag and Drop");
@@ -258,8 +258,8 @@ public class SettingsFrame extends JFrame {
 
 		numOfRowsSpinnerModel.setValue(numOfRows);
 
-		showHintPositionsCheckBox = new JCheckBox();
-		showHintPositionsCheckBox.setSelected(showHintPositions);
+		showHintsCheckBox = new JCheckBox();
+		showHintsCheckBox.setSelected(showHintPositions);
 
 		components.add(guiTypeDropDown);
 		components.add(guiStyleDropDown);
@@ -277,7 +277,7 @@ public class SettingsFrame extends JFrame {
 		if (newGameParameters.getGuiType() == GuiType.BUTTONS) {
 			components.add(numOfRowsSpinner);
 		}
-		components.add(showHintPositionsCheckBox);
+		components.add(showHintsCheckBox);
 
 		int x = 25;
 		int y = 25;
@@ -348,7 +348,7 @@ public class SettingsFrame extends JFrame {
 					int blackSquareColorDropdownIndex = blackSquareColorDropDown.getSelectedIndex();
 					int numOfRows = (int) numOfRowsSpinner.getValue();
 					// numOfRows = Math.max(numOfRows, 8);
-					boolean showHintPositions = showHintPositionsCheckBox.isSelected();
+					boolean showHints = showHintsCheckBox.isSelected();
 
 					Color whiteSquareColor = null;
 					if (whiteSquareColorDropdownIndex == 0) {
@@ -382,7 +382,7 @@ public class SettingsFrame extends JFrame {
 					newGameParameters.setWhiteSquareColor(whiteSquareColor);
 					newGameParameters.setBlackSquareColor(blackSquareColor);
 					newGameParameters.setNumOfRows(numOfRows);
-					newGameParameters.setShowHintPositions(showHintPositions);
+					newGameParameters.setShowHints(showHints);
 
 					JOptionPane.showMessageDialog(
 							parentComponent,

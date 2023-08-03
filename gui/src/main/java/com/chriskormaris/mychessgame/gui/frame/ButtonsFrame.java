@@ -462,7 +462,7 @@ public class ButtonsFrame extends ChessFrame {
 				button.setBackground(Color.CYAN);
 
 				// Display the hint positions.
-				if (gameParameters.isShowHintPositions()) {
+				if (gameParameters.isShowHints()) {
 					for (String hintPosition : hintPositions) {
 						int hintPositionRow = chessBoard.getRowFromPosition(hintPosition);
 						int hintPositionColumn = chessBoard.getColumnFromPosition(hintPosition);
@@ -673,7 +673,7 @@ public class ButtonsFrame extends ChessFrame {
 
 			startingButton.setBackground(getColorByRowCol(startingPositionRow, startingPositionColumn));
 		}
-		if (gameParameters.isShowHintPositions()) {
+		if (gameParameters.isShowHints()) {
 			for (String hintPosition : hintPositions) {
 				int row = chessBoard.getRowFromPosition(hintPosition);
 				int column = chessBoard.getColumnFromPosition(hintPosition);

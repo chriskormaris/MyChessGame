@@ -42,7 +42,7 @@ public class GameParameters {
 
 	private int numOfRows;
 
-	private boolean showHintPositions;
+	private boolean showHints;
 
 	// Default constructor
 	public GameParameters() {
@@ -82,7 +82,7 @@ public class GameParameters {
 
 		this.numOfRows = Constants.DEFAULT_NUM_OF_ROWS;
 
-		this.showHintPositions = true;
+		this.showHints = true;
 	}
 
 	// Copy constructor
@@ -101,7 +101,7 @@ public class GameParameters {
 		this.whiteSquareColor = otherGameParameters.getWhiteSquareColor();
 		this.blackSquareColor = otherGameParameters.getBlackSquareColor();
 		this.numOfRows = otherGameParameters.getNumOfRows();
-		this.showHintPositions = otherGameParameters.isShowHintPositions();
+		this.showHints = otherGameParameters.isShowHints();
 	}
 
 }
