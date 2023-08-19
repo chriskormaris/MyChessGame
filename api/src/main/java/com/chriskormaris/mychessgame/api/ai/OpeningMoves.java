@@ -140,6 +140,7 @@ public class OpeningMoves {
 
 		movesList = new ArrayList<>();
 		movesList.add(new Move("D8", "E7"));  // C40 Gunderam defence
+		movesList.add(new Move("D7", "D6"));  // C41 Philidor's defence
 		movesList.add(new Move("G8", "F6"));  // C42 Petrov's defence
 		movesList.add(new Move("B8", "C6"));  // C44 King's pawn game
 		BLACK_OPENING_MOVES.put("rnbqkbnr/pppp1ppp/8/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2", movesList);
