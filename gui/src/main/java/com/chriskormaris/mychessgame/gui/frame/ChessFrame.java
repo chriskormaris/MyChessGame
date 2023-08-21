@@ -2,7 +2,6 @@ package com.chriskormaris.mychessgame.gui.frame;
 
 import com.chriskormaris.mychessgame.api.ai.AI;
 import com.chriskormaris.mychessgame.api.ai.MinimaxAI;
-import com.chriskormaris.mychessgame.api.ai.MinimaxAlphaBetaPruningAI;
 import com.chriskormaris.mychessgame.api.ai.RandomChoiceAI;
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.api.chess_board.Move;
@@ -77,8 +76,9 @@ public abstract class ChessFrame extends JFrame {
     int whiteCapturedPiecesCounter;
     int blackCapturedPiecesCounter;
 
-    // This stack of "String" objects is used to handle the "undo" and "redo" functionality.
-    Stack<String> nextHalfMoveFenPositions;
+    // These stacks of "ChessBoard" objects are used to handle the "undo" and "redo" functionality.
+    Stack<ChessBoard> undoChessBoards;
+    Stack<ChessBoard> redoChessBoards;
 
     // The length of this array is 30 elements.
     // The first 15 elements represent White captured pieces and are capital chars.
@@ -135,7 +135,8 @@ public abstract class ChessFrame extends JFrame {
 
         chessBoard = new ChessBoard();
 
-        nextHalfMoveFenPositions = new Stack<>();
+        undoChessBoards = new Stack<>();
+        redoChessBoards = new Stack<>();
 
         initializeCapturedPieces();
 
@@ -250,8 +251,7 @@ public abstract class ChessFrame extends JFrame {
 
         aboutItem.addActionListener(e -> {
             JLabel label = new JLabel(
-                    "<html>A traditional Chess game implementation using Minimax AI,<br>"
-                            + "with Alpha-Beta Pruning.<br>"
+                    "<html>A traditional Chess game implementation using Minimax AI.<br>"
                             + "&copy; Created by: Christos Kormaris, Athens 2020<br>"
                             + "Version " + GuiConstants.VERSION + "</html>"
             );
@@ -499,25 +499,9 @@ public abstract class ChessFrame extends JFrame {
             if (gameParameters.getAi1Type() == AiType.MINIMAX_AI) {
                 Evaluation evaluation1 = createEvaluation(gameParameters.getEvaluationFunction1());
                 if (gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE) {
-                    if (gameParameters.getAi1MaxDepth() <= 2) {
-                        ai = new MinimaxAI(gameParameters.getAi1MaxDepth(), Constants.BLACK, evaluation1);
-                    } else {
-                        ai = new MinimaxAlphaBetaPruningAI(
-                                gameParameters.getAi1MaxDepth(),
-                                Constants.BLACK,
-                                evaluation1
-                        );
-                    }
+                    ai = new MinimaxAI(gameParameters.getAi1MaxDepth(), Constants.BLACK, evaluation1);
                 } else if (gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
-                    if (gameParameters.getAi1MaxDepth() <= 2) {
-                        ai = new MinimaxAI(gameParameters.getAi1MaxDepth(), Constants.WHITE, evaluation1);
-                    } else {
-                        ai = new MinimaxAlphaBetaPruningAI(
-                                gameParameters.getAi1MaxDepth(),
-                                Constants.WHITE,
-                                evaluation1
-                        );
-                    }
+                    ai = new MinimaxAI(gameParameters.getAi1MaxDepth(), Constants.WHITE, evaluation1);
                 }
             } else if (gameParameters.getAi1Type() == AiType.RANDOM_AI) {
                 if (gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE) {
@@ -562,7 +546,7 @@ public abstract class ChessFrame extends JFrame {
         AI ai2;
         if (gameParameters.getAi2Type() == AiType.MINIMAX_AI) {
             Evaluation evaluation2 = createEvaluation(gameParameters.getEvaluationFunction2());
-            ai2 = new MinimaxAlphaBetaPruningAI(gameParameters.getAi2MaxDepth(), Constants.BLACK, evaluation2);
+            ai2 = new MinimaxAI(gameParameters.getAi2MaxDepth(), Constants.BLACK, evaluation2);
         } else {
             ai2 = new RandomChoiceAI(Constants.BLACK);
         }
@@ -881,11 +865,15 @@ public abstract class ChessFrame extends JFrame {
 
     abstract void makeDisplayMove(Move move, boolean isAiMove);
 
+    abstract void showHintPositions(ChessPiece chessPiece);
+
     abstract void hideHintPositions();
 
     public abstract void placePieceToPosition(String position, ChessPiece chessPiece);
 
     abstract void removePieceFromPosition(String position);
+
+    abstract void placePiecesToChessBoard(ChessBoard chessBoard);
 
     abstract void placePiecesToChessBoard(String fenPosition);
 

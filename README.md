@@ -10,7 +10,7 @@ Video for this project:
 Download `.jar` executable:
 - https://drive.google.com/file/d/1FCr1Jyu5zGblsB1dgMzvBgsXTsQb5HRX
 
-A traditional Chess game implementation using Minimax AI, with Alpha-Beta Pruning.
+A traditional Chess game implementation using Minimax AI.
 The Minimax AI is based on code from the laboratories of the `Artificial Intelligence` course,
 of the `Department of Informatics`, of the `Athens University of Economics and Business`.
 I created this project from scratch, line by line.
@@ -50,7 +50,7 @@ There are 2 Java modules inside this project:
 #### AI
 
 - The `AI` is also customizable. There are 2 AI types:
-1. Minimax AI (you can optionally use Alpha-Beta pruning)
+1. Minimax AI
 2. Random Choice AI
 
 - There are 4 evaluation function implementations for the Minimax AI:

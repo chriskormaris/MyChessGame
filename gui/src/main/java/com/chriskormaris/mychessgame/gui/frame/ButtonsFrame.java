@@ -170,34 +170,23 @@ public class ButtonsFrame extends ChessFrame {
 
 	@Override
 	void undo() {
-		if (gameParameters.getGameMode() != GameMode.HUMAN_VS_AI
-				&& !chessBoard.getPreviousHalfMoveFenPositions().isEmpty()
-				|| gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
-				&& chessBoard.getPreviousHalfMoveFenPositions().size() >= 2) {
+		if (!undoChessBoards.isEmpty()) {
 			System.out.println("Undo is pressed!");
 
 			if (gameParameters.getGameMode() != GameMode.AI_VS_AI) {
 				if (!buttonsEnabled) {
 					enableChessButtons();
 				}
-
 				startingButtonIsClicked = false;
 				hideHintPositions();
 			}
 
-			nextHalfMoveFenPositions.push(FenUtils.getFenPositionFromChessBoard(chessBoard));
+			redoChessBoards.push(new ChessBoard(chessBoard));
+			chessBoard = undoChessBoards.pop();
+			placePiecesToChessBoard(chessBoard);
+
 			redoCapturedPieces.push(capturedPieces.clone());
-			if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI && !(chessBoard.blackPlays() && isGameOver)) {
-				nextHalfMoveFenPositions.push(chessBoard.getPreviousHalfMoveFenPositions().pop());
-				redoCapturedPieces.push(undoCapturedPieces.pop());
-			}
-
-			String fenPosition = chessBoard.getPreviousHalfMoveFenPositions().pop();
-			Stack<String> previousHalfMoveFenPositions = chessBoard.getPreviousHalfMoveFenPositions();
-			placePiecesToChessBoard(fenPosition);
-			chessBoard.setPreviousHalfMoveFenPositions(previousHalfMoveFenPositions);
 			capturedPieces = undoCapturedPieces.pop();
-
 			resetCapturedPiecesPanel();
 
 			resetScore();
@@ -208,7 +197,7 @@ public class ButtonsFrame extends ChessFrame {
 			System.out.println();
 			System.out.println(chessBoard);
 
-			if (chessBoard.getPreviousHalfMoveFenPositions().isEmpty()) {
+			if (undoChessBoards.isEmpty()) {
 				undoItem.setEnabled(false);
 			}
 
@@ -232,8 +221,7 @@ public class ButtonsFrame extends ChessFrame {
 	// if we are in a terminal state, because the game has ended.
 	@Override
 	void redo() {
-		if (gameParameters.getGameMode() != GameMode.HUMAN_VS_AI && !nextHalfMoveFenPositions.isEmpty()
-				|| gameParameters.getGameMode() == GameMode.HUMAN_VS_AI && nextHalfMoveFenPositions.size() >= 2) {
+		if (!redoChessBoards.isEmpty()) {
 			System.out.println("Redo is pressed!");
 
 			if (gameParameters.getGameMode() != GameMode.AI_VS_AI) {
@@ -241,17 +229,13 @@ public class ButtonsFrame extends ChessFrame {
 				hideHintPositions();
 			}
 
-			chessBoard.getPreviousHalfMoveFenPositions().push(FenUtils.getFenPositionFromChessBoard(chessBoard));
-			undoCapturedPieces.push(capturedPieces.clone());
-			if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI) {
-				chessBoard.getPreviousHalfMoveFenPositions().push(nextHalfMoveFenPositions.pop());
-				undoCapturedPieces.push(redoCapturedPieces.pop());
-			}
-			Stack<String> previousHalfMoveFenPositions = chessBoard.getPreviousHalfMoveFenPositions();
+			undoChessBoards.push(new ChessBoard(chessBoard));
+			chessBoard = redoChessBoards.pop();
+			placePiecesToChessBoard(chessBoard);
 
-			placePiecesToChessBoard(nextHalfMoveFenPositions.pop());
-			chessBoard.setPreviousHalfMoveFenPositions(previousHalfMoveFenPositions);
 			capturedPieces = redoCapturedPieces.pop();
+			undoCapturedPieces.push(capturedPieces.clone());
+			resetCapturedPiecesPanel();
 
 			resetCapturedPiecesPanel();
 
@@ -264,7 +248,7 @@ public class ButtonsFrame extends ChessFrame {
 				capturedPiecesPanel.add(capturedPiecesImages[i]);
 			}
 
-			if (nextHalfMoveFenPositions.isEmpty()) {
+			if (redoChessBoards.isEmpty()) {
 				redoItem.setEnabled(false);
 			}
 
@@ -397,7 +381,8 @@ public class ButtonsFrame extends ChessFrame {
 		startingPosition = "";
 		endingPosition = "";
 
-		nextHalfMoveFenPositions.clear();
+		undoChessBoards.clear();
+		redoChessBoards.clear();
 
 		initializeCapturedPieces();
 
@@ -463,33 +448,7 @@ public class ButtonsFrame extends ChessFrame {
 
 				// Display the hint positions.
 				if (gameParameters.isShowHints()) {
-					for (String hintPosition : hintPositions) {
-						int hintPositionRow = chessBoard.getRowFromPosition(hintPosition);
-						int hintPositionColumn = chessBoard.getColumnFromPosition(hintPosition);
-
-						int hintPositionButtonRow = hintPositionRow;
-						int hintPositionButtonColumn = hintPositionColumn;
-						if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
-								&& gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
-							hintPositionButtonRow = chessBoard.getNumOfRows() - 1 - hintPositionRow;
-							hintPositionButtonColumn = chessBoard.getNumOfColumns() - 1 - hintPositionColumn;
-						}
-						JButton hintPositionButton = chessButtons[hintPositionButtonRow][hintPositionButtonColumn];
-						ChessPiece hintPositionPiece = chessBoard.getGameBoard()[hintPositionRow][hintPositionColumn];
-
-						if (hintPositionPiece.getAllegiance() != Allegiance.NONE
-								|| chessBoard.getEnPassantPosition().equals(hintPosition)
-								&& chessPiece instanceof Pawn) {
-							hintPositionButton.setBackground(Color.RED);
-						} else if (chessPiece instanceof Pawn &&
-								(chessPiece.getAllegiance() == Allegiance.WHITE && hintPositionRow == 0
-										|| chessPiece.getAllegiance() == Allegiance.BLACK
-										&& hintPositionRow == chessBoard.getNumOfRows() - 1)) {
-							hintPositionButton.setBackground(Color.GREEN);
-						} else if (hintPositionPiece instanceof EmptySquare) {
-							hintPositionButton.setBackground(Color.BLUE);
-						}
-					}
+					showHintPositions(chessPiece);
 				}
 
 				startingButtonIsClicked = true;
@@ -540,10 +499,15 @@ public class ButtonsFrame extends ChessFrame {
 		int columnEnd = chessBoard.getColumnFromPosition(positionEnd);
 		ChessPiece endSquare = chessBoard.getGameBoard()[rowEnd][columnEnd];
 
-		undoCapturedPieces.push(capturedPieces.clone());
-
-		nextHalfMoveFenPositions.clear();
+		redoChessBoards.clear();
 		redoCapturedPieces.clear();
+
+		if (gameParameters.getGameMode() != GameMode.HUMAN_VS_AI
+				|| (gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE && chessBoard.whitePlays()
+				|| gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK && chessBoard.blackPlays())) {
+			undoChessBoards.push(new ChessBoard(chessBoard));
+			undoCapturedPieces.push(capturedPieces.clone());
+		}
 
 		chessBoard.makeMove(move, true);
 
@@ -659,6 +623,40 @@ public class ButtonsFrame extends ChessFrame {
 	}
 
 	@Override
+	void showHintPositions(ChessPiece chessPiece) {
+		for (String hintPosition : hintPositions) {
+			int hintPositionRow = chessBoard.getRowFromPosition(hintPosition);
+			int hintPositionColumn = chessBoard.getColumnFromPosition(hintPosition);
+
+			int hintPositionButtonRow = hintPositionRow;
+			int hintPositionButtonColumn = hintPositionColumn;
+			if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
+					&& gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
+				hintPositionButtonRow = chessBoard.getNumOfRows() - 1 - hintPositionRow;
+				hintPositionButtonColumn = chessBoard.getNumOfColumns() - 1 - hintPositionColumn;
+			}
+			JButton hintPositionButton = chessButtons[hintPositionButtonRow][hintPositionButtonColumn];
+			ChessPiece hintPositionPiece = chessBoard.getGameBoard()[hintPositionRow][hintPositionColumn];
+
+			if (hintPositionPiece.getAllegiance() != Allegiance.NONE
+					|| chessBoard.getEnPassantPosition().equals(hintPosition)
+					&& chessPiece instanceof Pawn) {
+				hintPositionButton.setBackground(Color.RED);
+			} else if (chessPiece instanceof Pawn &&
+					(gameParameters.getGameMode() == GameMode.HUMAN_VS_AI && hintPositionRow == 0
+							||
+							gameParameters.getGameMode() != GameMode.HUMAN_VS_AI
+									&& (chessPiece.getAllegiance() == Allegiance.WHITE && hintPositionRow == 0
+									|| chessPiece.getAllegiance() == Allegiance.BLACK
+									&& hintPositionRow == chessBoard.getNumOfRows() - 1))) {
+				hintPositionButton.setBackground(Color.GREEN);
+			} else if (hintPositionPiece instanceof EmptySquare) {
+				hintPositionButton.setBackground(Color.BLUE);
+			}
+		}
+	}
+
+	@Override
 	void hideHintPositions() {
 		if (startingPosition != null && !startingPosition.isEmpty()) {
 			int startingPositionRow = chessBoard.getRowFromPosition(startingPosition);
@@ -741,6 +739,17 @@ public class ButtonsFrame extends ChessFrame {
 				placePieceToPosition(position, chessPiece);
 			}
 		}
+	}
+
+	@Override
+	void placePiecesToChessBoard(ChessBoard chessBoard) {
+		for (int i = 0; i < chessBoard.getNumOfRows(); i++) {
+			for (int j = 0; j < chessBoard.getNumOfColumns(); j++) {
+				String piecePosition = chessBoard.getPositionByRowCol(i, j);
+				placePieceToPosition(piecePosition, chessBoard.getGameBoard()[i][j]);
+			}
+		}
+		chessBoard.setThreats();
 	}
 
 	@Override

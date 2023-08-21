@@ -110,7 +110,6 @@ public class ChessBoard {
 	private ChessPiece capturedEnPassantPiece;
 
 	// This stack of "String" objects is used to check for a threefold repetition of the current Chess board position.
-	// It can also be used to handle the "undo" and "redo" functionality, if used on a GUI implementation.
 	private Stack<String> previousHalfMoveFenPositions;
 
 	public ChessBoard() {
@@ -267,10 +266,10 @@ public class ChessBoard {
 		int columnEnd = getColumnFromPosition(positionEnd);
 		ChessPiece endSquare = this.gameBoard[rowEnd][columnEnd];
 
-		if (positionsToRemove.size() > 0) {
+		if (!positionsToRemove.isEmpty()) {
 			positionsToRemove.clear();
 		}
-		if (piecesToPlace.size() > 0) {
+		if (!piecesToPlace.isEmpty()) {
 			piecesToPlace.clear();
 		}
 		if (!(capturedEnPassantPiece instanceof EmptySquare)) {
@@ -297,7 +296,6 @@ public class ChessBoard {
 
 			// Implementation of castling here.
 			if (chessPiece instanceof King) {
-
 				if (chessPiece.getAllegiance() == Allegiance.WHITE) {
 					setWhiteKingPosition(positionEnd);
 					setWhiteKingMoved(true);
@@ -388,9 +386,7 @@ public class ChessBoard {
 
 			// Implementation of "en passant" functionality and "pawn promotion" here.
 			if (chessPiece instanceof Pawn) {
-
 				/* En passant implementation */
-
 				// Remove the captured en passant pieces.
 				if (chessPiece.getAllegiance() == Allegiance.WHITE && rowEnd + 1 < numOfRows) {
 					String twoStepsForwardBlackPawnPosition = getPositionByRowCol(rowEnd + 1, columnEnd);
@@ -997,7 +993,7 @@ public class ChessBoard {
 				if (!(gameBoard[i][j] instanceof King || gameBoard[i][j] instanceof EmptySquare)) {
 					String position = getPositionByRowCol(i, j);
 					Set<String> nextPositions = getNextPositions(position);
-					if (nextPositions.size() > 0) {
+					if (!nextPositions.isEmpty()) {
 						return false;
 					}
 				}
