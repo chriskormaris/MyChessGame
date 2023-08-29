@@ -49,9 +49,10 @@ There are 2 Java modules inside this project:
 
 #### AI
 
-- The `AI` is also customizable. There are 2 AI types:
+- The `AI` is also customizable. There are 3 AI types:
 1. Minimax AI
-2. Random Choice AI
+2. Minimax with Alpha-Beta pruning AI
+3. Random Choice AI
 
 - There are 4 evaluation function implementations for the Minimax AI:
 1. `Simplified` evaluation
@@ -59,9 +60,8 @@ There are 2 Java modules inside this project:
 3. `Wukong` evaluation
 4. `Shannon` evaluation
 
-You can also change the Minimax AI max depth.
-The AI plays well for a depth of 2 or above.
-For a depth of 3 or above, the AI starts to play slowly.
+You can also change the "Minimax AI" max depth.
+The "Minimax with Alpha-Beta pruning AI" is faster, but sometimes it performs worse than the simple "Minimax AI".
 
 Some openings have also been included in the implementation of this Chess game.
 They can easily be extended.

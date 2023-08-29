@@ -2,6 +2,7 @@ package com.chriskormaris.mychessgame.gui.frame;
 
 import com.chriskormaris.mychessgame.api.ai.AI;
 import com.chriskormaris.mychessgame.api.ai.MinimaxAI;
+import com.chriskormaris.mychessgame.api.ai.MinimaxAlphaBetaPruningAI;
 import com.chriskormaris.mychessgame.api.ai.RandomChoiceAI;
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.api.chess_board.Move;
@@ -503,7 +504,14 @@ public abstract class ChessFrame extends JFrame {
                 } else if (gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
                     ai = new MinimaxAI(gameParameters.getAi1MaxDepth(), Constants.WHITE, evaluation1);
                 }
-            } else if (gameParameters.getAi1Type() == AiType.RANDOM_AI) {
+            } else if (gameParameters.getAi1Type() == AiType.MINIMAX_ALPHA_BETA_PRUNING_AI) {
+                Evaluation evaluation1 = createEvaluation(gameParameters.getEvaluationFunction1());
+                if (gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE) {
+                    ai = new MinimaxAlphaBetaPruningAI(gameParameters.getAi1MaxDepth(), Constants.BLACK, evaluation1);
+                } else if (gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
+                    ai = new MinimaxAlphaBetaPruningAI(gameParameters.getAi1MaxDepth(), Constants.WHITE, evaluation1);
+                }
+            }else if (gameParameters.getAi1Type() == AiType.RANDOM_AI) {
                 if (gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE) {
                     ai = new RandomChoiceAI(Constants.BLACK);
                 } else if (gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
@@ -539,6 +547,9 @@ public abstract class ChessFrame extends JFrame {
         if (gameParameters.getAi1Type() == AiType.MINIMAX_AI) {
             Evaluation evaluation1 = createEvaluation(gameParameters.getEvaluationFunction1());
             ai1 = new MinimaxAI(gameParameters.getAi1MaxDepth(), Constants.WHITE, evaluation1);
+        } else if (gameParameters.getAi1Type() == AiType.MINIMAX_ALPHA_BETA_PRUNING_AI) {
+            Evaluation evaluation1 = createEvaluation(gameParameters.getEvaluationFunction1());
+            ai1 = new MinimaxAlphaBetaPruningAI(gameParameters.getAi1MaxDepth(), Constants.WHITE, evaluation1);
         } else {
             ai1 = new RandomChoiceAI(Constants.WHITE);
         }
@@ -547,6 +558,9 @@ public abstract class ChessFrame extends JFrame {
         if (gameParameters.getAi2Type() == AiType.MINIMAX_AI) {
             Evaluation evaluation2 = createEvaluation(gameParameters.getEvaluationFunction2());
             ai2 = new MinimaxAI(gameParameters.getAi2MaxDepth(), Constants.BLACK, evaluation2);
+        } else if (gameParameters.getAi2Type() == AiType.MINIMAX_ALPHA_BETA_PRUNING_AI) {
+            Evaluation evaluation2 = createEvaluation(gameParameters.getEvaluationFunction2());
+            ai2 = new MinimaxAlphaBetaPruningAI(gameParameters.getAi2MaxDepth(), Constants.BLACK, evaluation2);
         } else {
             ai2 = new RandomChoiceAI(Constants.BLACK);
         }
