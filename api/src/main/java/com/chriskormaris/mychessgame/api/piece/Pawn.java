@@ -29,8 +29,8 @@ public class Pawn extends ChessPiece {
 
 		int newRow = 0;
 
-		if (pawn.getAllegiance() == Allegiance.WHITE && row < chessBoard.getNumOfRows() - 1
-				|| pawn.getAllegiance() == Allegiance.BLACK && row > 0) {
+		if (pawn.getAllegiance() == Allegiance.WHITE && 0 < row && row <= chessBoard.getNumOfRows() - 1
+				|| pawn.getAllegiance() == Allegiance.BLACK && row < chessBoard.getNumOfRows() - 1) {
 
 			if (!returnThreats) {
 				// One step forward position.
