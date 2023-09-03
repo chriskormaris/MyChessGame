@@ -34,9 +34,8 @@ public class ChessBoard {
 	private final int numOfRows;
 	private final int numOfColumns;
 
-	/* Immediate move that led to this board. */
+	// Immediate move that led to this board.
 	private Move lastMove;
-
 
 	/* The ChessBoard's gameBoard:
 	 *      A     B     C     D     E     F     G     H
@@ -64,7 +63,7 @@ public class ChessBoard {
 	 * 0 for areas not threatened by black pieces. */
 	private int[][] squaresThreatenedByBlack;
 
-	/* These are used to define if a checkmate has occurred. */
+	// These are used to define if a checkmate has occurred.
 	private String whiteKingPosition;
 	private String blackKingPosition;
 
@@ -72,7 +71,7 @@ public class ChessBoard {
 	 * The player who control the white pieces plays first. */
 	private boolean player;
 
-	/* These variables are used to handle the "castling" implementation. */
+	// These variables are used to handle the "castling" implementation.
 	private boolean whiteKingMoved;
 	private boolean leftWhiteRookMoved;
 	private boolean rightWhiteRookMoved;
@@ -95,7 +94,7 @@ public class ChessBoard {
 	 * if no chessPiece has been captured in 50 full-moves (100 half-moves). */
 	private int halfMoveClock;
 
-	/* 1 full-move corresponds to 2 half-moves. */
+	// 1 full-move corresponds to 2 half-moves.
 	private int halfMoveNumber;
 
 	private boolean whiteKingInCheck;
@@ -528,8 +527,7 @@ public class ChessBoard {
 	/* Generates the children of the state
 	 * Any square in the board that is empty,
 	 * or is an opponent chessPiece, results to a child.
-	 * Some special cases include "en passant" and castling.
-	 */
+	 * Some special cases include "en passant" and castling. */
 	public List<ChessBoard> getChildren(Allegiance allegiance, MinimaxAI minimaxAI) {
 		List<ChessBoard> children = new ArrayList<>();
 
@@ -619,7 +617,7 @@ public class ChessBoard {
 		return nextPositions;
 	}
 
-	/* Remove positions that lead to the King being in check. */
+	// Remove positions that lead to the King being in check.
 	public void removePositionsLeadingToOppositeCheck(
 			String startingPosition,
 			ChessPiece chessPiece,
@@ -895,9 +893,11 @@ public class ChessBoard {
 	public boolean checkForInsufficientMatingMaterialDraw() {
 		boolean isInsufficientMatingMaterialDraw = isInsufficientMatingMaterialDraw();
 
+		/*
 		if (!isInsufficientMatingMaterialDraw && checkForBlockedKingsDraw()) {
 			isInsufficientMatingMaterialDraw = true;
 		}
+		*/
 
 		if (isInsufficientMatingMaterialDraw) {
 			this.gameResult = GameResult.INSUFFICIENT_MATERIAL_DRAW;
@@ -982,11 +982,13 @@ public class ChessBoard {
 		return kingVsKing || kingAndBishopVsKing || kingAndKnightVsKing || kingAndBishopVsKingAndBishopSameColor;
 	}
 
-	// Check for a special case of draw.
-	// It occurs when no pieces other than the kings can be moved
-	// and neither king can capture any enemy pieces.
-	// It usually happens when only Kings and Pawns are left on the Chess board.
-	public boolean checkForBlockedKingsDraw() {
+	/* Check for a special case of draw.
+	 * It occurs when no pieces other than the kings can be moved
+	 * and neither king can capture any enemy pieces.
+	 * It usually happens when only Kings and Pawns are left on the Chess board.
+	 * TODO: Needs improvement. For example, it doesn't work correctly in King vs King and a Pawn scenario. */
+	/*
+	private boolean checkForBlockedKingsDraw() {
 		// Check if any pieces other than the Kings can make any move.
 		for (int i = 0; i < numOfRows; i++) {
 			for (int j = 0; j < numOfColumns; j++) {
@@ -1029,6 +1031,7 @@ public class ChessBoard {
 
 		return true;
 	}
+	*/
 
 	// The Queen and the Rook are considered as major pieces.
 	// The Knight and the Bishop are considered as minor pieces.
