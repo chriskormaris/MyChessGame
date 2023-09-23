@@ -33,7 +33,6 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.HashSet;
-import java.util.Stack;
 
 
 public class ButtonsFrame extends ChessFrame {

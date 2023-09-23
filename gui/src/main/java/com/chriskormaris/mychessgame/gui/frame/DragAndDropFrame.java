@@ -30,7 +30,6 @@ import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.HashSet;
-import java.util.Stack;
 
 /**
  * Example showing the use of a JLayeredPane to implement dragging an object

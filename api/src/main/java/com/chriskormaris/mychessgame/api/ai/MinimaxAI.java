@@ -24,7 +24,7 @@ public class MinimaxAI extends AI {
 
 	public MinimaxAI() {
 		super(Constants.BLACK);
-		this.maxDepth = 2;
+		this.maxDepth = Constants.DEFAULT_MAX_DEPTH;
 		this.evaluation = new SimplifiedEvaluation();
 	}
 
