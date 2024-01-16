@@ -52,7 +52,7 @@ public class EndGameTest {
 		try {
 			Thread.sleep(60 * 1000);
 		} catch (InterruptedException ex) {
-			ex.printStackTrace();
+			throw new RuntimeException(ex);
 		}
 	}
 

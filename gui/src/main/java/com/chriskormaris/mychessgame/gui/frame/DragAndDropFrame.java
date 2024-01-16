@@ -85,7 +85,7 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 			icon = ImageIO.read(ResourceLoader.load(GuiConstants.ICON_PATH));
 			super.setIconImage(icon);
 		} catch (IOException ex) {
-			ex.printStackTrace();
+			throw new RuntimeException(ex);
 		}
 
 		super.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

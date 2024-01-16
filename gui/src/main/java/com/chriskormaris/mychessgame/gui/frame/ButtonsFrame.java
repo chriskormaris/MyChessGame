@@ -74,7 +74,7 @@ public class ButtonsFrame extends ChessFrame {
 			icon = ImageIO.read(ResourceLoader.load(GuiConstants.ICON_PATH));
 			super.setIconImage(icon);
 		} catch (IOException ex) {
-			ex.printStackTrace();
+			throw new RuntimeException(ex);
 		}
 
 		super.add(guiPanel);

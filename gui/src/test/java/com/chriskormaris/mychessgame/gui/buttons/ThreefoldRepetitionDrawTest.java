@@ -37,7 +37,7 @@ public class ThreefoldRepetitionDrawTest {
 		try {
 			Thread.sleep(5 * 60 * 1000);
 		} catch (InterruptedException ex) {
-			ex.printStackTrace();
+			throw new RuntimeException(ex);
 		}
 	}
 

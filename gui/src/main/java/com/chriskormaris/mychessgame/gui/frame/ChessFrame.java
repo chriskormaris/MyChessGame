@@ -221,7 +221,7 @@ public abstract class ChessFrame extends JFrame {
                     String fenPosition = FenUtils.getFenPositionFromChessBoard(chessBoard);
                     bw.write(fenPosition + "\n");
                 } catch (IOException ex) {
-                    ex.printStackTrace();
+                    throw new RuntimeException(ex);
                 }
             }
         });
@@ -269,7 +269,7 @@ public abstract class ChessFrame extends JFrame {
 
                 JOptionPane.showMessageDialog(this, label, "About", JOptionPane.PLAIN_MESSAGE, imageIcon);
             } catch (IOException ex) {
-                ex.printStackTrace();
+                throw new RuntimeException(ex);
             }
         });
 
@@ -317,7 +317,7 @@ public abstract class ChessFrame extends JFrame {
             try {
                 UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
             } catch (Exception ex2) {
-                ex2.printStackTrace();
+                throw new RuntimeException(ex2);
             }
         }
     }
@@ -579,7 +579,7 @@ public abstract class ChessFrame extends JFrame {
                         Thread.sleep(Constants.RANDOM_AI_MOVE_MILLISECONDS);
                     }
                 } catch (InterruptedException ex) {
-                    ex.printStackTrace();
+                    throw new RuntimeException(ex);
                 }
 
                 aiVsAiMove(ai2);
@@ -593,7 +593,7 @@ public abstract class ChessFrame extends JFrame {
                         Thread.sleep(Constants.RANDOM_AI_MOVE_MILLISECONDS);
                     }
                 } catch (InterruptedException ex) {
-                    ex.printStackTrace();
+                    throw new RuntimeException(ex);
                 }
             }
         }

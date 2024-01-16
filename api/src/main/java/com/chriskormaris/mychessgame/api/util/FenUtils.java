@@ -151,7 +151,7 @@ public final class FenUtils {
 			try {
 				chessBoard.getGameBoard()[i][j] = Utilities.getChessPiece(pieceChar);
 			} catch (ArrayIndexOutOfBoundsException ex) {
-				ex.printStackTrace();
+				throw new RuntimeException(ex);
 			}
 
 			if (pieceChar == Constants.WHITE_KING) {

@@ -35,8 +35,7 @@ public final class SoundUtils {
 			clip.open(audioInputStream);
 			clip.start();
 		} catch (Exception ex) {
-			// ex.printStackTrace();
-			System.err.println(ex.getMessage());
+			throw new RuntimeException(ex);
 		}
 	}
 
