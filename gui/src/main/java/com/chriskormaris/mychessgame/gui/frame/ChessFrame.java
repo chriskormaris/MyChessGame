@@ -96,6 +96,8 @@ public abstract class ChessFrame extends JFrame {
     // This variable is used for the implementation of "AI vs AI".
     boolean isGameOver;
 
+    boolean flipBoard;
+
     Set<String> hintPositions;
 
     JMenuItem undoItem;
@@ -126,6 +128,10 @@ public abstract class ChessFrame extends JFrame {
         }
     };
 
+    public ChessFrame() {
+        this(GuiConstants.TITLE);
+    }
+
     public ChessFrame(String title) throws HeadlessException {
         super(title);
 
@@ -147,6 +153,10 @@ public abstract class ChessFrame extends JFrame {
         startingPosition = "";
         endingPosition = "";
 
+        isGameOver = false;
+
+        flipBoard = false;
+
         hintPositions = new HashSet<>();
 
         JMenuBar menuBar = new JMenuBar();
@@ -160,6 +170,7 @@ public abstract class ChessFrame extends JFrame {
         exportFenPositionItem = new JMenuItem("Export FEN position to file");
         saveCheckpointItem = new JMenuItem("Save checkpoint");
         loadCheckpointItem = new JMenuItem("Load checkpoint");
+        JMenuItem flipBoardItem = new JMenuItem("Flip board");
         JMenuItem exitItem = new JMenuItem("Exit");
 
         JMenu helpMenu = new JMenu("Help");
@@ -239,6 +250,21 @@ public abstract class ChessFrame extends JFrame {
             }
         });
 
+        flipBoardItem.addActionListener(e -> {
+            flipBoard = !flipBoard;
+
+            guiPanel.removeAll();
+            initializeGUI();
+
+            guiPanel.revalidate();
+            guiPanel.repaint();
+            super.paint(getGraphics());
+            super.repaint();
+
+            redrawChessBoard();
+            super.revalidate();
+        });
+
         exitItem.addActionListener(e -> System.exit(0));
 
         howToPlayItem.addActionListener(
@@ -282,6 +308,7 @@ public abstract class ChessFrame extends JFrame {
         fileMenu.add(exportFenPositionItem);
         fileMenu.add(saveCheckpointItem);
         fileMenu.add(loadCheckpointItem);
+        fileMenu.add(flipBoardItem);
         fileMenu.add(exitItem);
 
         helpMenu.add(howToPlayItem);
@@ -865,6 +892,8 @@ public abstract class ChessFrame extends JFrame {
 
     abstract void initializeGUI();
 
+    abstract void redrawChessBoard();
+
     abstract void initializeChessPanel();
 
     abstract void undo();
@@ -874,6 +903,10 @@ public abstract class ChessFrame extends JFrame {
     abstract void startNewGame();
 
     abstract void startNewGame(String fenPosition);
+
+    void restoreDefaultValues() {
+        restoreDefaultValues(Constants.DEFAULT_STARTING_FEN_POSITION);
+    }
 
     abstract void restoreDefaultValues(String fenPosition);
 
