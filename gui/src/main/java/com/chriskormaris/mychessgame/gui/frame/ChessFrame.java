@@ -159,7 +159,15 @@ public abstract class ChessFrame extends JFrame {
 
         hintPositions = new HashSet<>();
 
+        addMenus();
+
+        super.setVisible(true);
+        super.addKeyListener(undoRedoKeyListener);
+    }
+
+    private void addMenus() {
         JMenuBar menuBar = new JMenuBar();
+
         JMenu fileMenu = new JMenu("File");
         JMenuItem newGameItem = new JMenuItem("New Game");
         undoItem = new JMenuItem("Undo    Ctrl+Z");
@@ -318,9 +326,6 @@ public abstract class ChessFrame extends JFrame {
         menuBar.add(helpMenu);
 
         super.setJMenuBar(menuBar);
-
-        super.setVisible(true);
-        super.addKeyListener(undoRedoKeyListener);
     }
 
     void configureGuiStyle() {
