@@ -269,16 +269,7 @@ public class ButtonsFrame extends ChessFrame {
 				JButton button = new JButton();
 				button.setMargin(buttonMargin);
 
-				// Our chess board pieces are 64x64 px in size, so we'll
-				// "fill this in" using a transparent icon...
-				ImageIcon imageIcon = new ImageIcon(
-						new BufferedImage(
-								GuiConstants.CHESS_PIECE_SQUARE_PIXEL_SIZE,
-								GuiConstants.CHESS_PIECE_SQUARE_PIXEL_SIZE,
-								BufferedImage.TYPE_INT_ARGB
-						)
-				);
-				button.setIcon(imageIcon);
+				button.setIcon(null);
 
 				button.setBackground(getColorByRowCol(i, j));
 
@@ -714,14 +705,7 @@ public class ButtonsFrame extends ChessFrame {
 			column = chessBoard.getNumOfColumns() - 1 - column;
 		}
 
-		// Our chess board pieces are 64x64 px in size, so we'll
-		// 'fill this in' using a transparent icon.
-		ImageIcon imageIcon = new ImageIcon(new BufferedImage(
-				GuiConstants.CHESS_PIECE_SQUARE_PIXEL_SIZE,
-				GuiConstants.CHESS_PIECE_SQUARE_PIXEL_SIZE,
-				BufferedImage.TYPE_INT_ARGB
-		));
-		chessButtons[row][column].setIcon(imageIcon);
+		chessButtons[row][column].setIcon(null);
 	}
 
 	@Override
@@ -762,16 +746,7 @@ public class ButtonsFrame extends ChessFrame {
 	public void makeChessBoardSquaresEmpty() {
 		for (int i = 0; i < chessBoard.getNumOfRows(); i++) {
 			for (int j = 0; j < chessBoard.getNumOfColumns(); j++) {
-				// Our chess board pieces are 64x64 px in size, so we'll
-				// 'fill this in' using a transparent icon.
-				ImageIcon imageIcon = new ImageIcon(
-						new BufferedImage(
-								GuiConstants.CHESS_PIECE_SQUARE_PIXEL_SIZE,
-								GuiConstants.CHESS_PIECE_SQUARE_PIXEL_SIZE,
-								BufferedImage.TYPE_INT_ARGB
-						)
-				);
-				chessButtons[i][j].setIcon(imageIcon);
+				chessButtons[i][j].setIcon(null);
 
 				chessButtons[i][j].setBackground(getColorByRowCol(i, j));
 				chessButtons[i][j].setOpaque(true);

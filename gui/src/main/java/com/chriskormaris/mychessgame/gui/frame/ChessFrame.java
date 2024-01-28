@@ -453,15 +453,7 @@ public abstract class ChessFrame extends JFrame {
             if (i == 15) {
                 capturedPiecesImages[i].setText(GuiConstants.ZERO_SCORE_TEXT);
             } else {
-                // We'll "fill this in" using a transparent icon...
-                ImageIcon imageIcon = new ImageIcon(
-                        new BufferedImage(
-                                GuiConstants.CAPTURED_CHESS_PIECE_PIXEL_SIZE,
-                                GuiConstants.CAPTURED_CHESS_PIECE_PIXEL_SIZE,
-                                BufferedImage.TYPE_INT_ARGB
-                        )
-                );
-                capturedPiecesImages[i].setIcon(imageIcon);
+                capturedPiecesImages[i].setIcon(null);
             }
 
             capturedPiecesPanel.add(capturedPiecesImages[i]);
