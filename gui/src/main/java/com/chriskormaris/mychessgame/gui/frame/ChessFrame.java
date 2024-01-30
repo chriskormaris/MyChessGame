@@ -174,11 +174,11 @@ public abstract class ChessFrame extends JFrame {
         redoItem = new JMenuItem("Redo    Ctrl+Y");
         JMenuItem exportToGifItem = new JMenuItem("Export to .gif");
         JMenuItem settingsItem = new JMenuItem("Settings");
-        JMenuItem importStartingFenPositionItem = new JMenuItem("Import starting FEN position");
-        exportFenPositionItem = new JMenuItem("Export FEN position to file");
-        saveCheckpointItem = new JMenuItem("Save checkpoint");
-        loadCheckpointItem = new JMenuItem("Load checkpoint");
-        JMenuItem flipBoardItem = new JMenuItem("Flip board");
+        JMenuItem importStartingFenPositionItem = new JMenuItem("Import Starting FEN Position");
+        exportFenPositionItem = new JMenuItem("Export FEN Position to File");
+        saveCheckpointItem = new JMenuItem("Save Checkpoint");
+        loadCheckpointItem = new JMenuItem("Load Checkpoint");
+        JMenuItem flipBoardItem = new JMenuItem("Flip Board");
         JMenuItem exitItem = new JMenuItem("Exit");
 
         JMenu helpMenu = new JMenu("Help");
