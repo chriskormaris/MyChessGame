@@ -174,7 +174,7 @@ public class ButtonsFrame extends ChessFrame {
 					enableChessButtons();
 				}
 				startingButtonIsClicked = false;
-				hideHintPositions();
+				hideNextPositions();
 			}
 
 			redoChessBoards.push(new ChessBoard(chessBoard));
@@ -222,7 +222,7 @@ public class ButtonsFrame extends ChessFrame {
 
 			if (gameParameters.getGameMode() != GameMode.AI_VS_AI) {
 				startingButtonIsClicked = false;
-				hideHintPositions();
+				hideNextPositions();
 			}
 
 			undoChessBoards.push(new ChessBoard(chessBoard));
@@ -390,7 +390,7 @@ public class ButtonsFrame extends ChessFrame {
 
 		startingButtonIsClicked = false;
 
-		hintPositions = new HashSet<>();
+		nextPositions = new HashSet<>();
 
 		buttonsEnabled = true;
 
@@ -412,7 +412,7 @@ public class ButtonsFrame extends ChessFrame {
 
 	// This method is only called from inside a chess board button listener.
 	private void chessButtonClick(int row, int column, JButton button) {
-		hideHintPositions();
+		hideNextPositions();
 
 		String position = chessBoard.getPositionByRowCol(row, column);
 		ChessPiece chessPiece = chessBoard.getGameBoard()[row][column];
@@ -433,12 +433,12 @@ public class ButtonsFrame extends ChessFrame {
 			startingPosition = position;
 
 			if (!(chessPiece instanceof EmptySquare)) {
-				hintPositions = chessBoard.getNextPositions(position);
+				nextPositions = chessBoard.getNextPositions(position);
 				button.setBackground(Color.CYAN);
 
-				// Display the hint positions.
+				// Display the next positions.
 				if (gameParameters.isShowNextMoves()) {
-					showHintPositions(chessPiece);
+					showNextPositions(chessPiece);
 				}
 
 				startingButtonIsClicked = true;
@@ -451,7 +451,7 @@ public class ButtonsFrame extends ChessFrame {
 			startingButtonIsClicked = false;
 			endingPosition = position;
 
-			if (hintPositions.contains(endingPosition)) {
+			if (nextPositions.contains(endingPosition)) {
 				Move move = new Move(startingPosition, endingPosition);
 				makeDisplayMove(move, false);
 
@@ -461,7 +461,7 @@ public class ButtonsFrame extends ChessFrame {
 					SoundUtils.playMoveSound();
 				}
 
-				hintPositions.clear();
+				nextPositions.clear();
 
 				if (undoItem != null) {
 					undoItem.setEnabled(true);
@@ -613,39 +613,39 @@ public class ButtonsFrame extends ChessFrame {
 	}
 
 	@Override
-	void showHintPositions(ChessPiece chessPiece) {
-		for (String hintPosition : hintPositions) {
-			int hintPositionRow = chessBoard.getRowFromPosition(hintPosition);
-			int hintPositionColumn = chessBoard.getColumnFromPosition(hintPosition);
+	void showNextPositions(ChessPiece chessPiece) {
+		for (String nextPosition : nextPositions) {
+			int nextPositionRow = chessBoard.getRowFromPosition(nextPosition);
+			int nextPositionColumn = chessBoard.getColumnFromPosition(nextPosition);
 
-			int hintPositionButtonRow = hintPositionRow;
-			int hintPositionButtonColumn = hintPositionColumn;
+			int nextPositionButtonRow = nextPositionRow;
+			int nextPositionButtonColumn = nextPositionColumn;
 			if (flipBoard) {
-				hintPositionButtonRow = chessBoard.getNumOfRows() - 1 - hintPositionRow;
-				hintPositionButtonColumn = chessBoard.getNumOfColumns() - 1 - hintPositionColumn;
+				nextPositionButtonRow = chessBoard.getNumOfRows() - 1 - nextPositionRow;
+				nextPositionButtonColumn = chessBoard.getNumOfColumns() - 1 - nextPositionColumn;
 			}
-			JButton hintPositionButton = chessButtons[hintPositionButtonRow][hintPositionButtonColumn];
-			ChessPiece hintPositionPiece = chessBoard.getGameBoard()[hintPositionRow][hintPositionColumn];
+			JButton nextPositionButton = chessButtons[nextPositionButtonRow][nextPositionButtonColumn];
+			ChessPiece nextPositionPiece = chessBoard.getGameBoard()[nextPositionRow][nextPositionColumn];
 
-			if (hintPositionPiece.getAllegiance() != Allegiance.NONE
-					|| chessBoard.getEnPassantPosition().equals(hintPosition)
+			if (nextPositionPiece.getAllegiance() != Allegiance.NONE
+					|| chessBoard.getEnPassantPosition().equals(nextPosition)
 					&& chessPiece instanceof Pawn) {
-				hintPositionButton.setBackground(Color.RED);
+				nextPositionButton.setBackground(Color.RED);
 			} else if (chessPiece instanceof Pawn &&
 					(chessPiece.getAllegiance() == Allegiance.WHITE
-							&& hintPositionRow == 0
+							&& nextPositionRow == 0
 							|| chessPiece.getAllegiance() == Allegiance.BLACK
-							&& hintPositionRow == chessBoard.getNumOfRows() - 1)
+							&& nextPositionRow == chessBoard.getNumOfRows() - 1)
 			) {
-				hintPositionButton.setBackground(Color.GREEN);
-			} else if (hintPositionPiece instanceof EmptySquare) {
-				hintPositionButton.setBackground(Color.BLUE);
+				nextPositionButton.setBackground(Color.GREEN);
+			} else if (nextPositionPiece instanceof EmptySquare) {
+				nextPositionButton.setBackground(Color.BLUE);
 			}
 		}
 	}
 
 	@Override
-	void hideHintPositions() {
+	void hideNextPositions() {
 		if (startingPosition != null && !startingPosition.isEmpty()) {
 			int startingPositionRow = chessBoard.getRowFromPosition(startingPosition);
 			int startingPositionColumn = chessBoard.getColumnFromPosition(startingPosition);
@@ -659,9 +659,9 @@ public class ButtonsFrame extends ChessFrame {
 			startingButton.setBackground(getColorByRowCol(startingPositionRow, startingPositionColumn));
 		}
 		if (gameParameters.isShowNextMoves()) {
-			for (String hintPosition : hintPositions) {
-				int row = chessBoard.getRowFromPosition(hintPosition);
-				int column = chessBoard.getColumnFromPosition(hintPosition);
+			for (String nextPosition : nextPositions) {
+				int row = chessBoard.getRowFromPosition(nextPosition);
+				int column = chessBoard.getColumnFromPosition(nextPosition);
 
 				if (flipBoard) {
 					row = chessBoard.getNumOfRows() - 1 - row;

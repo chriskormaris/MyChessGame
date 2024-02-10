@@ -98,7 +98,7 @@ public abstract class ChessFrame extends JFrame {
 
     boolean flipBoard;
 
-    Set<String> hintPositions;
+    Set<String> nextPositions;
 
     JMenuItem undoItem;
     JMenuItem redoItem;
@@ -157,7 +157,7 @@ public abstract class ChessFrame extends JFrame {
 
         flipBoard = false;
 
-        hintPositions = new HashSet<>();
+        nextPositions = new HashSet<>();
 
         addMenus();
 
@@ -909,9 +909,9 @@ public abstract class ChessFrame extends JFrame {
 
     abstract void makeDisplayMove(Move move, boolean isAiMove);
 
-    abstract void showHintPositions(ChessPiece chessPiece);
+    abstract void showNextPositions(ChessPiece chessPiece);
 
-    abstract void hideHintPositions();
+    abstract void hideNextPositions();
 
     public abstract void placePieceToPosition(String position, ChessPiece chessPiece);
 

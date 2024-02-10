@@ -386,7 +386,7 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 
 		mouseIsPressed = false;
 
-		hintPositions = new HashSet<>();
+		nextPositions = new HashSet<>();
 
 		if (undoItem != null) {
 			undoItem.setEnabled(false);
@@ -544,44 +544,44 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 	}
 
 	@Override
-	void showHintPositions(ChessPiece chessPiece) {
-		for (String hintPosition : hintPositions) {
-			int hintPositionRow = chessBoard.getRowFromPosition(hintPosition);
-			int hintPositionColumn = chessBoard.getColumnFromPosition(hintPosition);
+	void showNextPositions(ChessPiece chessPiece) {
+		for (String nextPosition : nextPositions) {
+			int nextPositionRow = chessBoard.getRowFromPosition(nextPosition);
+			int nextPositionColumn = chessBoard.getColumnFromPosition(nextPosition);
 
 			if (flipBoard) {
-				hintPositionRow = chessBoard.getNumOfRows() - 1 - hintPositionRow;
-				hintPositionColumn = chessBoard.getNumOfColumns() - 1 - hintPositionColumn;
+				nextPositionRow = chessBoard.getNumOfRows() - 1 - nextPositionRow;
+				nextPositionColumn = chessBoard.getNumOfColumns() - 1 - nextPositionColumn;
 			}
 
-			int hintPositionIndex = getSquareIndex(hintPositionRow + 1, hintPositionColumn + 1);
-			Component hintPositionComponent = chessPanel.getComponent(hintPositionIndex);
-			ChessPiece hintPositionPiece = chessBoard.getChessPieceFromPosition(hintPosition);
+			int nextPositionIndex = getSquareIndex(nextPositionRow + 1, nextPositionColumn + 1);
+			Component nextPositionComponent = chessPanel.getComponent(nextPositionIndex);
+			ChessPiece nextPositionPiece = chessBoard.getChessPieceFromPosition(nextPosition);
 
-			if (hintPositionPiece.getAllegiance() != Allegiance.NONE
-					|| chessBoard.getEnPassantPosition().equals(hintPosition) && chessPiece instanceof Pawn) {
-				hintPositionComponent.setBackground(Color.RED);
+			if (nextPositionPiece.getAllegiance() != Allegiance.NONE
+					|| chessBoard.getEnPassantPosition().equals(nextPosition) && chessPiece instanceof Pawn) {
+				nextPositionComponent.setBackground(Color.RED);
 			} else if (chessPiece instanceof Pawn &&
 					(!flipBoard
 							&& (chessPiece.getAllegiance() == Allegiance.WHITE
-							&& hintPositionRow == 0
+							&& nextPositionRow == 0
 							|| chessPiece.getAllegiance() == Allegiance.BLACK
-							&& hintPositionRow == chessBoard.getNumOfRows() - 1)
+							&& nextPositionRow == chessBoard.getNumOfRows() - 1)
 							|| flipBoard
 							&& (chessPiece.getAllegiance() == Allegiance.WHITE
-							&& hintPositionRow == chessBoard.getNumOfRows() - 1
+							&& nextPositionRow == chessBoard.getNumOfRows() - 1
 							|| chessPiece.getAllegiance() == Allegiance.BLACK
-							&& hintPositionRow == 0))
+							&& nextPositionRow == 0))
 			) {
-				hintPositionComponent.setBackground(Color.GREEN);
-			} else if (hintPositionPiece instanceof EmptySquare) {
-				hintPositionComponent.setBackground(Color.BLUE);
+				nextPositionComponent.setBackground(Color.GREEN);
+			} else if (nextPositionPiece instanceof EmptySquare) {
+				nextPositionComponent.setBackground(Color.BLUE);
 			}
 		}
 	}
 
 	@Override
-	void hideHintPositions() {
+	void hideNextPositions() {
 		if (startingPosition != null && !startingPosition.isEmpty()) {
 			int startingPositionRow = chessBoard.getRowFromPosition(startingPosition);
 			int startingPositionColumn = chessBoard.getColumnFromPosition(startingPosition);
@@ -599,18 +599,18 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 			startingComponent.setBackground(getColorByRowCol(startingPositionRow, startingPositionColumn));
 		}
 		if (gameParameters.isShowNextMoves()) {
-			for (String hintPosition : hintPositions) {
-				int hintPositionRow = chessBoard.getRowFromPosition(hintPosition);
-				int hintPositionColumn = chessBoard.getColumnFromPosition(hintPosition);
+			for (String nextPosition : nextPositions) {
+				int nextPositionRow = chessBoard.getRowFromPosition(nextPosition);
+				int nextPositionColumn = chessBoard.getColumnFromPosition(nextPosition);
 
 				if (flipBoard) {
-					hintPositionRow = chessBoard.getNumOfRows() - 1 - hintPositionRow;
-					hintPositionColumn = chessBoard.getNumOfColumns() - 1 - hintPositionColumn;
+					nextPositionRow = chessBoard.getNumOfRows() - 1 - nextPositionRow;
+					nextPositionColumn = chessBoard.getNumOfColumns() - 1 - nextPositionColumn;
 				}
 
-				int hintPositionIndex = getSquareIndex(hintPositionRow + 1, hintPositionColumn + 1);
-				Component hintPositionComponent = chessPanel.getComponent(hintPositionIndex);
-				hintPositionComponent.setBackground(getColorByRowCol(hintPositionRow, hintPositionColumn));
+				int nextPositionIndex = getSquareIndex(nextPositionRow + 1, nextPositionColumn + 1);
+				Component nextPositionComponent = chessPanel.getComponent(nextPositionIndex);
+				nextPositionComponent.setBackground(getColorByRowCol(nextPositionRow, nextPositionColumn));
 			}
 		}
 	}
@@ -752,7 +752,7 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 
 		mouseIsPressed = true;
 
-		hintPositions = chessBoard.getNextPositions(startingPosition);
+		nextPositions = chessBoard.getNextPositions(startingPosition);
 
 		if (chessPiece.getAllegiance() == Allegiance.WHITE && chessBoard.whitePlays()
 				&& (gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE
@@ -765,9 +765,9 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 			Component startingComponent = chessPanel.getComponent(startingIndex);
 			startingComponent.setBackground(Color.CYAN);
 
-			// Display the hint positions.
+			// Display the next positions.
 			if (gameParameters.isShowNextMoves()) {
-				showHintPositions(chessPiece);
+				showNextPositions(chessPiece);
 			}
 		}
 
@@ -847,7 +847,7 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 		int columnStart = chessBoard.getColumnFromPosition(startingPosition);
 		ChessPiece startingChessPiece = chessBoard.getGameBoard()[rowStart][columnStart];
 
-		hideHintPositions();
+		hideNextPositions();
 
 		if ((startingChessPiece.getAllegiance() == Allegiance.WHITE && chessBoard.whitePlays()
 				&& (gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE
@@ -855,7 +855,7 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 				|| startingChessPiece.getAllegiance() == Allegiance.BLACK && chessBoard.blackPlays()
 				&& (gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK
 				|| gameParameters.getGameMode() == GameMode.HUMAN_VS_HUMAN))
-				&& hintPositions.contains(endingPosition)) {
+				&& nextPositions.contains(endingPosition)) {
 			Component component = chessPanel.findComponentAt(x, y);
 			Container parent;
 			if (component instanceof JLabel) {
@@ -875,7 +875,7 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 				SoundUtils.playMoveSound();
 			}
 
-			hintPositions.clear();
+			nextPositions.clear();
 
 			parent.validate();
 
