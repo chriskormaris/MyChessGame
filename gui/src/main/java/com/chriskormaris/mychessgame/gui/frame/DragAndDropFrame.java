@@ -598,7 +598,7 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 			Component startingComponent = chessPanel.getComponent(startingIndex);
 			startingComponent.setBackground(getColorByRowCol(startingPositionRow, startingPositionColumn));
 		}
-		if (gameParameters.isShowHints()) {
+		if (gameParameters.isShowNextMoves()) {
 			for (String hintPosition : hintPositions) {
 				int hintPositionRow = chessBoard.getRowFromPosition(hintPosition);
 				int hintPositionColumn = chessBoard.getColumnFromPosition(hintPosition);
@@ -766,7 +766,7 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 			startingComponent.setBackground(Color.CYAN);
 
 			// Display the hint positions.
-			if (gameParameters.isShowHints()) {
+			if (gameParameters.isShowNextMoves()) {
 				showHintPositions(chessPiece);
 			}
 		}
