@@ -432,11 +432,11 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 		chessBoard.makeMove(move, true);
 
 		// Pawn promotion implementation.
-		// If AI plays, automatically choose the best promotion piece, based on the best outcome.
 		if (startingPiece instanceof Pawn
 				&& (startingPiece.getAllegiance() == Allegiance.WHITE && rowEnd == 0
 				|| startingPiece.getAllegiance() == Allegiance.BLACK && rowEnd == 7)) {
 			ChessPiece promotedPiece = new Queen(startingPiece.getAllegiance(), true);
+			// If AI plays, automatically choose the best promotion piece, based on the best outcome.
 			if (isAiMove) {
 				chessBoard.automaticPawnPromotion(startingPiece, positionEnd, true);
 
@@ -536,7 +536,6 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 
 		chessBoard.setThreats();
 
-		setTurnMessage();
 		setScoreMessage();
 
 		System.out.println();
@@ -869,7 +868,12 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 			Move move = new Move(startingPosition, endingPosition);
 			makeDisplayMove(move, false);
 
-			if (checkForGameOver()) return;
+			if (checkForGameOver()) {
+				setTurnMessage();
+				return;
+			} else {
+				setTurnMessage();
+			}
 
 			if (gameParameters.isEnableSounds()) {
 				SoundUtils.playMoveSound();

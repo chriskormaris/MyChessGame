@@ -455,7 +455,12 @@ public class ButtonsFrame extends ChessFrame {
 				Move move = new Move(startingPosition, endingPosition);
 				makeDisplayMove(move, false);
 
-				if (checkForGameOver()) return;
+				if (checkForGameOver()) {
+					setTurnMessage();
+					return;
+				} else {
+					setTurnMessage();
+				}
 
 				if (gameParameters.isEnableSounds()) {
 					SoundUtils.playMoveSound();
@@ -502,11 +507,11 @@ public class ButtonsFrame extends ChessFrame {
 		chessBoard.makeMove(move, true);
 
 		// Pawn promotion implementation.
-		// If AI plays, automatically choose the best promotion piece, based on the best outcome.
 		if (startingPiece instanceof Pawn
 				&& (startingPiece.getAllegiance() == Allegiance.WHITE && rowEnd == 0
 				|| startingPiece.getAllegiance() == Allegiance.BLACK && rowEnd == chessBoard.getNumOfRows() - 1)) {
 			ChessPiece promotedPiece = new Queen(startingPiece.getAllegiance(), true);
+			// If AI plays, automatically choose the best promotion piece, based on the best outcome.
 			if (isAiMove) {
 				chessBoard.automaticPawnPromotion(startingPiece, positionEnd, true);
 
@@ -578,7 +583,7 @@ public class ButtonsFrame extends ChessFrame {
 			}
 		}
 
-		// If a chessPiece capture has occurred.
+		// If a ChessPiece capture has occurred.
 		if (startingPiece.getAllegiance() != endSquare.getAllegiance() && !(endSquare instanceof EmptySquare)) {
 			score -= Utilities.getScoreValue(endSquare);
 
@@ -605,7 +610,6 @@ public class ButtonsFrame extends ChessFrame {
 
 		chessBoard.setThreats();
 
-		setTurnMessage();
 		setScoreMessage();
 
 		System.out.println();
