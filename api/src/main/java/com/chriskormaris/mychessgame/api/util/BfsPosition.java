@@ -8,10 +8,10 @@ import lombok.Setter;
 @Setter
 public class BfsPosition {
 
-	private String position;
-	private int row;
-	private int column;
-	private int depth;
+	private final String position;
+	private final int row;
+	private final int column;
+	private final int depth;
 	private BfsPosition parentBfsPosition;
 
 	public BfsPosition(String position, int row, int column, int depth) {

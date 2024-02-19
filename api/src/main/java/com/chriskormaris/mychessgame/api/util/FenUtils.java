@@ -129,6 +129,8 @@ public final class FenUtils {
 				chessBoard.getGameBoard()[i][j] = new EmptySquare();
 			}
 		}
+		chessBoard.setWhiteKingPosition("Z0");
+		chessBoard.setBlackKingPosition("Z0");
 
 		int counter = 0;
 		int i = 0, j = 0;

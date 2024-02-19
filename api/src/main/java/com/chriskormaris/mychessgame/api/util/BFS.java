@@ -39,7 +39,7 @@ public final class BFS {
 		queue.add(startingBfsPosition);
 		String currentPosition = null;
 
-		while (queue.size() != 0 && depth <= maxDepth) {
+		while (!queue.isEmpty() && depth <= maxDepth) {
 
 			if (currentPosition != null) {
 				int previousRow = chessBoard.getRowFromPosition(currentPosition);

@@ -623,22 +623,35 @@ public class ChessBoard {
 			ChessPiece chessPiece,
 			Set<String> nextPositions
 	) {
+		int whiteKingRow = getRowFromPosition(this.getWhiteKingPosition());
+		int whiteKingColumn = getColumnFromPosition(this.getWhiteKingPosition());
+
+		int blackKingRow = getRowFromPosition(this.getBlackKingPosition());
+		int blackKingColumn = getColumnFromPosition(this.getBlackKingPosition());
+
+		if (whiteKingRow < 0 || whiteKingRow >= numOfRows
+				|| whiteKingColumn < 0 || whiteKingColumn >= numOfColumns
+				|| blackKingRow < 0 || blackKingRow >= numOfRows
+				|| blackKingColumn < 0 || blackKingColumn >= numOfColumns) {
+			return;
+		}
+
 		Set<String> positionsToRemove = new HashSet<>();
 		for (String nextPosition : nextPositions) {
-			ChessBoard initialChessBoard = new ChessBoard(this);
+			ChessBoard nextPositionChessBoard = new ChessBoard(this);
 
-			initialChessBoard.makeMove(startingPosition, nextPosition, false);
+			nextPositionChessBoard.makeMove(startingPosition, nextPosition, false);
 
-			int whiteKingRow = getRowFromPosition(initialChessBoard.getWhiteKingPosition());
-			int whiteKingColumn = getColumnFromPosition(initialChessBoard.getWhiteKingPosition());
+			whiteKingRow = getRowFromPosition(nextPositionChessBoard.getWhiteKingPosition());
+			whiteKingColumn = getColumnFromPosition(nextPositionChessBoard.getWhiteKingPosition());
 
-			int blackKingRow = getRowFromPosition(initialChessBoard.getBlackKingPosition());
-			int blackKingColumn = getColumnFromPosition(initialChessBoard.getBlackKingPosition());
+			blackKingRow = getRowFromPosition(nextPositionChessBoard.getBlackKingPosition());
+			blackKingColumn = getColumnFromPosition(nextPositionChessBoard.getBlackKingPosition());
 
 			if (chessPiece.getAllegiance() == Allegiance.WHITE
-					&& initialChessBoard.getSquaresThreatenedByBlack()[whiteKingRow][whiteKingColumn] == 1
+					&& nextPositionChessBoard.getSquaresThreatenedByBlack()[whiteKingRow][whiteKingColumn] == 1
 					|| chessPiece.getAllegiance() == Allegiance.BLACK
-					&& initialChessBoard.getSquaresThreatenedByWhite()[blackKingRow][blackKingColumn] == 1) {
+					&& nextPositionChessBoard.getSquaresThreatenedByWhite()[blackKingRow][blackKingColumn] == 1) {
 				positionsToRemove.add(nextPosition);
 			}
 		}
@@ -679,14 +692,14 @@ public class ChessBoard {
 
 	// Check for White checkmate (if White wins!)
 	public boolean checkForWhiteCheckmate() {
-		boolean isWhiteCheckmate = false;
-
-		ChessBoard initialChessBoard = new ChessBoard(this);
-
 		int blackKingRow = getRowFromPosition(this.getBlackKingPosition());
 		int blackKingColumn = getColumnFromPosition(this.getBlackKingPosition());
-		int blackKingThreatened = getSquaresThreatenedByWhite()[blackKingRow][blackKingColumn];
 
+		if (blackKingRow < 0 || blackKingRow >= numOfRows || blackKingColumn < 0 || blackKingColumn >= numOfColumns) {
+			return false;
+		}
+
+		int blackKingThreatened = getSquaresThreatenedByWhite()[blackKingRow][blackKingColumn];
 		if (blackKingThreatened == 1) {
 			this.blackKingInCheck = true;
 
@@ -695,52 +708,48 @@ public class ChessBoard {
 			// and store them in a variable called "blackKingInCheckValidPieceMoves".
 			for (int i = 0; i < numOfRows; i++) {
 				for (int j = 0; j < numOfColumns; j++) {
-					ChessPiece currentPiece = initialChessBoard.getGameBoard()[i][j];
+					ChessBoard nextPositionChessBoard = new ChessBoard(this);
+					ChessPiece currentPiece = nextPositionChessBoard.getGameBoard()[i][j];
 					if (currentPiece.getAllegiance() == Allegiance.BLACK) {
 						String currentPosition = getPositionByRowCol(i, j);
-						Set<String> nextPositions = initialChessBoard.getNextPositions(currentPosition);
+						Set<String> nextPositions = nextPositionChessBoard.getNextPositions(currentPosition);
 
 						for (String nextPosition : nextPositions) {
-							initialChessBoard.makeMove(
+							nextPositionChessBoard.makeMove(
 									currentPosition,
 									nextPosition,
 									false
 							);
 
-							blackKingRow = getRowFromPosition(initialChessBoard.getBlackKingPosition());
-							blackKingColumn = getColumnFromPosition(initialChessBoard.getBlackKingPosition());
+							blackKingRow = getRowFromPosition(nextPositionChessBoard.getBlackKingPosition());
+							blackKingColumn = getColumnFromPosition(nextPositionChessBoard.getBlackKingPosition());
 
-							if (initialChessBoard.getSquaresThreatenedByWhite()[blackKingRow][blackKingColumn] == 0) {
-								blackKingThreatened = 0;
+							if (nextPositionChessBoard.getSquaresThreatenedByWhite()[blackKingRow][blackKingColumn] == 0) {
+								return false;
 							}
-
-							initialChessBoard = new ChessBoard(this);
 						}
 					}
 				}
 			}
 
-			if (blackKingThreatened == 1) {
-				isWhiteCheckmate = true;
-				this.gameResult = GameResult.WHITE_CHECKMATE;
-			}
+			this.gameResult = GameResult.WHITE_CHECKMATE;
+			return true;
 		} else {
 			this.blackKingInCheck = false;
+			return false;
 		}
-
-		return isWhiteCheckmate;
 	}
 
 	// Check for Black checkmate (if Black wins!)
 	public boolean checkForBlackCheckmate() {
-		boolean isBlackCheckmate = false;
-
-		ChessBoard initialChessBoard = new ChessBoard(this);
-
 		int whiteKingRow = getRowFromPosition(this.getWhiteKingPosition());
 		int whiteKingColumn = getColumnFromPosition(this.getWhiteKingPosition());
-		int whiteKingThreatened = getSquaresThreatenedByBlack()[whiteKingRow][whiteKingColumn];
 
+		if (whiteKingRow < 0 || whiteKingRow >= numOfRows || whiteKingColumn < 0 || whiteKingColumn >= numOfColumns) {
+			return false;
+		}
+
+		int whiteKingThreatened = getSquaresThreatenedByBlack()[whiteKingRow][whiteKingColumn];
 		if (whiteKingThreatened == 1) {
 			this.whiteKingInCheck = true;
 
@@ -749,40 +758,36 @@ public class ChessBoard {
 			// and store them in a variable called "whiteKingInCheckValidPieceMoves".
 			for (int i = 0; i < numOfRows; i++) {
 				for (int j = 0; j < numOfColumns; j++) {
-					ChessPiece currentPiece = initialChessBoard.getGameBoard()[i][j];
+					ChessBoard nextPositionChessBoard = new ChessBoard(this);
+					ChessPiece currentPiece = nextPositionChessBoard.getGameBoard()[i][j];
 					if (currentPiece.getAllegiance() == Allegiance.WHITE) {
 						String currentPosition = getPositionByRowCol(i, j);
-						Set<String> nextPositions = initialChessBoard.getNextPositions(currentPosition);
+						Set<String> nextPositions = nextPositionChessBoard.getNextPositions(currentPosition);
 
 						for (String nextPosition : nextPositions) {
-							initialChessBoard.makeMove(
+							nextPositionChessBoard.makeMove(
 									currentPosition,
 									nextPosition,
 									false
 							);
 
-							whiteKingRow = getRowFromPosition(initialChessBoard.getWhiteKingPosition());
-							whiteKingColumn = getColumnFromPosition(initialChessBoard.getWhiteKingPosition());
+							whiteKingRow = getRowFromPosition(nextPositionChessBoard.getWhiteKingPosition());
+							whiteKingColumn = getColumnFromPosition(nextPositionChessBoard.getWhiteKingPosition());
 
-							if (initialChessBoard.getSquaresThreatenedByBlack()[whiteKingRow][whiteKingColumn] == 0) {
-								whiteKingThreatened = 0;
+							if (nextPositionChessBoard.getSquaresThreatenedByBlack()[whiteKingRow][whiteKingColumn] == 0) {
+								return false;
 							}
-
-							initialChessBoard = new ChessBoard(this);
 						}
 					}
 				}
 			}
 
-			if (whiteKingThreatened == 1) {
-				isBlackCheckmate = true;
-				this.gameResult = GameResult.BLACK_CHECKMATE;
-			}
+			this.gameResult = GameResult.BLACK_CHECKMATE;
+			return true;
 		} else {
 			this.whiteKingInCheck = false;
+			return false;
 		}
-
-		return isBlackCheckmate;
 	}
 
 	// It checks for a stalemate. It gets called after the opposing player, makes a move.
@@ -791,50 +796,46 @@ public class ChessBoard {
 	public boolean checkForWhiteStalemateDraw() {
 		if (whiteKingInCheck) return false;
 
-		boolean isWhiteStalemateDraw = true;
+		int whiteKingRow = getRowFromPosition(this.getWhiteKingPosition());
+		int whiteKingColumn = getColumnFromPosition(this.getWhiteKingPosition());
 
-		ChessBoard initialChessBoard = new ChessBoard(this);
+		if (whiteKingRow < 0 || whiteKingRow >= numOfRows || whiteKingColumn < 0 || whiteKingColumn >= numOfColumns) {
+			return false;
+		}
 
 		for (int i = 0; i < numOfRows; i++) {
 			for (int j = 0; j < numOfColumns; j++) {
-				ChessPiece currentPiece = initialChessBoard.getGameBoard()[i][j];
+				ChessBoard nextPositionChessBoard = new ChessBoard(this);
+				ChessPiece currentPiece = nextPositionChessBoard.getGameBoard()[i][j];
 				if (currentPiece.getAllegiance() == Allegiance.WHITE) {
 					String currentPosition = getPositionByRowCol(i, j);
-					Set<String> nextPositions = initialChessBoard.getNextPositions(currentPosition);
+					Set<String> nextPositions = nextPositionChessBoard.getNextPositions(currentPosition);
 
 					for (String nextPosition : nextPositions) {
-						initialChessBoard.makeMove(
+						nextPositionChessBoard.makeMove(
 								currentPosition,
 								nextPosition,
 								false
 						);
 
-						int whiteKingRow = getRowFromPosition(initialChessBoard.getWhiteKingPosition());
-						int whiteKingColumn = getColumnFromPosition(initialChessBoard.getWhiteKingPosition());
+						whiteKingRow = getRowFromPosition(nextPositionChessBoard.getWhiteKingPosition());
+						whiteKingColumn = getColumnFromPosition(nextPositionChessBoard.getWhiteKingPosition());
 
 						// If any move exists without getting the White king in check,
 						// then there still are legal moves, and we do not have a stalemate scenario.
-						boolean legalMovesExist =
-								initialChessBoard.getSquaresThreatenedByBlack()[whiteKingRow][whiteKingColumn] == 0;
-
-						initialChessBoard = new ChessBoard(this);
+						boolean legalMovesExist = nextPositionChessBoard
+								.getSquaresThreatenedByBlack()[whiteKingRow][whiteKingColumn] == 0;
 
 						if (legalMovesExist) {
-							isWhiteStalemateDraw = false;
-							i = j = 1000000;
-							break;
+							return false;
 						}
-
 					}
 				}
 			}
 		}
 
-		if (isWhiteStalemateDraw) {
-			this.gameResult = GameResult.WHITE_STALEMATE_DRAW;
-		}
-
-		return isWhiteStalemateDraw;
+		this.gameResult = GameResult.WHITE_STALEMATE_DRAW;
+		return true;
 	}
 
 	// It checks for a stalemate. It gets called after the opposing player, makes a move.
@@ -843,67 +844,56 @@ public class ChessBoard {
 	public boolean checkForBlackStalemateDraw() {
 		if (blackKingInCheck) return false;
 
-		boolean isBlackStalemateDraw = true;
+		int blackKingRow = getRowFromPosition(this.getBlackKingPosition());
+		int blackKingColumn = getColumnFromPosition(this.getBlackKingPosition());
 
-		ChessBoard initialChessBoard = new ChessBoard(this);
+		if (blackKingRow < 0 || blackKingRow >= numOfRows || blackKingColumn < 0 || blackKingColumn >= numOfColumns) {
+			return false;
+		}
 
 		for (int i = 0; i < numOfRows; i++) {
 			for (int j = 0; j < numOfColumns; j++) {
-				ChessPiece currentPiece = initialChessBoard.getGameBoard()[i][j];
+				ChessBoard nextPositionChessBoard = new ChessBoard(this);
+				ChessPiece currentPiece = nextPositionChessBoard.getGameBoard()[i][j];
 				if (currentPiece.getAllegiance() == Allegiance.BLACK) {
 					String currentPosition = getPositionByRowCol(i, j);
-					Set<String> nextPositions = initialChessBoard.getNextPositions(currentPosition);
+					Set<String> nextPositions = nextPositionChessBoard.getNextPositions(currentPosition);
 
 					for (String nextPosition : nextPositions) {
-						initialChessBoard.makeMove(
+						nextPositionChessBoard.makeMove(
 								currentPosition,
 								nextPosition,
 								false
 						);
 
-						int blackKingRow = getRowFromPosition(initialChessBoard.getBlackKingPosition());
-						int blackKingColumn = getColumnFromPosition(initialChessBoard.getBlackKingPosition());
+						blackKingRow = getRowFromPosition(nextPositionChessBoard.getBlackKingPosition());
+						blackKingColumn = getColumnFromPosition(nextPositionChessBoard.getBlackKingPosition());
 
 						// If any move exists without getting the Black king in check,
 						// then there still are legal moves, and we do not have a stalemate scenario.
-						boolean legalMovesExist =
-								initialChessBoard.getSquaresThreatenedByWhite()[blackKingRow][blackKingColumn] == 0;
-
-						initialChessBoard = new ChessBoard(this);
+						boolean legalMovesExist = nextPositionChessBoard
+								.getSquaresThreatenedByWhite()[blackKingRow][blackKingColumn] == 0;
 
 						if (legalMovesExist) {
-							isBlackStalemateDraw = false;
-							i = j = 1000000;
-							break;
+							return false;
 						}
-
 					}
 				}
 			}
 		}
 
-		if (isBlackStalemateDraw) {
-			this.gameResult = GameResult.BLACK_STALEMATE_DRAW;
-		}
-
-		return isBlackStalemateDraw;
+		this.gameResult = GameResult.BLACK_STALEMATE_DRAW;
+		return true;
 	}
 
 	// Checks if there is insufficient mating material left on the chess board.
 	public boolean checkForInsufficientMatingMaterialDraw() {
-		boolean isInsufficientMatingMaterialDraw = isInsufficientMatingMaterialDraw();
-
-		/*
-		if (!isInsufficientMatingMaterialDraw && checkForBlockedKingsDraw()) {
-			isInsufficientMatingMaterialDraw = true;
-		}
-		*/
-
-		if (isInsufficientMatingMaterialDraw) {
+		if (isInsufficientMatingMaterialDraw() || checkForBlockedKingsDraw()) {
 			this.gameResult = GameResult.INSUFFICIENT_MATERIAL_DRAW;
+			return true;
 		}
 
-		return isInsufficientMatingMaterialDraw;
+		return false;
 	}
 
 	/* Checks if the only pieces left on the Chess board are:
@@ -983,18 +973,33 @@ public class ChessBoard {
 	}
 
 	/* Check for a special case of draw.
-	 * It occurs when no pieces other than the kings can be moved
-	 * and neither king can capture any enemy pieces.
-	 * It usually happens when only Kings and Pawns are left on the Chess board.
-	 * TODO: Needs improvement. For example, it doesn't work correctly in King vs King and a Pawn scenario. */
-	/*
+	 * It occurs when no pieces other than the Kings can be moved
+	 * and neither King can capture any enemy pieces.
+	 * It usually happens when only Kings and Pawns are left on the Chess board. */
 	private boolean checkForBlockedKingsDraw() {
-		// Check if any pieces other than the Kings can make any move.
+		int whiteKingRow = getRowFromPosition(whiteKingPosition);
+		int whiteKingColumn = getColumnFromPosition(whiteKingPosition);
+		int blackKingRow = getRowFromPosition(blackKingPosition);
+		int blackKingColumn = getColumnFromPosition(blackKingPosition);
+
+		if (whiteKingRow < 0 || whiteKingRow >= numOfRows
+				|| whiteKingColumn < 0 || whiteKingColumn >= numOfColumns
+				|| blackKingRow < 0 || blackKingRow >= numOfRows
+				|| blackKingColumn < 0 || blackKingColumn >= numOfColumns) {
+			return false;
+		}
+
+		// Remove the Kings from the board and check if any pieces can make any move.
+		ChessBoard chessBoardWithoutKings = new ChessBoard(this);
+		chessBoardWithoutKings.getGameBoard()[whiteKingRow][whiteKingColumn] = new EmptySquare();
+		chessBoardWithoutKings.setWhiteKingPosition("Z0");
+		chessBoardWithoutKings.getGameBoard()[blackKingRow][blackKingColumn] = new EmptySquare();
+		chessBoardWithoutKings.setBlackKingPosition("Z0");
 		for (int i = 0; i < numOfRows; i++) {
 			for (int j = 0; j < numOfColumns; j++) {
-				if (!(gameBoard[i][j] instanceof King || gameBoard[i][j] instanceof EmptySquare)) {
+				if (!(chessBoardWithoutKings.getGameBoard()[i][j] instanceof EmptySquare)) {
 					String position = getPositionByRowCol(i, j);
-					Set<String> nextPositions = getNextPositions(position);
+					Set<String> nextPositions = chessBoardWithoutKings.getNextPositions(position);
 					if (!nextPositions.isEmpty()) {
 						return false;
 					}
@@ -1004,19 +1009,29 @@ public class ChessBoard {
 
 		// Check if any King can capture any opponent's pieces, in any number of moves.
 		// If they can, then it's not a draw.
+		ChessBoard chessBoardWithoutWhiteKing = new ChessBoard(this);
+		chessBoardWithoutWhiteKing.getGameBoard()[whiteKingRow][whiteKingColumn] = new EmptySquare();
+		chessBoardWithoutWhiteKing.setWhiteKingPosition("Z0");
+
+		ChessBoard chessBoardWithoutBlackKing = new ChessBoard(this);
+		chessBoardWithoutBlackKing.getGameBoard()[blackKingRow][blackKingColumn] = new EmptySquare();
+		chessBoardWithoutBlackKing.setBlackKingPosition("Z0");
 		for (int i = 0; i < numOfRows; i++) {
 			for (int j = 0; j < numOfColumns; j++) {
 				if (!(gameBoard[i][j] instanceof King || gameBoard[i][j] instanceof EmptySquare)) {
 					String endingPosition = getPositionByRowCol(i, j);
 					String opposingKingPosition;
-					if (gameBoard[i][j].getAllegiance() == Allegiance.BLACK) {
-						opposingKingPosition = whiteKingPosition;
-					} else {
+					ChessBoard chessBoardWithOneKing;
+					if (gameBoard[i][j].getAllegiance() == Allegiance.WHITE) {
 						opposingKingPosition = blackKingPosition;
+						chessBoardWithOneKing = chessBoardWithoutWhiteKing;
+					} else {
+						opposingKingPosition = whiteKingPosition;
+						chessBoardWithOneKing = chessBoardWithoutBlackKing;
 					}
 					ChessPiece opposingKing = getChessPieceFromPosition(opposingKingPosition);
 					boolean canGoToPosition = BFS.canGoToPosition(
-							this,
+							chessBoardWithOneKing,
 							opposingKing,
 							opposingKingPosition,
 							endingPosition,
@@ -1031,7 +1046,6 @@ public class ChessBoard {
 
 		return true;
 	}
-	*/
 
 	// The Queen and the Rook are considered as major pieces.
 	// The Knight and the Bishop are considered as minor pieces.
