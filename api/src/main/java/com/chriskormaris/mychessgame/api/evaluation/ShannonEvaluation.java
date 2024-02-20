@@ -44,7 +44,7 @@ public class ShannonEvaluation extends Evaluation {
 	// Shannon's Evaluation Function.
 	@Override
 	public double evaluate(ChessBoard chessBoard) {
-		int score = 0;
+		double score = 0;
 
 		for (int i = 0; i < chessBoard.getNumOfRows(); i++) {
 			for (int j = 0; j < chessBoard.getNumOfColumns(); j++) {
