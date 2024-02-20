@@ -56,12 +56,12 @@ public class ChessBoard {
 	/* A board with:
 	 * 1 for areas threatened by white pieces.
 	 * 0 for areas not threatened by white pieces. */
-	private int[][] squaresThreatenedByWhite;
+	private boolean[][] squaresThreatenedByWhite;
 
 	/* A board with:
 	 * 1 for areas threatened by black pieces.
 	 * 0 for areas not threatened by black pieces. */
-	private int[][] squaresThreatenedByBlack;
+	private boolean[][] squaresThreatenedByBlack;
 
 	// These are used to define if a checkmate has occurred.
 	private String whiteKingPosition;
@@ -126,8 +126,8 @@ public class ChessBoard {
 
 		// FenUtils.populateGameBoard(this, Constants.DEFAULT_STARTING_PIECES);
 
-		this.squaresThreatenedByWhite = new int[numOfRows][numOfColumns];
-		this.squaresThreatenedByBlack = new int[numOfRows][numOfColumns];
+		this.squaresThreatenedByWhite = new boolean[numOfRows][numOfColumns];
+		this.squaresThreatenedByBlack = new boolean[numOfRows][numOfColumns];
 
 		this.whiteKingPosition = "E1";
 		this.blackKingPosition = "E" + numOfRows;
@@ -649,9 +649,9 @@ public class ChessBoard {
 			blackKingColumn = getColumnFromPosition(nextPositionChessBoard.getBlackKingPosition());
 
 			if (chessPiece.getAllegiance() == Allegiance.WHITE
-					&& nextPositionChessBoard.getSquaresThreatenedByBlack()[whiteKingRow][whiteKingColumn] == 1
+					&& nextPositionChessBoard.getSquaresThreatenedByBlack()[whiteKingRow][whiteKingColumn]
 					|| chessPiece.getAllegiance() == Allegiance.BLACK
-					&& nextPositionChessBoard.getSquaresThreatenedByWhite()[blackKingRow][blackKingColumn] == 1) {
+					&& nextPositionChessBoard.getSquaresThreatenedByWhite()[blackKingRow][blackKingColumn]) {
 				positionsToRemove.add(nextPosition);
 			}
 		}
@@ -665,8 +665,8 @@ public class ChessBoard {
 		// First, remove all the threatened areas.
 		for (int i = 0; i < numOfRows; i++) {
 			for (int j = 0; j < numOfColumns; j++) {
-				this.squaresThreatenedByWhite[i][j] = 0;
-				this.squaresThreatenedByBlack[i][j] = 0;
+				this.squaresThreatenedByWhite[i][j] = false;
+				this.squaresThreatenedByBlack[i][j] = false;
 			}
 		}
 
@@ -681,9 +681,9 @@ public class ChessBoard {
 					int row = getRowFromPosition(threatPosition);
 					int column = getColumnFromPosition(threatPosition);
 					if (chessPiece.getAllegiance() == Allegiance.WHITE) {
-						this.squaresThreatenedByWhite[row][column] = 1;
+						this.squaresThreatenedByWhite[row][column] = true;
 					} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
-						this.squaresThreatenedByBlack[row][column] = 1;
+						this.squaresThreatenedByBlack[row][column] = true;
 					}
 				}
 			}
@@ -699,8 +699,8 @@ public class ChessBoard {
 			return false;
 		}
 
-		int blackKingThreatened = getSquaresThreatenedByWhite()[blackKingRow][blackKingColumn];
-		if (blackKingThreatened == 1) {
+		boolean blackKingThreatened = getSquaresThreatenedByWhite()[blackKingRow][blackKingColumn];
+		if (blackKingThreatened) {
 			this.blackKingInCheck = true;
 
 			// Check for all possible moves made by Black,
@@ -724,7 +724,7 @@ public class ChessBoard {
 							blackKingRow = getRowFromPosition(nextPositionChessBoard.getBlackKingPosition());
 							blackKingColumn = getColumnFromPosition(nextPositionChessBoard.getBlackKingPosition());
 
-							if (nextPositionChessBoard.getSquaresThreatenedByWhite()[blackKingRow][blackKingColumn] == 0) {
+							if (!nextPositionChessBoard.getSquaresThreatenedByWhite()[blackKingRow][blackKingColumn]) {
 								return false;
 							}
 						}
@@ -749,8 +749,8 @@ public class ChessBoard {
 			return false;
 		}
 
-		int whiteKingThreatened = getSquaresThreatenedByBlack()[whiteKingRow][whiteKingColumn];
-		if (whiteKingThreatened == 1) {
+		boolean whiteKingThreatened = getSquaresThreatenedByBlack()[whiteKingRow][whiteKingColumn];
+		if (whiteKingThreatened) {
 			this.whiteKingInCheck = true;
 
 			// Check for all possible moves made by White,
@@ -774,7 +774,7 @@ public class ChessBoard {
 							whiteKingRow = getRowFromPosition(nextPositionChessBoard.getWhiteKingPosition());
 							whiteKingColumn = getColumnFromPosition(nextPositionChessBoard.getWhiteKingPosition());
 
-							if (nextPositionChessBoard.getSquaresThreatenedByBlack()[whiteKingRow][whiteKingColumn] == 0) {
+							if (!nextPositionChessBoard.getSquaresThreatenedByBlack()[whiteKingRow][whiteKingColumn]) {
 								return false;
 							}
 						}
@@ -823,8 +823,8 @@ public class ChessBoard {
 
 						// If any move exists without getting the White king in check,
 						// then there still are legal moves, and we do not have a stalemate scenario.
-						boolean legalMovesExist = nextPositionChessBoard
-								.getSquaresThreatenedByBlack()[whiteKingRow][whiteKingColumn] == 0;
+						boolean legalMovesExist = !nextPositionChessBoard
+								.getSquaresThreatenedByBlack()[whiteKingRow][whiteKingColumn];
 
 						if (legalMovesExist) {
 							return false;
@@ -871,8 +871,8 @@ public class ChessBoard {
 
 						// If any move exists without getting the Black king in check,
 						// then there still are legal moves, and we do not have a stalemate scenario.
-						boolean legalMovesExist = nextPositionChessBoard
-								.getSquaresThreatenedByWhite()[blackKingRow][blackKingColumn] == 0;
+						boolean legalMovesExist = !nextPositionChessBoard
+								.getSquaresThreatenedByWhite()[blackKingRow][blackKingColumn];
 
 						if (legalMovesExist) {
 							return false;

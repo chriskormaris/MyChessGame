@@ -39,9 +39,9 @@ public class King extends ChessPiece {
 					&& chessBoard.getGameBoard()[chessBoard.getNumOfRows() - 1][1] instanceof EmptySquare
 					&& chessBoard.getGameBoard()[chessBoard.getNumOfRows() - 1][2] instanceof EmptySquare
 					&& chessBoard.getGameBoard()[chessBoard.getNumOfRows() - 1][3] instanceof EmptySquare
-					&& chessBoard.getSquaresThreatenedByBlack()[chessBoard.getNumOfRows() - 1][2] == 0
-					&& chessBoard.getSquaresThreatenedByBlack()[chessBoard.getNumOfRows() - 1][3] == 0
-					&& chessBoard.getSquaresThreatenedByBlack()[chessBoard.getNumOfRows() - 1][4] == 0) {
+					&& !chessBoard.getSquaresThreatenedByBlack()[chessBoard.getNumOfRows() - 1][2]
+					&& !chessBoard.getSquaresThreatenedByBlack()[chessBoard.getNumOfRows() - 1][3]
+					&& !chessBoard.getSquaresThreatenedByBlack()[chessBoard.getNumOfRows() - 1][4]) {
 
 				newRow = row;
 				newColumn = column - 2;
@@ -55,9 +55,9 @@ public class King extends ChessPiece {
 					&& chessBoard.getGameBoard()[chessBoard.getNumOfRows() - 1][7].getAllegiance() == Allegiance.WHITE
 					&& chessBoard.getGameBoard()[chessBoard.getNumOfRows() - 1][5] instanceof EmptySquare
 					&& chessBoard.getGameBoard()[chessBoard.getNumOfRows() - 1][6] instanceof EmptySquare
-					&& chessBoard.getSquaresThreatenedByBlack()[chessBoard.getNumOfRows() - 1][4] == 0
-					&& chessBoard.getSquaresThreatenedByBlack()[chessBoard.getNumOfRows() - 1][5] == 0
-					&& chessBoard.getSquaresThreatenedByBlack()[chessBoard.getNumOfRows() - 1][6] == 0) {
+					&& !chessBoard.getSquaresThreatenedByBlack()[chessBoard.getNumOfRows() - 1][4]
+					&& !chessBoard.getSquaresThreatenedByBlack()[chessBoard.getNumOfRows() - 1][5]
+					&& !chessBoard.getSquaresThreatenedByBlack()[chessBoard.getNumOfRows() - 1][6]) {
 
 				newRow = row;
 				newColumn = column + 2;
@@ -73,9 +73,9 @@ public class King extends ChessPiece {
 					&& chessBoard.getGameBoard()[0][1] instanceof EmptySquare
 					&& chessBoard.getGameBoard()[0][2] instanceof EmptySquare
 					&& chessBoard.getGameBoard()[0][3] instanceof EmptySquare
-					&& chessBoard.getSquaresThreatenedByWhite()[0][2] == 0
-					&& chessBoard.getSquaresThreatenedByWhite()[0][3] == 0
-					&& chessBoard.getSquaresThreatenedByWhite()[0][4] == 0) {
+					&& !chessBoard.getSquaresThreatenedByWhite()[0][2]
+					&& !chessBoard.getSquaresThreatenedByWhite()[0][3]
+					&& !chessBoard.getSquaresThreatenedByWhite()[0][4]) {
 
 				newRow = row;
 				newColumn = column - 2;
@@ -89,9 +89,9 @@ public class King extends ChessPiece {
 					&& chessBoard.getGameBoard()[0][7].getAllegiance() == Allegiance.BLACK
 					&& chessBoard.getGameBoard()[0][5] instanceof EmptySquare
 					&& chessBoard.getGameBoard()[0][6] instanceof EmptySquare
-					&& chessBoard.getSquaresThreatenedByWhite()[0][4] == 0
-					&& chessBoard.getSquaresThreatenedByWhite()[0][5] == 0
-					&& chessBoard.getSquaresThreatenedByWhite()[0][6] == 0) {
+					&& !chessBoard.getSquaresThreatenedByWhite()[0][4]
+					&& !chessBoard.getSquaresThreatenedByWhite()[0][5]
+					&& !chessBoard.getSquaresThreatenedByWhite()[0][6]) {
 
 				newRow = row;
 				newColumn = column + 2;
@@ -126,9 +126,9 @@ public class King extends ChessPiece {
 			if ((endSquare instanceof EmptySquare || king.getAllegiance() != endSquare.getAllegiance()
 					&& !(endSquare instanceof King))
 					&& (king.getAllegiance() == Allegiance.WHITE
-					&& chessBoard.getSquaresThreatenedByBlack()[newRow][newColumn] == 0
+					&& !chessBoard.getSquaresThreatenedByBlack()[newRow][newColumn]
 					|| king.getAllegiance() == Allegiance.BLACK
-					&& chessBoard.getSquaresThreatenedByWhite()[newRow][newColumn] == 0)
+					&& !chessBoard.getSquaresThreatenedByWhite()[newRow][newColumn])
 					|| returnThreats)
 				nextKingPositions.add(newPosition);
 		}
@@ -142,9 +142,9 @@ public class King extends ChessPiece {
 			if ((endSquare instanceof EmptySquare || king.getAllegiance() != endSquare.getAllegiance()
 					&& !(endSquare instanceof King))
 					&& (king.getAllegiance() == Allegiance.WHITE
-					&& chessBoard.getSquaresThreatenedByBlack()[newRow][newColumn] == 0
+					&& !chessBoard.getSquaresThreatenedByBlack()[newRow][newColumn]
 					|| king.getAllegiance() == Allegiance.BLACK
-					&& chessBoard.getSquaresThreatenedByWhite()[newRow][newColumn] == 0)
+					&& !chessBoard.getSquaresThreatenedByWhite()[newRow][newColumn])
 					|| returnThreats)
 				nextKingPositions.add(newPosition);
 		}
@@ -158,9 +158,9 @@ public class King extends ChessPiece {
 			if ((endSquare instanceof EmptySquare || king.getAllegiance() != endSquare.getAllegiance()
 					&& !(endSquare instanceof King))
 					&& (king.getAllegiance() == Allegiance.WHITE
-					&& chessBoard.getSquaresThreatenedByBlack()[newRow][newColumn] == 0
+					&& !chessBoard.getSquaresThreatenedByBlack()[newRow][newColumn]
 					|| king.getAllegiance() == Allegiance.BLACK
-					&& chessBoard.getSquaresThreatenedByWhite()[newRow][newColumn] == 0)
+					&& !chessBoard.getSquaresThreatenedByWhite()[newRow][newColumn])
 					|| returnThreats)
 				nextKingPositions.add(newPosition);
 		}
@@ -174,9 +174,9 @@ public class King extends ChessPiece {
 			if ((endSquare instanceof EmptySquare || king.getAllegiance() != endSquare.getAllegiance()
 					&& !(endSquare instanceof King))
 					&& (king.getAllegiance() == Allegiance.WHITE
-					&& chessBoard.getSquaresThreatenedByBlack()[newRow][newColumn] == 0
+					&& !chessBoard.getSquaresThreatenedByBlack()[newRow][newColumn]
 					|| king.getAllegiance() == Allegiance.BLACK
-					&& chessBoard.getSquaresThreatenedByWhite()[newRow][newColumn] == 0)
+					&& !chessBoard.getSquaresThreatenedByWhite()[newRow][newColumn])
 					|| returnThreats)
 				nextKingPositions.add(newPosition);
 		}
@@ -190,9 +190,9 @@ public class King extends ChessPiece {
 			if ((endSquare instanceof EmptySquare || king.getAllegiance() != endSquare.getAllegiance()
 					&& !(endSquare instanceof King))
 					&& (king.getAllegiance() == Allegiance.WHITE
-					&& chessBoard.getSquaresThreatenedByBlack()[newRow][newColumn] == 0
+					&& !chessBoard.getSquaresThreatenedByBlack()[newRow][newColumn]
 					|| king.getAllegiance() == Allegiance.BLACK
-					&& chessBoard.getSquaresThreatenedByWhite()[newRow][newColumn] == 0)
+					&& !chessBoard.getSquaresThreatenedByWhite()[newRow][newColumn])
 					|| returnThreats)
 				nextKingPositions.add(newPosition);
 		}
@@ -206,9 +206,9 @@ public class King extends ChessPiece {
 			if ((endSquare instanceof EmptySquare || king.getAllegiance() != endSquare.getAllegiance()
 					&& !(endSquare instanceof King))
 					&& (king.getAllegiance() == Allegiance.WHITE
-					&& chessBoard.getSquaresThreatenedByBlack()[newRow][newColumn] == 0
+					&& !chessBoard.getSquaresThreatenedByBlack()[newRow][newColumn]
 					|| king.getAllegiance() == Allegiance.BLACK
-					&& chessBoard.getSquaresThreatenedByWhite()[newRow][newColumn] == 0)
+					&& !chessBoard.getSquaresThreatenedByWhite()[newRow][newColumn])
 					|| returnThreats)
 				nextKingPositions.add(newPosition);
 		}
@@ -222,9 +222,9 @@ public class King extends ChessPiece {
 			if ((endSquare instanceof EmptySquare || king.getAllegiance() != endSquare.getAllegiance()
 					&& !(endSquare instanceof King))
 					&& (king.getAllegiance() == Allegiance.WHITE
-					&& chessBoard.getSquaresThreatenedByBlack()[newRow][newColumn] == 0
+					&& !chessBoard.getSquaresThreatenedByBlack()[newRow][newColumn]
 					|| king.getAllegiance() == Allegiance.BLACK
-					&& chessBoard.getSquaresThreatenedByWhite()[newRow][newColumn] == 0)
+					&& !chessBoard.getSquaresThreatenedByWhite()[newRow][newColumn])
 					|| returnThreats)
 				nextKingPositions.add(newPosition);
 		}
@@ -238,9 +238,9 @@ public class King extends ChessPiece {
 			if ((endSquare instanceof EmptySquare || king.getAllegiance() != endSquare.getAllegiance()
 					&& !(endSquare instanceof King))
 					&& (king.getAllegiance() == Allegiance.WHITE
-					&& chessBoard.getSquaresThreatenedByBlack()[newRow][newColumn] == 0
+					&& !chessBoard.getSquaresThreatenedByBlack()[newRow][newColumn]
 					|| king.getAllegiance() == Allegiance.BLACK
-					&& chessBoard.getSquaresThreatenedByWhite()[newRow][newColumn] == 0)
+					&& !chessBoard.getSquaresThreatenedByWhite()[newRow][newColumn])
 					|| returnThreats)
 				nextKingPositions.add(newPosition);
 		}
