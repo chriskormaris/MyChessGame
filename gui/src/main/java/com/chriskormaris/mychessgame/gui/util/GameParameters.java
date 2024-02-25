@@ -44,6 +44,9 @@ public class GameParameters {
 
 	private boolean showNextMoves;
 
+	private boolean enableTimeLimit;
+	private int timeLimitSeconds;
+
 	// Default constructor
 	public GameParameters() {
 		/* Default values */
@@ -83,6 +86,9 @@ public class GameParameters {
 		this.numOfRows = Constants.DEFAULT_NUM_OF_ROWS;
 
 		this.showNextMoves = true;
+
+		this.enableTimeLimit = true;
+		this.timeLimitSeconds = Constants.DEFAULT_TIME_LIMIT_SECONDS;
 	}
 
 	// Copy constructor
@@ -102,6 +108,8 @@ public class GameParameters {
 		this.blackSquareColor = otherGameParameters.getBlackSquareColor();
 		this.numOfRows = otherGameParameters.getNumOfRows();
 		this.showNextMoves = otherGameParameters.isShowNextMoves();
+		this.enableTimeLimit = otherGameParameters.isEnableTimeLimit();
+		this.timeLimitSeconds = otherGameParameters.getTimeLimitSeconds();
 	}
 
 }

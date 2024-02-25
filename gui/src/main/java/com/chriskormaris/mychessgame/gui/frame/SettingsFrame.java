@@ -33,9 +33,12 @@ public class SettingsFrame extends JFrame {
 	private final JComboBox<String> evaluationFunction2DropDown;
 	private final JComboBox<String> whiteSquareColorDropDown;
 	private final JComboBox<String> blackSquareColorDropDown;
+	private final JCheckBox enableTimeLimitCheckBox;
 
 	private final SpinnerModel numOfRowsSpinnerModel = new SpinnerNumberModel(8, 4, 8, 1);
 	private final JSpinner numOfRowsSpinner = new JSpinner(numOfRowsSpinnerModel);
+	private final SpinnerModel timeLimitSecondsSpinnerModel = new SpinnerNumberModel(600, 1, 1200, 1);
+	private final JSpinner timeLimitSecondsSpinner = new JSpinner(timeLimitSecondsSpinnerModel);
 
 	private final JCheckBox showNextMovesCheckBox;
 
@@ -52,7 +55,7 @@ public class SettingsFrame extends JFrame {
 		this.newGameParameters = newGameParameters;
 
 		int width = 525;
-		int height = 650;
+		int height = 700;
 
 		super.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		super.setLayout(null);
@@ -75,6 +78,8 @@ public class SettingsFrame extends JFrame {
 		Color selectedBlackSquareColor = newGameParameters.getBlackSquareColor();
 		int numOfRows = newGameParameters.getNumOfRows();
 		boolean showNextMoves = newGameParameters.isShowNextMoves();
+		boolean enableTimeLimit = newGameParameters.isEnableTimeLimit();
+		int timeLimitSeconds = newGameParameters.getTimeLimitSeconds();
 
 		List<JLabel> labels = new ArrayList<>();
 		List<JComponent> components = new ArrayList<>();
@@ -94,6 +99,8 @@ public class SettingsFrame extends JFrame {
 		JLabel blackSquareColorLabel = new JLabel("Black square color");
 		JLabel numOfRowsLabel = new JLabel("Number of rows");
 		JLabel showNextMovesLabel = new JLabel("Show next moves");
+		JLabel enableTimeLimitLabel = new JLabel("Time limit (Human vs Human)");
+		JLabel timeLimitSecondsLabel = new JLabel("Time limit seconds");
 
 		labels.add(guiTypeLabel);
 		labels.add(guiStyleLabel);
@@ -112,6 +119,8 @@ public class SettingsFrame extends JFrame {
 			labels.add(numOfRowsLabel);
 		}
 		labels.add(showNextMovesLabel);
+		labels.add(enableTimeLimitLabel);
+		labels.add(timeLimitSecondsLabel);
 
 		guiTypeDropDown = new JComboBox<>();
 		guiTypeDropDown.addItem("Drag and Drop");
@@ -267,6 +276,11 @@ public class SettingsFrame extends JFrame {
 		showNextMovesCheckBox = new JCheckBox();
 		showNextMovesCheckBox.setSelected(showNextMoves);
 
+		enableTimeLimitCheckBox = new JCheckBox();
+		enableTimeLimitCheckBox.setSelected(enableTimeLimit);
+
+		timeLimitSecondsSpinnerModel.setValue(timeLimitSeconds);
+
 		components.add(guiTypeDropDown);
 		components.add(guiStyleDropDown);
 		components.add(enableSoundsCheckBox);
@@ -284,6 +298,8 @@ public class SettingsFrame extends JFrame {
 			components.add(numOfRowsSpinner);
 		}
 		components.add(showNextMovesCheckBox);
+		components.add(enableTimeLimitCheckBox);
+		components.add(timeLimitSecondsSpinner);
 
 		int x = 25;
 		int y = 25;
@@ -309,7 +325,7 @@ public class SettingsFrame extends JFrame {
 		cancel = new JButton("Cancel");
 
 		distance = 10;
-		y = 550;
+		y = 600;
 		w = 100;
 		h = 30;
 		EventHandler handler = new EventHandler();
@@ -355,6 +371,8 @@ public class SettingsFrame extends JFrame {
 					int numOfRows = (int) numOfRowsSpinner.getValue();
 					// numOfRows = Math.max(numOfRows, 8);
 					boolean showNextMoves = showNextMovesCheckBox.isSelected();
+					boolean enableTimeLimit = enableTimeLimitCheckBox.isSelected();
+					int timeLimitSeconds = (int) timeLimitSecondsSpinner.getValue();
 
 					Color whiteSquareColor = null;
 					if (whiteSquareColorDropdownIndex == 0) {
@@ -389,6 +407,8 @@ public class SettingsFrame extends JFrame {
 					newGameParameters.setBlackSquareColor(blackSquareColor);
 					newGameParameters.setNumOfRows(numOfRows);
 					newGameParameters.setShowNextMoves(showNextMoves);
+					newGameParameters.setEnableTimeLimit(enableTimeLimit);
+					newGameParameters.setTimeLimitSeconds(timeLimitSeconds);
 
 					JOptionPane.showMessageDialog(
 							parentComponent,

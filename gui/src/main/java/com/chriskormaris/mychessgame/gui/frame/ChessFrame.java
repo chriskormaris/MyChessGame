@@ -109,6 +109,12 @@ public abstract class ChessFrame extends JFrame {
     // This variable is used for the implementation of "Human vs AI".
     public AI ai;
 
+    Timer whitePlayerTimer;
+    Timer blackPlayerTimer;
+    int whitePlayerElapsedSeconds;
+    int blackPlayerElapsedSeconds;
+    boolean timeUp;
+
     KeyListener undoRedoKeyListener = new KeyListener() {
         @Override
         public void keyTyped(KeyEvent e) {
@@ -371,13 +377,25 @@ public abstract class ChessFrame extends JFrame {
         }
     }
 
-    void setScoreMessage() {
+    void setScoreAndTimeMessage() {
+        String message;
         if (score > 0) {
-            capturedPiecesImages[15].setText("White: +" + score);
+            message = "White: +" + score;
+            capturedPiecesImages[15].setText(message);
         } else if (score < 0) {
-            capturedPiecesImages[15].setText("Black: +" + (-score));
+            message = "Black: +" + (-score);
+            capturedPiecesImages[15].setText(message);
         } else {
-            capturedPiecesImages[15].setText(GuiConstants.ZERO_SCORE_TEXT);
+            message = GuiConstants.ZERO_SCORE_TEXT;
+            capturedPiecesImages[15].setText(message);
+        }
+
+        if (gameParameters.getGameMode() == GameMode.HUMAN_VS_HUMAN && gameParameters.isEnableTimeLimit()) {
+            int whiteRemainingSeconds = gameParameters.getTimeLimitSeconds() - whitePlayerElapsedSeconds;
+            message += ", White time: " + whiteRemainingSeconds + "''";
+            int blackRemainingSeconds = gameParameters.getTimeLimitSeconds() - blackPlayerElapsedSeconds;
+            message += ", Black time: " + blackRemainingSeconds + "''";
+            capturedPiecesImages[15].setText(message);
         }
     }
 
@@ -501,7 +519,7 @@ public abstract class ChessFrame extends JFrame {
 
         incrementCapturedPiecesCounter(endSquare.getAllegiance());
 
-        setScoreMessage();
+        setScoreAndTimeMessage();
     }
 
     void incrementCapturedPiecesCounter(Allegiance allegiance) {
@@ -871,7 +889,7 @@ public abstract class ChessFrame extends JFrame {
         if (dialogResult == JOptionPane.YES_OPTION) {
             startNewGame();
         } else {
-            if (undoItem != null) {
+            if (!undoChessBoards.isEmpty() && undoItem != null) {
                 undoItem.setEnabled(true);
             }
             if (redoItem != null) {
@@ -886,6 +904,44 @@ public abstract class ChessFrame extends JFrame {
 
             disableChessPanelClicks();
         }
+    }
+
+    void initializeTimers() {
+        whitePlayerTimer = new Timer(1000, e -> {
+            if (chessBoard.whitePlays() && !chessBoard.isTerminalState() && !timeUp) {
+                if (gameParameters.getTimeLimitSeconds() - whitePlayerElapsedSeconds == 0) {
+                    timeUp = true;
+                    int dialogResult = JOptionPane.showConfirmDialog(
+                            this,
+                            "Time is up! Black wins! Start a new game?",
+                            "Out of Time",
+                            JOptionPane.YES_NO_OPTION
+                    );
+                    startNewGameOrNot(dialogResult);
+                }
+                whitePlayerElapsedSeconds++;
+                setScoreAndTimeMessage();
+            }
+        });
+        whitePlayerTimer.start();
+
+        blackPlayerTimer = new Timer(1000, e -> {
+            if (chessBoard.blackPlays() && !chessBoard.isTerminalState() && !timeUp) {
+                if (gameParameters.getTimeLimitSeconds() - blackPlayerElapsedSeconds == 0) {
+                    timeUp = true;
+                    int dialogResult = JOptionPane.showConfirmDialog(
+                            this,
+                            "Time is up! White wins! Start a new game?",
+                            "Out of Time",
+                            JOptionPane.YES_NO_OPTION
+                    );
+                    startNewGameOrNot(dialogResult);
+                }
+                blackPlayerElapsedSeconds++;
+                setScoreAndTimeMessage();
+            }
+        });
+        blackPlayerTimer.start();
     }
 
     abstract void initializeGUI();

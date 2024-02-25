@@ -104,7 +104,7 @@ public class ButtonsFrame extends ChessFrame {
 		initializeCapturedPiecesPanel();
 		initializeCapturedPiecesImages();
 
-		setScoreMessage();
+		setScoreAndTimeMessage();
 	}
 
 	@Override
@@ -186,7 +186,7 @@ public class ButtonsFrame extends ChessFrame {
 			resetCapturedPiecesPanel();
 
 			resetScore();
-			setScoreMessage();
+			setScoreAndTimeMessage();
 
 			setTurnMessage();
 
@@ -236,7 +236,7 @@ public class ButtonsFrame extends ChessFrame {
 			resetCapturedPiecesPanel();
 
 			resetScore();
-			setScoreMessage();
+			setScoreAndTimeMessage();
 
 			setTurnMessage();
 
@@ -408,6 +408,26 @@ public class ButtonsFrame extends ChessFrame {
 		}
 
 		isGameOver = false;
+
+		whitePlayerElapsedSeconds = 0;
+		blackPlayerElapsedSeconds = 0;
+		if (gameParameters.getGameMode() == GameMode.HUMAN_VS_HUMAN && gameParameters.isEnableTimeLimit()) {
+			if (whitePlayerTimer == null || blackPlayerTimer == null) {
+				initializeTimers();
+			} else {
+				whitePlayerTimer.restart();
+				blackPlayerTimer.restart();
+			}
+		} else {
+			if (whitePlayerTimer != null) {
+				whitePlayerTimer.stop();
+			}
+			if (blackPlayerTimer != null) {
+				blackPlayerTimer.stop();
+			}
+		}
+
+		timeUp = false;
 	}
 
 	// This method is only called from inside a chess board button listener.
@@ -610,7 +630,7 @@ public class ButtonsFrame extends ChessFrame {
 
 		chessBoard.setThreats();
 
-		setScoreMessage();
+		setScoreAndTimeMessage();
 
 		System.out.println();
 		System.out.println(chessBoard);

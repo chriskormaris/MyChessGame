@@ -116,7 +116,7 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 		initializeCapturedPiecesPanel();
 		initializeCapturedPiecesImages();
 
-		setScoreMessage();
+		setScoreAndTimeMessage();
 	}
 
 	@Override
@@ -217,7 +217,7 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 			resetCapturedPiecesPanel();
 
 			resetScore();
-			setScoreMessage();
+			setScoreAndTimeMessage();
 
 			setTurnMessage();
 
@@ -265,7 +265,7 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 			resetCapturedPiecesPanel();
 
 			resetScore();
-			setScoreMessage();
+			setScoreAndTimeMessage();
 
 			setTurnMessage();
 
@@ -404,6 +404,24 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 		chessPanelEnabled = true;
 		isGameOver = false;
 
+		whitePlayerElapsedSeconds = 0;
+		blackPlayerElapsedSeconds = 0;
+		if (gameParameters.getGameMode() == GameMode.HUMAN_VS_HUMAN && gameParameters.isEnableTimeLimit()) {
+			if (whitePlayerTimer == null || blackPlayerTimer == null) {
+				initializeTimers();
+			} else {
+				whitePlayerTimer.restart();
+				blackPlayerTimer.restart();
+			}
+		} else {
+			if (whitePlayerTimer != null) {
+				whitePlayerTimer.stop();
+			}
+			if (blackPlayerTimer != null) {
+				blackPlayerTimer.stop();
+			}
+		}
+
 		setTurnMessage();
 	}
 
@@ -536,7 +554,7 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 
 		chessBoard.setThreats();
 
-		setScoreMessage();
+		setScoreAndTimeMessage();
 
 		System.out.println();
 		System.out.println(chessBoard);
