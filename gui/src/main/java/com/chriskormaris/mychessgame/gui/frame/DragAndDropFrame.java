@@ -108,8 +108,8 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 		// Set up the main GUI.
 		guiPanel.setLayout(new BoxLayout(guiPanel, BoxLayout.Y_AXIS));
 
-		initializeTurnTextPaneBar();
-		setTurnMessage();
+		initializeMoveTextPaneBar();
+		setMoveMessage();
 
 		initializeChessPanel();
 
@@ -219,7 +219,7 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 			resetScore();
 			setScoreAndTimeMessage();
 
-			setTurnMessage();
+			setMoveMessage();
 
 			System.out.println();
 			System.out.println(chessBoard);
@@ -267,7 +267,7 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 			resetScore();
 			setScoreAndTimeMessage();
 
-			setTurnMessage();
+			setMoveMessage();
 
 			if (redoChessBoards.isEmpty()) {
 				redoItem.setEnabled(false);
@@ -330,7 +330,7 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 
 		initializeAI();
 
-		setTurnMessage();
+		setMoveMessage();
 
 		System.out.println();
 		System.out.println(chessBoard);
@@ -422,7 +422,7 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 			}
 		}
 
-		setTurnMessage();
+		setMoveMessage();
 	}
 
 	@Override
@@ -887,10 +887,10 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 			makeDisplayMove(move, false);
 
 			if (checkForGameOver()) {
-				setTurnMessage();
+				setMoveMessage();
 				return;
 			} else {
-				setTurnMessage();
+				setMoveMessage();
 			}
 
 			if (gameParameters.isEnableSounds()) {

@@ -9,9 +9,9 @@ import java.awt.*;
 public class GuiConstants {
 
 	public static final String TITLE = "My Chess Game";
-	public static final String VERSION = "9.4.2";
+	public static final String VERSION = "9.4.3";
 
-	public static final String FIRST_TURN_TEXT = "Turn: 1. White plays first.";
+	public static final String FIRST_MOVE_TEXT = "Move: 1. White plays first.";
 	public static final String ZERO_SCORE_TEXT = "Score:  0";
 
 	public static final int CHESS_PIECE_SQUARE_PIXEL_SIZE = 56;
@@ -51,8 +51,8 @@ public class GuiConstants {
 			+ "     King & Bishop vs King & Bishop with the Bishops on the same color, then the game ends in a draw due to insufficient mating material.\n"
 			+ "     In addition, if we have only Kings and Pawns left on the Chess board and the Kings are not able to capture the Pawns,\n"
 			+ "     then this condition is also a draw due to insufficient mating material.\n"
-			+ "  3) If 50 turns have passed and neither player has captured any opponent's Chess piece, then the player that plays next can declare a draw.\n"
-			+ "  4) If 75 turns have passed and neither player has captured any opponent's Chess piece, then the game automatically ends in a draw.\n"
+			+ "  3) If 50 moves have been played and neither player has captured any opponent's Chess piece, then the player that plays next can declare a draw.\n"
+			+ "  4) If 75 moves have been played and neither player has captured any opponent's Chess piece, then the game automatically ends in a draw.\n"
 			+ "  5) If the exact Chess board position is repeated 3 times, at any time in the game, not necessarily successively,\n"
 			+ "     then the player that plays next can declare a draw. This scenario is called threefold repetition.\n"
 			+ "  6) If the exact Chess board position is repeated 5 times, at any time in the game, not necessarily successively,\n"
@@ -68,7 +68,7 @@ public class GuiConstants {
 			+ "  4) The Queen can move any number of squares diagonally, horizontally or vertically. It is the strongest piece in the game.\n"
 			+ "  5) The Knight moves in an \"L\"-shape, after moving two squares either forward, backwards, left or right. It is the only piece that can jump over other pieces.\n"
 			+ "  6) The Pawn can move one square forward, or 2 squares forward, if moving for the 1st time. It can capture an opponent's piece by moving one square diagonally.\n"
-			+ "     It can also capture an opponent's Pawn, that has just moved 2 steps forward, the previous turn, while being next to it,\n"
+			+ "     It can also capture an opponent's Pawn, that has just moved 2 steps forward, in the previous move, while being next to it,\n"
 			+ "     by moving diagonally towards its direction (\"en passant\" move).\n"
 			+ "     If a Pawn reaches the final row of the other side of the Chess board, the player can promote it to a Bishop, Knight, Rook or even a Queen.";
 

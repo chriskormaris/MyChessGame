@@ -468,7 +468,7 @@ public class ChessBoard {
 				halfMoveClock = 0;
 			}
 
-			// Change turn.
+			// Increase halfMove.
 			halfMoveNumber++;
 			player = getNextPlayer();
 		}

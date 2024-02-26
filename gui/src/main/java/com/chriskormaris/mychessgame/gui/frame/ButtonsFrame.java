@@ -95,8 +95,8 @@ public class ButtonsFrame extends ChessFrame {
 		// gui.setBorder(new EmptyBorder(0, 0, 0, 0));
 		guiPanel.setLayout(new BoxLayout(guiPanel, BoxLayout.Y_AXIS));
 
-		initializeTurnTextPaneBar();
-		setTurnMessage();
+		initializeMoveTextPaneBar();
+		setMoveMessage();
 
 		initializeChessButtons();
 		initializeChessPanel();
@@ -188,7 +188,7 @@ public class ButtonsFrame extends ChessFrame {
 			resetScore();
 			setScoreAndTimeMessage();
 
-			setTurnMessage();
+			setMoveMessage();
 
 			System.out.println();
 			System.out.println(chessBoard);
@@ -238,7 +238,7 @@ public class ButtonsFrame extends ChessFrame {
 			resetScore();
 			setScoreAndTimeMessage();
 
-			setTurnMessage();
+			setMoveMessage();
 
 			for (int i = 0; i < 31; i++) {
 				capturedPiecesPanel.add(capturedPiecesImages[i]);
@@ -346,7 +346,7 @@ public class ButtonsFrame extends ChessFrame {
 
 		initializeAI();
 
-		setTurnMessage();
+		setMoveMessage();
 
 		System.out.println();
 		System.out.println(chessBoard);
@@ -476,10 +476,10 @@ public class ButtonsFrame extends ChessFrame {
 				makeDisplayMove(move, false);
 
 				if (checkForGameOver()) {
-					setTurnMessage();
+					setMoveMessage();
 					return;
 				} else {
-					setTurnMessage();
+					setMoveMessage();
 				}
 
 				if (gameParameters.isEnableSounds()) {

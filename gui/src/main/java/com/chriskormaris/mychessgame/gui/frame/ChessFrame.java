@@ -58,7 +58,7 @@ public abstract class ChessFrame extends JFrame {
     JPanel chessPanel;
     JPanel capturedPiecesPanel;
 
-    JTextPane turnTextPane;
+    JTextPane moveTextPane;
 
     // 30 captured pieces at maximum + 1 label for displaying the score = 31 labels size
     JLabel[] capturedPiecesImages;
@@ -142,7 +142,7 @@ public abstract class ChessFrame extends JFrame {
         super(title);
 
         guiPanel = new JPanel();
-        turnTextPane = new JTextPane();
+        moveTextPane = new JTextPane();
 
         tools = new JToolBar();
 
@@ -360,20 +360,20 @@ public abstract class ChessFrame extends JFrame {
         }
     }
 
-    void setTurnMessage() {
+    void setMoveMessage() {
         if (chessBoard.getHalfMoveNumber() == 1) {
-            turnTextPane.setText(GuiConstants.FIRST_TURN_TEXT);
+            moveTextPane.setText(GuiConstants.FIRST_MOVE_TEXT);
         } else {
-            String turnMessage = "Turn: " + (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2) + ". ";
-            turnMessage += (chessBoard.whitePlays()) ? "White plays." : "Black plays.";
+            String moveMessage = "Move: " + (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2) + ". ";
+            moveMessage += (chessBoard.whitePlays()) ? "White plays." : "Black plays.";
 
             if (chessBoard.whitePlays() && chessBoard.isWhiteKingInCheck()) {
-                turnMessage += " White King is in check!";
+                moveMessage += " White King is in check!";
             } else if (chessBoard.blackPlays() && chessBoard.isBlackKingInCheck()) {
-                turnMessage += " Black King is in check!";
+                moveMessage += " Black King is in check!";
             }
 
-            turnTextPane.setText(turnMessage);
+            moveTextPane.setText(moveMessage);
         }
     }
 
@@ -410,7 +410,7 @@ public abstract class ChessFrame extends JFrame {
         }
     }
 
-    void initializeTurnTextPaneBar() {
+    void initializeMoveTextPaneBar() {
         if (tools != null) {
             guiPanel.remove(tools);
         }
@@ -418,11 +418,11 @@ public abstract class ChessFrame extends JFrame {
         tools = new JToolBar();
         tools.setFloatable(false);
 
-        turnTextPane.setEditable(false);
-        turnTextPane.setFocusable(false);
-        GuiUtils.centerTextPaneAndMakeBold(turnTextPane);
+        moveTextPane.setEditable(false);
+        moveTextPane.setFocusable(false);
+        GuiUtils.centerTextPaneAndMakeBold(moveTextPane);
 
-        tools.add(turnTextPane);
+        tools.add(moveTextPane);
 
         guiPanel.add(tools, BorderLayout.NORTH);
     }
@@ -582,7 +582,7 @@ public abstract class ChessFrame extends JFrame {
         makeDisplayMove(aiMove, true);
 
         checkForGameOver();
-        setTurnMessage();
+        setMoveMessage();
     }
 
     void playAiVsAi() {
@@ -609,11 +609,11 @@ public abstract class ChessFrame extends JFrame {
         }
 
         while (!isGameOver) {
-            System.out.println(turnTextPane.getText());
+            System.out.println(moveTextPane.getText());
             aiVsAiMove(ai1);
 
             if (!isGameOver) {
-                System.out.println(turnTextPane.getText());
+                System.out.println(moveTextPane.getText());
 
                 try {
                     if (gameParameters.getAi1Type() == AiType.MINIMAX_AI) {
@@ -666,9 +666,9 @@ public abstract class ChessFrame extends JFrame {
         if (chessBoard.blackPlays()) {
             chessBoard.checkForWhiteCheckmate();
             if (chessBoard.getGameResult() == GameResult.WHITE_CHECKMATE) {
-                String turnMessage = "Turn: "
+                String moveMessage = "Move: "
                         + (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2) + ". Checkmate! White wins!";
-                turnTextPane.setText(turnMessage);
+                moveTextPane.setText(moveMessage);
 
                 if (gameParameters.isEnableSounds()) {
                     SoundUtils.playCheckmateSound();
@@ -691,9 +691,9 @@ public abstract class ChessFrame extends JFrame {
         else {
             chessBoard.checkForBlackCheckmate();
             if (chessBoard.getGameResult() == GameResult.BLACK_CHECKMATE) {
-                String turnMessage = "Turn: "
+                String moveMessage = "Move: "
                         + (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2) + ". Checkmate! Black wins!";
-                turnTextPane.setText(turnMessage);
+                moveTextPane.setText(moveMessage);
 
                 if (gameParameters.isEnableSounds()) {
                     SoundUtils.playCheckmateSound();
@@ -718,10 +718,10 @@ public abstract class ChessFrame extends JFrame {
         if (chessBoard.whitePlays()) {
             chessBoard.checkForWhiteStalemateDraw();
             if (chessBoard.getGameResult() == GameResult.WHITE_STALEMATE_DRAW) {
-                String turnMessage = "Turn: "
+                String moveMessage = "Move: "
                         + (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2)
                         + ". Stalemate! No legal moves for White exist.";
-                turnTextPane.setText(turnMessage);
+                moveTextPane.setText(moveMessage);
 
                 int dialogResult = JOptionPane.showConfirmDialog(
                         this,
@@ -740,10 +740,10 @@ public abstract class ChessFrame extends JFrame {
         else {
             chessBoard.checkForBlackStalemateDraw();
             if (chessBoard.getGameResult() == GameResult.BLACK_STALEMATE_DRAW) {
-                String turnMessage = "Turn: "
+                String moveMessage = "Move: "
                         + (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2)
                         + ". Stalemate! No legal moves for Black exist.";
-                turnTextPane.setText(turnMessage);
+                moveTextPane.setText(moveMessage);
 
                 int dialogResult = JOptionPane.showConfirmDialog(
                         this,
@@ -760,10 +760,10 @@ public abstract class ChessFrame extends JFrame {
 
         /* Insufficient checkmate material draw implementation. */
         if (chessBoard.checkForInsufficientMatingMaterialDraw()) {
-            String turnMessage = "Turn: "
+            String moveMessage = "Move: "
                     + (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2)
                     + ". It is a draw.";
-            turnTextPane.setText(turnMessage);
+            moveTextPane.setText(moveMessage);
 
             int dialogResult = JOptionPane.showConfirmDialog(
                     this,
@@ -779,14 +779,14 @@ public abstract class ChessFrame extends JFrame {
 
         // 75 full-moves without a Chess piece capture Draw implementation.
         if (chessBoard.checkForUnconditionalNoCaptureDraw()) {
-            String turnMessage = "Turn: "
+            String moveMessage = "Move: "
                     + (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2)
                     + ". It is a draw.";
-            turnTextPane.setText(turnMessage);
+            moveTextPane.setText(moveMessage);
 
             int dialogResult = JOptionPane.showConfirmDialog(
                     this,
-                    "It is a draw! 75 full-moves have passed without a piece capture! Start a new game?",
+                    "It is a draw! 75 moves have been played without a piece capture! Start a new game?",
                     "Draw",
                     JOptionPane.YES_NO_OPTION
             );
@@ -806,7 +806,7 @@ public abstract class ChessFrame extends JFrame {
                     || chessBoard.whitePlays() && gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK)) {
                 dialogResult = JOptionPane.showConfirmDialog(
                         this,
-                        "50 full-moves have passed without a piece capture! Do you want to declare a draw?",
+                        "50 moves have been played without a piece capture! Do you want to declare a draw?",
                         "Draw",
                         JOptionPane.YES_NO_OPTION
                 );
@@ -824,10 +824,10 @@ public abstract class ChessFrame extends JFrame {
         // at any time in the game, not necessarily successively.
         if (chessBoard.checkForThreefoldRepetitionDraw()) {
             if (chessBoard.getGameResult() == GameResult.FIVEFOLD_REPETITION_DRAW) {
-                String turnMessage = "Turn: "
+                String moveMessage = "Move: "
                         + (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2)
                         + ". It is a draw.";
-                turnTextPane.setText(turnMessage);
+                moveTextPane.setText(moveMessage);
 
                 int dialogResult = JOptionPane.showConfirmDialog(
                         this,
@@ -868,10 +868,10 @@ public abstract class ChessFrame extends JFrame {
     }
 
     private void showDeclareDrawDialog() {
-        String turnMessage = "Turn: "
+        String moveMessage = "Move: "
                 + (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2)
                 + ". It is a draw.";
-        turnTextPane.setText(turnMessage);
+        moveTextPane.setText(moveMessage);
 
         int dialogResult = JOptionPane.showConfirmDialog(
                 this,
