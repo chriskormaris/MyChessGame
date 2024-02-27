@@ -23,6 +23,7 @@ public class OpeningMoves {
 		List<Move> movesList = new ArrayList<>();
 
 		movesList.add(new Move("G2", "G3"));  // A00 Benko's opening
+		movesList.add(new Move("F2", "F4"));  // A02 Bird's opening
 		movesList.add(new Move("G1", "F3"));  // A04 Reti opening
 		movesList.add(new Move("C2", "C4"));  // A10 English opening
 		movesList.add(new Move("D2", "D4"));  // A40 Queen's pawn
