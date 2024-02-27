@@ -23,7 +23,7 @@ public class GameParameters {
 
 	private boolean enableSounds;
 
-	private Allegiance humanPlayerAllegiance;
+	private Allegiance humanAllegiance;
 
 	private GameMode gameMode;
 
@@ -59,7 +59,7 @@ public class GameParameters {
 
 		this.enableSounds = true;
 
-		this.humanPlayerAllegiance = Allegiance.WHITE;
+		this.humanAllegiance = Allegiance.WHITE;
 
 		// Other values: GameMode.HUMAN_VS_HUMAN, GameMode.AI_VS_AI
 		this.gameMode = GameMode.HUMAN_VS_AI;
@@ -96,7 +96,7 @@ public class GameParameters {
 		this.guiType = otherGameParameters.getGuiType();
 		this.guiStyle = otherGameParameters.getGuiStyle();
 		this.enableSounds = otherGameParameters.isEnableSounds();
-		this.humanPlayerAllegiance = otherGameParameters.getHumanPlayerAllegiance();
+		this.humanAllegiance = otherGameParameters.getHumanAllegiance();
 		this.gameMode = otherGameParameters.getGameMode();
 		this.ai1Type = otherGameParameters.getAi1Type();
 		this.ai2Type = otherGameParameters.getAi2Type();

@@ -23,7 +23,7 @@ public class SettingsFrame extends JFrame {
 	private final JComboBox<String> guiTypeDropDown;
 	private final JComboBox<String> guiStyleDropDown;
 	private final JCheckBox enableSoundsCheckBox;
-	private final JComboBox<String> humanPlayerAllegianceDropDown;
+	private final JComboBox<String> humanAllegianceDropDown;
 	private final JComboBox<String> gameModeDropDown;
 	private final JComboBox<String> ai1TypeDropDown;
 	private final JComboBox<String> ai2TypeDropDown;
@@ -66,7 +66,7 @@ public class SettingsFrame extends JFrame {
 		GuiType selectedGuiType = newGameParameters.getGuiType();
 		GuiStyle selectedGuiStyle = newGameParameters.getGuiStyle();
 		boolean enableSounds = newGameParameters.isEnableSounds();
-		Allegiance humanPlayerAllegiance = newGameParameters.getHumanPlayerAllegiance();
+		Allegiance humanAllegiance = newGameParameters.getHumanAllegiance();
 		GameMode selectedGameMode = newGameParameters.getGameMode();
 		AiType selectedAi1Type = newGameParameters.getAi1Type();
 		AiType selectedAi2Type = newGameParameters.getAi2Type();
@@ -87,7 +87,7 @@ public class SettingsFrame extends JFrame {
 		JLabel guiTypeLabel = new JLabel("GUI type");
 		JLabel guiStyleLabel = new JLabel("GUI style");
 		JLabel enableSoundsLabel = new JLabel("Sounds");
-		JLabel humanPlayerAllegianceLabel = new JLabel("Human player allegiance");
+		JLabel humanAllegianceLabel = new JLabel("Human allegiance (Human vs AI)");
 		JLabel gameModeLabel = new JLabel("Game mode");
 		JLabel ai1TypeLabel = new JLabel("AI 1 type");
 		JLabel ai2TypeLabel = new JLabel("AI 2 type (AI vs AI)");
@@ -105,7 +105,7 @@ public class SettingsFrame extends JFrame {
 		labels.add(guiTypeLabel);
 		labels.add(guiStyleLabel);
 		labels.add(enableSoundsLabel);
-		labels.add(humanPlayerAllegianceLabel);
+		labels.add(humanAllegianceLabel);
 		labels.add(gameModeLabel);
 		labels.add(ai1TypeLabel);
 		labels.add(ai2TypeLabel);
@@ -148,14 +148,14 @@ public class SettingsFrame extends JFrame {
 		enableSoundsCheckBox = new JCheckBox();
 		enableSoundsCheckBox.setSelected(enableSounds);
 
-		humanPlayerAllegianceDropDown = new JComboBox<>();
-		humanPlayerAllegianceDropDown.addItem("White");
-		humanPlayerAllegianceDropDown.addItem("Black");
+		humanAllegianceDropDown = new JComboBox<>();
+		humanAllegianceDropDown.addItem("White");
+		humanAllegianceDropDown.addItem("Black");
 
-		if (humanPlayerAllegiance == Allegiance.WHITE) {
-			humanPlayerAllegianceDropDown.setSelectedIndex(0);
-		} else if (humanPlayerAllegiance == Allegiance.BLACK) {
-			humanPlayerAllegianceDropDown.setSelectedIndex(1);
+		if (humanAllegiance == Allegiance.WHITE) {
+			humanAllegianceDropDown.setSelectedIndex(0);
+		} else if (humanAllegiance == Allegiance.BLACK) {
+			humanAllegianceDropDown.setSelectedIndex(1);
 		}
 
 		gameModeDropDown = new JComboBox<>();
@@ -284,7 +284,7 @@ public class SettingsFrame extends JFrame {
 		components.add(guiTypeDropDown);
 		components.add(guiStyleDropDown);
 		components.add(enableSoundsCheckBox);
-		components.add(humanPlayerAllegianceDropDown);
+		components.add(humanAllegianceDropDown);
 		components.add(gameModeDropDown);
 		components.add(ai1TypeDropDown);
 		components.add(ai2TypeDropDown);
@@ -352,8 +352,8 @@ public class SettingsFrame extends JFrame {
 					GuiStyle guiStyle = GuiStyle.valueOf(guiStyleDropDown.getSelectedItem().toString().toUpperCase()
 							.replace("-", "_"));
 					boolean enableSounds = enableSoundsCheckBox.isSelected();
-					Allegiance humanPlayerAllegiance = Allegiance.valueOf(humanPlayerAllegianceDropDown
-							.getSelectedItem().toString().toUpperCase());
+					Allegiance humanAllegiance = Allegiance
+							.valueOf(humanAllegianceDropDown.getSelectedItem().toString().toUpperCase());
 					GameMode gameMode = GameMode.valueOf(gameModeDropDown.getSelectedItem().toString().toUpperCase()
 							.replace(" ", "_"));
 					AiType ai1Type = AiType.valueOf(ai1TypeDropDown.getSelectedItem().toString().toUpperCase()
@@ -395,7 +395,7 @@ public class SettingsFrame extends JFrame {
 					newGameParameters.setGuiType(guiType);
 					newGameParameters.setGuiStyle(guiStyle);
 					newGameParameters.setEnableSounds(enableSounds);
-					newGameParameters.setHumanPlayerAllegiance(humanPlayerAllegiance);
+					newGameParameters.setHumanAllegiance(humanAllegiance);
 					newGameParameters.setGameMode(gameMode);
 					newGameParameters.setAi1Type(ai1Type);
 					newGameParameters.setAi2Type(ai2Type);

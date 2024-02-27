@@ -35,7 +35,7 @@ public class PawnPromotionTest {
 
 		/* Use these FEN positions, if playing as Black. */
 
-		// newGameParameters.setHumanPlayerAllegiance(Allegiance.BLACK);
+		// newGameParameters.setHumanAllegiance(Allegiance.BLACK);
 		// startNewGame();
 
 		// String fenPosition = "4k3/2P5/8/8/8/8/2p5/4K3 b - - 0 1";

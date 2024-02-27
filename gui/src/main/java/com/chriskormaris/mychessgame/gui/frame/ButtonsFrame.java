@@ -326,7 +326,7 @@ public class ButtonsFrame extends ChessFrame {
 		gameParameters = new GameParameters(newGameParameters);
 
 		flipBoard = gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
-				&& gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK;
+				&& gameParameters.getHumanAllegiance() == Allegiance.BLACK;
 
 		if (undoItem != null) {
 			undoItem.setEnabled(false);
@@ -352,7 +352,7 @@ public class ButtonsFrame extends ChessFrame {
 		System.out.println(chessBoard);
 
 		if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI
-				&& gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
+				&& gameParameters.getHumanAllegiance() == Allegiance.BLACK) {
 			aiMove(ai);
 		} else if (gameParameters.getGameMode() == GameMode.AI_VS_AI) {
 			playAiVsAi();
@@ -518,8 +518,8 @@ public class ButtonsFrame extends ChessFrame {
 		redoCapturedPieces.clear();
 
 		if (gameParameters.getGameMode() != GameMode.HUMAN_VS_AI
-				|| (gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE && chessBoard.whitePlays()
-				|| gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK && chessBoard.blackPlays())) {
+				|| (gameParameters.getHumanAllegiance() == Allegiance.WHITE && chessBoard.whitePlays()
+				|| gameParameters.getHumanAllegiance() == Allegiance.BLACK && chessBoard.blackPlays())) {
 			undoChessBoards.push(new ChessBoard(chessBoard));
 			undoCapturedPieces.push(capturedPieces.clone());
 		}

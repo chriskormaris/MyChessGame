@@ -541,22 +541,22 @@ public abstract class ChessFrame extends JFrame {
         if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI) {
             if (gameParameters.getAi1Type() == AiType.MINIMAX_AI) {
                 Evaluation evaluation1 = createEvaluation(gameParameters.getEvaluationFunction1());
-                if (gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE) {
+                if (gameParameters.getHumanAllegiance() == Allegiance.WHITE) {
                     ai = new MinimaxAI(gameParameters.getAi1MaxDepth(), Constants.BLACK, evaluation1);
-                } else if (gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
+                } else if (gameParameters.getHumanAllegiance() == Allegiance.BLACK) {
                     ai = new MinimaxAI(gameParameters.getAi1MaxDepth(), Constants.WHITE, evaluation1);
                 }
             } else if (gameParameters.getAi1Type() == AiType.MINIMAX_ALPHA_BETA_PRUNING_AI) {
                 Evaluation evaluation1 = createEvaluation(gameParameters.getEvaluationFunction1());
-                if (gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE) {
+                if (gameParameters.getHumanAllegiance() == Allegiance.WHITE) {
                     ai = new MinimaxAlphaBetaPruningAI(gameParameters.getAi1MaxDepth(), Constants.BLACK, evaluation1);
-                } else if (gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
+                } else if (gameParameters.getHumanAllegiance() == Allegiance.BLACK) {
                     ai = new MinimaxAlphaBetaPruningAI(gameParameters.getAi1MaxDepth(), Constants.WHITE, evaluation1);
                 }
             }else if (gameParameters.getAi1Type() == AiType.RANDOM_AI) {
-                if (gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE) {
+                if (gameParameters.getHumanAllegiance() == Allegiance.WHITE) {
                     ai = new RandomChoiceAI(Constants.BLACK);
-                } else if (gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK) {
+                } else if (gameParameters.getHumanAllegiance() == Allegiance.BLACK) {
                     ai = new RandomChoiceAI(Constants.WHITE);
                 }
             }
@@ -802,8 +802,8 @@ public abstract class ChessFrame extends JFrame {
 
             // In the HUMAN_VS_AI mode, show the draw dialog, only if the AI has just made a move.
             if (gameParameters.getGameMode() != GameMode.HUMAN_VS_AI
-                    || (chessBoard.blackPlays() && gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE
-                    || chessBoard.whitePlays() && gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK)) {
+                    || (chessBoard.blackPlays() && gameParameters.getHumanAllegiance() == Allegiance.WHITE
+                    || chessBoard.whitePlays() && gameParameters.getHumanAllegiance() == Allegiance.BLACK)) {
                 dialogResult = JOptionPane.showConfirmDialog(
                         this,
                         "50 moves have been played without a piece capture! Do you want to declare a draw?",
@@ -846,8 +846,8 @@ public abstract class ChessFrame extends JFrame {
 
             // In the HUMAN_VS_AI mode, show the draw dialog, only if the AI has just made a move.
             if (gameParameters.getGameMode() != GameMode.HUMAN_VS_AI
-                    || (chessBoard.blackPlays() && gameParameters.getHumanPlayerAllegiance() == Allegiance.WHITE
-                    || chessBoard.whitePlays() && gameParameters.getHumanPlayerAllegiance() == Allegiance.BLACK)) {
+                    || (chessBoard.blackPlays() && gameParameters.getHumanAllegiance() == Allegiance.WHITE
+                    || chessBoard.whitePlays() && gameParameters.getHumanAllegiance() == Allegiance.BLACK)) {
                 dialogResult = JOptionPane.showConfirmDialog(
                         this,
                         "Threefold repetition of the same Chess board position has occurred! "
