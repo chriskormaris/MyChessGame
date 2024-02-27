@@ -26,8 +26,8 @@ public class SettingsFrame extends JFrame {
 	private final JComboBox<String> humanAllegianceDropDown;
 	private final JComboBox<String> gameModeDropDown;
 	private final JComboBox<String> ai1TypeDropDown;
-	private final JComboBox<String> ai2TypeDropDown;
 	private final JComboBox<Integer> ai1MaxDepthDropDown;
+	private final JComboBox<String> ai2TypeDropDown;
 	private final JComboBox<Integer> ai2MaxDepthDropDown;
 	private final JComboBox<String> evaluationFunction1DropDown;
 	private final JComboBox<String> evaluationFunction2DropDown;
@@ -69,10 +69,10 @@ public class SettingsFrame extends JFrame {
 		Allegiance humanAllegiance = newGameParameters.getHumanAllegiance();
 		GameMode selectedGameMode = newGameParameters.getGameMode();
 		AiType selectedAi1Type = newGameParameters.getAi1Type();
-		AiType selectedAi2Type = newGameParameters.getAi2Type();
 		int ai1MaxDepth = newGameParameters.getAi1MaxDepth() - 1;
-		int ai2MaxDepth = newGameParameters.getAi2MaxDepth() - 1;
 		EvaluationFunction evaluationFunction1 = newGameParameters.getEvaluationFunction1();
+		AiType selectedAi2Type = newGameParameters.getAi2Type();
+		int ai2MaxDepth = newGameParameters.getAi2MaxDepth() - 1;
 		EvaluationFunction evaluationFunction2 = newGameParameters.getEvaluationFunction2();
 		Color selectedWhiteSquareColor = newGameParameters.getWhiteSquareColor();
 		Color selectedBlackSquareColor = newGameParameters.getBlackSquareColor();
@@ -90,11 +90,11 @@ public class SettingsFrame extends JFrame {
 		JLabel humanAllegianceLabel = new JLabel("Human allegiance (Human vs AI)");
 		JLabel gameModeLabel = new JLabel("Game mode");
 		JLabel ai1TypeLabel = new JLabel("AI 1 type");
-		JLabel ai2TypeLabel = new JLabel("AI 2 type (AI vs AI)");
 		JLabel ai1MaxDepthLabel = new JLabel("Minimax AI 1 depth");
-		JLabel ai2MaxDepthLabel = new JLabel("Minimax AI 2 depth (AI vs AI)");
 		JLabel evaluationFunction1Label = new JLabel("AI 1 evaluation function");
-		JLabel evaluationFunction2Label = new JLabel("AI 2 evaluation function (AI vs AI)");
+		JLabel ai2TypeLabel = new JLabel("AI 2 type (AI vs AI)");
+		JLabel ai2MaxDepthLabel = new JLabel("Minimax AI 2 depth");
+		JLabel evaluationFunction2Label = new JLabel("AI 2 evaluation function");
 		JLabel whiteSquareColorLabel = new JLabel("White square color");
 		JLabel blackSquareColorLabel = new JLabel("Black square color");
 		JLabel numOfRowsLabel = new JLabel("Number of rows");
@@ -108,10 +108,10 @@ public class SettingsFrame extends JFrame {
 		labels.add(humanAllegianceLabel);
 		labels.add(gameModeLabel);
 		labels.add(ai1TypeLabel);
-		labels.add(ai2TypeLabel);
 		labels.add(ai1MaxDepthLabel);
-		labels.add(ai2MaxDepthLabel);
 		labels.add(evaluationFunction1Label);
+		labels.add(ai2TypeLabel);
+		labels.add(ai2MaxDepthLabel);
 		labels.add(evaluationFunction2Label);
 		labels.add(whiteSquareColorLabel);
 		labels.add(blackSquareColorLabel);
@@ -184,19 +184,6 @@ public class SettingsFrame extends JFrame {
 			ai1TypeDropDown.setSelectedIndex(2);
 		}
 
-		ai2TypeDropDown = new JComboBox<>();
-		ai2TypeDropDown.addItem("Minimax AI");
-		ai2TypeDropDown.addItem("Minimax Alpha-Beta Pruning AI");
-		ai2TypeDropDown.addItem("Random AI");
-
-		if (selectedAi2Type == AiType.MINIMAX_AI) {
-			ai2TypeDropDown.setSelectedIndex(0);
-		} else if (selectedAi2Type == AiType.MINIMAX_ALPHA_BETA_PRUNING_AI) {
-			ai2TypeDropDown.setSelectedIndex(1);
-		} else if (selectedAi2Type == AiType.RANDOM_AI) {
-			ai2TypeDropDown.setSelectedIndex(2);
-		}
-
 		ai1MaxDepthDropDown = new JComboBox<>();
 		ai1MaxDepthDropDown.addItem(1);
 		ai1MaxDepthDropDown.addItem(2);
@@ -204,14 +191,6 @@ public class SettingsFrame extends JFrame {
 		ai1MaxDepthDropDown.addItem(4);
 
 		ai1MaxDepthDropDown.setSelectedIndex(ai1MaxDepth);
-
-		ai2MaxDepthDropDown = new JComboBox<>();
-		ai2MaxDepthDropDown.addItem(1);
-		ai2MaxDepthDropDown.addItem(2);
-		ai2MaxDepthDropDown.addItem(3);
-		ai2MaxDepthDropDown.addItem(4);
-
-		ai2MaxDepthDropDown.setSelectedIndex(ai2MaxDepth);
 
 		evaluationFunction1DropDown = new JComboBox<>();
 		evaluationFunction1DropDown.addItem("Simplified");
@@ -228,6 +207,27 @@ public class SettingsFrame extends JFrame {
 		} else if (evaluationFunction1 == EvaluationFunction.SHANNON) {
 			evaluationFunction1DropDown.setSelectedIndex(3);
 		}
+
+		ai2TypeDropDown = new JComboBox<>();
+		ai2TypeDropDown.addItem("Minimax AI");
+		ai2TypeDropDown.addItem("Minimax Alpha-Beta Pruning AI");
+		ai2TypeDropDown.addItem("Random AI");
+
+		if (selectedAi2Type == AiType.MINIMAX_AI) {
+			ai2TypeDropDown.setSelectedIndex(0);
+		} else if (selectedAi2Type == AiType.MINIMAX_ALPHA_BETA_PRUNING_AI) {
+			ai2TypeDropDown.setSelectedIndex(1);
+		} else if (selectedAi2Type == AiType.RANDOM_AI) {
+			ai2TypeDropDown.setSelectedIndex(2);
+		}
+
+		ai2MaxDepthDropDown = new JComboBox<>();
+		ai2MaxDepthDropDown.addItem(1);
+		ai2MaxDepthDropDown.addItem(2);
+		ai2MaxDepthDropDown.addItem(3);
+		ai2MaxDepthDropDown.addItem(4);
+
+		ai2MaxDepthDropDown.setSelectedIndex(ai2MaxDepth);
 
 		evaluationFunction2DropDown = new JComboBox<>();
 		evaluationFunction2DropDown.addItem("Simplified");
@@ -287,10 +287,10 @@ public class SettingsFrame extends JFrame {
 		components.add(humanAllegianceDropDown);
 		components.add(gameModeDropDown);
 		components.add(ai1TypeDropDown);
-		components.add(ai2TypeDropDown);
 		components.add(ai1MaxDepthDropDown);
-		components.add(ai2MaxDepthDropDown);
 		components.add(evaluationFunction1DropDown);
+		components.add(ai2TypeDropDown);
+		components.add(ai2MaxDepthDropDown);
 		components.add(evaluationFunction2DropDown);
 		components.add(whiteSquareColorDropDown);
 		components.add(blackSquareColorDropDown);
@@ -358,12 +358,12 @@ public class SettingsFrame extends JFrame {
 							.replace(" ", "_"));
 					AiType ai1Type = AiType.valueOf(ai1TypeDropDown.getSelectedItem().toString().toUpperCase()
 							.replace(" ", "_").replace("-", "_"));
-					AiType ai2Type = AiType.valueOf(ai2TypeDropDown.getSelectedItem().toString().toUpperCase()
-							.replace(" ", "_").replace("-", "_"));
 					int ai1MaxDepth = (int) ai1MaxDepthDropDown.getSelectedItem();
-					int ai2MaxDepth = (int) ai2MaxDepthDropDown.getSelectedItem();
 					EvaluationFunction evaluationFunction1 = EvaluationFunction.valueOf(evaluationFunction1DropDown
 							.getSelectedItem().toString().toUpperCase());
+					AiType ai2Type = AiType.valueOf(ai2TypeDropDown.getSelectedItem().toString().toUpperCase()
+							.replace(" ", "_").replace("-", "_"));
+					int ai2MaxDepth = (int) ai2MaxDepthDropDown.getSelectedItem();
 					EvaluationFunction evaluationFunction2 = EvaluationFunction.valueOf(evaluationFunction2DropDown
 							.getSelectedItem().toString().toUpperCase());
 					int whiteSquareColorDropdownIndex = whiteSquareColorDropDown.getSelectedIndex();
@@ -398,10 +398,10 @@ public class SettingsFrame extends JFrame {
 					newGameParameters.setHumanAllegiance(humanAllegiance);
 					newGameParameters.setGameMode(gameMode);
 					newGameParameters.setAi1Type(ai1Type);
-					newGameParameters.setAi2Type(ai2Type);
 					newGameParameters.setAi1MaxDepth(ai1MaxDepth);
-					newGameParameters.setAi2MaxDepth(ai2MaxDepth);
 					newGameParameters.setEvaluationFunction1(evaluationFunction1);
+					newGameParameters.setAi2Type(ai2Type);
+					newGameParameters.setAi2MaxDepth(ai2MaxDepth);
 					newGameParameters.setEvaluationFunction2(evaluationFunction2);
 					newGameParameters.setWhiteSquareColor(whiteSquareColor);
 					newGameParameters.setBlackSquareColor(blackSquareColor);

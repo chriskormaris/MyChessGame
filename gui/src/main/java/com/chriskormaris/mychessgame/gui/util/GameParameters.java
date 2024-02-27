@@ -28,12 +28,11 @@ public class GameParameters {
 	private GameMode gameMode;
 
 	private AiType ai1Type;
-	private AiType ai2Type;
-
 	private int ai1MaxDepth;
-	private int ai2MaxDepth;
-
 	private EvaluationFunction evaluationFunction1;
+
+	private AiType ai2Type;
+	private int ai2MaxDepth;
 	private EvaluationFunction evaluationFunction2;
 
 	private Color whiteSquareColor;
@@ -66,12 +65,11 @@ public class GameParameters {
 
 		// Other values: AiType.RANDOM_AI
 		this.ai1Type = AiType.MINIMAX_AI;
-		this.ai2Type = AiType.MINIMAX_AI;
-
 		this.ai1MaxDepth = Constants.DEFAULT_MAX_DEPTH;
-		this.ai2MaxDepth = Constants.DEFAULT_MAX_DEPTH;
-
 		this.evaluationFunction1 = EvaluationFunction.SIMPLIFIED;
+
+		this.ai2Type = AiType.MINIMAX_AI;
+		this.ai2MaxDepth = Constants.DEFAULT_MAX_DEPTH;
 		this.evaluationFunction2 = EvaluationFunction.SIMPLIFIED;
 
 		// Other values: GuiConstants.BRIGHT_PINK
@@ -99,10 +97,10 @@ public class GameParameters {
 		this.humanAllegiance = otherGameParameters.getHumanAllegiance();
 		this.gameMode = otherGameParameters.getGameMode();
 		this.ai1Type = otherGameParameters.getAi1Type();
-		this.ai2Type = otherGameParameters.getAi2Type();
 		this.ai1MaxDepth = otherGameParameters.getAi1MaxDepth();
-		this.ai2MaxDepth = otherGameParameters.getAi2MaxDepth();
 		this.evaluationFunction1 = otherGameParameters.getEvaluationFunction1();
+		this.ai2Type = otherGameParameters.getAi2Type();
+		this.ai2MaxDepth = otherGameParameters.getAi2MaxDepth();
 		this.evaluationFunction2 = otherGameParameters.getEvaluationFunction2();
 		this.whiteSquareColor = otherGameParameters.getWhiteSquareColor();
 		this.blackSquareColor = otherGameParameters.getBlackSquareColor();
