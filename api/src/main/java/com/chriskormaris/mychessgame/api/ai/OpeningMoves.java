@@ -63,6 +63,7 @@ public class OpeningMoves {
 		WHITE_OPENING_MOVES.put("rnbqkbnr/pppp1ppp/8/8/4Pp2/8/PPPP2PP/RNBQKBNR w KQkq - 0 3", movesList);
 
 		movesList = new ArrayList<>();
+		movesList.add(new Move("F3", "E5"));  // C42 Petrov's defence
 		movesList.add(new Move("D2", "D4"));  // C43 Petrov, modern (Steinitz) attack
 		WHITE_OPENING_MOVES.put("rnbqkb1r/pppp1ppp/5n2/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3", movesList);
 
@@ -97,6 +98,10 @@ public class OpeningMoves {
 		movesList = new ArrayList<>();
 		movesList.add(new Move("B1", "C3"));  // B01 Scandinavian (centre counter) defence
 		WHITE_OPENING_MOVES.put("rnb1kbnr/ppp1pppp/8/3q4/8/8/PPPP1PPP/RNBQKBNR w KQkq - 0 3", movesList);
+
+		movesList = new ArrayList<>();
+		movesList.add(new Move("D1", "E2"));  // C42 Petrov, Damiano variation
+		WHITE_OPENING_MOVES.put("rnbqkb1r/pppp1ppp/8/4N3/4n3/8/PPPP1PPP/RNBQKB1R w KQkq - 0 4", movesList);
 	}
 
 	// Initialize Black opening moves.
@@ -191,13 +196,16 @@ public class OpeningMoves {
 		movesList = new ArrayList<>();
 		movesList.add(new Move("D5", "D8"));  // B01 Scandinavian (centre counter) defence
 		BLACK_OPENING_MOVES.put("rnb1kbnr/ppp1pppp/8/3q4/8/2N5/PPPP1PPP/R1BQKBNR b KQkq - 1 3", movesList);
-	}
 
+		movesList = new ArrayList<>();
+		movesList.add(new Move("D7", "D6"));  // C42 Petrov's defence
+		BLACK_OPENING_MOVES.put("rnbqkb1r/pppp1ppp/5n2/4N3/4P3/8/PPPP1PPP/RNBQKB1R b KQkq - 0 3", movesList);
+	}
 
 	// Returns null, if the "moveIndex" exceeds the size of "movesList",
 	// or if the "fenPosition" is not the key of any Map.
 	public static Move getNextMove(ChessBoard chessBoard) {
-		if (chessBoard.getHalfMoveNumber() > 6) return null;
+		if (chessBoard.getHalfMoveNumber() > 8) return null;
 
 		String fenPosition = FenUtils.getFenPositionFromChessBoard(chessBoard);
 
