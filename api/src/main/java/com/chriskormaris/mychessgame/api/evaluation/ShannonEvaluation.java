@@ -12,7 +12,7 @@ import com.chriskormaris.mychessgame.api.piece.Rook;
 
 // Shannon's Evaluation Function.
 // see: https://www.chessprogramming.org/Evaluation
-public class ShannonEvaluation extends Evaluation {
+public class ShannonEvaluation implements Evaluation {
 
 	private static final int PAWN_VALUE = 1;
 	private static final int KNIGHT_VALUE = 3;

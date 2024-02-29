@@ -13,9 +13,9 @@ import com.chriskormaris.mychessgame.api.piece.Rook;
 
 // Simplified Evaluation Function by Polish chess programmer Tomasz Michniewski.
 // see: https://www.chessprogramming.org/Simplified_Evaluation_Function
-public class SimplifiedEvaluation extends Evaluation {
+public class SimplifiedEvaluation implements Evaluation {
 
-	public int[][] PAWNS_SQUARES_TABLE = new int[][]{
+	private static final int[][] PAWN_SQUARE_TABLE = new int[][]{
 			{ 0,  0,   0,   0,   0,   0,  0,  0},
 			{50, 50,  50,  50,  50,  50, 50, 50},
 			{10, 10,  20,  30,  30,  20, 10, 10},
@@ -26,7 +26,7 @@ public class SimplifiedEvaluation extends Evaluation {
 			{ 0,  0,   0,   0,   0,   0,  0,  0}
 	};
 
-	public int[][] KNIGHTS_SQUARES_TABLE = new int[][]{
+	private static final int[][] KNIGHT_SQUARE_TABLE = new int[][]{
 			{-50, -40, -30, -30, -30, -30, -40, -50},
 			{-40, -20,   0,   0,   0,   0, -20, -40},
 			{-30,   0,  10,  15,  15,  10,   0, -30},
@@ -37,7 +37,7 @@ public class SimplifiedEvaluation extends Evaluation {
 			{-50, -40, -30, -30, -30, -30, -40, -50},
 	};
 
-	public int[][] BISHOPS_SQUARES_TABLE = new int[][]{
+	private static final int[][] BISHOP_SQUARE_TABLE = new int[][]{
 			{-20, -10, -10, -10, -10, -10, -10, -20},
 			{-10,   0,   0,   0,   0,   0,   0, -10},
 			{-10,   0,   5,  10,  10,   5,   0, -10},
@@ -48,7 +48,7 @@ public class SimplifiedEvaluation extends Evaluation {
 			{-20, -10, -10, -10, -10, -10, -10, -20},
 	};
 
-	public int[][] ROOKS_SQUARES_TABLE = new int[][]{
+	private static final int[][] ROOK_SQUARE_TABLE = new int[][]{
 			{ 0,  0,  0,  0,  0,  0,  0,  0},
 			{ 5, 10, 10, 10, 10, 10, 10,  5},
 			{-5,  0,  0,  0,  0,  0,  0, -5},
@@ -59,7 +59,7 @@ public class SimplifiedEvaluation extends Evaluation {
 			{ 0,  0,  0,  5,  5,  0,  0,  0}
 	};
 
-	public int[][] QUEEN_SQUARES_TABLE = new int[][]{
+	private static final int[][] QUEEN_SQUARE_TABLE = new int[][]{
 			{-20, -10, -10, -5, -5, -10, -10, -20},
 			{-10,   0,   0,  0,  0,   0,   0, -10},
 			{-10,   0,   5,  5,  5,   5,   0, -10},
@@ -70,7 +70,7 @@ public class SimplifiedEvaluation extends Evaluation {
 			{-20, -10, -10, -5, -5, -10, -10, -20}
 	};
 
-	public int[][] KING_SQUARES_TABLE_OPENING = new int[][]{
+	private static final int[][] MIDDLEGAME_KING_SQUARE_TABLE = new int[][]{
 			{-30, -40, -40, -50, -50, -40, -40, -30},
 			{-30, -40, -40, -50, -50, -40, -40, -30},
 			{-30, -40, -40, -50, -50, -40, -40, -30},
@@ -81,7 +81,7 @@ public class SimplifiedEvaluation extends Evaluation {
 			{ 20,  30,  10,   0,   0,  10,  30,  20}
 	};
 
-	public int[][] KING_SQUARES_TABLE_ENDGAME = new int[][]{
+	private static final int[][] ENDGAME_KING_SQUARE_TABLE = new int[][]{
 			{-50, -40, -30, -20, -20, -30, -40, -50},
 			{-30, -20, -10,   0,   0, -10, -20, -30},
 			{-30, -10,  20,  30,  30,  20, -10, -30},
@@ -92,19 +92,19 @@ public class SimplifiedEvaluation extends Evaluation {
 			{-50, -30, -30, -30, -30, -30, -30, -50}
 	};
 
-	public final int PAWN_CENTIPAWN_VALUE = 100;
-	public final int KNIGHT_CENTIPAWN_VALUE = 320;
-	public final int BISHOP_CENTIPAWN_VALUE = 330;
-	public final int ROOK_CENTIPAWN_VALUE = 500;
-	public final int QUEEN_CENTIPAWN_VALUE = 900;
-	public final int KING_CENTIPAWN_VALUE = 20000;
+	private static final int PAWN_CENTIPAWN_VALUE = 100;
+	private static final int KNIGHT_CENTIPAWN_VALUE = 320;
+	private static final int BISHOP_CENTIPAWN_VALUE = 330;
+	private static final int ROOK_CENTIPAWN_VALUE = 500;
+	private static final int QUEEN_CENTIPAWN_VALUE = 900;
+	private static final int KING_CENTIPAWN_VALUE = 20000;
 
 	private GamePhase getGamePhase(ChessBoard chessBoard, int halfMoveNumber) {
 		// if ((chessBoard.isEndGame()) && Constants.ENDGAME_MOVES_THRESHOLD * 2 <= halfMoveNumber) {
 		if ((chessBoard.isEndGame())) {
 			return GamePhase.ENDGAME;
 		} else {
-			return GamePhase.OPENING;
+			return GamePhase.OPENING_MIDDLEGAME;
 		}
 	}
 
@@ -127,20 +127,20 @@ public class SimplifiedEvaluation extends Evaluation {
 
 	private int getPieceSquareValue(int row, int column, ChessPiece chessPiece, GamePhase gamePhase) {
 		if (chessPiece instanceof Pawn) {
-			return PAWNS_SQUARES_TABLE[row][column];
+			return PAWN_SQUARE_TABLE[row][column];
 		} else if (chessPiece instanceof Knight) {
-			return KNIGHTS_SQUARES_TABLE[row][column];
+			return KNIGHT_SQUARE_TABLE[row][column];
 		} else if (chessPiece instanceof Bishop) {
-			return BISHOPS_SQUARES_TABLE[row][column];
+			return BISHOP_SQUARE_TABLE[row][column];
 		} else if (chessPiece instanceof Rook) {
-			return ROOKS_SQUARES_TABLE[row][column];
+			return ROOK_SQUARE_TABLE[row][column];
 		} else if (chessPiece instanceof Queen) {
-			return QUEEN_SQUARES_TABLE[row][column];
+			return QUEEN_SQUARE_TABLE[row][column];
 		} else if (chessPiece instanceof King) {
-			if (gamePhase == GamePhase.OPENING) {
-				return KING_SQUARES_TABLE_OPENING[row][column];
+			if (gamePhase == GamePhase.OPENING_MIDDLEGAME) {
+				return MIDDLEGAME_KING_SQUARE_TABLE[row][column];
 			} else if (gamePhase == GamePhase.ENDGAME) {
-				return KING_SQUARES_TABLE_ENDGAME[row][column];
+				return ENDGAME_KING_SQUARE_TABLE[row][column];
 			}
 		}
 		return 0;

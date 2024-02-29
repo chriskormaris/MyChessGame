@@ -16,7 +16,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Utilities {
 
-
 	public static ChessPiece getChessPiece(char pieceChar) {
 		if (pieceChar == Constants.WHITE_PAWN) {
 			return new Pawn(Allegiance.WHITE);
@@ -51,7 +50,6 @@ public final class Utilities {
 		}
 		return new EmptySquare();
 	}
-
 
 	public static char getPieceChar(ChessPiece chessPiece) {
 		if (chessPiece.getAllegiance() == Allegiance.WHITE) {
@@ -89,7 +87,6 @@ public final class Utilities {
 		return '-';
 	}
 
-
 	public static ChessPiece[][] copyGameBoard(ChessPiece[][] gameBoard) {
 		int n1 = gameBoard.length;
 		int n2 = gameBoard[0].length;
@@ -100,27 +97,6 @@ public final class Utilities {
 		}
 		return newGameBoard;
 	}
-
-
-	// At the start of the game, the sum of all pieces' "gamePhase" values should be equal to 24.
-	// In case of early promotion, the sum could be more than 24.
-	public static int getPieceGamePhaseValue(ChessPiece chessPiece) {
-		if (chessPiece instanceof Pawn) {
-			return Constants.PAWN_GAME_PHASE_VALUE;
-		} else if (chessPiece instanceof Knight) {
-			return Constants.KNIGHT_GAME_PHASE_VALUE;
-		} else if (chessPiece instanceof Bishop) {
-			return Constants.BISHOP_GAME_PHASE_VALUE;
-		} else if (chessPiece instanceof Rook) {
-			return Constants.ROOK_GAME_PHASE_VALUE;
-		} else if (chessPiece instanceof Queen) {
-			return Constants.QUEEN_GAME_PHASE_VALUE;
-		} else if (chessPiece instanceof King) {
-			return Constants.KING_GAME_PHASE_VALUE;
-		}
-		return 0;
-	}
-
 
 	public static int getScoreValue(ChessPiece chessPiece) {
 		int score = 0;
@@ -144,6 +120,5 @@ public final class Utilities {
 		}
 		return score;
 	}
-
 
 }

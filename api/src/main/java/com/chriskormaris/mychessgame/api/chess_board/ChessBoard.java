@@ -1090,9 +1090,9 @@ public class ChessBoard {
 		}
 		int numOfWhiteMajorPieces = numOfWhiteQueens + numOfWhiteRooks;
 		int numOfBlackMajorPieces = numOfBlackQueens + numOfBlackRooks;
-		boolean isWhiteEndGame = numOfWhiteQueens == 0 || numOfWhiteMajorPieces <= 1 && numOfWhiteMinorPieces <= 1;
-		boolean isBlackEndGame = numOfBlackQueens == 0 || numOfBlackMajorPieces <= 1 && numOfBlackMinorPieces <= 1;
-		return isWhiteEndGame && isBlackEndGame;
+		boolean isWhiteEndgame = numOfWhiteQueens == 0 || numOfWhiteMajorPieces <= 1 && numOfWhiteMinorPieces <= 1;
+		boolean isBlackEndgame = numOfBlackQueens == 0 || numOfBlackMajorPieces <= 1 && numOfBlackMinorPieces <= 1;
+		return isWhiteEndgame && isBlackEndgame;
 	}
 
 	// We are comparing FEN positions, but without checking the half-move clock and the full-move number.

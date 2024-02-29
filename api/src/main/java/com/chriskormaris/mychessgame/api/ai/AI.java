@@ -5,7 +5,7 @@ import com.chriskormaris.mychessgame.api.chess_board.Move;
 
 public abstract class AI {
 
-	// Variable that holds which player plays.
+	// Variable that holds which player plays as AI.
 	private final boolean aiPlayer;
 
 	public AI(boolean aiPlayer) {

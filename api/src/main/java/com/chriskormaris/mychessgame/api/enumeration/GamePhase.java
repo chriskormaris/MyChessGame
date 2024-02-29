@@ -1,6 +1,6 @@
 package com.chriskormaris.mychessgame.api.enumeration;
 
 public enum GamePhase {
-	OPENING,
+	OPENING_MIDDLEGAME,
 	ENDGAME
 }
