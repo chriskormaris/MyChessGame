@@ -454,6 +454,7 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 				&& (startingPiece.getAllegiance() == Allegiance.WHITE && rowEnd == 0
 				|| startingPiece.getAllegiance() == Allegiance.BLACK && rowEnd == 7)) {
 			ChessPiece promotedPiece = new Queen(startingPiece.getAllegiance(), true);
+
 			// If AI plays, automatically choose the best promotion piece, based on the best outcome.
 			if (isAiMove) {
 				chessBoard.automaticPawnPromotion(startingPiece, positionEnd, true);
@@ -475,6 +476,7 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 					);
 				}
 			}
+
 			// If human player plays, select which promotion piece you want and display it on the GUI.
 			else {
 				removePieceFromPosition(positionEnd);
