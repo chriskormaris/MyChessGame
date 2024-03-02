@@ -22,11 +22,6 @@ public class Constants {
 
 	// public static final int ENDGAME_MOVES_THRESHOLD = 24;
 
-	public static final long MINIMAX_AI_MOVE_MILLISECONDS = 50L;
-	public static final long RANDOM_AI_MOVE_MILLISECONDS = 250L;
-
-	public static final int DEFAULT_TIME_LIMIT_SECONDS = 600;
-
 	public static final boolean WHITE = true;
 	public static final boolean BLACK = false;
 

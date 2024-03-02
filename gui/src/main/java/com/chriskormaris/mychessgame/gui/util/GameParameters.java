@@ -86,7 +86,7 @@ public class GameParameters {
 		this.showNextMoves = true;
 
 		this.enableTimeLimit = true;
-		this.timeLimitSeconds = Constants.DEFAULT_TIME_LIMIT_SECONDS;
+		this.timeLimitSeconds = GuiConstants.DEFAULT_TIME_LIMIT_SECONDS;
 	}
 
 	// Copy constructor

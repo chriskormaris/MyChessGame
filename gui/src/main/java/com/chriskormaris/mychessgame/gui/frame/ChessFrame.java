@@ -617,9 +617,9 @@ public abstract class ChessFrame extends JFrame {
 
                 try {
                     if (gameParameters.getAi1Type() == AiType.MINIMAX_AI) {
-                        Thread.sleep(Constants.MINIMAX_AI_MOVE_MILLISECONDS);
+                        Thread.sleep(GuiConstants.MINIMAX_AI_MOVE_MILLISECONDS);
                     } else if (gameParameters.getAi1Type() == AiType.RANDOM_AI) {
-                        Thread.sleep(Constants.RANDOM_AI_MOVE_MILLISECONDS);
+                        Thread.sleep(GuiConstants.RANDOM_AI_MOVE_MILLISECONDS);
                     }
                 } catch (InterruptedException ex) {
                     throw new RuntimeException(ex);
@@ -631,9 +631,9 @@ public abstract class ChessFrame extends JFrame {
             if (!isGameOver) {
                 try {
                     if (gameParameters.getAi1Type() == AiType.MINIMAX_AI) {
-                        Thread.sleep(Constants.MINIMAX_AI_MOVE_MILLISECONDS);
+                        Thread.sleep(GuiConstants.MINIMAX_AI_MOVE_MILLISECONDS);
                     } else if (gameParameters.getAi1Type() == AiType.RANDOM_AI) {
-                        Thread.sleep(Constants.RANDOM_AI_MOVE_MILLISECONDS);
+                        Thread.sleep(GuiConstants.RANDOM_AI_MOVE_MILLISECONDS);
                     }
                 } catch (InterruptedException ex) {
                     throw new RuntimeException(ex);
