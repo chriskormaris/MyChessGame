@@ -907,41 +907,53 @@ public abstract class ChessFrame extends JFrame {
     }
 
     void initializeTimers() {
-        whiteTimer = new Timer(1000, e -> {
-            if (chessBoard.whitePlays() && !chessBoard.isTerminalState() && !timeUp) {
-                if (gameParameters.getTimeLimitSeconds() - whiteElapsedSeconds == 0) {
-                    timeUp = true;
-                    int dialogResult = JOptionPane.showConfirmDialog(
-                            this,
-                            "Time is up! Black wins! Start a new game?",
-                            "Out of Time",
-                            JOptionPane.YES_NO_OPTION
-                    );
-                    startNewGameOrNot(dialogResult);
+        if (whiteTimer == null) {
+            whiteTimer = new Timer(1000, e -> {
+                if (chessBoard.whitePlays() && !chessBoard.isTerminalState() && !timeUp) {
+                    if (gameParameters.getTimeLimitSeconds() - whiteElapsedSeconds == 0) {
+                        timeUp = true;
+                        whiteTimer.stop();
+                        int dialogResult = JOptionPane.showConfirmDialog(
+                                this,
+                                "Time is up! Black wins! Start a new game?",
+                                "Out of Time",
+                                JOptionPane.YES_NO_OPTION
+                        );
+                        startNewGameOrNot(dialogResult);
+                    } else {
+                        whiteElapsedSeconds++;
+                        setScoreAndTimeMessage();
+                    }
                 }
-                whiteElapsedSeconds++;
-                setScoreAndTimeMessage();
-            }
-        });
-        whiteTimer.start();
+            });
+            whiteTimer.start();
+        } else {
+            whiteTimer.restart();
+        }
 
-        blackTimer = new Timer(1000, e -> {
-            if (chessBoard.blackPlays() && !chessBoard.isTerminalState() && !timeUp) {
-                if (gameParameters.getTimeLimitSeconds() - blackElapsedSeconds == 0) {
-                    timeUp = true;
-                    int dialogResult = JOptionPane.showConfirmDialog(
-                            this,
-                            "Time is up! White wins! Start a new game?",
-                            "Out of Time",
-                            JOptionPane.YES_NO_OPTION
-                    );
-                    startNewGameOrNot(dialogResult);
+        if (blackTimer == null) {
+            blackTimer = new Timer(1000, e -> {
+                if (chessBoard.blackPlays() && !chessBoard.isTerminalState() && !timeUp) {
+                    if (gameParameters.getTimeLimitSeconds() - blackElapsedSeconds == 0) {
+                        timeUp = true;
+                        blackTimer.stop();
+                        int dialogResult = JOptionPane.showConfirmDialog(
+                                this,
+                                "Time is up! White wins! Start a new game?",
+                                "Out of Time",
+                                JOptionPane.YES_NO_OPTION
+                        );
+                        startNewGameOrNot(dialogResult);
+                    } else {
+                        blackElapsedSeconds++;
+                        setScoreAndTimeMessage();
+                    }
                 }
-                blackElapsedSeconds++;
-                setScoreAndTimeMessage();
-            }
-        });
-        blackTimer.start();
+            });
+            blackTimer.start();
+        } else {
+            blackTimer.restart();
+        }
     }
 
     abstract void initializeGUI();

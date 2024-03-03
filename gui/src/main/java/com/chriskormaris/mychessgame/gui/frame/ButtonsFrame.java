@@ -411,13 +411,9 @@ public class ButtonsFrame extends ChessFrame {
 
 		whiteElapsedSeconds = 0;
 		blackElapsedSeconds = 0;
+		timeUp = false;
 		if (gameParameters.getGameMode() == GameMode.HUMAN_VS_HUMAN && gameParameters.isEnableTimeLimit()) {
-			if (whiteTimer == null || blackTimer == null) {
-				initializeTimers();
-			} else {
-				whiteTimer.restart();
-				blackTimer.restart();
-			}
+			initializeTimers();
 		} else {
 			if (whiteTimer != null) {
 				whiteTimer.stop();
@@ -426,8 +422,6 @@ public class ButtonsFrame extends ChessFrame {
 				blackTimer.stop();
 			}
 		}
-
-		timeUp = false;
 	}
 
 	// This method is only called from inside a chess board button listener.

@@ -406,13 +406,9 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 
 		whiteElapsedSeconds = 0;
 		blackElapsedSeconds = 0;
+		timeUp = false;
 		if (gameParameters.getGameMode() == GameMode.HUMAN_VS_HUMAN && gameParameters.isEnableTimeLimit()) {
-			if (whiteTimer == null || blackTimer == null) {
-				initializeTimers();
-			} else {
-				whiteTimer.restart();
-				blackTimer.restart();
-			}
+			initializeTimers();
 		} else {
 			if (whiteTimer != null) {
 				whiteTimer.stop();
