@@ -517,6 +517,7 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 				} else if (value.equals("Knight")) {
 					promotedPiece = new Knight(startingPiece.getAllegiance(), true);
 				}
+
 				chessBoard.getPiecesToPlace().put(positionEnd, promotedPiece);
 			}
 
@@ -527,6 +528,10 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 				score += Constants.PAWN_SCORE_VALUE;
 			}
 		}
+
+		// Increase halfMove.
+		chessBoard.setHalfMoveNumber(chessBoard.getHalfMoveNumber() + 1);
+		chessBoard.setPlayer(chessBoard.getNextPlayer());
 
 		// If a chessPiece capture has occurred.
 		if (startingPiece.getAllegiance() != endSquare.getAllegiance() && !(endSquare instanceof EmptySquare)) {

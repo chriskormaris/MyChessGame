@@ -594,6 +594,7 @@ public class ButtonsFrame extends ChessFrame {
 				} else if (value.equals("Knight")) {
 					promotedPiece = new Knight(startingPiece.getAllegiance(), true);
 				}
+
 				chessBoard.getPiecesToPlace().put(positionEnd, promotedPiece);
 			}
 
@@ -604,6 +605,10 @@ public class ButtonsFrame extends ChessFrame {
 				score += Constants.PAWN_SCORE_VALUE;
 			}
 		}
+
+		// Increase halfMove.
+		chessBoard.setHalfMoveNumber(chessBoard.getHalfMoveNumber() + 1);
+		chessBoard.setPlayer(chessBoard.getNextPlayer());
 
 		// If a ChessPiece capture has occurred.
 		if (startingPiece.getAllegiance() != endSquare.getAllegiance() && !(endSquare instanceof EmptySquare)) {

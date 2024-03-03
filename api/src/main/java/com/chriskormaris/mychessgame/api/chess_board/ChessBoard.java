@@ -467,10 +467,6 @@ public class ChessBoard {
 			else {
 				halfMoveClock = 0;
 			}
-
-			// Increase halfMove.
-			halfMoveNumber++;
-			player = getNextPlayer();
 		}
 	}
 
@@ -544,6 +540,10 @@ public class ChessBoard {
 						Move move = new Move(startingPosition, nextPosition);
 
 						child.makeMove(move, false);
+
+						// Increase halfMove.
+						child.setHalfMoveNumber(child.getHalfMoveNumber() + 1);
+						child.setPlayer(child.getNextPlayer());
 
 						child.getLastMove().setValue(child.evaluate(minimaxAI));
 						children.add(child);
