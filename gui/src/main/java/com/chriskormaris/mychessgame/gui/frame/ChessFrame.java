@@ -109,10 +109,10 @@ public abstract class ChessFrame extends JFrame {
     // This variable is used for the implementation of "Human vs AI".
     public AI ai;
 
-    Timer whitePlayerTimer;
-    Timer blackPlayerTimer;
-    int whitePlayerElapsedSeconds;
-    int blackPlayerElapsedSeconds;
+    Timer whiteTimer;
+    Timer blackTimer;
+    int whiteElapsedSeconds;
+    int blackElapsedSeconds;
     boolean timeUp;
 
     KeyListener undoRedoKeyListener = new KeyListener() {
@@ -391,9 +391,9 @@ public abstract class ChessFrame extends JFrame {
         }
 
         if (gameParameters.getGameMode() == GameMode.HUMAN_VS_HUMAN && gameParameters.isEnableTimeLimit()) {
-            int whiteRemainingSeconds = gameParameters.getTimeLimitSeconds() - whitePlayerElapsedSeconds;
+            int whiteRemainingSeconds = gameParameters.getTimeLimitSeconds() - whiteElapsedSeconds;
             message += ", White time: " + whiteRemainingSeconds + "''";
-            int blackRemainingSeconds = gameParameters.getTimeLimitSeconds() - blackPlayerElapsedSeconds;
+            int blackRemainingSeconds = gameParameters.getTimeLimitSeconds() - blackElapsedSeconds;
             message += ", Black time: " + blackRemainingSeconds + "''";
             capturedPiecesImages[15].setText(message);
         }
@@ -907,9 +907,9 @@ public abstract class ChessFrame extends JFrame {
     }
 
     void initializeTimers() {
-        whitePlayerTimer = new Timer(1000, e -> {
+        whiteTimer = new Timer(1000, e -> {
             if (chessBoard.whitePlays() && !chessBoard.isTerminalState() && !timeUp) {
-                if (gameParameters.getTimeLimitSeconds() - whitePlayerElapsedSeconds == 0) {
+                if (gameParameters.getTimeLimitSeconds() - whiteElapsedSeconds == 0) {
                     timeUp = true;
                     int dialogResult = JOptionPane.showConfirmDialog(
                             this,
@@ -919,15 +919,15 @@ public abstract class ChessFrame extends JFrame {
                     );
                     startNewGameOrNot(dialogResult);
                 }
-                whitePlayerElapsedSeconds++;
+                whiteElapsedSeconds++;
                 setScoreAndTimeMessage();
             }
         });
-        whitePlayerTimer.start();
+        whiteTimer.start();
 
-        blackPlayerTimer = new Timer(1000, e -> {
+        blackTimer = new Timer(1000, e -> {
             if (chessBoard.blackPlays() && !chessBoard.isTerminalState() && !timeUp) {
-                if (gameParameters.getTimeLimitSeconds() - blackPlayerElapsedSeconds == 0) {
+                if (gameParameters.getTimeLimitSeconds() - blackElapsedSeconds == 0) {
                     timeUp = true;
                     int dialogResult = JOptionPane.showConfirmDialog(
                             this,
@@ -937,11 +937,11 @@ public abstract class ChessFrame extends JFrame {
                     );
                     startNewGameOrNot(dialogResult);
                 }
-                blackPlayerElapsedSeconds++;
+                blackElapsedSeconds++;
                 setScoreAndTimeMessage();
             }
         });
-        blackPlayerTimer.start();
+        blackTimer.start();
     }
 
     abstract void initializeGUI();

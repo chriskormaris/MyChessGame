@@ -409,21 +409,21 @@ public class ButtonsFrame extends ChessFrame {
 
 		isGameOver = false;
 
-		whitePlayerElapsedSeconds = 0;
-		blackPlayerElapsedSeconds = 0;
+		whiteElapsedSeconds = 0;
+		blackElapsedSeconds = 0;
 		if (gameParameters.getGameMode() == GameMode.HUMAN_VS_HUMAN && gameParameters.isEnableTimeLimit()) {
-			if (whitePlayerTimer == null || blackPlayerTimer == null) {
+			if (whiteTimer == null || blackTimer == null) {
 				initializeTimers();
 			} else {
-				whitePlayerTimer.restart();
-				blackPlayerTimer.restart();
+				whiteTimer.restart();
+				blackTimer.restart();
 			}
 		} else {
-			if (whitePlayerTimer != null) {
-				whitePlayerTimer.stop();
+			if (whiteTimer != null) {
+				whiteTimer.stop();
 			}
-			if (blackPlayerTimer != null) {
-				blackPlayerTimer.stop();
+			if (blackTimer != null) {
+				blackTimer.stop();
 			}
 		}
 
