@@ -238,8 +238,6 @@ public class ButtonsFrame extends ChessFrame {
 			resetScore();
 			setScoreAndTimeMessage();
 
-			setMoveMessage();
-
 			for (int i = 0; i < 31; i++) {
 				capturedPiecesPanel.add(capturedPiecesImages[i]);
 			}
@@ -255,7 +253,9 @@ public class ButtonsFrame extends ChessFrame {
 				undoItem.setEnabled(true);
 			}
 
-			checkForGameOver();
+			if (!checkForGameOver()) {
+				setMoveMessage();
+			}
 		}
 	}
 
@@ -470,7 +470,6 @@ public class ButtonsFrame extends ChessFrame {
 				makeDisplayMove(move, false);
 
 				if (checkForGameOver()) {
-					setMoveMessage();
 					return;
 				} else {
 					setMoveMessage();

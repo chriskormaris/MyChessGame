@@ -267,8 +267,6 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 			resetScore();
 			setScoreAndTimeMessage();
 
-			setMoveMessage();
-
 			if (redoChessBoards.isEmpty()) {
 				redoItem.setEnabled(false);
 			}
@@ -280,7 +278,9 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 				undoItem.setEnabled(true);
 			}
 
-			checkForGameOver();
+			if (!checkForGameOver()) {
+				setMoveMessage();
+			}
 		}
 	}
 
@@ -890,7 +890,6 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 			makeDisplayMove(move, false);
 
 			if (checkForGameOver()) {
-				setMoveMessage();
 				return;
 			} else {
 				setMoveMessage();

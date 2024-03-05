@@ -581,8 +581,9 @@ public abstract class ChessFrame extends JFrame {
 
         makeDisplayMove(aiMove, true);
 
-        checkForGameOver();
-        setMoveMessage();
+        if (!checkForGameOver()) {
+            setMoveMessage();
+        }
     }
 
     void playAiVsAi() {
