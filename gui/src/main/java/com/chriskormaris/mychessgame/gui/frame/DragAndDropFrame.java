@@ -109,14 +109,14 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 		guiPanel.setLayout(new BoxLayout(guiPanel, BoxLayout.Y_AXIS));
 
 		initializeMoveTextPaneBar();
-		setMoveMessage();
+		setMoveText();
 
 		initializeChessPanel();
 
 		initializeCapturedPiecesPanel();
 		initializeCapturedPiecesImages();
 
-		setScoreAndTimeMessage();
+		setScoreAndTimeText();
 	}
 
 	@Override
@@ -217,9 +217,9 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 			resetCapturedPiecesPanel();
 
 			resetScore();
-			setScoreAndTimeMessage();
+			setScoreAndTimeText();
 
-			setMoveMessage();
+			setMoveText();
 
 			System.out.println();
 			System.out.println(chessBoard);
@@ -265,7 +265,7 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 			resetCapturedPiecesPanel();
 
 			resetScore();
-			setScoreAndTimeMessage();
+			setScoreAndTimeText();
 
 			if (redoChessBoards.isEmpty()) {
 				redoItem.setEnabled(false);
@@ -279,7 +279,7 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 			}
 
 			if (!checkForGameOver()) {
-				setMoveMessage();
+				setMoveText();
 			}
 		}
 	}
@@ -330,7 +330,7 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 
 		initializeAI();
 
-		setMoveMessage();
+		setMoveText();
 
 		System.out.println();
 		System.out.println(chessBoard);
@@ -418,7 +418,7 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 			}
 		}
 
-		setMoveMessage();
+		setMoveText();
 	}
 
 	@Override
@@ -557,7 +557,7 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 
 		chessBoard.setThreats();
 
-		setScoreAndTimeMessage();
+		setScoreAndTimeText();
 
 		System.out.println();
 		System.out.println(chessBoard);
@@ -892,7 +892,7 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 			if (checkForGameOver()) {
 				return;
 			} else {
-				setMoveMessage();
+				setMoveText();
 			}
 
 			if (gameParameters.isEnableSounds()) {

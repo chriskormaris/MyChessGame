@@ -360,42 +360,42 @@ public abstract class ChessFrame extends JFrame {
         }
     }
 
-    void setMoveMessage() {
+    void setMoveText() {
         if (chessBoard.getHalfMoveNumber() == 1) {
             moveTextPane.setText(GuiConstants.FIRST_MOVE_TEXT);
         } else {
-            String moveMessage = "Move: " + (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2) + ". ";
-            moveMessage += (chessBoard.whitePlays()) ? "White plays." : "Black plays.";
+            String moveText = "Move: " + (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2) + ". ";
+            moveText += (chessBoard.whitePlays()) ? "White plays." : "Black plays.";
 
             if (chessBoard.whitePlays() && chessBoard.isWhiteKingInCheck()) {
-                moveMessage += " White King is in check!";
+                moveText += " White King is in check!";
             } else if (chessBoard.blackPlays() && chessBoard.isBlackKingInCheck()) {
-                moveMessage += " Black King is in check!";
+                moveText += " Black King is in check!";
             }
 
-            moveTextPane.setText(moveMessage);
+            moveTextPane.setText(moveText);
         }
     }
 
-    void setScoreAndTimeMessage() {
-        String message;
+    void setScoreAndTimeText() {
+        String text;
         if (score > 0) {
-            message = "White: +" + score;
-            capturedPiecesImages[15].setText(message);
+            text = "White: +" + score;
+            capturedPiecesImages[15].setText(text);
         } else if (score < 0) {
-            message = "Black: +" + (-score);
-            capturedPiecesImages[15].setText(message);
+            text = "Black: +" + (-score);
+            capturedPiecesImages[15].setText(text);
         } else {
-            message = GuiConstants.ZERO_SCORE_TEXT;
-            capturedPiecesImages[15].setText(message);
+            text = GuiConstants.ZERO_SCORE_TEXT;
+            capturedPiecesImages[15].setText(text);
         }
 
         if (gameParameters.getGameMode() == GameMode.HUMAN_VS_HUMAN && gameParameters.isEnableTimeLimit()) {
             int whiteRemainingSeconds = gameParameters.getTimeLimitSeconds() - whiteElapsedSeconds;
-            message += ", White time: " + whiteRemainingSeconds + "''";
+            text += ", White time: " + whiteRemainingSeconds + "''";
             int blackRemainingSeconds = gameParameters.getTimeLimitSeconds() - blackElapsedSeconds;
-            message += ", Black time: " + blackRemainingSeconds + "''";
-            capturedPiecesImages[15].setText(message);
+            text += ", Black time: " + blackRemainingSeconds + "''";
+            capturedPiecesImages[15].setText(text);
         }
     }
 
@@ -519,7 +519,7 @@ public abstract class ChessFrame extends JFrame {
 
         incrementCapturedPiecesCounter(endSquare.getAllegiance());
 
-        setScoreAndTimeMessage();
+        setScoreAndTimeText();
     }
 
     void incrementCapturedPiecesCounter(Allegiance allegiance) {
@@ -582,7 +582,7 @@ public abstract class ChessFrame extends JFrame {
         makeDisplayMove(aiMove, true);
 
         if (!checkForGameOver()) {
-            setMoveMessage();
+            setMoveText();
         }
     }
 
@@ -667,9 +667,9 @@ public abstract class ChessFrame extends JFrame {
         if (chessBoard.blackPlays()) {
             chessBoard.checkForWhiteCheckmate();
             if (chessBoard.getGameResult() == GameResult.WHITE_CHECKMATE) {
-                String moveMessage = "Move: "
+                String moveText = "Move: "
                         + (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2) + ". Checkmate! White wins!";
-                moveTextPane.setText(moveMessage);
+                moveTextPane.setText(moveText);
 
                 if (gameParameters.isEnableSounds()) {
                     SoundUtils.playCheckmateSound();
@@ -692,9 +692,9 @@ public abstract class ChessFrame extends JFrame {
         else {
             chessBoard.checkForBlackCheckmate();
             if (chessBoard.getGameResult() == GameResult.BLACK_CHECKMATE) {
-                String moveMessage = "Move: "
+                String moveText = "Move: "
                         + (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2) + ". Checkmate! Black wins!";
-                moveTextPane.setText(moveMessage);
+                moveTextPane.setText(moveText);
 
                 if (gameParameters.isEnableSounds()) {
                     SoundUtils.playCheckmateSound();
@@ -719,10 +719,10 @@ public abstract class ChessFrame extends JFrame {
         if (chessBoard.whitePlays()) {
             chessBoard.checkForWhiteStalemateDraw();
             if (chessBoard.getGameResult() == GameResult.WHITE_STALEMATE_DRAW) {
-                String moveMessage = "Move: "
+                String moveText = "Move: "
                         + (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2)
                         + ". Stalemate! No legal moves for White exist.";
-                moveTextPane.setText(moveMessage);
+                moveTextPane.setText(moveText);
 
                 int dialogResult = JOptionPane.showConfirmDialog(
                         this,
@@ -741,10 +741,10 @@ public abstract class ChessFrame extends JFrame {
         else {
             chessBoard.checkForBlackStalemateDraw();
             if (chessBoard.getGameResult() == GameResult.BLACK_STALEMATE_DRAW) {
-                String moveMessage = "Move: "
+                String moveText = "Move: "
                         + (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2)
                         + ". Stalemate! No legal moves for Black exist.";
-                moveTextPane.setText(moveMessage);
+                moveTextPane.setText(moveText);
 
                 int dialogResult = JOptionPane.showConfirmDialog(
                         this,
@@ -761,10 +761,10 @@ public abstract class ChessFrame extends JFrame {
 
         /* Insufficient checkmate material draw implementation. */
         if (chessBoard.checkForInsufficientMatingMaterialDraw()) {
-            String moveMessage = "Move: "
+            String moveText = "Move: "
                     + (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2)
                     + ". It is a draw.";
-            moveTextPane.setText(moveMessage);
+            moveTextPane.setText(moveText);
 
             int dialogResult = JOptionPane.showConfirmDialog(
                     this,
@@ -780,10 +780,10 @@ public abstract class ChessFrame extends JFrame {
 
         // 75 full-moves without a Chess piece capture Draw implementation.
         if (chessBoard.checkForUnconditionalNoCaptureDraw()) {
-            String moveMessage = "Move: "
+            String moveText = "Move: "
                     + (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2)
                     + ". It is a draw.";
-            moveTextPane.setText(moveMessage);
+            moveTextPane.setText(moveText);
 
             int dialogResult = JOptionPane.showConfirmDialog(
                     this,
@@ -825,10 +825,10 @@ public abstract class ChessFrame extends JFrame {
         // at any time in the game, not necessarily successively.
         if (chessBoard.checkForThreefoldRepetitionDraw()) {
             if (chessBoard.getGameResult() == GameResult.FIVEFOLD_REPETITION_DRAW) {
-                String moveMessage = "Move: "
+                String moveText = "Move: "
                         + (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2)
                         + ". It is a draw.";
-                moveTextPane.setText(moveMessage);
+                moveTextPane.setText(moveText);
 
                 int dialogResult = JOptionPane.showConfirmDialog(
                         this,
@@ -869,10 +869,10 @@ public abstract class ChessFrame extends JFrame {
     }
 
     private void showDeclareDrawDialog() {
-        String moveMessage = "Move: "
+        String moveText = "Move: "
                 + (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2)
                 + ". It is a draw.";
-        moveTextPane.setText(moveMessage);
+        moveTextPane.setText(moveText);
 
         int dialogResult = JOptionPane.showConfirmDialog(
                 this,
@@ -923,7 +923,7 @@ public abstract class ChessFrame extends JFrame {
                         startNewGameOrNot(dialogResult);
                     } else {
                         whiteElapsedSeconds++;
-                        setScoreAndTimeMessage();
+                        setScoreAndTimeText();
                     }
                 }
             });
@@ -947,7 +947,7 @@ public abstract class ChessFrame extends JFrame {
                         startNewGameOrNot(dialogResult);
                     } else {
                         blackElapsedSeconds++;
-                        setScoreAndTimeMessage();
+                        setScoreAndTimeText();
                     }
                 }
             });

@@ -96,7 +96,7 @@ public class ButtonsFrame extends ChessFrame {
 		guiPanel.setLayout(new BoxLayout(guiPanel, BoxLayout.Y_AXIS));
 
 		initializeMoveTextPaneBar();
-		setMoveMessage();
+		setMoveText();
 
 		initializeChessButtons();
 		initializeChessPanel();
@@ -104,7 +104,7 @@ public class ButtonsFrame extends ChessFrame {
 		initializeCapturedPiecesPanel();
 		initializeCapturedPiecesImages();
 
-		setScoreAndTimeMessage();
+		setScoreAndTimeText();
 	}
 
 	@Override
@@ -186,9 +186,9 @@ public class ButtonsFrame extends ChessFrame {
 			resetCapturedPiecesPanel();
 
 			resetScore();
-			setScoreAndTimeMessage();
+			setScoreAndTimeText();
 
-			setMoveMessage();
+			setMoveText();
 
 			System.out.println();
 			System.out.println(chessBoard);
@@ -236,7 +236,7 @@ public class ButtonsFrame extends ChessFrame {
 			resetCapturedPiecesPanel();
 
 			resetScore();
-			setScoreAndTimeMessage();
+			setScoreAndTimeText();
 
 			for (int i = 0; i < 31; i++) {
 				capturedPiecesPanel.add(capturedPiecesImages[i]);
@@ -254,7 +254,7 @@ public class ButtonsFrame extends ChessFrame {
 			}
 
 			if (!checkForGameOver()) {
-				setMoveMessage();
+				setMoveText();
 			}
 		}
 	}
@@ -346,7 +346,7 @@ public class ButtonsFrame extends ChessFrame {
 
 		initializeAI();
 
-		setMoveMessage();
+		setMoveText();
 
 		System.out.println();
 		System.out.println(chessBoard);
@@ -472,7 +472,7 @@ public class ButtonsFrame extends ChessFrame {
 				if (checkForGameOver()) {
 					return;
 				} else {
-					setMoveMessage();
+					setMoveText();
 				}
 
 				if (gameParameters.isEnableSounds()) {
@@ -630,7 +630,7 @@ public class ButtonsFrame extends ChessFrame {
 
 		chessBoard.setThreats();
 
-		setScoreAndTimeMessage();
+		setScoreAndTimeText();
 
 		System.out.println();
 		System.out.println(chessBoard);
