@@ -74,7 +74,7 @@ public class OpeningMoves {
 
 		movesList = new ArrayList<>();
 		movesList.add(new Move("C1", "F4"));  // D00 Queen's pawn, Mason variation
-		movesList.add(new Move("C2", "F4"));  // D06 Queen's Gambit
+		movesList.add(new Move("C2", "C4"));  // D06 Queen's Gambit
 		WHITE_OPENING_MOVES.put("rnbqkbnr/ppp1pppp/8/3p4/3P4/8/PPP1PPPP/RNBQKBNR w KQkq d6 0 2", movesList);
 
 		movesList = new ArrayList<>();
@@ -102,6 +102,22 @@ public class OpeningMoves {
 		movesList = new ArrayList<>();
 		movesList.add(new Move("D1", "E2"));  // C42 Petrov, Damiano variation
 		WHITE_OPENING_MOVES.put("rnbqkb1r/pppp1ppp/8/4N3/4n3/8/PPPP1PPP/RNBQKB1R w KQkq - 0 4", movesList);
+
+		movesList = new ArrayList<>();
+		movesList.add(new Move("C2", "C4"));  // A50 Queen's pawn game
+		WHITE_OPENING_MOVES.put("rnbqkb1r/pppppppp/5n2/8/3P4/8/PPP1PPPP/RNBQKBNR w KQkq - 1 2", movesList);
+
+		movesList = new ArrayList<>();
+		movesList.add(new Move("B2", "C3"));  // E61 King's Indian defence, 3.Nc3
+		WHITE_OPENING_MOVES.put("rnbqkb1r/pppppp1p/5np1/8/2PP4/8/PP2PPPP/RNBQKBNR w KQkq - 0 3", movesList);
+
+		movesList = new ArrayList<>();
+		movesList.add(new Move("B2", "C3"));  // E00 Queen's pawn game
+		WHITE_OPENING_MOVES.put("rnbqkb1r/pppp1ppp/4pn2/8/2PP4/8/PP2PPPP/RNBQKBNR w KQkq - 0 3", movesList);
+
+		movesList = new ArrayList<>();
+		movesList.add(new Move("D2", "D4"));  // B12 Caro-Kann defence
+		WHITE_OPENING_MOVES.put("rnbqkbnr/pp1ppppp/2p5/8/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 2", movesList);
 	}
 
 	// Initialize Black opening moves.
@@ -118,6 +134,7 @@ public class OpeningMoves {
 		BLACK_OPENING_MOVES.put("rnbqkbnr/pppppppp/8/8/2P5/8/PP1PPPPP/RNBQKBNR b KQkq c3 0 1", movesList);
 
 		movesList = new ArrayList<>();
+		movesList.add(new Move("G8", "F6"));  // A45 Queen's pawn game
 		movesList.add(new Move("F7", "F5"));  // A80 Dutch
 		movesList.add(new Move("D7", "D5"));  // D00 Queen's pawn game
 		BLACK_OPENING_MOVES.put("rnbqkbnr/pppppppp/8/8/3P4/8/PPP1PPPP/RNBQKBNR b KQkq d3 0 1", movesList);
@@ -180,6 +197,7 @@ public class OpeningMoves {
 
 		movesList = new ArrayList<>();
 		movesList.add(new Move("G8", "F6"));  // D06 Queen's Gambit Declined, Marshall defence
+		movesList.add(new Move("C7", "C6"));  // D10 Queen's Gambit Declined Slav defence
 		movesList.add(new Move("D5", "C4"));  // D20 Queen's gambit accepted
 		movesList.add(new Move("E7", "E6"));  // D30 Queen's gambit declined
 		movesList.add(new Move("C8", "F5"));  // D06 Queen's Gambit Declined, Grau (Sahovic) defence
@@ -200,6 +218,27 @@ public class OpeningMoves {
 		movesList = new ArrayList<>();
 		movesList.add(new Move("D7", "D6"));  // C42 Petrov's defence
 		BLACK_OPENING_MOVES.put("rnbqkb1r/pppp1ppp/5n2/4N3/4P3/8/PPPP1PPP/RNBQKB1R b KQkq - 0 3", movesList);
+
+		movesList = new ArrayList<>();
+		movesList.add(new Move("E7", "E6"));  // E00 Queen's pawn game
+		movesList.add(new Move("G7", "G6"));  // E60 King's Indian defence
+		BLACK_OPENING_MOVES.put("rnbqkb1r/pppppppp/5n2/8/2PP4/8/PP2PPPP/RNBQKBNR b KQkq c3 0 2", movesList);
+
+		movesList = new ArrayList<>();
+		movesList.add(new Move("F8", "G7"));  // E61 King's Indian defence, 3.Nc3
+		BLACK_OPENING_MOVES.put("rnbqkb1r/pppppp1p/5np1/8/2PP4/2N5/PP2PPPP/R1BQKBNR b KQkq - 1 3", movesList);
+
+		movesList = new ArrayList<>();
+		movesList.add(new Move("F8", "B4"));  // E20 Nimzo-Indian defence
+		BLACK_OPENING_MOVES.put("rnbqkb1r/pppp1ppp/4pn2/8/2PP4/2N5/PP2PPPP/R1BQKBNR b KQkq - 1 3", movesList);
+
+		movesList = new ArrayList<>();
+		movesList.add(new Move("D7", "D5"));  // B12 Caro-Kann defence
+		BLACK_OPENING_MOVES.put("rnbqkbnr/pp1ppppp/2p5/8/3PP3/8/PPP2PPP/RNBQKBNR b KQkq d3 0 2", movesList);
+
+		movesList = new ArrayList<>();
+		movesList.add(new Move("D7", "D5"));  // C00 French defence
+		BLACK_OPENING_MOVES.put("rnbqkbnr/pppp1ppp/4p3/8/3PP3/8/PPP2PPP/RNBQKBNR b KQkq d3 0 2", movesList);
 	}
 
 	// Returns null, if the "moveIndex" exceeds the size of "movesList",
