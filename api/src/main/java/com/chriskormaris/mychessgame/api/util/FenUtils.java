@@ -234,10 +234,10 @@ public final class FenUtils {
 		String[] fenPositionParts = fenPosition.split(" ");
 		StringBuilder formattedFenPosition = new StringBuilder();
 		for (int i = 0; i < fenPositionParts.length; i++) {
-			if (i > 0) {
-				formattedFenPosition.append(" ");
-			}
 			if (i < fenPositionParts.length - 2) {
+				if (i > 0) {
+					formattedFenPosition.append(" ");
+				}
 				formattedFenPosition.append(fenPositionParts[i]);
 			}
 		}

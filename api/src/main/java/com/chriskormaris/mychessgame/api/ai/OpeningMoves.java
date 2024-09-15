@@ -22,7 +22,6 @@ public class OpeningMoves {
 	static {
 		List<Move> movesList = new ArrayList<>();
 
-		movesList.add(new Move("G2", "G3"));  // A00 Benko's opening
 		movesList.add(new Move("F2", "F4"));  // A02 Bird's opening
 		movesList.add(new Move("G1", "F3"));  // A04 Reti opening
 		movesList.add(new Move("C2", "C4"));  // A10 English opening
@@ -209,6 +208,7 @@ public class OpeningMoves {
 
 		movesList = new ArrayList<>();
 		movesList.add(new Move("D8", "D5"));  // B01 Scandinavian (centre counter) defence
+		movesList.add(new Move("G8", "F6"));  // B01 Scandinavian defence
 		BLACK_OPENING_MOVES.put("rnbqkbnr/ppp1pppp/8/3P4/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 2", movesList);
 
 		movesList = new ArrayList<>();
