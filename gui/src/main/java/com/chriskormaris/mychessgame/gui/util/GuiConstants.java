@@ -9,7 +9,7 @@ import java.awt.*;
 public class GuiConstants {
 
 	public static final String TITLE = "My Chess Game";
-	public static final String VERSION = "9.5.2";
+	public static final String VERSION = "9.6.0";
 
 	public static final String FIRST_MOVE_TEXT = "Move: 1. White plays first.";
 	public static final String ZERO_SCORE_TEXT = "Score:  0";
@@ -27,6 +27,8 @@ public class GuiConstants {
 
 	public static final String IMG_PATH = "images/";
 	public static final String ICON_PATH = IMG_PATH + "icon.png";
+	public static final String CHECKMATE_IMG_PATH = IMG_PATH + "checkmate.png";
+	public static final String DRAW_IMG_PATH = IMG_PATH + "draw.png";
 	public static final String WHITE_IMG_PATH = IMG_PATH + "white/";
 	public static final String WHITE_PAWN_IMG_PATH = WHITE_IMG_PATH + "pawn.png";
 	public static final String WHITE_ROOK_IMG_PATH = WHITE_IMG_PATH + "rook.png";

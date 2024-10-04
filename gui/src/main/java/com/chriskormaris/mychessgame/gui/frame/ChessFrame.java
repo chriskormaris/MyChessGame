@@ -663,6 +663,24 @@ public abstract class ChessFrame extends JFrame {
     }
 
     public boolean checkForGameOver() {
+        BufferedImage checkmateImg;
+        try {
+            checkmateImg = ImageIO.read(ResourceLoader.load(GuiConstants.CHECKMATE_IMG_PATH));
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+        Image checkmateDImg = checkmateImg.getScaledInstance(48, 48, Image.SCALE_SMOOTH);
+        ImageIcon checkmateIcon = new ImageIcon(checkmateDImg);
+
+        BufferedImage drawImg;
+        try {
+            drawImg = ImageIO.read(ResourceLoader.load(GuiConstants.DRAW_IMG_PATH));
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+        Image drawDImg = drawImg.getScaledInstance(48, 48, Image.SCALE_SMOOTH);
+        ImageIcon drawIcon = new ImageIcon(drawDImg);
+
         /* Check for White checkmate. */
         if (chessBoard.blackPlays()) {
             chessBoard.checkForWhiteCheckmate();
@@ -679,7 +697,9 @@ public abstract class ChessFrame extends JFrame {
                         this,
                         "White wins! Start a new game?",
                         "Checkmate",
-                        JOptionPane.YES_NO_OPTION
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        checkmateIcon
                 );
 
                 startNewGameOrNot(dialogResult);
@@ -704,7 +724,9 @@ public abstract class ChessFrame extends JFrame {
                         this,
                         "Black wins! Start a new game?",
                         "Checkmate",
-                        JOptionPane.YES_NO_OPTION
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        checkmateIcon
                 );
 
                 startNewGameOrNot(dialogResult);
@@ -728,7 +750,9 @@ public abstract class ChessFrame extends JFrame {
                         this,
                         "Stalemate! No legal moves for White exist. Start a new game?",
                         "Draw",
-                        JOptionPane.YES_NO_OPTION
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        drawIcon
                 );
 
                 startNewGameOrNot(dialogResult);
@@ -750,7 +774,9 @@ public abstract class ChessFrame extends JFrame {
                         this,
                         "Stalemate! No legal moves for Black exist. Start a new game?",
                         "Draw",
-                        JOptionPane.YES_NO_OPTION
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        drawIcon
                 );
 
                 startNewGameOrNot(dialogResult);
@@ -770,7 +796,9 @@ public abstract class ChessFrame extends JFrame {
                     this,
                     "It is a draw due to insufficient mating material! Start a new game?",
                     "Draw",
-                    JOptionPane.YES_NO_OPTION
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    drawIcon
             );
 
             startNewGameOrNot(dialogResult);
@@ -789,7 +817,9 @@ public abstract class ChessFrame extends JFrame {
                     this,
                     "It is a draw! 75 moves have been played without a piece capture! Start a new game?",
                     "Draw",
-                    JOptionPane.YES_NO_OPTION
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    drawIcon
             );
 
             startNewGameOrNot(dialogResult);
@@ -815,7 +845,7 @@ public abstract class ChessFrame extends JFrame {
 
             if (dialogResult == JOptionPane.YES_OPTION) {
                 chessBoard.setGameResult(GameResult.NO_CAPTURE_DRAW);
-                showDeclareDrawDialog();
+                showDeclareDrawDialog(drawIcon);
                 return true;
             }
         }
@@ -835,7 +865,9 @@ public abstract class ChessFrame extends JFrame {
                         "It is a draw! Fivefold repetition of the same Chess board position has occurred! " +
                                 "Start a new game?",
                         "Draw",
-                        JOptionPane.YES_NO_OPTION
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        drawIcon
                 );
 
                 startNewGameOrNot(dialogResult);
@@ -860,7 +892,7 @@ public abstract class ChessFrame extends JFrame {
 
             if (JOptionPane.YES_OPTION == dialogResult) {
                 chessBoard.setGameResult(GameResult.THREEFOLD_REPETITION_DRAW);
-                showDeclareDrawDialog();
+                showDeclareDrawDialog(drawIcon);
                 return true;
             }
         }
@@ -868,7 +900,7 @@ public abstract class ChessFrame extends JFrame {
         return false;
     }
 
-    private void showDeclareDrawDialog() {
+    private void showDeclareDrawDialog(ImageIcon drawIcon) {
         String moveText = "Move: "
                 + (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2)
                 + ". It is a draw.";
@@ -878,7 +910,9 @@ public abstract class ChessFrame extends JFrame {
                 this,
                 "It is a draw! Start a new game?",
                 "Draw",
-                JOptionPane.YES_NO_OPTION
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                drawIcon
         );
 
         startNewGameOrNot(dialogResult);
