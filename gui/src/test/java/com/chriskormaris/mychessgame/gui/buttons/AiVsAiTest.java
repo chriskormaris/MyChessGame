@@ -6,10 +6,10 @@ import com.chriskormaris.mychessgame.gui.frame.ButtonsFrame;
 import org.junit.jupiter.api.Test;
 
 
-public class AiVsAiTest {
+class AiVsAiTest {
 
 	@Test
-	public void testAiVsAi() {
+	void testAiVsAi() {
 		String title = "AI vs AI Test";
 
 		ButtonsFrame buttonsFrame = new ButtonsFrame(title);

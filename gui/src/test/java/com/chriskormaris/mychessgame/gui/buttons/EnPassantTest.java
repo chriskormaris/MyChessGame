@@ -6,10 +6,10 @@ import com.chriskormaris.mychessgame.gui.frame.ButtonsFrame;
 import org.junit.jupiter.api.Test;
 
 
-public class EnPassantTest {
+class EnPassantTest {
 
 	@Test
-	public void testPawnPromotion() {
+	void testPawnPromotion() {
 		String title = "Pawn Promotion Test";
 
 		ButtonsFrame buttonsFrame = new ButtonsFrame(title);

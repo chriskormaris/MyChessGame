@@ -5,10 +5,10 @@ import com.chriskormaris.mychessgame.gui.frame.ButtonsFrame;
 import org.junit.jupiter.api.Test;
 
 
-public class SmotheredMateTest {
+class SmotheredMateTest {
 
 	@Test
-	public void testSmotheredMate() {
+	void testSmotheredMate() {
 		String title = "Smothered Mate Test";
 
 		ButtonsFrame buttonsFrame = new ButtonsFrame(title);

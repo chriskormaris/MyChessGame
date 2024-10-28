@@ -5,10 +5,10 @@ import com.chriskormaris.mychessgame.gui.frame.ButtonsFrame;
 import org.junit.jupiter.api.Test;
 
 
-public class StalemateCheckmateTest {
+class StalemateCheckmateTest {
 
 	@Test
-	public void testStalemateCheckmate() {
+	void testStalemateCheckmate() {
 		String title = "Stalemate or Checkmate Test";
 
 		ButtonsFrame buttonsFrame = new ButtonsFrame(title);

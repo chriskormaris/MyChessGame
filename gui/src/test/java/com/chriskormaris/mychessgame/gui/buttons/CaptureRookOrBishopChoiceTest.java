@@ -13,10 +13,10 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
-public class CaptureRookOrBishopChoiceTest {
+class CaptureRookOrBishopChoiceTest {
 
 	@Test
-	public void testCaptureRookOrBishopChoice() {
+	void testCaptureRookOrBishopChoice() {
 		String title = "Capture Rook or Bishop?";
 
 		ButtonsFrame buttonsFrame = new ButtonsFrame(title);

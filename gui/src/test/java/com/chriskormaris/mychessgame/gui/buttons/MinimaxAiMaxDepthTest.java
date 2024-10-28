@@ -5,10 +5,10 @@ import com.chriskormaris.mychessgame.gui.frame.ButtonsFrame;
 import org.junit.jupiter.api.Test;
 
 
-public class MinimaxAiMaxDepthTest {
+class MinimaxAiMaxDepthTest {
 
 	@Test
-	public void testMinimaxAiMaxDepth() {
+	void testMinimaxAiMaxDepth() {
 		String title = "Minimax AI Max Depth Test";
 
 		ButtonsFrame buttonsFrame = new ButtonsFrame(title);

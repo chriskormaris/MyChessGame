@@ -13,10 +13,10 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
-public class EndGameTest {
+class EndGameTest {
 
 	@Test
-	public void testEndGame() {
+	void testEndGame() {
 		String title = "EndGame Test";
 
 		ButtonsFrame buttonsFrame = new ButtonsFrame(title);

@@ -10,10 +10,10 @@ import com.chriskormaris.mychessgame.gui.frame.ButtonsFrame;
 import org.junit.jupiter.api.Test;
 
 
-public class ThreefoldRepetitionDrawTest {
+class ThreefoldRepetitionDrawTest {
 
 	@Test
-	public void testThreefoldRepetitionDraw() {
+	void testThreefoldRepetitionDraw() {
 		String title = "Threefold Repetition Draw Test";
 
 		ButtonsFrame buttonsFrame = new ButtonsFrame(title);

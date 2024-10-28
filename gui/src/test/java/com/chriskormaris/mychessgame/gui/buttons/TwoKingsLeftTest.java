@@ -10,10 +10,10 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 
-public class TwoKingsLeftTest {
+class TwoKingsLeftTest {
 
 	@Test
-	public void testTwoKingsLeft() {
+	void testTwoKingsLeft() {
 		String title = "Two Kings Left Test";
 
 		ButtonsFrame buttonsFrame = new ButtonsFrame(title);

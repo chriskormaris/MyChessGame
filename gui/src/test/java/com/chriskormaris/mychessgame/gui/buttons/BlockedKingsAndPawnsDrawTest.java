@@ -8,10 +8,10 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 
-public class BlockedKingsAndPawnsDrawTest {
+class BlockedKingsAndPawnsDrawTest {
 
 	@Test
-	public void testBlockedKingsAndPawnsDraw() {
+	void testBlockedKingsAndPawnsDraw() {
 		String title = "Blocked Kings and Pawns Draw Test";
 
 		ButtonsFrame buttonsFrame = new ButtonsFrame(title);

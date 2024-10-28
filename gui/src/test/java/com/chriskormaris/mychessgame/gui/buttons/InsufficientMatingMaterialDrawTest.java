@@ -10,10 +10,10 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
-public class InsufficientMatingMaterialDrawTest {
+class InsufficientMatingMaterialDrawTest {
 
 	@Test
-	public void testInsufficientMatingMaterialDraw() {
+	void testInsufficientMatingMaterialDraw() {
 		String title = "Insufficient Material Draw Test";
 
 		ButtonsFrame buttonsFrame = new ButtonsFrame(title);

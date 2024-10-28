@@ -9,10 +9,10 @@ import com.chriskormaris.mychessgame.gui.frame.ButtonsFrame;
 import org.junit.jupiter.api.Test;
 
 
-public class KnightAndBishopMateTest {
+class KnightAndBishopMateTest {
 
 	@Test
-	public void testKnightAndBishopMate() {
+	void testKnightAndBishopMate() {
 		String title = "Knight and Bishop Mate Test";
 
 		ButtonsFrame buttonsFrame = new ButtonsFrame(title);
