@@ -1,15 +1,8 @@
 package com.chriskormaris.mychessgame.api.evaluation;
 
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
-import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 import com.chriskormaris.mychessgame.api.enumeration.GamePhase;
-import com.chriskormaris.mychessgame.api.piece.Bishop;
-import com.chriskormaris.mychessgame.api.piece.ChessPiece;
-import com.chriskormaris.mychessgame.api.piece.King;
-import com.chriskormaris.mychessgame.api.piece.Knight;
-import com.chriskormaris.mychessgame.api.piece.Pawn;
-import com.chriskormaris.mychessgame.api.piece.Queen;
-import com.chriskormaris.mychessgame.api.piece.Rook;
+import com.chriskormaris.mychessgame.api.square.ChessSquare;
 
 // Wukong Evaluation Function.
 // see: https://github.com/maksimKorzh/wukongJS/blob/main/wukong.js
@@ -175,64 +168,64 @@ public class WukongEvaluation implements Evaluation {
 	private static final int ENDGAME_BLACK_QUEEN_CENTIPAWN_VALUE = 845;
 	private static final int ENDGAME_BLACK_KING_CENTIPAWN_VALUE = 20000;
 
-	private int getPieceCentipawnValue(ChessPiece chessPiece, GamePhase gamePhase) {
+	private int getPieceCentipawnValue(ChessSquare square, GamePhase gamePhase) {
 		if (gamePhase == GamePhase.OPENING_MIDDLEGAME) {
-			if (chessPiece.getAllegiance() == Allegiance.WHITE) {
-				if (chessPiece instanceof Pawn) {
+			if (square.isWhite()) {
+				if (square.isPawn()) {
 					return OPENING_WHITE_PAWN_CENTIPAWN_VALUE;
-				} else if (chessPiece instanceof Knight) {
+				} else if (square.isKnight()) {
 					return OPENING_WHITE_KNIGHT_CENTIPAWN_VALUE;
-				} else if (chessPiece instanceof Bishop) {
+				} else if (square.isBishop()) {
 					return OPENING_WHITE_BISHOP_CENTIPAWN_VALUE;
-				} else if (chessPiece instanceof Rook) {
+				} else if (square.isRook()) {
 					return OPENING_WHITE_ROOK_CENTIPAWN_VALUE;
-				} else if (chessPiece instanceof Queen) {
+				} else if (square.isQueen()) {
 					return OPENING_WHITE_QUEEN_CENTIPAWN_VALUE;
-				} else if (chessPiece instanceof King) {
+				} else if (square.isKing()) {
 					return OPENING_WHITE_KING_CENTIPAWN_VALUE;
 				}
-			} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
-				if (chessPiece instanceof Pawn) {
+			} else if (square.isBlack()) {
+				if (square.isPawn()) {
 					return OPENING_BLACK_PAWN_CENTIPAWN_VALUE;
-				} else if (chessPiece instanceof Knight) {
+				} else if (square.isKnight()) {
 					return OPENING_BLACK_KNIGHT_CENTIPAWN_VALUE;
-				} else if (chessPiece instanceof Bishop) {
+				} else if (square.isBishop()) {
 					return OPENING_BLACK_BISHOP_CENTIPAWN_VALUE;
-				} else if (chessPiece instanceof Rook) {
+				} else if (square.isRook()) {
 					return OPENING_BLACK_ROOK_CENTIPAWN_VALUE;
-				} else if (chessPiece instanceof Queen) {
+				} else if (square.isQueen()) {
 					return OPENING_BLACK_QUEEN_CENTIPAWN_VALUE;
-				} else if (chessPiece instanceof King) {
+				} else if (square.isKing()) {
 					return OPENING_BLACK_KING_CENTIPAWN_VALUE;
 				}
 			}
 		} else if (gamePhase == GamePhase.ENDGAME) {
-			if (chessPiece.getAllegiance() == Allegiance.WHITE) {
-				if (chessPiece instanceof Pawn) {
+			if (square.isWhite()) {
+				if (square.isPawn()) {
 					return ENDGAME_WHITE_PAWN_CENTIPAWN_VALUE;
-				} else if (chessPiece instanceof Knight) {
+				} else if (square.isKnight()) {
 					return ENDGAME_WHITE_KNIGHT_CENTIPAWN_VALUE;
-				} else if (chessPiece instanceof Bishop) {
+				} else if (square.isBishop()) {
 					return ENDGAME_WHITE_BISHOP_CENTIPAWN_VALUE;
-				} else if (chessPiece instanceof Rook) {
+				} else if (square.isRook()) {
 					return ENDGAME_WHITE_ROOK_CENTIPAWN_VALUE;
-				} else if (chessPiece instanceof Queen) {
+				} else if (square.isQueen()) {
 					return ENDGAME_WHITE_QUEEN_CENTIPAWN_VALUE;
-				} else if (chessPiece instanceof King) {
+				} else if (square.isKing()) {
 					return ENDGAME_WHITE_KING_CENTIPAWN_VALUE;
 				}
-			} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
-				if (chessPiece instanceof Pawn) {
+			} else if (square.isBlack()) {
+				if (square.isPawn()) {
 					return ENDGAME_BLACK_PAWN_CENTIPAWN_VALUE;
-				} else if (chessPiece instanceof Knight) {
+				} else if (square.isKnight()) {
 					return ENDGAME_BLACK_KNIGHT_CENTIPAWN_VALUE;
-				} else if (chessPiece instanceof Bishop) {
+				} else if (square.isBishop()) {
 					return ENDGAME_BLACK_BISHOP_CENTIPAWN_VALUE;
-				} else if (chessPiece instanceof Rook) {
+				} else if (square.isRook()) {
 					return ENDGAME_BLACK_ROOK_CENTIPAWN_VALUE;
-				} else if (chessPiece instanceof Queen) {
+				} else if (square.isQueen()) {
 					return ENDGAME_BLACK_QUEEN_CENTIPAWN_VALUE;
-				} else if (chessPiece instanceof King) {
+				} else if (square.isKing()) {
 					return ENDGAME_BLACK_KING_CENTIPAWN_VALUE;
 				}
 			}
@@ -240,45 +233,45 @@ public class WukongEvaluation implements Evaluation {
 		return 0;
 	}
 
-	private int getOpeningPieceSquareValue(int row, int column, ChessPiece chessPiece) {
-		if (chessPiece instanceof Pawn) {
+	private int getOpeningPieceSquareValue(int row, int column, ChessSquare square) {
+		if (square.isPawn()) {
 			return OPENING_PAWN_SQUARE_TABLE[row][column];
-		} else if (chessPiece instanceof Knight) {
+		} else if (square.isKnight()) {
 			return OPENING_KNIGHT_SQUARE_TABLE[row][column];
-		} else if (chessPiece instanceof Bishop) {
+		} else if (square.isBishop()) {
 			return OPENING_BISHOP_SQUARE_TABLE[row][column];
-		} else if (chessPiece instanceof Rook) {
+		} else if (square.isRook()) {
 			return OPENING_ROOK_SQUARE_TABLE[row][column];
-		} else if (chessPiece instanceof Queen) {
+		} else if (square.isQueen()) {
 			return OPENING_QUEEN_SQUARE_TABLE[row][column];
-		} else if (chessPiece instanceof King) {
+		} else if (square.isKing()) {
 			return OPENING_KING_SQUARE_TABLE[row][column];
 		}
 		return 0;
 	}
 
-	private int getEndgamePieceSquareValue(int row, int column, ChessPiece chessPiece) {
-		if (chessPiece instanceof Pawn) {
+	private int getEndgamePieceSquareValue(int row, int column, ChessSquare square) {
+		if (square.isPawn()) {
 			return ENDGAME_PAWN_SQUARE_TABLE[row][column];
-		} else if (chessPiece instanceof Knight) {
+		} else if (square.isKnight()) {
 			return ENDGAME_KNIGHT_SQUARE_TABLE[row][column];
-		} else if (chessPiece instanceof Bishop) {
+		} else if (square.isBishop()) {
 			return ENDGAME_BISHOP_SQUARE_TABLE[row][column];
-		} else if (chessPiece instanceof Rook) {
+		} else if (square.isRook()) {
 			return ENDGAME_ROOK_SQUARE_TABLE[row][column];
-		} else if (chessPiece instanceof Queen) {
+		} else if (square.isQueen()) {
 			return ENDGAME_QUEEN_SQUARE_TABLE[row][column];
-		} else if (chessPiece instanceof King) {
+		} else if (square.isKing()) {
 			return ENDGAME_KING_SQUARE_TABLE[row][column];
 		}
 		return 0;
 	}
 
-	private int getPieceSquareValue(int row, int column, ChessPiece chessPiece, GamePhase gamePhase) {
+	private int getPieceSquareValue(int row, int column, ChessSquare square, GamePhase gamePhase) {
 		if (gamePhase == GamePhase.OPENING_MIDDLEGAME) {
-			return getOpeningPieceSquareValue(row, column, chessPiece);
+			return getOpeningPieceSquareValue(row, column, square);
 		} else {
-			return getEndgamePieceSquareValue(row, column, chessPiece);
+			return getEndgamePieceSquareValue(row, column, square);
 		}
 	}
 
@@ -291,22 +284,22 @@ public class WukongEvaluation implements Evaluation {
 
 		for (int i = 0; i < chessBoard.getNumOfRows(); i++) {
 			for (int j = 0; j < chessBoard.getNumOfColumns(); j++) {
-				ChessPiece chessPiece = chessBoard.getGameBoard()[i][j];
-				gamePhase += getPieceGamePhaseValue(chessPiece);
+				ChessSquare square = chessBoard.getGameBoard()[i][j];
+				gamePhase += getPieceGamePhaseValue(square);
 
-				if (chessPiece.getAllegiance() == Allegiance.WHITE) {
-					openingScore += PIECE_VALUE_MULTIPLIER * getPieceCentipawnValue(chessPiece, GamePhase.OPENING_MIDDLEGAME);
-					endgameScore += PIECE_VALUE_MULTIPLIER * getPieceCentipawnValue(chessPiece, GamePhase.ENDGAME);
+				if (square.isWhite()) {
+					openingScore += PIECE_VALUE_MULTIPLIER * getPieceCentipawnValue(square, GamePhase.OPENING_MIDDLEGAME);
+					endgameScore += PIECE_VALUE_MULTIPLIER * getPieceCentipawnValue(square, GamePhase.ENDGAME);
 
-					openingScore += getPieceSquareValue(i, j, chessPiece, GamePhase.OPENING_MIDDLEGAME);
-					endgameScore += getPieceSquareValue(i, j, chessPiece, GamePhase.ENDGAME);
-				} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
-					openingScore -= PIECE_VALUE_MULTIPLIER * getPieceCentipawnValue(chessPiece, GamePhase.OPENING_MIDDLEGAME);
-					endgameScore -= PIECE_VALUE_MULTIPLIER * getPieceCentipawnValue(chessPiece, GamePhase.ENDGAME);
+					openingScore += getPieceSquareValue(i, j, square, GamePhase.OPENING_MIDDLEGAME);
+					endgameScore += getPieceSquareValue(i, j, square, GamePhase.ENDGAME);
+				} else if (square.isBlack()) {
+					openingScore -= PIECE_VALUE_MULTIPLIER * getPieceCentipawnValue(square, GamePhase.OPENING_MIDDLEGAME);
+					endgameScore -= PIECE_VALUE_MULTIPLIER * getPieceCentipawnValue(square, GamePhase.ENDGAME);
 
 					int row = chessBoard.getNumOfRows() - 1 - i;
-					openingScore -= getPieceSquareValue(row, j, chessPiece, GamePhase.OPENING_MIDDLEGAME);
-					endgameScore -= getPieceSquareValue(row, j, chessPiece, GamePhase.ENDGAME);
+					openingScore -= getPieceSquareValue(row, j, square, GamePhase.OPENING_MIDDLEGAME);
+					endgameScore -= getPieceSquareValue(row, j, square, GamePhase.ENDGAME);
 				}
 			}
 		}

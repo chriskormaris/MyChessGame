@@ -16,7 +16,8 @@ import com.chriskormaris.mychessgame.api.evaluation.PeSTOEvaluation;
 import com.chriskormaris.mychessgame.api.evaluation.ShannonEvaluation;
 import com.chriskormaris.mychessgame.api.evaluation.SimplifiedEvaluation;
 import com.chriskormaris.mychessgame.api.evaluation.WukongEvaluation;
-import com.chriskormaris.mychessgame.api.piece.ChessPiece;
+import com.chriskormaris.mychessgame.api.square.ChessPiece;
+import com.chriskormaris.mychessgame.api.square.ChessSquare;
 import com.chriskormaris.mychessgame.api.util.Constants;
 import com.chriskormaris.mychessgame.api.util.FenUtils;
 import com.chriskormaris.mychessgame.api.util.Utilities;
@@ -404,8 +405,8 @@ public abstract class ChessFrame extends JFrame {
         for (int i = 0; i < chessBoard.getNumOfRows(); i++) {
             for (int j = 0; j < chessBoard.getNumOfColumns(); j++) {
                 String position = chessBoard.getPositionByRowCol(i, j);
-                ChessPiece chessPiece = chessBoard.getChessPieceFromPosition(position);
-                score += Utilities.getScoreValue(chessPiece);
+                ChessSquare square = chessBoard.getChessSquareFromPosition(position);
+                score += Utilities.getScoreValue(square);
             }
         }
     }
@@ -486,32 +487,32 @@ public abstract class ChessFrame extends JFrame {
         for (int i = 0; i < 30; i++) {
             char pieceChar = capturedPieces[i];
             if (pieceChar != '-') {
-                ChessPiece chessPiece = Utilities.getChessPiece(pieceChar);
-                addCapturedPieceImage(chessPiece);
+                ChessSquare square = Utilities.getChessSquare(pieceChar);
+                addCapturedPieceImage(square);
             }
         }
     }
 
-    void updateCapturedPieces(ChessPiece chessPiece) {
-        if (chessPiece.getAllegiance() == Allegiance.WHITE) {
+    void updateCapturedPieces(ChessSquare square) {
+        if (square.isWhite()) {
             int index = Math.min(whiteCapturedPiecesCounter, 14);
-            capturedPieces[index] = chessPiece.getPieceChar();
-        } else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
+            capturedPieces[index] = ((ChessPiece) square).getPieceChar();
+        } else if (square.isBlack()) {
             int index = Math.min(blackCapturedPiecesCounter, 14);
             index = 30 - index - 1;
-            capturedPieces[index] = chessPiece.getPieceChar();
+            capturedPieces[index] = ((ChessPiece) square).getPieceChar();
         }
     }
 
-    void addCapturedPieceImage(ChessPiece endSquare) {
+    void addCapturedPieceImage(ChessSquare endSquare) {
         String imagePath = GuiUtils.getImagePath(endSquare);
 
         ImageIcon pieceImage = GuiUtils.preparePieceIcon(imagePath, GuiConstants.CAPTURED_CHESS_PIECE_PIXEL_SIZE);
 
-        if (endSquare.getAllegiance() == Allegiance.WHITE) {
+        if (endSquare.isWhite()) {
             int index = Math.min(whiteCapturedPiecesCounter, 14);
             capturedPiecesImages[index].setIcon(pieceImage);
-        } else if (endSquare.getAllegiance() == Allegiance.BLACK) {
+        } else if (endSquare.isBlack()) {
             int index = Math.min(blackCapturedPiecesCounter, 14);
             index = 31 - index - 1;
             capturedPiecesImages[index].setIcon(pieceImage);
@@ -523,9 +524,9 @@ public abstract class ChessFrame extends JFrame {
     }
 
     void incrementCapturedPiecesCounter(Allegiance allegiance) {
-        if (allegiance == Allegiance.WHITE) {
+        if (allegiance.isWhite()) {
             whiteCapturedPiecesCounter++;
-        } else if (allegiance == Allegiance.BLACK) {
+        } else if (allegiance.isBlack()) {
             blackCapturedPiecesCounter++;
         }
     }
@@ -541,22 +542,22 @@ public abstract class ChessFrame extends JFrame {
         if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI) {
             if (gameParameters.getAi1Type() == AiType.MINIMAX_AI) {
                 Evaluation evaluation1 = createEvaluation(gameParameters.getEvaluationFunction1());
-                if (gameParameters.getHumanAllegiance() == Allegiance.WHITE) {
+                if (gameParameters.getHumanAllegiance().isWhite()) {
                     ai = new MinimaxAI(gameParameters.getAi1MaxDepth(), Constants.BLACK, evaluation1);
-                } else if (gameParameters.getHumanAllegiance() == Allegiance.BLACK) {
+                } else if (gameParameters.getHumanAllegiance().isBlack()) {
                     ai = new MinimaxAI(gameParameters.getAi1MaxDepth(), Constants.WHITE, evaluation1);
                 }
             } else if (gameParameters.getAi1Type() == AiType.MINIMAX_ALPHA_BETA_PRUNING_AI) {
                 Evaluation evaluation1 = createEvaluation(gameParameters.getEvaluationFunction1());
-                if (gameParameters.getHumanAllegiance() == Allegiance.WHITE) {
+                if (gameParameters.getHumanAllegiance().isWhite()) {
                     ai = new MinimaxAlphaBetaPruningAI(gameParameters.getAi1MaxDepth(), Constants.BLACK, evaluation1);
-                } else if (gameParameters.getHumanAllegiance() == Allegiance.BLACK) {
+                } else if (gameParameters.getHumanAllegiance().isBlack()) {
                     ai = new MinimaxAlphaBetaPruningAI(gameParameters.getAi1MaxDepth(), Constants.WHITE, evaluation1);
                 }
             }else if (gameParameters.getAi1Type() == AiType.RANDOM_AI) {
-                if (gameParameters.getHumanAllegiance() == Allegiance.WHITE) {
+                if (gameParameters.getHumanAllegiance().isWhite()) {
                     ai = new RandomChoiceAI(Constants.BLACK);
-                } else if (gameParameters.getHumanAllegiance() == Allegiance.BLACK) {
+                } else if (gameParameters.getHumanAllegiance().isBlack()) {
                     ai = new RandomChoiceAI(Constants.WHITE);
                 }
             }
@@ -833,8 +834,8 @@ public abstract class ChessFrame extends JFrame {
 
             // In the HUMAN_VS_AI mode, show the draw dialog, only if the AI has just made a move.
             if (gameParameters.getGameMode() != GameMode.HUMAN_VS_AI
-                    || (chessBoard.blackPlays() && gameParameters.getHumanAllegiance() == Allegiance.WHITE
-                    || chessBoard.whitePlays() && gameParameters.getHumanAllegiance() == Allegiance.BLACK)) {
+                    || (chessBoard.blackPlays() && gameParameters.getHumanAllegiance().isWhite()
+                    || chessBoard.whitePlays() && gameParameters.getHumanAllegiance().isBlack())) {
                 dialogResult = JOptionPane.showConfirmDialog(
                         this,
                         "50 moves have been played without a piece capture! Do you want to declare a draw?",
@@ -879,8 +880,8 @@ public abstract class ChessFrame extends JFrame {
 
             // In the HUMAN_VS_AI mode, show the draw dialog, only if the AI has just made a move.
             if (gameParameters.getGameMode() != GameMode.HUMAN_VS_AI
-                    || (chessBoard.blackPlays() && gameParameters.getHumanAllegiance() == Allegiance.WHITE
-                    || chessBoard.whitePlays() && gameParameters.getHumanAllegiance() == Allegiance.BLACK)) {
+                    || (chessBoard.blackPlays() && gameParameters.getHumanAllegiance().isWhite()
+                    || chessBoard.whitePlays() && gameParameters.getHumanAllegiance().isBlack())) {
                 dialogResult = JOptionPane.showConfirmDialog(
                         this,
                         "Threefold repetition of the same Chess board position has occurred! "
@@ -1013,11 +1014,11 @@ public abstract class ChessFrame extends JFrame {
 
     abstract void makeDisplayMove(Move move, boolean isAiMove);
 
-    abstract void showNextPositions(ChessPiece chessPiece);
+    abstract void showNextPositions(ChessSquare square);
 
     abstract void hideNextPositions();
 
-    public abstract void placePieceToPosition(String position, ChessPiece chessPiece);
+    public abstract void placePieceToPosition(String position, ChessSquare square);
 
     abstract void removePieceFromPosition(String position);
 

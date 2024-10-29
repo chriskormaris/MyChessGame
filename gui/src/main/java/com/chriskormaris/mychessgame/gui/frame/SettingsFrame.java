@@ -152,9 +152,9 @@ public class SettingsFrame extends JFrame {
 		humanAllegianceDropDown.addItem("White");
 		humanAllegianceDropDown.addItem("Black");
 
-		if (humanAllegiance == Allegiance.WHITE) {
+		if (humanAllegiance.isWhite()) {
 			humanAllegianceDropDown.setSelectedIndex(0);
-		} else if (humanAllegiance == Allegiance.BLACK) {
+		} else if (humanAllegiance.isBlack()) {
 			humanAllegianceDropDown.setSelectedIndex(1);
 		}
 
