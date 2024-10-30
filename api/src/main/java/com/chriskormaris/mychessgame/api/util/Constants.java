@@ -61,6 +61,4 @@ public class Constants {
 	public static final int ROOK_SCORE_VALUE = 5;
 	public static final int QUEEN_SCORE_VALUE = 9;
 
-	public static final double CHECKMATE_VALUE = Integer.MAX_VALUE;
-
 }

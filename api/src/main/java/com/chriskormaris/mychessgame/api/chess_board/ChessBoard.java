@@ -561,8 +561,8 @@ public class ChessBoard {
 	 * 3) Wukong
 	 * 4) Shannon's */
 	public double evaluate(MinimaxAI minimaxAI) {
-		if (checkForWhiteCheckmate()) return Constants.CHECKMATE_VALUE;
-		if (checkForBlackCheckmate()) return -Constants.CHECKMATE_VALUE;
+		if (checkForWhiteCheckmate()) return Integer.MAX_VALUE;
+		if (checkForBlackCheckmate()) return Integer.MIN_VALUE;
 		if (checkForWhiteStalemateDraw()) return 0;
 		if (checkForBlackStalemateDraw()) return 0;
 		if (checkForInsufficientMatingMaterialDraw()) return 0;
