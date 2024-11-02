@@ -1,15 +1,8 @@
 package com.chriskormaris.mychessgame.api.evaluation;
 
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
-import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 import com.chriskormaris.mychessgame.api.enumeration.GamePhase;
-import com.chriskormaris.mychessgame.api.piece.Bishop;
-import com.chriskormaris.mychessgame.api.piece.ChessPiece;
-import com.chriskormaris.mychessgame.api.piece.King;
-import com.chriskormaris.mychessgame.api.piece.Knight;
-import com.chriskormaris.mychessgame.api.piece.Pawn;
-import com.chriskormaris.mychessgame.api.piece.Queen;
-import com.chriskormaris.mychessgame.api.piece.Rook;
+import com.chriskormaris.mychessgame.api.square.ChessSquare;
 
 // Simplified Evaluation Function by Polish chess programmer Tomasz Michniewski.
 // see: https://www.chessprogramming.org/Simplified_Evaluation_Function
@@ -108,35 +101,35 @@ public class SimplifiedEvaluation implements Evaluation {
 		}
 	}
 
-	private int getPieceCentipawnValue(ChessPiece chessPiece) {
-		if (chessPiece instanceof Pawn) {
+	private int getPieceCentipawnValue(ChessSquare chessSquare) {
+		if (chessSquare.isPawn()) {
 			return PAWN_CENTIPAWN_VALUE;
-		} else if (chessPiece instanceof Knight) {
+		} else if (chessSquare.isKnight()) {
 			return KNIGHT_CENTIPAWN_VALUE;
-		} else if (chessPiece instanceof Bishop) {
+		} else if (chessSquare.isBishop()) {
 			return BISHOP_CENTIPAWN_VALUE;
-		} else if (chessPiece instanceof Rook) {
+		} else if (chessSquare.isRook()) {
 			return ROOK_CENTIPAWN_VALUE;
-		} else if (chessPiece instanceof Queen) {
+		} else if (chessSquare.isQueen()) {
 			return QUEEN_CENTIPAWN_VALUE;
-		} else if (chessPiece instanceof King) {
+		} else if (chessSquare.isKing()) {
 			return KING_CENTIPAWN_VALUE;
 		}
 		return 0;
 	}
 
-	private int getPieceSquareValue(int row, int column, ChessPiece chessPiece, GamePhase gamePhase) {
-		if (chessPiece instanceof Pawn) {
+	private int getPieceSquareValue(int row, int column, ChessSquare chessSquare, GamePhase gamePhase) {
+		if (chessSquare.isPawn()) {
 			return PAWN_SQUARE_TABLE[row][column];
-		} else if (chessPiece instanceof Knight) {
+		} else if (chessSquare.isKnight()) {
 			return KNIGHT_SQUARE_TABLE[row][column];
-		} else if (chessPiece instanceof Bishop) {
+		} else if (chessSquare.isBishop()) {
 			return BISHOP_SQUARE_TABLE[row][column];
-		} else if (chessPiece instanceof Rook) {
+		} else if (chessSquare.isRook()) {
 			return ROOK_SQUARE_TABLE[row][column];
-		} else if (chessPiece instanceof Queen) {
+		} else if (chessSquare.isQueen()) {
 			return QUEEN_SQUARE_TABLE[row][column];
-		} else if (chessPiece instanceof King) {
+		} else if (chessSquare.isKing()) {
 			if (gamePhase == GamePhase.OPENING_MIDDLEGAME) {
 				return MIDDLEGAME_KING_SQUARE_TABLE[row][column];
 			} else if (gamePhase == GamePhase.ENDGAME) {
@@ -154,15 +147,15 @@ public class SimplifiedEvaluation implements Evaluation {
 
 		for (int i = 0; i < chessBoard.getNumOfRows(); i++) {
 			for (int j = 0; j < chessBoard.getNumOfColumns(); j++) {
-				ChessPiece chessPiece = chessBoard.getGameBoard()[i][j];
-				if (chessPiece.getAllegiance() == Allegiance.WHITE) {
-					score += PIECE_VALUE_MULTIPLIER * getPieceCentipawnValue(chessPiece);
-					score += getPieceSquareValue(i, j, chessPiece, gamePhase);
-				} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
-					score -= PIECE_VALUE_MULTIPLIER * getPieceCentipawnValue(chessPiece);
+				ChessSquare chessSquare = chessBoard.getGameBoard()[i][j];
+				if (chessSquare.isWhite()) {
+					score += PIECE_VALUE_MULTIPLIER * getPieceCentipawnValue(chessSquare);
+					score += getPieceSquareValue(i, j, chessSquare, gamePhase);
+				} else if (chessSquare.isBlack()) {
+					score -= PIECE_VALUE_MULTIPLIER * getPieceCentipawnValue(chessSquare);
 
 					int row = chessBoard.getNumOfRows() - 1 - i;
-					score -= getPieceSquareValue(row, j, chessPiece, gamePhase);
+					score -= getPieceSquareValue(row, j, chessSquare, gamePhase);
 				}
 			}
 		}

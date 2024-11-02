@@ -1,10 +1,8 @@
 package com.chriskormaris.mychessgame.api.util;
 
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
-import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
-import com.chriskormaris.mychessgame.api.piece.ChessPiece;
-import com.chriskormaris.mychessgame.api.piece.EmptySquare;
-import com.chriskormaris.mychessgame.api.piece.King;
+import com.chriskormaris.mychessgame.api.square.ChessSquare;
+import com.chriskormaris.mychessgame.api.square.EmptySquare;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 
@@ -20,7 +18,7 @@ public final class BFS {
 	// It returns the depth of the shortest path, if it exists, else it returns -1.
 	public static int getMinDepth(
 			ChessBoard chessBoard,
-			ChessPiece piece,
+			ChessSquare piece,
 			String startingPosition,
 			String endingPosition,
 			int maxDepth
@@ -68,10 +66,10 @@ public final class BFS {
 					int currentRow = chessBoard.getRowFromPosition(currentPosition);
 					int currentColumn = chessBoard.getColumnFromPosition(currentPosition);
 					currentChessBoard.getGameBoard()[currentRow][currentColumn] = piece;
-					if (piece instanceof King) {
-						if (piece.getAllegiance() == Allegiance.WHITE) {
+					if (piece.isKing()) {
+						if (piece.isWhite()) {
 							currentChessBoard.setWhiteKingPosition(currentPosition);
-						} else if (piece.getAllegiance() == Allegiance.BLACK) {
+						} else if (piece.isBlack()) {
 							currentChessBoard.setBlackKingPosition(currentPosition);
 						}
 					}
@@ -103,7 +101,7 @@ public final class BFS {
 	// from the given starting position to the given ending position, within the specified "maxDepth".
 	public static boolean canGoToPosition(
 			ChessBoard chessBoard,
-			ChessPiece piece,
+			ChessSquare piece,
 			String startingPosition,
 			String endingPosition,
 			int maxDepth

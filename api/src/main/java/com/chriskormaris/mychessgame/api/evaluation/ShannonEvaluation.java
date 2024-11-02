@@ -1,14 +1,8 @@
 package com.chriskormaris.mychessgame.api.evaluation;
 
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
-import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
-import com.chriskormaris.mychessgame.api.piece.Bishop;
-import com.chriskormaris.mychessgame.api.piece.ChessPiece;
-import com.chriskormaris.mychessgame.api.piece.King;
-import com.chriskormaris.mychessgame.api.piece.Knight;
-import com.chriskormaris.mychessgame.api.piece.Pawn;
-import com.chriskormaris.mychessgame.api.piece.Queen;
-import com.chriskormaris.mychessgame.api.piece.Rook;
+import com.chriskormaris.mychessgame.api.square.ChessSquare;
+import com.chriskormaris.mychessgame.api.square.Pawn;
 
 // Shannon's Evaluation Function.
 // see: https://www.chessprogramming.org/Evaluation
@@ -24,18 +18,18 @@ public class ShannonEvaluation implements Evaluation {
 	private static final double DOUBLED_BLOCKED_ISOLATED_PAWNS_MULTIPLIER = 0.5;
 	private static final double MOBILITY_MULTIPLIER = 0.1;
 
-	private int getPieceValue(ChessPiece chessPiece) {
-		if (chessPiece instanceof Pawn) {
+	private int getPieceValue(ChessSquare chessSquare) {
+		if (chessSquare.isPawn()) {
 			return PAWN_VALUE;
-		} else if (chessPiece instanceof Knight) {
+		} else if (chessSquare.isKnight()) {
 			return KNIGHT_VALUE;
-		} else if (chessPiece instanceof Bishop) {
+		} else if (chessSquare.isBishop()) {
 			return BISHOP_VALUE;
-		} else if (chessPiece instanceof Rook) {
+		} else if (chessSquare.isRook()) {
 			return ROOK_VALUE;
-		} else if (chessPiece instanceof Queen) {
+		} else if (chessSquare.isQueen()) {
 			return QUEEN_VALUE;
-		} else if (chessPiece instanceof King) {
+		} else if (chessSquare.isKing()) {
 			return KING_VALUE;
 		}
 		return 0;
@@ -48,26 +42,26 @@ public class ShannonEvaluation implements Evaluation {
 
 		for (int i = 0; i < chessBoard.getNumOfRows(); i++) {
 			for (int j = 0; j < chessBoard.getNumOfColumns(); j++) {
-				ChessPiece chessPiece = chessBoard.getGameBoard()[i][j];
+				ChessSquare chessSquare = chessBoard.getGameBoard()[i][j];
 
 				String position = chessBoard.getPositionByRowCol(i, j);
-				int numberOfLegalMoves = chessPiece.getNextPositions(position, chessBoard, false).size();
+				int numberOfLegalMoves = chessSquare.getNextPositions(position, chessBoard, false).size();
 
-				if (chessPiece.getAllegiance() == Allegiance.WHITE) {
-					score += PIECE_VALUE_MULTIPLIER * getPieceValue(chessPiece);
+				if (chessSquare.isWhite()) {
+					score += PIECE_VALUE_MULTIPLIER * getPieceValue(chessSquare);
 					score += MOBILITY_MULTIPLIER * numberOfLegalMoves;
-				} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
-					score -= PIECE_VALUE_MULTIPLIER * getPieceValue(chessPiece);
+				} else if (chessSquare.isBlack()) {
+					score -= PIECE_VALUE_MULTIPLIER * getPieceValue(chessSquare);
 					score -= MOBILITY_MULTIPLIER * numberOfLegalMoves;
 				}
 
-				if (chessPiece instanceof Pawn) {
-					Pawn pawn = (Pawn) chessPiece;
+				if (chessSquare.isPawn()) {
+					Pawn pawn = (Pawn) chessSquare;
 					if (pawn.isDoubledPawn(position, chessBoard) || pawn.isBlockedPawn(position, chessBoard)
 							|| pawn.isIsolatedPawn(position, chessBoard)) {
-						if (pawn.getAllegiance() == Allegiance.WHITE) {
+						if (pawn.isWhite()) {
 							score -= DOUBLED_BLOCKED_ISOLATED_PAWNS_MULTIPLIER;
-						} else if (pawn.getAllegiance() == Allegiance.BLACK) {
+						} else if (pawn.isBlack()) {
 							score += DOUBLED_BLOCKED_ISOLATED_PAWNS_MULTIPLIER;
 						}
 					}

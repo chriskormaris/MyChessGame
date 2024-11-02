@@ -2,10 +2,10 @@ package com.chriskormaris.mychessgame.gui.buttons;
 
 
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
-import com.chriskormaris.mychessgame.api.piece.Bishop;
-import com.chriskormaris.mychessgame.api.piece.King;
-import com.chriskormaris.mychessgame.api.piece.Knight;
-import com.chriskormaris.mychessgame.api.piece.Rook;
+import com.chriskormaris.mychessgame.api.square.Bishop;
+import com.chriskormaris.mychessgame.api.square.King;
+import com.chriskormaris.mychessgame.api.square.Knight;
+import com.chriskormaris.mychessgame.api.square.Rook;
 import com.chriskormaris.mychessgame.api.util.Constants;
 import com.chriskormaris.mychessgame.gui.frame.ButtonsFrame;
 import org.junit.jupiter.api.Test;
@@ -33,7 +33,7 @@ class CaptureRookOrBishopChoiceTest {
 		buttonsFrame.aiMove(buttonsFrame.ai);
 
 		assertTrue(
-				buttonsFrame.chessBoard.getChessPieceFromPosition("A1") instanceof Knight,
+				buttonsFrame.chessBoard.getChessSquareFromPosition("A1").isKnight(),
 				"The Black Knight did NOT capture the White Rook."
 		);
 

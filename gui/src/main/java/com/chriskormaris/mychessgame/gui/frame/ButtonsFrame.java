@@ -6,13 +6,12 @@ import com.chriskormaris.mychessgame.api.chess_board.Move;
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 import com.chriskormaris.mychessgame.api.enumeration.EvaluationFunction;
 import com.chriskormaris.mychessgame.api.enumeration.GameMode;
-import com.chriskormaris.mychessgame.api.piece.Bishop;
-import com.chriskormaris.mychessgame.api.piece.ChessPiece;
-import com.chriskormaris.mychessgame.api.piece.EmptySquare;
-import com.chriskormaris.mychessgame.api.piece.Knight;
-import com.chriskormaris.mychessgame.api.piece.Pawn;
-import com.chriskormaris.mychessgame.api.piece.Queen;
-import com.chriskormaris.mychessgame.api.piece.Rook;
+import com.chriskormaris.mychessgame.api.square.Bishop;
+import com.chriskormaris.mychessgame.api.square.ChessSquare;
+import com.chriskormaris.mychessgame.api.square.EmptySquare;
+import com.chriskormaris.mychessgame.api.square.Knight;
+import com.chriskormaris.mychessgame.api.square.Queen;
+import com.chriskormaris.mychessgame.api.square.Rook;
 import com.chriskormaris.mychessgame.api.util.Constants;
 import com.chriskormaris.mychessgame.api.util.FenUtils;
 import com.chriskormaris.mychessgame.api.util.Utilities;
@@ -429,11 +428,11 @@ public class ButtonsFrame extends ChessFrame {
 		hideNextPositions();
 
 		String position = chessBoard.getPositionByRowCol(row, column);
-		ChessPiece chessPiece = chessBoard.getGameBoard()[row][column];
+		ChessSquare chessSquare = chessBoard.getGameBoard()[row][column];
 
 		int startingPositionRow;
 		int startingPositionColumn;
-		ChessPiece startingPiece = null;
+		ChessSquare startingPiece = null;
 		if (!startingPosition.isEmpty()) {
 			startingPositionRow = chessBoard.getRowFromPosition(startingPosition);
 			startingPositionColumn = chessBoard.getColumnFromPosition(startingPosition);
@@ -441,26 +440,26 @@ public class ButtonsFrame extends ChessFrame {
 		}
 
 		if (!startingButtonIsClicked
-				&& (chessPiece.getAllegiance() == Allegiance.WHITE && chessBoard.whitePlays()
-				|| chessPiece.getAllegiance() == Allegiance.BLACK && chessBoard.blackPlays())) {
+				&& (chessSquare.isWhite() && chessBoard.whitePlays()
+				|| chessSquare.isBlack() && chessBoard.blackPlays())) {
 
 			startingPosition = position;
 
-			if (!(chessPiece instanceof EmptySquare)) {
+			if (chessSquare.isPiece()) {
 				nextPositions = chessBoard.getNextPositions(position);
 				button.setBackground(Color.CYAN);
 
 				// Display the next positions.
 				if (gameParameters.isShowNextMoves()) {
-					showNextPositions(chessPiece);
+					showNextPositions(chessSquare);
 				}
 
 				startingButtonIsClicked = true;
 			}
 
 		} else if (startingButtonIsClicked && startingPiece != null
-				&& (startingPiece.getAllegiance() == Allegiance.WHITE && chessBoard.whitePlays()
-				|| startingPiece.getAllegiance() == Allegiance.BLACK && chessBoard.blackPlays())) {
+				&& (startingPiece.isWhite() && chessBoard.whitePlays()
+				|| startingPiece.isBlack() && chessBoard.blackPlays())) {
 
 			startingButtonIsClicked = false;
 			endingPosition = position;
@@ -500,12 +499,12 @@ public class ButtonsFrame extends ChessFrame {
 		String positionStart = move.getPositionStart();
 		int rowStart = chessBoard.getRowFromPosition(positionStart);
 		int columnStart = chessBoard.getColumnFromPosition(positionStart);
-		ChessPiece startingPiece = chessBoard.getGameBoard()[rowStart][columnStart];
+		ChessSquare startingPiece = chessBoard.getGameBoard()[rowStart][columnStart];
 
 		String positionEnd = move.getPositionEnd();
 		int rowEnd = chessBoard.getRowFromPosition(positionEnd);
 		int columnEnd = chessBoard.getColumnFromPosition(positionEnd);
-		ChessPiece endSquare = chessBoard.getGameBoard()[rowEnd][columnEnd];
+		ChessSquare endSquare = chessBoard.getGameBoard()[rowEnd][columnEnd];
 
 		redoChessBoards.clear();
 		redoCapturedPieces.clear();
@@ -520,24 +519,24 @@ public class ButtonsFrame extends ChessFrame {
 		chessBoard.makeMove(move, true);
 
 		// Pawn promotion implementation.
-		if (startingPiece instanceof Pawn
-				&& (startingPiece.getAllegiance() == Allegiance.WHITE && rowEnd == 0
-				|| startingPiece.getAllegiance() == Allegiance.BLACK && rowEnd == chessBoard.getNumOfRows() - 1)) {
-			ChessPiece promotedPiece = new Queen(startingPiece.getAllegiance(), true);
+		if (startingPiece.isPawn()
+				&& (startingPiece.isWhite() && rowEnd == 0
+				|| startingPiece.isBlack() && rowEnd == chessBoard.getNumOfRows() - 1)) {
+			ChessSquare promotedPiece = new Queen(startingPiece.getAllegiance(), true);
 
 			// If AI plays, automatically choose the best promotion piece, based on the best outcome.
 			if (isAiMove) {
 				chessBoard.automaticPawnPromotion(startingPiece, positionEnd, true);
 
 				promotedPiece = chessBoard.getGameBoard()[rowEnd][columnEnd];
-				if (promotedPiece.getAllegiance() == Allegiance.WHITE) {
+				if (promotedPiece.isWhite()) {
 					JOptionPane.showMessageDialog(
 							this,
 							"Promoting White Pawn to " + promotedPiece + "!",
 							"White Pawn Promotion",
 							JOptionPane.INFORMATION_MESSAGE
 					);
-				} else if (promotedPiece.getAllegiance() == Allegiance.BLACK) {
+				} else if (promotedPiece.isBlack()) {
 					JOptionPane.showMessageDialog(
 							this,
 							"Promoting Black Pawn to " + promotedPiece + "!",
@@ -556,7 +555,7 @@ public class ButtonsFrame extends ChessFrame {
 				String initialSelection = "Queen";
 
 				String value = null;
-				if (startingPiece.getAllegiance() == Allegiance.WHITE) {
+				if (startingPiece.isWhite()) {
 					value = (String) JOptionPane.showInputDialog(
 							this,
 							"Promote White Pawn to:",
@@ -566,7 +565,7 @@ public class ButtonsFrame extends ChessFrame {
 							promotionPieces,
 							initialSelection
 					);
-				} else if (startingPiece.getAllegiance() == Allegiance.BLACK) {
+				} else if (startingPiece.isBlack()) {
 					value = (String) JOptionPane.showInputDialog(
 							this,
 							"Promote Black Pawn to:",
@@ -592,9 +591,9 @@ public class ButtonsFrame extends ChessFrame {
 			}
 
 			score += Utilities.getScoreValue(promotedPiece);
-			if (startingPiece.getAllegiance() == Allegiance.WHITE) {
+			if (startingPiece.isWhite()) {
 				score -= Constants.PAWN_SCORE_VALUE;
-			} else if (startingPiece.getAllegiance() == Allegiance.BLACK) {
+			} else if (startingPiece.isBlack()) {
 				score += Constants.PAWN_SCORE_VALUE;
 			}
 		}
@@ -604,14 +603,14 @@ public class ButtonsFrame extends ChessFrame {
 		chessBoard.setPlayer(chessBoard.getNextPlayer());
 
 		// If a ChessPiece capture has occurred.
-		if (startingPiece.getAllegiance() != endSquare.getAllegiance() && !(endSquare instanceof EmptySquare)) {
+		if (startingPiece.getAllegiance() != endSquare.getAllegiance() && !(endSquare.isEmpty())) {
 			score -= Utilities.getScoreValue(endSquare);
 
 			updateCapturedPieces(endSquare);
 			addCapturedPieceImage(endSquare);
 		}
 		// True if an en passant captured piece exists.
-		else if (!(chessBoard.getCapturedEnPassantPiece() instanceof EmptySquare)) {
+		else if (!(chessBoard.getCapturedEnPassantPiece().isEmpty())) {
 			score -= Utilities.getScoreValue(chessBoard.getCapturedEnPassantPiece());
 
 			updateCapturedPieces(chessBoard.getCapturedEnPassantPiece());
@@ -622,8 +621,8 @@ public class ButtonsFrame extends ChessFrame {
 			removePieceFromPosition(position);
 		}
 		for (String position : chessBoard.getPiecesToPlace().keySet()) {
-			ChessPiece chessPieceToPlace = chessBoard.getPiecesToPlace().get(position);
-			placePieceToPosition(position, chessPieceToPlace);
+			ChessSquare chessSquareToPlace = chessBoard.getPiecesToPlace().get(position);
+			placePieceToPosition(position, chessSquareToPlace);
 		}
 		chessBoard.getPositionsToRemove().clear();
 		chessBoard.getPiecesToPlace().clear();
@@ -637,7 +636,7 @@ public class ButtonsFrame extends ChessFrame {
 	}
 
 	@Override
-	void showNextPositions(ChessPiece chessPiece) {
+	void showNextPositions(ChessSquare chessSquare) {
 		for (String nextPosition : nextPositions) {
 			int nextPositionRow = chessBoard.getRowFromPosition(nextPosition);
 			int nextPositionColumn = chessBoard.getColumnFromPosition(nextPosition);
@@ -649,20 +648,20 @@ public class ButtonsFrame extends ChessFrame {
 				nextPositionButtonColumn = chessBoard.getNumOfColumns() - 1 - nextPositionColumn;
 			}
 			JButton nextPositionButton = chessButtons[nextPositionButtonRow][nextPositionButtonColumn];
-			ChessPiece nextPositionPiece = chessBoard.getGameBoard()[nextPositionRow][nextPositionColumn];
+			ChessSquare nextPositionPiece = chessBoard.getGameBoard()[nextPositionRow][nextPositionColumn];
 
-			if (nextPositionPiece.getAllegiance() != Allegiance.NONE
+			if (nextPositionPiece.isPiece()
 					|| chessBoard.getEnPassantPosition().equals(nextPosition)
-					&& chessPiece instanceof Pawn) {
+					&& chessSquare.isPawn()) {
 				nextPositionButton.setBackground(Color.RED);
-			} else if (chessPiece instanceof Pawn &&
-					(chessPiece.getAllegiance() == Allegiance.WHITE
+			} else if (chessSquare.isPawn() &&
+					(chessSquare.isWhite()
 							&& nextPositionRow == 0
-							|| chessPiece.getAllegiance() == Allegiance.BLACK
+							|| chessSquare.isBlack()
 							&& nextPositionRow == chessBoard.getNumOfRows() - 1)
 			) {
 				nextPositionButton.setBackground(Color.GREEN);
-			} else if (nextPositionPiece instanceof EmptySquare) {
+			} else if (nextPositionPiece.isEmpty()) {
 				nextPositionButton.setBackground(Color.BLUE);
 			}
 		}
@@ -701,12 +700,12 @@ public class ButtonsFrame extends ChessFrame {
 	// It inserts the given chessPiece to the given position on the board
 	// (both the data structure and the GUI).
 	@Override
-	public void placePieceToPosition(String position, ChessPiece chessPiece) {
+	public void placePieceToPosition(String position, ChessSquare chessSquare) {
 		int row = chessBoard.getRowFromPosition(position);
 		int column = chessBoard.getColumnFromPosition(position);
-		chessBoard.getGameBoard()[row][column] = chessPiece;
+		chessBoard.getGameBoard()[row][column] = chessSquare;
 
-		String imagePath = GuiUtils.getImagePath(chessPiece);
+		String imagePath = GuiUtils.getImagePath(chessSquare);
 		ImageIcon pieceImage = GuiUtils.preparePieceIcon(imagePath, GuiConstants.CHESS_PIECE_SQUARE_PIXEL_SIZE);
 
 		if (flipBoard) {
@@ -736,9 +735,9 @@ public class ButtonsFrame extends ChessFrame {
 	void redrawChessBoard() {
 		for (int i = 0; i < chessBoard.getNumOfRows(); i++) {
 			for (int j = 0; j < chessBoard.getNumOfColumns(); j++) {
-				ChessPiece chessPiece = chessBoard.getGameBoard()[i][j];
+				ChessSquare chessSquare = chessBoard.getGameBoard()[i][j];
 				String position = chessBoard.getPositionByRowCol(i, j);
-				placePieceToPosition(position, chessPiece);
+				placePieceToPosition(position, chessSquare);
 			}
 		}
 	}

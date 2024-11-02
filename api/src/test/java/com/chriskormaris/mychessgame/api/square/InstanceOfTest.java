@@ -1,4 +1,4 @@
-package com.chriskormaris.mychessgame.api.piece;
+package com.chriskormaris.mychessgame.api.square;
 
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 import org.junit.jupiter.api.Test;
@@ -7,17 +7,17 @@ public class InstanceOfTest {
 
 	@Test
 	public void testInstanceOfVsOperatorEqualsSpeed() {
-		ChessPiece[] chessPieces = new ChessPiece[100000];
+		ChessSquare[] chessSquares = new ChessSquare[100000];
 
-		for (int i=0; i<chessPieces.length; i++) {
-			chessPieces[i] = new Pawn(Allegiance.WHITE);
+		for (int i = 0; i< chessSquares.length; i++) {
+			chessSquares[i] = new Pawn(Allegiance.WHITE);
 		}
 
 		/**********************************************************/
 
 		long startTime = System.nanoTime();
-		for (ChessPiece chessPiece: chessPieces) {
-			if (chessPiece instanceof Pawn) {
+		for (ChessSquare chessSquare : chessSquares) {
+			if (chessSquare.isPawn()) {
 				// System.out.println("Pawn");
 			}
 		}
@@ -31,8 +31,8 @@ public class InstanceOfTest {
 		System.out.println();
 
 		startTime = System.nanoTime();
-		for (ChessPiece chessPiece: chessPieces) {
-			if (chessPiece.getPieceChar() == 'P') {
+		for (ChessSquare chessSquare : chessSquares) {
+			if (chessSquare.getPieceChar() == 'P') {
 				// System.out.println("P");
 			}
 		}

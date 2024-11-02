@@ -2,8 +2,8 @@ package com.chriskormaris.mychessgame.api.util;
 
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.api.exception.InvalidFenPositionException;
-import com.chriskormaris.mychessgame.api.piece.ChessPiece;
-import com.chriskormaris.mychessgame.api.piece.EmptySquare;
+import com.chriskormaris.mychessgame.api.square.ChessSquare;
+import com.chriskormaris.mychessgame.api.square.EmptySquare;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 
@@ -176,9 +176,9 @@ public final class FenUtils {
 			int emptySquaresCounter = 0;
 			for (int j = 0; j < chessBoard.getNumOfColumns(); j++) {
 				// Get the chessPiece in the indices [i][j], from the gameBoard.
-				ChessPiece chessPiece = chessBoard.getGameBoard()[i][j];
+				ChessSquare chessSquare = chessBoard.getGameBoard()[i][j];
 				// Convert chessPiece value to chessPiece character.
-				char pieceChar = Utilities.getPieceChar(chessPiece);
+				char pieceChar = Utilities.getPieceChar(chessSquare);
 				if (pieceChar != '-') {
 					if (emptySquaresCounter != 0) {
 						// Append the number of empty consecutive empty squares in a row

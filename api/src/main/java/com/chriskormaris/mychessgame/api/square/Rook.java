@@ -1,4 +1,4 @@
-package com.chriskormaris.mychessgame.api.piece;
+package com.chriskormaris.mychessgame.api.square;
 
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
@@ -25,9 +25,9 @@ public class Rook extends ChessPiece {
 		// that corresponds to the given position String.
 		int row = chessBoard.getRowFromPosition(startingPosition);
 		int column = chessBoard.getColumnFromPosition(startingPosition);
-		ChessPiece rook = chessBoard.getGameBoard()[row][column];
+		ChessSquare rook = chessBoard.getGameBoard()[row][column];
 
-		if (!(rook instanceof Rook)) {
+		if (!(rook.isRook())) {
 			return nextRookPositions;
 		}
 
@@ -38,15 +38,15 @@ public class Rook extends ChessPiece {
 				int newColumn = column;
 
 				String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
-				ChessPiece endSquare = chessBoard.getGameBoard()[newRow][newColumn];
+				ChessSquare endSquare = chessBoard.getGameBoard()[newRow][newColumn];
 
-				if (endSquare instanceof EmptySquare || rook.getAllegiance() != endSquare.getAllegiance()
-						&& !(endSquare instanceof King) || returnThreats) {
+				if (endSquare.isEmpty() || rook.getAllegiance() != endSquare.getAllegiance()
+						&& !(endSquare.isKing()) || returnThreats) {
 					nextRookPositions.add(newPosition);
 				}
 
 				// Stop searching for other positions, if another chessPiece is reached.
-				if (rook.getAllegiance() != endSquare.getAllegiance() && !(endSquare instanceof EmptySquare)
+				if (rook.getAllegiance() != endSquare.getAllegiance() && !(endSquare.isEmpty())
 						|| rook.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
 					break;
 				}
@@ -60,15 +60,15 @@ public class Rook extends ChessPiece {
 				int newColumn = column;
 
 				String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
-				ChessPiece endSquare = chessBoard.getGameBoard()[newRow][newColumn];
+				ChessSquare endSquare = chessBoard.getGameBoard()[newRow][newColumn];
 
-				if (endSquare instanceof EmptySquare || rook.getAllegiance() != endSquare.getAllegiance()
-						&& !(endSquare instanceof King) || returnThreats) {
+				if (endSquare.isEmpty() || rook.getAllegiance() != endSquare.getAllegiance()
+						&& !(endSquare.isKing()) || returnThreats) {
 					nextRookPositions.add(newPosition);
 				}
 
 				// Stop searching for other positions, if another chessPiece is reached.
-				if (rook.getAllegiance() != endSquare.getAllegiance() && !(endSquare instanceof EmptySquare)
+				if (rook.getAllegiance() != endSquare.getAllegiance() && !(endSquare.isEmpty())
 						|| rook.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
 					break;
 				}
@@ -82,15 +82,15 @@ public class Rook extends ChessPiece {
 				int newColumn = j;
 
 				String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
-				ChessPiece endSquare = chessBoard.getGameBoard()[newRow][newColumn];
+				ChessSquare endSquare = chessBoard.getGameBoard()[newRow][newColumn];
 
-				if (endSquare instanceof EmptySquare || rook.getAllegiance() != endSquare.getAllegiance()
-						&& !(endSquare instanceof King) || returnThreats) {
+				if (endSquare.isEmpty() || rook.getAllegiance() != endSquare.getAllegiance()
+						&& !(endSquare.isKing()) || returnThreats) {
 					nextRookPositions.add(newPosition);
 				}
 
 				// Stop searching for other positions, if another chessPiece is reached.
-				if (rook.getAllegiance() != endSquare.getAllegiance() && !(endSquare instanceof EmptySquare)
+				if (rook.getAllegiance() != endSquare.getAllegiance() && !(endSquare.isEmpty())
 						|| rook.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
 					break;
 				}
@@ -104,15 +104,15 @@ public class Rook extends ChessPiece {
 				int newColumn = j;
 
 				String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
-				ChessPiece endSquare = chessBoard.getGameBoard()[newRow][newColumn];
+				ChessSquare endSquare = chessBoard.getGameBoard()[newRow][newColumn];
 
-				if (endSquare instanceof EmptySquare || rook.getAllegiance() != endSquare.getAllegiance()
-						&& !(endSquare instanceof King) || returnThreats) {
+				if (endSquare.isEmpty() || rook.getAllegiance() != endSquare.getAllegiance()
+						&& !(endSquare.isKing()) || returnThreats) {
 					nextRookPositions.add(newPosition);
 				}
 
 				// Stop searching for other positions, if another chessPiece is reached.
-				if (rook.getAllegiance() != endSquare.getAllegiance() && !(endSquare instanceof EmptySquare)
+				if (rook.getAllegiance() != endSquare.getAllegiance() && !(endSquare.isEmpty())
 						|| rook.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
 					break;
 				}

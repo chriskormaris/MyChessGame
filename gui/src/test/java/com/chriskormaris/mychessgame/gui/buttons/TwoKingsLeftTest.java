@@ -2,8 +2,8 @@ package com.chriskormaris.mychessgame.gui.buttons;
 
 
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
-import com.chriskormaris.mychessgame.api.piece.King;
-import com.chriskormaris.mychessgame.api.piece.Pawn;
+import com.chriskormaris.mychessgame.api.square.King;
+import com.chriskormaris.mychessgame.api.square.Pawn;
 import com.chriskormaris.mychessgame.gui.frame.ButtonsFrame;
 import org.junit.jupiter.api.Test;
 

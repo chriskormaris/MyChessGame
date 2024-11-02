@@ -1,4 +1,4 @@
-package com.chriskormaris.mychessgame.api.piece;
+package com.chriskormaris.mychessgame.api.square;
 
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 
-public class EmptySquare extends ChessPiece {
+public class EmptySquare extends ChessSquare {
 
 	public EmptySquare() {
 		super(Allegiance.NONE);

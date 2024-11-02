@@ -1,13 +1,7 @@
 package com.chriskormaris.mychessgame.api.evaluation;
 
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
-import com.chriskormaris.mychessgame.api.piece.Bishop;
-import com.chriskormaris.mychessgame.api.piece.ChessPiece;
-import com.chriskormaris.mychessgame.api.piece.King;
-import com.chriskormaris.mychessgame.api.piece.Knight;
-import com.chriskormaris.mychessgame.api.piece.Pawn;
-import com.chriskormaris.mychessgame.api.piece.Queen;
-import com.chriskormaris.mychessgame.api.piece.Rook;
+import com.chriskormaris.mychessgame.api.square.ChessSquare;
 
 public interface Evaluation {
 
@@ -24,18 +18,18 @@ public interface Evaluation {
 
 	// At the start of the game, the sum of all pieces' "gamePhase" values should be equal to 24.
 	// In case of early promotion, the sum could be more than 24.
-	default int getPieceGamePhaseValue(ChessPiece chessPiece) {
-		if (chessPiece instanceof Pawn) {
+	default int getPieceGamePhaseValue(ChessSquare chessSquare) {
+		if (chessSquare.isPawn()) {
 			return PAWN_GAME_PHASE_VALUE;
-		} else if (chessPiece instanceof Knight) {
+		} else if (chessSquare.isKnight()) {
 			return KNIGHT_GAME_PHASE_VALUE;
-		} else if (chessPiece instanceof Bishop) {
+		} else if (chessSquare.isBishop()) {
 			return BISHOP_GAME_PHASE_VALUE;
-		} else if (chessPiece instanceof Rook) {
+		} else if (chessSquare.isRook()) {
 			return ROOK_GAME_PHASE_VALUE;
-		} else if (chessPiece instanceof Queen) {
+		} else if (chessSquare.isQueen()) {
 			return QUEEN_GAME_PHASE_VALUE;
-		} else if (chessPiece instanceof King) {
+		} else if (chessSquare.isKing()) {
 			return KING_GAME_PHASE_VALUE;
 		}
 		return 0;

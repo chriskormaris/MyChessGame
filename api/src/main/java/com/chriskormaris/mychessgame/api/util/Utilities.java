@@ -1,14 +1,14 @@
 package com.chriskormaris.mychessgame.api.util;
 
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
-import com.chriskormaris.mychessgame.api.piece.Bishop;
-import com.chriskormaris.mychessgame.api.piece.ChessPiece;
-import com.chriskormaris.mychessgame.api.piece.EmptySquare;
-import com.chriskormaris.mychessgame.api.piece.King;
-import com.chriskormaris.mychessgame.api.piece.Knight;
-import com.chriskormaris.mychessgame.api.piece.Pawn;
-import com.chriskormaris.mychessgame.api.piece.Queen;
-import com.chriskormaris.mychessgame.api.piece.Rook;
+import com.chriskormaris.mychessgame.api.square.Bishop;
+import com.chriskormaris.mychessgame.api.square.ChessSquare;
+import com.chriskormaris.mychessgame.api.square.EmptySquare;
+import com.chriskormaris.mychessgame.api.square.King;
+import com.chriskormaris.mychessgame.api.square.Knight;
+import com.chriskormaris.mychessgame.api.square.Pawn;
+import com.chriskormaris.mychessgame.api.square.Queen;
+import com.chriskormaris.mychessgame.api.square.Rook;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 
@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Utilities {
 
-	public static ChessPiece getChessPiece(char pieceChar) {
+	public static ChessSquare getChessPiece(char pieceChar) {
 		if (pieceChar == Constants.WHITE_PAWN) {
 			return new Pawn(Allegiance.WHITE);
 		} else if (pieceChar == Constants.WHITE_ROOK) {
@@ -51,71 +51,71 @@ public final class Utilities {
 		return new EmptySquare();
 	}
 
-	public static char getPieceChar(ChessPiece chessPiece) {
-		if (chessPiece.getAllegiance() == Allegiance.WHITE) {
-			if (chessPiece instanceof Pawn) {
+	public static char getPieceChar(ChessSquare chessSquare) {
+		if (chessSquare.isWhite()) {
+			if (chessSquare.isPawn()) {
 				return Constants.WHITE_PAWN;
-			} else if (chessPiece instanceof Rook) {
+			} else if (chessSquare.isRook()) {
 				return Constants.WHITE_ROOK;
-			} else if (chessPiece instanceof Knight) {
+			} else if (chessSquare.isKnight()) {
 				return Constants.WHITE_KNIGHT;
-			} else if (chessPiece instanceof Bishop) {
+			} else if (chessSquare.isBishop()) {
 				return Constants.WHITE_BISHOP;
-			} else if (chessPiece instanceof Queen) {
+			} else if (chessSquare.isQueen()) {
 				return Constants.WHITE_QUEEN;
-			} else if (chessPiece instanceof King) {
+			} else if (chessSquare.isKing()) {
 				return Constants.WHITE_KING;
 			}
-		} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
-			if (chessPiece instanceof Pawn) {
+		} else if (chessSquare.isBlack()) {
+			if (chessSquare.isPawn()) {
 				return Constants.BLACK_PAWN;
-			} else if (chessPiece instanceof Rook) {
+			} else if (chessSquare.isRook()) {
 				return Constants.BLACK_ROOK;
-			} else if (chessPiece instanceof Knight) {
+			} else if (chessSquare.isKnight()) {
 				return Constants.BLACK_KNIGHT;
-			} else if (chessPiece instanceof Bishop) {
+			} else if (chessSquare.isBishop()) {
 				return Constants.BLACK_BISHOP;
-			} else if (chessPiece instanceof Queen) {
+			} else if (chessSquare.isQueen()) {
 				return Constants.BLACK_QUEEN;
-			} else if (chessPiece instanceof King) {
+			} else if (chessSquare.isKing()) {
 				return Constants.BLACK_KING;
 			}
 		}
-		if (!(chessPiece instanceof EmptySquare)) {
-			System.err.println("Invalid chessPiece value \"" + chessPiece + "\"!");
+		if (chessSquare.isPiece()) {
+			System.err.println("Invalid chessPiece value \"" + chessSquare + "\"!");
 		}
 		return '-';
 	}
 
-	public static ChessPiece[][] copyGameBoard(ChessPiece[][] gameBoard) {
+	public static ChessSquare[][] copyGameBoard(ChessSquare[][] gameBoard) {
 		int n1 = gameBoard.length;
 		int n2 = gameBoard[0].length;
 
-		ChessPiece[][] newGameBoard = new ChessPiece[n1][n2];
+		ChessSquare[][] newGameBoard = new ChessSquare[n1][n2];
 		for (int i = 0; i < n1; i++) {
 			System.arraycopy(gameBoard[i], 0, newGameBoard[i], 0, n2);
 		}
 		return newGameBoard;
 	}
 
-	public static int getScoreValue(ChessPiece chessPiece) {
+	public static int getScoreValue(ChessSquare chessSquare) {
 		int score = 0;
-		if (chessPiece instanceof Pawn) {
+		if (chessSquare.isPawn()) {
 			score = Constants.PAWN_SCORE_VALUE;
 		}
-		if (chessPiece instanceof Knight) {
+		if (chessSquare.isKnight()) {
 			score = Constants.KNIGHT_SCORE_VALUE;
 		}
-		if (chessPiece instanceof Bishop) {
+		if (chessSquare.isBishop()) {
 			score = Constants.BISHOP_SCORE_VALUE;
 		}
-		if (chessPiece instanceof Rook) {
+		if (chessSquare.isRook()) {
 			score = Constants.ROOK_SCORE_VALUE;
 		}
-		if (chessPiece instanceof Queen) {
+		if (chessSquare.isQueen()) {
 			score = Constants.QUEEN_SCORE_VALUE;
 		}
-		if (chessPiece.getAllegiance() == Allegiance.BLACK) {
+		if (chessSquare.isBlack()) {
 			score = -score;
 		}
 		return score;

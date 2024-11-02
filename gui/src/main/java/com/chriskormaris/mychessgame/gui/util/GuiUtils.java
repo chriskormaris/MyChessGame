@@ -1,13 +1,6 @@
 package com.chriskormaris.mychessgame.gui.util;
 
-import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
-import com.chriskormaris.mychessgame.api.piece.Bishop;
-import com.chriskormaris.mychessgame.api.piece.ChessPiece;
-import com.chriskormaris.mychessgame.api.piece.King;
-import com.chriskormaris.mychessgame.api.piece.Knight;
-import com.chriskormaris.mychessgame.api.piece.Pawn;
-import com.chriskormaris.mychessgame.api.piece.Queen;
-import com.chriskormaris.mychessgame.api.piece.Rook;
+import com.chriskormaris.mychessgame.api.square.ChessSquare;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 
@@ -30,35 +23,35 @@ public final class GuiUtils {
 		return pieceIcon;
 	}
 
-	public static String getImagePath(ChessPiece chessPiece) {
+	public static String getImagePath(ChessSquare chessSquare) {
 		String imagePath = "";
 
-		if (chessPiece.getAllegiance() == Allegiance.WHITE) {
-			if (chessPiece instanceof Pawn) {
+		if (chessSquare.isWhite()) {
+			if (chessSquare.isPawn()) {
 				imagePath = GuiConstants.WHITE_PAWN_IMG_PATH;
-			} else if (chessPiece instanceof Rook) {
+			} else if (chessSquare.isRook()) {
 				imagePath = GuiConstants.WHITE_ROOK_IMG_PATH;
-			} else if (chessPiece instanceof Knight) {
+			} else if (chessSquare.isKnight()) {
 				imagePath = GuiConstants.WHITE_KNIGHT_IMG_PATH;
-			} else if (chessPiece instanceof Bishop) {
+			} else if (chessSquare.isBishop()) {
 				imagePath = GuiConstants.WHITE_BISHOP_IMG_PATH;
-			} else if (chessPiece instanceof Queen) {
+			} else if (chessSquare.isQueen()) {
 				imagePath = GuiConstants.WHITE_QUEEN_IMG_PATH;
-			} else if (chessPiece instanceof King) {
+			} else if (chessSquare.isKing()) {
 				imagePath = GuiConstants.WHITE_KING_IMG_PATH;
 			}
-		} else if (chessPiece.getAllegiance() == Allegiance.BLACK) {
-			if (chessPiece instanceof Pawn) {
+		} else if (chessSquare.isBlack()) {
+			if (chessSquare.isPawn()) {
 				imagePath = GuiConstants.BLACK_PAWN_IMG_PATH;
-			} else if (chessPiece instanceof Rook) {
+			} else if (chessSquare.isRook()) {
 				imagePath = GuiConstants.BLACK_ROOK_IMG_PATH;
-			} else if (chessPiece instanceof Knight) {
+			} else if (chessSquare.isKnight()) {
 				imagePath = GuiConstants.BLACK_KNIGHT_IMG_PATH;
-			} else if (chessPiece instanceof Bishop) {
+			} else if (chessSquare.isBishop()) {
 				imagePath = GuiConstants.BLACK_BISHOP_IMG_PATH;
-			} else if (chessPiece instanceof Queen) {
+			} else if (chessSquare.isQueen()) {
 				imagePath = GuiConstants.BLACK_QUEEN_IMG_PATH;
-			} else if (chessPiece instanceof King) {
+			} else if (chessSquare.isKing()) {
 				imagePath = GuiConstants.BLACK_KING_IMG_PATH;
 			}
 		}
