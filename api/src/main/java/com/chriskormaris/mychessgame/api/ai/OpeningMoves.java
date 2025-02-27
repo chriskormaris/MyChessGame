@@ -139,9 +139,9 @@ public class OpeningMoves {
 		BLACK_OPENING_MOVES.put("rnbqkbnr/pppppppp/8/8/3P4/8/PPP1PPPP/RNBQKBNR b KQkq d3 0 1", movesList);
 
 		movesList = new ArrayList<>();
-		movesList.add(new Move("D7", "D6"));  // B00 King's pawn opening
 		movesList.add(new Move("B8", "C6"));  // B00 KP, Nimzovich defence
 		movesList.add(new Move("D7", "D5"));  // B01 Scandinavian (centre counter) defence
+		movesList.add(new Move("D7", "D6"));  // B07 Pirc defence
 		movesList.add(new Move("C7", "C6"));  // B10 Caro-Kann defence
 		movesList.add(new Move("C7", "C5"));  // B20 Sicilian defence
 		movesList.add(new Move("E7", "E6"));  // C00 French defence
@@ -239,6 +239,14 @@ public class OpeningMoves {
 		movesList = new ArrayList<>();
 		movesList.add(new Move("D7", "D5"));  // C00 French defence
 		BLACK_OPENING_MOVES.put("rnbqkbnr/pppp1ppp/4p3/8/3PP3/8/PPP2PPP/RNBQKBNR b KQkq d3 0 2", movesList);
+
+		movesList = new ArrayList<>();
+		movesList.add(new Move("D8", "E7"));  // C42 Petrov, Damiano variation
+		BLACK_OPENING_MOVES.put("rnbqkb1r/pppp1ppp/8/4N3/4n3/8/PPPPQPPP/RNB1KB1R b KQkq - 1 4", movesList);
+
+		movesList = new ArrayList<>();
+		movesList.add(new Move("D7", "D6"));  // C42 Petrov, Damiano variation
+		BLACK_OPENING_MOVES.put("rnb1kb1r/ppppqppp/8/4N3/4Q3/8/PPPP1PPP/RNB1KB1R b KQkq - 0 5", movesList);
 	}
 
 	// Returns null, if the "moveIndex" exceeds the size of "movesList",
