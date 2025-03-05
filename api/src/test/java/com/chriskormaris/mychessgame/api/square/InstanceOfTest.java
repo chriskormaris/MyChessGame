@@ -1,6 +1,7 @@
 package com.chriskormaris.mychessgame.api.square;
 
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
+import com.chriskormaris.mychessgame.api.util.Utilities;
 import org.junit.jupiter.api.Test;
 
 public class InstanceOfTest {
@@ -32,7 +33,7 @@ public class InstanceOfTest {
 
 		startTime = System.nanoTime();
 		for (ChessSquare chessSquare : chessSquares) {
-			if (chessSquare.getPieceChar() == 'P') {
+			if (Utilities.getPieceChar(chessSquare) == 'P') {
 				// System.out.println("P");
 			}
 		}

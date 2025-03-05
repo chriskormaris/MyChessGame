@@ -81,6 +81,7 @@ public final class Utilities {
 				return Constants.BLACK_KING;
 			}
 		}
+
 		if (chessSquare.isPiece()) {
 			System.err.println("Invalid chessPiece value \"" + chessSquare + "\"!");
 		}
@@ -102,17 +103,13 @@ public final class Utilities {
 		int score = 0;
 		if (chessSquare.isPawn()) {
 			score = Constants.PAWN_SCORE_VALUE;
-		}
-		if (chessSquare.isKnight()) {
+		} else if (chessSquare.isKnight()) {
 			score = Constants.KNIGHT_SCORE_VALUE;
-		}
-		if (chessSquare.isBishop()) {
+		} else if (chessSquare.isBishop()) {
 			score = Constants.BISHOP_SCORE_VALUE;
-		}
-		if (chessSquare.isRook()) {
+		} else if (chessSquare.isRook()) {
 			score = Constants.ROOK_SCORE_VALUE;
-		}
-		if (chessSquare.isQueen()) {
+		} else if (chessSquare.isQueen()) {
 			score = Constants.QUEEN_SCORE_VALUE;
 		}
 		if (chessSquare.isBlack()) {
