@@ -9,7 +9,7 @@ import java.awt.*;
 public class GuiConstants {
 
 	public static final String TITLE = "My Chess Game";
-	public static final String VERSION = "10.0.1";
+	public static final String VERSION = "10.0.2";
 
 	public static final String FIRST_MOVE_TEXT = "Move: 1. White plays first.";
 	public static final String ZERO_SCORE_TEXT = "Score:  0";
@@ -47,8 +47,8 @@ public class GuiConstants {
 	public static final String RULES = "The game of Chess is strictly played by 2 players and consists of 16 White and 16 Black pieces.\n"
 			+ "There are 6 different Chess piece types: 1) King, 2) Rook, 3) Bishop, 4) Queen, 5) Knight & 6) Pawn. White always plays first.\n"
 			+ "A Chess piece can only move to an empty square or take the place of an opponent's Chess piece, by capturing it.\n"
-			+ "However, no Chess piece can't jump over other Chess pieces, unless it is a Knight.\n"
-			+ "The aim of the game is to trap the opponent King. A move made by a player that threatens the opponent king is called a \"check\".\n"
+			+ "However, no Chess piece can jump over other Chess pieces, unless it is a Knight.\n"
+			+ "\nThe aim of the game is to trap the opponent King. A move made by a player that threatens the opponent king is called a \"check\".\n"
 			+ "If the player makes a move with a piece that checks the opponent King, in a way that the opponent player has no legal moves for his King,\n"
 			+ "and he can't block the threat with another piece, that move is called a \"checkmate\" and the player that made the move wins the game.\n"
 			+ "\nThe following scenarios are considered a draw:\n"
@@ -58,10 +58,10 @@ public class GuiConstants {
 			+ "     King & Bishop vs King & Bishop with the Bishops on the same color, then the game ends in a draw due to insufficient mating material.\n"
 			+ "     In addition, if we have only Kings and Pawns left on the Chess board and the Kings are not able to capture the Pawns,\n"
 			+ "     then this condition is also a draw due to insufficient mating material.\n"
-			+ "  3) If 50 moves have been played and neither player has captured any opponent's Chess piece, then the player that plays next can declare a draw.\n"
+			+ "  3) If 50 moves have been played and neither player has captured any opponent's Chess piece, then the player that plays next can claim a draw.\n"
 			+ "  4) If 75 moves have been played and neither player has captured any opponent's Chess piece, then the game automatically ends in a draw.\n"
 			+ "  5) If the exact Chess board position is repeated 3 times, at any time in the game, not necessarily successively,\n"
-			+ "     then the player that plays next can declare a draw. This scenario is called threefold repetition.\n"
+			+ "     then the player that plays next can claim a draw. This scenario is called threefold repetition.\n"
 			+ "  6) If the exact Chess board position is repeated 5 times, at any time in the game, not necessarily successively,\n"
 			+ "     then the game automatically ends in a draw. This scenario is called fivefold repetition.\n"
 			+ "\nThe Chess pieces can move on the Chess board as follows:\n"

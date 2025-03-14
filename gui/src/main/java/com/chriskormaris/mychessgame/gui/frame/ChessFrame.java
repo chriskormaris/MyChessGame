@@ -838,7 +838,7 @@ public abstract class ChessFrame extends JFrame {
                     || chessBoard.whitePlays() && gameParameters.getHumanAllegiance() == Allegiance.BLACK)) {
                 dialogResult = JOptionPane.showConfirmDialog(
                         this,
-                        "50 moves have been played without a piece capture! Do you want to declare a draw?",
+                        "50 moves have been played without a piece capture! Do you want to claim a draw?",
                         "Draw",
                         JOptionPane.YES_NO_OPTION
                 );
@@ -846,7 +846,7 @@ public abstract class ChessFrame extends JFrame {
 
             if (dialogResult == JOptionPane.YES_OPTION) {
                 chessBoard.setGameResult(GameResult.NO_CAPTURE_DRAW);
-                showDeclareDrawDialog(drawIcon);
+                showClaimDrawDialog(drawIcon);
                 return true;
             }
         }
@@ -885,7 +885,7 @@ public abstract class ChessFrame extends JFrame {
                 dialogResult = JOptionPane.showConfirmDialog(
                         this,
                         "Threefold repetition of the same Chess board position has occurred! "
-                                + "Do you want to declare a draw?",
+                                + "Do you want to claim a draw?",
                         "Draw",
                         JOptionPane.YES_NO_OPTION
                 );
@@ -893,7 +893,7 @@ public abstract class ChessFrame extends JFrame {
 
             if (JOptionPane.YES_OPTION == dialogResult) {
                 chessBoard.setGameResult(GameResult.THREEFOLD_REPETITION_DRAW);
-                showDeclareDrawDialog(drawIcon);
+                showClaimDrawDialog(drawIcon);
                 return true;
             }
         }
@@ -901,7 +901,7 @@ public abstract class ChessFrame extends JFrame {
         return false;
     }
 
-    private void showDeclareDrawDialog(ImageIcon drawIcon) {
+    private void showClaimDrawDialog(ImageIcon drawIcon) {
         String moveText = "Move: "
                 + (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2)
                 + ". It is a draw.";
