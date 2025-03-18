@@ -9,7 +9,7 @@ import java.awt.*;
 public class GuiConstants {
 
 	public static final String TITLE = "My Chess Game";
-	public static final String VERSION = "10.0.2";
+	public static final String VERSION = "10.0.3";
 
 	public static final String FIRST_MOVE_TEXT = "Move: 1. White plays first.";
 	public static final String ZERO_SCORE_TEXT = "Score:  0";

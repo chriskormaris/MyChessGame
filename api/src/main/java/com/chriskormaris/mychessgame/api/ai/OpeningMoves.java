@@ -18,6 +18,8 @@ public class OpeningMoves {
 	private static final Map<String, List<Move>> WHITE_OPENING_MOVES = new HashMap<>();
 	private static final Map<String, List<Move>> BLACK_OPENING_MOVES = new HashMap<>();
 
+	private static final Random RANDOM = new Random();
+
 	// Initialize White opening moves.
 	static {
 		List<Move> movesList = new ArrayList<>();
@@ -111,12 +113,17 @@ public class OpeningMoves {
 		WHITE_OPENING_MOVES.put("rnbqkb1r/pppppp1p/5np1/8/2PP4/8/PP2PPPP/RNBQKBNR w KQkq - 0 3", movesList);
 
 		movesList = new ArrayList<>();
-		movesList.add(new Move("B2", "C3"));  // E00 Queen's pawn game
+		movesList.add(new Move("B1", "C3"));  // E00 Queen's pawn game
+		movesList.add(new Move("G2", "G3"));  // E00 Catalan opening
 		WHITE_OPENING_MOVES.put("rnbqkb1r/pppp1ppp/4pn2/8/2PP4/8/PP2PPPP/RNBQKBNR w KQkq - 0 3", movesList);
 
 		movesList = new ArrayList<>();
 		movesList.add(new Move("D2", "D4"));  // B12 Caro-Kann defence
 		WHITE_OPENING_MOVES.put("rnbqkbnr/pp1ppppp/2p5/8/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 2", movesList);
+
+		movesList = new ArrayList<>();
+		movesList.add(new Move("F1", "G2"));  // E00 Catalan opening
+		WHITE_OPENING_MOVES.put("rnbqkb1r/ppp2ppp/4pn2/3p4/2PP4/6P1/PP2PP1P/RNBQKBNR w KQkq d6 0 4", movesList);
 	}
 
 	// Initialize Black opening moves.
@@ -247,6 +254,10 @@ public class OpeningMoves {
 		movesList = new ArrayList<>();
 		movesList.add(new Move("D7", "D6"));  // C42 Petrov, Damiano variation
 		BLACK_OPENING_MOVES.put("rnb1kb1r/ppppqppp/8/4N3/4Q3/8/PPPP1PPP/RNB1KB1R b KQkq - 0 5", movesList);
+
+		movesList = new ArrayList<>();
+		movesList.add(new Move("D7", "D5"));  // E00 Catalan opening
+		BLACK_OPENING_MOVES.put("rnbqkb1r/pppp1ppp/4pn2/8/2PP4/6P1/PP2PP1P/RNBQKBNR b KQkq - 0 3", movesList);
 	}
 
 	// Returns null, if the "moveIndex" exceeds the size of "movesList",
@@ -259,8 +270,7 @@ public class OpeningMoves {
 		if (chessBoard.whitePlays()) {
 			if (WHITE_OPENING_MOVES.containsKey(fenPosition)) {
 				List<Move> movesList = WHITE_OPENING_MOVES.get(fenPosition);
-				Random random = new Random();
-				int moveIndex = random.nextInt(movesList.size() + 1);
+				int moveIndex = RANDOM.nextInt(movesList.size() + 1);
 				if (moveIndex < movesList.size()) {
 					return movesList.get(moveIndex);
 				}
@@ -268,8 +278,7 @@ public class OpeningMoves {
 		} else {
 			if (BLACK_OPENING_MOVES.containsKey(fenPosition)) {
 				List<Move> movesList = BLACK_OPENING_MOVES.get(fenPosition);
-				Random random = new Random();
-				int moveIndex = random.nextInt(movesList.size() + 1);
+				int moveIndex = RANDOM.nextInt(movesList.size() + 1);
 				if (moveIndex < movesList.size()) {
 					return movesList.get(moveIndex);
 				}
