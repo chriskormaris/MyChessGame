@@ -13,6 +13,8 @@ import java.util.Set;
 
 public class RandomChoiceAI extends AI {
 
+	private static final Random RANDOM = new Random();
+
 	public RandomChoiceAI() {
 		super(Constants.BLACK);
 	}
@@ -38,17 +40,16 @@ public class RandomChoiceAI extends AI {
 					String randomStartingPosition = chessBoard.getPositionByRowCol(i, j);
 					Set<String> randomEndingPositions = chessBoard.getNextPositions(randomStartingPosition);
 
-					if (randomEndingPositions.size() > 0) {
+					if (!randomEndingPositions.isEmpty()) {
 						randomStartingEndingPositions.put(randomStartingPosition, randomEndingPositions);
 					}
 				}
 			}
 		}
 
-		Random r = new Random();
 		List<String> keys = new ArrayList<>(randomStartingEndingPositions.keySet());
-		if (randomStartingEndingPositions.size() > 0) {
-			int randomStartingPositionIndex = r.nextInt(randomStartingEndingPositions.size());
+		if (!randomStartingEndingPositions.isEmpty()) {
+			int randomStartingPositionIndex = RANDOM.nextInt(randomStartingEndingPositions.size());
 			randomAiStartingPosition = keys.get(randomStartingPositionIndex);
 		}
 
@@ -56,7 +57,7 @@ public class RandomChoiceAI extends AI {
 		Set<String> possibleEndingPositions = randomStartingEndingPositions.get(randomAiStartingPosition);
 
 		// Get a random element from the set.
-		int randomEndingPositionIndex = r.nextInt(possibleEndingPositions.size());
+		int randomEndingPositionIndex = RANDOM.nextInt(possibleEndingPositions.size());
 		int i = 0;
 		for (String possibleEndingPosition : possibleEndingPositions) {
 			if (i == randomEndingPositionIndex) {
