@@ -55,7 +55,7 @@ public class SettingsFrame extends JFrame {
 		this.newGameParameters = newGameParameters;
 
 		int width = 525;
-		int height = 700;
+		int height = 725;
 
 		super.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		super.setLayout(null);
@@ -325,7 +325,7 @@ public class SettingsFrame extends JFrame {
 		cancel = new JButton("Cancel");
 
 		distance = 10;
-		y = 600;
+		y = 625;
 		w = 100;
 		h = 30;
 		EventHandler handler = new EventHandler();
