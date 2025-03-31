@@ -24,9 +24,9 @@ public class OpeningMoves {
 	static {
 		List<Move> movesList = new ArrayList<>();
 
-		movesList.add(new Move("F2", "F4"));  // A02 Bird's opening
-		movesList.add(new Move("G1", "F3"));  // A04 Reti opening
-		movesList.add(new Move("C2", "C4"));  // A10 English opening
+		// movesList.add(new Move("F2", "F4"));  // A02 Bird's opening
+		// movesList.add(new Move("G1", "F3"));  // A04 Reti opening
+		// movesList.add(new Move("C2", "C4"));  // A10 English opening
 		movesList.add(new Move("D2", "D4"));  // A40 Queen's pawn
 		movesList.add(new Move("E2", "E4"));  // B00 King's pawn opening
 		WHITE_OPENING_MOVES.put("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1", movesList);
@@ -60,7 +60,7 @@ public class OpeningMoves {
 		WHITE_OPENING_MOVES.put("r1bqkbnr/pppp1ppp/2n5/4p3/2B1P3/8/PPPP1PPP/RNBQK1NR w KQkq - 2 3", movesList);
 
 		movesList = new ArrayList<>();
-		movesList.add(new Move("D2", "D3"));  // C33 King's gambit accepted
+		movesList.add(new Move("G1", "F3"));  // C34 King's Gambit Accepted
 		WHITE_OPENING_MOVES.put("rnbqkbnr/pppp1ppp/8/8/4Pp2/8/PPPP2PP/RNBQKBNR w KQkq - 0 3", movesList);
 
 		movesList = new ArrayList<>();
