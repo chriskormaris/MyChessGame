@@ -582,6 +582,14 @@ public abstract class ChessFrame extends JFrame {
 
         makeDisplayMove(aiMove, true);
 
+        if (gameParameters.isEnableSounds()) {
+            if (chessBoard.isCapture()) {
+                SoundUtils.playCaptureSound();
+            } else {
+                SoundUtils.playMoveSound();
+            }
+        }
+
         if (!checkForGameOver()) {
             setMoveText();
         }

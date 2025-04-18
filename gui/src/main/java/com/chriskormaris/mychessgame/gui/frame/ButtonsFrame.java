@@ -475,7 +475,11 @@ public class ButtonsFrame extends ChessFrame {
 				}
 
 				if (gameParameters.isEnableSounds()) {
-					SoundUtils.playMoveSound();
+					if (chessBoard.isCapture()) {
+						SoundUtils.playCaptureSound();
+					} else {
+						SoundUtils.playMoveSound();
+					}
 				}
 
 				nextPositions.clear();

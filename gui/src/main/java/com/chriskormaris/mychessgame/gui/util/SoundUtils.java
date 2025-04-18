@@ -12,11 +12,16 @@ import java.net.URL;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public final class SoundUtils {
 
-	private static final String PIECE_MOVE_SOUND = "piece_move.wav";
+	private static final String MOVE_SOUND = "move.wav";
+	private static final String CAPTURE_SOUND = "capture.wav";
 	private static final String CHECKMATE_SOUND = "checkmate.wav";
 
 	public static void playMoveSound() {
-		playSound(PIECE_MOVE_SOUND);
+		playSound(MOVE_SOUND);
+	}
+
+	public static void playCaptureSound() {
+		playSound(CAPTURE_SOUND);
 	}
 
 	public static void playCheckmateSound() {

@@ -895,7 +895,11 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 			}
 
 			if (gameParameters.isEnableSounds()) {
-				SoundUtils.playMoveSound();
+				if (chessBoard.isCapture()) {
+					SoundUtils.playCaptureSound();
+				} else {
+					SoundUtils.playMoveSound();
+				}
 			}
 
 			nextPositions.clear();

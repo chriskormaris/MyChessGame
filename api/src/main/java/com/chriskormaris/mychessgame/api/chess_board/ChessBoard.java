@@ -112,6 +112,8 @@ public class ChessBoard {
 	// This stack of "String" objects is used to check for a threefold repetition of the current Chess board position.
 	private Stack<String> previousHalfMoveFenPositions;
 
+	private boolean capture;
+
 	public ChessBoard() {
 		this(Constants.DEFAULT_NUM_OF_ROWS);
 	}
@@ -194,6 +196,8 @@ public class ChessBoard {
 		this.capturedEnPassantPiece = otherBoard.getCapturedEnPassantPiece();
 
 		this.previousHalfMoveFenPositions = (Stack<String>) otherBoard.getPreviousHalfMoveFenPositions().clone();
+
+		this.capture = otherBoard.isCapture();
 	}
 
 	public void placePiecesToStartingPositions() {
@@ -460,12 +464,17 @@ public class ChessBoard {
 
 			setThreats();
 
-			// Increase the halfMoveClock if no capture has occurred and no Pawn has been moved.
-			if (!chessSquare.isPawn() && endSquare.isEmpty()) {
-				halfMoveClock++;
-			}
-			// If a capture has occurred.
-			else {
+			if (endSquare.isEmpty()) {
+				capture = false;
+				if (chessSquare.isPawn()) {
+					halfMoveClock = 0;
+				}
+				// Increase the halfMoveClock if no capture has occurred and no Pawn has been moved.
+				else {
+					halfMoveClock++;
+				}
+			} else {
+				capture = true;
 				halfMoveClock = 0;
 			}
 		}
