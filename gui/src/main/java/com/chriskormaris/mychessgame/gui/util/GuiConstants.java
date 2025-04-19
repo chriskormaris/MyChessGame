@@ -17,8 +17,8 @@ public class GuiConstants {
 	public static final int CHESS_PIECE_SQUARE_PIXEL_SIZE = 56;
 	public static final int CAPTURED_CHESS_PIECE_PIXEL_SIZE = 16;
 
-	public static final long MINIMAX_AI_MOVE_MILLISECONDS = 50L;
-	public static final long RANDOM_AI_MOVE_MILLISECONDS = 100L;
+	public static final long MINIMAX_AI_MOVE_DELAY_MILLISECONDS = 50L;
+	public static final long RANDOM_AI_MOVE_DELAY_MILLISECONDS = 100L;
 
 	public static final int DEFAULT_TIME_LIMIT_SECONDS = 600;
 
