@@ -5,41 +5,41 @@ import org.junit.jupiter.api.Test;
 
 public class InstanceOfTest {
 
-	@Test
-	public void testInstanceOfVsOperatorEqualsSpeed() {
-		ChessSquare[] chessSquares = new ChessSquare[100000];
+    @Test
+    public void testInstanceOfVsOperatorEqualsSpeed() {
+        ChessPiece[] chessPieces = new ChessPiece[100000];
 
-		for (int i = 0; i< chessSquares.length; i++) {
-			chessSquares[i] = new Pawn(Allegiance.WHITE);
-		}
+        for (int i = 0; i < chessPieces.length; i++) {
+            chessPieces[i] = new Pawn(Allegiance.WHITE);
+        }
 
-		/**********************************************************/
+        /**********************************************************/
 
-		long startTime = System.nanoTime();
-		for (ChessSquare chessSquare : chessSquares) {
-			if (chessSquare.isPawn()) {
-				// System.out.println("Pawn");
-			}
-		}
-		long endTime = System.nanoTime();
-		long elapsedTime = endTime - startTime;
+        long startTime = System.nanoTime();
+        for (ChessPiece chessPiece : chessPieces) {
+            if (chessPiece.isPawn()) {
+                // System.out.println("Pawn");
+            }
+        }
+        long endTime = System.nanoTime();
+        long elapsedTime = endTime - startTime;
 
-		System.out.println("instanceof elapsedTime: " + elapsedTime + " ns");
+        System.out.println("instanceof elapsedTime: " + elapsedTime + " ns");
 
-		/**********************************************************/
+        /**********************************************************/
 
-		System.out.println();
+        System.out.println();
 
-		startTime = System.nanoTime();
-		for (ChessSquare chessSquare : chessSquares) {
-			if (chessSquare.getPieceChar() == 'P') {
-				// System.out.println("P");
-			}
-		}
-		endTime = System.nanoTime();
-		elapsedTime = endTime - startTime;
+        startTime = System.nanoTime();
+        for (ChessPiece chessPiece : chessPieces) {
+            if (chessPiece.getPieceChar() == 'P') {
+                // System.out.println("P");
+            }
+        }
+        endTime = System.nanoTime();
+        elapsedTime = endTime - startTime;
 
-		System.out.println("operator equals '=' elapsedTime: " + elapsedTime + " ns");
-	}
+        System.out.println("operator equals '=' elapsedTime: " + elapsedTime + " ns");
+    }
 
 }
