@@ -3,10 +3,10 @@ package com.chriskormaris.mychessgame.api.square;
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 import org.junit.jupiter.api.Test;
 
-public class InstanceOfTest {
+class InstanceOfTest {
 
     @Test
-    public void testInstanceOfVsOperatorEqualsSpeed() {
+    void testInstanceOfVsOperatorEqualsSpeed() {
         ChessPiece[] chessPieces = new ChessPiece[100000];
 
         for (int i = 0; i < chessPieces.length; i++) {
