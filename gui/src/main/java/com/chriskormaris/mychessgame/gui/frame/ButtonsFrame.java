@@ -6,6 +6,7 @@ import com.chriskormaris.mychessgame.api.chess_board.Move;
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 import com.chriskormaris.mychessgame.api.enumeration.EvaluationFunction;
 import com.chriskormaris.mychessgame.api.enumeration.GameMode;
+import com.chriskormaris.mychessgame.api.enumeration.GameType;
 import com.chriskormaris.mychessgame.api.square.Bishop;
 import com.chriskormaris.mychessgame.api.square.ChessSquare;
 import com.chriskormaris.mychessgame.api.square.EmptySquare;
@@ -361,10 +362,14 @@ public class ButtonsFrame extends ChessFrame {
 	// Restores all the default values.
 	@Override
 	void restoreDefaultValues(String fenPosition) {
-		if (fenPosition.equals(Constants.DEFAULT_STARTING_FEN_POSITION)) {
-			chessBoard = new ChessBoard(gameParameters.getNumOfRows());
-		} else {
-			chessBoard = FenUtils.getChessBoardFromFenPosition(fenPosition, gameParameters.getNumOfRows());
+		if (gameParameters.getGameType() == GameType.CLASSIC_CHESS) {
+			if (fenPosition.equals(Constants.DEFAULT_STARTING_FEN_POSITION)) {
+				chessBoard = new ChessBoard(gameParameters.getNumOfRows());
+			} else {
+				chessBoard = FenUtils.getChessBoardFromFenPosition(fenPosition, gameParameters.getNumOfRows());
+			}
+		} else if (gameParameters.getGameType() == GameType.HORDE) {
+			chessBoard = new ChessBoard(gameParameters.getNumOfRows(), GameType.HORDE);
 		}
 
 		startingPosition = "";

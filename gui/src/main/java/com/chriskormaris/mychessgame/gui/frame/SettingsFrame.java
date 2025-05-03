@@ -5,6 +5,7 @@ import com.chriskormaris.mychessgame.api.enumeration.AiType;
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 import com.chriskormaris.mychessgame.api.enumeration.EvaluationFunction;
 import com.chriskormaris.mychessgame.api.enumeration.GameMode;
+import com.chriskormaris.mychessgame.api.enumeration.GameType;
 import com.chriskormaris.mychessgame.gui.enumeration.GuiStyle;
 import com.chriskormaris.mychessgame.gui.enumeration.GuiType;
 import com.chriskormaris.mychessgame.gui.util.GameParameters;
@@ -25,6 +26,7 @@ public class SettingsFrame extends JFrame {
 	private final JCheckBox enableSoundsCheckBox;
 	private final JComboBox<String> humanAllegianceDropDown;
 	private final JComboBox<String> gameModeDropDown;
+	private final JComboBox<String> gameTypeDropDown;
 	private final JComboBox<String> ai1TypeDropDown;
 	private final JComboBox<Integer> ai1MaxDepthDropDown;
 	private final JComboBox<String> ai2TypeDropDown;
@@ -68,6 +70,7 @@ public class SettingsFrame extends JFrame {
 		boolean enableSounds = newGameParameters.isEnableSounds();
 		Allegiance humanAllegiance = newGameParameters.getHumanAllegiance();
 		GameMode selectedGameMode = newGameParameters.getGameMode();
+		GameType selectedGameType = newGameParameters.getGameType();
 		AiType selectedAi1Type = newGameParameters.getAi1Type();
 		int ai1MaxDepth = newGameParameters.getAi1MaxDepth() - 1;
 		EvaluationFunction evaluationFunction1 = newGameParameters.getEvaluationFunction1();
@@ -89,6 +92,7 @@ public class SettingsFrame extends JFrame {
 		JLabel enableSoundsLabel = new JLabel("Sounds");
 		JLabel humanAllegianceLabel = new JLabel("Human allegiance (Human vs AI)");
 		JLabel gameModeLabel = new JLabel("Game mode");
+		JLabel gameTypeLabel = new JLabel("Game type");
 		JLabel ai1TypeLabel = new JLabel("AI 1 type");
 		JLabel ai1MaxDepthLabel = new JLabel("Minimax AI 1 depth");
 		JLabel evaluationFunction1Label = new JLabel("AI 1 evaluation function");
@@ -107,6 +111,7 @@ public class SettingsFrame extends JFrame {
 		labels.add(enableSoundsLabel);
 		labels.add(humanAllegianceLabel);
 		labels.add(gameModeLabel);
+		labels.add(gameTypeLabel);
 		labels.add(ai1TypeLabel);
 		labels.add(ai1MaxDepthLabel);
 		labels.add(evaluationFunction1Label);
@@ -169,6 +174,16 @@ public class SettingsFrame extends JFrame {
 			gameModeDropDown.setSelectedIndex(1);
 		} else if (selectedGameMode == GameMode.AI_VS_AI) {
 			gameModeDropDown.setSelectedIndex(2);
+		}
+
+		gameTypeDropDown = new JComboBox<>();
+		gameTypeDropDown.addItem("Classic Chess");
+		gameTypeDropDown.addItem("Horde");
+
+		if (selectedGameType == GameType.CLASSIC_CHESS) {
+			gameTypeDropDown.setSelectedIndex(0);
+		} else if (selectedGameType == GameType.HORDE) {
+			gameTypeDropDown.setSelectedIndex(1);
 		}
 
 		ai1TypeDropDown = new JComboBox<>();
@@ -286,6 +301,7 @@ public class SettingsFrame extends JFrame {
 		components.add(enableSoundsCheckBox);
 		components.add(humanAllegianceDropDown);
 		components.add(gameModeDropDown);
+		components.add(gameTypeDropDown);
 		components.add(ai1TypeDropDown);
 		components.add(ai1MaxDepthDropDown);
 		components.add(evaluationFunction1DropDown);
@@ -356,6 +372,8 @@ public class SettingsFrame extends JFrame {
 							.valueOf(humanAllegianceDropDown.getSelectedItem().toString().toUpperCase());
 					GameMode gameMode = GameMode.valueOf(gameModeDropDown.getSelectedItem().toString().toUpperCase()
 							.replace(" ", "_"));
+					GameType gameType = GameType.valueOf(gameTypeDropDown.getSelectedItem().toString().toUpperCase()
+							.replace(" ", "_"));
 					AiType ai1Type = AiType.valueOf(ai1TypeDropDown.getSelectedItem().toString().toUpperCase()
 							.replace(" ", "_").replace("-", "_"));
 					int ai1MaxDepth = (int) ai1MaxDepthDropDown.getSelectedItem();
@@ -397,6 +415,7 @@ public class SettingsFrame extends JFrame {
 					newGameParameters.setEnableSounds(enableSounds);
 					newGameParameters.setHumanAllegiance(humanAllegiance);
 					newGameParameters.setGameMode(gameMode);
+					newGameParameters.setGameType(gameType);
 					newGameParameters.setAi1Type(ai1Type);
 					newGameParameters.setAi1MaxDepth(ai1MaxDepth);
 					newGameParameters.setEvaluationFunction1(evaluationFunction1);

@@ -1,6 +1,5 @@
 package com.chriskormaris.mychessgame.api.enumeration;
 
-// This enum has NO effect on the code at the moment.
 public enum GameResult {
 	NONE,
 
@@ -13,7 +12,10 @@ public enum GameResult {
 	INSUFFICIENT_MATERIAL_DRAW,
 	NO_CAPTURE_DRAW,
 	THREEFOLD_REPETITION_DRAW,
-	FIVEFOLD_REPETITION_DRAW
+	FIVEFOLD_REPETITION_DRAW,
+
+	HORDE_NO_WHITE_PIECES_LEFT,
+	HORDE_WHITE_STALEMATE_DRAW,
 
 	// WIN_BY_RESIGNATION,
 	// DRAW_BY_MUTUAL_AGREEMENT
