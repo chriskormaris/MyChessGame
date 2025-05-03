@@ -4,6 +4,7 @@ import com.chriskormaris.mychessgame.api.enumeration.AiType;
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 import com.chriskormaris.mychessgame.api.enumeration.EvaluationFunction;
 import com.chriskormaris.mychessgame.api.enumeration.GameMode;
+import com.chriskormaris.mychessgame.api.enumeration.GameType;
 import com.chriskormaris.mychessgame.api.util.Constants;
 import com.chriskormaris.mychessgame.gui.enumeration.GuiStyle;
 import com.chriskormaris.mychessgame.gui.enumeration.GuiType;
@@ -26,6 +27,7 @@ public class GameParameters {
 	private Allegiance humanAllegiance;
 
 	private GameMode gameMode;
+	private GameType gameType;
 
 	private AiType ai1Type;
 	private int ai1MaxDepth;
@@ -63,6 +65,9 @@ public class GameParameters {
 		// Other values: GameMode.HUMAN_VS_HUMAN, GameMode.AI_VS_AI
 		this.gameMode = GameMode.HUMAN_VS_AI;
 
+		// Other values: GameType.HORDE
+		this.gameType = GameType.CLASSIC_CHESS;
+
 		// Other values: AiType.RANDOM_AI
 		this.ai1Type = AiType.MINIMAX_AI;
 		this.ai1MaxDepth = Constants.DEFAULT_MAX_DEPTH;
@@ -96,6 +101,7 @@ public class GameParameters {
 		this.enableSounds = otherGameParameters.isEnableSounds();
 		this.humanAllegiance = otherGameParameters.getHumanAllegiance();
 		this.gameMode = otherGameParameters.getGameMode();
+		this.gameType = otherGameParameters.getGameType();
 		this.ai1Type = otherGameParameters.getAi1Type();
 		this.ai1MaxDepth = otherGameParameters.getAi1MaxDepth();
 		this.evaluationFunction1 = otherGameParameters.getEvaluationFunction1();

@@ -3,6 +3,7 @@ package com.chriskormaris.mychessgame.api.chess_board;
 import com.chriskormaris.mychessgame.api.ai.MinimaxAI;
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 import com.chriskormaris.mychessgame.api.enumeration.GameResult;
+import com.chriskormaris.mychessgame.api.enumeration.GameType;
 import com.chriskormaris.mychessgame.api.square.Bishop;
 import com.chriskormaris.mychessgame.api.square.ChessPiece;
 import com.chriskormaris.mychessgame.api.square.ChessSquare;
@@ -114,26 +115,41 @@ public class ChessBoard {
 
 	private boolean capture;
 
+	private GameType gameType;
+
 	public ChessBoard() {
-		this(Constants.DEFAULT_NUM_OF_ROWS);
+		this(Constants.DEFAULT_NUM_OF_ROWS, GameType.CLASSIC_CHESS);
 	}
 
 	public ChessBoard(int numOfRows) {
+		this(numOfRows, GameType.CLASSIC_CHESS);
+	}
+
+	public ChessBoard(GameType gameType) {
+		this(Constants.DEFAULT_NUM_OF_ROWS, gameType);
+	}
+
+	public ChessBoard(int numOfRows, GameType gameType) {
 		this.numOfRows = numOfRows;
 		this.numOfColumns = Constants.DEFAULT_NUM_OF_COLUMNS;
 
 		this.lastMove = new Move();
 
 		this.gameBoard = new ChessSquare[numOfRows][numOfColumns];
-		placePiecesToStartingPositions();
-
-		// FenUtils.populateGameBoard(this, Constants.DEFAULT_STARTING_PIECES);
+		if (gameType == GameType.CLASSIC_CHESS) {
+			placePiecesToStartingPositions();
+			// FenUtils.populateGameBoard(this, Constants.DEFAULT_STARTING_PIECES);
+			this.whiteKingPosition = "E1";
+			this.blackKingPosition = "E" + numOfRows;
+		} else if (gameType == GameType.HORDE) {
+			placePiecesToHordePositions();
+			this.whiteKingPosition = "Z0";
+			this.blackKingPosition = "E" + numOfRows;
+		}
+		this.gameType = gameType;
 
 		this.squaresThreatenedByWhite = new boolean[numOfRows][numOfColumns];
 		this.squaresThreatenedByBlack = new boolean[numOfRows][numOfColumns];
-
-		this.whiteKingPosition = "E1";
-		this.blackKingPosition = "E" + numOfRows;
 
 		this.player = Constants.WHITE;  // White plays first.
 
@@ -152,7 +168,6 @@ public class ChessBoard {
 
 		setThreats();
 	}
-
 
 	// Copy constructor
 	public ChessBoard(ChessBoard otherBoard) {
@@ -198,6 +213,7 @@ public class ChessBoard {
 		this.previousHalfMoveFenPositions = (Stack<String>) otherBoard.getPreviousHalfMoveFenPositions().clone();
 
 		this.capture = otherBoard.isCapture();
+		this.gameType = otherBoard.getGameType();
 	}
 
 	public void placePiecesToStartingPositions() {
@@ -207,8 +223,6 @@ public class ChessBoard {
 		this.gameBoard[0][2] = new Bishop(Allegiance.BLACK);  // C8
 		this.gameBoard[0][3] = new Queen(Allegiance.BLACK);  // D8
 
-		String blackKingPosition = "E" + numOfRows;
-		this.setBlackKingPosition(blackKingPosition);
 		this.gameBoard[0][4] = new King(Allegiance.BLACK);
 
 		this.gameBoard[0][5] = new Bishop(Allegiance.BLACK);  // F8
@@ -238,13 +252,52 @@ public class ChessBoard {
 		this.gameBoard[numOfRows - 1][2] = new Bishop(Allegiance.WHITE);  // C1
 		this.gameBoard[numOfRows - 1][3] = new Queen(Allegiance.WHITE);  // D1
 
-		String whiteKingPosition = "E1";
-		this.setWhiteKingPosition(whiteKingPosition);
 		this.gameBoard[numOfRows - 1][4] = new King(Allegiance.WHITE);
 
 		this.gameBoard[numOfRows - 1][5] = new Bishop(Allegiance.WHITE);  // F1
 		this.gameBoard[numOfRows - 1][6] = new Knight(Allegiance.WHITE);  // G1
 		this.gameBoard[numOfRows - 1][7] = new Rook(Allegiance.WHITE);  // H1
+	}
+
+	public void placePiecesToHordePositions() {
+		// 1st row
+		this.gameBoard[0][0] = new Rook(Allegiance.BLACK);  // A8
+		this.gameBoard[0][1] = new Knight(Allegiance.BLACK);  // B8
+		this.gameBoard[0][2] = new Bishop(Allegiance.BLACK);  // C8
+		this.gameBoard[0][3] = new Queen(Allegiance.BLACK);  // D8
+
+		this.gameBoard[0][4] = new King(Allegiance.BLACK);
+
+		this.gameBoard[0][5] = new Bishop(Allegiance.BLACK);  // F8
+		this.gameBoard[0][6] = new Knight(Allegiance.BLACK);  // G8
+		this.gameBoard[0][7] = new Rook(Allegiance.BLACK);  // H8
+
+		// 2nd row
+		for (int j = 0; j < numOfColumns; j++) {
+			this.gameBoard[1][j] = new Pawn(Allegiance.BLACK);
+		}
+
+		// 3rd row
+		for (int j = 0; j < numOfColumns; j++) {
+			this.gameBoard[2][j] = new EmptySquare();
+		}
+
+		// 4th row
+		this.gameBoard[3][0] = new EmptySquare();
+		this.gameBoard[3][1] = new Pawn(Allegiance.WHITE);
+		this.gameBoard[3][2] = new Pawn(Allegiance.WHITE);
+		this.gameBoard[3][3] = new EmptySquare();
+		this.gameBoard[3][4] = new EmptySquare();
+		this.gameBoard[3][5] = new Pawn(Allegiance.WHITE);
+		this.gameBoard[3][6] = new Pawn(Allegiance.WHITE);
+		this.gameBoard[3][7] = new EmptySquare();
+
+		// From 5th row to n-th row.
+		for (int i = 4; i < numOfRows; i++) {
+			for (int j = 0; j < numOfColumns; j++) {
+				this.gameBoard[i][j] = new Pawn(Allegiance.WHITE);
+			}
+		}
 	}
 
 	// Make a move; it moves a Chess piece on the board.
@@ -572,10 +625,16 @@ public class ChessBoard {
 	 * 4) Shannon's */
 	public double evaluate(MinimaxAI minimaxAI) {
 		if (checkForWhiteCheckmate()) return Integer.MAX_VALUE;
-		if (checkForBlackCheckmate()) return Integer.MIN_VALUE;
-		if (checkForWhiteStalemateDraw()) return 0;
+		if (gameType != GameType.HORDE) {
+			if (checkForBlackCheckmate()) return Integer.MIN_VALUE;
+			if (checkForWhiteStalemateDraw()) return 0;
+		}
 		if (checkForBlackStalemateDraw()) return 0;
-		if (checkForInsufficientMatingMaterialDraw()) return 0;
+		if (gameType == GameType.HORDE) {
+			if (checkForHordeBlackWin()) return Integer.MIN_VALUE;
+			if (checkForHordeWhiteStalemateDraw()) return 0;
+		}
+		if (gameType != GameType.HORDE && checkForInsufficientMatingMaterialDraw()) return 0;
 		if (checkForConditionalNoCaptureDraw()) return 0;
 		if (checkForThreefoldRepetitionDraw()) return 0;
 
@@ -589,21 +648,29 @@ public class ChessBoard {
 
 		if (checkForWhiteCheckmate()) return true;
 
-		if (checkForBlackCheckmate()) return true;
+		if (gameType != GameType.HORDE) {
+			if (checkForBlackCheckmate()) return true;
 
-		// Check for White stalemate, only if the last player was Black,
-		// meaning that the next player should be White.
-		if (whitePlays() && checkForWhiteStalemateDraw()) return true;
+			// Check for White stalemate, only if the last player was Black,
+			// meaning that the next player should be White.
+			if (whitePlays() && checkForWhiteStalemateDraw()) return true;
+		}
 
 		// Check for Black stalemate, only if the last player was White,
 		// meaning that the next player should be Black.
 		if (blackPlays() && checkForBlackStalemateDraw()) return true;
 
-		if (checkForInsufficientMatingMaterialDraw()) return true;
+		if (gameType == GameType.HORDE && whitePlays()) {
+			if (checkForHordeBlackWin()) return true;
+			if (checkForHordeWhiteStalemateDraw()) return true;
+		}
+
+		if (gameType != GameType.HORDE && checkForInsufficientMatingMaterialDraw()) return true;
 
 		if (checkForUnconditionalNoCaptureDraw()) return true;
 
-		checkForThreefoldRepetitionDraw();
+		if (checkForThreefoldRepetitionDraw()) return true;
+
 		return isTerminalState();
 	}
 
@@ -636,12 +703,16 @@ public class ChessBoard {
 		int whiteKingRow = getRowFromPosition(this.getWhiteKingPosition());
 		int whiteKingColumn = getColumnFromPosition(this.getWhiteKingPosition());
 
+		if (gameType != GameType.HORDE
+				&& (whiteKingRow < 0 || whiteKingRow >= numOfRows
+				|| whiteKingColumn < 0 || whiteKingColumn >= numOfColumns)) {
+			return;
+		}
+
 		int blackKingRow = getRowFromPosition(this.getBlackKingPosition());
 		int blackKingColumn = getColumnFromPosition(this.getBlackKingPosition());
 
-		if (whiteKingRow < 0 || whiteKingRow >= numOfRows
-				|| whiteKingColumn < 0 || whiteKingColumn >= numOfColumns
-				|| blackKingRow < 0 || blackKingRow >= numOfRows
+		if (blackKingRow < 0 || blackKingRow >= numOfRows
 				|| blackKingColumn < 0 || blackKingColumn >= numOfColumns) {
 			return;
 		}
@@ -652,15 +723,20 @@ public class ChessBoard {
 
 			nextPositionChessBoard.makeMove(startingPosition, nextPosition, false);
 
-			whiteKingRow = getRowFromPosition(nextPositionChessBoard.getWhiteKingPosition());
-			whiteKingColumn = getColumnFromPosition(nextPositionChessBoard.getWhiteKingPosition());
+			if (gameType != GameType.HORDE) {
+				whiteKingRow = getRowFromPosition(nextPositionChessBoard.getWhiteKingPosition());
+				whiteKingColumn = getColumnFromPosition(nextPositionChessBoard.getWhiteKingPosition());
+
+				if (chessSquare.isWhite()
+						&& nextPositionChessBoard.getSquaresThreatenedByBlack()[whiteKingRow][whiteKingColumn]) {
+					positionsToRemove.add(nextPosition);
+				}
+			}
 
 			blackKingRow = getRowFromPosition(nextPositionChessBoard.getBlackKingPosition());
 			blackKingColumn = getColumnFromPosition(nextPositionChessBoard.getBlackKingPosition());
 
-			if (chessSquare.isWhite()
-					&& nextPositionChessBoard.getSquaresThreatenedByBlack()[whiteKingRow][whiteKingColumn]
-					|| chessSquare.isBlack()
+			if (chessSquare.isBlack()
 					&& nextPositionChessBoard.getSquaresThreatenedByWhite()[blackKingRow][blackKingColumn]) {
 				positionsToRemove.add(nextPosition);
 			}
@@ -713,9 +789,6 @@ public class ChessBoard {
 		if (blackKingThreatened) {
 			this.blackKingInCheck = true;
 
-			// Check for all possible moves made by Black,
-			// that can get the Black king out of a possible check
-			// and store them in a variable called "blackKingInCheckValidPieceMoves".
 			for (int i = 0; i < numOfRows; i++) {
 				for (int j = 0; j < numOfColumns; j++) {
 					ChessBoard nextPositionChessBoard = new ChessBoard(this);
@@ -763,9 +836,6 @@ public class ChessBoard {
 		if (whiteKingThreatened) {
 			this.whiteKingInCheck = true;
 
-			// Check for all possible moves made by White,
-			// that can get the White king out of a possible check
-			// and store them in a variable called "whiteKingInCheckValidPieceMoves".
 			for (int i = 0; i < numOfRows; i++) {
 				for (int j = 0; j < numOfColumns; j++) {
 					ChessBoard nextPositionChessBoard = new ChessBoard(this);
@@ -1132,6 +1202,48 @@ public class ChessBoard {
 		return numOfRepeats >= 3;
 	}
 
+	public boolean checkForConditionalNoCaptureDraw() {
+		return this.halfMoveClock >= Constants.CONDITIONAL_NO_CAPTURE_DRAW_MOVES_LIMIT * 2;
+	}
+
+	public boolean checkForUnconditionalNoCaptureDraw() {
+		if (this.halfMoveClock >= Constants.UNCONDITIONAL_NO_CAPTURE_DRAW_MOVES_LIMIT * 2) {
+			setGameResult(GameResult.NO_CAPTURE_DRAW);
+		}
+		return this.gameResult == GameResult.NO_CAPTURE_DRAW;
+	}
+
+	public boolean checkForHordeWhiteStalemateDraw() {
+		Set<String> nextPositions = new HashSet<>();
+
+		for (int i = 0; i < this.numOfRows; i++) {
+			for (int j = 0; j < this.numOfColumns; j++) {
+				if (this.gameBoard[i][j].isWhite()) {
+					String startingPosition = getPositionByRowCol(i, j);
+					nextPositions.addAll(getNextPositions(startingPosition));
+				}
+			}
+		}
+
+		if (nextPositions.isEmpty()) {
+			this.gameResult = GameResult.HORDE_WHITE_STALEMATE_DRAW;
+			return true;
+		}
+		return false;
+	}
+
+	public boolean checkForHordeBlackWin() {
+		for (int i = 0; i < this.numOfRows; i++) {
+			for (int j = 0; j < this.numOfColumns; j++) {
+				if (this.gameBoard[i][j].isWhite()) {
+					return false;
+				}
+			}
+		}
+		this.gameResult = GameResult.HORDE_NO_WHITE_PIECES_LEFT;
+		return true;
+	}
+
 	public boolean isWhiteQueenSideCastlingAvailable() {
 		return !whiteKingMoved && !leftWhiteRookMoved;
 	}
@@ -1158,17 +1270,6 @@ public class ChessBoard {
 
 	public boolean getNextPlayer() {
 		return !player;
-	}
-
-	public boolean checkForConditionalNoCaptureDraw() {
-		return this.halfMoveClock >= Constants.CONDITIONAL_NO_CAPTURE_DRAW_MOVES_LIMIT * 2;
-	}
-
-	public boolean checkForUnconditionalNoCaptureDraw() {
-		if (this.halfMoveClock >= Constants.UNCONDITIONAL_NO_CAPTURE_DRAW_MOVES_LIMIT * 2) {
-			setGameResult(GameResult.NO_CAPTURE_DRAW);
-		}
-		return this.gameResult == GameResult.NO_CAPTURE_DRAW;
 	}
 
 	public String getPositionByRowCol(int row, int column) {

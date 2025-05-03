@@ -56,9 +56,10 @@ public class Pawn extends ChessPiece {
 						&& chessBoard.getGameBoard()[row + 2][column].isEmpty()
 						&& chessBoard.getGameBoard()[row + 1][column].isEmpty()) {
 
-					if (pawn.isWhite() && row == chessBoard.getNumOfRows() - 2) {
+					if (pawn.isWhite()
+							&& (row == chessBoard.getNumOfRows() - 2 || row == chessBoard.getNumOfRows() - 1)) {
 						newRow = row - 2;
-					} else if (pawn.isBlack() && row == 1) {
+					} else if (pawn.isBlack() && (row == 1 || row == 0)) {
 						newRow = row + 2;
 					}
 					newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);

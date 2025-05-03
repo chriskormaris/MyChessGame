@@ -11,6 +11,7 @@ import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 import com.chriskormaris.mychessgame.api.enumeration.EvaluationFunction;
 import com.chriskormaris.mychessgame.api.enumeration.GameMode;
 import com.chriskormaris.mychessgame.api.enumeration.GameResult;
+import com.chriskormaris.mychessgame.api.enumeration.GameType;
 import com.chriskormaris.mychessgame.api.evaluation.Evaluation;
 import com.chriskormaris.mychessgame.api.evaluation.PeSTOEvaluation;
 import com.chriskormaris.mychessgame.api.evaluation.ShannonEvaluation;
@@ -139,7 +140,7 @@ public abstract class ChessFrame extends JFrame {
         this(GuiConstants.TITLE);
     }
 
-    public ChessFrame(String title) throws HeadlessException {
+    public ChessFrame(String title) {
         super(title);
 
         guiPanel = new JPanel();
@@ -903,6 +904,41 @@ public abstract class ChessFrame extends JFrame {
                 chessBoard.setGameResult(GameResult.THREEFOLD_REPETITION_DRAW);
                 showClaimDrawDialog(drawIcon);
                 return true;
+            }
+        }
+
+        if (gameParameters.getGameType() == GameType.HORDE) {
+            if (chessBoard.whitePlays()) {
+                chessBoard.checkForHordeBlackWin();
+                if (chessBoard.getGameResult() == GameResult.HORDE_NO_WHITE_PIECES_LEFT) {
+                    int dialogResult = JOptionPane.showConfirmDialog(
+                            this,
+                            "Black wins! No White pieces are left. Start a new game?",
+                            "No Pieces Left",
+                            JOptionPane.YES_NO_OPTION,
+                            JOptionPane.QUESTION_MESSAGE,
+                            checkmateIcon
+                    );
+
+                    startNewGameOrNot(dialogResult);
+
+                    return true;
+                }
+                chessBoard.checkForHordeWhiteStalemateDraw();
+                if (chessBoard.getGameResult() == GameResult.HORDE_WHITE_STALEMATE_DRAW) {
+                    int dialogResult = JOptionPane.showConfirmDialog(
+                            this,
+                            "Horde stalemate! No legal moves for White exist. Start a new game?",
+                            "Draw",
+                            JOptionPane.YES_NO_OPTION,
+                            JOptionPane.QUESTION_MESSAGE,
+                            drawIcon
+                    );
+
+                    startNewGameOrNot(dialogResult);
+
+                    return true;
+                }
             }
         }
 
