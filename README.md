@@ -33,6 +33,11 @@ You can enable/disable sound, change square colors, GUI style, or even the numbe
 Also, there 2 GUI types you can choose from. The first one uses Buttons and the second one uses Drag & Drop.
 In addition, you can use FEN (Forsyth–Edwards Notation) positions and start playing the game from there.
 
+- Finally, there are 3 available game types:
+1. Classic Chess
+2. Chess 960
+3. Horde
+
 ### Developer Notes
 You need Gradle and Java 1.8 or above to compile and run this project.
 

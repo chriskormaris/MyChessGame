@@ -21,17 +21,23 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 import java.util.Stack;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 
 @Getter
 @Setter
 public class ChessBoard {
+
+	private static final Random RANDOM = new Random();
 
 	private final int numOfRows;
 	private final int numOfColumns;
@@ -117,6 +123,9 @@ public class ChessBoard {
 
 	private GameType gameType;
 
+    private int leftRookColumn;
+    private int rightRookColumn;
+
 	public ChessBoard() {
 		this(Constants.DEFAULT_NUM_OF_ROWS, GameType.CLASSIC_CHESS);
 	}
@@ -139,12 +148,10 @@ public class ChessBoard {
 		if (gameType == GameType.CLASSIC_CHESS) {
 			placePiecesToStartingPositions();
 			// FenUtils.populateGameBoard(this, Constants.DEFAULT_STARTING_PIECES);
-			this.whiteKingPosition = "E1";
-			this.blackKingPosition = "E" + numOfRows;
+		} else if (gameType == GameType.CHESS_960) {
+			placePiecesToChess960Positions();
 		} else if (gameType == GameType.HORDE) {
 			placePiecesToHordePositions();
-			this.whiteKingPosition = "Z0";
-			this.blackKingPosition = "E" + numOfRows;
 		}
 		this.gameType = gameType;
 
@@ -214,6 +221,8 @@ public class ChessBoard {
 
 		this.capture = otherBoard.isCapture();
 		this.gameType = otherBoard.getGameType();
+        this.leftRookColumn = otherBoard.getLeftRookColumn();
+        this.rightRookColumn = otherBoard.getRightRookColumn();
 	}
 
 	public void placePiecesToStartingPositions() {
@@ -257,6 +266,11 @@ public class ChessBoard {
 		this.gameBoard[numOfRows - 1][5] = new Bishop(Allegiance.WHITE);  // F1
 		this.gameBoard[numOfRows - 1][6] = new Knight(Allegiance.WHITE);  // G1
 		this.gameBoard[numOfRows - 1][7] = new Rook(Allegiance.WHITE);  // H1
+
+        this.whiteKingPosition = "E1";
+        this.blackKingPosition = "E" + numOfRows;
+        this.leftRookColumn = 0;
+        this.rightRookColumn = 7;
 	}
 
 	public void placePiecesToHordePositions() {
@@ -298,6 +312,82 @@ public class ChessBoard {
 				this.gameBoard[i][j] = new Pawn(Allegiance.WHITE);
 			}
 		}
+
+        this.whiteKingPosition = "Z0";
+        this.blackKingPosition = "E" + numOfRows;
+        this.leftRookColumn = 0;
+        this.rightRookColumn = 7;
+	}
+
+	public void placePiecesToChess960Positions() {
+		List<Integer> randomList = Arrays.asList(0, 2, 4, 6);
+		int bishop1Index = randomList.get(RANDOM.nextInt(randomList.size()));
+		randomList = Arrays.asList(1, 3, 5, 7);
+		int bishop2Index = randomList.get(RANDOM.nextInt(randomList.size()));
+		randomList = IntStream.range(0, Constants.DEFAULT_NUM_OF_COLUMNS).boxed()
+                .filter(j -> j != bishop1Index && j != bishop2Index)
+                .collect(Collectors.toList());
+        int queenIndex = randomList.get(RANDOM.nextInt(randomList.size()));
+        randomList = randomList.stream()
+                .filter(j -> j != queenIndex)
+                .collect(Collectors.toList());
+        int knight1Index = randomList.get(RANDOM.nextInt(randomList.size()));
+        randomList = randomList.stream()
+                .filter(j -> j != knight1Index)
+                .collect(Collectors.toList());
+        int knight2Index = randomList.get(RANDOM.nextInt(randomList.size()));
+        randomList = randomList.stream()
+                .filter(j -> j != knight2Index)
+                .collect(Collectors.toList());
+        int rook1Index = randomList.get(0);
+        int rook2Index = randomList.get(2);
+		int kingIndex = randomList.get(1);
+
+        // 1st row
+		this.gameBoard[0][rook1Index] = new Rook(Allegiance.BLACK);  // A8
+		this.gameBoard[0][knight1Index] = new Knight(Allegiance.BLACK);  // B8
+		this.gameBoard[0][bishop1Index] = new Bishop(Allegiance.BLACK);  // C8
+		this.gameBoard[0][queenIndex] = new Queen(Allegiance.BLACK);  // D8
+
+		this.gameBoard[0][kingIndex] = new King(Allegiance.BLACK);
+
+		this.gameBoard[0][bishop2Index] = new Bishop(Allegiance.BLACK);  // F8
+		this.gameBoard[0][knight2Index] = new Knight(Allegiance.BLACK);  // G8
+		this.gameBoard[0][rook2Index] = new Rook(Allegiance.BLACK);  // H8
+
+		// 2nd row
+		for (int j = 0; j < numOfColumns; j++) {
+			this.gameBoard[1][j] = new Pawn(Allegiance.BLACK);
+		}
+
+		// From 3rd row to (n-th - 2) row.
+		for (int i = 2; i < numOfRows - 2; i++) {
+			for (int j = 0; j < numOfColumns; j++) {
+				this.gameBoard[i][j] = new EmptySquare();
+			}
+		}
+
+		// (n-th - 1) row
+		for (int j = 0; j < numOfColumns; j++) {
+			this.gameBoard[numOfRows - 2][j] = new Pawn(Allegiance.WHITE);
+		}
+
+		// n-th row
+		this.gameBoard[numOfRows - 1][rook1Index] = new Rook(Allegiance.WHITE);  // A1
+		this.gameBoard[numOfRows - 1][knight1Index] = new Knight(Allegiance.WHITE);  // B1
+		this.gameBoard[numOfRows - 1][bishop1Index] = new Bishop(Allegiance.WHITE);  // C1
+		this.gameBoard[numOfRows - 1][queenIndex] = new Queen(Allegiance.WHITE);  // D1
+
+		this.gameBoard[numOfRows - 1][kingIndex] = new King(Allegiance.WHITE);
+
+		this.gameBoard[numOfRows - 1][bishop2Index] = new Bishop(Allegiance.WHITE);  // F1
+		this.gameBoard[numOfRows - 1][knight2Index] = new Knight(Allegiance.WHITE);  // G1
+		this.gameBoard[numOfRows - 1][rook2Index] = new Rook(Allegiance.WHITE);  // H1
+
+        this.whiteKingPosition = getPositionByRowCol(numOfRows - 1, kingIndex);
+        this.blackKingPosition = getPositionByRowCol(0, kingIndex);
+        this.leftRookColumn = rook1Index;
+        this.rightRookColumn = rook2Index;
 	}
 
 	// Make a move; it moves a Chess piece on the board.
@@ -323,6 +413,18 @@ public class ChessBoard {
 		int columnEnd = getColumnFromPosition(positionEnd);
 		ChessSquare endSquare = this.gameBoard[rowEnd][columnEnd];
 
+		boolean isCastling = false;
+		if (chessSquare.isKing() && endSquare.isRook() && chessSquare.getAllegiance() == endSquare.getAllegiance()) {
+			isCastling = true;
+			if (columnEnd == leftRookColumn) {
+				columnEnd = 2;
+			} else if (columnEnd == rightRookColumn) {
+				columnEnd = 6;
+			}
+			positionEnd = getPositionByRowCol(rowEnd, columnEnd);
+			endSquare = this.gameBoard[rowEnd][columnEnd];
+		}
+
 		if (!positionsToRemove.isEmpty()) {
 			positionsToRemove.clear();
 		}
@@ -336,19 +438,16 @@ public class ChessBoard {
 		// Allow only valid moves, for all the chess board pieces.
 		// Move only if the square is empty or the square contains an opponent chessPiece.
 		// Also allow castling, en passant and promotion moves.
-		if (endSquare.isEmpty() || chessSquare.getAllegiance() != endSquare.getAllegiance()) {
+		if (endSquare.isEmpty() || chessSquare.getAllegiance() != endSquare.getAllegiance() || isCastling) {
 			previousHalfMoveFenPositions.push(FenUtils.getFenPositionFromChessBoard(this));
 
-			Set<String> castlingPositions = null;
-			if (chessSquare.isKing()) {
-				castlingPositions = King.getCastlingPositions(positionStart, this);
-			}
-
-			this.gameBoard[rowStart][columnStart] = new EmptySquare();
-			this.gameBoard[rowEnd][columnEnd] = chessSquare;
-			if (displayMove) {
-				positionsToRemove.add(positionStart);
-				piecesToPlace.put(positionEnd, chessSquare);
+			if (!isCastling) {
+				this.gameBoard[rowStart][columnStart] = new EmptySquare();
+				this.gameBoard[rowEnd][columnEnd] = chessSquare;
+				if (displayMove) {
+					positionsToRemove.add(positionStart);
+					piecesToPlace.put(positionEnd, chessSquare);
+				}
 			}
 
 			// Implementation of castling here.
@@ -363,79 +462,87 @@ public class ChessBoard {
 
 				/* Castling implementation */
 
-				if (castlingPositions.contains(positionEnd)) {
+				if (isCastling) {
 					// White queen side castling
-					if (positionEnd.equals("C1")) {
+					if (rowEnd == this.numOfRows - 1 && columnEnd == 2) {
 						// Move the left white rook to the correct position.
-						this.gameBoard[this.numOfRows - 1][0] = new EmptySquare();
+						this.gameBoard[this.numOfRows - 1][leftRookColumn] = new EmptySquare();
+						this.gameBoard[this.numOfRows - 1][columnStart] = new EmptySquare();
 						this.gameBoard[this.numOfRows - 1][3] = new Rook(Allegiance.WHITE);
+						this.gameBoard[this.numOfRows - 1][2] = new King(Allegiance.WHITE);
 						if (displayMove) {
-							positionsToRemove.add("A1");
+							positionsToRemove.add(getPositionByRowCol(this.numOfRows - 1, leftRookColumn));
+							positionsToRemove.add(getPositionByRowCol(this.numOfRows - 1, columnStart));
 							piecesToPlace.put("D1", new Rook(Allegiance.WHITE));
+							piecesToPlace.put("C1", new King(Allegiance.WHITE));
 						}
 
-						setWhiteKingMoved(true);
 						setLeftWhiteRookMoved(true);
 						setWhiteCastlingDone(true);
 					}
 					// White king side castling
-					else if (positionEnd.equals("G1")) {
+					if (rowEnd == this.numOfRows - 1 && columnEnd == 6) {
 						// Move the right white rook to the correct position.
-						this.gameBoard[this.numOfRows - 1][7] = new EmptySquare();
+						this.gameBoard[this.numOfRows - 1][rightRookColumn] = new EmptySquare();
+						this.gameBoard[this.numOfRows - 1][columnStart] = new EmptySquare();
 						this.gameBoard[this.numOfRows - 1][5] = new Rook(Allegiance.WHITE);
+						this.gameBoard[this.numOfRows - 1][6] = new King(Allegiance.WHITE);
 						if (displayMove) {
-							positionsToRemove.add("H1");
+                            positionsToRemove.add(getPositionByRowCol(this.numOfRows - 1, rightRookColumn));
+							positionsToRemove.add(getPositionByRowCol(this.numOfRows - 1, columnStart));
 							piecesToPlace.put("F1", new Rook(Allegiance.WHITE));
+							piecesToPlace.put("G1", new King(Allegiance.WHITE));
 						}
 
-						setWhiteKingMoved(true);
 						setRightWhiteRookMoved(true);
 						setWhiteCastlingDone(true);
 					}
 					// Black queen side castling
-					else if (positionEnd.equals("C" + this.numOfRows)) {
+					if (rowEnd == 0 && columnEnd == 2) {
 						// Move the left black rook to the correct position.
-						this.gameBoard[0][0] = new EmptySquare();
+						this.gameBoard[0][leftRookColumn] = new EmptySquare();
+						this.gameBoard[0][columnStart] = new EmptySquare();
 						this.gameBoard[0][3] = new Rook(Allegiance.BLACK);
+						this.gameBoard[0][2] = new King(Allegiance.BLACK);
 						if (displayMove) {
-							positionsToRemove.add("A" + this.numOfRows);
+                            positionsToRemove.add(getPositionByRowCol(0, leftRookColumn));
+							positionsToRemove.add(getPositionByRowCol(0, columnStart));
 							piecesToPlace.put("D" + this.numOfRows, new Rook(Allegiance.BLACK));
+                            piecesToPlace.put("C" + this.numOfRows, new King(Allegiance.BLACK));
 						}
 
-						setBlackKingMoved(true);
 						setLeftBlackRookMoved(true);
 						setBlackCastlingDone(true);
 					}
 					// Black king side castling
-					else if (positionEnd.equals("G" + this.numOfRows)) {
+					if (rowEnd == 0 && columnEnd == 6) {
 						// Move the right black rook to the correct position.
-						this.gameBoard[0][7] = new EmptySquare();
+						this.gameBoard[0][rightRookColumn] = new EmptySquare();
+						this.gameBoard[0][columnStart] = new EmptySquare();
 						this.gameBoard[0][5] = new Rook(Allegiance.BLACK);
+						this.gameBoard[0][6] = new King(Allegiance.BLACK);
 						if (displayMove) {
-							positionsToRemove.add("H" + this.numOfRows);
+                            positionsToRemove.add(getPositionByRowCol(0, rightRookColumn));
+							positionsToRemove.add(getPositionByRowCol(0, columnStart));
 							piecesToPlace.put("F" + this.numOfRows, new Rook(Allegiance.BLACK));
+                            piecesToPlace.put("G" + this.numOfRows, new King(Allegiance.BLACK));
 						}
 
-						setBlackKingMoved(true);
 						setRightBlackRookMoved(true);
 						setBlackCastlingDone(true);
 					}
 				}
 			} else if (chessSquare.isRook()) {
-				if (!this.isLeftWhiteRookMoved() && (positionStart.equals("A1") ||
-						!(getChessSquareFromPosition("A1").isRook()))) {
+				if (!this.isLeftWhiteRookMoved() && rowStart == this.numOfRows - 1 && columnStart == leftRookColumn) {
 					this.setLeftWhiteRookMoved(true);
 					this.setWhiteCastlingDone(false);
-				} else if (!this.isRightWhiteRookMoved() && (positionStart.equals("H1") ||
-						!(getChessSquareFromPosition("H1").isRook()))) {
+				} else if (!this.isRightWhiteRookMoved() && rowStart == this.numOfRows - 1 && columnStart == rightRookColumn) {
 					this.setRightWhiteRookMoved(true);
 					this.setWhiteCastlingDone(false);
-				} else if (!this.isLeftBlackRookMoved() && (positionStart.equals("A" + numOfRows) ||
-						!(getChessSquareFromPosition("A" + numOfRows).isRook()))) {
+				} else if (!this.isLeftBlackRookMoved() && rowStart == 0 && columnStart == leftRookColumn) {
 					this.setLeftBlackRookMoved(true);
 					this.setBlackCastlingDone(false);
-				} else if (!this.isRightBlackRookMoved() && (positionStart.equals("H" + numOfRows) ||
-						!(getChessSquareFromPosition("H" + numOfRows).isRook()))) {
+				} else if (!this.isRightBlackRookMoved() && rowStart == 0 && columnStart == rightRookColumn) {
 					this.setRightBlackRookMoved(true);
 					this.setBlackCastlingDone(false);
 				}
@@ -467,7 +574,6 @@ public class ChessBoard {
 						}
 						this.enPassantPosition = "-";
 					}
-
 
 				} else if (chessSquare.isBlack() && rowEnd - 1 >= 0) {
 					String twoStepsForwardWhitePawnPosition = getPositionByRowCol(rowEnd - 1, columnEnd);
@@ -517,7 +623,7 @@ public class ChessBoard {
 
 			setThreats();
 
-			if (endSquare.isEmpty()) {
+			if (endSquare.isEmpty() || isCastling) {
 				capture = false;
 				if (chessSquare.isPawn()) {
 					halfMoveClock = 0;
