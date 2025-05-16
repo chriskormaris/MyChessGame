@@ -57,7 +57,7 @@ public class SettingsFrame extends JFrame {
 		this.newGameParameters = newGameParameters;
 
 		int width = 525;
-		int height = 725;
+		int height = 750;
 
 		super.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		super.setLayout(null);
@@ -178,12 +178,15 @@ public class SettingsFrame extends JFrame {
 
 		gameTypeDropDown = new JComboBox<>();
 		gameTypeDropDown.addItem("Classic Chess");
+		gameTypeDropDown.addItem("Chess 960");
 		gameTypeDropDown.addItem("Horde");
 
 		if (selectedGameType == GameType.CLASSIC_CHESS) {
 			gameTypeDropDown.setSelectedIndex(0);
-		} else if (selectedGameType == GameType.HORDE) {
+		} else if (selectedGameType == GameType.CHESS_960) {
 			gameTypeDropDown.setSelectedIndex(1);
+		} else if (selectedGameType == GameType.HORDE) {
+			gameTypeDropDown.setSelectedIndex(2);
 		}
 
 		ai1TypeDropDown = new JComboBox<>();
@@ -341,7 +344,7 @@ public class SettingsFrame extends JFrame {
 		cancel = new JButton("Cancel");
 
 		distance = 10;
-		y = 625;
+		y = 660;
 		w = 100;
 		h = 30;
 		EventHandler handler = new EventHandler();

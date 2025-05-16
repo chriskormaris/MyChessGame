@@ -303,7 +303,7 @@ public class ButtonsFrame extends ChessFrame {
 	@Override
 	public void startNewGame() {
 		if (newGameParameters.getGuiType() == GuiType.BUTTONS) {
-			startNewGame(Constants.DEFAULT_STARTING_FEN_POSITION);
+			startNewGame(null);
 		}
 		if (newGameParameters.getGuiType() == GuiType.DRAG_AND_DROP) {
 			super.dispose();
@@ -362,14 +362,11 @@ public class ButtonsFrame extends ChessFrame {
 	// Restores all the default values.
 	@Override
 	void restoreDefaultValues(String fenPosition) {
-		if (gameParameters.getGameType() == GameType.CLASSIC_CHESS) {
-			if (fenPosition.equals(Constants.DEFAULT_STARTING_FEN_POSITION)) {
-				chessBoard = new ChessBoard(gameParameters.getNumOfRows());
-			} else {
-				chessBoard = FenUtils.getChessBoardFromFenPosition(fenPosition, gameParameters.getNumOfRows());
-			}
-		} else if (gameParameters.getGameType() == GameType.HORDE) {
-			chessBoard = new ChessBoard(gameParameters.getNumOfRows(), GameType.HORDE);
+		if (fenPosition == null) {
+			chessBoard = new ChessBoard(gameParameters.getNumOfRows(), gameParameters.getGameType());
+		} else {
+			chessBoard = FenUtils.getChessBoardFromFenPosition(fenPosition, gameParameters.getNumOfRows());
+			chessBoard.setGameType(gameParameters.getGameType());
 		}
 
 		startingPosition = "";
@@ -383,7 +380,7 @@ public class ButtonsFrame extends ChessFrame {
 		undoCapturedPieces.clear();
 		redoCapturedPieces.clear();
 
-		if (fenPosition.equals(Constants.DEFAULT_STARTING_FEN_POSITION)) {
+		if (fenPosition == null) {
 			score = 0;
 		} else {
 			resetScore();
@@ -659,7 +656,7 @@ public class ButtonsFrame extends ChessFrame {
 			JButton nextPositionButton = chessButtons[nextPositionButtonRow][nextPositionButtonColumn];
 			ChessSquare nextPositionPiece = chessBoard.getGameBoard()[nextPositionRow][nextPositionColumn];
 
-			if (nextPositionPiece.isPiece()
+			if (nextPositionPiece.isPiece() && chessSquare.getAllegiance() != nextPositionPiece.getAllegiance()
 					|| chessBoard.getEnPassantPosition().equals(nextPosition)
 					&& chessSquare.isPawn()) {
 				nextPositionButton.setBackground(Color.RED);
@@ -670,7 +667,7 @@ public class ButtonsFrame extends ChessFrame {
 							&& nextPositionRow == chessBoard.getNumOfRows() - 1)
 			) {
 				nextPositionButton.setBackground(Color.GREEN);
-			} else if (nextPositionPiece.isEmpty()) {
+			} else {
 				nextPositionButton.setBackground(Color.BLUE);
 			}
 		}

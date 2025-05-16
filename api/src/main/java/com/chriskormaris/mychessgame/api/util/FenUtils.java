@@ -122,7 +122,6 @@ public final class FenUtils {
 		return chessBoard;
 	}
 
-
 	public static void populateGameBoard(ChessBoard chessBoard, String startingPieces) {
 		for (int i = 0; i < chessBoard.getNumOfRows(); i++) {
 			for (int j = 0; j < chessBoard.getNumOfColumns(); j++) {
@@ -166,7 +165,6 @@ public final class FenUtils {
 			counter++;
 		}
 	}
-
 
 	public static String getFenPositionFromChessBoard(ChessBoard chessBoard) {
 		StringBuilder fenPosition = new StringBuilder();

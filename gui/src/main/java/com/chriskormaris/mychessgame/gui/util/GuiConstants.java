@@ -9,7 +9,7 @@ import java.awt.*;
 public class GuiConstants {
 
 	public static final String TITLE = "My Chess Game";
-	public static final String VERSION = "10.2.0";
+	public static final String VERSION = "10.3.0";
 
 	public static final String FIRST_MOVE_TEXT = "Move: 1. White plays first.";
 	public static final String ZERO_SCORE_TEXT = "Score:  0";
@@ -77,6 +77,7 @@ public class GuiConstants {
 			+ "  6) The Pawn can move one square forward, or 2 squares forward, if moving for the 1st time. It can capture an opponent's piece by moving one square diagonally.\n"
 			+ "     It can also capture an opponent's Pawn, that has just moved 2 steps forward, in the previous move, while being next to it,\n"
 			+ "     by moving diagonally towards its direction (\"en passant\" move).\n"
-			+ "     If a Pawn reaches the final row of the other side of the Chess board, the player can promote it to a Bishop, Knight, Rook or even a Queen.";
+			+ "     If a Pawn reaches the final row of the other side of the Chess board, the player can promote it to a Bishop, Knight, Rook or even a Queen."
+			+ "\n\nBesides the Classic Chess implementation there two additional game types, Chess 960 and Horde.";
 
 }

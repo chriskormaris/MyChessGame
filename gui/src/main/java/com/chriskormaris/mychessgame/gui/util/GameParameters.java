@@ -65,7 +65,7 @@ public class GameParameters {
 		// Other values: GameMode.HUMAN_VS_HUMAN, GameMode.AI_VS_AI
 		this.gameMode = GameMode.HUMAN_VS_AI;
 
-		// Other values: GameType.HORDE
+		// Other values: GameType.HORDE, GameType.CHESS_960
 		this.gameType = GameType.CLASSIC_CHESS;
 
 		// Other values: AiType.RANDOM_AI

@@ -287,7 +287,7 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 	@Override
 	public void startNewGame() {
 		if (newGameParameters.getGuiType() == GuiType.DRAG_AND_DROP) {
-			startNewGame(Constants.DEFAULT_STARTING_FEN_POSITION);
+			startNewGame(null);
 		}
 		if (newGameParameters.getGuiType() == GuiType.BUTTONS) {
 			super.dispose();
@@ -358,14 +358,11 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 	// Restores all the default values.
 	@Override
 	void restoreDefaultValues(String fenPosition) {
-		if (gameParameters.getGameType() == GameType.CLASSIC_CHESS) {
-			if (fenPosition.equals(Constants.DEFAULT_STARTING_FEN_POSITION)) {
-				chessBoard = new ChessBoard();
-			} else {
-				chessBoard = FenUtils.getChessBoardFromFenPosition(fenPosition, gameParameters.getNumOfRows());
-			}
-		} else if (gameParameters.getGameType() == GameType.HORDE) {
-			chessBoard = new ChessBoard(GameType.HORDE);
+		if (fenPosition == null) {
+			chessBoard = new ChessBoard(gameParameters.getGameType());
+		} else {
+			chessBoard = FenUtils.getChessBoardFromFenPosition(fenPosition, gameParameters.getNumOfRows());
+			chessBoard.setGameType(gameParameters.getGameType());
 		}
 
 		startingPosition = "";
@@ -379,7 +376,7 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 		undoCapturedPieces.clear();
 		redoCapturedPieces.clear();
 
-		if (fenPosition.equals(Constants.DEFAULT_STARTING_FEN_POSITION)) {
+		if (fenPosition == null) {
 			score = 0;
 		} else {
 			resetScore();
@@ -582,7 +579,7 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 			Component nextPositionComponent = chessPanel.getComponent(nextPositionIndex);
 			ChessSquare nextPositionPiece = chessBoard.getChessSquareFromPosition(nextPosition);
 
-			if (nextPositionPiece.isPiece()
+			if (nextPositionPiece.isPiece() && chessSquare.getAllegiance() != nextPositionPiece.getAllegiance()
 					|| chessBoard.getEnPassantPosition().equals(nextPosition) && chessSquare.isPawn()) {
 				nextPositionComponent.setBackground(Color.RED);
 			} else if (chessSquare.isPawn() &&
@@ -598,7 +595,7 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 							&& nextPositionRow == 0))
 			) {
 				nextPositionComponent.setBackground(Color.GREEN);
-			} else if (nextPositionPiece.isEmpty()) {
+			} else {
 				nextPositionComponent.setBackground(Color.BLUE);
 			}
 		}
