@@ -672,9 +672,10 @@ public class ChessBoard {
 				chessBoard.getGameBoard()[rowEnd][columnEnd] = promotedPiece;
 				chessBoard.setThreats();
 
-				if (chessSquare.isWhite() && !chessBoard.checkForBlackStalemateDraw()
-						||
-						chessSquare.isBlack() && !chessBoard.checkForWhiteStalemateDraw()) {
+				if (chessSquare.isWhite()
+						&& (!chessBoard.checkForBlackStalemateDraw() || chessBoard.checkForWhiteCheckmate())
+						|| chessSquare.isBlack() &&
+						(!chessBoard.checkForWhiteStalemateDraw() || chessBoard.checkForBlackCheckmate())) {
 					break;
 				}
 				// If Stalemate can't be avoided, at least end the game with a Queen promotion.
