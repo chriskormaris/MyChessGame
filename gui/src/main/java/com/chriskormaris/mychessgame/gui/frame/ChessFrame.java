@@ -11,7 +11,7 @@ import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 import com.chriskormaris.mychessgame.api.enumeration.EvaluationFunction;
 import com.chriskormaris.mychessgame.api.enumeration.GameMode;
 import com.chriskormaris.mychessgame.api.enumeration.GameResult;
-import com.chriskormaris.mychessgame.api.enumeration.GameType;
+import com.chriskormaris.mychessgame.api.enumeration.Variant;
 import com.chriskormaris.mychessgame.api.evaluation.Evaluation;
 import com.chriskormaris.mychessgame.api.evaluation.PeSTOEvaluation;
 import com.chriskormaris.mychessgame.api.evaluation.ShannonEvaluation;
@@ -907,7 +907,7 @@ public abstract class ChessFrame extends JFrame {
             }
         }
 
-        if (gameParameters.getGameType() == GameType.HORDE) {
+        if (gameParameters.getVariant() == Variant.HORDE) {
             if (chessBoard.whitePlays()) {
                 chessBoard.checkForHordeBlackWin();
                 if (chessBoard.getGameResult() == GameResult.HORDE_NO_WHITE_PIECES_LEFT) {

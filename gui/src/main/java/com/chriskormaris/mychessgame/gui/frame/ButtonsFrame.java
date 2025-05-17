@@ -6,7 +6,6 @@ import com.chriskormaris.mychessgame.api.chess_board.Move;
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 import com.chriskormaris.mychessgame.api.enumeration.EvaluationFunction;
 import com.chriskormaris.mychessgame.api.enumeration.GameMode;
-import com.chriskormaris.mychessgame.api.enumeration.GameType;
 import com.chriskormaris.mychessgame.api.square.Bishop;
 import com.chriskormaris.mychessgame.api.square.ChessSquare;
 import com.chriskormaris.mychessgame.api.square.EmptySquare;
@@ -363,10 +362,10 @@ public class ButtonsFrame extends ChessFrame {
 	@Override
 	void restoreDefaultValues(String fenPosition) {
 		if (fenPosition == null) {
-			chessBoard = new ChessBoard(gameParameters.getNumOfRows(), gameParameters.getGameType());
+			chessBoard = new ChessBoard(gameParameters.getNumOfRows(), gameParameters.getVariant());
 		} else {
 			chessBoard = FenUtils.getChessBoardFromFenPosition(fenPosition, gameParameters.getNumOfRows());
-			chessBoard.setGameType(gameParameters.getGameType());
+			chessBoard.setVariant(gameParameters.getVariant());
 		}
 
 		startingPosition = "";
