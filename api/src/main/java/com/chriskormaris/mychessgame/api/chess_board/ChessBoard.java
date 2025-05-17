@@ -3,7 +3,7 @@ package com.chriskormaris.mychessgame.api.chess_board;
 import com.chriskormaris.mychessgame.api.ai.MinimaxAI;
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 import com.chriskormaris.mychessgame.api.enumeration.GameResult;
-import com.chriskormaris.mychessgame.api.enumeration.GameType;
+import com.chriskormaris.mychessgame.api.enumeration.Variant;
 import com.chriskormaris.mychessgame.api.square.Bishop;
 import com.chriskormaris.mychessgame.api.square.ChessPiece;
 import com.chriskormaris.mychessgame.api.square.ChessSquare;
@@ -121,39 +121,39 @@ public class ChessBoard {
 
 	private boolean capture;
 
-	private GameType gameType;
+	private Variant variant;
 
     private int leftRookColumn;
     private int rightRookColumn;
 
 	public ChessBoard() {
-		this(Constants.DEFAULT_NUM_OF_ROWS, GameType.CLASSIC_CHESS);
+		this(Constants.DEFAULT_NUM_OF_ROWS, Variant.STANDARD_CHESS);
 	}
 
 	public ChessBoard(int numOfRows) {
-		this(numOfRows, GameType.CLASSIC_CHESS);
+		this(numOfRows, Variant.STANDARD_CHESS);
 	}
 
-	public ChessBoard(GameType gameType) {
-		this(Constants.DEFAULT_NUM_OF_ROWS, gameType);
+	public ChessBoard(Variant variant) {
+		this(Constants.DEFAULT_NUM_OF_ROWS, variant);
 	}
 
-	public ChessBoard(int numOfRows, GameType gameType) {
+	public ChessBoard(int numOfRows, Variant variant) {
 		this.numOfRows = numOfRows;
 		this.numOfColumns = Constants.DEFAULT_NUM_OF_COLUMNS;
 
 		this.lastMove = new Move();
 
 		this.gameBoard = new ChessSquare[numOfRows][numOfColumns];
-		if (gameType == GameType.CLASSIC_CHESS) {
+		if (variant == Variant.STANDARD_CHESS) {
 			placePiecesToStartingPositions();
 			// FenUtils.populateGameBoard(this, Constants.DEFAULT_STARTING_PIECES);
-		} else if (gameType == GameType.CHESS_960) {
+		} else if (variant == Variant.CHESS_960) {
 			placePiecesToChess960Positions();
-		} else if (gameType == GameType.HORDE) {
+		} else if (variant == Variant.HORDE) {
 			placePiecesToHordePositions();
 		}
-		this.gameType = gameType;
+		this.variant = variant;
 
 		this.squaresThreatenedByWhite = new boolean[numOfRows][numOfColumns];
 		this.squaresThreatenedByBlack = new boolean[numOfRows][numOfColumns];
@@ -220,7 +220,7 @@ public class ChessBoard {
 		this.previousHalfMoveFenPositions = (Stack<String>) otherBoard.getPreviousHalfMoveFenPositions().clone();
 
 		this.capture = otherBoard.isCapture();
-		this.gameType = otherBoard.getGameType();
+		this.variant = otherBoard.getVariant();
         this.leftRookColumn = otherBoard.getLeftRookColumn();
         this.rightRookColumn = otherBoard.getRightRookColumn();
 	}
@@ -732,16 +732,16 @@ public class ChessBoard {
 	 * 4) Shannon's */
 	public double evaluate(MinimaxAI minimaxAI) {
 		if (checkForWhiteCheckmate()) return Integer.MAX_VALUE;
-		if (gameType != GameType.HORDE) {
+		if (variant != Variant.HORDE) {
 			if (checkForBlackCheckmate()) return Integer.MIN_VALUE;
 			if (checkForWhiteStalemateDraw()) return 0;
 		}
 		if (checkForBlackStalemateDraw()) return 0;
-		if (gameType == GameType.HORDE) {
+		if (variant == Variant.HORDE) {
 			if (checkForHordeBlackWin()) return Integer.MIN_VALUE;
 			if (checkForHordeWhiteStalemateDraw()) return 0;
 		}
-		if (gameType != GameType.HORDE && checkForInsufficientMatingMaterialDraw()) return 0;
+		if (variant != Variant.HORDE && checkForInsufficientMatingMaterialDraw()) return 0;
 		if (checkForConditionalNoCaptureDraw()) return 0;
 		if (checkForThreefoldRepetitionDraw()) return 0;
 
@@ -755,7 +755,7 @@ public class ChessBoard {
 
 		if (checkForWhiteCheckmate()) return true;
 
-		if (gameType != GameType.HORDE) {
+		if (variant != Variant.HORDE) {
 			if (checkForBlackCheckmate()) return true;
 
 			// Check for White stalemate, only if the last player was Black,
@@ -767,12 +767,12 @@ public class ChessBoard {
 		// meaning that the next player should be Black.
 		if (blackPlays() && checkForBlackStalemateDraw()) return true;
 
-		if (gameType == GameType.HORDE && whitePlays()) {
+		if (variant == Variant.HORDE && whitePlays()) {
 			if (checkForHordeBlackWin()) return true;
 			if (checkForHordeWhiteStalemateDraw()) return true;
 		}
 
-		if (gameType != GameType.HORDE && checkForInsufficientMatingMaterialDraw()) return true;
+		if (variant != Variant.HORDE && checkForInsufficientMatingMaterialDraw()) return true;
 
 		if (checkForUnconditionalNoCaptureDraw()) return true;
 
@@ -810,7 +810,7 @@ public class ChessBoard {
 		int whiteKingRow = getRowFromPosition(this.getWhiteKingPosition());
 		int whiteKingColumn = getColumnFromPosition(this.getWhiteKingPosition());
 
-		if (gameType != GameType.HORDE
+		if (variant != Variant.HORDE
 				&& (whiteKingRow < 0 || whiteKingRow >= numOfRows
 				|| whiteKingColumn < 0 || whiteKingColumn >= numOfColumns)) {
 			return;
@@ -830,7 +830,7 @@ public class ChessBoard {
 
 			nextPositionChessBoard.makeMove(startingPosition, nextPosition, false);
 
-			if (gameType != GameType.HORDE) {
+			if (variant != Variant.HORDE) {
 				whiteKingRow = getRowFromPosition(nextPositionChessBoard.getWhiteKingPosition());
 				whiteKingColumn = getColumnFromPosition(nextPositionChessBoard.getWhiteKingPosition());
 

@@ -4,7 +4,6 @@ import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.api.chess_board.Move;
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 import com.chriskormaris.mychessgame.api.enumeration.GameMode;
-import com.chriskormaris.mychessgame.api.enumeration.GameType;
 import com.chriskormaris.mychessgame.api.square.Bishop;
 import com.chriskormaris.mychessgame.api.square.ChessSquare;
 import com.chriskormaris.mychessgame.api.square.EmptySquare;
@@ -359,10 +358,10 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 	@Override
 	void restoreDefaultValues(String fenPosition) {
 		if (fenPosition == null) {
-			chessBoard = new ChessBoard(gameParameters.getGameType());
+			chessBoard = new ChessBoard(gameParameters.getVariant());
 		} else {
 			chessBoard = FenUtils.getChessBoardFromFenPosition(fenPosition, gameParameters.getNumOfRows());
-			chessBoard.setGameType(gameParameters.getGameType());
+			chessBoard.setVariant(gameParameters.getVariant());
 		}
 
 		startingPosition = "";
