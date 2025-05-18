@@ -69,6 +69,8 @@ public class OpeningMoves {
 		WHITE_OPENING_MOVES.put("rnbqkb1r/pppp1ppp/5n2/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3", movesList);
 
 		movesList = new ArrayList<>();
+		movesList.add(new Move("C2", "C3"));  // C44 Ponziani opening
+		movesList.add(new Move("D2", "D4"));  // C44 Scotch opening
 		movesList.add(new Move("F1", "C4"));  // C50 Italian Game
 		movesList.add(new Move("F1", "B5"));  // C60 Ruy Lopez (Spanish opening)
 		WHITE_OPENING_MOVES.put("r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3", movesList);
@@ -124,6 +126,10 @@ public class OpeningMoves {
 		movesList = new ArrayList<>();
 		movesList.add(new Move("F1", "G2"));  // E00 Catalan opening
 		WHITE_OPENING_MOVES.put("rnbqkb1r/ppp2ppp/4pn2/3p4/2PP4/6P1/PP2PP1P/RNBQKBNR w KQkq d6 0 4", movesList);
+
+		movesList = new ArrayList<>();
+		movesList.add(new Move("F3", "D4"));  // C44 Scotch opening
+		WHITE_OPENING_MOVES.put("r1bqkbnr/pppp1ppp/2n5/8/3pP3/5N2/PPP2PPP/RNBQKB1R w KQkq - 0 4", movesList);
 	}
 
 	// Initialize Black opening moves.
