@@ -1,6 +1,7 @@
 package com.chriskormaris.mychessgame.api.util;
 
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
+import com.chriskormaris.mychessgame.api.enumeration.Variant;
 import com.chriskormaris.mychessgame.api.exception.InvalidFenPositionException;
 import com.chriskormaris.mychessgame.api.square.ChessSquare;
 import com.chriskormaris.mychessgame.api.square.EmptySquare;
@@ -11,11 +12,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public final class FenUtils {
 
-	public static ChessBoard getChessBoardFromFenPosition(String fenPosition) {
-		return getChessBoardFromFenPosition(fenPosition, Constants.DEFAULT_NUM_OF_ROWS);
+	public static ChessBoard getChessBoardFromFenPosition(String fenPosition, Variant variant) {
+		return getChessBoardFromFenPosition(fenPosition, Constants.DEFAULT_NUM_OF_ROWS, variant);
 	}
 
-	public static ChessBoard getChessBoardFromFenPosition(String fenPosition, int numOfRows) {
+	public static ChessBoard getChessBoardFromFenPosition(String fenPosition, int numOfRows, Variant variant) {
 		fenPosition = fenPosition.trim();
 		String[] fenPositionTokens = fenPosition.split(" ");
 		if (fenPositionTokens.length != 6) {
@@ -40,41 +41,18 @@ public final class FenUtils {
 		}
 
 		String castlingAvailability = fenPositionTokens[2];
-		boolean whiteKingMoved = false;
-		boolean leftWhiteRookMoved = false;
-		boolean rightWhiteRookMoved = false;
-		boolean blackKingMoved = false;
-		boolean leftBlackRookMoved = false;
-		boolean rightBlackRookMoved = false;
 
-		if (castlingAvailability.contains(String.valueOf(Constants.WHITE_KING))
-				&& !castlingAvailability.contains(String.valueOf(Constants.WHITE_QUEEN))) {
-			leftWhiteRookMoved = true;
-			whiteKingMoved = true;
-		} else if (!castlingAvailability.contains(String.valueOf(Constants.WHITE_KING))
-				&& castlingAvailability.contains(String.valueOf(Constants.WHITE_QUEEN))) {
-			rightWhiteRookMoved = true;
-			whiteKingMoved = true;
-		} else if (!castlingAvailability.contains(String.valueOf(Constants.WHITE_KING))
-				&& !castlingAvailability.contains(String.valueOf(Constants.WHITE_QUEEN))) {
-			whiteKingMoved = true;
-			leftWhiteRookMoved = true;
-			rightWhiteRookMoved = true;
-		}
-		if (castlingAvailability.contains(String.valueOf(Constants.BLACK_KING))
-				&& !castlingAvailability.contains(String.valueOf(Constants.BLACK_QUEEN))) {
-			leftBlackRookMoved = true;
-			blackKingMoved = true;
-		} else if (!castlingAvailability.contains(String.valueOf(Constants.BLACK_KING))
-				&& castlingAvailability.contains(String.valueOf(Constants.BLACK_QUEEN))) {
-			rightBlackRookMoved = true;
-			blackKingMoved = true;
-		} else if (!castlingAvailability.contains(String.valueOf(Constants.BLACK_KING))
-				&& !castlingAvailability.contains(String.valueOf(Constants.BLACK_QUEEN))) {
-			blackKingMoved = true;
-			leftBlackRookMoved = true;
-			rightBlackRookMoved = true;
-		}
+		boolean whiteKingMoved = true;
+		boolean leftWhiteRookMoved = true;
+		boolean rightWhiteRookMoved = true;
+		boolean blackKingMoved = true;
+		boolean leftBlackRookMoved = true;
+		boolean rightBlackRookMoved = true;
+
+		int leftWhiteRookColumn = 0;
+		int rightWhiteRookColumn = 7;
+		int leftBlackRookColumn = 0;
+		int rightBlackRookColumn = 7;
 
 		String enPassantPosition = fenPositionTokens[3].toUpperCase();
 
@@ -97,14 +75,81 @@ public final class FenUtils {
 			halfMoveNumber -= 1;
 		}
 
-		ChessBoard chessBoard = new ChessBoard(numOfRows);
+		ChessBoard chessBoard = new ChessBoard(numOfRows, variant);
 
 		// Set the ChessBoard parameters, according to the given FEN position.
-		if (!fenPosition.equals(Constants.DEFAULT_STARTING_FEN_POSITION)) {
+		if (variant != Variant.CHESS_960) {
+			if (!fenPosition.equals(Constants.DEFAULT_STARTING_FEN_POSITION)) {
+				populateGameBoard(chessBoard, startingPieces);
+			}
+		} else {
 			populateGameBoard(chessBoard, startingPieces);
 		}
 
+		if (variant != Variant.CHESS_960) {
+			if (castlingAvailability.contains(String.valueOf(Constants.WHITE_KING))) {
+				rightWhiteRookMoved = false;
+				whiteKingMoved = false;
+			}
+			if (castlingAvailability.contains(String.valueOf(Constants.WHITE_QUEEN))) {
+				leftWhiteRookMoved = false;
+				whiteKingMoved = false;
+			}
+			if (castlingAvailability.contains(String.valueOf(Constants.BLACK_KING))) {
+				rightBlackRookMoved = false;
+				blackKingMoved = false;
+			}
+			if (castlingAvailability.contains(String.valueOf(Constants.BLACK_QUEEN))) {
+				leftBlackRookMoved = false;
+				blackKingMoved = false;
+			}
+			String allowedCharacters = "KQkq-";
+			for (char ch : castlingAvailability.toCharArray()) {
+				if (allowedCharacters.indexOf(ch) == -1) {
+					throw new InvalidFenPositionException("Invalid castling availability character " + ch
+							+ ". Acceptable values are K, Q, k, q or -");
+				}
+			}
+		} else {
+			int whiteKingColumn = chessBoard.getColumnFromPosition(chessBoard.getWhiteKingPosition());
+			int blackKingColumn = chessBoard.getColumnFromPosition(chessBoard.getBlackKingPosition());
+			for (char ch : castlingAvailability.toCharArray()){
+
+				if (isUpperCaseFile(ch)) {
+					int column = ch - (int) 'A';
+					if (column < whiteKingColumn) {
+						leftWhiteRookColumn = column;
+						leftWhiteRookMoved = false;
+						whiteKingMoved = false;
+					} else if (column > whiteKingColumn) {
+						rightWhiteRookColumn = column;
+						rightWhiteRookMoved = false;
+						whiteKingMoved = false;
+					}
+				} else if (isLowerCaseFile(ch)) {
+					int column = ch - (int) 'a';
+					if (column < blackKingColumn) {
+						leftBlackRookColumn = column;
+						leftBlackRookMoved = false;
+						blackKingMoved = false;
+					} else if (column > blackKingColumn) {
+						rightBlackRookColumn = column;
+						rightBlackRookMoved = false;
+						blackKingMoved = false;
+					}
+				} else if (ch != '-') {
+					throw new InvalidFenPositionException("Invalid castling availability character " + ch
+							+ ". Acceptable values are A-H, a-h or -.");
+				}
+			}
+		}
+
 		chessBoard.setPlayer(whitePlays);
+
+		chessBoard.setLeftWhiteRookColumn(leftWhiteRookColumn);
+		chessBoard.setRightWhiteRookColumn(rightWhiteRookColumn);
+		chessBoard.setLeftBlackRookColumn(leftBlackRookColumn);
+		chessBoard.setRightBlackRookColumn(rightBlackRookColumn);
 
 		chessBoard.setWhiteKingMoved(whiteKingMoved);
 		chessBoard.setLeftWhiteRookMoved(leftWhiteRookMoved);
@@ -207,12 +252,36 @@ public final class FenUtils {
 		/* Step 3: Append the available castling moves. */
 		if (chessBoard.isWhiteKingSideCastlingAvailable() || chessBoard.isWhiteQueenSideCastlingAvailable()
 				|| chessBoard.isBlackKingSideCastlingAvailable() || chessBoard.isBlackQueenSideCastlingAvailable()) {
-			fenPosition.append(" ").append(chessBoard.isWhiteKingSideCastlingAvailable() ? 'K' : "");
-			fenPosition.append(chessBoard.isWhiteQueenSideCastlingAvailable() ? 'Q' : "");
-			fenPosition.append(chessBoard.isBlackKingSideCastlingAvailable() ? 'k' : "");
-			fenPosition.append(chessBoard.isBlackQueenSideCastlingAvailable() ? 'q' : "");
+			fenPosition.append(" ");
+			if (chessBoard.getVariant() != Variant.CHESS_960) {
+				fenPosition.append(chessBoard.isWhiteKingSideCastlingAvailable() ? 'K' : "");
+				fenPosition.append(chessBoard.isWhiteQueenSideCastlingAvailable() ? 'Q' : "");
+				fenPosition.append(chessBoard.isBlackKingSideCastlingAvailable() ? 'k' : "");
+				fenPosition.append(chessBoard.isBlackQueenSideCastlingAvailable() ? 'q' : "");
+			} else {
+				fenPosition.append(
+						chessBoard.isWhiteQueenSideCastlingAvailable()
+								? (char) ((int) 'A' + chessBoard.getLeftWhiteRookColumn())
+								: ""
+				);
+				fenPosition.append(
+						chessBoard.isWhiteKingSideCastlingAvailable()
+						? (char) ((int) 'A' + chessBoard.getRightWhiteRookColumn())
+						: ""
+				);
+				fenPosition.append(
+						chessBoard.isBlackQueenSideCastlingAvailable()
+								? (char) ((int) 'a' + chessBoard.getLeftBlackRookColumn())
+								: ""
+				);
+				fenPosition.append(
+						chessBoard.isBlackKingSideCastlingAvailable()
+								? (char) ((int) 'a' + chessBoard.getRightBlackRookColumn())
+								: ""
+				);
+			}
 		} else {
-			fenPosition.append(" -");
+			fenPosition.append(" ").append("-");
 		}
 
 		/* Step 4: Append the current "en passant" position. */
@@ -240,6 +309,14 @@ public final class FenUtils {
 			}
 		}
 		return formattedFenPosition.toString();
+	}
+
+	public static boolean isUpperCaseFile(char ch) {
+		return ch >= 'A' && ch <= 'H';
+	}
+
+	public static boolean isLowerCaseFile(char ch) {
+		return ch >= 'a' && ch <= 'h';
 	}
 
 }

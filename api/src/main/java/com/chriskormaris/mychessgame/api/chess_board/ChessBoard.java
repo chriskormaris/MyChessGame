@@ -123,8 +123,11 @@ public class ChessBoard {
 
 	private Variant variant;
 
-    private int leftRookColumn;
-    private int rightRookColumn;
+    private int leftWhiteRookColumn;
+    private int rightWhiteRookColumn;
+
+	private int leftBlackRookColumn;
+	private int rightBlackRookColumn;
 
 	public ChessBoard() {
 		this(Constants.DEFAULT_NUM_OF_ROWS, Variant.STANDARD_CHESS);
@@ -221,8 +224,10 @@ public class ChessBoard {
 
 		this.capture = otherBoard.isCapture();
 		this.variant = otherBoard.getVariant();
-        this.leftRookColumn = otherBoard.getLeftRookColumn();
-        this.rightRookColumn = otherBoard.getRightRookColumn();
+        this.leftWhiteRookColumn = otherBoard.getLeftWhiteRookColumn();
+        this.rightWhiteRookColumn = otherBoard.getRightWhiteRookColumn();
+		this.leftBlackRookColumn = otherBoard.getLeftBlackRookColumn();
+		this.rightBlackRookColumn = otherBoard.getRightBlackRookColumn();
 	}
 
 	public void placePiecesToStartingPositions() {
@@ -269,8 +274,10 @@ public class ChessBoard {
 
         this.whiteKingPosition = "E1";
         this.blackKingPosition = "E" + numOfRows;
-        this.leftRookColumn = 0;
-        this.rightRookColumn = 7;
+        this.leftWhiteRookColumn = 0;
+        this.rightWhiteRookColumn = 7;
+		this.leftBlackRookColumn = 0;
+		this.rightBlackRookColumn = 7;
 	}
 
 	public void placePiecesToHordePositions() {
@@ -315,8 +322,10 @@ public class ChessBoard {
 
         this.whiteKingPosition = "Z0";
         this.blackKingPosition = "E" + numOfRows;
-        this.leftRookColumn = 0;
-        this.rightRookColumn = 7;
+        this.leftWhiteRookColumn = 0;
+        this.rightWhiteRookColumn = 7;
+		this.leftBlackRookColumn = -1;
+		this.rightBlackRookColumn = -1;
 	}
 
 	public void placePiecesToChess960Positions() {
@@ -386,8 +395,10 @@ public class ChessBoard {
 
         this.whiteKingPosition = getPositionByRowCol(numOfRows - 1, kingIndex);
         this.blackKingPosition = getPositionByRowCol(0, kingIndex);
-        this.leftRookColumn = rook1Index;
-        this.rightRookColumn = rook2Index;
+        this.leftWhiteRookColumn = rook1Index;
+        this.rightWhiteRookColumn = rook2Index;
+		this.leftBlackRookColumn = rook1Index;
+		this.rightBlackRookColumn = rook2Index;
 	}
 
 	// Make a move; it moves a Chess piece on the board.
@@ -416,10 +427,18 @@ public class ChessBoard {
 		boolean isCastling = false;
 		if (chessSquare.isKing() && endSquare.isRook() && chessSquare.getAllegiance() == endSquare.getAllegiance()) {
 			isCastling = true;
-			if (columnEnd == leftRookColumn) {
-				columnEnd = 2;
-			} else if (columnEnd == rightRookColumn) {
-				columnEnd = 6;
+			if (chessSquare.isWhite()) {
+				if (columnEnd == leftWhiteRookColumn) {
+					columnEnd = 2;
+				} else if (columnEnd == rightWhiteRookColumn) {
+					columnEnd = 6;
+				}
+			} else if (chessSquare.isBlack()) {
+				if (columnEnd == leftBlackRookColumn) {
+					columnEnd = 2;
+				} else if (columnEnd == rightBlackRookColumn) {
+					columnEnd = 6;
+				}
 			}
 			positionEnd = getPositionByRowCol(rowEnd, columnEnd);
 			endSquare = this.gameBoard[rowEnd][columnEnd];
@@ -466,12 +485,12 @@ public class ChessBoard {
 					// White queen side castling
 					if (rowEnd == this.numOfRows - 1 && columnEnd == 2) {
 						// Move the left white rook to the correct position.
-						this.gameBoard[this.numOfRows - 1][leftRookColumn] = new EmptySquare();
+						this.gameBoard[this.numOfRows - 1][leftWhiteRookColumn] = new EmptySquare();
 						this.gameBoard[this.numOfRows - 1][columnStart] = new EmptySquare();
 						this.gameBoard[this.numOfRows - 1][3] = new Rook(Allegiance.WHITE);
 						this.gameBoard[this.numOfRows - 1][2] = new King(Allegiance.WHITE);
 						if (displayMove) {
-							positionsToRemove.add(getPositionByRowCol(this.numOfRows - 1, leftRookColumn));
+							positionsToRemove.add(getPositionByRowCol(this.numOfRows - 1, leftWhiteRookColumn));
 							positionsToRemove.add(getPositionByRowCol(this.numOfRows - 1, columnStart));
 							piecesToPlace.put("D1", new Rook(Allegiance.WHITE));
 							piecesToPlace.put("C1", new King(Allegiance.WHITE));
@@ -483,12 +502,12 @@ public class ChessBoard {
 					// White king side castling
 					if (rowEnd == this.numOfRows - 1 && columnEnd == 6) {
 						// Move the right white rook to the correct position.
-						this.gameBoard[this.numOfRows - 1][rightRookColumn] = new EmptySquare();
+						this.gameBoard[this.numOfRows - 1][rightWhiteRookColumn] = new EmptySquare();
 						this.gameBoard[this.numOfRows - 1][columnStart] = new EmptySquare();
 						this.gameBoard[this.numOfRows - 1][5] = new Rook(Allegiance.WHITE);
 						this.gameBoard[this.numOfRows - 1][6] = new King(Allegiance.WHITE);
 						if (displayMove) {
-                            positionsToRemove.add(getPositionByRowCol(this.numOfRows - 1, rightRookColumn));
+                            positionsToRemove.add(getPositionByRowCol(this.numOfRows - 1, rightWhiteRookColumn));
 							positionsToRemove.add(getPositionByRowCol(this.numOfRows - 1, columnStart));
 							piecesToPlace.put("F1", new Rook(Allegiance.WHITE));
 							piecesToPlace.put("G1", new King(Allegiance.WHITE));
@@ -500,12 +519,12 @@ public class ChessBoard {
 					// Black queen side castling
 					if (rowEnd == 0 && columnEnd == 2) {
 						// Move the left black rook to the correct position.
-						this.gameBoard[0][leftRookColumn] = new EmptySquare();
+						this.gameBoard[0][leftBlackRookColumn] = new EmptySquare();
 						this.gameBoard[0][columnStart] = new EmptySquare();
 						this.gameBoard[0][3] = new Rook(Allegiance.BLACK);
 						this.gameBoard[0][2] = new King(Allegiance.BLACK);
 						if (displayMove) {
-                            positionsToRemove.add(getPositionByRowCol(0, leftRookColumn));
+                            positionsToRemove.add(getPositionByRowCol(0, leftBlackRookColumn));
 							positionsToRemove.add(getPositionByRowCol(0, columnStart));
 							piecesToPlace.put("D" + this.numOfRows, new Rook(Allegiance.BLACK));
                             piecesToPlace.put("C" + this.numOfRows, new King(Allegiance.BLACK));
@@ -517,12 +536,12 @@ public class ChessBoard {
 					// Black king side castling
 					if (rowEnd == 0 && columnEnd == 6) {
 						// Move the right black rook to the correct position.
-						this.gameBoard[0][rightRookColumn] = new EmptySquare();
+						this.gameBoard[0][rightBlackRookColumn] = new EmptySquare();
 						this.gameBoard[0][columnStart] = new EmptySquare();
 						this.gameBoard[0][5] = new Rook(Allegiance.BLACK);
 						this.gameBoard[0][6] = new King(Allegiance.BLACK);
 						if (displayMove) {
-                            positionsToRemove.add(getPositionByRowCol(0, rightRookColumn));
+                            positionsToRemove.add(getPositionByRowCol(0, rightBlackRookColumn));
 							positionsToRemove.add(getPositionByRowCol(0, columnStart));
 							piecesToPlace.put("F" + this.numOfRows, new Rook(Allegiance.BLACK));
                             piecesToPlace.put("G" + this.numOfRows, new King(Allegiance.BLACK));
@@ -533,16 +552,16 @@ public class ChessBoard {
 					}
 				}
 			} else if (chessSquare.isRook()) {
-				if (!this.isLeftWhiteRookMoved() && rowStart == this.numOfRows - 1 && columnStart == leftRookColumn) {
+				if (!this.isLeftWhiteRookMoved() && rowStart == this.numOfRows - 1 && columnStart == leftWhiteRookColumn) {
 					this.setLeftWhiteRookMoved(true);
 					this.setWhiteCastlingDone(false);
-				} else if (!this.isRightWhiteRookMoved() && rowStart == this.numOfRows - 1 && columnStart == rightRookColumn) {
+				} else if (!this.isRightWhiteRookMoved() && rowStart == this.numOfRows - 1 && columnStart == rightWhiteRookColumn) {
 					this.setRightWhiteRookMoved(true);
 					this.setWhiteCastlingDone(false);
-				} else if (!this.isLeftBlackRookMoved() && rowStart == 0 && columnStart == leftRookColumn) {
+				} else if (!this.isLeftBlackRookMoved() && rowStart == 0 && columnStart == leftBlackRookColumn) {
 					this.setLeftBlackRookMoved(true);
 					this.setBlackCastlingDone(false);
-				} else if (!this.isRightBlackRookMoved() && rowStart == 0 && columnStart == rightRookColumn) {
+				} else if (!this.isRightBlackRookMoved() && rowStart == 0 && columnStart == rightBlackRookColumn) {
 					this.setRightBlackRookMoved(true);
 					this.setBlackCastlingDone(false);
 				}

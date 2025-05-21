@@ -364,7 +364,11 @@ public class ButtonsFrame extends ChessFrame {
 		if (fenPosition == null) {
 			chessBoard = new ChessBoard(gameParameters.getNumOfRows(), gameParameters.getVariant());
 		} else {
-			chessBoard = FenUtils.getChessBoardFromFenPosition(fenPosition, gameParameters.getNumOfRows());
+			chessBoard = FenUtils.getChessBoardFromFenPosition(
+					fenPosition,
+					gameParameters.getNumOfRows(),
+					gameParameters.getVariant()
+			);
 			chessBoard.setVariant(gameParameters.getVariant());
 		}
 
@@ -760,7 +764,11 @@ public class ButtonsFrame extends ChessFrame {
 
 	@Override
 	void placePiecesToChessBoard(String fenPosition) {
-		chessBoard = FenUtils.getChessBoardFromFenPosition(fenPosition, gameParameters.getNumOfRows());
+		chessBoard = FenUtils.getChessBoardFromFenPosition(
+				fenPosition,
+				gameParameters.getNumOfRows(),
+				gameParameters.getVariant()
+		);
 
 		for (int i = 0; i < chessBoard.getNumOfRows(); i++) {
 			for (int j = 0; j < chessBoard.getNumOfColumns(); j++) {

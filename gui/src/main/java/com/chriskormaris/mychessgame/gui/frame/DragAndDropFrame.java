@@ -360,7 +360,11 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 		if (fenPosition == null) {
 			chessBoard = new ChessBoard(gameParameters.getVariant());
 		} else {
-			chessBoard = FenUtils.getChessBoardFromFenPosition(fenPosition, gameParameters.getNumOfRows());
+			chessBoard = FenUtils.getChessBoardFromFenPosition(
+					fenPosition,
+					gameParameters.getNumOfRows(),
+					gameParameters.getVariant()
+			);
 			chessBoard.setVariant(gameParameters.getVariant());
 		}
 
@@ -707,7 +711,7 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 
 	@Override
 	void placePiecesToChessBoard(String fenPosition) {
-		chessBoard = FenUtils.getChessBoardFromFenPosition(fenPosition);
+		chessBoard = FenUtils.getChessBoardFromFenPosition(fenPosition, gameParameters.getVariant());
 
 		for (int i = 0; i < chessBoard.getNumOfRows(); i++) {
 			for (int j = 0; j < chessBoard.getNumOfColumns(); j++) {

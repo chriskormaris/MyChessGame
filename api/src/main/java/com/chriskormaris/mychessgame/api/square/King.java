@@ -33,14 +33,14 @@ public class King extends ChessPiece {
 			// White castling queen side
 			if (!chessBoard.isWhiteKingMoved() && !chessBoard.isLeftWhiteRookMoved() && !chessBoard.isWhiteKingInCheck()
 					&& position.equals(chessBoard.getWhiteKingPosition()) && column > 0
-					&& chessBoard.getGameBoard()[chessBoard.getNumOfRows() - 1][chessBoard.getLeftRookColumn()].isRook()
-					&& chessBoard.getGameBoard()[chessBoard.getNumOfRows() - 1][chessBoard.getLeftRookColumn()].isWhite()) {
+					&& chessBoard.getGameBoard()[chessBoard.getNumOfRows() - 1][chessBoard.getLeftWhiteRookColumn()].isRook()
+					&& chessBoard.getGameBoard()[chessBoard.getNumOfRows() - 1][chessBoard.getLeftWhiteRookColumn()].isWhite()) {
 
 				boolean condition = true;
 
 				// The squares between the King and the castling Rook must be empty and not threatened by Black.
-				for (int j = chessBoard.getLeftRookColumn() + 1;
-					 j < chessBoard.getColumnFromPosition(chessBoard.getWhiteKingPosition()); j++) {
+				for (int j = chessBoard.getLeftWhiteRookColumn() + 1;
+				     j < chessBoard.getColumnFromPosition(chessBoard.getWhiteKingPosition()); j++) {
 					if (!chessBoard.getGameBoard()[chessBoard.getNumOfRows() - 1][j].isEmpty()
 							|| chessBoard.getSquaresThreatenedByBlack()[chessBoard.getNumOfRows() - 1][j]) {
 						condition = false;
@@ -56,14 +56,14 @@ public class King extends ChessPiece {
 						&& !chessBoard.getGameBoard()[chessBoard.getNumOfRows() - 1][3].isKing()
 						&& !chessBoard.getGameBoard()[chessBoard.getNumOfRows() - 1][3].isRook()
 						|| chessBoard.getGameBoard()[chessBoard.getNumOfRows() - 1][2].isRook()
-						&& chessBoard.getLeftRookColumn() != 2
+						&& chessBoard.getLeftWhiteRookColumn() != 2
 						|| chessBoard.getGameBoard()[chessBoard.getNumOfRows() - 1][3].isRook()
-						&& chessBoard.getLeftRookColumn() != 3)) {
+						&& chessBoard.getLeftWhiteRookColumn() != 3)) {
 					condition = false;
 				}
 
 				if (condition) {
-					newPosition = chessBoard.getPositionByRowCol(row, chessBoard.getLeftRookColumn());
+					newPosition = chessBoard.getPositionByRowCol(row, chessBoard.getLeftWhiteRookColumn());
 					castlingPositions.add(newPosition);
 				}
 			}
@@ -71,14 +71,14 @@ public class King extends ChessPiece {
 			if (!chessBoard.isWhiteKingMoved() && !chessBoard.isWhiteKingInCheck()
 					&& !chessBoard.isRightWhiteRookMoved()
 					&& position.equals(chessBoard.getWhiteKingPosition()) && column < 7
-					&& chessBoard.getGameBoard()[chessBoard.getNumOfRows() - 1][chessBoard.getRightRookColumn()].isRook()
-					&& chessBoard.getGameBoard()[chessBoard.getNumOfRows() - 1][chessBoard.getRightRookColumn()].isWhite()) {
+					&& chessBoard.getGameBoard()[chessBoard.getNumOfRows() - 1][chessBoard.getRightWhiteRookColumn()].isRook()
+					&& chessBoard.getGameBoard()[chessBoard.getNumOfRows() - 1][chessBoard.getRightWhiteRookColumn()].isWhite()) {
 
 				boolean condition = true;
 
 				// The squares between the King and the castling Rook must be empty and not threatened by Black.
 				for (int j = chessBoard.getColumnFromPosition(chessBoard.getWhiteKingPosition()) + 1;
-					 j < chessBoard.getRightRookColumn(); j++) {
+				     j < chessBoard.getRightWhiteRookColumn(); j++) {
 					if (!chessBoard.getGameBoard()[chessBoard.getNumOfRows() - 1][j].isEmpty()
 							|| chessBoard.getSquaresThreatenedByBlack()[chessBoard.getNumOfRows() - 1][j]) {
 						condition = false;
@@ -94,14 +94,14 @@ public class King extends ChessPiece {
 						&& !chessBoard.getGameBoard()[chessBoard.getNumOfRows() - 1][5].isKing()
 						&& !chessBoard.getGameBoard()[chessBoard.getNumOfRows() - 1][5].isRook()
 						|| chessBoard.getGameBoard()[chessBoard.getNumOfRows() - 1][6].isRook()
-						&& chessBoard.getRightRookColumn() != 6
+						&& chessBoard.getRightWhiteRookColumn() != 6
 						|| chessBoard.getGameBoard()[chessBoard.getNumOfRows() - 1][5].isRook()
-						&& chessBoard.getRightRookColumn() != 5)) {
+						&& chessBoard.getRightWhiteRookColumn() != 5)) {
 					condition = false;
 				}
 
 				if (condition) {
-					newPosition = chessBoard.getPositionByRowCol(row, chessBoard.getRightRookColumn());
+					newPosition = chessBoard.getPositionByRowCol(row, chessBoard.getRightWhiteRookColumn());
 					castlingPositions.add(newPosition);
 				}
 			}
@@ -109,14 +109,14 @@ public class King extends ChessPiece {
 			// Black castling queen side
 			if (!chessBoard.isBlackKingMoved() && !chessBoard.isLeftBlackRookMoved() && !chessBoard.isBlackKingInCheck()
 					&& position.equals(chessBoard.getBlackKingPosition()) && column > 0
-					&& chessBoard.getGameBoard()[0][chessBoard.getLeftRookColumn()].isRook()
-					&& chessBoard.getGameBoard()[0][chessBoard.getLeftRookColumn()].isBlack()) {
+					&& chessBoard.getGameBoard()[0][chessBoard.getLeftBlackRookColumn()].isRook()
+					&& chessBoard.getGameBoard()[0][chessBoard.getLeftBlackRookColumn()].isBlack()) {
 
 				boolean condition = true;
 
 				// The squares between the King and the castling Rook must be empty and not threatened by White.
-				for (int j = chessBoard.getLeftRookColumn() + 1;
-					 j < chessBoard.getColumnFromPosition(chessBoard.getBlackKingPosition()); j++) {
+				for (int j = chessBoard.getLeftBlackRookColumn() + 1;
+				     j < chessBoard.getColumnFromPosition(chessBoard.getBlackKingPosition()); j++) {
 					if (!chessBoard.getGameBoard()[0][j].isEmpty() || chessBoard.getSquaresThreatenedByWhite()[0][j]) {
 						condition = false;
 						break;
@@ -128,13 +128,13 @@ public class King extends ChessPiece {
 						&& !chessBoard.getGameBoard()[0][2].isKing() && !chessBoard.getGameBoard()[0][2].isRook()
 						|| !chessBoard.getGameBoard()[0][3].isEmpty()
 						&& !chessBoard.getGameBoard()[0][3].isKing() && !chessBoard.getGameBoard()[0][3].isRook()
-						|| chessBoard.getGameBoard()[0][2].isRook() && chessBoard.getLeftRookColumn() != 2
-						|| chessBoard.getGameBoard()[0][3].isRook() && chessBoard.getLeftRookColumn() != 3)) {
+						|| chessBoard.getGameBoard()[0][2].isRook() && chessBoard.getLeftBlackRookColumn() != 2
+						|| chessBoard.getGameBoard()[0][3].isRook() && chessBoard.getLeftBlackRookColumn() != 3)) {
 					condition = false;
 				}
 
 				if (condition) {
-					newPosition = chessBoard.getPositionByRowCol(row, chessBoard.getLeftRookColumn());
+					newPosition = chessBoard.getPositionByRowCol(row, chessBoard.getLeftBlackRookColumn());
 					castlingPositions.add(newPosition);
 				}
 			}
@@ -142,14 +142,14 @@ public class King extends ChessPiece {
 			if (!chessBoard.isBlackKingMoved() && !chessBoard.isRightBlackRookMoved()
 					&& !chessBoard.isBlackKingInCheck()
 					&& position.equals(chessBoard.getBlackKingPosition()) && column < 7
-					&& chessBoard.getGameBoard()[0][chessBoard.getRightRookColumn()].isRook()
-					&& chessBoard.getGameBoard()[0][chessBoard.getRightRookColumn()].isBlack()) {
+					&& chessBoard.getGameBoard()[0][chessBoard.getRightBlackRookColumn()].isRook()
+					&& chessBoard.getGameBoard()[0][chessBoard.getRightBlackRookColumn()].isBlack()) {
 
 				boolean condition = true;
 
 				// The squares between the King and the castling Rook must be empty and not threatened by White.
 				for (int j = chessBoard.getColumnFromPosition(chessBoard.getBlackKingPosition()) + 1;
-					 j < chessBoard.getRightRookColumn(); j++) {
+				     j < chessBoard.getRightBlackRookColumn(); j++) {
 					if (!chessBoard.getGameBoard()[0][j].isEmpty() || chessBoard.getSquaresThreatenedByWhite()[0][j]) {
 						condition = false;
 						break;
@@ -161,13 +161,13 @@ public class King extends ChessPiece {
 						&& !chessBoard.getGameBoard()[0][6].isKing() && !chessBoard.getGameBoard()[0][6].isRook()
 						|| !chessBoard.getGameBoard()[0][5].isEmpty()
 						&& !chessBoard.getGameBoard()[0][5].isKing() && !chessBoard.getGameBoard()[0][5].isRook()
-						|| chessBoard.getGameBoard()[0][6].isRook() && chessBoard.getRightRookColumn() != 6
-						|| chessBoard.getGameBoard()[0][5].isRook() && chessBoard.getRightRookColumn() != 5)) {
+						|| chessBoard.getGameBoard()[0][6].isRook() && chessBoard.getRightBlackRookColumn() != 6
+						|| chessBoard.getGameBoard()[0][5].isRook() && chessBoard.getRightBlackRookColumn() != 5)) {
 					condition = false;
 				}
 
 				if (condition) {
-					newPosition = chessBoard.getPositionByRowCol(row, chessBoard.getRightRookColumn());
+					newPosition = chessBoard.getPositionByRowCol(row, chessBoard.getRightBlackRookColumn());
 					castlingPositions.add(newPosition);
 				}
 

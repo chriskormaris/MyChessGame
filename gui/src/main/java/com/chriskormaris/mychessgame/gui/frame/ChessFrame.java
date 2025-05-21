@@ -216,6 +216,9 @@ public abstract class ChessFrame extends JFrame {
         });
 
         importStartingFenPositionItem.addActionListener(e -> {
+            String defaultFenPosition = gameParameters.getVariant() == Variant.CHESS_960
+                    ? Constants.DEFAULT_STARTING_SHREDDER_FEN_POSITION
+                    : Constants.DEFAULT_STARTING_FEN_POSITION;
             String fenPosition = (String) JOptionPane.showInputDialog(
                     this,
                     "Please insert the starting \"FEN\" position in the text field below:"
@@ -224,7 +227,7 @@ public abstract class ChessFrame extends JFrame {
                     QUESTION_MESSAGE,
                     null,
                     null,
-                    Constants.DEFAULT_STARTING_FEN_POSITION
+                    defaultFenPosition
             );
 
             if (fenPosition != null) {
@@ -1051,7 +1054,7 @@ public abstract class ChessFrame extends JFrame {
     abstract void startNewGame(String fenPosition);
 
     void restoreDefaultValues() {
-        restoreDefaultValues(Constants.DEFAULT_STARTING_FEN_POSITION);
+        restoreDefaultValues(null);
     }
 
     abstract void restoreDefaultValues(String fenPosition);
