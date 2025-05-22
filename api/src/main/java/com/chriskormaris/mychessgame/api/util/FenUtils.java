@@ -254,10 +254,10 @@ public final class FenUtils {
 				|| chessBoard.isBlackKingSideCastlingAvailable() || chessBoard.isBlackQueenSideCastlingAvailable()) {
 			fenPosition.append(" ");
 			if (chessBoard.getVariant() != Variant.CHESS_960) {
-				fenPosition.append(chessBoard.isWhiteKingSideCastlingAvailable() ? 'K' : "");
-				fenPosition.append(chessBoard.isWhiteQueenSideCastlingAvailable() ? 'Q' : "");
-				fenPosition.append(chessBoard.isBlackKingSideCastlingAvailable() ? 'k' : "");
-				fenPosition.append(chessBoard.isBlackQueenSideCastlingAvailable() ? 'q' : "");
+				fenPosition.append(chessBoard.isWhiteKingSideCastlingAvailable() ? Constants.WHITE_KING : "");
+				fenPosition.append(chessBoard.isWhiteQueenSideCastlingAvailable() ? Constants.WHITE_KNIGHT : "");
+				fenPosition.append(chessBoard.isBlackKingSideCastlingAvailable() ? Constants.BLACK_KING : "");
+				fenPosition.append(chessBoard.isBlackQueenSideCastlingAvailable() ? Constants.BLACK_QUEEN : "");
 			} else {
 				fenPosition.append(
 						chessBoard.isWhiteQueenSideCastlingAvailable()

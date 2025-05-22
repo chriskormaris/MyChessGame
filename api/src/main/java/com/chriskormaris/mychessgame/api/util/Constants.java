@@ -55,6 +55,7 @@ public class Constants {
 	public static final String DEFAULT_STARTING_PIECES = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
 	public static final String DEFAULT_STARTING_FEN_POSITION = DEFAULT_STARTING_PIECES + " w KQkq - 0 1";
 	public static final String DEFAULT_STARTING_SHREDDER_FEN_POSITION = DEFAULT_STARTING_PIECES + " w AHah - 0 1";
+	public static final String DEFAULT_STARTING_HORDE_FEN_POSITION = "rnbqkbnr/pppppppp/8/1PP2PP1/PPPPPPPP/PPPPPPPP/PPPPPPPP/PPPPPPPP w kq - 0 1";
 
 	public static final int PAWN_SCORE_VALUE = 1;
 	public static final int KNIGHT_SCORE_VALUE = 3;

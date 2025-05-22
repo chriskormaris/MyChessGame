@@ -216,9 +216,14 @@ public abstract class ChessFrame extends JFrame {
         });
 
         importStartingFenPositionItem.addActionListener(e -> {
-            String defaultFenPosition = gameParameters.getVariant() == Variant.CHESS_960
-                    ? Constants.DEFAULT_STARTING_SHREDDER_FEN_POSITION
-                    : Constants.DEFAULT_STARTING_FEN_POSITION;
+            String defaultFenPosition = null;
+            if (gameParameters.getVariant() == Variant.STANDARD_CHESS) {
+                defaultFenPosition = Constants.DEFAULT_STARTING_FEN_POSITION;
+            } else if (gameParameters.getVariant() == Variant.CHESS_960) {
+                defaultFenPosition = Constants.DEFAULT_STARTING_SHREDDER_FEN_POSITION;
+            } else if (gameParameters.getVariant() == Variant.HORDE) {
+                defaultFenPosition = Constants.DEFAULT_STARTING_HORDE_FEN_POSITION;
+            }
             String fenPosition = (String) JOptionPane.showInputDialog(
                     this,
                     "Please insert the starting \"FEN\" position in the text field below:"
@@ -711,7 +716,7 @@ public abstract class ChessFrame extends JFrame {
                         "White wins! Start a new game?",
                         "Checkmate",
                         JOptionPane.YES_NO_OPTION,
-                        JOptionPane.QUESTION_MESSAGE,
+                        QUESTION_MESSAGE,
                         checkmateIcon
                 );
 
@@ -738,7 +743,7 @@ public abstract class ChessFrame extends JFrame {
                         "Black wins! Start a new game?",
                         "Checkmate",
                         JOptionPane.YES_NO_OPTION,
-                        JOptionPane.QUESTION_MESSAGE,
+                        QUESTION_MESSAGE,
                         checkmateIcon
                 );
 
@@ -764,7 +769,7 @@ public abstract class ChessFrame extends JFrame {
                         "Stalemate! No legal moves for White exist. Start a new game?",
                         "Draw",
                         JOptionPane.YES_NO_OPTION,
-                        JOptionPane.QUESTION_MESSAGE,
+                        QUESTION_MESSAGE,
                         drawIcon
                 );
 
@@ -788,7 +793,7 @@ public abstract class ChessFrame extends JFrame {
                         "Stalemate! No legal moves for Black exist. Start a new game?",
                         "Draw",
                         JOptionPane.YES_NO_OPTION,
-                        JOptionPane.QUESTION_MESSAGE,
+                        QUESTION_MESSAGE,
                         drawIcon
                 );
 
@@ -810,7 +815,7 @@ public abstract class ChessFrame extends JFrame {
                     "It is a draw due to insufficient mating material! Start a new game?",
                     "Draw",
                     JOptionPane.YES_NO_OPTION,
-                    JOptionPane.QUESTION_MESSAGE,
+                    QUESTION_MESSAGE,
                     drawIcon
             );
 
@@ -831,7 +836,7 @@ public abstract class ChessFrame extends JFrame {
                     "It is a draw! 75 moves have been played without a piece capture! Start a new game?",
                     "Draw",
                     JOptionPane.YES_NO_OPTION,
-                    JOptionPane.QUESTION_MESSAGE,
+                    QUESTION_MESSAGE,
                     drawIcon
             );
 
@@ -879,7 +884,7 @@ public abstract class ChessFrame extends JFrame {
                                 "Start a new game?",
                         "Draw",
                         JOptionPane.YES_NO_OPTION,
-                        JOptionPane.QUESTION_MESSAGE,
+                        QUESTION_MESSAGE,
                         drawIcon
                 );
 
@@ -919,7 +924,7 @@ public abstract class ChessFrame extends JFrame {
                             "Black wins! No White pieces are left. Start a new game?",
                             "No Pieces Left",
                             JOptionPane.YES_NO_OPTION,
-                            JOptionPane.QUESTION_MESSAGE,
+                            QUESTION_MESSAGE,
                             checkmateIcon
                     );
 
@@ -934,7 +939,7 @@ public abstract class ChessFrame extends JFrame {
                             "Horde stalemate! No legal moves for White exist. Start a new game?",
                             "Draw",
                             JOptionPane.YES_NO_OPTION,
-                            JOptionPane.QUESTION_MESSAGE,
+                            QUESTION_MESSAGE,
                             drawIcon
                     );
 
@@ -959,7 +964,7 @@ public abstract class ChessFrame extends JFrame {
                 "It is a draw! Start a new game?",
                 "Draw",
                 JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE,
+                QUESTION_MESSAGE,
                 drawIcon
         );
 
