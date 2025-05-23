@@ -1398,6 +1398,15 @@ public class ChessBoard {
 		return !player;
 	}
 
+	public void makeChessBoardSquaresEmpty() {
+		for (int i = 0; i < this.numOfRows; i++) {
+			for (int j = 0; j < this.numOfColumns; j++) {
+				this.gameBoard[i][j] = new EmptySquare();
+			}
+		}
+		setThreats();
+	}
+
 	public String getPositionByRowCol(int row, int column) {
 		String columnString = (char) (column + 65) + "";
 		String rowString = (numOfRows - row) + "";

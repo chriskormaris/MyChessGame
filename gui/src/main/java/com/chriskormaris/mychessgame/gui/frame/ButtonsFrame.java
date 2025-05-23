@@ -741,7 +741,7 @@ public class ButtonsFrame extends ChessFrame {
 	}
 
 	@Override
-	void redrawChessBoard() {
+	public void redrawChessBoard() {
 		for (int i = 0; i < chessBoard.getNumOfRows(); i++) {
 			for (int j = 0; j < chessBoard.getNumOfColumns(); j++) {
 				ChessSquare chessSquare = chessBoard.getGameBoard()[i][j];

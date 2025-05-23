@@ -1046,7 +1046,7 @@ public abstract class ChessFrame extends JFrame {
 
     abstract void initializeGUI();
 
-    abstract void redrawChessBoard();
+    public abstract void redrawChessBoard();
 
     abstract void initializeChessPanel();
 
