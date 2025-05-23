@@ -534,7 +534,7 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 		chessBoard.setPlayer(chessBoard.getNextPlayer());
 
 		// If a chessPiece capture has occurred.
-		if (startingPiece.getAllegiance() != endSquare.getAllegiance() && !(endSquare.isEmpty())) {
+		if (startingPiece.getAllegiance() != endSquare.getAllegiance() && !endSquare.isEmpty()) {
 			score -= Utilities.getScoreValue(endSquare);
 
 			updateCapturedPieces(endSquare);
@@ -723,7 +723,7 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 	}
 
 	@Override
-	void disableChessPanelClicks() {
+	public void disableChessPanelClicks() {
 		chessPanelEnabled = false;
 	}
 

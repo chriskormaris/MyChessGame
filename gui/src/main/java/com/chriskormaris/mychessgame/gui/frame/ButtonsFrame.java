@@ -612,7 +612,7 @@ public class ButtonsFrame extends ChessFrame {
 		chessBoard.setPlayer(chessBoard.getNextPlayer());
 
 		// If a ChessPiece capture has occurred.
-		if (startingPiece.getAllegiance() != endSquare.getAllegiance() && !(endSquare.isEmpty())) {
+		if (startingPiece.getAllegiance() != endSquare.getAllegiance() && !endSquare.isEmpty()) {
 			score -= Utilities.getScoreValue(endSquare);
 
 			updateCapturedPieces(endSquare);
@@ -828,7 +828,7 @@ public class ButtonsFrame extends ChessFrame {
 	}
 
 	@Override
-	void disableChessPanelClicks() {
+	public void disableChessPanelClicks() {
 		disableChessButtons();
 	}
 

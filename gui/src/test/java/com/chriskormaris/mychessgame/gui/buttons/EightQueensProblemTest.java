@@ -5,7 +5,6 @@ import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 import com.chriskormaris.mychessgame.api.square.EmptySquare;
 import com.chriskormaris.mychessgame.api.square.Queen;
 import com.chriskormaris.mychessgame.gui.frame.ButtonsFrame;
-import com.chriskormaris.mychessgame.gui.frame.ChessFrame;
 import org.junit.jupiter.api.Test;
 
 class EightQueensProblemTest {
@@ -14,11 +13,10 @@ class EightQueensProblemTest {
 	void testEightQueensProblem() throws InterruptedException {
 		String title = "8 Queens Problem Test";
 
-		ChessFrame buttonsFrame = new ButtonsFrame(title);
-
-		ChessBoard chessBoard = new ChessBoard();
-		chessBoard.makeChessBoardSquaresEmpty();
-		buttonsFrame.chessBoard = chessBoard;
+		ButtonsFrame buttonsFrame = new ButtonsFrame(title);
+		buttonsFrame.makeChessBoardSquaresEmpty();
+		buttonsFrame.disableChessPanelClicks();
+		ChessBoard chessBoard = buttonsFrame.chessBoard;
 
 		for (int j = 0; j < chessBoard.getNumOfColumns(); j++) {
 			chessBoard.getGameBoard()[0][j] = new Queen(Allegiance.WHITE);
@@ -30,12 +28,12 @@ class EightQueensProblemTest {
 
 			Thread.sleep(1000);
 
-			chessBoard.makeChessBoardSquaresEmpty();
+			buttonsFrame.makeChessBoardSquaresEmpty();
 			chessBoard.setThreats();
 		}
 	}
 
-	static boolean placeQueens(int i, ChessBoard chessBoard) {
+	private static boolean placeQueens(int i, ChessBoard chessBoard) {
 		// base case: If all queens are placed
 		// then return true
 		if (i == chessBoard.getNumOfRows()) return true;

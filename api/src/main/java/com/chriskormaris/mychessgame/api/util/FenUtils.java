@@ -298,11 +298,11 @@ public final class FenUtils {
 		return formattedFenPosition.toString();
 	}
 
-	public static boolean isUpperCaseFile(char ch) {
+	private static boolean isUpperCaseFile(char ch) {
 		return ch >= 'A' && ch <= 'H';
 	}
 
-	public static boolean isLowerCaseFile(char ch) {
+	private static boolean isLowerCaseFile(char ch) {
 		return ch >= 'a' && ch <= 'h';
 	}
 

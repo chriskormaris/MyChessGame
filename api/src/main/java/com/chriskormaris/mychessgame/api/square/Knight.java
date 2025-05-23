@@ -27,7 +27,7 @@ public class Knight extends ChessPiece {
 		int column = chessBoard.getColumnFromPosition(startingPosition);
 		ChessSquare knight = chessBoard.getGameBoard()[row][column];
 
-		if (!(knight.isKnight())) {
+		if (!knight.isKnight()) {
 			return nextKnightPositions;
 		}
 
@@ -48,7 +48,7 @@ public class Knight extends ChessPiece {
 			String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 			ChessSquare endSquare = chessBoard.getGameBoard()[newRow][newColumn];
 			if (endSquare.isEmpty() || knight.getAllegiance() != endSquare.getAllegiance()
-					&& !(endSquare.isKing()) || returnThreats) {
+					&& !endSquare.isKing() || returnThreats) {
 				nextKnightPositions.add(newPosition);
 			}
 		}
@@ -66,7 +66,7 @@ public class Knight extends ChessPiece {
 			String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 			ChessSquare endSquare = chessBoard.getGameBoard()[newRow][newColumn];
 			if (endSquare.isEmpty() || knight.getAllegiance() != endSquare.getAllegiance()
-					&& !(endSquare.isKing()) || returnThreats) {
+					&& !endSquare.isKing() || returnThreats) {
 				nextKnightPositions.add(newPosition);
 			}
 		}
@@ -84,7 +84,7 @@ public class Knight extends ChessPiece {
 			String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 			ChessSquare endSquare = chessBoard.getGameBoard()[newRow][newColumn];
 			if (endSquare.isEmpty() || knight.getAllegiance() != endSquare.getAllegiance()
-					&& !(endSquare.isKing()) || returnThreats) {
+					&& !endSquare.isKing() || returnThreats) {
 				nextKnightPositions.add(newPosition);
 			}
 		}
@@ -102,7 +102,7 @@ public class Knight extends ChessPiece {
 			String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 			ChessSquare endSquare = chessBoard.getGameBoard()[newRow][newColumn];
 			if (endSquare.isEmpty() || knight.getAllegiance() != endSquare.getAllegiance()
-					&& !(endSquare.isKing()) || returnThreats) {
+					&& !endSquare.isKing() || returnThreats) {
 				nextKnightPositions.add(newPosition);
 			}
 		}
@@ -117,7 +117,7 @@ public class Knight extends ChessPiece {
 			String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 			ChessSquare endSquare = chessBoard.getGameBoard()[newRow][newColumn];
 			if (endSquare.isEmpty() || knight.getAllegiance() != endSquare.getAllegiance()
-					&& !(endSquare.isKing()) || returnThreats) {
+					&& !endSquare.isKing() || returnThreats) {
 				nextKnightPositions.add(newPosition);
 			}
 		}
@@ -132,7 +132,7 @@ public class Knight extends ChessPiece {
 			String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 			ChessSquare endSquare = chessBoard.getGameBoard()[newRow][newColumn];
 			if (endSquare.isEmpty() || knight.getAllegiance() != endSquare.getAllegiance()
-					&& !(endSquare.isKing()) || returnThreats) {
+					&& !endSquare.isKing() || returnThreats) {
 				nextKnightPositions.add(newPosition);
 			}
 		}
@@ -148,7 +148,7 @@ public class Knight extends ChessPiece {
 			String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 			ChessSquare endSquare = chessBoard.getGameBoard()[newRow][newColumn];
 			if (endSquare.isEmpty() || knight.getAllegiance() != endSquare.getAllegiance()
-					&& !(endSquare.isKing()) || returnThreats) {
+					&& !endSquare.isKing() || returnThreats) {
 				nextKnightPositions.add(newPosition);
 			}
 		}
@@ -164,7 +164,7 @@ public class Knight extends ChessPiece {
 			String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 			ChessSquare endSquare = chessBoard.getGameBoard()[newRow][newColumn];
 			if (endSquare.isEmpty() || knight.getAllegiance() != endSquare.getAllegiance()
-					&& !(endSquare.isKing()) || returnThreats) {
+					&& !endSquare.isKing() || returnThreats) {
 				nextKnightPositions.add(newPosition);
 			}
 		}

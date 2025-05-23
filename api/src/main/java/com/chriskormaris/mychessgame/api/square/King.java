@@ -19,9 +19,9 @@ public class King extends ChessPiece {
 		// that corresponds to the given position String.
 		int row = chessBoard.getRowFromPosition(position);
 		int column = chessBoard.getColumnFromPosition(position);
-		ChessSquare chessSquare = chessBoard.getGameBoard()[row][column];
+		ChessSquare king = chessBoard.getGameBoard()[row][column];
 
-		if (!chessSquare.isKing()) {
+		if (!king.isKing()) {
 			return castlingPositions;
 		}
 
@@ -29,7 +29,7 @@ public class King extends ChessPiece {
 
 		chessBoard.setThreats();
 
-		if (chessSquare.isWhite()) {
+		if (king.isWhite()) {
 			// White castling queen side
 			if (!chessBoard.isWhiteKingMoved() && !chessBoard.isLeftWhiteRookMoved() && !chessBoard.isWhiteKingInCheck()
 					&& position.equals(chessBoard.getWhiteKingPosition()) && column > 0
@@ -105,7 +105,7 @@ public class King extends ChessPiece {
 					castlingPositions.add(newPosition);
 				}
 			}
-		} else if (chessSquare.isBlack()) {
+		} else if (king.isBlack()) {
 			// Black castling queen side
 			if (!chessBoard.isBlackKingMoved() && !chessBoard.isLeftBlackRookMoved() && !chessBoard.isBlackKingInCheck()
 					&& position.equals(chessBoard.getBlackKingPosition()) && column > 0
@@ -187,7 +187,7 @@ public class King extends ChessPiece {
 		int column = chessBoard.getColumnFromPosition(startingPosition);
 		ChessSquare king = chessBoard.getGameBoard()[row][column];
 
-		if (!(king.isKing())) {
+		if (!king.isKing()) {
 			return nextKingPositions;
 		}
 
@@ -198,7 +198,7 @@ public class King extends ChessPiece {
 			String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 			ChessSquare endSquare = chessBoard.getGameBoard()[newRow][newColumn];
 			if ((endSquare.isEmpty() || king.getAllegiance() != endSquare.getAllegiance()
-					&& !(endSquare.isKing()))
+					&& !endSquare.isKing())
 					&& (king.isWhite()
 					&& !chessBoard.getSquaresThreatenedByBlack()[newRow][newColumn]
 					|| king.isBlack()
@@ -214,7 +214,7 @@ public class King extends ChessPiece {
 			String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 			ChessSquare endSquare = chessBoard.getGameBoard()[newRow][newColumn];
 			if ((endSquare.isEmpty() || king.getAllegiance() != endSquare.getAllegiance()
-					&& !(endSquare.isKing()))
+					&& !endSquare.isKing())
 					&& (king.isWhite()
 					&& !chessBoard.getSquaresThreatenedByBlack()[newRow][newColumn]
 					|| king.isBlack()
@@ -230,7 +230,7 @@ public class King extends ChessPiece {
 			String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 			ChessSquare endSquare = chessBoard.getGameBoard()[newRow][newColumn];
 			if ((endSquare.isEmpty() || king.getAllegiance() != endSquare.getAllegiance()
-					&& !(endSquare.isKing()))
+					&& !endSquare.isKing())
 					&& (king.isWhite()
 					&& !chessBoard.getSquaresThreatenedByBlack()[newRow][newColumn]
 					|| king.isBlack()
@@ -246,7 +246,7 @@ public class King extends ChessPiece {
 			String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 			ChessSquare endSquare = chessBoard.getGameBoard()[newRow][newColumn];
 			if ((endSquare.isEmpty() || king.getAllegiance() != endSquare.getAllegiance()
-					&& !(endSquare.isKing()))
+					&& !endSquare.isKing())
 					&& (king.isWhite()
 					&& !chessBoard.getSquaresThreatenedByBlack()[newRow][newColumn]
 					|| king.isBlack()
@@ -262,7 +262,7 @@ public class King extends ChessPiece {
 			String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 			ChessSquare endSquare = chessBoard.getGameBoard()[newRow][newColumn];
 			if ((endSquare.isEmpty() || king.getAllegiance() != endSquare.getAllegiance()
-					&& !(endSquare.isKing()))
+					&& !endSquare.isKing())
 					&& (king.isWhite()
 					&& !chessBoard.getSquaresThreatenedByBlack()[newRow][newColumn]
 					|| king.isBlack()
@@ -278,7 +278,7 @@ public class King extends ChessPiece {
 			String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 			ChessSquare endSquare = chessBoard.getGameBoard()[newRow][newColumn];
 			if ((endSquare.isEmpty() || king.getAllegiance() != endSquare.getAllegiance()
-					&& !(endSquare.isKing()))
+					&& !endSquare.isKing())
 					&& (king.isWhite()
 					&& !chessBoard.getSquaresThreatenedByBlack()[newRow][newColumn]
 					|| king.isBlack()
@@ -294,7 +294,7 @@ public class King extends ChessPiece {
 			String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 			ChessSquare endSquare = chessBoard.getGameBoard()[newRow][newColumn];
 			if ((endSquare.isEmpty() || king.getAllegiance() != endSquare.getAllegiance()
-					&& !(endSquare.isKing()))
+					&& !endSquare.isKing())
 					&& (king.isWhite()
 					&& !chessBoard.getSquaresThreatenedByBlack()[newRow][newColumn]
 					|| king.isBlack()
@@ -310,7 +310,7 @@ public class King extends ChessPiece {
 			String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 			ChessSquare endSquare = chessBoard.getGameBoard()[newRow][newColumn];
 			if ((endSquare.isEmpty() || king.getAllegiance() != endSquare.getAllegiance()
-					&& !(endSquare.isKing()))
+					&& !endSquare.isKing())
 					&& (king.isWhite()
 					&& !chessBoard.getSquaresThreatenedByBlack()[newRow][newColumn]
 					|| king.isBlack()

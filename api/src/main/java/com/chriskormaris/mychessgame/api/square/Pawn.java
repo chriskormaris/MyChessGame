@@ -23,7 +23,7 @@ public class Pawn extends ChessPiece {
 		int column = chessBoard.getColumnFromPosition(startingPosition);
 		ChessSquare pawn = chessBoard.getGameBoard()[row][column];
 
-		if (!(pawn.isPawn())) {
+		if (!pawn.isPawn()) {
 			return nextPawnPositions;
 		}
 
@@ -78,8 +78,8 @@ public class Pawn extends ChessPiece {
 				String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 				ChessSquare endSquare = chessBoard.getGameBoard()[newRow][newColumn];
 
-				if ((!(endSquare.isEmpty()) && pawn.getAllegiance() != endSquare.getAllegiance())
-						&& !(endSquare.isKing()) || returnThreats) {
+				if ((!endSquare.isEmpty() && pawn.getAllegiance() != endSquare.getAllegiance())
+						&& !endSquare.isKing() || returnThreats) {
 					nextPawnPositions.add(newPosition);
 				}
 			}
@@ -95,8 +95,8 @@ public class Pawn extends ChessPiece {
 				String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 				ChessSquare endSquare = chessBoard.getGameBoard()[newRow][newColumn];
 
-				if ((!(endSquare.isEmpty()) && pawn.getAllegiance() != endSquare.getAllegiance())
-						&& !(endSquare.isKing()) || returnThreats) {
+				if ((!endSquare.isEmpty() && pawn.getAllegiance() != endSquare.getAllegiance())
+						&& !endSquare.isKing() || returnThreats) {
 					nextPawnPositions.add(newPosition);
 				}
 			}
@@ -138,8 +138,8 @@ public class Pawn extends ChessPiece {
 				String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 				ChessSquare endSquare = chessBoard.getGameBoard()[newRow][newColumn];
 
-				if (!(endSquare.isKing())
-						&& chessSquare.getAllegiance() != endSquare.getAllegiance() && !(endSquare.isEmpty())
+				if (!endSquare.isKing()
+						&& chessSquare.getAllegiance() != endSquare.getAllegiance() && !endSquare.isEmpty()
 						|| endSquare.isEmpty() && newPosition.equals(chessBoard.getEnPassantPosition())
 						|| returnThreats) {
 					enPassantPositions.add(newPosition);
@@ -157,8 +157,8 @@ public class Pawn extends ChessPiece {
 				String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 				ChessSquare endSquare = chessBoard.getGameBoard()[newRow][newColumn];
 
-				if (!(endSquare.isKing())
-						&& chessSquare.getAllegiance() != endSquare.getAllegiance() && !(endSquare.isEmpty())
+				if (!endSquare.isKing()
+						&& chessSquare.getAllegiance() != endSquare.getAllegiance() && !endSquare.isEmpty()
 						|| endSquare.isEmpty() && newPosition.equals(chessBoard.getEnPassantPosition())
 						|| returnThreats) {
 					enPassantPositions.add(newPosition);
