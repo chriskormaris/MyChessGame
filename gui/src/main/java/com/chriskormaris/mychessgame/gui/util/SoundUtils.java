@@ -40,7 +40,7 @@ public final class SoundUtils {
 			clip.open(audioInputStream);
 			clip.start();
 		} catch (Exception ex) {
-			throw new RuntimeException(ex);
+			ex.printStackTrace();
 		}
 	}
 
