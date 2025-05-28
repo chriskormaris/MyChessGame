@@ -281,7 +281,7 @@ public class Pawn extends ChessPiece {
 		// bottom and left direction
 		if (row < chessBoard.getNumOfRows() - 1 && column > 0) {
 			ChessSquare neighbour = chessBoard.getGameBoard()[row + 1][column - 1];
-			return !(neighbour.isPawn()) || chessSquare.getAllegiance() != neighbour.getAllegiance();
+			return !neighbour.isPawn() || chessSquare.getAllegiance() != neighbour.getAllegiance();
 		}
 
 		return true;

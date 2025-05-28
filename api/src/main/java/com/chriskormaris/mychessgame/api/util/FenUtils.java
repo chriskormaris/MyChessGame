@@ -94,16 +94,16 @@ public final class FenUtils {
 		int whiteKingColumn = chessBoard.getColumnFromPosition(chessBoard.getWhiteKingPosition());
 		int blackKingColumn = chessBoard.getColumnFromPosition(chessBoard.getBlackKingPosition());
 		for (char ch : castlingAvailability.toCharArray()) {
-			if (ch == Constants.WHITE_KING) {
+			if (ch == Constants.WHITE_KING_CHAR) {
 				rightWhiteRookMoved = false;
 				whiteKingMoved = false;
-			} else if (ch == Constants.WHITE_QUEEN) {
+			} else if (ch == Constants.WHITE_QUEEN_CHAR) {
 				leftWhiteRookMoved = false;
 				whiteKingMoved = false;
-			} else if (ch == Constants.BLACK_KING) {
+			} else if (ch == Constants.BLACK_KING_CHAR) {
 				rightBlackRookMoved = false;
 				blackKingMoved = false;
-			} else if (ch == Constants.BLACK_QUEEN) {
+			} else if (ch == Constants.BLACK_QUEEN_CHAR) {
 				leftBlackRookMoved = false;
 				blackKingMoved = false;
 			} else if (isUpperCaseFile(ch)) {
@@ -187,9 +187,9 @@ public final class FenUtils {
 				throw new RuntimeException(ex);
 			}
 
-			if (pieceChar == Constants.WHITE_KING) {
+			if (pieceChar == Constants.WHITE_KING_CHAR) {
 				chessBoard.setWhiteKingPosition(chessBoard.getPositionByRowCol(i, j));
-			} else if (pieceChar == Constants.BLACK_KING) {
+			} else if (pieceChar == Constants.BLACK_KING_CHAR) {
 				chessBoard.setBlackKingPosition(chessBoard.getPositionByRowCol(i, j));
 			}
 
@@ -241,10 +241,10 @@ public final class FenUtils {
 				|| chessBoard.isBlackKingSideCastlingAvailable() || chessBoard.isBlackQueenSideCastlingAvailable()) {
 			fenPosition.append(" ");
 			if (chessBoard.getVariant() != Variant.CHESS_960) {
-				fenPosition.append(chessBoard.isWhiteKingSideCastlingAvailable() ? Constants.WHITE_KING : "");
-				fenPosition.append(chessBoard.isWhiteQueenSideCastlingAvailable() ? Constants.WHITE_KNIGHT : "");
-				fenPosition.append(chessBoard.isBlackKingSideCastlingAvailable() ? Constants.BLACK_KING : "");
-				fenPosition.append(chessBoard.isBlackQueenSideCastlingAvailable() ? Constants.BLACK_QUEEN : "");
+				fenPosition.append(chessBoard.isWhiteKingSideCastlingAvailable() ? Constants.WHITE_KING_CHAR : "");
+				fenPosition.append(chessBoard.isWhiteQueenSideCastlingAvailable() ? Constants.WHITE_KNIGHT_CHAR : "");
+				fenPosition.append(chessBoard.isBlackKingSideCastlingAvailable() ? Constants.BLACK_KING_CHAR : "");
+				fenPosition.append(chessBoard.isBlackQueenSideCastlingAvailable() ? Constants.BLACK_QUEEN_CHAR : "");
 			} else {
 				fenPosition.append(
 						chessBoard.isWhiteQueenSideCastlingAvailable()

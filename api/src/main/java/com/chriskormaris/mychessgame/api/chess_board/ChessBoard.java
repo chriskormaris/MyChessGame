@@ -450,7 +450,7 @@ public class ChessBoard {
 		if (!piecesToPlace.isEmpty()) {
 			piecesToPlace.clear();
 		}
-		if (!(capturedEnPassantPiece.isEmpty())) {
+		if (!capturedEnPassantPiece.isEmpty()) {
 			capturedEnPassantPiece = new EmptySquare();
 		}
 
@@ -1203,7 +1203,7 @@ public class ChessBoard {
 		chessBoardWithoutKings.setBlackKingPosition("Z0");
 		for (int i = 0; i < numOfRows; i++) {
 			for (int j = 0; j < numOfColumns; j++) {
-				if (!(chessBoardWithoutKings.getGameBoard()[i][j].isEmpty())) {
+				if (!chessBoardWithoutKings.getGameBoard()[i][j].isEmpty()) {
 					String position = getPositionByRowCol(i, j);
 					Set<String> nextPositions = chessBoardWithoutKings.getNextPositions(position);
 					if (!nextPositions.isEmpty()) {

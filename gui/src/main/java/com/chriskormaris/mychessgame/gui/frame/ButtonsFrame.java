@@ -619,7 +619,7 @@ public class ButtonsFrame extends ChessFrame {
 			addCapturedPieceImage(endSquare);
 		}
 		// True if an en passant captured piece exists.
-		else if (!(chessBoard.getCapturedEnPassantPiece().isEmpty())) {
+		else if (!chessBoard.getCapturedEnPassantPiece().isEmpty()) {
 			score -= Utilities.getScoreValue(chessBoard.getCapturedEnPassantPiece());
 
 			updateCapturedPieces(chessBoard.getCapturedEnPassantPiece());
