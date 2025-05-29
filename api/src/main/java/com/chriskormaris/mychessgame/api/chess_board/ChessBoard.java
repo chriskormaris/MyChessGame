@@ -795,7 +795,7 @@ public class ChessBoard {
 
 		if (checkForUnconditionalNoCaptureDraw()) return true;
 
-		if (checkForThreefoldRepetitionDraw()) return true;
+		checkForThreefoldRepetitionDraw();
 
 		return isTerminalState();
 	}
