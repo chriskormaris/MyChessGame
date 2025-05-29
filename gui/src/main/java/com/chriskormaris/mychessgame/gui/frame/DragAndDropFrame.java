@@ -204,7 +204,6 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 				if (!chessPanelEnabled) {
 					chessPanelEnabled = true;
 				}
-				mouseIsPressed = false;
 			}
 
 			redoChessBoards.push(new ChessBoard(chessBoard));
@@ -250,10 +249,6 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 		if (mouseIsPressed) return;
 		if (!redoChessBoards.isEmpty()) {
 			System.out.println("Redo is pressed!");
-
-			if (gameParameters.getGameMode() != GameMode.AI_VS_AI) {
-				mouseIsPressed = false;
-			}
 
 			undoChessBoards.push(new ChessBoard(chessBoard));
 			chessBoard = redoChessBoards.pop();
