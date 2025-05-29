@@ -2,7 +2,7 @@ package com.chriskormaris.mychessgame.api.evaluation;
 
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.api.enumeration.GamePhase;
-import com.chriskormaris.mychessgame.api.square.ChessSquare;
+import com.chriskormaris.mychessgame.api.util.Constants;
 
 // Wukong Evaluation Function.
 // see: https://github.com/maksimKorzh/wukongJS/blob/main/wukong.js
@@ -168,64 +168,64 @@ public class WukongEvaluation implements Evaluation {
 	private static final int ENDGAME_BLACK_QUEEN_CENTIPAWN_VALUE = 845;
 	private static final int ENDGAME_BLACK_KING_CENTIPAWN_VALUE = 20000;
 
-	private int getPieceCentipawnValue(ChessSquare chessSquare, GamePhase gamePhase) {
+	private int getPieceCentipawnValue(byte chessSquare, GamePhase gamePhase) {
 		if (gamePhase == GamePhase.OPENING_MIDDLEGAME) {
-			if (chessSquare.isWhite()) {
-				if (chessSquare.isPawn()) {
+			if (chessSquare > 0) {
+				if (Math.abs(chessSquare) == Constants.PAWN) {
 					return OPENING_WHITE_PAWN_CENTIPAWN_VALUE;
-				} else if (chessSquare.isKnight()) {
+				} else if (Math.abs(chessSquare) == Constants.KNIGHT) {
 					return OPENING_WHITE_KNIGHT_CENTIPAWN_VALUE;
-				} else if (chessSquare.isBishop()) {
+				} else if (Math.abs(chessSquare) == Constants.BISHOP) {
 					return OPENING_WHITE_BISHOP_CENTIPAWN_VALUE;
-				} else if (chessSquare.isRook()) {
+				} else if (Math.abs(chessSquare) == Constants.ROOK) {
 					return OPENING_WHITE_ROOK_CENTIPAWN_VALUE;
-				} else if (chessSquare.isQueen()) {
+				} else if (Math.abs(chessSquare) == Constants.QUEEN) {
 					return OPENING_WHITE_QUEEN_CENTIPAWN_VALUE;
-				} else if (chessSquare.isKing()) {
+				} else if (Math.abs(chessSquare) == Constants.KING) {
 					return OPENING_WHITE_KING_CENTIPAWN_VALUE;
 				}
-			} else if (chessSquare.isBlack()) {
-				if (chessSquare.isPawn()) {
+			} else if (chessSquare < 0) {
+				if (Math.abs(chessSquare) == Constants.PAWN) {
 					return OPENING_BLACK_PAWN_CENTIPAWN_VALUE;
-				} else if (chessSquare.isKnight()) {
+				} else if (Math.abs(chessSquare) == Constants.KNIGHT) {
 					return OPENING_BLACK_KNIGHT_CENTIPAWN_VALUE;
-				} else if (chessSquare.isBishop()) {
+				} else if (Math.abs(chessSquare) == Constants.BISHOP) {
 					return OPENING_BLACK_BISHOP_CENTIPAWN_VALUE;
-				} else if (chessSquare.isRook()) {
+				} else if (Math.abs(chessSquare) == Constants.ROOK) {
 					return OPENING_BLACK_ROOK_CENTIPAWN_VALUE;
-				} else if (chessSquare.isQueen()) {
+				} else if (Math.abs(chessSquare) == Constants.QUEEN) {
 					return OPENING_BLACK_QUEEN_CENTIPAWN_VALUE;
-				} else if (chessSquare.isKing()) {
+				} else if (Math.abs(chessSquare) == Constants.KING) {
 					return OPENING_BLACK_KING_CENTIPAWN_VALUE;
 				}
 			}
 		} else if (gamePhase == GamePhase.ENDGAME) {
-			if (chessSquare.isWhite()) {
-				if (chessSquare.isPawn()) {
+			if (chessSquare > 0) {
+				if (Math.abs(chessSquare) == Constants.PAWN) {
 					return ENDGAME_WHITE_PAWN_CENTIPAWN_VALUE;
-				} else if (chessSquare.isKnight()) {
+				} else if (Math.abs(chessSquare) == Constants.KNIGHT) {
 					return ENDGAME_WHITE_KNIGHT_CENTIPAWN_VALUE;
-				} else if (chessSquare.isBishop()) {
+				} else if (Math.abs(chessSquare) == Constants.BISHOP) {
 					return ENDGAME_WHITE_BISHOP_CENTIPAWN_VALUE;
-				} else if (chessSquare.isRook()) {
+				} else if (Math.abs(chessSquare) == Constants.ROOK) {
 					return ENDGAME_WHITE_ROOK_CENTIPAWN_VALUE;
-				} else if (chessSquare.isQueen()) {
+				} else if (Math.abs(chessSquare) == Constants.QUEEN) {
 					return ENDGAME_WHITE_QUEEN_CENTIPAWN_VALUE;
-				} else if (chessSquare.isKing()) {
+				} else if (Math.abs(chessSquare) == Constants.KING) {
 					return ENDGAME_WHITE_KING_CENTIPAWN_VALUE;
 				}
-			} else if (chessSquare.isBlack()) {
-				if (chessSquare.isPawn()) {
+			} else if (chessSquare < 0) {
+				if (Math.abs(chessSquare) == Constants.PAWN) {
 					return ENDGAME_BLACK_PAWN_CENTIPAWN_VALUE;
-				} else if (chessSquare.isKnight()) {
+				} else if (Math.abs(chessSquare) == Constants.KNIGHT) {
 					return ENDGAME_BLACK_KNIGHT_CENTIPAWN_VALUE;
-				} else if (chessSquare.isBishop()) {
+				} else if (Math.abs(chessSquare) == Constants.BISHOP) {
 					return ENDGAME_BLACK_BISHOP_CENTIPAWN_VALUE;
-				} else if (chessSquare.isRook()) {
+				} else if (Math.abs(chessSquare) == Constants.ROOK) {
 					return ENDGAME_BLACK_ROOK_CENTIPAWN_VALUE;
-				} else if (chessSquare.isQueen()) {
+				} else if (Math.abs(chessSquare) == Constants.QUEEN) {
 					return ENDGAME_BLACK_QUEEN_CENTIPAWN_VALUE;
-				} else if (chessSquare.isKing()) {
+				} else if (Math.abs(chessSquare) == Constants.KING) {
 					return ENDGAME_BLACK_KING_CENTIPAWN_VALUE;
 				}
 			}
@@ -233,41 +233,41 @@ public class WukongEvaluation implements Evaluation {
 		return 0;
 	}
 
-	private int getOpeningPieceSquareValue(int row, int column, ChessSquare chessSquare) {
-		if (chessSquare.isPawn()) {
+	private int getOpeningPieceSquareValue(int row, int column, byte chessSquare) {
+		if (Math.abs(chessSquare) == Constants.PAWN) {
 			return OPENING_PAWN_SQUARE_TABLE[row][column];
-		} else if (chessSquare.isKnight()) {
+		} else if (Math.abs(chessSquare) == Constants.KNIGHT) {
 			return OPENING_KNIGHT_SQUARE_TABLE[row][column];
-		} else if (chessSquare.isBishop()) {
+		} else if (Math.abs(chessSquare) == Constants.BISHOP) {
 			return OPENING_BISHOP_SQUARE_TABLE[row][column];
-		} else if (chessSquare.isRook()) {
+		} else if (Math.abs(chessSquare) == Constants.ROOK) {
 			return OPENING_ROOK_SQUARE_TABLE[row][column];
-		} else if (chessSquare.isQueen()) {
+		} else if (Math.abs(chessSquare) == Constants.QUEEN) {
 			return OPENING_QUEEN_SQUARE_TABLE[row][column];
-		} else if (chessSquare.isKing()) {
+		} else if (Math.abs(chessSquare) == Constants.KING) {
 			return OPENING_KING_SQUARE_TABLE[row][column];
 		}
 		return 0;
 	}
 
-	private int getEndgamePieceSquareValue(int row, int column, ChessSquare chessSquare) {
-		if (chessSquare.isPawn()) {
+	private int getEndgamePieceSquareValue(int row, int column, byte chessSquare) {
+		if (Math.abs(chessSquare) == Constants.PAWN) {
 			return ENDGAME_PAWN_SQUARE_TABLE[row][column];
-		} else if (chessSquare.isKnight()) {
+		} else if (Math.abs(chessSquare) == Constants.KNIGHT) {
 			return ENDGAME_KNIGHT_SQUARE_TABLE[row][column];
-		} else if (chessSquare.isBishop()) {
+		} else if (Math.abs(chessSquare) == Constants.BISHOP) {
 			return ENDGAME_BISHOP_SQUARE_TABLE[row][column];
-		} else if (chessSquare.isRook()) {
+		} else if (Math.abs(chessSquare) == Constants.ROOK) {
 			return ENDGAME_ROOK_SQUARE_TABLE[row][column];
-		} else if (chessSquare.isQueen()) {
+		} else if (Math.abs(chessSquare) == Constants.QUEEN) {
 			return ENDGAME_QUEEN_SQUARE_TABLE[row][column];
-		} else if (chessSquare.isKing()) {
+		} else if (Math.abs(chessSquare) == Constants.KING) {
 			return ENDGAME_KING_SQUARE_TABLE[row][column];
 		}
 		return 0;
 	}
 
-	private int getPieceSquareValue(int row, int column, ChessSquare chessSquare, GamePhase gamePhase) {
+	private int getPieceSquareValue(int row, int column, byte chessSquare, GamePhase gamePhase) {
 		if (gamePhase == GamePhase.OPENING_MIDDLEGAME) {
 			return getOpeningPieceSquareValue(row, column, chessSquare);
 		} else {
@@ -284,16 +284,16 @@ public class WukongEvaluation implements Evaluation {
 
 		for (int i = 0; i < chessBoard.getNumOfRows(); i++) {
 			for (int j = 0; j < chessBoard.getNumOfColumns(); j++) {
-				ChessSquare chessSquare = chessBoard.getGameBoard()[i][j];
+				byte chessSquare = chessBoard.getGameBoard()[i][j];
 				gamePhase += getPieceGamePhaseValue(chessSquare);
 
-				if (chessSquare.isWhite()) {
+				if (chessSquare > 0) {
 					openingScore += PIECE_VALUE_MULTIPLIER * getPieceCentipawnValue(chessSquare, GamePhase.OPENING_MIDDLEGAME);
 					endgameScore += PIECE_VALUE_MULTIPLIER * getPieceCentipawnValue(chessSquare, GamePhase.ENDGAME);
 
 					openingScore += getPieceSquareValue(i, j, chessSquare, GamePhase.OPENING_MIDDLEGAME);
 					endgameScore += getPieceSquareValue(i, j, chessSquare, GamePhase.ENDGAME);
-				} else if (chessSquare.isBlack()) {
+				} else if (chessSquare < 0) {
 					openingScore -= PIECE_VALUE_MULTIPLIER * getPieceCentipawnValue(chessSquare, GamePhase.OPENING_MIDDLEGAME);
 					endgameScore -= PIECE_VALUE_MULTIPLIER * getPieceCentipawnValue(chessSquare, GamePhase.ENDGAME);
 

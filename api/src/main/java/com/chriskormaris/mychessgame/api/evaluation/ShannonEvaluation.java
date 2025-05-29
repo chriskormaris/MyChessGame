@@ -1,8 +1,9 @@
 package com.chriskormaris.mychessgame.api.evaluation;
 
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
-import com.chriskormaris.mychessgame.api.square.ChessSquare;
 import com.chriskormaris.mychessgame.api.square.Pawn;
+import com.chriskormaris.mychessgame.api.square.PieceUtils;
+import com.chriskormaris.mychessgame.api.util.Constants;
 
 // Shannon's Evaluation Function.
 // see: https://www.chessprogramming.org/Evaluation
@@ -18,18 +19,18 @@ public class ShannonEvaluation implements Evaluation {
 	private static final double DOUBLED_BLOCKED_ISOLATED_PAWNS_MULTIPLIER = 0.5;
 	private static final double MOBILITY_MULTIPLIER = 0.1;
 
-	private int getPieceValue(ChessSquare chessSquare) {
-		if (chessSquare.isPawn()) {
+	private int getPieceValue(byte chessSquare) {
+		if (Math.abs(chessSquare) == Constants.PAWN) {
 			return PAWN_VALUE;
-		} else if (chessSquare.isKnight()) {
+		} else if (Math.abs(chessSquare) == Constants.KNIGHT) {
 			return KNIGHT_VALUE;
-		} else if (chessSquare.isBishop()) {
+		} else if (Math.abs(chessSquare) == Constants.BISHOP) {
 			return BISHOP_VALUE;
-		} else if (chessSquare.isRook()) {
+		} else if (Math.abs(chessSquare) == Constants.ROOK) {
 			return ROOK_VALUE;
-		} else if (chessSquare.isQueen()) {
+		} else if (Math.abs(chessSquare) == Constants.QUEEN) {
 			return QUEEN_VALUE;
-		} else if (chessSquare.isKing()) {
+		} else if (Math.abs(chessSquare) == Constants.KING) {
 			return KING_VALUE;
 		}
 		return 0;
@@ -42,26 +43,26 @@ public class ShannonEvaluation implements Evaluation {
 
 		for (int i = 0; i < chessBoard.getNumOfRows(); i++) {
 			for (int j = 0; j < chessBoard.getNumOfColumns(); j++) {
-				ChessSquare chessSquare = chessBoard.getGameBoard()[i][j];
+				byte chessSquare = chessBoard.getGameBoard()[i][j];
 
 				String position = chessBoard.getPositionByRowCol(i, j);
-				int numberOfLegalMoves = chessSquare.getNextPositions(position, chessBoard, false).size();
+				int numberOfLegalMoves = PieceUtils.getNextPositions(position, chessBoard, false).size();
 
-				if (chessSquare.isWhite()) {
+				if (chessSquare > 0) {
 					score += PIECE_VALUE_MULTIPLIER * getPieceValue(chessSquare);
 					score += MOBILITY_MULTIPLIER * numberOfLegalMoves;
-				} else if (chessSquare.isBlack()) {
+				} else if (chessSquare < 0) {
 					score -= PIECE_VALUE_MULTIPLIER * getPieceValue(chessSquare);
 					score -= MOBILITY_MULTIPLIER * numberOfLegalMoves;
 				}
 
-				if (chessSquare.isPawn()) {
-					Pawn pawn = (Pawn) chessSquare;
-					if (pawn.isDoubledPawn(position, chessBoard) || pawn.isBlockedPawn(position, chessBoard)
-							|| pawn.isIsolatedPawn(position, chessBoard)) {
-						if (pawn.isWhite()) {
+				if (Math.abs(chessSquare) == Constants.PAWN) {
+					byte pawn = chessSquare;
+					if (Pawn.isDoubledPawn(position, chessBoard) || Pawn.isBlockedPawn(position, chessBoard)
+							|| Pawn.isIsolatedPawn(position, chessBoard)) {
+						if (pawn > 0) {
 							score -= DOUBLED_BLOCKED_ISOLATED_PAWNS_MULTIPLIER;
-						} else if (pawn.isBlack()) {
+						} else if (pawn < 0) {
 							score += DOUBLED_BLOCKED_ISOLATED_PAWNS_MULTIPLIER;
 						}
 					}

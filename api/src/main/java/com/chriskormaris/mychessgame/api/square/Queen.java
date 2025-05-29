@@ -1,33 +1,24 @@
 package com.chriskormaris.mychessgame.api.square;
 
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
-import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
+import com.chriskormaris.mychessgame.api.util.Constants;
 
 import java.util.HashSet;
 import java.util.Set;
 
 
-public class Queen extends ChessPiece {
+public class Queen {
 
-	public Queen(Allegiance allegiance) {
-		super(allegiance);
-	}
-
-	public Queen(Allegiance allegiance, boolean isPromoted) {
-		super(allegiance, isPromoted);
-	}
-
-	@Override
-	public Set<String> getNextPositions(String startingPosition, ChessBoard chessBoard, boolean returnThreats) {
+	public static Set<String> getNextPositions(String startingPosition, ChessBoard chessBoard, boolean returnThreats) {
 		Set<String> nextQueenPositions = new HashSet<>();
 
 		// First, find the row && the column
 		// that corresponds to the given position String.
 		int row = chessBoard.getRowFromPosition(startingPosition);
 		int column = chessBoard.getColumnFromPosition(startingPosition);
-		ChessSquare queen = chessBoard.getGameBoard()[row][column];
+		byte queen = chessBoard.getGameBoard()[row][column];
 
-		if (!queen.isQueen()) {
+		if (Math.abs(queen) != Constants.QUEEN) {
 			return nextQueenPositions;
 		}
 
@@ -37,16 +28,16 @@ public class Queen extends ChessPiece {
 				int newRow = i;
 				int newColumn = column;
 				String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
-				ChessSquare endSquare = chessBoard.getGameBoard()[newRow][newColumn];
+				byte endSquare = chessBoard.getGameBoard()[newRow][newColumn];
 
-				if (endSquare.isEmpty() || queen.getAllegiance() != endSquare.getAllegiance()
-						&& !endSquare.isKing() || returnThreats) {
+				if (endSquare == Constants.EMPTY_SQUARE || queen * endSquare < 0
+						&& Math.abs(endSquare) != Constants.KING || returnThreats) {
 					nextQueenPositions.add(newPosition);
 				}
 
 				// Stop searching for other positions, if another chessPiece is reached.
-				if (queen.getAllegiance() != endSquare.getAllegiance() && !endSquare.isEmpty()
-						|| queen.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
+				if (queen * endSquare < 0 && endSquare != Constants.EMPTY_SQUARE
+						|| queen * chessBoard.getGameBoard()[newRow][newColumn] > 0) {
 					break;
 				}
 			}
@@ -59,16 +50,16 @@ public class Queen extends ChessPiece {
 				int newColumn = column;
 
 				String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
-				ChessSquare endSquare = chessBoard.getGameBoard()[newRow][newColumn];
+				byte endSquare = chessBoard.getGameBoard()[newRow][newColumn];
 
-				if (endSquare.isEmpty() || queen.getAllegiance() != endSquare.getAllegiance()
-						&& !endSquare.isKing() || returnThreats) {
+				if (endSquare == Constants.EMPTY_SQUARE || queen * endSquare < 0
+						&& Math.abs(endSquare) != Constants.KING || returnThreats) {
 					nextQueenPositions.add(newPosition);
 				}
 
 				// Stop searching for other positions, if another chessPiece is reached.
-				if (queen.getAllegiance() != endSquare.getAllegiance() && !endSquare.isEmpty()
-						|| queen.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
+				if (queen * endSquare < 0 && endSquare != Constants.EMPTY_SQUARE
+						|| queen * chessBoard.getGameBoard()[newRow][newColumn] > 0) {
 					break;
 				}
 			}
@@ -81,16 +72,16 @@ public class Queen extends ChessPiece {
 				int newColumn = j;
 
 				String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
-				ChessSquare endSquare = chessBoard.getGameBoard()[newRow][newColumn];
+				byte endSquare = chessBoard.getGameBoard()[newRow][newColumn];
 
-				if (endSquare.isEmpty() || queen.getAllegiance() != endSquare.getAllegiance()
-						&& !endSquare.isKing() || returnThreats) {
+				if (endSquare == Constants.EMPTY_SQUARE || queen * endSquare < 0
+						&& Math.abs(endSquare) != Constants.KING || returnThreats) {
 					nextQueenPositions.add(newPosition);
 				}
 
 				// Stop searching for other positions, if another chessPiece is reached.
-				if (queen.getAllegiance() != endSquare.getAllegiance() && !endSquare.isEmpty()
-						|| queen.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
+				if (queen * endSquare < 0 && endSquare != Constants.EMPTY_SQUARE
+						|| queen * chessBoard.getGameBoard()[newRow][newColumn] > 0) {
 					break;
 				}
 			}
@@ -103,16 +94,16 @@ public class Queen extends ChessPiece {
 				int newColumn = j;
 
 				String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
-				ChessSquare endSquare = chessBoard.getGameBoard()[newRow][newColumn];
+				byte endSquare = chessBoard.getGameBoard()[newRow][newColumn];
 
-				if (endSquare.isEmpty() || queen.getAllegiance() != endSquare.getAllegiance()
-						&& !endSquare.isKing() || returnThreats) {
+				if (endSquare == Constants.EMPTY_SQUARE || queen * endSquare < 0
+						&& Math.abs(endSquare) != Constants.KING || returnThreats) {
 					nextQueenPositions.add(newPosition);
 				}
 
 				// Stop searching for other positions, if another chessPiece is reached.
-				if (queen.getAllegiance() != endSquare.getAllegiance() && !endSquare.isEmpty()
-						|| queen.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
+				if (queen * endSquare < 0 && endSquare != Constants.EMPTY_SQUARE
+						|| queen * chessBoard.getGameBoard()[newRow][newColumn] > 0) {
 					break;
 				}
 			}
@@ -128,16 +119,16 @@ public class Queen extends ChessPiece {
 				int newColumn = column + counter;
 
 				String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
-				ChessSquare endSquare = chessBoard.getGameBoard()[newRow][newColumn];
+				byte endSquare = chessBoard.getGameBoard()[newRow][newColumn];
 
-				if (endSquare.isEmpty() || queen.getAllegiance() != endSquare.getAllegiance()
-						&& !endSquare.isKing() || returnThreats) {
+				if (endSquare == Constants.EMPTY_SQUARE || queen * endSquare < 0
+						&& Math.abs(endSquare) != Constants.KING || returnThreats) {
 					nextQueenPositions.add(newPosition);
 				}
 
 				// Stop searching for other positions, if another chessPiece is reached.
-				if (queen.getAllegiance() != endSquare.getAllegiance() && !endSquare.isEmpty()
-						|| queen.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
+				if (queen * endSquare < 0 && endSquare != Constants.EMPTY_SQUARE
+						|| queen * chessBoard.getGameBoard()[newRow][newColumn] > 0) {
 					break;
 				}
 			}
@@ -152,16 +143,16 @@ public class Queen extends ChessPiece {
 				int newColumn = column - counter;
 
 				String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
-				ChessSquare endSquare = chessBoard.getGameBoard()[newRow][newColumn];
+				byte endSquare = chessBoard.getGameBoard()[newRow][newColumn];
 
-				if (endSquare.isEmpty() || queen.getAllegiance() != endSquare.getAllegiance()
-						&& !endSquare.isKing() || returnThreats) {
+				if (endSquare == Constants.EMPTY_SQUARE || queen * endSquare < 0
+						&& Math.abs(endSquare) != Constants.KING || returnThreats) {
 					nextQueenPositions.add(newPosition);
 				}
 
 				// Stop searching for other positions, if another chessPiece is reached.
-				if (queen.getAllegiance() != endSquare.getAllegiance() && !endSquare.isEmpty()
-						|| queen.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
+				if (queen * endSquare < 0 && endSquare != Constants.EMPTY_SQUARE
+						|| queen * chessBoard.getGameBoard()[newRow][newColumn] > 0) {
 					break;
 				}
 			}
@@ -176,16 +167,16 @@ public class Queen extends ChessPiece {
 				int newColumn = column - counter;
 
 				String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
-				ChessSquare endSquare = chessBoard.getGameBoard()[newRow][newColumn];
+				byte endSquare = chessBoard.getGameBoard()[newRow][newColumn];
 
-				if (endSquare.isEmpty() || queen.getAllegiance() != endSquare.getAllegiance()
-						&& !endSquare.isKing() || returnThreats) {
+				if (endSquare == Constants.EMPTY_SQUARE || queen * endSquare < 0
+						&& Math.abs(endSquare) != Constants.KING || returnThreats) {
 					nextQueenPositions.add(newPosition);
 				}
 
 				// Stop searching for other positions, if another chessPiece is reached.
-				if (queen.getAllegiance() != endSquare.getAllegiance() && !endSquare.isEmpty()
-						|| queen.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
+				if (queen * endSquare < 0 && endSquare != Constants.EMPTY_SQUARE
+						|| queen * chessBoard.getGameBoard()[newRow][newColumn] > 0) {
 					break;
 				}
 			}
@@ -200,16 +191,16 @@ public class Queen extends ChessPiece {
 				int newColumn = column + counter;
 
 				String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
-				ChessSquare endSquare = chessBoard.getGameBoard()[newRow][newColumn];
+				byte endSquare = chessBoard.getGameBoard()[newRow][newColumn];
 
-				if (endSquare.isEmpty() || queen.getAllegiance() != endSquare.getAllegiance()
-						&& !endSquare.isKing() || returnThreats) {
+				if (endSquare == Constants.EMPTY_SQUARE || queen * endSquare < 0
+						&& Math.abs(endSquare) != Constants.KING || returnThreats) {
 					nextQueenPositions.add(newPosition);
 				}
 
 				// Stop searching for other positions, if another chessPiece is reached.
-				if (queen.getAllegiance() != endSquare.getAllegiance() && !endSquare.isEmpty()
-						|| queen.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
+				if (queen * endSquare < 0 && endSquare != Constants.EMPTY_SQUARE
+						|| queen * chessBoard.getGameBoard()[newRow][newColumn] > 0) {
 					break;
 				}
 			}

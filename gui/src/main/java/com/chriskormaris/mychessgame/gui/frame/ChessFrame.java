@@ -17,8 +17,7 @@ import com.chriskormaris.mychessgame.api.evaluation.PeSTOEvaluation;
 import com.chriskormaris.mychessgame.api.evaluation.ShannonEvaluation;
 import com.chriskormaris.mychessgame.api.evaluation.SimplifiedEvaluation;
 import com.chriskormaris.mychessgame.api.evaluation.WukongEvaluation;
-import com.chriskormaris.mychessgame.api.square.ChessPiece;
-import com.chriskormaris.mychessgame.api.square.ChessSquare;
+import com.chriskormaris.mychessgame.api.square.PieceUtils;
 import com.chriskormaris.mychessgame.api.util.Constants;
 import com.chriskormaris.mychessgame.api.util.FenUtils;
 import com.chriskormaris.mychessgame.api.util.Utilities;
@@ -414,7 +413,7 @@ public abstract class ChessFrame extends JFrame {
         for (int i = 0; i < chessBoard.getNumOfRows(); i++) {
             for (int j = 0; j < chessBoard.getNumOfColumns(); j++) {
                 String position = chessBoard.getPositionByRowCol(i, j);
-                ChessSquare chessSquare = chessBoard.getChessSquareFromPosition(position);
+                byte chessSquare = chessBoard.getChessSquareFromPosition(position);
                 score += Utilities.getScoreValue(chessSquare);
             }
         }
@@ -496,38 +495,38 @@ public abstract class ChessFrame extends JFrame {
         for (int i = 0; i < 30; i++) {
             char pieceChar = capturedPieces[i];
             if (pieceChar != '-') {
-                ChessSquare chessSquare = Utilities.getChessPiece(pieceChar);
+                byte chessSquare = PieceUtils.getChessPiece(pieceChar);
                 addCapturedPieceImage(chessSquare);
             }
         }
     }
 
-    void updateCapturedPieces(ChessSquare chessSquare) {
-        if (chessSquare.isWhite()) {
+    void updateCapturedPieces(byte chessSquare) {
+        if (chessSquare > 0) {
             int index = Math.min(whiteCapturedPiecesCounter, 14);
-            capturedPieces[index] = ((ChessPiece) chessSquare).getPieceChar();
-        } else if (chessSquare.isBlack()) {
+            capturedPieces[index] = PieceUtils.getPieceChar(chessSquare);
+        } else if (chessSquare < 0) {
             int index = Math.min(blackCapturedPiecesCounter, 14);
             index = 30 - index - 1;
-            capturedPieces[index] = ((ChessPiece) chessSquare).getPieceChar();
+            capturedPieces[index] = PieceUtils.getPieceChar(chessSquare);
         }
     }
 
-    void addCapturedPieceImage(ChessSquare endSquare) {
+    void addCapturedPieceImage(byte endSquare) {
         String imagePath = GuiUtils.getImagePath(endSquare);
 
         ImageIcon pieceImage = GuiUtils.preparePieceIcon(imagePath, GuiConstants.CAPTURED_CHESS_PIECE_PIXEL_SIZE);
 
-        if (endSquare.isWhite()) {
+        if (endSquare > 0) {
             int index = Math.min(whiteCapturedPiecesCounter, 14);
             capturedPiecesImages[index].setIcon(pieceImage);
-        } else if (endSquare.isBlack()) {
+        } else if (endSquare < 0) {
             int index = Math.min(blackCapturedPiecesCounter, 14);
             index = 31 - index - 1;
             capturedPiecesImages[index].setIcon(pieceImage);
         }
 
-        incrementCapturedPiecesCounter(endSquare.getAllegiance());
+        incrementCapturedPiecesCounter(endSquare > 0 ? Allegiance.WHITE : endSquare < 0 ? Allegiance.BLACK : Allegiance.NONE);
 
         setScoreAndTimeText();
     }
@@ -1068,11 +1067,11 @@ public abstract class ChessFrame extends JFrame {
 
     abstract void makeDisplayMove(Move move, boolean isAiMove);
 
-    abstract void showNextPositions(ChessSquare chessSquare);
+    abstract void showNextPositions(byte chessSquare);
 
     abstract void hideNextPositions();
 
-    public abstract void placePieceToPosition(String position, ChessSquare chessSquare);
+    public abstract void placePieceToPosition(String position, byte chessSquare);
 
     abstract void removePieceFromPosition(String position);
 

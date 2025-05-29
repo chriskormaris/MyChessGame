@@ -1,12 +1,7 @@
 package com.chriskormaris.mychessgame.gui.buttons;
 
 
-import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
-import com.chriskormaris.mychessgame.api.square.Bishop;
-import com.chriskormaris.mychessgame.api.square.King;
-import com.chriskormaris.mychessgame.api.square.Knight;
-import com.chriskormaris.mychessgame.api.square.Pawn;
-import com.chriskormaris.mychessgame.api.square.Queen;
+import com.chriskormaris.mychessgame.api.util.Constants;
 import com.chriskormaris.mychessgame.gui.frame.ButtonsFrame;
 import org.junit.jupiter.api.Test;
 
@@ -24,22 +19,22 @@ class EndGameTest {
 		buttonsFrame.makeChessBoardSquaresEmpty();
 		System.out.println(buttonsFrame.chessBoard);
 
-		buttonsFrame.placePieceToPosition("A1", new King(Allegiance.WHITE));
-		buttonsFrame.placePieceToPosition("A2", new Bishop(Allegiance.WHITE));
-		buttonsFrame.placePieceToPosition("A3", new Queen(Allegiance.WHITE));
-		// placePieceToPosition("A4", new Queen(Allegiance.WHITE));
-		// placePieceToPosition("A3", new Knight(Allegiance.WHITE));
-		// placePieceToPosition("A4", new Knight(Allegiance.WHITE));
-		// placePieceToPosition("A4", new Rook(Allegiance.WHITE));
-		buttonsFrame.placePieceToPosition("A4", new Pawn(Allegiance.WHITE));
+		buttonsFrame.placePieceToPosition("A1", Constants.WHITE_KING);
+		buttonsFrame.placePieceToPosition("A2", Constants.WHITE_BISHOP);
+		buttonsFrame.placePieceToPosition("A3", Constants.WHITE_QUEEN);
+		// placePieceToPosition("A4", Constants.WHITE_QUEEN);
+		// placePieceToPosition("A3", Constants.WHITE_KNIGHT);
+		// placePieceToPosition("A4", Constants.WHITE_KNIGHT);
+		// placePieceToPosition("A4", Constants.WHITE_ROOK);
+		buttonsFrame.placePieceToPosition("A4", Constants.WHITE_PAWN);
 
-		buttonsFrame.placePieceToPosition("H8", new King(Allegiance.BLACK));
-		// placePieceToPosition("H7", new Bishop(Allegiance.BLACK));
-		// placePieceToPosition("H7", new Rook(Allegiance.BLACK));
-		buttonsFrame.placePieceToPosition("H7", new Pawn(Allegiance.BLACK));
-		buttonsFrame.placePieceToPosition("H6", new Knight(Allegiance.BLACK));
-		// placePieceToPosition("H5", new Knight(Allegiance.BLACK));
-		buttonsFrame.placePieceToPosition("H5", new Queen(Allegiance.BLACK));
+		buttonsFrame.placePieceToPosition("H8", Constants.BLACK_KING);
+		// placePieceToPosition("H7", Constants.BLACK_BISHOP);
+		// placePieceToPosition("H7", Constants.BLACK_ROOK);
+		buttonsFrame.placePieceToPosition("H7", Constants.BLACK_PAWN);
+		buttonsFrame.placePieceToPosition("H6", Constants.BLACK_KNIGHT);
+		// placePieceToPosition("H5", Constants.BLACK_KNIGHT);
+		buttonsFrame.placePieceToPosition("H5", Constants.BLACK_QUEEN);
 
 		System.out.println();
 		System.out.println(buttonsFrame.chessBoard);

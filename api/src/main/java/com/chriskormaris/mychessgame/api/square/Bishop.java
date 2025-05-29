@@ -1,33 +1,24 @@
 package com.chriskormaris.mychessgame.api.square;
 
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
-import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
+import com.chriskormaris.mychessgame.api.util.Constants;
 
 import java.util.HashSet;
 import java.util.Set;
 
 
-public class Bishop extends ChessPiece {
+public class Bishop {
 
-	public Bishop(Allegiance allegiance) {
-		super(allegiance);
-	}
-
-	public Bishop(Allegiance allegiance, boolean isPromoted) {
-		super(allegiance, isPromoted);
-	}
-
-	@Override
-	public Set<String> getNextPositions(String startingPosition, ChessBoard chessBoard, boolean returnThreats) {
+	public static Set<String> getNextPositions(String startingPosition, ChessBoard chessBoard, boolean returnThreats) {
 		Set<String> nextBishopPositions = new HashSet<>();
 
 		// First, find the row && the column
 		// that corresponds to the given position String.
 		int row = chessBoard.getRowFromPosition(startingPosition);
 		int column = chessBoard.getColumnFromPosition(startingPosition);
-		ChessSquare bishop = chessBoard.getGameBoard()[row][column];
+		byte bishop = chessBoard.getGameBoard()[row][column];
 
-		if (!bishop.isBishop()) {
+		if (Math.abs(bishop) != Constants.BISHOP) {
 			return nextBishopPositions;
 		}
 
@@ -42,16 +33,16 @@ public class Bishop extends ChessPiece {
 				int newColumn = column + counter;
 				String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
 				// System.out.println("newPosition: " + newPosition);
-				ChessSquare endSquare = chessBoard.getGameBoard()[newRow][newColumn];
+				byte endSquare = chessBoard.getGameBoard()[newRow][newColumn];
 				// System.out.println("endSquare: " + endSquare);
-				if (endSquare.isEmpty() || bishop.getAllegiance() != endSquare.getAllegiance()
-						&& !endSquare.isKing() || returnThreats) {
+				if (endSquare == Constants.EMPTY_SQUARE || bishop * endSquare < 0
+						&& Math.abs(endSquare) != Constants.KING || returnThreats) {
 					nextBishopPositions.add(newPosition);
 				}
 
 				// Stop searching for other positions, if another chessPiece is reached.
-				if (bishop.getAllegiance() != endSquare.getAllegiance() && !endSquare.isEmpty()
-						|| bishop.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
+				if (bishop * endSquare < 0 && endSquare != Constants.EMPTY_SQUARE
+						|| bishop * chessBoard.getGameBoard()[newRow][newColumn] > 0) {
 					break;
 				}
 			}
@@ -66,15 +57,15 @@ public class Bishop extends ChessPiece {
 				int newRow = i;
 				int newColumn = column - counter;
 				String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
-				ChessSquare endSquare = chessBoard.getGameBoard()[newRow][newColumn];
-				if (endSquare.isEmpty() || bishop.getAllegiance() != endSquare.getAllegiance()
-						&& !endSquare.isKing() || returnThreats) {
+				byte endSquare = chessBoard.getGameBoard()[newRow][newColumn];
+				if (endSquare == Constants.EMPTY_SQUARE || bishop * endSquare < 0
+						&& Math.abs(endSquare) != Constants.KING || returnThreats) {
 					nextBishopPositions.add(newPosition);
 				}
 
 				// Stop searching for other positions, if another chessPiece is reached.
-				if (bishop.getAllegiance() != endSquare.getAllegiance() && !endSquare.isEmpty()
-						|| bishop.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
+				if (bishop * endSquare < 0 && endSquare != Constants.EMPTY_SQUARE
+						|| bishop * chessBoard.getGameBoard()[newRow][newColumn] > 0) {
 					break;
 				}
 			}
@@ -89,15 +80,15 @@ public class Bishop extends ChessPiece {
 				int newRow = i;
 				int newColumn = column - counter;
 				String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
-				ChessSquare endSquare = chessBoard.getGameBoard()[newRow][newColumn];
-				if (endSquare.isEmpty() || bishop.getAllegiance() != endSquare.getAllegiance()
-						&& !endSquare.isKing() || returnThreats) {
+				byte endSquare = chessBoard.getGameBoard()[newRow][newColumn];
+				if (endSquare == Constants.EMPTY_SQUARE || bishop * endSquare < 0
+						&& Math.abs(endSquare) != Constants.KING || returnThreats) {
 					nextBishopPositions.add(newPosition);
 				}
 
 				// Stop searching for other positions, if another chessPiece is reached.
-				if (bishop.getAllegiance() != endSquare.getAllegiance() && !endSquare.isEmpty()
-						|| bishop.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
+				if (bishop * endSquare < 0 && endSquare != Constants.EMPTY_SQUARE
+						|| bishop * chessBoard.getGameBoard()[newRow][newColumn] > 0) {
 					break;
 				}
 			}
@@ -112,15 +103,15 @@ public class Bishop extends ChessPiece {
 				int newRow = i;
 				int newColumn = column + counter;
 				String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
-				ChessSquare endSquare = chessBoard.getGameBoard()[newRow][newColumn];
-				if (endSquare.isEmpty() || bishop.getAllegiance() != endSquare.getAllegiance()
-						&& !endSquare.isKing() || returnThreats) {
+				byte endSquare = chessBoard.getGameBoard()[newRow][newColumn];
+				if (endSquare == Constants.EMPTY_SQUARE || bishop * endSquare < 0
+						&& Math.abs(endSquare) != Constants.KING || returnThreats) {
 					nextBishopPositions.add(newPosition);
 				}
 
 				// Stop searching for other positions, if another chessPiece is reached.
-				if (bishop.getAllegiance() != endSquare.getAllegiance() && !endSquare.isEmpty()
-						|| bishop.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
+				if (bishop * endSquare < 0 && endSquare != Constants.EMPTY_SQUARE
+						|| bishop * chessBoard.getGameBoard()[newRow][newColumn] > 0) {
 					break;
 				}
 			}

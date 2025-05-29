@@ -1,33 +1,24 @@
 package com.chriskormaris.mychessgame.api.square;
 
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
-import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
+import com.chriskormaris.mychessgame.api.util.Constants;
 
 import java.util.HashSet;
 import java.util.Set;
 
 
-public class Knight extends ChessPiece {
+public class Knight {
 
-	public Knight(Allegiance allegiance) {
-		super(allegiance);
-	}
-
-	public Knight(Allegiance allegiance, boolean isPromoted) {
-		super(allegiance, isPromoted);
-	}
-
-	@Override
-	public Set<String> getNextPositions(String startingPosition, ChessBoard chessBoard, boolean returnThreats) {
+	public static Set<String> getNextPositions(String startingPosition, ChessBoard chessBoard, boolean returnThreats) {
 		Set<String> nextKnightPositions = new HashSet<>();
 
 		// First, find the row && the column
 		// that corresponds to the given position String.
 		int row = chessBoard.getRowFromPosition(startingPosition);
 		int column = chessBoard.getColumnFromPosition(startingPosition);
-		ChessSquare knight = chessBoard.getGameBoard()[row][column];
+		byte knight = chessBoard.getGameBoard()[row][column];
 
-		if (!knight.isKnight()) {
+		if (Math.abs(knight) != Constants.KNIGHT) {
 			return nextKnightPositions;
 		}
 
@@ -46,9 +37,9 @@ public class Knight extends ChessPiece {
 			int newRow = row - 2;
 			int newColumn = column - 1;
 			String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
-			ChessSquare endSquare = chessBoard.getGameBoard()[newRow][newColumn];
-			if (endSquare.isEmpty() || knight.getAllegiance() != endSquare.getAllegiance()
-					&& !endSquare.isKing() || returnThreats) {
+			byte endSquare = chessBoard.getGameBoard()[newRow][newColumn];
+			if (endSquare == Constants.EMPTY_SQUARE || knight * endSquare <= 0
+					&& Math.abs(endSquare) != Constants.KING || returnThreats) {
 				nextKnightPositions.add(newPosition);
 			}
 		}
@@ -64,9 +55,9 @@ public class Knight extends ChessPiece {
 			int newRow = row - 2;
 			int newColumn = column + 1;
 			String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
-			ChessSquare endSquare = chessBoard.getGameBoard()[newRow][newColumn];
-			if (endSquare.isEmpty() || knight.getAllegiance() != endSquare.getAllegiance()
-					&& !endSquare.isKing() || returnThreats) {
+			byte endSquare = chessBoard.getGameBoard()[newRow][newColumn];
+			if (endSquare == Constants.EMPTY_SQUARE || knight * endSquare <= 0
+					&& Math.abs(endSquare) != Constants.KING || returnThreats) {
 				nextKnightPositions.add(newPosition);
 			}
 		}
@@ -82,9 +73,9 @@ public class Knight extends ChessPiece {
 			int newRow = row + 2;
 			int newColumn = column - 1;
 			String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
-			ChessSquare endSquare = chessBoard.getGameBoard()[newRow][newColumn];
-			if (endSquare.isEmpty() || knight.getAllegiance() != endSquare.getAllegiance()
-					&& !endSquare.isKing() || returnThreats) {
+			byte endSquare = chessBoard.getGameBoard()[newRow][newColumn];
+			if (endSquare == Constants.EMPTY_SQUARE || knight * endSquare <= 0
+					&& Math.abs(endSquare) != Constants.KING || returnThreats) {
 				nextKnightPositions.add(newPosition);
 			}
 		}
@@ -100,9 +91,9 @@ public class Knight extends ChessPiece {
 			int newRow = row + 2;
 			int newColumn = column + 1;
 			String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
-			ChessSquare endSquare = chessBoard.getGameBoard()[newRow][newColumn];
-			if (endSquare.isEmpty() || knight.getAllegiance() != endSquare.getAllegiance()
-					&& !endSquare.isKing() || returnThreats) {
+			byte endSquare = chessBoard.getGameBoard()[newRow][newColumn];
+			if (endSquare == Constants.EMPTY_SQUARE || knight * endSquare <= 0
+					&& Math.abs(endSquare) != Constants.KING || returnThreats) {
 				nextKnightPositions.add(newPosition);
 			}
 		}
@@ -115,9 +106,9 @@ public class Knight extends ChessPiece {
 			int newRow = row - 1;
 			int newColumn = column - 2;
 			String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
-			ChessSquare endSquare = chessBoard.getGameBoard()[newRow][newColumn];
-			if (endSquare.isEmpty() || knight.getAllegiance() != endSquare.getAllegiance()
-					&& !endSquare.isKing() || returnThreats) {
+			byte endSquare = chessBoard.getGameBoard()[newRow][newColumn];
+			if (endSquare == Constants.EMPTY_SQUARE || knight * endSquare <= 0
+					&& Math.abs(endSquare) != Constants.KING || returnThreats) {
 				nextKnightPositions.add(newPosition);
 			}
 		}
@@ -130,9 +121,9 @@ public class Knight extends ChessPiece {
 			int newRow = row - 1;
 			int newColumn = column + 2;
 			String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
-			ChessSquare endSquare = chessBoard.getGameBoard()[newRow][newColumn];
-			if (endSquare.isEmpty() || knight.getAllegiance() != endSquare.getAllegiance()
-					&& !endSquare.isKing() || returnThreats) {
+			byte endSquare = chessBoard.getGameBoard()[newRow][newColumn];
+			if (endSquare == Constants.EMPTY_SQUARE || knight * endSquare <= 0
+					&& Math.abs(endSquare) != Constants.KING || returnThreats) {
 				nextKnightPositions.add(newPosition);
 			}
 		}
@@ -146,9 +137,9 @@ public class Knight extends ChessPiece {
 			int newRow = row + 1;
 			int newColumn = column - 2;
 			String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
-			ChessSquare endSquare = chessBoard.getGameBoard()[newRow][newColumn];
-			if (endSquare.isEmpty() || knight.getAllegiance() != endSquare.getAllegiance()
-					&& !endSquare.isKing() || returnThreats) {
+			byte endSquare = chessBoard.getGameBoard()[newRow][newColumn];
+			if (endSquare == Constants.EMPTY_SQUARE || knight * endSquare <= 0
+					&& Math.abs(endSquare) != Constants.KING || returnThreats) {
 				nextKnightPositions.add(newPosition);
 			}
 		}
@@ -162,9 +153,9 @@ public class Knight extends ChessPiece {
 			int newRow = row + 1;
 			int newColumn = column + 2;
 			String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
-			ChessSquare endSquare = chessBoard.getGameBoard()[newRow][newColumn];
-			if (endSquare.isEmpty() || knight.getAllegiance() != endSquare.getAllegiance()
-					&& !endSquare.isKing() || returnThreats) {
+			byte endSquare = chessBoard.getGameBoard()[newRow][newColumn];
+			if (endSquare == Constants.EMPTY_SQUARE || knight * endSquare <= 0
+					&& Math.abs(endSquare) != Constants.KING || returnThreats) {
 				nextKnightPositions.add(newPosition);
 			}
 		}

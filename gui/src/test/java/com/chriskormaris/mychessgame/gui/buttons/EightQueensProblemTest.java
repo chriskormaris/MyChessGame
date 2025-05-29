@@ -1,9 +1,7 @@
 package com.chriskormaris.mychessgame.gui.buttons;
 
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
-import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
-import com.chriskormaris.mychessgame.api.square.EmptySquare;
-import com.chriskormaris.mychessgame.api.square.Queen;
+import com.chriskormaris.mychessgame.api.util.Constants;
 import com.chriskormaris.mychessgame.gui.frame.ButtonsFrame;
 import org.junit.jupiter.api.Test;
 
@@ -19,7 +17,7 @@ class EightQueensProblemTest {
 		ChessBoard chessBoard = buttonsFrame.chessBoard;
 
 		for (int j = 0; j < chessBoard.getNumOfColumns(); j++) {
-			chessBoard.getGameBoard()[0][j] = new Queen(Allegiance.WHITE);
+			chessBoard.getGameBoard()[0][j] = Constants.WHITE_QUEEN;
 			chessBoard.setThreats();
 
 			placeQueens(1, chessBoard);
@@ -42,13 +40,13 @@ class EightQueensProblemTest {
 		// queen in all columns one by one
 		for (int j = 0; j < chessBoard.getNumOfColumns(); j++) {
 			// Check if the queen can be placed
-			if (chessBoard.getGameBoard()[i][j].isEmpty() && !chessBoard.getSquaresThreatenedByWhite()[i][j]) {
-				chessBoard.getGameBoard()[i][j] = new Queen(Allegiance.WHITE);
+			if (chessBoard.getGameBoard()[i][j] == Constants.EMPTY_SQUARE && !chessBoard.getSquaresThreatenedByWhite()[i][j]) {
+				chessBoard.getGameBoard()[i][j] = Constants.WHITE_QUEEN;
 				chessBoard.setThreats();
 				if (placeQueens(i + 1, chessBoard)) {
 					return true;
 				} else {
-					chessBoard.getGameBoard()[i][j] = new EmptySquare();
+					chessBoard.getGameBoard()[i][j] = Constants.EMPTY_SQUARE;
 					chessBoard.setThreats();
 				}
 			}

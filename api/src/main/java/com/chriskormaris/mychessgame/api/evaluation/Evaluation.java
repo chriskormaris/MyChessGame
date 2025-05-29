@@ -1,7 +1,7 @@
 package com.chriskormaris.mychessgame.api.evaluation;
 
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
-import com.chriskormaris.mychessgame.api.square.ChessSquare;
+import com.chriskormaris.mychessgame.api.util.Constants;
 
 public interface Evaluation {
 
@@ -18,18 +18,18 @@ public interface Evaluation {
 
 	// At the start of the game, the sum of all pieces' "gamePhase" values should be equal to 24.
 	// In case of early promotion, the sum could be more than 24.
-	default int getPieceGamePhaseValue(ChessSquare chessSquare) {
-		if (chessSquare.isPawn()) {
+	default int getPieceGamePhaseValue(byte chessSquare) {
+		if (Math.abs(chessSquare) == Constants.PAWN) {
 			return PAWN_GAME_PHASE_VALUE;
-		} else if (chessSquare.isKnight()) {
+		} else if (Math.abs(chessSquare) == Constants.KNIGHT) {
 			return KNIGHT_GAME_PHASE_VALUE;
-		} else if (chessSquare.isBishop()) {
+		} else if (Math.abs(chessSquare) == Constants.BISHOP) {
 			return BISHOP_GAME_PHASE_VALUE;
-		} else if (chessSquare.isRook()) {
+		} else if (Math.abs(chessSquare) == Constants.ROOK) {
 			return ROOK_GAME_PHASE_VALUE;
-		} else if (chessSquare.isQueen()) {
+		} else if (Math.abs(chessSquare) == Constants.QUEEN) {
 			return QUEEN_GAME_PHASE_VALUE;
-		} else if (chessSquare.isKing()) {
+		} else if (Math.abs(chessSquare) == Constants.KING) {
 			return KING_GAME_PHASE_VALUE;
 		}
 		return 0;

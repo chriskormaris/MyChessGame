@@ -1,11 +1,8 @@
 package com.chriskormaris.mychessgame.gui.buttons;
 
 
-import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
 import com.chriskormaris.mychessgame.api.enumeration.GameMode;
-import com.chriskormaris.mychessgame.api.square.Bishop;
-import com.chriskormaris.mychessgame.api.square.King;
-import com.chriskormaris.mychessgame.api.square.Knight;
+import com.chriskormaris.mychessgame.api.util.Constants;
 import com.chriskormaris.mychessgame.gui.frame.ButtonsFrame;
 import org.junit.jupiter.api.Test;
 
@@ -23,15 +20,15 @@ class ThreefoldRepetitionDrawTest {
 
 		buttonsFrame.makeChessBoardSquaresEmpty();
 
-		buttonsFrame.placePieceToPosition("A1", new King(Allegiance.WHITE));
-		buttonsFrame.placePieceToPosition("A2", new Bishop(Allegiance.WHITE));
-		buttonsFrame.placePieceToPosition("A3", new Knight(Allegiance.WHITE));
-		buttonsFrame.placePieceToPosition("A4", new Knight(Allegiance.WHITE));
+		buttonsFrame.placePieceToPosition("A1", Constants.WHITE_KING);
+		buttonsFrame.placePieceToPosition("A2", Constants.WHITE_BISHOP);
+		buttonsFrame.placePieceToPosition("A3", Constants.WHITE_KNIGHT);
+		buttonsFrame.placePieceToPosition("A4", Constants.WHITE_KNIGHT);
 
-		buttonsFrame.placePieceToPosition("H8", new King(Allegiance.BLACK));
-		buttonsFrame.placePieceToPosition("H7", new Bishop(Allegiance.BLACK));
-		buttonsFrame.placePieceToPosition("H6", new Knight(Allegiance.BLACK));
-		buttonsFrame.placePieceToPosition("H5", new Knight(Allegiance.BLACK));
+		buttonsFrame.placePieceToPosition("H8", Constants.BLACK_KING);
+		buttonsFrame.placePieceToPosition("H7", Constants.BLACK_BISHOP);
+		buttonsFrame.placePieceToPosition("H6", Constants.BLACK_KNIGHT);
+		buttonsFrame.placePieceToPosition("H5", Constants.BLACK_KNIGHT);
 
 		// Continue playing for 5 minutes.
 		try {

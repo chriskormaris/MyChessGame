@@ -52,6 +52,27 @@ public class Constants {
 	public static final char BLACK_QUEEN_CHAR = 'q';
 	public static final char BLACK_KING_CHAR = 'k';
 
+	public static final byte EMPTY_SQUARE = 0;
+	public static final byte PAWN = 1;
+	public static final byte KNIGHT = 2;
+	public static final byte BISHOP = 3;
+	public static final byte ROOK = 4;
+	public static final byte QUEEN = 5;
+	public static final byte KING = Byte.MAX_VALUE;
+
+	public static final byte WHITE_PAWN = PAWN;
+	public static final byte WHITE_KNIGHT = KNIGHT;
+	public static final byte WHITE_BISHOP = BISHOP;
+	public static final byte WHITE_ROOK = ROOK;
+	public static final byte WHITE_QUEEN = QUEEN;
+	public static final byte WHITE_KING = KING;
+	public static final byte BLACK_PAWN = -PAWN;
+	public static final byte BLACK_KNIGHT = -KNIGHT;
+	public static final byte BLACK_BISHOP = -BISHOP;
+	public static final byte BLACK_ROOK = -ROOK;
+	public static final byte BLACK_QUEEN = -QUEEN;
+	public static final byte BLACK_KING = -KING;
+
 	public static final String DEFAULT_STARTING_PIECES = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
 	public static final String DEFAULT_STARTING_FEN_POSITION = DEFAULT_STARTING_PIECES + " w KQkq - 0 1";
 	public static final String DEFAULT_STARTING_SHREDDER_FEN_POSITION = DEFAULT_STARTING_PIECES + " w AHah - 0 1";

@@ -3,8 +3,7 @@ package com.chriskormaris.mychessgame.api.util;
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.api.enumeration.Variant;
 import com.chriskormaris.mychessgame.api.exception.InvalidFenPositionException;
-import com.chriskormaris.mychessgame.api.square.ChessSquare;
-import com.chriskormaris.mychessgame.api.square.EmptySquare;
+import com.chriskormaris.mychessgame.api.square.PieceUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 
@@ -157,7 +156,7 @@ public final class FenUtils {
 	public static void populateGameBoard(ChessBoard chessBoard, String startingPieces) {
 		for (int i = 0; i < chessBoard.getNumOfRows(); i++) {
 			for (int j = 0; j < chessBoard.getNumOfColumns(); j++) {
-				chessBoard.getGameBoard()[i][j] = new EmptySquare();
+				chessBoard.getGameBoard()[i][j] = Constants.EMPTY_SQUARE;
 			}
 		}
 		chessBoard.setWhiteKingPosition("Z0");
@@ -182,7 +181,7 @@ public final class FenUtils {
 			}
 
 			try {
-				chessBoard.getGameBoard()[i][j] = Utilities.getChessPiece(pieceChar);
+				chessBoard.getGameBoard()[i][j] = PieceUtils.getChessPiece(pieceChar);
 			} catch (ArrayIndexOutOfBoundsException ex) {
 				throw new RuntimeException(ex);
 			}
@@ -206,9 +205,9 @@ public final class FenUtils {
 			int emptySquaresCounter = 0;
 			for (int j = 0; j < chessBoard.getNumOfColumns(); j++) {
 				// Get the chessPiece in the indices [i][j], from the gameBoard.
-				ChessSquare chessSquare = chessBoard.getGameBoard()[i][j];
+				byte chessSquare = chessBoard.getGameBoard()[i][j];
 				// Convert chessPiece value to chessPiece character.
-				char pieceChar = Utilities.getPieceChar(chessSquare);
+				char pieceChar = PieceUtils.getPieceChar(chessSquare);
 				if (pieceChar != '-') {
 					if (emptySquaresCounter != 0) {
 						// Append the number of empty consecutive empty squares in a row

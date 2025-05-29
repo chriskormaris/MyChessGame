@@ -1,6 +1,6 @@
 package com.chriskormaris.mychessgame.gui.util;
 
-import com.chriskormaris.mychessgame.api.square.ChessSquare;
+import com.chriskormaris.mychessgame.api.util.Constants;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 
@@ -23,35 +23,35 @@ public final class GuiUtils {
 		return pieceIcon;
 	}
 
-	public static String getImagePath(ChessSquare chessSquare) {
+	public static String getImagePath(byte chessSquare) {
 		String imagePath = "";
 
-		if (chessSquare.isWhite()) {
-			if (chessSquare.isPawn()) {
+		if (chessSquare > 0) {
+			if (Math.abs(chessSquare) == Constants.PAWN) {
 				imagePath = GuiConstants.WHITE_PAWN_IMG_PATH;
-			} else if (chessSquare.isRook()) {
+			} else if (Math.abs(chessSquare) == Constants.ROOK) {
 				imagePath = GuiConstants.WHITE_ROOK_IMG_PATH;
-			} else if (chessSquare.isKnight()) {
+			} else if (Math.abs(chessSquare) == Constants.KNIGHT) {
 				imagePath = GuiConstants.WHITE_KNIGHT_IMG_PATH;
-			} else if (chessSquare.isBishop()) {
+			} else if (Math.abs(chessSquare) == Constants.BISHOP) {
 				imagePath = GuiConstants.WHITE_BISHOP_IMG_PATH;
-			} else if (chessSquare.isQueen()) {
+			} else if (Math.abs(chessSquare) == Constants.QUEEN) {
 				imagePath = GuiConstants.WHITE_QUEEN_IMG_PATH;
-			} else if (chessSquare.isKing()) {
+			} else if (Math.abs(chessSquare) == Constants.KING) {
 				imagePath = GuiConstants.WHITE_KING_IMG_PATH;
 			}
-		} else if (chessSquare.isBlack()) {
-			if (chessSquare.isPawn()) {
+		} else if (chessSquare < 0) {
+			if (Math.abs(chessSquare) == Constants.PAWN) {
 				imagePath = GuiConstants.BLACK_PAWN_IMG_PATH;
-			} else if (chessSquare.isRook()) {
+			} else if (Math.abs(chessSquare) == Constants.ROOK) {
 				imagePath = GuiConstants.BLACK_ROOK_IMG_PATH;
-			} else if (chessSquare.isKnight()) {
+			} else if (Math.abs(chessSquare) == Constants.KNIGHT) {
 				imagePath = GuiConstants.BLACK_KNIGHT_IMG_PATH;
-			} else if (chessSquare.isBishop()) {
+			} else if (Math.abs(chessSquare) == Constants.BISHOP) {
 				imagePath = GuiConstants.BLACK_BISHOP_IMG_PATH;
-			} else if (chessSquare.isQueen()) {
+			} else if (Math.abs(chessSquare) == Constants.QUEEN) {
 				imagePath = GuiConstants.BLACK_QUEEN_IMG_PATH;
-			} else if (chessSquare.isKing()) {
+			} else if (Math.abs(chessSquare) == Constants.KING) {
 				imagePath = GuiConstants.BLACK_KING_IMG_PATH;
 			}
 		}

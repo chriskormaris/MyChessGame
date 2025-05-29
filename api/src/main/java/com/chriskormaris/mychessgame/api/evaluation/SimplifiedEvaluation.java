@@ -2,7 +2,7 @@ package com.chriskormaris.mychessgame.api.evaluation;
 
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.api.enumeration.GamePhase;
-import com.chriskormaris.mychessgame.api.square.ChessSquare;
+import com.chriskormaris.mychessgame.api.util.Constants;
 
 // Simplified Evaluation Function by Polish chess programmer Tomasz Michniewski.
 // see: https://www.chessprogramming.org/Simplified_Evaluation_Function
@@ -101,35 +101,35 @@ public class SimplifiedEvaluation implements Evaluation {
 		}
 	}
 
-	private int getPieceCentipawnValue(ChessSquare chessSquare) {
-		if (chessSquare.isPawn()) {
+	private int getPieceCentipawnValue(byte chessSquare) {
+		if (Math.abs(chessSquare) == Constants.PAWN) {
 			return PAWN_CENTIPAWN_VALUE;
-		} else if (chessSquare.isKnight()) {
+		} else if (Math.abs(chessSquare) == Constants.KNIGHT) {
 			return KNIGHT_CENTIPAWN_VALUE;
-		} else if (chessSquare.isBishop()) {
+		} else if (Math.abs(chessSquare) == Constants.BISHOP) {
 			return BISHOP_CENTIPAWN_VALUE;
-		} else if (chessSquare.isRook()) {
+		} else if (Math.abs(chessSquare) == Constants.ROOK) {
 			return ROOK_CENTIPAWN_VALUE;
-		} else if (chessSquare.isQueen()) {
+		} else if (Math.abs(chessSquare) == Constants.QUEEN) {
 			return QUEEN_CENTIPAWN_VALUE;
-		} else if (chessSquare.isKing()) {
+		} else if (Math.abs(chessSquare) == Constants.KING) {
 			return KING_CENTIPAWN_VALUE;
 		}
 		return 0;
 	}
 
-	private int getPieceSquareValue(int row, int column, ChessSquare chessSquare, GamePhase gamePhase) {
-		if (chessSquare.isPawn()) {
+	private int getPieceSquareValue(int row, int column, byte chessSquare, GamePhase gamePhase) {
+		if (Math.abs(chessSquare) == Constants.PAWN) {
 			return PAWN_SQUARE_TABLE[row][column];
-		} else if (chessSquare.isKnight()) {
+		} else if (Math.abs(chessSquare) == Constants.KNIGHT) {
 			return KNIGHT_SQUARE_TABLE[row][column];
-		} else if (chessSquare.isBishop()) {
+		} else if (Math.abs(chessSquare) == Constants.BISHOP) {
 			return BISHOP_SQUARE_TABLE[row][column];
-		} else if (chessSquare.isRook()) {
+		} else if (Math.abs(chessSquare) == Constants.ROOK) {
 			return ROOK_SQUARE_TABLE[row][column];
-		} else if (chessSquare.isQueen()) {
+		} else if (Math.abs(chessSquare) == Constants.QUEEN) {
 			return QUEEN_SQUARE_TABLE[row][column];
-		} else if (chessSquare.isKing()) {
+		} else if (Math.abs(chessSquare) == Constants.KING) {
 			if (gamePhase == GamePhase.OPENING_MIDDLEGAME) {
 				return MIDDLEGAME_KING_SQUARE_TABLE[row][column];
 			} else if (gamePhase == GamePhase.ENDGAME) {
@@ -147,11 +147,11 @@ public class SimplifiedEvaluation implements Evaluation {
 
 		for (int i = 0; i < chessBoard.getNumOfRows(); i++) {
 			for (int j = 0; j < chessBoard.getNumOfColumns(); j++) {
-				ChessSquare chessSquare = chessBoard.getGameBoard()[i][j];
-				if (chessSquare.isWhite()) {
+				byte chessSquare = chessBoard.getGameBoard()[i][j];
+				if (chessSquare > 0) {
 					score += PIECE_VALUE_MULTIPLIER * getPieceCentipawnValue(chessSquare);
 					score += getPieceSquareValue(i, j, chessSquare, gamePhase);
-				} else if (chessSquare.isBlack()) {
+				} else if (chessSquare < 0) {
 					score -= PIECE_VALUE_MULTIPLIER * getPieceCentipawnValue(chessSquare);
 
 					int row = chessBoard.getNumOfRows() - 1 - i;

@@ -42,7 +42,7 @@ class BlockedKingsAndPawnsDrawTest {
 
 		/*
 		removePieceFromPosition("A3");
-		placePieceToPosition("A4", new Pawn(Allegiance.WHITE));
+		placePieceToPosition("A4", Constants.WHITE_PAWN);
 		
 		// After the White player has moved the White pawn, it should be a draw!
 		System.out.println("Checking if a draw has occurred...");

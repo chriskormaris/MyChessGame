@@ -1,9 +1,7 @@
 package com.chriskormaris.mychessgame.gui.buttons;
 
 
-import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
-import com.chriskormaris.mychessgame.api.square.King;
-import com.chriskormaris.mychessgame.api.square.Pawn;
+import com.chriskormaris.mychessgame.api.util.Constants;
 import com.chriskormaris.mychessgame.gui.frame.ButtonsFrame;
 import org.junit.jupiter.api.Test;
 
@@ -20,9 +18,9 @@ class TwoKingsLeftTest {
 
 		buttonsFrame.makeChessBoardSquaresEmpty();
 
-		buttonsFrame.placePieceToPosition("A1", new King(Allegiance.WHITE));
-		buttonsFrame.placePieceToPosition("H8", new King(Allegiance.BLACK));
-		buttonsFrame.placePieceToPosition("B2", new Pawn(Allegiance.WHITE));
+		buttonsFrame.placePieceToPosition("A1", Constants.WHITE_KING);
+		buttonsFrame.placePieceToPosition("H8", Constants.BLACK_KING);
+		buttonsFrame.placePieceToPosition("B2", Constants.WHITE_PAWN);
 
 		System.out.println();
 		System.out.println(buttonsFrame.chessBoard);

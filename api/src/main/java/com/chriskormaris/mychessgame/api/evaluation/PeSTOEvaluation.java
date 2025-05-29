@@ -2,7 +2,7 @@ package com.chriskormaris.mychessgame.api.evaluation;
 
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.api.enumeration.GamePhase;
-import com.chriskormaris.mychessgame.api.square.ChessSquare;
+import com.chriskormaris.mychessgame.api.util.Constants;
 
 // PeSTO's (Piece-Square Tables Only) Evaluation Function.
 // see: https://www.chessprogramming.org/PeSTO%27s_Evaluation_Function
@@ -155,74 +155,74 @@ public class PeSTOEvaluation implements Evaluation {
 	private static final int ENDGAME_KING_CENTIPAWN_VALUE = 0;
 
 
-	private int getPieceCentipawnValue(ChessSquare chessSquare, GamePhase gamePhase) {
+	private int getPieceCentipawnValue(byte chessSquare, GamePhase gamePhase) {
 		if (gamePhase == GamePhase.OPENING_MIDDLEGAME) {
-			if (chessSquare.isPawn()) {
+			if (Math.abs(chessSquare) == Constants.PAWN) {
 				return MIDDLEGAME_PAWN_CENTIPAWN_VALUE;
-			} else if (chessSquare.isKnight()) {
+			} else if (Math.abs(chessSquare) == Constants.KNIGHT) {
 				return MIDDLEGAME_KNIGHT_CENTIPAWN_VALUE;
-			} else if (chessSquare.isBishop()) {
+			} else if (Math.abs(chessSquare) == Constants.BISHOP) {
 				return MIDDLEGAME_BISHOP_CENTIPAWN_VALUE;
-			} else if (chessSquare.isRook()) {
+			} else if (Math.abs(chessSquare) == Constants.ROOK) {
 				return MIDDLEGAME_ROOK_CENTIPAWN_VALUE;
-			} else if (chessSquare.isQueen()) {
+			} else if (Math.abs(chessSquare) == Constants.QUEEN) {
 				return MIDDLEGAME_QUEEN_CENTIPAWN_VALUE;
-			} else if (chessSquare.isKing()) {
+			} else if (Math.abs(chessSquare) == Constants.KING) {
 				return MIDDLEGAME_KING_CENTIPAWN_VALUE;
 			}
 		} else if (gamePhase == GamePhase.ENDGAME) {
-			if (chessSquare.isPawn()) {
+			if (Math.abs(chessSquare) == Constants.PAWN) {
 				return ENDGAME_PAWN_CENTIPAWN_VALUE;
-			} else if (chessSquare.isKnight()) {
+			} else if (Math.abs(chessSquare) == Constants.KNIGHT) {
 				return ENDGAME_KNIGHT_CENTIPAWN_VALUE;
-			} else if (chessSquare.isBishop()) {
+			} else if (Math.abs(chessSquare) == Constants.BISHOP) {
 				return ENDGAME_BISHOP_CENTIPAWN_VALUE;
-			} else if (chessSquare.isRook()) {
+			} else if (Math.abs(chessSquare) == Constants.ROOK) {
 				return ENDGAME_ROOK_CENTIPAWN_VALUE;
-			} else if (chessSquare.isQueen()) {
+			} else if (Math.abs(chessSquare) == Constants.QUEEN) {
 				return ENDGAME_QUEEN_CENTIPAWN_VALUE;
-			} else if (chessSquare.isKing()) {
+			} else if (Math.abs(chessSquare) == Constants.KING) {
 				return ENDGAME_KING_CENTIPAWN_VALUE;
 			}
 		}
 		return 0;
 	}
 
-	private int getMiddlegamePieceSquareValue(int row, int column, ChessSquare chessSquare) {
-		if (chessSquare.isPawn()) {
+	private int getMiddlegamePieceSquareValue(int row, int column, byte chessSquare) {
+		if (Math.abs(chessSquare) == Constants.PAWN) {
 			return MIDDLEGAME_PAWN_SQUARE_TABLE[row][column];
-		} else if (chessSquare.isKnight()) {
+		} else if (Math.abs(chessSquare) == Constants.KNIGHT) {
 			return MIDDLEGAME_KNIGHT_SQUARE_TABLE[row][column];
-		} else if (chessSquare.isBishop()) {
+		} else if (Math.abs(chessSquare) == Constants.BISHOP) {
 			return MIDDLEGAME_BISHOP_SQUARE_TABLE[row][column];
-		} else if (chessSquare.isRook()) {
+		} else if (Math.abs(chessSquare) == Constants.ROOK) {
 			return MIDDLEGAME_ROOK_SQUARE_TABLE[row][column];
-		} else if (chessSquare.isQueen()) {
+		} else if (Math.abs(chessSquare) == Constants.QUEEN) {
 			return MIDDLEGAME_QUEEN_SQUARE_TABLE[row][column];
-		} else if (chessSquare.isKing()) {
+		} else if (Math.abs(chessSquare) == Constants.KING) {
 			return MIDDLEGAME_KING_SQUARE_TABLE[row][column];
 		}
 		return 0;
 	}
 
-	private int getEndgamePieceSquareValue(int row, int column, ChessSquare chessSquare) {
-		if (chessSquare.isPawn()) {
+	private int getEndgamePieceSquareValue(int row, int column, byte chessSquare) {
+		if (Math.abs(chessSquare) == Constants.PAWN) {
 			return ENDGAME_PAWN_SQUARE_TABLE[row][column];
-		} else if (chessSquare.isKnight()) {
+		} else if (Math.abs(chessSquare) == Constants.KNIGHT) {
 			return ENDGAME_KNIGHT_SQUARE_TABLE[row][column];
-		} else if (chessSquare.isBishop()) {
+		} else if (Math.abs(chessSquare) == Constants.BISHOP) {
 			return ENDGAME_BISHOP_SQUARE_TABLE[row][column];
-		} else if (chessSquare.isRook()) {
+		} else if (Math.abs(chessSquare) == Constants.ROOK) {
 			return ENDGAME_ROOK_SQUARE_TABLE[row][column];
-		} else if (chessSquare.isQueen()) {
+		} else if (Math.abs(chessSquare) == Constants.QUEEN) {
 			return ENDGAME_QUEEN_SQUARE_TABLE[row][column];
-		} else if (chessSquare.isKing()) {
+		} else if (Math.abs(chessSquare) == Constants.KING) {
 			return ENDGAME_KING_SQUARE_TABLE[row][column];
 		}
 		return 0;
 	}
 
-	private int getPieceSquareValue(int row, int column, ChessSquare chessSquare, GamePhase gamePhase) {
+	private int getPieceSquareValue(int row, int column, byte chessSquare, GamePhase gamePhase) {
 		if (gamePhase == GamePhase.OPENING_MIDDLEGAME) {
 			return getMiddlegamePieceSquareValue(row, column, chessSquare);
 		} else {
@@ -239,16 +239,16 @@ public class PeSTOEvaluation implements Evaluation {
 
 		for (int i = 0; i < chessBoard.getNumOfRows(); i++) {
 			for (int j = 0; j < chessBoard.getNumOfColumns(); j++) {
-				ChessSquare chessSquare = chessBoard.getGameBoard()[i][j];
+				byte chessSquare = chessBoard.getGameBoard()[i][j];
 				gamePhase += getPieceGamePhaseValue(chessSquare);
 
-				if (chessSquare.isWhite()) {
+				if (chessSquare > 0) {
 					middlegameScore += PIECE_VALUE_MULTIPLIER * getPieceCentipawnValue(chessSquare, GamePhase.OPENING_MIDDLEGAME);
 					endgameScore += PIECE_VALUE_MULTIPLIER * getPieceCentipawnValue(chessSquare, GamePhase.ENDGAME);
 
 					middlegameScore += getPieceSquareValue(i, j, chessSquare, GamePhase.OPENING_MIDDLEGAME);
 					endgameScore += getPieceSquareValue(i, j, chessSquare, GamePhase.ENDGAME);
-				} else if (chessSquare.isBlack()) {
+				} else if (chessSquare < 0) {
 					middlegameScore -= PIECE_VALUE_MULTIPLIER * getPieceCentipawnValue(chessSquare, GamePhase.OPENING_MIDDLEGAME);
 					endgameScore -= PIECE_VALUE_MULTIPLIER * getPieceCentipawnValue(chessSquare, GamePhase.ENDGAME);
 

@@ -1,9 +1,7 @@
 package com.chriskormaris.mychessgame.gui.buttons;
 
 
-import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
-import com.chriskormaris.mychessgame.api.square.Bishop;
-import com.chriskormaris.mychessgame.api.square.King;
+import com.chriskormaris.mychessgame.api.util.Constants;
 import com.chriskormaris.mychessgame.gui.frame.ButtonsFrame;
 import org.junit.jupiter.api.Test;
 
@@ -22,25 +20,25 @@ class InsufficientMatingMaterialDrawTest {
 		System.out.println(buttonsFrame.chessBoard);
 
 		// King vs King draw.
-		// gui.placePieceToPosition("A1", new King(Allegiance.WHITE));
-		// gui.placePieceToPosition("A2", new Knight(Allegiance.WHITE));
-		// gui.placePieceToPosition("H8", new King(Allegiance.BLACK));
+		// gui.placePieceToPosition("A1", Constants.WHITE_KING);
+		// gui.placePieceToPosition("A2", Constants.WHITE_KNIGHT);
+		// gui.placePieceToPosition("H8", Constants.BLACK_KING);
 
 		// King and Bishop vs King draw.
-		// gui.placePieceToPosition("A1", new King(Allegiance.WHITE));
-		// gui.placePieceToPosition("A2", new Bishop(Allegiance.WHITE));
-		// gui.placePieceToPosition("H8", new King(Allegiance.BLACK));
+		// gui.placePieceToPosition("A1", Constants.WHITE_KING);
+		// gui.placePieceToPosition("A2", Constants.WHITE_BISHOP);
+		// gui.placePieceToPosition("H8", Constants.BLACK_KING);
 
 		// King and Knight vs King draw.
-		// gui.placePieceToPosition("A1", new King(Allegiance.WHITE));
-		// gui.placePieceToPosition("A2", new Knight(Allegiance.WHITE));
-		// gui.placePieceToPosition("H8", new King(Allegiance.BLACK));
+		// gui.placePieceToPosition("A1", Constants.WHITE_KING);
+		// gui.placePieceToPosition("A2", Constants.WHITE_KNIGHT);
+		// gui.placePieceToPosition("H8", Constants.BLACK_KING);
 
 		// King and Bishop vs King and Bishop on the same color draw.
-		buttonsFrame.placePieceToPosition("A1", new King(Allegiance.WHITE));
-		buttonsFrame.placePieceToPosition("A2", new Bishop(Allegiance.WHITE));
-		buttonsFrame.placePieceToPosition("H8", new King(Allegiance.BLACK));
-		buttonsFrame.placePieceToPosition("H7", new Bishop(Allegiance.BLACK));
+		buttonsFrame.placePieceToPosition("A1", Constants.WHITE_KING);
+		buttonsFrame.placePieceToPosition("A2", Constants.WHITE_BISHOP);
+		buttonsFrame.placePieceToPosition("H8", Constants.BLACK_KING);
+		buttonsFrame.placePieceToPosition("H7", Constants.BLACK_BISHOP);
 
 		System.out.println();
 		System.out.println(buttonsFrame.chessBoard);

@@ -1,8 +1,7 @@
 package com.chriskormaris.mychessgame.api.util;
 
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
-import com.chriskormaris.mychessgame.api.square.ChessSquare;
-import com.chriskormaris.mychessgame.api.square.EmptySquare;
+import com.chriskormaris.mychessgame.api.square.PieceUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 
@@ -18,7 +17,7 @@ public final class BFS {
 	// It returns the depth of the shortest path, if it exists, else it returns -1.
 	public static int getMinDepth(
 			ChessBoard chessBoard,
-			ChessSquare piece,
+			byte piece,
 			String startingPosition,
 			String endingPosition,
 			int maxDepth
@@ -42,7 +41,7 @@ public final class BFS {
 			if (currentPosition != null) {
 				int previousRow = chessBoard.getRowFromPosition(currentPosition);
 				int previousColumn = chessBoard.getColumnFromPosition(currentPosition);
-				currentChessBoard.getGameBoard()[previousRow][previousColumn] = new EmptySquare();
+				currentChessBoard.getGameBoard()[previousRow][previousColumn] = Constants.EMPTY_SQUARE;
 			}
 
 			// Get the first item of the queue and reBfsPosition it.
@@ -66,15 +65,15 @@ public final class BFS {
 					int currentRow = chessBoard.getRowFromPosition(currentPosition);
 					int currentColumn = chessBoard.getColumnFromPosition(currentPosition);
 					currentChessBoard.getGameBoard()[currentRow][currentColumn] = piece;
-					if (piece.isKing()) {
-						if (piece.isWhite()) {
+					if (Math.abs(piece) == Constants.KING) {
+						if (piece > 0) {
 							currentChessBoard.setWhiteKingPosition(currentPosition);
-						} else if (piece.isBlack()) {
+						} else if (piece < 0) {
 							currentChessBoard.setBlackKingPosition(currentPosition);
 						}
 					}
 				}
-				nextPositions = piece.getNextPositions(currentPosition, currentChessBoard, false);
+				nextPositions = PieceUtils.getNextPositions(currentPosition, currentChessBoard, false);
 
 				for (String candidatePosition : nextPositions) {
 					int candidateRow = chessBoard.getRowFromPosition(candidatePosition);
@@ -101,7 +100,7 @@ public final class BFS {
 	// from the given starting position to the given ending position, within the specified "maxDepth".
 	public static boolean canGoToPosition(
 			ChessBoard chessBoard,
-			ChessSquare piece,
+			byte piece,
 			String startingPosition,
 			String endingPosition,
 			int maxDepth

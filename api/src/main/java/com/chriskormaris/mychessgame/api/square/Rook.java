@@ -1,33 +1,24 @@
 package com.chriskormaris.mychessgame.api.square;
 
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
-import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
+import com.chriskormaris.mychessgame.api.util.Constants;
 
 import java.util.HashSet;
 import java.util.Set;
 
 
-public class Rook extends ChessPiece {
+public class Rook {
 
-	public Rook(Allegiance allegiance) {
-		super(allegiance);
-	}
-
-	public Rook(Allegiance allegiance, boolean isPromoted) {
-		super(allegiance, isPromoted);
-	}
-
-	@Override
-	public Set<String> getNextPositions(String startingPosition, ChessBoard chessBoard, boolean returnThreats) {
+	public static Set<String> getNextPositions(String startingPosition, ChessBoard chessBoard, boolean returnThreats) {
 		Set<String> nextRookPositions = new HashSet<>();
 
 		// First, find the row && the column
 		// that corresponds to the given position String.
 		int row = chessBoard.getRowFromPosition(startingPosition);
 		int column = chessBoard.getColumnFromPosition(startingPosition);
-		ChessSquare rook = chessBoard.getGameBoard()[row][column];
+		byte rook = chessBoard.getGameBoard()[row][column];
 
-		if (!rook.isRook()) {
+		if (Math.abs(rook) != Constants.ROOK) {
 			return nextRookPositions;
 		}
 
@@ -38,16 +29,16 @@ public class Rook extends ChessPiece {
 				int newColumn = column;
 
 				String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
-				ChessSquare endSquare = chessBoard.getGameBoard()[newRow][newColumn];
+				byte endSquare = chessBoard.getGameBoard()[newRow][newColumn];
 
-				if (endSquare.isEmpty() || rook.getAllegiance() != endSquare.getAllegiance()
-						&& !endSquare.isKing() || returnThreats) {
+				if (endSquare == Constants.EMPTY_SQUARE || rook * endSquare < 0
+						&& Math.abs(endSquare) != Constants.KING || returnThreats) {
 					nextRookPositions.add(newPosition);
 				}
 
 				// Stop searching for other positions, if another chessPiece is reached.
-				if (rook.getAllegiance() != endSquare.getAllegiance() && !endSquare.isEmpty()
-						|| rook.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
+				if (rook * endSquare < 0 && endSquare != Constants.EMPTY_SQUARE
+						|| rook * chessBoard.getGameBoard()[newRow][newColumn] > 0) {
 					break;
 				}
 			}
@@ -60,16 +51,16 @@ public class Rook extends ChessPiece {
 				int newColumn = column;
 
 				String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
-				ChessSquare endSquare = chessBoard.getGameBoard()[newRow][newColumn];
+				byte endSquare = chessBoard.getGameBoard()[newRow][newColumn];
 
-				if (endSquare.isEmpty() || rook.getAllegiance() != endSquare.getAllegiance()
-						&& !endSquare.isKing() || returnThreats) {
+				if (endSquare == Constants.EMPTY_SQUARE || rook * endSquare < 0
+						&& Math.abs(endSquare) != Constants.KING || returnThreats) {
 					nextRookPositions.add(newPosition);
 				}
 
 				// Stop searching for other positions, if another chessPiece is reached.
-				if (rook.getAllegiance() != endSquare.getAllegiance() && !endSquare.isEmpty()
-						|| rook.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
+				if (rook * endSquare < 0 && endSquare != Constants.EMPTY_SQUARE
+						|| rook * chessBoard.getGameBoard()[newRow][newColumn] > 0) {
 					break;
 				}
 			}
@@ -82,16 +73,16 @@ public class Rook extends ChessPiece {
 				int newColumn = j;
 
 				String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
-				ChessSquare endSquare = chessBoard.getGameBoard()[newRow][newColumn];
+				byte endSquare = chessBoard.getGameBoard()[newRow][newColumn];
 
-				if (endSquare.isEmpty() || rook.getAllegiance() != endSquare.getAllegiance()
-						&& !endSquare.isKing() || returnThreats) {
+				if (endSquare == Constants.EMPTY_SQUARE || rook * endSquare < 0
+						&& Math.abs(endSquare) != Constants.KING || returnThreats) {
 					nextRookPositions.add(newPosition);
 				}
 
 				// Stop searching for other positions, if another chessPiece is reached.
-				if (rook.getAllegiance() != endSquare.getAllegiance() && !endSquare.isEmpty()
-						|| rook.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
+				if (rook * endSquare < 0 && endSquare != Constants.EMPTY_SQUARE
+						|| rook * chessBoard.getGameBoard()[newRow][newColumn] > 0) {
 					break;
 				}
 			}
@@ -104,16 +95,16 @@ public class Rook extends ChessPiece {
 				int newColumn = j;
 
 				String newPosition = chessBoard.getPositionByRowCol(newRow, newColumn);
-				ChessSquare endSquare = chessBoard.getGameBoard()[newRow][newColumn];
+				byte endSquare = chessBoard.getGameBoard()[newRow][newColumn];
 
-				if (endSquare.isEmpty() || rook.getAllegiance() != endSquare.getAllegiance()
-						&& !endSquare.isKing() || returnThreats) {
+				if (endSquare == Constants.EMPTY_SQUARE || rook * endSquare <= 0
+						&& Math.abs(endSquare) != Constants.KING || returnThreats) {
 					nextRookPositions.add(newPosition);
 				}
 
 				// Stop searching for other positions, if another chessPiece is reached.
-				if (rook.getAllegiance() != endSquare.getAllegiance() && !endSquare.isEmpty()
-						|| rook.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
+				if (rook * endSquare < 0 && endSquare != Constants.EMPTY_SQUARE
+						|| rook * chessBoard.getGameBoard()[newRow][newColumn] > 0) {
 					break;
 				}
 			}
