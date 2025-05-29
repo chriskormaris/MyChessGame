@@ -563,7 +563,7 @@ public abstract class ChessFrame extends JFrame {
                 } else if (gameParameters.getHumanAllegiance() == Allegiance.BLACK) {
                     ai = new MinimaxAlphaBetaPruningAI(gameParameters.getAi1MaxDepth(), Constants.WHITE, evaluation1);
                 }
-            }else if (gameParameters.getAi1Type() == AiType.RANDOM_AI) {
+            } else if (gameParameters.getAi1Type() == AiType.RANDOM_AI) {
                 if (gameParameters.getHumanAllegiance() == Allegiance.WHITE) {
                     ai = new RandomChoiceAI(Constants.BLACK);
                 } else if (gameParameters.getHumanAllegiance() == Allegiance.BLACK) {
