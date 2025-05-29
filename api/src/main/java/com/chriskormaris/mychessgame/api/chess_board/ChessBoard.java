@@ -795,13 +795,19 @@ public class ChessBoard {
 
 		if (checkForUnconditionalNoCaptureDraw()) return true;
 
-		checkForThreefoldRepetitionDraw();
+		checkForConditionalNoCaptureDraw();
+
+		if (this.gameResult != GameResult.CONDITIONAL_NO_CAPTURE_DRAW) {
+			checkForThreefoldRepetitionDraw();
+		}
 
 		return isTerminalState();
 	}
 
 	public boolean isTerminalState() {
-		return this.gameResult != GameResult.NONE;
+		return this.gameResult != GameResult.NONE
+				&& this.gameResult != GameResult.CONDITIONAL_NO_CAPTURE_DRAW
+				&& this.gameResult != GameResult.THREEFOLD_REPETITION_DRAW;
 	}
 
 	public Set<String> getNextPositions(String startingPosition) {
@@ -1316,7 +1322,9 @@ public class ChessBoard {
 					otherHalfMoveFenPosition = FenUtils.skipCounters(otherHalfMoveFenPosition);
 					if (currentHalfMoveFenPosition.equals(otherHalfMoveFenPosition)) {
 						numOfRepeats++;
-						if (numOfRepeats == 5) {
+						if (numOfRepeats == 3) {
+							setGameResult(GameResult.THREEFOLD_REPETITION_DRAW);
+						} else if (numOfRepeats == 5) {
 							setGameResult(GameResult.FIVEFOLD_REPETITION_DRAW);
 							return true;
 						}
@@ -1329,14 +1337,17 @@ public class ChessBoard {
 	}
 
 	public boolean checkForConditionalNoCaptureDraw() {
-		return this.halfMoveClock >= Constants.CONDITIONAL_NO_CAPTURE_DRAW_MOVES_LIMIT * 2;
+		if (this.halfMoveClock >= Constants.CONDITIONAL_NO_CAPTURE_DRAW_MOVES_LIMIT * 2) {
+			setGameResult(GameResult.CONDITIONAL_NO_CAPTURE_DRAW);
+		}
+		return this.gameResult == GameResult.CONDITIONAL_NO_CAPTURE_DRAW;
 	}
 
 	public boolean checkForUnconditionalNoCaptureDraw() {
 		if (this.halfMoveClock >= Constants.UNCONDITIONAL_NO_CAPTURE_DRAW_MOVES_LIMIT * 2) {
-			setGameResult(GameResult.NO_CAPTURE_DRAW);
+			setGameResult(GameResult.UNCONDITIONAL_NO_CAPTURE_DRAW);
 		}
-		return this.gameResult == GameResult.NO_CAPTURE_DRAW;
+		return this.gameResult == GameResult.UNCONDITIONAL_NO_CAPTURE_DRAW;
 	}
 
 	public boolean checkForHordeWhiteStalemateDraw() {

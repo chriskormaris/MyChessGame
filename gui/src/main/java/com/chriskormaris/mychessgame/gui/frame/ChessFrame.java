@@ -700,8 +700,9 @@ public abstract class ChessFrame extends JFrame {
         ImageIcon drawIcon = new ImageIcon(drawDImg);
 
         /* Check for White checkmate. */
+        chessBoard.checkForTerminalState();
+        if (chessBoard.getGameResult() == GameResult.NONE) return false;
         if (chessBoard.blackPlays()) {
-            chessBoard.checkForWhiteCheckmate();
             if (chessBoard.getGameResult() == GameResult.WHITE_CHECKMATE) {
                 String moveText = "Move: "
                         + (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2) + ". Checkmate! White wins!";
@@ -728,7 +729,6 @@ public abstract class ChessFrame extends JFrame {
 
         /* Check for Black checkmate. */
         else {
-            chessBoard.checkForBlackCheckmate();
             if (chessBoard.getGameResult() == GameResult.BLACK_CHECKMATE) {
                 String moveText = "Move: "
                         + (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2) + ". Checkmate! Black wins!";
@@ -757,7 +757,6 @@ public abstract class ChessFrame extends JFrame {
 
         // Check for White stalemate.
         if (chessBoard.whitePlays()) {
-            chessBoard.checkForWhiteStalemateDraw();
             if (chessBoard.getGameResult() == GameResult.WHITE_STALEMATE_DRAW) {
                 String moveText = "Move: "
                         + (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2)
@@ -781,7 +780,6 @@ public abstract class ChessFrame extends JFrame {
 
         // Check for Black stalemate.
         else {
-            chessBoard.checkForBlackStalemateDraw();
             if (chessBoard.getGameResult() == GameResult.BLACK_STALEMATE_DRAW) {
                 String moveText = "Move: "
                         + (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2)
@@ -804,7 +802,7 @@ public abstract class ChessFrame extends JFrame {
         }
 
         /* Insufficient checkmate material draw implementation. */
-        if (chessBoard.checkForInsufficientMatingMaterialDraw()) {
+        if (chessBoard.getGameResult() == GameResult.INSUFFICIENT_MATERIAL_DRAW) {
             String moveText = "Move: "
                     + (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2)
                     + ". It is a draw.";
@@ -825,7 +823,7 @@ public abstract class ChessFrame extends JFrame {
         }
 
         // 75 full-moves without a Chess piece capture Draw implementation.
-        if (chessBoard.checkForUnconditionalNoCaptureDraw()) {
+        if (chessBoard.getGameResult() == GameResult.UNCONDITIONAL_NO_CAPTURE_DRAW) {
             String moveText = "Move: "
                     + (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2)
                     + ". It is a draw.";
@@ -846,8 +844,8 @@ public abstract class ChessFrame extends JFrame {
         }
 
         // 50 full-moves without a Chess piece capture Draw implementation.
-        if (chessBoard.checkForConditionalNoCaptureDraw()) {
-            int dialogResult = -1;
+        if (chessBoard.getGameResult() == GameResult.CONDITIONAL_NO_CAPTURE_DRAW) {
+            int dialogResult = JOptionPane.CLOSED_OPTION;
 
             // In the HUMAN_VS_AI mode, show the draw dialog, only if the AI has just made a move.
             if (gameParameters.getGameMode() != GameMode.HUMAN_VS_AI
@@ -862,38 +860,43 @@ public abstract class ChessFrame extends JFrame {
             }
 
             if (dialogResult == JOptionPane.YES_OPTION) {
-                chessBoard.setGameResult(GameResult.NO_CAPTURE_DRAW);
                 showClaimDrawDialog(drawIcon);
                 return true;
+            } else {
+                chessBoard.setGameResult(GameResult.NONE);
+                return false;
             }
+        }
+
+        // Five-fold repetition draw rule implementation.
+        // This situation occurs when we end up with the same chess board position 5 different times
+        // at any time in the game, not necessarily successively.
+        if (chessBoard.getGameResult() == GameResult.FIVEFOLD_REPETITION_DRAW) {
+            String moveText = "Move: "
+                    + (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2)
+                    + ". It is a draw.";
+            moveTextPane.setText(moveText);
+
+            int dialogResult = JOptionPane.showConfirmDialog(
+                    this,
+                    "It is a draw! Fivefold repetition of the same Chess board position has occurred! " +
+                            "Start a new game?",
+                    "Draw",
+                    JOptionPane.YES_NO_OPTION,
+                    QUESTION_MESSAGE,
+                    drawIcon
+            );
+
+            startNewGameOrNot(dialogResult);
+
+            return true;
         }
 
         // Three-fold repetition draw rule implementation.
         // This situation occurs when we end up with the same chess board position 3 different times
         // at any time in the game, not necessarily successively.
-        if (chessBoard.checkForThreefoldRepetitionDraw()) {
-            if (chessBoard.getGameResult() == GameResult.FIVEFOLD_REPETITION_DRAW) {
-                String moveText = "Move: "
-                        + (int) Math.ceil((float) chessBoard.getHalfMoveNumber() / 2)
-                        + ". It is a draw.";
-                moveTextPane.setText(moveText);
-
-                int dialogResult = JOptionPane.showConfirmDialog(
-                        this,
-                        "It is a draw! Fivefold repetition of the same Chess board position has occurred! " +
-                                "Start a new game?",
-                        "Draw",
-                        JOptionPane.YES_NO_OPTION,
-                        QUESTION_MESSAGE,
-                        drawIcon
-                );
-
-                startNewGameOrNot(dialogResult);
-
-                return true;
-            }
-
-            int dialogResult = -1;
+        if (chessBoard.getGameResult() == GameResult.THREEFOLD_REPETITION_DRAW) {
+            int dialogResult = JOptionPane.CLOSED_OPTION;
 
             // In the HUMAN_VS_AI mode, show the draw dialog, only if the AI has just made a move.
             if (gameParameters.getGameMode() != GameMode.HUMAN_VS_AI
@@ -909,15 +912,16 @@ public abstract class ChessFrame extends JFrame {
             }
 
             if (JOptionPane.YES_OPTION == dialogResult) {
-                chessBoard.setGameResult(GameResult.THREEFOLD_REPETITION_DRAW);
                 showClaimDrawDialog(drawIcon);
                 return true;
+            } else {
+                chessBoard.setGameResult(GameResult.NONE);
+                return false;
             }
         }
 
         if (gameParameters.getVariant() == Variant.HORDE) {
             if (chessBoard.whitePlays()) {
-                chessBoard.checkForHordeBlackWin();
                 if (chessBoard.getGameResult() == GameResult.HORDE_NO_WHITE_PIECES_LEFT) {
                     int dialogResult = JOptionPane.showConfirmDialog(
                             this,
@@ -931,9 +935,7 @@ public abstract class ChessFrame extends JFrame {
                     startNewGameOrNot(dialogResult);
 
                     return true;
-                }
-                chessBoard.checkForHordeWhiteStalemateDraw();
-                if (chessBoard.getGameResult() == GameResult.HORDE_WHITE_STALEMATE_DRAW) {
+                } else if (chessBoard.getGameResult() == GameResult.HORDE_WHITE_STALEMATE_DRAW) {
                     int dialogResult = JOptionPane.showConfirmDialog(
                             this,
                             "Horde stalemate! No legal moves for White exist. Start a new game?",
