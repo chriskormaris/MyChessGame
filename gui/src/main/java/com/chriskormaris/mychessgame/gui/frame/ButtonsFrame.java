@@ -730,7 +730,7 @@ public class ButtonsFrame extends ChessFrame {
 		int row = chessBoard.getRowFromPosition(position);
 		int column = chessBoard.getColumnFromPosition(position);
 
-		chessBoard.getGameBoard()[row][column] = new EmptySquare();
+		chessBoard.getGameBoard()[row][column] = EmptySquare.getInstance();
 
 		if (flipBoard) {
 			row = chessBoard.getNumOfRows() - 1 - row;
@@ -787,7 +787,7 @@ public class ButtonsFrame extends ChessFrame {
 				chessButtons[i][j].setBackground(getColorByRowCol(i, j));
 				chessButtons[i][j].setOpaque(true);
 
-				chessBoard.getGameBoard()[i][j] = new EmptySquare();
+				chessBoard.getGameBoard()[i][j] = EmptySquare.getInstance();
 			}
 		}
 		chessBoard.setThreats();

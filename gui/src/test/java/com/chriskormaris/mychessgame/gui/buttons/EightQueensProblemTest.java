@@ -48,7 +48,7 @@ class EightQueensProblemTest {
 				if (placeQueens(i + 1, chessBoard)) {
 					return true;
 				} else {
-					chessBoard.getGameBoard()[i][j] = new EmptySquare();
+					chessBoard.getGameBoard()[i][j] = EmptySquare.getInstance();
 					chessBoard.setThreats();
 				}
 			}

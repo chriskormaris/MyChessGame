@@ -16,75 +16,39 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Utilities {
 
-	public static ChessSquare getChessPiece(char pieceChar) {
-		if (pieceChar == Constants.WHITE_PAWN_CHAR) {
+	public static ChessSquare getChessPiece(char symbol) {
+		if (symbol == Constants.WHITE_PAWN_CHAR) {
 			return new Pawn(Allegiance.WHITE);
-		} else if (pieceChar == Constants.WHITE_ROOK_CHAR) {
+		} else if (symbol == Constants.WHITE_ROOK_CHAR) {
 			return new Rook(Allegiance.WHITE);
-		} else if (pieceChar == Constants.WHITE_KNIGHT_CHAR) {
+		} else if (symbol == Constants.WHITE_KNIGHT_CHAR) {
 			return new Knight(Allegiance.WHITE);
-		} else if (pieceChar == Constants.WHITE_BISHOP_CHAR) {
+		} else if (symbol == Constants.WHITE_BISHOP_CHAR) {
 			return new Bishop(Allegiance.WHITE);
-		} else if (pieceChar == Constants.WHITE_QUEEN_CHAR) {
+		} else if (symbol == Constants.WHITE_QUEEN_CHAR) {
 			return new Queen(Allegiance.WHITE);
-		} else if (pieceChar == Constants.WHITE_KING_CHAR) {
+		} else if (symbol == Constants.WHITE_KING_CHAR) {
 			return new King(Allegiance.WHITE);
 		}
 
-		if (pieceChar == Constants.BLACK_PAWN_CHAR) {
+		if (symbol == Constants.BLACK_PAWN_CHAR) {
 			return new Pawn(Allegiance.BLACK);
-		} else if (pieceChar == Constants.BLACK_ROOK_CHAR) {
+		} else if (symbol == Constants.BLACK_ROOK_CHAR) {
 			return new Rook(Allegiance.BLACK);
-		} else if (pieceChar == Constants.BLACK_KNIGHT_CHAR) {
+		} else if (symbol == Constants.BLACK_KNIGHT_CHAR) {
 			return new Knight(Allegiance.BLACK);
-		} else if (pieceChar == Constants.BLACK_BISHOP_CHAR) {
+		} else if (symbol == Constants.BLACK_BISHOP_CHAR) {
 			return new Bishop(Allegiance.BLACK);
-		} else if (pieceChar == Constants.BLACK_QUEEN_CHAR) {
+		} else if (symbol == Constants.BLACK_QUEEN_CHAR) {
 			return new Queen(Allegiance.BLACK);
-		} else if (pieceChar == Constants.BLACK_KING_CHAR) {
+		} else if (symbol == Constants.BLACK_KING_CHAR) {
 			return new King(Allegiance.BLACK);
 		}
 
-		if (pieceChar != '-') {
-			System.err.println("Invalid chessPiece character \"" + pieceChar + "\"!");
+		if (symbol != '-') {
+			System.err.println("Invalid chessPiece character \"" + symbol + "\"!");
 		}
-		return new EmptySquare();
-	}
-
-	public static char getPieceChar(ChessSquare chessSquare) {
-		if (chessSquare.isWhite()) {
-			if (chessSquare.isPawn()) {
-				return Constants.WHITE_PAWN_CHAR;
-			} else if (chessSquare.isRook()) {
-				return Constants.WHITE_ROOK_CHAR;
-			} else if (chessSquare.isKnight()) {
-				return Constants.WHITE_KNIGHT_CHAR;
-			} else if (chessSquare.isBishop()) {
-				return Constants.WHITE_BISHOP_CHAR;
-			} else if (chessSquare.isQueen()) {
-				return Constants.WHITE_QUEEN_CHAR;
-			} else if (chessSquare.isKing()) {
-				return Constants.WHITE_KING_CHAR;
-			}
-		} else if (chessSquare.isBlack()) {
-			if (chessSquare.isPawn()) {
-				return Constants.BLACK_PAWN_CHAR;
-			} else if (chessSquare.isRook()) {
-				return Constants.BLACK_ROOK_CHAR;
-			} else if (chessSquare.isKnight()) {
-				return Constants.BLACK_KNIGHT_CHAR;
-			} else if (chessSquare.isBishop()) {
-				return Constants.BLACK_BISHOP_CHAR;
-			} else if (chessSquare.isQueen()) {
-				return Constants.BLACK_QUEEN_CHAR;
-			} else if (chessSquare.isKing()) {
-				return Constants.BLACK_KING_CHAR;
-			}
-		}
-		if (chessSquare.isPiece()) {
-			System.err.println("Invalid chessPiece value \"" + chessSquare + "\"!");
-		}
-		return '-';
+		return EmptySquare.getInstance();
 	}
 
 	public static ChessSquare[][] copyGameBoard(ChessSquare[][] gameBoard) {

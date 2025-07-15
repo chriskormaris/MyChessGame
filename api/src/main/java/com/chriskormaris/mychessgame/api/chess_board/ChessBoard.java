@@ -172,7 +172,7 @@ public class ChessBoard {
 
 		this.positionsToRemove = new HashSet<>();
 		this.piecesToPlace = new HashMap<>();
-		this.capturedEnPassantPiece = new EmptySquare();
+		this.capturedEnPassantPiece = EmptySquare.getInstance();
 
 		this.previousHalfMoveFenPositions = new Stack<>();
 
@@ -251,7 +251,7 @@ public class ChessBoard {
 		// From 3rd row to (n-th - 2) row.
 		for (int i = 2; i < numOfRows - 2; i++) {
 			for (int j = 0; j < numOfColumns; j++) {
-				this.gameBoard[i][j] = new EmptySquare();
+				this.gameBoard[i][j] = EmptySquare.getInstance();
 			}
 		}
 
@@ -300,18 +300,18 @@ public class ChessBoard {
 
 		// 3rd row
 		for (int j = 0; j < numOfColumns; j++) {
-			this.gameBoard[2][j] = new EmptySquare();
+			this.gameBoard[2][j] = EmptySquare.getInstance();
 		}
 
 		// 4th row
-		this.gameBoard[3][0] = new EmptySquare();
+		this.gameBoard[3][0] = EmptySquare.getInstance();
 		this.gameBoard[3][1] = new Pawn(Allegiance.WHITE);
 		this.gameBoard[3][2] = new Pawn(Allegiance.WHITE);
-		this.gameBoard[3][3] = new EmptySquare();
-		this.gameBoard[3][4] = new EmptySquare();
+		this.gameBoard[3][3] = EmptySquare.getInstance();
+		this.gameBoard[3][4] = EmptySquare.getInstance();
 		this.gameBoard[3][5] = new Pawn(Allegiance.WHITE);
 		this.gameBoard[3][6] = new Pawn(Allegiance.WHITE);
-		this.gameBoard[3][7] = new EmptySquare();
+		this.gameBoard[3][7] = EmptySquare.getInstance();
 
 		// From 5th row to n-th row.
 		for (int i = 4; i < numOfRows; i++) {
@@ -372,7 +372,7 @@ public class ChessBoard {
 		// From 3rd row to (n-th - 2) row.
 		for (int i = 2; i < numOfRows - 2; i++) {
 			for (int j = 0; j < numOfColumns; j++) {
-				this.gameBoard[i][j] = new EmptySquare();
+				this.gameBoard[i][j] = EmptySquare.getInstance();
 			}
 		}
 
@@ -451,7 +451,7 @@ public class ChessBoard {
 			piecesToPlace.clear();
 		}
 		if (!capturedEnPassantPiece.isEmpty()) {
-			capturedEnPassantPiece = new EmptySquare();
+			capturedEnPassantPiece = EmptySquare.getInstance();
 		}
 
 		// Allow only valid moves, for all the chess board pieces.
@@ -461,7 +461,7 @@ public class ChessBoard {
 			previousHalfMoveFenPositions.push(FenUtils.getFenPositionFromChessBoard(this));
 
 			if (!isCastling) {
-				this.gameBoard[rowStart][columnStart] = new EmptySquare();
+				this.gameBoard[rowStart][columnStart] = EmptySquare.getInstance();
 				this.gameBoard[rowEnd][columnEnd] = chessSquare;
 				if (displayMove) {
 					positionsToRemove.add(positionStart);
@@ -485,8 +485,8 @@ public class ChessBoard {
 					// White queen side castling
 					if (rowEnd == this.numOfRows - 1 && columnEnd == 2) {
 						// Move the left white rook to the correct position.
-						this.gameBoard[this.numOfRows - 1][leftWhiteRookColumn] = new EmptySquare();
-						this.gameBoard[this.numOfRows - 1][columnStart] = new EmptySquare();
+						this.gameBoard[this.numOfRows - 1][leftWhiteRookColumn] = EmptySquare.getInstance();
+						this.gameBoard[this.numOfRows - 1][columnStart] = EmptySquare.getInstance();
 						this.gameBoard[this.numOfRows - 1][3] = new Rook(Allegiance.WHITE);
 						this.gameBoard[this.numOfRows - 1][2] = new King(Allegiance.WHITE);
 						if (displayMove) {
@@ -502,8 +502,8 @@ public class ChessBoard {
 					// White king side castling
 					if (rowEnd == this.numOfRows - 1 && columnEnd == 6) {
 						// Move the right white rook to the correct position.
-						this.gameBoard[this.numOfRows - 1][rightWhiteRookColumn] = new EmptySquare();
-						this.gameBoard[this.numOfRows - 1][columnStart] = new EmptySquare();
+						this.gameBoard[this.numOfRows - 1][rightWhiteRookColumn] = EmptySquare.getInstance();
+						this.gameBoard[this.numOfRows - 1][columnStart] = EmptySquare.getInstance();
 						this.gameBoard[this.numOfRows - 1][5] = new Rook(Allegiance.WHITE);
 						this.gameBoard[this.numOfRows - 1][6] = new King(Allegiance.WHITE);
 						if (displayMove) {
@@ -519,8 +519,8 @@ public class ChessBoard {
 					// Black queen side castling
 					if (rowEnd == 0 && columnEnd == 2) {
 						// Move the left black rook to the correct position.
-						this.gameBoard[0][leftBlackRookColumn] = new EmptySquare();
-						this.gameBoard[0][columnStart] = new EmptySquare();
+						this.gameBoard[0][leftBlackRookColumn] = EmptySquare.getInstance();
+						this.gameBoard[0][columnStart] = EmptySquare.getInstance();
 						this.gameBoard[0][3] = new Rook(Allegiance.BLACK);
 						this.gameBoard[0][2] = new King(Allegiance.BLACK);
 						if (displayMove) {
@@ -536,8 +536,8 @@ public class ChessBoard {
 					// Black king side castling
 					if (rowEnd == 0 && columnEnd == 6) {
 						// Move the right black rook to the correct position.
-						this.gameBoard[0][rightBlackRookColumn] = new EmptySquare();
-						this.gameBoard[0][columnStart] = new EmptySquare();
+						this.gameBoard[0][rightBlackRookColumn] = EmptySquare.getInstance();
+						this.gameBoard[0][columnStart] = EmptySquare.getInstance();
 						this.gameBoard[0][5] = new Rook(Allegiance.BLACK);
 						this.gameBoard[0][6] = new King(Allegiance.BLACK);
 						if (displayMove) {
@@ -589,7 +589,7 @@ public class ChessBoard {
 						} else {
 							this.gameBoard
 									[twoStepsForwardBlackPawnPositionRow]
-									[twoStepsForwardBlackPawnPositionColumn] = new EmptySquare();
+									[twoStepsForwardBlackPawnPositionColumn] = EmptySquare.getInstance();
 						}
 						this.enPassantPosition = "-";
 					}
@@ -612,7 +612,7 @@ public class ChessBoard {
 						} else {
 							this.gameBoard
 									[twoStepsForwardWhitePawnPositionRow]
-									[twoStepsForwardWhitePawnPositionColumn] = new EmptySquare();
+									[twoStepsForwardWhitePawnPositionColumn] = EmptySquare.getInstance();
 						}
 						this.enPassantPosition = "-";
 					}
@@ -1203,9 +1203,9 @@ public class ChessBoard {
 
 		// Remove the Kings from the board and check if any pieces can make any move.
 		ChessBoard chessBoardWithoutKings = new ChessBoard(this);
-		chessBoardWithoutKings.getGameBoard()[whiteKingRow][whiteKingColumn] = new EmptySquare();
+		chessBoardWithoutKings.getGameBoard()[whiteKingRow][whiteKingColumn] = EmptySquare.getInstance();
 		chessBoardWithoutKings.setWhiteKingPosition("Z0");
-		chessBoardWithoutKings.getGameBoard()[blackKingRow][blackKingColumn] = new EmptySquare();
+		chessBoardWithoutKings.getGameBoard()[blackKingRow][blackKingColumn] = EmptySquare.getInstance();
 		chessBoardWithoutKings.setBlackKingPosition("Z0");
 		for (int i = 0; i < numOfRows; i++) {
 			for (int j = 0; j < numOfColumns; j++) {
@@ -1222,11 +1222,11 @@ public class ChessBoard {
 		// Check if any King can capture any opponent's pieces, in any number of moves.
 		// If they can, then it's not a draw.
 		ChessBoard chessBoardWithoutWhiteKing = new ChessBoard(this);
-		chessBoardWithoutWhiteKing.getGameBoard()[whiteKingRow][whiteKingColumn] = new EmptySquare();
+		chessBoardWithoutWhiteKing.getGameBoard()[whiteKingRow][whiteKingColumn] = EmptySquare.getInstance();
 		chessBoardWithoutWhiteKing.setWhiteKingPosition("Z0");
 
 		ChessBoard chessBoardWithoutBlackKing = new ChessBoard(this);
-		chessBoardWithoutBlackKing.getGameBoard()[blackKingRow][blackKingColumn] = new EmptySquare();
+		chessBoardWithoutBlackKing.getGameBoard()[blackKingRow][blackKingColumn] = EmptySquare.getInstance();
 		chessBoardWithoutBlackKing.setBlackKingPosition("Z0");
 		for (int i = 0; i < numOfRows; i++) {
 			for (int j = 0; j < numOfColumns; j++) {
@@ -1453,7 +1453,7 @@ public class ChessBoard {
 			for (int j = 0; j < numOfColumns; j++) {
 				output.append(" ");
 				if (gameBoard[i][j].isPiece()) {
-					output.append(((ChessPiece) gameBoard[i][j]).getPieceChar());
+					output.append(((ChessPiece) gameBoard[i][j]).getSymbol());
 				} else {
 					output.append("-");
 				}

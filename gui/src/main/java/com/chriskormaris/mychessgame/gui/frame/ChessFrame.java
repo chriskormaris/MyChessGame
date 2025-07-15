@@ -494,22 +494,24 @@ public abstract class ChessFrame extends JFrame {
         whiteCapturedPiecesCounter = 0;
         blackCapturedPiecesCounter = 0;
         for (int i = 0; i < 30; i++) {
-            char pieceChar = capturedPieces[i];
-            if (pieceChar != '-') {
-                ChessSquare chessSquare = Utilities.getChessPiece(pieceChar);
+            char symbol = capturedPieces[i];
+            if (symbol != '-') {
+                ChessSquare chessSquare = Utilities.getChessPiece(symbol);
                 addCapturedPieceImage(chessSquare);
             }
         }
     }
 
     void updateCapturedPieces(ChessSquare chessSquare) {
-        if (chessSquare.isWhite()) {
-            int index = Math.min(whiteCapturedPiecesCounter, 14);
-            capturedPieces[index] = ((ChessPiece) chessSquare).getPieceChar();
-        } else if (chessSquare.isBlack()) {
-            int index = Math.min(blackCapturedPiecesCounter, 14);
-            index = 30 - index - 1;
-            capturedPieces[index] = ((ChessPiece) chessSquare).getPieceChar();
+        if (chessSquare.isPiece()) {
+            int index;
+            if (chessSquare.isWhite()) {
+                index = Math.min(whiteCapturedPiecesCounter, 14);
+            } else {
+                index = Math.min(blackCapturedPiecesCounter, 14);
+                index = 30 - index - 1;
+            }
+            capturedPieces[index] = ((ChessPiece) chessSquare).getSymbol();
         }
     }
 

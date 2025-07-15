@@ -2,6 +2,7 @@ package com.chriskormaris.mychessgame.api.square;
 
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
+import com.chriskormaris.mychessgame.api.util.Constants;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -325,6 +326,11 @@ public class King extends ChessPiece {
 		}
 
 		return nextKingPositions;
+	}
+
+	@Override
+	public char getSymbol() {
+		return isWhite() ? Constants.WHITE_KING_CHAR : Constants.BLACK_KING_CHAR;
 	}
 
 }

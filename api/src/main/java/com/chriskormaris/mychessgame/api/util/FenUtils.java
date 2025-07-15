@@ -3,6 +3,7 @@ package com.chriskormaris.mychessgame.api.util;
 import com.chriskormaris.mychessgame.api.chess_board.ChessBoard;
 import com.chriskormaris.mychessgame.api.enumeration.Variant;
 import com.chriskormaris.mychessgame.api.exception.InvalidFenPositionException;
+import com.chriskormaris.mychessgame.api.square.ChessPiece;
 import com.chriskormaris.mychessgame.api.square.ChessSquare;
 import com.chriskormaris.mychessgame.api.square.EmptySquare;
 import lombok.AccessLevel;
@@ -157,7 +158,7 @@ public final class FenUtils {
 	public static void populateGameBoard(ChessBoard chessBoard, String startingPieces) {
 		for (int i = 0; i < chessBoard.getNumOfRows(); i++) {
 			for (int j = 0; j < chessBoard.getNumOfColumns(); j++) {
-				chessBoard.getGameBoard()[i][j] = new EmptySquare();
+				chessBoard.getGameBoard()[i][j] = EmptySquare.getInstance();
 			}
 		}
 		chessBoard.setWhiteKingPosition("Z0");
@@ -166,15 +167,15 @@ public final class FenUtils {
 		int counter = 0;
 		int i = 0, j = 0;
 		while (counter < startingPieces.length()) {
-			char pieceChar = startingPieces.charAt(counter);
+			char symbol = startingPieces.charAt(counter);
 
 			j = j % chessBoard.getNumOfColumns();
 
-			if (Character.isDigit(pieceChar)) {
-				j = j + Character.getNumericValue(pieceChar);
+			if (Character.isDigit(symbol)) {
+				j = j + Character.getNumericValue(symbol);
 				counter++;
 				continue;
-			} else if (pieceChar == '/') {
+			} else if (symbol == '/') {
 				i++;
 				j = 0;
 				counter++;
@@ -182,14 +183,14 @@ public final class FenUtils {
 			}
 
 			try {
-				chessBoard.getGameBoard()[i][j] = Utilities.getChessPiece(pieceChar);
+				chessBoard.getGameBoard()[i][j] = Utilities.getChessPiece(symbol);
 			} catch (ArrayIndexOutOfBoundsException ex) {
 				throw new RuntimeException(ex);
 			}
 
-			if (pieceChar == Constants.WHITE_KING_CHAR) {
+			if (symbol == Constants.WHITE_KING_CHAR) {
 				chessBoard.setWhiteKingPosition(chessBoard.getPositionByRowCol(i, j));
-			} else if (pieceChar == Constants.BLACK_KING_CHAR) {
+			} else if (symbol == Constants.BLACK_KING_CHAR) {
 				chessBoard.setBlackKingPosition(chessBoard.getPositionByRowCol(i, j));
 			}
 
@@ -208,15 +209,15 @@ public final class FenUtils {
 				// Get the chessPiece in the indices [i][j], from the gameBoard.
 				ChessSquare chessSquare = chessBoard.getGameBoard()[i][j];
 				// Convert chessPiece value to chessPiece character.
-				char pieceChar = Utilities.getPieceChar(chessSquare);
-				if (pieceChar != '-') {
+				if (chessSquare.isPiece()) {
+					char symbol = ((ChessPiece) chessSquare).getSymbol();
 					if (emptySquaresCounter != 0) {
 						// Append the number of empty consecutive empty squares in a row
 						// and then, the chessPiece character.
-						fenPosition.append(emptySquaresCounter).append(pieceChar);
+						fenPosition.append(emptySquaresCounter).append(symbol);
 					} else {
 						// Append the chessPiece character.
-						fenPosition.append(pieceChar);
+						fenPosition.append(symbol);
 					}
 					emptySquaresCounter = 0;
 				} else {

@@ -1,6 +1,7 @@
 package com.chriskormaris.mychessgame.api.square;
 
 import com.chriskormaris.mychessgame.api.enumeration.Allegiance;
+import com.chriskormaris.mychessgame.api.util.Constants;
 import org.junit.jupiter.api.Test;
 
 class InstanceOfTest {
@@ -32,8 +33,8 @@ class InstanceOfTest {
 
         startTime = System.nanoTime();
         for (ChessPiece chessPiece : chessPieces) {
-            if (chessPiece.getPieceChar() == 'P') {
-                // System.out.println("P");
+            if (chessPiece.getSymbol() == Constants.WHITE_PAWN_CHAR) {
+                // System.out.println(Constants.WHITE_PAWN_CHAR);
             }
         }
         endTime = System.nanoTime();

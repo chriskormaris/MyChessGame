@@ -42,7 +42,7 @@ public final class BFS {
 			if (currentPosition != null) {
 				int previousRow = chessBoard.getRowFromPosition(currentPosition);
 				int previousColumn = chessBoard.getColumnFromPosition(currentPosition);
-				currentChessBoard.getGameBoard()[previousRow][previousColumn] = new EmptySquare();
+				currentChessBoard.getGameBoard()[previousRow][previousColumn] = EmptySquare.getInstance();
 			}
 
 			// Get the first item of the queue and reBfsPosition it.

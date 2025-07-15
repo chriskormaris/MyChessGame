@@ -672,7 +672,7 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 		int row = chessBoard.getRowFromPosition(position);
 		int column = chessBoard.getColumnFromPosition(position);
 
-		chessBoard.getGameBoard()[row][column] = new EmptySquare();
+		chessBoard.getGameBoard()[row][column] = EmptySquare.getInstance();
 
 		if (flipBoard) {
 			row = chessBoard.getNumOfRows() - 1 - row;
