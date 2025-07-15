@@ -132,7 +132,7 @@ public class ButtonsFrame extends ChessFrame {
 		}
 
 		chessPanel.add(new JLabel(""));
-		// fill the black non-pawn chessPiece row
+		// fill the black non-pawn chess piece row
 		for (int i = 0; i < chessBoard.getNumOfRows(); i++) {
 			for (int j = 0; j < chessBoard.getNumOfColumns() + 1; j++) {
 				if (j == 0 || j == chessBoard.getNumOfColumns()) {
@@ -706,7 +706,7 @@ public class ButtonsFrame extends ChessFrame {
 		}
 	}
 
-	// It inserts the given chessPiece to the given position on the board
+	// It inserts the given chess piece to the given position on the board
 	// (both the data structure and the GUI).
 	@Override
 	public void placePieceToPosition(String position, ChessSquare chessSquare) {
@@ -724,7 +724,7 @@ public class ButtonsFrame extends ChessFrame {
 		chessButtons[row][column].setIcon(pieceImage);
 	}
 
-	// It removes the given chessPiece from the board (both the data structure and the GUI).
+	// It removes the given chess piece from the board (both the data structure and the GUI).
 	@Override
 	void removePieceFromPosition(String position) {
 		int row = chessBoard.getRowFromPosition(position);

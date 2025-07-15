@@ -50,7 +50,7 @@ public class Bishop extends ChessPiece {
 					nextBishopPositions.add(newPosition);
 				}
 
-				// Stop searching for other positions, if another chessPiece is reached.
+				// Stop searching for other positions, if another chess piece is reached.
 				if (bishop.getAllegiance() != endSquare.getAllegiance() && !endSquare.isEmpty()
 						|| bishop.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
 					break;
@@ -73,7 +73,7 @@ public class Bishop extends ChessPiece {
 					nextBishopPositions.add(newPosition);
 				}
 
-				// Stop searching for other positions, if another chessPiece is reached.
+				// Stop searching for other positions, if another chess piece is reached.
 				if (bishop.getAllegiance() != endSquare.getAllegiance() && !endSquare.isEmpty()
 						|| bishop.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
 					break;
@@ -96,7 +96,7 @@ public class Bishop extends ChessPiece {
 					nextBishopPositions.add(newPosition);
 				}
 
-				// Stop searching for other positions, if another chessPiece is reached.
+				// Stop searching for other positions, if another chess piece is reached.
 				if (bishop.getAllegiance() != endSquare.getAllegiance() && !endSquare.isEmpty()
 						|| bishop.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
 					break;
@@ -119,7 +119,7 @@ public class Bishop extends ChessPiece {
 					nextBishopPositions.add(newPosition);
 				}
 
-				// Stop searching for other positions, if another chessPiece is reached.
+				// Stop searching for other positions, if another chess piece is reached.
 				if (bishop.getAllegiance() != endSquare.getAllegiance() && !endSquare.isEmpty()
 						|| bishop.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
 					break;

@@ -528,7 +528,7 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 		chessBoard.setHalfMoveNumber(chessBoard.getHalfMoveNumber() + 1);
 		chessBoard.setPlayer(chessBoard.getNextPlayer());
 
-		// If a chessPiece capture has occurred.
+		// If a chess piece capture has occurred.
 		if (startingPiece.getAllegiance() != endSquare.getAllegiance() && !endSquare.isEmpty()) {
 			score -= Utilities.getScoreValue(endSquare);
 
@@ -653,7 +653,7 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 		}
 	}
 
-	// It inserts the given chessPiece to the given position on the board
+	// It inserts the given chess piece to the given position on the board
 	// (both the data structure and the GUI).
 	@Override
 	public void placePieceToPosition(String position, ChessSquare chessSquare) {
@@ -666,7 +666,7 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 		addChessPiece(pieceImage, row, column);
 	}
 
-	// It removes the given chessPiece from the board (both the data structure and the JFrame).
+	// It removes the given chess piece from the board (both the data structure and the JFrame).
 	@Override
 	void removePieceFromPosition(String position) {
 		int row = chessBoard.getRowFromPosition(position);

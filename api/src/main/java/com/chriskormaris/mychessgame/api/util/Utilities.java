@@ -46,7 +46,7 @@ public final class Utilities {
 		}
 
 		if (symbol != '-') {
-			System.err.println("Invalid chessPiece character \"" + symbol + "\"!");
+			System.err.println("Invalid chess piece character \"" + symbol + "\"!");
 		}
 		return EmptySquare.getInstance();
 	}

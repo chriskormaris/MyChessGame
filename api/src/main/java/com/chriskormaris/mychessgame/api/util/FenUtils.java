@@ -206,17 +206,17 @@ public final class FenUtils {
 		for (int i = 0; i < chessBoard.getNumOfRows(); i++) {
 			int emptySquaresCounter = 0;
 			for (int j = 0; j < chessBoard.getNumOfColumns(); j++) {
-				// Get the chessPiece in the indices [i][j], from the gameBoard.
+				// Get the chess piece in the indices [i][j], from the gameBoard.
 				ChessSquare chessSquare = chessBoard.getGameBoard()[i][j];
-				// Convert chessPiece value to chessPiece character.
+				// Convert chess piece value to chess piece character.
 				if (chessSquare.isPiece()) {
 					char symbol = ((ChessPiece) chessSquare).getSymbol();
 					if (emptySquaresCounter != 0) {
 						// Append the number of empty consecutive empty squares in a row
-						// and then, the chessPiece character.
+						// and then, the chess piece character.
 						fenPosition.append(emptySquaresCounter).append(symbol);
 					} else {
-						// Append the chessPiece character.
+						// Append the chess piece character.
 						fenPosition.append(symbol);
 					}
 					emptySquaresCounter = 0;
@@ -225,7 +225,7 @@ public final class FenUtils {
 				}
 			}
 			if (emptySquaresCounter != 0) {
-				// Append the chessPiece character.
+				// Append the chess piece character.
 				fenPosition.append(emptySquaresCounter);
 			}
 			if (i < chessBoard.getNumOfRows() - 1) {

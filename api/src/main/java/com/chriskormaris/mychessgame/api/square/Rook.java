@@ -46,7 +46,7 @@ public class Rook extends ChessPiece {
 					nextRookPositions.add(newPosition);
 				}
 
-				// Stop searching for other positions, if another chessPiece is reached.
+				// Stop searching for other positions, if another chess piece is reached.
 				if (rook.getAllegiance() != endSquare.getAllegiance() && !endSquare.isEmpty()
 						|| rook.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
 					break;
@@ -68,7 +68,7 @@ public class Rook extends ChessPiece {
 					nextRookPositions.add(newPosition);
 				}
 
-				// Stop searching for other positions, if another chessPiece is reached.
+				// Stop searching for other positions, if another chess piece is reached.
 				if (rook.getAllegiance() != endSquare.getAllegiance() && !endSquare.isEmpty()
 						|| rook.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
 					break;
@@ -90,7 +90,7 @@ public class Rook extends ChessPiece {
 					nextRookPositions.add(newPosition);
 				}
 
-				// Stop searching for other positions, if another chessPiece is reached.
+				// Stop searching for other positions, if another chess piece is reached.
 				if (rook.getAllegiance() != endSquare.getAllegiance() && !endSquare.isEmpty()
 						|| rook.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
 					break;
@@ -112,7 +112,7 @@ public class Rook extends ChessPiece {
 					nextRookPositions.add(newPosition);
 				}
 
-				// Stop searching for other positions, if another chessPiece is reached.
+				// Stop searching for other positions, if another chess piece is reached.
 				if (rook.getAllegiance() != endSquare.getAllegiance() && !endSquare.isEmpty()
 						|| rook.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
 					break;

@@ -45,7 +45,7 @@ public class Queen extends ChessPiece {
 					nextQueenPositions.add(newPosition);
 				}
 
-				// Stop searching for other positions, if another chessPiece is reached.
+				// Stop searching for other positions, if another chess piece is reached.
 				if (queen.getAllegiance() != endSquare.getAllegiance() && !endSquare.isEmpty()
 						|| queen.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
 					break;
@@ -67,7 +67,7 @@ public class Queen extends ChessPiece {
 					nextQueenPositions.add(newPosition);
 				}
 
-				// Stop searching for other positions, if another chessPiece is reached.
+				// Stop searching for other positions, if another chess piece is reached.
 				if (queen.getAllegiance() != endSquare.getAllegiance() && !endSquare.isEmpty()
 						|| queen.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
 					break;
@@ -89,7 +89,7 @@ public class Queen extends ChessPiece {
 					nextQueenPositions.add(newPosition);
 				}
 
-				// Stop searching for other positions, if another chessPiece is reached.
+				// Stop searching for other positions, if another chess piece is reached.
 				if (queen.getAllegiance() != endSquare.getAllegiance() && !endSquare.isEmpty()
 						|| queen.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
 					break;
@@ -111,7 +111,7 @@ public class Queen extends ChessPiece {
 					nextQueenPositions.add(newPosition);
 				}
 
-				// Stop searching for other positions, if another chessPiece is reached.
+				// Stop searching for other positions, if another chess piece is reached.
 				if (queen.getAllegiance() != endSquare.getAllegiance() && !endSquare.isEmpty()
 						|| queen.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
 					break;
@@ -136,7 +136,7 @@ public class Queen extends ChessPiece {
 					nextQueenPositions.add(newPosition);
 				}
 
-				// Stop searching for other positions, if another chessPiece is reached.
+				// Stop searching for other positions, if another chess piece is reached.
 				if (queen.getAllegiance() != endSquare.getAllegiance() && !endSquare.isEmpty()
 						|| queen.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
 					break;
@@ -160,7 +160,7 @@ public class Queen extends ChessPiece {
 					nextQueenPositions.add(newPosition);
 				}
 
-				// Stop searching for other positions, if another chessPiece is reached.
+				// Stop searching for other positions, if another chess piece is reached.
 				if (queen.getAllegiance() != endSquare.getAllegiance() && !endSquare.isEmpty()
 						|| queen.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
 					break;
@@ -184,7 +184,7 @@ public class Queen extends ChessPiece {
 					nextQueenPositions.add(newPosition);
 				}
 
-				// Stop searching for other positions, if another chessPiece is reached.
+				// Stop searching for other positions, if another chess piece is reached.
 				if (queen.getAllegiance() != endSquare.getAllegiance() && !endSquare.isEmpty()
 						|| queen.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
 					break;
@@ -208,7 +208,7 @@ public class Queen extends ChessPiece {
 					nextQueenPositions.add(newPosition);
 				}
 
-				// Stop searching for other positions, if another chessPiece is reached.
+				// Stop searching for other positions, if another chess piece is reached.
 				if (queen.getAllegiance() != endSquare.getAllegiance() && !endSquare.isEmpty()
 						|| queen.getAllegiance() == chessBoard.getGameBoard()[newRow][newColumn].getAllegiance()) {
 					break;

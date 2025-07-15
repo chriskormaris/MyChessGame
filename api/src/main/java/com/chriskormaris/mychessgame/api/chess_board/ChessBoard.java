@@ -99,7 +99,7 @@ public class ChessBoard {
 	private String enPassantPosition;
 
 	/* This variable is used to determine a draw,
-	 * if no chessPiece has been captured in 50 full-moves (100 half-moves). */
+	 * if no chess piece has been captured in 50 full-moves (100 half-moves). */
 	private int halfMoveClock;
 
 	// 1 full-move corresponds to 2 half-moves.
@@ -455,7 +455,7 @@ public class ChessBoard {
 		}
 
 		// Allow only valid moves, for all the chess board pieces.
-		// Move only if the square is empty or the square contains an opponent chessPiece.
+		// Move only if the square is empty or the square contains an opponent chess piece.
 		// Also allow castling, en passant and promotion moves.
 		if (endSquare.isEmpty() || chessSquare.getAllegiance() != endSquare.getAllegiance() || isCastling) {
 			previousHalfMoveFenPositions.push(FenUtils.getFenPositionFromChessBoard(this));
@@ -711,7 +711,7 @@ public class ChessBoard {
 
 	/* Generates the children of the state
 	 * Any square in the board that is empty,
-	 * or is an opponent chessPiece, results to a child.
+	 * or is an opponent chess piece, results to a child.
 	 * Some special cases include "en passant" and castling. */
 	public List<ChessBoard> getChildren(Allegiance allegiance, MinimaxAI minimaxAI) {
 		List<ChessBoard> children = new ArrayList<>();
