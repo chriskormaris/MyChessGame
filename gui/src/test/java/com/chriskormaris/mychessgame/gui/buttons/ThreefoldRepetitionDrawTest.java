@@ -19,6 +19,7 @@ class ThreefoldRepetitionDrawTest {
 		ButtonsFrame buttonsFrame = new ButtonsFrame(title);
 
 		buttonsFrame.newGameParameters.setGameMode(GameMode.HUMAN_VS_HUMAN);
+		buttonsFrame.newGameParameters.setEnableTimeLimit(false);
 		buttonsFrame.startNewGame();
 
 		buttonsFrame.makeChessBoardSquaresEmpty();
@@ -32,6 +33,9 @@ class ThreefoldRepetitionDrawTest {
 		buttonsFrame.placePieceToPosition("H7", new Bishop(Allegiance.BLACK));
 		buttonsFrame.placePieceToPosition("H6", new Knight(Allegiance.BLACK));
 		buttonsFrame.placePieceToPosition("H5", new Knight(Allegiance.BLACK));
+
+		System.out.println();
+		System.out.println(buttonsFrame.chessBoard);
 
 		// Continue playing for 5 minutes.
 		try {

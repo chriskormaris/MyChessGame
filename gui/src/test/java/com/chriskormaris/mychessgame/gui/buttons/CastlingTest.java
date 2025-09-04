@@ -15,6 +15,7 @@ class CastlingTest {
 		ButtonsFrame buttonsFrame = new ButtonsFrame(title);
 
 		buttonsFrame.newGameParameters.setGameMode(GameMode.HUMAN_VS_HUMAN);
+		buttonsFrame.newGameParameters.setEnableTimeLimit(false);
 
 		/* Play as White. */
 		String fenPosition = "4k3/8/8/8/8/8/N7/R3K2R w KQ - 0 1";

@@ -15,6 +15,7 @@ class KnightVsBishopMateTest {
 		ButtonsFrame buttonsFrame = new ButtonsFrame(title);
 
 		buttonsFrame.newGameParameters.setGameMode(GameMode.HUMAN_VS_HUMAN);
+		buttonsFrame.newGameParameters.setEnableTimeLimit(false);
 
 		// Black plays first.
 		// If the Black player makes a blunder and moves the Black Bishop to "B8"

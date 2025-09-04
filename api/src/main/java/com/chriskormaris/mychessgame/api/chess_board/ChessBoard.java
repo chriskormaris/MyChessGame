@@ -458,7 +458,7 @@ public class ChessBoard {
 		// Move only if the square is empty or the square contains an opponent chess piece.
 		// Also allow castling, en passant and promotion moves.
 		if (endSquare.isEmpty() || chessSquare.getAllegiance() != endSquare.getAllegiance() || isCastling) {
-			previousHalfMoveFenPositions.push(FenUtils.getFenPositionFromChessBoard(this));
+			previousHalfMoveFenPositions.push(FenUtils.skipCounters(FenUtils.getFenPositionFromChessBoard(this)));
 
 			if (!isCastling) {
 				this.gameBoard[rowStart][columnStart] = EmptySquare.getInstance();
@@ -1311,15 +1311,13 @@ public class ChessBoard {
 	public boolean checkForThreefoldRepetitionDraw() {
 		int numOfRepeats = 1;
 		if (!previousHalfMoveFenPositions.isEmpty()) {
-			String currentHalfMoveFenPosition = FenUtils.getFenPositionFromChessBoard(this);
-			currentHalfMoveFenPosition = FenUtils.skipCounters(currentHalfMoveFenPosition);
+			String currentHalfMoveFenPosition = FenUtils.skipCounters(FenUtils.getFenPositionFromChessBoard(this));
 			int N = previousHalfMoveFenPositions.size();
 			for (int i = N - 1; i >= 0; i--) {
 				// Skip the last 2 iterations, if the number of repeats is 1.
-				// and there are less 2 or fewer iterations left.
+				// and there are 2 or fewer iterations left.
 				if (!(numOfRepeats == 1 && i < 2)) {
 					String otherHalfMoveFenPosition = previousHalfMoveFenPositions.get(i);
-					otherHalfMoveFenPosition = FenUtils.skipCounters(otherHalfMoveFenPosition);
 					if (currentHalfMoveFenPosition.equals(otherHalfMoveFenPosition)) {
 						numOfRepeats++;
 						if (numOfRepeats == 3) {

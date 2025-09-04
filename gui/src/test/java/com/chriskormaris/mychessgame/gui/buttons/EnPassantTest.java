@@ -16,6 +16,7 @@ class EnPassantTest {
 
 		// newGameParameters.setGameMode(GameMode.AI_VS_AI);
 		buttonsFrame.newGameParameters.setGameMode(GameMode.HUMAN_VS_HUMAN);
+		buttonsFrame.newGameParameters.setEnableTimeLimit(false);
 
 		buttonsFrame.startNewGame();
 
