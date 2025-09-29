@@ -450,9 +450,14 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 				|| startingPiece.isBlack() && rowEnd == 7)) {
 			ChessSquare promotedPiece = new Queen(startingPiece.getAllegiance(), true);
 
-			// If AI plays, automatically choose the best promotion piece, based on the best outcome.
 			if (isAiMove) {
-				chessBoard.automaticPawnPromotion(startingPiece, positionEnd, true);
+                if (move.getPromotedPiece() != null) {
+                    chessBoard.getGameBoard()[rowEnd][columnEnd] = move.getPromotedPiece();
+                    chessBoard.getPiecesToPlace().put(positionEnd, move.getPromotedPiece());
+                } else {
+                    // Automatically choose the best promotion piece, based on the best outcome.
+                    chessBoard.automaticPawnPromotion(startingPiece, positionEnd, true);
+                }
 
 				promotedPiece = chessBoard.getGameBoard()[rowEnd][columnEnd];
 				if (promotedPiece.isWhite()) {

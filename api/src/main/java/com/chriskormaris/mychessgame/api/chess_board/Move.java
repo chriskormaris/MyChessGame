@@ -1,5 +1,6 @@
 package com.chriskormaris.mychessgame.api.chess_board;
 
+import com.chriskormaris.mychessgame.api.square.ChessPiece;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -17,6 +18,8 @@ public class Move {
 
 	private double value;
 
+    private ChessPiece promotedPiece;
+
 	public Move() {
 		this.positionStart = "A1";
 		this.positionEnd = "A1";
@@ -28,6 +31,13 @@ public class Move {
 		this.positionEnd = positionEnd;
 		this.value = 0;
 	}
+
+    public Move(String positionStart, String positionEnd, ChessPiece promotedPiece) {
+        this.positionStart = positionStart;
+        this.positionEnd = positionEnd;
+        this.value = 0;
+        this.promotedPiece = promotedPiece;
+    }
 
 	public Move(int value) {
 		this.positionStart = "A1";
