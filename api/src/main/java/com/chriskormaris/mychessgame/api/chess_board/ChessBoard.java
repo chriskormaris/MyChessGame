@@ -659,12 +659,12 @@ public class ChessBoard {
 	}
 
 	public void automaticPawnPromotion(ChessSquare chessSquare, String positionEnd, boolean displayMove) {
-		ChessSquare queen = new Queen(chessSquare.getAllegiance(), true);
-		ChessSquare rook = new Rook(chessSquare.getAllegiance(), true);
-		ChessSquare bishop = new Bishop(chessSquare.getAllegiance(), true);
-		ChessSquare knight = new Knight(chessSquare.getAllegiance(), true);
+		ChessPiece queen = new Queen(chessSquare.getAllegiance(), true);
+		ChessPiece rook = new Rook(chessSquare.getAllegiance(), true);
+		ChessPiece bishop = new Bishop(chessSquare.getAllegiance(), true);
+		ChessPiece knight = new Knight(chessSquare.getAllegiance(), true);
 
-		ChessSquare[] promotionChessSquares = {queen, rook, bishop, knight};
+		ChessPiece[] promotedChessSquares = {queen, rook, bishop, knight};
 
 		ChessBoard chessBoard = new ChessBoard(this);
 
@@ -680,14 +680,14 @@ public class ChessBoard {
 			chessBoard.checkForBlackCheckmate();
 		}
 
-		ChessSquare promotedPiece = knight;
+		ChessPiece promotedPiece = knight;
 		// If promoting to Knight does not cause a mate, then try other promotions.
 		if (!(chessSquare.isWhite()
 				&& chessBoard.getGameResult() == GameResult.WHITE_CHECKMATE)
 				&& !(chessSquare.isBlack()
 				&& chessBoard.getGameResult() == GameResult.BLACK_CHECKMATE)) {
-			for (ChessSquare currentPromotionPiece : promotionChessSquares) {
-				promotedPiece = currentPromotionPiece;
+			for (ChessPiece currentPromotedPiece : promotedChessSquares) {
+				promotedPiece = currentPromotedPiece;
 				chessBoard.getGameBoard()[rowEnd][columnEnd] = promotedPiece;
 				chessBoard.setThreats();
 
@@ -698,7 +698,7 @@ public class ChessBoard {
 					break;
 				}
 				// If Stalemate can't be avoided, at least end the game with a Queen promotion.
-				else if (currentPromotionPiece.isKnight()) {
+				else if (currentPromotedPiece.isKnight()) {
 					promotedPiece = queen;
 				}
 			}
