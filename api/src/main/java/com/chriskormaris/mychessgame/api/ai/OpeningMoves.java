@@ -216,12 +216,13 @@ public class OpeningMoves {
 		movesList = new ArrayList<>();
 		movesList.add(new Move("B8", "C6"));  // B00 KP, Nimzovich defence
 		movesList.add(new Move("D7", "D5"));  // B01 Scandinavian (centre counter) defence
+		movesList.add(new Move("G8", "F6"));  // B02 Alekhine's defence
 		movesList.add(new Move("D7", "D6"));  // B07 Pirc defence
 		movesList.add(new Move("C7", "C6"));  // B10 Caro-Kann defence
 		movesList.add(new Move("C7", "C5"));  // B20 Sicilian defence
 		movesList.add(new Move("E7", "E6"));  // C00 French defence
 		movesList.add(new Move("E7", "E5"));  // C20 King's pawn game
-		BLACK_OPENING_MOVES.put("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1", movesList);
+        BLACK_OPENING_MOVES.put("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1", movesList);
 
         movesList = new ArrayList<>();
         movesList.add(new Move("G8", "F6"));  // C26 Vienna, Falkbeer variation
