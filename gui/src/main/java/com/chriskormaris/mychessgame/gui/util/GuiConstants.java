@@ -9,7 +9,7 @@ import java.awt.*;
 public class GuiConstants {
 
 	public static final String TITLE = "My Chess Game";
-	public static final String VERSION = "10.6.1";
+	public static final String VERSION = "10.6.2";
 
 	public static final String FIRST_MOVE_TEXT = "Move: 1. White plays first.";
 	public static final String ZERO_SCORE_TEXT = "Score:  0";
@@ -45,7 +45,7 @@ public class GuiConstants {
 	public static final String BLACK_KING_IMG_PATH = BLACK_IMG_PATH + "king.png";
 
 	public static final String RULES = "The game of Chess is strictly played by 2 players and consists of 16 White and 16 Black pieces.\n"
-			+ "There are 6 different Chess piece types: 1) King, 2) Rook, 3) Bishop, 4) Queen, 5) Knight & 6) Pawn. White always plays first.\n"
+			+ "There are 6 different Chess piece types: 1) Pawn, 2) Knight, 3) Bishop, 4) Rook, 5) Queen & 6) King. White always plays first.\n"
 			+ "A Chess piece can only move to an empty square or take the place of an opponent's Chess piece, by capturing it.\n"
 			+ "However, no Chess piece can jump over other Chess pieces, unless it is a Knight.\n"
 			+ "\nThe aim of the game is to trap the opponent King. A move made by a player that threatens the opponent king is called a \"check\".\n"
@@ -65,19 +65,20 @@ public class GuiConstants {
 			+ "  6) If the exact Chess board position is repeated 5 times, at any time in the game, not necessarily successively,\n"
 			+ "     then the game automatically ends in a draw. This scenario is called fivefold repetition.\n"
 			+ "\nThe Chess pieces can move on the Chess board as follows:\n"
-			+ "  1) The King can move only one square in each direction. It can't move to a square, where it will be threatened by an opponent's piece.\n"
+            + "  1) The Pawn can move one square forward, or 2 squares forward, if moving for the 1st time. It can capture an opponent's piece by moving one square diagonally.\n"
+            + "     It can also capture an opponent's Pawn, that has just moved 2 steps forward, in the previous move, while being next to it,\n"
+            + "     by moving diagonally towards its direction (\"en passant\" move).\n"
+            + "     If a Pawn reaches the final row of the other side of the Chess board, the player can promote it to a Bishop, Knight, Rook or even a Queen.\n"
+            + "  2) The Knight moves in an \"L\"-shape, after moving two squares either forward, backwards, left or right. It is the only piece that can jump over other pieces.\n"
+            + "  3) The Bishop can move any number of squares diagonally.\n"
+            + "  4) The Rook can move any number of squares horizontally or vertically.\n"
+            + "  5) The Queen is the strongest piece in the game. It combines the movement of the Bishop and the Rook.\n" +
+            "       It can move any number of squares diagonally, horizontally or vertically.\n"
+            + "  6) The King can move only one square in each direction. It can't move to a square, where it will be threatened by an opponent's piece.\n"
 			+ "     It can also perform a combined move with an ally Rook, called \"castling\". The castling can only be performed once per game, for each player.\n"
 			+ "     There are two possible castling moves for each player's King, the \"queen side castling\" and the \"king side castling\".\n"
 			+ "     The castling can only be performed under the condition that the King and the involved Rook have not moved from their starting positions.\n"
 			+ "     In addition, no other Chess pieces must be between them, the king must not be in check and the intertwined squares must not be threatened.\n"
-			+ "  2) The Rook can move any number of squares horizontally or vertically.\n"
-			+ "  3) The Bishop can move any number of squares diagonally.\n"
-			+ "  4) The Queen can move any number of squares diagonally, horizontally or vertically. It is the strongest piece in the game.\n"
-			+ "  5) The Knight moves in an \"L\"-shape, after moving two squares either forward, backwards, left or right. It is the only piece that can jump over other pieces.\n"
-			+ "  6) The Pawn can move one square forward, or 2 squares forward, if moving for the 1st time. It can capture an opponent's piece by moving one square diagonally.\n"
-			+ "     It can also capture an opponent's Pawn, that has just moved 2 steps forward, in the previous move, while being next to it,\n"
-			+ "     by moving diagonally towards its direction (\"en passant\" move).\n"
-			+ "     If a Pawn reaches the final row of the other side of the Chess board, the player can promote it to a Bishop, Knight, Rook or even a Queen."
-			+ "\n\nBesides the Standard Chess implementation there two additional variants, Chess 960 and Horde.";
+			+ "\nBesides the Standard Chess implementation there two additional variants, Chess 960 and Horde.";
 
 }
