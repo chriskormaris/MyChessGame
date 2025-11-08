@@ -72,4 +72,10 @@ public final class GuiUtils {
 		textPane.getStyledDocument().setCharacterAttributes(0, style.getLength(), attrs, false);
 	}
 
+	public static void copyTextToClipboard(String text) {
+		Toolkit.getDefaultToolkit()
+				.getSystemClipboard()
+				.setContents(new java.awt.datatransfer.StringSelection(text), null);
+	}
+
 }

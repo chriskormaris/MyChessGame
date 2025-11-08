@@ -67,7 +67,7 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 		super(title);
 
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		height = (int) screenSize.getHeight() - 150;
+		height = (int) screenSize.getHeight() - 175;
 		width = height + 90;
 
 		gameParameters = new GameParameters();
@@ -109,6 +109,7 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 
 		initializeMoveTextPaneBar();
 		setMoveText();
+		initializeFenTextPaneBar();
 
 		initializeChessPanel();
 
@@ -225,15 +226,9 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 			if (undoChessBoards.isEmpty()) {
 				undoItem.setEnabled(false);
 			}
-
 			if (redoItem != null) {
 				redoItem.setEnabled(true);
 			}
-
-			if (exportFenPositionItem != null) {
-				exportFenPositionItem.setEnabled(true);
-			}
-
 			if (saveCheckpointItem != null) {
 				saveCheckpointItem.setEnabled(true);
 			}
@@ -392,9 +387,6 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 		}
 		if (redoItem != null) {
 			redoItem.setEnabled(false);
-		}
-		if (exportFenPositionItem != null) {
-			exportFenPositionItem.setEnabled(true);
 		}
 		if (saveCheckpointItem != null) {
 			saveCheckpointItem.setEnabled(true);

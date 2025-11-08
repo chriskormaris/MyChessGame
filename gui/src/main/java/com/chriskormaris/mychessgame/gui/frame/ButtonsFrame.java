@@ -96,6 +96,7 @@ public class ButtonsFrame extends ChessFrame {
 
 		initializeMoveTextPaneBar();
 		setMoveText();
+		initializeFenTextPaneBar();
 
 		initializeChessButtons();
 		initializeChessPanel();
@@ -195,15 +196,9 @@ public class ButtonsFrame extends ChessFrame {
 			if (undoChessBoards.isEmpty()) {
 				undoItem.setEnabled(false);
 			}
-
 			if (redoItem != null) {
 				redoItem.setEnabled(true);
 			}
-
-			if (exportFenPositionItem != null) {
-				exportFenPositionItem.setEnabled(true);
-			}
-
 			if (saveCheckpointItem != null) {
 				saveCheckpointItem.setEnabled(true);
 			}
@@ -403,9 +398,6 @@ public class ButtonsFrame extends ChessFrame {
 		}
 		if (redoItem != null) {
 			redoItem.setEnabled(false);
-		}
-		if (exportFenPositionItem != null) {
-			exportFenPositionItem.setEnabled(true);
 		}
 		if (saveCheckpointItem != null) {
 			saveCheckpointItem.setEnabled(true);

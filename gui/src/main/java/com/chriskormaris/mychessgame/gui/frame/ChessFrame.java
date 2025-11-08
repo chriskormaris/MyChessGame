@@ -35,14 +35,13 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Stack;
 
+import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 import static javax.swing.JOptionPane.QUESTION_MESSAGE;
 
 public abstract class ChessFrame extends JFrame {
@@ -55,12 +54,11 @@ public abstract class ChessFrame extends JFrame {
 
     JPanel guiPanel;
 
-    JToolBar tools;
-
     JPanel chessPanel;
     JPanel capturedPiecesPanel;
 
     JTextPane moveTextPane;
+	JTextPane fenTextPane;
 
     // 30 captured pieces at maximum + 1 label for displaying the score = 31 labels size
     JLabel[] capturedPiecesImages;
@@ -104,7 +102,6 @@ public abstract class ChessFrame extends JFrame {
 
     JMenuItem undoItem;
     JMenuItem redoItem;
-    JMenuItem exportFenPositionItem;
     JMenuItem saveCheckpointItem;
     JMenuItem loadCheckpointItem;
 
@@ -144,9 +141,9 @@ public abstract class ChessFrame extends JFrame {
         super(title);
 
         guiPanel = new JPanel();
-        moveTextPane = new JTextPane();
 
-        tools = new JToolBar();
+        moveTextPane = new JTextPane();
+        fenTextPane = new JTextPane();
 
         chessBoard = new ChessBoard();
 
@@ -182,8 +179,6 @@ public abstract class ChessFrame extends JFrame {
         redoItem = new JMenuItem("Redo    Ctrl+Y");
         JMenuItem exportToGifItem = new JMenuItem("Export to .gif");
         JMenuItem settingsItem = new JMenuItem("Settings");
-        JMenuItem importStartingFenPositionItem = new JMenuItem("Import Starting FEN Position");
-        exportFenPositionItem = new JMenuItem("Export FEN Position to File");
         saveCheckpointItem = new JMenuItem("Save Checkpoint");
         loadCheckpointItem = new JMenuItem("Load Checkpoint");
         JMenuItem flipBoardItem = new JMenuItem("Flip Board");
@@ -202,7 +197,6 @@ public abstract class ChessFrame extends JFrame {
 
         undoItem.addActionListener(e -> {
             undo();
-            exportFenPositionItem.setEnabled(true);
             saveCheckpointItem.setEnabled(true);
         });
 
@@ -213,52 +207,6 @@ public abstract class ChessFrame extends JFrame {
         settingsItem.addActionListener(e -> {
             SettingsFrame settings = new SettingsFrame(this, newGameParameters);
             settings.setVisible(true);
-        });
-
-        importStartingFenPositionItem.addActionListener(e -> {
-            String defaultFenPosition = null;
-            if (gameParameters.getVariant() == Variant.STANDARD_CHESS) {
-                defaultFenPosition = Constants.DEFAULT_STARTING_FEN_POSITION;
-            } else if (gameParameters.getVariant() == Variant.CHESS_960) {
-                defaultFenPosition = Constants.DEFAULT_STARTING_SHREDDER_FEN_POSITION;
-            } else if (gameParameters.getVariant() == Variant.HORDE) {
-                defaultFenPosition = Constants.DEFAULT_STARTING_HORDE_FEN_POSITION;
-            }
-            String fenPosition = (String) JOptionPane.showInputDialog(
-                    this,
-                    "Please insert the starting \"FEN\" position in the text field below:"
-                            + "                      ",
-                    "Import starting FEN position",
-                    QUESTION_MESSAGE,
-                    null,
-                    null,
-                    defaultFenPosition
-            );
-
-            if (fenPosition != null) {
-                startNewGame(fenPosition);
-            }
-        });
-
-        exportFenPositionItem.addActionListener(e -> {
-            String exportedFenPositionFilename = (String) JOptionPane.showInputDialog(
-                    this,
-                    "Please type the name of the export file:",
-                    "Export FEN position",
-                    QUESTION_MESSAGE,
-                    null,
-                    null,
-                    "exported_FEN_position.txt"
-            );
-
-            if (exportedFenPositionFilename != null) {
-                try (BufferedWriter bw = new BufferedWriter(new FileWriter(exportedFenPositionFilename))) {
-                    String fenPosition = FenUtils.getFenPositionFromChessBoard(chessBoard);
-                    bw.write(fenPosition + "\n");
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
         });
 
         saveCheckpointItem.addActionListener(e -> {
@@ -292,12 +240,10 @@ public abstract class ChessFrame extends JFrame {
         exitItem.addActionListener(e -> System.exit(0));
 
         howToPlayItem.addActionListener(
-                e -> JOptionPane.showMessageDialog(
-                        this,
-                        GuiConstants.RULES,
-                        "How to Play",
-                        JOptionPane.INFORMATION_MESSAGE
-                )
+                e -> {
+                    ScrollableTextFrame howToPlayFrame = new ScrollableTextFrame(this, "How to Play", GuiConstants.RULES);
+                    howToPlayFrame.setVisible(true);
+                }
         );
 
         aboutItem.addActionListener(e -> {
@@ -328,8 +274,6 @@ public abstract class ChessFrame extends JFrame {
         fileMenu.add(redoItem);
         fileMenu.add(exportToGifItem);
         fileMenu.add(settingsItem);
-        fileMenu.add(importStartingFenPositionItem);
-        fileMenu.add(exportFenPositionItem);
         fileMenu.add(saveCheckpointItem);
         fileMenu.add(loadCheckpointItem);
         fileMenu.add(flipBoardItem);
@@ -385,7 +329,14 @@ public abstract class ChessFrame extends JFrame {
 
             moveTextPane.setText(moveText);
         }
+
+	    setFenText();
     }
+
+	void setFenText() {
+		String fenPosition = FenUtils.getFenPositionFromChessBoard(chessBoard);
+		fenTextPane.setText(fenPosition);
+	}
 
     void setScoreAndTimeText() {
         String text;
@@ -421,11 +372,7 @@ public abstract class ChessFrame extends JFrame {
     }
 
     void initializeMoveTextPaneBar() {
-        if (tools != null) {
-            guiPanel.remove(tools);
-        }
-
-        tools = new JToolBar();
+	    JToolBar tools = new JToolBar();
         tools.setFloatable(false);
 
         moveTextPane.setEditable(false);
@@ -436,6 +383,49 @@ public abstract class ChessFrame extends JFrame {
 
         guiPanel.add(tools, BorderLayout.NORTH);
     }
+
+	void initializeFenTextPaneBar() {
+		JToolBar tools = new JToolBar();
+		tools.setFloatable(false);
+
+        JLabel fenTextLabel = new JLabel("FEN Position:");
+        tools.add(fenTextLabel);
+
+		fenTextPane.setEditable(false);
+		fenTextPane.setFocusable(false);
+		GuiUtils.centerTextPaneAndMakeBold(fenTextPane);
+
+		tools.add(fenTextPane);
+
+		JButton copyButton = new JButton("Copy");
+		copyButton.setFocusable(false);
+		copyButton.addActionListener(
+				e -> GuiUtils.copyTextToClipboard(fenTextPane.getText())
+		);
+		tools.add(copyButton);
+
+        JButton importButton = new JButton("Import");
+        importButton.setFocusable(false);
+        importButton.addActionListener(e -> {
+            String fenPosition = (String) JOptionPane.showInputDialog(
+                    this,
+                    "Please insert the starting \"FEN\" position in the text field below:"
+                            + "                      ",
+                    "Import starting FEN position",
+                    INFORMATION_MESSAGE,
+                    null,
+                    null,
+                    fenTextPane.getText()
+            );
+
+            if (fenPosition != null) {
+                startNewGame(fenPosition);
+            }
+        });
+        tools.add(importButton);
+
+		guiPanel.add(tools, BorderLayout.NORTH);
+	}
 
     void exportToGif() {
         String gifName = JOptionPane.showInputDialog(
@@ -464,9 +454,9 @@ public abstract class ChessFrame extends JFrame {
     }
 
     void initializeCapturedPiecesPanel() {
-        if (capturedPiecesPanel != null) {
-            guiPanel.remove(capturedPiecesPanel);
-        }
+	    if (capturedPiecesPanel != null) {
+		    guiPanel.remove(capturedPiecesPanel);
+	    }
         capturedPiecesPanel = new JPanel();
         guiPanel.add(capturedPiecesPanel, BorderLayout.SOUTH);
     }
@@ -481,7 +471,7 @@ public abstract class ChessFrame extends JFrame {
             if (i == 15) {
                 capturedPiecesImages[i].setText(GuiConstants.ZERO_SCORE_TEXT);
             } else {
-                capturedPiecesImages[i].setIcon(null);
+	            capturedPiecesImages[i].setText(" ");
             }
 
             capturedPiecesPanel.add(capturedPiecesImages[i]);
@@ -987,9 +977,6 @@ public abstract class ChessFrame extends JFrame {
             }
             if (redoItem != null) {
                 redoItem.setEnabled(false);
-            }
-            if (exportFenPositionItem != null) {
-                exportFenPositionItem.setEnabled(false);
             }
             if (saveCheckpointItem != null) {
                 saveCheckpointItem.setEnabled(false);
