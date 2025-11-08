@@ -9,17 +9,19 @@ public class ScrollableTextFrame extends JFrame {
         super(title);
 
         super.setSize(900, 700);
-        super.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        super.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         super.setLocationRelativeTo(parentComponent);
         super.setResizable(false);
 
-        JTextArea textArea = new JTextArea();
-        textArea.setEditable(false);
-        textArea.setFocusable(false);
-        textArea.setText(text);
+        JTextPane textPane = new JTextPane();
+        textPane.setEditable(false);
+        textPane.setFocusable(false);
+        textPane.setContentType("text/html");
+        textPane.setText(text);
+	    textPane.setCaretPosition(0);
 
-        JScrollPane scrollBar = new JScrollPane(textArea);
-        getContentPane().add(scrollBar);
+        JScrollPane scrollPane = new JScrollPane(textPane);
+        getContentPane().add(scrollPane);
     }
 
 }
