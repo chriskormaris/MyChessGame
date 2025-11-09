@@ -750,12 +750,12 @@ public class ChessBoard {
 	 * 3) Wukong
 	 * 4) Shannon's */
 	public double evaluate(MinimaxAI minimaxAI) {
-		if (checkForWhiteCheckmate()) return Integer.MAX_VALUE;
+		if (blackPlays() && checkForWhiteCheckmate()) return Integer.MAX_VALUE;
 		if (variant != Variant.HORDE) {
-			if (checkForBlackCheckmate()) return Integer.MIN_VALUE;
-			if (checkForWhiteStalemateDraw()) return 0;
+			if (whitePlays() && checkForBlackCheckmate()) return Integer.MIN_VALUE;
+			if (whitePlays() && checkForWhiteStalemateDraw()) return 0;
 		}
-		if (checkForBlackStalemateDraw()) return 0;
+		if (blackPlays() && checkForBlackStalemateDraw()) return 0;
 		if (variant == Variant.HORDE) {
 			if (checkForHordeBlackWin()) return Integer.MIN_VALUE;
 			if (checkForHordeWhiteStalemateDraw()) return 0;
@@ -772,10 +772,10 @@ public class ChessBoard {
 	public boolean checkForTerminalState() {
 		setThreats();
 
-		if (checkForWhiteCheckmate()) return true;
+		if (blackPlays() && checkForWhiteCheckmate()) return true;
 
 		if (variant != Variant.HORDE) {
-			if (checkForBlackCheckmate()) return true;
+			if (whitePlays() && checkForBlackCheckmate()) return true;
 
 			// Check for White stalemate, only if the last player was Black,
 			// meaning that the next player should be White.
