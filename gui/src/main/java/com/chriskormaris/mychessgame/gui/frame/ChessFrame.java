@@ -58,7 +58,10 @@ public abstract class ChessFrame extends JFrame {
     JPanel capturedPiecesPanel;
 
     JTextPane moveTextPane;
-	JTextPane fenTextPane;
+    JTextPane fenTextPane;
+
+    JButton undoButton;
+    JButton redoButton;
 
     // 30 captured pieces at maximum + 1 label for displaying the score = 31 labels size
     JLabel[] capturedPiecesImages;
@@ -330,13 +333,13 @@ public abstract class ChessFrame extends JFrame {
             moveTextPane.setText(moveText);
         }
 
-	    setFenText();
+        setFenText();
     }
 
-	void setFenText() {
-		String fenPosition = FenUtils.getFenPositionFromChessBoard(chessBoard);
-		fenTextPane.setText(fenPosition);
-	}
+    void setFenText() {
+        String fenPosition = FenUtils.getFenPositionFromChessBoard(chessBoard);
+        fenTextPane.setText(fenPosition);
+    }
 
     void setScoreAndTimeText() {
         String text;
@@ -372,37 +375,50 @@ public abstract class ChessFrame extends JFrame {
     }
 
     void initializeMoveTextPaneBar() {
-	    JToolBar tools = new JToolBar();
+        JToolBar tools = new JToolBar();
         tools.setFloatable(false);
+
+        undoButton = new JButton("Undo");
+        undoButton.setFocusable(false);
+        undoButton.setEnabled(false);
+        undoButton.addActionListener(e -> {
+            undo();
+            saveCheckpointItem.setEnabled(true);
+        });
+        tools.add(undoButton);
 
         moveTextPane.setEditable(false);
         moveTextPane.setFocusable(false);
         GuiUtils.centerTextPaneAndMakeBold(moveTextPane);
-
         tools.add(moveTextPane);
+
+        redoButton = new JButton("Redo");
+        redoButton.setFocusable(false);
+        redoButton.setEnabled(false);
+        redoButton.addActionListener(e -> redo());
+        tools.add(redoButton);
 
         guiPanel.add(tools, BorderLayout.NORTH);
     }
 
-	void initializeFenTextPaneBar() {
-		JToolBar tools = new JToolBar();
-		tools.setFloatable(false);
+    void initializeFenTextPaneBar() {
+        JToolBar tools = new JToolBar();
+        tools.setFloatable(false);
 
         JLabel fenTextLabel = new JLabel("FEN Position:");
         tools.add(fenTextLabel);
 
-		fenTextPane.setEditable(false);
-		fenTextPane.setFocusable(false);
-		GuiUtils.centerTextPaneAndMakeBold(fenTextPane);
+        fenTextPane.setEditable(false);
+        fenTextPane.setFocusable(false);
+        GuiUtils.centerTextPaneAndMakeBold(fenTextPane);
+        tools.add(fenTextPane);
 
-		tools.add(fenTextPane);
-
-		JButton copyButton = new JButton("Copy");
-		copyButton.setFocusable(false);
-		copyButton.addActionListener(
-				e -> GuiUtils.copyTextToClipboard(fenTextPane.getText())
-		);
-		tools.add(copyButton);
+        JButton copyButton = new JButton("Copy");
+        copyButton.setFocusable(false);
+        copyButton.addActionListener(
+                e -> GuiUtils.copyTextToClipboard(fenTextPane.getText())
+        );
+        tools.add(copyButton);
 
         JButton importButton = new JButton("Import");
         importButton.setFocusable(false);
@@ -424,8 +440,8 @@ public abstract class ChessFrame extends JFrame {
         });
         tools.add(importButton);
 
-		guiPanel.add(tools, BorderLayout.NORTH);
-	}
+        guiPanel.add(tools, BorderLayout.NORTH);
+    }
 
     void exportToGif() {
         String gifName = JOptionPane.showInputDialog(
@@ -454,9 +470,9 @@ public abstract class ChessFrame extends JFrame {
     }
 
     void initializeCapturedPiecesPanel() {
-	    if (capturedPiecesPanel != null) {
-		    guiPanel.remove(capturedPiecesPanel);
-	    }
+        if (capturedPiecesPanel != null) {
+            guiPanel.remove(capturedPiecesPanel);
+        }
         capturedPiecesPanel = new JPanel();
         guiPanel.add(capturedPiecesPanel, BorderLayout.SOUTH);
     }
@@ -471,7 +487,7 @@ public abstract class ChessFrame extends JFrame {
             if (i == 15) {
                 capturedPiecesImages[i].setText(GuiConstants.ZERO_SCORE_TEXT);
             } else {
-	            capturedPiecesImages[i].setText(" ");
+                capturedPiecesImages[i].setText(" ");
             }
 
             capturedPiecesPanel.add(capturedPiecesImages[i]);
@@ -654,6 +670,7 @@ public abstract class ChessFrame extends JFrame {
 
         if (undoItem != null) {
             undoItem.setEnabled(true);
+            undoButton.setEnabled(true);
         }
     }
 
@@ -974,9 +991,11 @@ public abstract class ChessFrame extends JFrame {
         } else {
             if (!undoChessBoards.isEmpty() && undoItem != null) {
                 undoItem.setEnabled(true);
+                undoButton.setEnabled(true);
             }
             if (redoItem != null) {
                 redoItem.setEnabled(false);
+                redoButton.setEnabled(false);
             }
             if (saveCheckpointItem != null) {
                 saveCheckpointItem.setEnabled(false);

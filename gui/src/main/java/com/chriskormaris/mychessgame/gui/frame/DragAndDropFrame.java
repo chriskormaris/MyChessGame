@@ -67,7 +67,7 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 		super(title);
 
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		height = (int) screenSize.getHeight() - 175;
+		height = (int) screenSize.getHeight() - 180;
 		width = height + 90;
 
 		gameParameters = new GameParameters();
@@ -225,9 +225,11 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 
 			if (undoChessBoards.isEmpty()) {
 				undoItem.setEnabled(false);
+				undoButton.setEnabled(false);
 			}
 			if (redoItem != null) {
 				redoItem.setEnabled(true);
+				redoButton.setEnabled(true);
 			}
 			if (saveCheckpointItem != null) {
 				saveCheckpointItem.setEnabled(true);
@@ -258,6 +260,7 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 
 			if (redoChessBoards.isEmpty()) {
 				redoItem.setEnabled(false);
+				redoButton.setEnabled(false);
 			}
 
 			System.out.println();
@@ -265,6 +268,7 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 
 			if (undoItem != null) {
 				undoItem.setEnabled(true);
+				undoButton.setEnabled(true);
 			}
 
 			if (!checkForGameOver()) {
@@ -298,9 +302,11 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 
 		if (undoItem != null) {
 			undoItem.setEnabled(false);
+			undoButton.setEnabled(false);
 		}
 		if (redoItem != null) {
 			redoItem.setEnabled(false);
+			redoButton.setEnabled(false);
 		}
 
 		guiPanel.removeAll();
@@ -384,9 +390,11 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 
 		if (undoItem != null) {
 			undoItem.setEnabled(false);
+			undoButton.setEnabled(false);
 		}
 		if (redoItem != null) {
 			redoItem.setEnabled(false);
+			redoButton.setEnabled(false);
 		}
 		if (saveCheckpointItem != null) {
 			saveCheckpointItem.setEnabled(true);
@@ -443,13 +451,13 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 			ChessSquare promotedPiece = new Queen(startingPiece.getAllegiance(), true);
 
 			if (isAiMove) {
-                if (move.getPromotedPiece() != null) {
-                    chessBoard.getGameBoard()[rowEnd][columnEnd] = move.getPromotedPiece();
-                    chessBoard.getPiecesToPlace().put(positionEnd, move.getPromotedPiece());
-                } else {
-                    // Automatically choose the best promotion piece, based on the best outcome.
-                    chessBoard.automaticPawnPromotion(startingPiece, positionEnd, true);
-                }
+				if (move.getPromotedPiece() != null) {
+					chessBoard.getGameBoard()[rowEnd][columnEnd] = move.getPromotedPiece();
+					chessBoard.getPiecesToPlace().put(positionEnd, move.getPromotedPiece());
+				} else {
+					// Automatically choose the best promotion piece, based on the best outcome.
+					chessBoard.automaticPawnPromotion(startingPiece, positionEnd, true);
+				}
 
 				promotedPiece = chessBoard.getGameBoard()[rowEnd][columnEnd];
 				if (promotedPiece.isWhite()) {
@@ -905,9 +913,11 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 
 			if (undoItem != null) {
 				undoItem.setEnabled(true);
+				undoButton.setEnabled(true);
 			}
 			if (redoItem != null) {
 				redoItem.setEnabled(false);
+				redoButton.setEnabled(false);
 			}
 
 			if (gameParameters.getGameMode() == GameMode.HUMAN_VS_AI) {
