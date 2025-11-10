@@ -15,7 +15,7 @@ public class ScrollableTextFrame extends JFrame {
 
         JTextPane textPane = new JTextPane();
         textPane.setEditable(false);
-        textPane.setFocusable(false);
+        // textPane.setFocusable(false);
         textPane.setContentType("text/html");
         textPane.setText(text);
 	    textPane.setCaretPosition(0);
