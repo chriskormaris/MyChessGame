@@ -120,6 +120,8 @@ public class OpeningMoves {
 		WHITE_OPENING_MOVES.put("rnbqkb1r/pppp1ppp/8/4N3/4n3/8/PPPP1PPP/RNBQKB1R w KQkq - 0 4", movesList);
 
 		movesList = new ArrayList<>();
+        movesList.add(new Move("C1", "G5"));  // A45 Trompovsky attack (Ruth, Opovcensky opening)
+		movesList.add(new Move("G1", "F3"));  // A46 Queen's pawn game
 		movesList.add(new Move("C2", "C4"));  // A50 Queen's pawn game
 		WHITE_OPENING_MOVES.put("rnbqkb1r/pppppppp/5n2/8/3P4/8/PPP1PPPP/RNBQKBNR w KQkq - 1 2", movesList);
 
@@ -130,7 +132,8 @@ public class OpeningMoves {
 		movesList = new ArrayList<>();
 		movesList.add(new Move("B1", "C3"));  // E00 Queen's pawn game
 		movesList.add(new Move("G2", "G3"));  // E00 Catalan opening
-		WHITE_OPENING_MOVES.put("rnbqkb1r/pppp1ppp/4pn2/8/2PP4/8/PP2PPPP/RNBQKBNR w KQkq - 0 3", movesList);
+		movesList.add(new Move("G1", "F3"));  // E10 Queen's pawn game
+        WHITE_OPENING_MOVES.put("rnbqkb1r/pppp1ppp/4pn2/8/2PP4/8/PP2PPPP/RNBQKBNR w KQkq - 0 3", movesList);
 
 		movesList = new ArrayList<>();
 		movesList.add(new Move("D2", "D4"));  // B12 Caro-Kann defence
@@ -310,6 +313,7 @@ public class OpeningMoves {
 		BLACK_OPENING_MOVES.put("rnbqkb1r/pppppppp/5n2/8/2PP4/8/PP2PPPP/RNBQKBNR b KQkq c3 0 2", movesList);
 
 		movesList = new ArrayList<>();
+		movesList.add(new Move("D7", "D5"));  // D80 Gruenfeld defence
 		movesList.add(new Move("F8", "G7"));  // E61 King's Indian defence, 3.Nc3
 		BLACK_OPENING_MOVES.put("rnbqkb1r/pppppp1p/5np1/8/2PP4/2N5/PP2PPPP/R1BQKBNR b KQkq - 1 3", movesList);
 
@@ -492,6 +496,10 @@ public class OpeningMoves {
         movesList.add(new Move("G7", "G6"));  // B70 Sicilian, dragon variation
         movesList.add(new Move("A7", "A6"));  // B90 Sicilian, Najdorf
         BLACK_OPENING_MOVES.put("rnbqkb1r/pp2pppp/3p1n2/8/3NP3/2N5/PPP2PPP/R1BQKB1R b KQkq - 2 5", movesList);
+
+        movesList = new ArrayList<>();
+        movesList.add(new Move("B7", "B6"));  // E12 Queen's Indian defence
+        BLACK_OPENING_MOVES.put("rnbqkb1r/pppp1ppp/4pn2/8/2PP4/5N2/PP2PPPP/RNBQKB1R b KQkq - 1 3", movesList);
 	}
 
 	// Returns null if the "fenPosition" is not the key of any Map.
