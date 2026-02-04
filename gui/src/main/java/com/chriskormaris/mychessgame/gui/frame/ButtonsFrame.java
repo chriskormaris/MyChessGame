@@ -81,7 +81,8 @@ public class ButtonsFrame extends ChessFrame {
 		super.pack();
 		super.setSize(new Dimension(width, height));
 		super.setMinimumSize(super.getSize());
-		super.setLocation((int) (screenSize.getWidth() - super.getWidth()) / 2, 5);
+		super.setLocationRelativeTo(null);
+		// super.setLocation((int) (screenSize.getWidth() - super.getWidth()) / 2, 5);
 		super.setResizable(false);
 	}
 
