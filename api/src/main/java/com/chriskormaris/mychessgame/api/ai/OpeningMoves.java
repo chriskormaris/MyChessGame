@@ -194,6 +194,56 @@ public class OpeningMoves {
         movesList = new ArrayList<>();
         movesList.add(new Move("B1", "C3"));  // B56 Sicilian
         WHITE_OPENING_MOVES.put("rnbqkb1r/pp2pppp/3p1n2/8/3NP3/8/PPP2PPP/RNBQKB1R w KQkq - 1 5", movesList);
+
+		movesList = new ArrayList<>();
+		movesList.add(new Move("C1", "F4"));  // A40 Queen's pawn, Charlick (Englund) gambit (Counter Trap)
+		WHITE_OPENING_MOVES.put("r1b1kbnr/ppppqppp/2n5/4P3/8/5N2/PPP1PPPP/RNBQKB1R w KQkq - 3 4", movesList);
+
+		movesList = new ArrayList<>();
+		movesList.add(new Move("F4", "D2"));  // A40 Queen's pawn, Charlick (Englund) gambit (Counter Trap)
+		WHITE_OPENING_MOVES.put("r1b1kbnr/pppp1ppp/2n5/4P3/1q3B2/5N2/PPP1PPPP/RN1QKB1R w KQkq - 5 5", movesList);
+
+		movesList = new ArrayList<>();
+		movesList.add(new Move("B1", "C3"));  // A40 Queen's pawn, Charlick (Englund) gambit (Counter Trap)
+		WHITE_OPENING_MOVES.put("r1b1kbnr/pppp1ppp/2n5/4P3/8/5N2/PqPBPPPP/RN1QKB1R w KQkq - 0 6", movesList);
+
+		movesList = new ArrayList<>();
+		movesList.add(new Move("A1", "B1"));  // A40 Queen's pawn, Charlick (Englund) gambit  (Counter Trap)
+		WHITE_OPENING_MOVES.put("r1b1k1nr/pppp1ppp/2n5/4P3/1b6/2N2N2/PqPBPPPP/R2QKB1R w KQkq - 2 7", movesList);
+
+		movesList = new ArrayList<>();
+		movesList.add(new Move("C3", "D5"));  // A40 Queen's pawn, Charlick (Englund) gambit  (Counter Trap)
+		WHITE_OPENING_MOVES.put("r1b1k1nr/pppp1ppp/2n5/4P3/1b6/q1N2N2/P1PBPPPP/1R1QKB1R w Kkq - 4 8", movesList);
+
+		movesList = new ArrayList<>();
+		movesList.add(new Move("F3", "D4"));  // A40 Queen's pawn, Charlick (Englund) gambit  (Counter Trap)
+		WHITE_OPENING_MOVES.put("r1b1kbnr/pppp1ppp/8/4P3/1n6/2N2N2/PqPBPPPP/R2QKB1R w KQkq - 2 7", movesList);
+
+		movesList = new ArrayList<>();
+		movesList.add(new Move("A1", "B1"));  // A40 Queen's pawn, Charlick (Englund) gambit  (Counter Trap)
+		WHITE_OPENING_MOVES.put("r1b1kbnr/pp1p1ppp/8/2p1P3/1n1N4/2N5/PqPBPPPP/R2QKB1R w KQkq c6 0 8", movesList);
+
+		movesList = new ArrayList<>();
+		movesList.add(new Move("D4", "B5"));  // A40 Queen's pawn, Charlick (Englund) gambit  (Counter Trap)
+		WHITE_OPENING_MOVES.put("r1b1kbnr/pp1p1ppp/8/2p1P3/1n1N4/q1N5/P1PBPPPP/1R1QKB1R w Kkq - 2 9", movesList);
+
+		movesList = new ArrayList<>();
+		movesList.add(new Move("A2", "A3"));  // A40 Queen's pawn, Charlick (Englund) gambit  (Counter Trap)
+		movesList.add(new Move("C3", "D5"));  // A40 Queen's pawn, Charlick (Englund) gambit  (Counter Trap)
+		WHITE_OPENING_MOVES.put("r1b1kbnr/pp1p1ppp/8/qNp1P3/1n6/2N5/P1PBPPPP/1R1QKB1R w Kkq - 4 10", movesList);
+
+		movesList = new ArrayList<>();
+		movesList.add(new Move("A1", "B1"));  // A40 Queen's pawn, Charlick (Englund) gambit  (Counter Trap)
+		WHITE_OPENING_MOVES.put("r1b1k1nr/pppp1ppp/8/2b1P3/1n1N4/2N5/PqPBPPPP/R2QKB1R w KQkq - 4 8", movesList);
+
+		movesList = new ArrayList<>();
+		movesList.add(new Move("D4", "B5"));  // A40 Queen's pawn, Charlick (Englund) gambit  (Counter Trap)
+		WHITE_OPENING_MOVES.put("r1b1k1nr/pppp1ppp/8/2b1P3/1n1N4/q1N5/P1PBPPPP/1R1QKB1R w Kkq - 6 9", movesList);
+
+		movesList = new ArrayList<>();
+		movesList.add(new Move("A2", "A3"));  // A40 Queen's pawn, Charlick (Englund) gambit  (Counter Trap)
+		movesList.add(new Move("C3", "D5"));  // A40 Queen's pawn, Charlick (Englund) gambit  (Counter Trap)
+		WHITE_OPENING_MOVES.put("r1b1k1nr/pppp1ppp/8/qNb1P3/1n6/2N5/P1PBPPPP/1R1QKB1R w Kkq - 8 10", movesList);
 	}
 
 	// Initialize Black opening moves.
@@ -301,6 +351,7 @@ public class OpeningMoves {
 
 		movesList = new ArrayList<>();
 		movesList.add(new Move("D5", "D8"));  // B01 Scandinavian (centre counter) defence
+		movesList.add(new Move("D5", "A5"));  // B01 Scandinavian (centre counter) defence
 		BLACK_OPENING_MOVES.put("rnb1kbnr/ppp1pppp/8/3q4/8/2N5/PPPP1PPP/R1BQKBNR b KQkq - 1 3", movesList);
 
 		movesList = new ArrayList<>();
@@ -370,11 +421,11 @@ public class OpeningMoves {
 		BLACK_OPENING_MOVES.put("r1bq1b1r/ppp3pp/2n1k3/3np3/2B5/2N2Q2/PPPP1PPP/R1B1K2R b KQ - 3 8", movesList);
 
         movesList = new ArrayList<>();
-        movesList.add(new Move("B8", "C6"));  // A40 Queen's pawn, Charlick (Englund) gambit
+        movesList.add(new Move("B8", "C6"));  // A40 Queen's pawn, Charlick (Englund) gambit (Trap)
         BLACK_OPENING_MOVES.put("rnbqkbnr/pppp1ppp/8/4P3/8/8/PPP1PPPP/RNBQKBNR b KQkq - 0 2", movesList);
 
         movesList = new ArrayList<>();
-        movesList.add(new Move("D8", "E7"));  // A40 Queen's pawn, Charlick (Englund) gambit
+        movesList.add(new Move("D8", "E7"));  // A40 Queen's pawn, Charlick (Englund) gambit (Trap)
         BLACK_OPENING_MOVES.put("r1bqkbnr/pppp1ppp/2n5/4P3/8/5N2/PPP1PPPP/RNBQKB1R b KQkq - 2 3", movesList);
 
         movesList = new ArrayList<>();
@@ -391,7 +442,12 @@ public class OpeningMoves {
 
         movesList = new ArrayList<>();
         movesList.add(new Move("C6", "B4"));  // A40 Queen's pawn, Charlick (Englund) gambit (Trap)
+        movesList.add(new Move("B2", "A1"));  // A40 Queen's pawn, Charlick (Englund) gambit (Trap)
         BLACK_OPENING_MOVES.put("r1b1k1nr/pppp1ppp/2n5/4P3/1B6/5N2/PqP1PPPP/RN1QKB1R b KQkq - 0 7", movesList);
+
+		movesList = new ArrayList<>();
+		movesList.add(new Move("B4", "C2"));  // A40 Queen's pawn, Charlick (Englund) gambit (Trap)
+		BLACK_OPENING_MOVES.put("r1b1k1nr/pppp1ppp/8/4P3/1n6/2N2N2/PqP1PPPP/R2QKB1R b KQkq - 1 8", movesList);
 
         movesList = new ArrayList<>();
         movesList.add(new Move("D8", "G5"));  // Blackburne Shilling Gambit Trap
@@ -504,7 +560,7 @@ public class OpeningMoves {
 
 	// Returns null if the "fenPosition" is not the key of any Map.
 	public static Move getNextMove(ChessBoard chessBoard) {
-		if (chessBoard.getHalfMoveNumber() > 18) return null;
+		if (chessBoard.getHalfMoveNumber() > 20) return null;
 
 		String fenPosition = FenUtils.getFenPositionFromChessBoard(chessBoard);
 

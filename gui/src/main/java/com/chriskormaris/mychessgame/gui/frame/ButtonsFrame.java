@@ -52,7 +52,7 @@ public class ButtonsFrame extends ChessFrame {
 		super(title);
 
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		height = (int) screenSize.getHeight() - 40;
+		height = (int) screenSize.getHeight() - 45;
 		width = height + 40;
 
 		gameParameters = new GameParameters();

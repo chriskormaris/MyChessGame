@@ -67,7 +67,7 @@ public class DragAndDropFrame extends ChessFrame implements MouseListener, Mouse
 		super(title);
 
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		height = (int) screenSize.getHeight() - 195;
+		height = (int) screenSize.getHeight() - 205;
 		width = height + 135;
 
 		gameParameters = new GameParameters();
