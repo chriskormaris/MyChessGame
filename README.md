@@ -17,6 +17,8 @@ I created this project from scratch, line by line.
 I started this project as a hobby, on March 2020, during the COVID-19 quarantine.
 This project was a test for my skills as a programmer, and I'm very happy with the result. 
 Of course, my free time and a little luck were some assets too.
+This implementation uses conventional 2D object arrays and does not make use of 0x88 boards or bitboards for Chess board representation.
+For this purpose, the Minimax AI algorithm is not that fast.
 
 **Fun fact:**
 I decided to make this project, after I applied for a job interview for the Forex company `XM`.

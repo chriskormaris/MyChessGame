@@ -37,9 +37,10 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.Stack;
 
 import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 import static javax.swing.JOptionPane.QUESTION_MESSAGE;
@@ -80,9 +81,9 @@ public abstract class ChessFrame extends JFrame {
     int whiteCapturedPiecesCounter;
     int blackCapturedPiecesCounter;
 
-    // These stacks of "ChessBoard" objects are used to handle the "undo" and "redo" functionality.
-    Stack<ChessBoard> undoChessBoards;
-    Stack<ChessBoard> redoChessBoards;
+    // These deques of "ChessBoard" objects are used to handle the "undo" and "redo" functionality.
+    Deque<ChessBoard> undoChessBoards;
+    Deque<ChessBoard> redoChessBoards;
 
     // The length of this array is 30 elements.
     // The first 15 elements represent White captured pieces and are capital chars.
@@ -90,9 +91,9 @@ public abstract class ChessFrame extends JFrame {
     // The elements could also be '-', which is a placeholder for future captured pieces.
     char[] capturedPieces;
 
-    // These stacks of "char" arrays are used to handle the "undo" and "redo" functionality.
-    Stack<char[]> undoCapturedPieces;
-    Stack<char[]> redoCapturedPieces;
+    // These deques of "char" arrays are used to handle the "undo" and "redo" functionality.
+    Deque<char[]> undoCapturedPieces;
+    Deque<char[]> redoCapturedPieces;
 
     String savedFenPosition;
 
@@ -150,13 +151,13 @@ public abstract class ChessFrame extends JFrame {
 
         chessBoard = new ChessBoard();
 
-        undoChessBoards = new Stack<>();
-        redoChessBoards = new Stack<>();
+        undoChessBoards = new ArrayDeque<>();
+        redoChessBoards = new ArrayDeque<>();
 
         initializeCapturedPieces();
 
-        undoCapturedPieces = new Stack<>();
-        redoCapturedPieces = new Stack<>();
+        undoCapturedPieces = new ArrayDeque<>();
+        redoCapturedPieces = new ArrayDeque<>();
 
         startingPosition = "";
         endingPosition = "";

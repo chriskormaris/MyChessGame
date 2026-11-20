@@ -6,7 +6,8 @@ import com.chriskormaris.mychessgame.api.square.EmptySquare;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 
-import java.util.LinkedList;
+import java.util.ArrayDeque;
+import java.util.Queue;
 import java.util.Set;
 
 
@@ -25,7 +26,7 @@ public final class BFS {
 		ChessBoard currentChessBoard = new ChessBoard(chessBoard);
 		int[][] visitedChessBoard = new int[8][8];
 
-		LinkedList<BfsPosition> queue = new LinkedList<>();
+		Queue<BfsPosition> queue = new ArrayDeque<>();
 
 		int depth = 0;
 
@@ -44,9 +45,10 @@ public final class BFS {
 				currentChessBoard.getGameBoard()[previousRow][previousColumn] = EmptySquare.getInstance();
 			}
 
-			// Get the first item of the queue and reBfsPosition it.
+			// Get the first item of the queue and reposition it.
 			BfsPosition currentBfsPosition = queue.poll();
 
+            assert currentBfsPosition != null;
 			currentPosition = currentBfsPosition.getPosition();
 			depth = currentBfsPosition.getDepth();
 

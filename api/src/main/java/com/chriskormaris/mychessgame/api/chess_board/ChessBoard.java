@@ -20,15 +20,17 @@ import com.chriskormaris.mychessgame.api.util.Utilities;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
-import java.util.Stack;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -116,8 +118,8 @@ public class ChessBoard {
 
 	private ChessSquare capturedEnPassantPiece;
 
-	// This stack of "String" objects is used to check for a threefold repetition of the current Chess board position.
-	private Stack<String> previousHalfMoveFenPositions;
+	// This deque of "String" objects is used to check for a threefold repetition of the current Chess board position.
+	private Deque<String> previousHalfMoveFenPositions;
 
 	private boolean capture;
 
@@ -174,7 +176,7 @@ public class ChessBoard {
 		this.piecesToPlace = new HashMap<>();
 		this.capturedEnPassantPiece = EmptySquare.getInstance();
 
-		this.previousHalfMoveFenPositions = new Stack<>();
+		this.previousHalfMoveFenPositions = new ArrayDeque<>();
 
 		setThreats();
 	}
@@ -220,7 +222,7 @@ public class ChessBoard {
 		this.piecesToPlace = new HashMap<>(otherBoard.getPiecesToPlace());
 		this.capturedEnPassantPiece = otherBoard.getCapturedEnPassantPiece();
 
-		this.previousHalfMoveFenPositions = (Stack<String>) otherBoard.getPreviousHalfMoveFenPositions().clone();
+		this.previousHalfMoveFenPositions = ((ArrayDeque<String>) otherBoard.getPreviousHalfMoveFenPositions()).clone();
 
 		this.capture = otherBoard.isCapture();
 		this.variant = otherBoard.getVariant();
@@ -1313,11 +1315,13 @@ public class ChessBoard {
 		if (!previousHalfMoveFenPositions.isEmpty()) {
 			String currentHalfMoveFenPosition = FenUtils.skipCounters(FenUtils.getFenPositionFromChessBoard(this));
 			int N = previousHalfMoveFenPositions.size();
-			for (int i = N - 1; i >= 0; i--) {
+			int i = N - 1;
+			Iterator<String> iterator = previousHalfMoveFenPositions.descendingIterator();
+			while (iterator.hasNext()) {
 				// Skip the last 2 iterations, if the number of repeats is 1.
 				// and there are 2 or fewer iterations left.
 				if (!(numOfRepeats == 1 && i < 2)) {
-					String otherHalfMoveFenPosition = previousHalfMoveFenPositions.get(i);
+					String otherHalfMoveFenPosition = iterator.next();
 					if (currentHalfMoveFenPosition.equals(otherHalfMoveFenPosition)) {
 						numOfRepeats++;
 						if (numOfRepeats == 3) {
@@ -1327,6 +1331,10 @@ public class ChessBoard {
 							return true;
 						}
 					}
+				}
+				i--;
+				if (i == 0) {
+					break;
 				}
 			}
 		}
